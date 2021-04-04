@@ -8,14 +8,15 @@ To support AUTOSAR model with python
 1. AUTOSAR_TPS_XMLSchemaProductionRules.pdf
 2. AUTOSAR_TPS_ARXMLSerializationRules.pdf
 
-|Documentation|Travis CI|Coverage Status|
-|--|--|--|
-|[![Documentation Status](https://readthedocs.org/projects/py-armodel/badge/?version=latest)](https://pyarmodel.readthedocs.io/en/latest)|[![](https://www.travis-ci.com/melodypapa/py-armodel.svg?branch=main)](https://www.travis-ci.com/melodypapa/py-armodel)|[![Coverage Status](https://coveralls.io/repos/github/melodypapa/py-armodel/badge.svg?branch=main)](https://coveralls.io/github/melodypapa/py-armodel?branch=main)|
+|Version|Documentation|Travis CI|Coverage Status|Pypi|
+|--|--|--|--|--|
+|[![GitHub version](https://badge.fury.io/gh/melodypapa%2Fpy-armodel.svg)](https://badge.fury.io/gh/melodypapa%2Fpy-armodel)|[![Documentation Status](https://readthedocs.org/projects/py-armodel/badge/?version=latest)](https://py-armodel.readthedocs.io/en/latest)|[![](https://www.travis-ci.com/melodypapa/py-armodel.svg?branch=main)](https://www.travis-ci.com/melodypapa/py-armodel)|[![Coverage Status](https://coveralls.io/repos/github/melodypapa/py-armodel/badge.svg?branch=main)](https://coveralls.io/github/melodypapa/py-armodel?branch=main)|[![PyPI version](https://badge.fury.io/py/armodel.svg)](https://badge.fury.io/py/armodel)|
 
 ## How to create the distribution and upload to pypi
-1. `python setup.py bdist_wheel`
-2. `twine check dist/*`
-3. `twine upload dist/*`
+1. Run `python setup.py bdist_wheel` to genenerate distribution
+2. Run `twine check dist/*` to check the validation of distribution
+3. Run `twine upload dist/*` to upload to pypi repository
+4. Check the website https://pypi.org/project/armodel/ to find out it works or not
 
 And more details can be found at https://packaging.python.org/  
 
@@ -27,6 +28,10 @@ And more details can be found at https://packaging.python.org/
 ## How to create a distribution and wheel
 
 * Run `python setup.py sdist bdist_wheel --universal`
+
+## How to create the document
+
+1. Run `pip install sphinx` to install the necesary document
 
 ## Heritage 
 
