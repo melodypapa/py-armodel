@@ -1,0 +1,5 @@
+nav:
+    - Home: 'index.md'
+    - About: 'about.md'
+site_name: PyARModel
+docs_dir: ../docs
