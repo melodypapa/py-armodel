@@ -1,4 +1,3 @@
-.vscode
 .coverage
 .pytest_cache
 /src/*.egg-info

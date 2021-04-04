@@ -110,7 +110,7 @@ def show_ar_package(indent: int, ar_package: ARPackage):
 
 def _usage():
     print("Dump all the arxml data to screen")
-    print("arxmldump --arxml arg -h")
+    print("arxml-dump --arxml arg -h")
     print("   --arxml arg : the name of the arxml file")
     print("   -h          : show the help information")
     sys.exit(2)

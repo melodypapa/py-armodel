@@ -39,7 +39,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'arxmldump = armodel.cli.arxml_dump_cli:cli_main',
+            'arxml-dump = armodel.cli.arxml_dump_cli:cli_main',
         ]
     }
 )
