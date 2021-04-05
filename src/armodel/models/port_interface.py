@@ -48,10 +48,10 @@ class SenderReceiverInterface(DataInterface):
     def getDataElement(self, short_name) -> VariableDataPrototype:
         if (short_name in self.elements):
             data_element = self.elements[short_name]
-            if (not isinstance(data_element, VariableDataPrototype)):
-                raise IndexError("%s is not data element." % short_name)
+            #if (not isinstance(data_element, VariableDataPrototype)):
+            #    raise IndexError("%s is not data element." % short_name)
             return data_element
-        raise IndexError("data element %s can not be found." % short_name)
+        raise IndexError("data element <%s> can not be found." % short_name)
 
 class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
@@ -64,7 +64,6 @@ class ApplicationError(Identifiable):
         super().__init__(parent, short_name)
 
         self.error_code = 0
-
 
 class ClientServerOperation(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

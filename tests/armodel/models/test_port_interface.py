@@ -4,7 +4,7 @@ from armodel.models.ar_package import AUTOSAR
 from armodel.models.data_prototype import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from armodel.models.datatype import AtpType
 from armodel.models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
-from armodel.models.port_interface import ArgumentDataPrototype, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
+from armodel.models.port_interface import ApplicationError, ArgumentDataPrototype, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
@@ -94,7 +94,14 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(element.short_name == "element")
         assert(len(sr_if.getDataElements()) == 1)
 
-    def Test_ArgumentDataPrototype(self):
+        element2 = sr_if.getDataElement("element")
+        assert(element == element2)
+
+        with pytest.raises(IndexError) as err:
+            sr_if.getDataElement("non_exist_element")
+        assert(str(err.value) == "data element <non_exist_element> can not be found.")
+
+    def test_ArgumentDataPrototype(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         prototype = ArgumentDataPrototype(ar_root, "ArgumentDataPrototype")
@@ -113,3 +120,18 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(prototype.short_name == "ArgumentDataPrototype")
         assert(prototype.direction == "")
         assert(prototype.server_argument_impl_policy == "")
+
+    def test_ApplicationError(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        app_error = ApplicationError(ar_root, "ApplicationError")
+
+        assert(isinstance(app_error, ARObject))
+        assert(isinstance(app_error, Identifiable))
+        assert(isinstance(app_error, MultilanguageReferrable))
+        assert(isinstance(app_error, Referrable))
+        assert(isinstance(app_error, ApplicationError))
+
+        assert(app_error.parent == ar_root)
+        assert(app_error.short_name == "ApplicationError")
+
