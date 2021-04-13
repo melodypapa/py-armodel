@@ -28,7 +28,7 @@ setup(
     packages = find_packages(where='src'),
     package_dir= {'': 'src'},
 
-    python_requires=">=3.6",
+    python_requires=">=3.5",
 
     license='MIT',
 	install_requires=[],
