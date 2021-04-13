@@ -2,7 +2,7 @@ from abc import ABCMeta
 from typing import List
 
 from .datatype import AtpType
-from .general_structure import ARElement, ARObject, Identifiable
+from .general_structure import ARObject, Identifiable, AtpFeature
 from .data_prototype import VariableDataPrototype, AutosarDataPrototype
 from .ar_ref import RefType
 
@@ -65,7 +65,28 @@ class ApplicationError(Identifiable):
 
         self.error_code = 0
 
-class ClientServerOperation(Identifiable):
+class ClientServerOperation(AtpFeature):
+    """
+        An operation declared within the scope of a client/server interface.
+        Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
+        Base: ARObject, AtpClassifier , AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
+
+        Attributes:
+        -----------
+        _argument: ArgumentDataPrototype (optional)
+            An argument of this ClientServerOperation
+
+        _possibleError: RefType -> ApplicationError (optional)
+            Possible errors that may by raised by the referring operation
+
+        Methods:
+        --------
+        addArgumentDataPrototype    add the argument
+        getArgumentDataPrototypes   get the arguments
+        addPossibleErrorRef         add the possible error
+        getPossbileErrorRefs        get the possible errors
+
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -86,6 +107,19 @@ class ClientServerOperation(Identifiable):
 
 
 class ClientServerInterface(PortInterface):
+    """
+        A client/server interface declares a number of operations that can be invoked on a server by a client.
+        Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
+        Base: ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier , AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable
+
+        Methods:
+        --------
+        createOperation             create ClientServerOperation(s) of this ClientServerInterface.
+        createApplicationError      create Application errors that are defined as part of this interface
+        getOperations               get all ClientServerOperation(s) of this ClientServerInterface
+        getPossibleErrors           get all Application error(s) of this ClientServerInterface
+
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

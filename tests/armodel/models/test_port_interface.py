@@ -1,10 +1,11 @@
 import pytest
 
 from armodel.models.ar_package import AUTOSAR
+from armodel.models.ar_ref import RefType
 from armodel.models.data_prototype import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from armodel.models.datatype import AtpType
 from armodel.models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
-from armodel.models.port_interface import ApplicationError, ArgumentDataPrototype, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
+from armodel.models.port_interface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
@@ -34,8 +35,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(data_if, DataInterface))
         assert(isinstance(data_if, Identifiable))
         assert(isinstance(data_if, MultilanguageReferrable))
-        assert(isinstance(data_if, PackageableElement)) 
-        assert(isinstance(data_if, PortInterface)) 
+        assert(isinstance(data_if, PackageableElement))
+        assert(isinstance(data_if, PortInterface))
         assert(isinstance(data_if, Referrable))
         assert(isinstance(data_if, NvDataInterface))
 
@@ -57,8 +58,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(data_if, DataInterface))
         assert(isinstance(data_if, Identifiable))
         assert(isinstance(data_if, MultilanguageReferrable))
-        assert(isinstance(data_if, PackageableElement)) 
-        assert(isinstance(data_if, PortInterface)) 
+        assert(isinstance(data_if, PackageableElement))
+        assert(isinstance(data_if, PortInterface))
         assert(isinstance(data_if, Referrable))
         assert(isinstance(data_if, ParameterInterface))
 
@@ -80,8 +81,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(sr_if, DataInterface))
         assert(isinstance(sr_if, Identifiable))
         assert(isinstance(sr_if, MultilanguageReferrable))
-        assert(isinstance(sr_if, PackageableElement)) 
-        assert(isinstance(sr_if, PortInterface)) 
+        assert(isinstance(sr_if, PackageableElement))
+        assert(isinstance(sr_if, PortInterface))
         assert(isinstance(sr_if, Referrable))
         assert(isinstance(sr_if, SenderReceiverInterface))
 
@@ -135,3 +136,63 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(app_error.parent == ar_root)
         assert(app_error.short_name == "ApplicationError")
 
+    def test_ClientServerOperation(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "client_server_operation")
+        assert(isinstance(operation, ARObject))
+        # assert(isinstance(operation, AtpClassifier))
+        assert(isinstance(operation, AtpFeature))
+        assert(isinstance(operation, Identifiable))
+        assert(isinstance(operation, MultilanguageReferrable))
+        assert(isinstance(operation, Referrable))
+        assert(isinstance(operation, ClientServerOperation))
+        assert(operation.short_name == "client_server_operation")
+
+        prototype = ArgumentDataPrototype(ar_root, "argument_data_prototype1")
+        operation.addArgumentDataPrototype(prototype)
+        assert(prototype.short_name == "argument_data_prototype1")
+
+        assert(len(operation.getArgumentDataPrototypes()) == 1)
+        assert(operation.getArgumentDataPrototypes()[0] == prototype)
+
+        refType = RefType()
+        refType.dest = "APPLICATION-ERROR"
+        refType.value = "/AUTOSAR_NvM/PortInterfaces/NvMService/E_NOT_OK"
+        operation.addPossibleErrorRef(refType)
+
+        assert(len(operation.getPossbileErrorRefs()) == 1)
+        assert(operation.getPossbileErrorRefs()[0] == refType)
+
+    def test_ClientServerInterface(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs_if = ClientServerInterface(ar_root, "client_server_interface")
+        assert(isinstance(cs_if, ARObject))
+        assert(isinstance(cs_if, ARElement))
+        # assert(isinstance(operation, AtpBlueprint))
+        # assert(isinstance(operation, AtpBlueprintable))
+        # assert(isinstance(operation, AtpClassifier))
+        assert(isinstance(cs_if, AtpType))
+        assert(isinstance(cs_if, CollectableElement))
+        assert(isinstance(cs_if, Identifiable))
+        assert(isinstance(cs_if, MultilanguageReferrable))
+        assert(isinstance(cs_if, PackageableElement))
+        assert(isinstance(cs_if, PortInterface))
+        assert(isinstance(cs_if, Referrable))
+
+        element = cs_if.createOperation("operation")
+        assert(isinstance(element, ClientServerOperation))
+        assert(element.short_name == "operation")
+        assert(len(cs_if.getOperations()) == 1)
+
+        element2 = cs_if.getOperations()[0]
+        assert(element == element2)
+
+        element = cs_if.createApplicationError("error")
+        assert(isinstance(element, ApplicationError))
+        assert(element.short_name == "error")
+        assert(len(cs_if.getPossibleErrors()) == 1)
+
+        element2 = cs_if.getPossibleErrors()[0]
+        assert(element == element2)

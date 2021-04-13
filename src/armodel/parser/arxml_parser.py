@@ -88,7 +88,7 @@ class ARXMLParser:
             self.readOperationInvokedEvents(child_element, behavior)
             self.readTimingEvents(child_element, behavior)
             self.readInternalTriggerOccurredEvent(child_element, behavior)
-            self.readExplictInterRunnableVariables(child_element, behavior)
+            self.readExplicitInterRunnableVariables(child_element, behavior)
 
     def readAutosarVariableInImplDatatype(self, element, accessed_variable_ref: AutosarVariableRef):
         child_element = element.find("./xmlns:ACCESSED-VARIABLE/xmlns:AUTOSAR-VARIABLE-IREF", self.nsmap)
@@ -199,7 +199,7 @@ class ARXMLParser:
             self.readOperationIRef(child_element, event)
             self.readRTEEvent(child_element, event)
 
-    def readExplictInterRunnableVariables(self, element, parent: SwcInternalBehavior):
+    def readExplicitInterRunnableVariables(self, element, parent: SwcInternalBehavior):
         for child_element in element.findall("./xmlns:EXPLICIT-INTER-RUNNABLE-VARIABLES/xmlns:VARIABLE-DATA-PROTOTYPE", self.nsmap):
             short_name = self.readShortName(child_element)
             prototype  = parent.createExplicitInterRunnableVariable(short_name)
