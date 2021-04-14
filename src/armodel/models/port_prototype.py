@@ -4,35 +4,62 @@ from .ar_ref import RefType, TRefType
 
 from abc import ABCMeta
 
-class PPortComSpec(ARObject):
-    __metaclass__ = ABCMeta
+
+class PPortComSpec(ARObject, metaclass=ABCMeta):
+    """
+        Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for
+        all kinds of provide ports, independent of client-server or sender-receiver communication patterns.
+
+        Abstract Class 
+
+        Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
+        Base: ARObject
+    """
 
     def __init__(self):
+        if type(self) == PPortComSpec:
+            raise NotImplementedError("PPortComSpec is an abstract class.")
         super().__init__()
 
-class RPortComSpec(ARObject):
-    __metaclass__ = ABCMeta
+
+class RPortComSpec(ARObject,  metaclass=ABCMeta):
+    """
+        Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for
+        all kinds of provide ports, independent of client-server or sender-receiver communication patterns.
+
+        Abstract Class 
+
+        Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
+        Base: ARObject
+    """
 
     def __init__(self):
+        if type(self) == RPortComSpec:
+            raise NotImplementedError("RPortComSpec is an abstract class.")
         super().__init__()
+
 
 class ClientComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.operation_ref = None # type: RefType
+        self.operation_ref = None  # type: RefType
+
 
 class ModeSwitchReceiverComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+
 class NvRequireComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+
 class ParameterRequireComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
+
 
 class ReceiverComSpec(RPortComSpec):
     __metaclass__ = ABCMeta
@@ -41,39 +68,46 @@ class ReceiverComSpec(RPortComSpec):
         super().__init__()
 
         self.data_element_ref = None                # type: RefType
-        self.handle_out_of_range = ""               
-        self.uses_end_to_end_protection = False     
+        self.handle_out_of_range = ""
+        self.uses_end_to_end_protection = False
+
 
 class ModeSwitchSenderComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+
 class ParameterProvideComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
+
 
 class SenderComSpec(PPortComSpec):
     __metaclass__ = ABCMeta
 
     def __init__(self):
         super().__init__()
-        self.data_element_ref = None # type: RefType
+        self.data_element_ref = None  # type: RefType
         self.handle_out_of_range = ""
         self.uses_end_to_end_protection = False
+
 
 class QueuedSenderComSpec(PPortComSpec):
     def __init__(self):
         super().__init__()
+
 
 class NonqueuedSenderComSpec(SenderComSpec):
     def __init__(self):
         super().__init__()
         self.init_value = None  # type: ValueSpecification (required)
 
+
 class ServerComSpec(PPortComSpec):
     def __init__(self):
         super().__init__()
-        self.operation_ref = None # type: RefType
+        self.operation_ref = None  # type: RefType
+
 
 class NonqueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
@@ -88,28 +122,33 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.init_value = None               # type: ValueSpecification
         self.timeout_substitution = None     # type: ValueSpecification
 
+
 class QueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
         super().__init__()
 
         self.queue_length = 0
 
+
 class PortPrototype(Identifiable):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class AbstractProvidedPortPrototype(PortPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provided_com_specs = [] # type: Dict[PPortComSpec]
+        self.provided_com_specs = []  # type: Dict[PPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: PPortComSpec):
         if (isinstance(com_spec, NonqueuedSenderComSpec)):
             if (com_spec.data_element_ref == None):
-                raise ValueError("opertion of NonqueuedSenderComSpec is invalid")
+                raise ValueError(
+                    "opertion of NonqueuedSenderComSpec is invalid")
             if (com_spec.data_element_ref.dest != "VARIABLE-DATA-PROTOTYPE"):
-                raise ValueError("Invalid operation dest of NonqueuedSenderComSpec")
+                raise ValueError(
+                    "Invalid operation dest of NonqueuedSenderComSpec")
         else:
             raise ValueError("Unspported com spec")
 
@@ -123,23 +162,27 @@ class AbstractProvidedPortPrototype(PortPrototype):
     def getNonqueuedSenderComSpecs(self) -> List[NonqueuedSenderComSpec]:
         return list(filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.provided_com_specs))
 
+
 class AbstractRequiredPortPrototype(PortPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
-        self.required_com_specs = [] # type: Dict[RPortComSpec]
+
+        self.required_com_specs = []  # type: Dict[RPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: RPortComSpec):
         if (isinstance(com_spec, ClientComSpec)):
             if (com_spec.operation_ref == None):
-                raise ValueError("The operation reference of ClientComSpec has not been defined.")
+                raise ValueError(
+                    "The operation reference of ClientComSpec has not been defined.")
             if (com_spec.operation_ref.dest != "CLIENT-SERVER-OPERATION"):
                 raise ValueError("Invalid operation dest of ClientComSpec.")
         elif (isinstance(com_spec, NonqueuedReceiverComSpec)):
             if (com_spec.data_element_ref == None):
-                raise ValueError("The data element reference of NonqueuedReceiverComSpec has not been defined.")
+                raise ValueError(
+                    "The data element reference of NonqueuedReceiverComSpec has not been defined.")
             if (com_spec.data_element_ref.dest != "VARIABLE-DATA-PROTOTYPE"):
-                raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
+                raise ValueError(
+                    "Invalid date element dest of NonqueuedReceiverComSpec.")
         else:
             raise ValueError("Unspported RPortComSpec")
 
@@ -156,14 +199,16 @@ class AbstractRequiredPortPrototype(PortPrototype):
     def getNonqueuedReceiverComSpecs(self) -> List[NonqueuedReceiverComSpec]:
         return list(filter(lambda c: isinstance(c, NonqueuedReceiverComSpec), self.required_com_specs))
 
+
 class PPortPrototype(AbstractProvidedPortPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provided_interface_tref = None # type: 
+        self.provided_interface_tref = None  # type:
+
 
 class RPortPrototype(AbstractRequiredPortPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.required_interface_tref = TRefType()
