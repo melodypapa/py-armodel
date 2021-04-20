@@ -9,5 +9,8 @@
         "bdist",
         "pypi",
         "sdist"
+    ],
+    "python.formatting.autopep8Args": [
+        "--max-line-length=200"
     ]
 }

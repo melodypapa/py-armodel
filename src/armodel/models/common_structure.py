@@ -10,8 +10,7 @@ from .data_dictionary import SwDataDefProps
 class ValueSpecification(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == ValueSpecification:
-            raise NotImplementedError(
-                "ValueSpecification is an abstract class.")
+            raise NotImplementedError("ValueSpecification is an abstract class.")
         super().__init__()
 
         self.short_label = None
@@ -37,20 +36,24 @@ class AbstractImplementationDataTypeElement(Identifiable):
 
 
 class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+    ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
+    ARRAY_SIZE_SEMANTICS_VARIABLE_SIZE = "VARIABLE_SIZE"
+
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
         self.array_size = None    # type: int
+        self.array_size_semantics = None  # type: str
         self.is_optional = None    # type: bool
         self.sw_data_def_props = None    # type: SwDataDefProps
 
-    # def createImplementationDataTypeElement(self, short_name: str)-> ImplementationDataTypeElement:    # type :
-    
-    def createImplementationDataTypeElement(self, short_name: str): # type : ImplementationDataTypeElement
+    # type : ImplementationDataTypeElement
+    def createImplementationDataTypeElement(self, short_name: str):
         if (short_name not in self.elements):
             event = ImplementationDataTypeElement(self, short_name)
             self.elements[short_name] = event
         return self.elements[short_name]
 
-    def getImplementationDataTypeElements(self): # type：List[ImplementationDataTypeElement]:
+    # type：List[ImplementationDataTypeElement]:
+    def getImplementationDataTypeElements(self):
         return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values()))
