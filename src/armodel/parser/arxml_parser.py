@@ -284,6 +284,14 @@ class ARXMLParser:
             data_type.category = self.readChildElement(short_name, child_element, "CATEGORY")
             self.readImplementationDataTypeElements(child_element, data_type)
             self.readSwDataDefProps(child_element, data_type)
+            if (data_type.category == ImplementationDataType.CATEGORY_ARRAY):
+                if (len(data_type.getImplementationDataTypeElements()) < 1):
+                    raise ValueError("Array Sub-Element of <%s> do not defined." % data_type.short_name)
+                array_sub_element = data_type.getImplementationDataTypeElements()[0]
+                if (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+                    data_type.setArrayElementType(array_sub_element.sw_data_def_props.implementation_data_type_ref.value)
+                else:
+                    raise ValueError("The catetory <%s> of array sub-element does not support." % array_sub_element.category)
 
     def readSwDataTypes(self, element, parent: ARPackage):
         for child_element in element.findall("./xmlns:ELEMENTS/xmlns:SW-BASE-TYPE", self.nsmap):
@@ -333,18 +341,14 @@ class ARXMLParser:
 
     def readSenderComSpec(self, element, com_spec: SenderComSpec):
         # FIXME:
-        com_spec.data_element_ref = self.readChildRefElement(
-            element, "DATA-ELEMENT-REF")
-        com_spec.handle_out_of_range = self.readChildElement(
-            "", element, "HANDLE-OUT-OF-RANGE")
-        com_spec.uses_end_to_end_protection = self.readChildOptionElementBooleanValue(
-            element, "USES-END-TO-END-PROTECTION")
+        com_spec.data_element_ref = self.readChildRefElement(element, "DATA-ELEMENT-REF")
+        com_spec.handle_out_of_range = self.readChildElement("", element, "HANDLE-OUT-OF-RANGE")
+        com_spec.uses_end_to_end_protection = self.readChildOptionElementBooleanValue(element, "USES-END-TO-END-PROTECTION")
 
     def readNonqueuedSenderComSpec(self, element, parent: PPortPrototype):
         for child_element in element.findall("./xmlns:PROVIDED-COM-SPECS/xmlns:NONQUEUED-SENDER-COM-SPEC", self.nsmap):
             com_spec = NonqueuedSenderComSpec()
             self.readSenderComSpec(child_element, com_spec)
-
             parent.addProvidedComSpec(com_spec)
 
     def readPPortPrototype(self, element, parent: AtomicSwComponentType):

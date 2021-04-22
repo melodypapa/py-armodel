@@ -70,6 +70,7 @@ And more details can be found at https://packaging.python.org/
 `arxml-dump --arxml arg -h`
 
 --arxml arg     The file name of arxml data
+
 -h              show the help information
 
 ### Example for arxml-dump
@@ -77,5 +78,11 @@ And more details can be found at https://packaging.python.org/
 **Dump the arxml data from test1.arxml and test2.arxml**
 
 `arxml-dump --arxml test1.arxml --arxml test2.arxml`
+
+## Change notes:
+
+### 0.1.1
+
+1. Add the ARRAY category support for ImplementationDataType
 
 

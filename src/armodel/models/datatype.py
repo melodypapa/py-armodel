@@ -112,6 +112,8 @@ class ImplementationDataType(AbstractImplementationDataType):
         self.symbol_props = None    # SymbolProps
         self.type_emitter = None
 
+        self._array_type = None     # ImplementationDataType
+
     #type:  ImplementationDataTypeElement
     def createImplementationDataTypeElement(self, short_name: str):
         self.sub_elements.append(short_name)
@@ -126,6 +128,12 @@ class ImplementationDataType(AbstractImplementationDataType):
             elements.append(self.elements[sub_element])
         return elements
         # return filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values())
+
+    def getArrayElementType(self) -> str:
+        return self._array_type
+
+    def setArrayElementType(self, type: str):
+        self._array_type = type
 
 
 class DataTypeMap(ARObject):
