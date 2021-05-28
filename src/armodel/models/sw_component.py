@@ -119,6 +119,18 @@ class RunnableEntity(Identifiable):
             self.server_call_points[short_name] = server_call_point
         return self.server_call_points[short_name]
 
+    def createAsynchronousServerCallPoint(self, short_name: str) -> AsynchronousServerCallPoint:
+        if (short_name not in self.server_call_points):
+            server_call_point = AsynchronousServerCallPoint(self, short_name)
+            self.server_call_points[short_name] = server_call_point
+        return self.server_call_points[short_name]
+
+    def getSynchronousServerCallPoint(self) -> List[ServerCallPoint]:
+        return filter(lambda o: isinstance(o, SynchronousServerCallPoint), self.getServerCallPoints())
+    
+    def getAsynchronousServerCallPoint(self) -> List[ServerCallPoint]:
+        return filter(lambda o: isinstance(o, AsynchronousServerCallPoint), self.getServerCallPoints())
+
     def getServerCallPoints(self) -> List[ServerCallPoint]:
         return sorted(self.server_call_points.values(), key=lambda v: v.short_name)
 

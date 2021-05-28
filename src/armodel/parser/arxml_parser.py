@@ -161,6 +161,13 @@ class ARXMLParser:
             serverCallPoint.timeout = self.readChildElement(short_name, child_element, "TIMEOUT")
             self.readROperationIRef(child_element, serverCallPoint)
 
+    def readAsynchronousServerCallPoint(self, element, parent: RunnableEntity):
+        for child_element in element.findall("./xmlns:SERVER-CALL-POINTS/xmlns:ASYNCHRONOUS-SERVER-CALL-POINT", self.nsmap):
+            short_name = self.readShortName(child_element)
+            serverCallPoint = parent.createAsynchronousServerCallPoint(short_name)
+            serverCallPoint.timeout = self.readChildElement(short_name, child_element, "TIMEOUT")
+            self.readROperationIRef(child_element, serverCallPoint)
+
     def readInternalTriggeringPoint(self, element, parent: RunnableEntity):
         for child_element in element.findall("./xmlns:INTERNAL-TRIGGERING-POINTS/xmlns:INTERNAL-TRIGGERING-POINT", self.nsmap):
             short_name = self.readShortName(child_element)
@@ -181,6 +188,7 @@ class ARXMLParser:
             self.readWrittenLocalVariables(child_element, runnable)
             self.readReadLocalVariables(child_element, runnable)
             self.readSynchronousServerCallPoint(child_element, runnable)
+            self.readAsynchronousServerCallPoint(child_element, runnable)
             self.readInternalTriggeringPoint(child_element, runnable)
 
     def readRTEEvent(self, element, event: RTEEvent):

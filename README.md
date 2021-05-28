@@ -83,6 +83,10 @@ And more details can be found at https://packaging.python.org/
 
 ### 0.1.1
 
-1. Add the ARRAY category support for ImplementationDataType
+Add the ARRAY category support for ImplementationDataType
+
+### 0.1.2
+
+Add the AsynchronousServerCallPoint support for ARXML
 
 
