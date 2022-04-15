@@ -53,7 +53,10 @@ class ARXMLParser:
         child_element = element.find("./xmlns:%s" % key, self.nsmap)
         if (child_element != None):
             limit = Limit()
-            limit.interval_type = child_element.attrib['INTERVAL-TYPE']
+            if ('INTERVAL-TYPE' in child_element.attrib):
+                limit.interval_type = child_element.attrib['INTERVAL-TYPE']
+            else:
+                limit.interval_type = "CLOSED"
             limit.value = child_element.text
             return limit
         return None

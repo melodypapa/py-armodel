@@ -89,4 +89,6 @@ Add the ARRAY category support for ImplementationDataType
 
 Add the AsynchronousServerCallPoint support for ARXML
 
+### 0.1.3
 
+fix the attribute intervalType of **Limit** is empty issue.
