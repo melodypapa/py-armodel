@@ -1,13 +1,14 @@
 {
     "cSpell.words": [
+        "armodel",
         "ARXML",
         "AUTOSAR",
+        "bdist",
         "Multilanguage",
         "Packageable",
-        "Referrable",
-        "armodel",
-        "bdist",
         "pypi",
+        "pytest",
+        "Referrable",
         "sdist"
     ],
     "python.formatting.autopep8Args": [

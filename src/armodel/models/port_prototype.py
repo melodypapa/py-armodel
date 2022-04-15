@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 from .general_structure import ARObject, Identifiable
 from .ar_ref import RefType, TRefType
 
@@ -100,7 +100,8 @@ class QueuedSenderComSpec(PPortComSpec):
 class NonqueuedSenderComSpec(SenderComSpec):
     def __init__(self):
         super().__init__()
-        self.init_value = None  # type: ValueSpecification (required)
+        # (required)
+        self.init_value = None  # type: ValueSpecification 
 
 
 class ServerComSpec(PPortComSpec):
@@ -121,7 +122,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.handel_timeout_type = ""
         self.init_value = None               # type: ValueSpecification
         self.timeout_substitution = None     # type: ValueSpecification
-
 
 class QueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
@@ -145,12 +145,12 @@ class AbstractProvidedPortPrototype(PortPrototype):
         if (isinstance(com_spec, NonqueuedSenderComSpec)):
             if (com_spec.data_element_ref == None):
                 raise ValueError(
-                    "opertion of NonqueuedSenderComSpec is invalid")
+                    "operation of NonqueuedSenderComSpec is invalid")
             if (com_spec.data_element_ref.dest != "VARIABLE-DATA-PROTOTYPE"):
                 raise ValueError(
                     "Invalid operation dest of NonqueuedSenderComSpec")
         else:
-            raise ValueError("Unspported com spec")
+            raise ValueError("Unsupported com spec")
 
     def addProvidedComSpec(self, com_spec):
         self._validateRPortComSpec(com_spec)
@@ -184,7 +184,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
                 raise ValueError(
                     "Invalid date element dest of NonqueuedReceiverComSpec.")
         else:
-            raise ValueError("Unspported RPortComSpec")
+            raise ValueError("Unsupported RPortComSpec")
 
     def addRequiredComSpec(self, com_spec: RPortComSpec):
         self._validateRPortComSpec(com_spec)
@@ -204,7 +204,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provided_interface_tref = None  # type:
+        self.provided_interface_tref = TRefType()
 
 
 class RPortPrototype(AbstractRequiredPortPrototype):
