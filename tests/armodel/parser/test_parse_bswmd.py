@@ -12,16 +12,16 @@ class TestARPackage:
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
-        root_pkgs = document.getARPackages()
+        root_pkgs = sorted(document.getARPackages(), key = lambda pkg: pkg.short_name)
         assert(len(root_pkgs) == 2)
         assert(root_pkgs[0].short_name == "AUTOSAR_BswM")
         assert(root_pkgs[1].short_name == "EB_BswM_TxDxM1I14R0")
 
-        root_pkg_0_pkgs = root_pkgs[0].getARPackages()
+        root_pkg_0_pkgs = sorted(root_pkgs[0].getARPackages(), key = lambda pkg: pkg.short_name)
         assert(len(root_pkg_0_pkgs) == 3)
 
         bsw_module_desc_pkg = root_pkg_0_pkgs[0]   # type：ARPackage  
-        assert(bsw_module_desc_pkg.short_name in ("BswModuleDescriptions", "BswModuleEntrys", "SwcBswMappings"))
+        assert(bsw_module_desc_pkg.short_name == "BswModuleDescriptions")
 
         root_pkg_1_pkgs = root_pkgs[1].getARPackages()
         assert(len(root_pkg_1_pkgs) == 1)
