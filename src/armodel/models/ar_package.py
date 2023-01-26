@@ -12,7 +12,7 @@ class ARPackage(Identifiable, CollectableElement):
         Identifiable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
-    def getARPackages(self):
+    def getARPackages(self):    # type: (...) -> List[ARPackage]
         return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
 
     def createARPackage(self, short_name: str):
@@ -170,7 +170,10 @@ class AUTOSAR (ARObject, CollectableElement):
     def full_name(self):
         return ""
 
-    def getARPackages(self):
+    def clear(self):
+        self.elements = {}
+
+    def getARPackages(self) -> List[ARPackage]:
         return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
 
     def createARPackage(self, short_name: str) -> ARPackage:

@@ -709,9 +709,9 @@ class ARXMLParser:
     def readARPackages(self, element, parent):
         for child_element in element.findall("./xmlns:AR-PACKAGES/xmlns:AR-PACKAGE", self.nsmap):
             short_name = self.readShortName(child_element)
-            logging.debug("readARPackages %s" % short_name)
-
             ar_package = parent.createARPackage(short_name)
+
+            logging.debug("readARPackages %s" % ar_package.full_name)
 
             self.readSenderReceiverInterfaces(child_element, ar_package)
             self.readClientServerInterfaces(child_element, ar_package)

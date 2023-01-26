@@ -155,7 +155,7 @@ class BswModuleDescription(AtpStructureElement):
         super().__init__(parent, short_name)
 
         self.module_id = 0
-        self.implemented_entry_refs = []                # Ref BswModuleEntry                    0..1
+        self.implemented_entry_refs = []                # type: List[RefType]
         self.provided_mode_groups   = {}                # ModeDeclarationGroupPrototype         *
         self.required_mode_groups   = {}                # ModeDeclarationGroupPrototype         * 
 
