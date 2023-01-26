@@ -6,3 +6,6 @@
 /htmlcov/
 /reports/coverage.xml
 __pycache__
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/targets.log

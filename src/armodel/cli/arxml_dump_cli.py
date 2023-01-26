@@ -1,8 +1,10 @@
 import getopt
 import sys
+import logging
 
 from ..models import AUTOSAR, ARPackage, AtomicSwComponentType, VariableAccess, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType
+from ..models import BswModuleDescription, BswEvent, BswInternalBehavior, BswModuleEntity, BswModuleEntry
 from ..models import PortPrototype, RPortPrototype, PPortPrototype
 from ..models import SenderReceiverInterface, ClientServerInterface
 from ..parser import ARXMLParser
@@ -92,6 +94,30 @@ def show_client_server_interface(indent: int, cs_interface: ClientServerInterfac
             print("%s         :%s (%s: %s)" % (" " * (indent + 2), argument.short_name, 
                 argument.direction, argument.type_tref.value))
 
+def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
+    document = AUTOSAR.getInstance()
+
+    print("%s-%s" % (" " * indent, behavior.short_name))
+
+    for event in behavior.getBswModeSwitchEvents():
+        print("%s-%s" % (" " * (indent + 2), event.short_name))
+
+    for event in behavior.getBswTimingEvents():
+        print("%s-%s" % (" " * (indent + 2), event.short_name))
+        print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEventRef", event.starts_on_event_ref.value))
+        starts_on_event = document.find(event.starts_on_event_ref.value) # type: BswModuleEntity
+        print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEvent", starts_on_event.short_name))
+        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", starts_on_event.implemented_entry_ref.value))
+        implemented_entry = document.find(starts_on_event.implemented_entry_ref.value) # type: BswModuleEntry
+        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntry", implemented_entry.short_name))
+        print("%s-%s: %d" % (" " * (indent + 6), "Service Id", implemented_entry.service_id))
+
+def show_bsw_module_description(indent: int, description: BswModuleDescription):
+    print("%s-%s" % (" " * indent, description.short_name))
+
+    for behavior in description.getBswInternalBehaviors():
+        show_bsw_internal_behavior(indent + 2, behavior)
+
 def show_ar_package(indent: int, ar_package: ARPackage):
     print("%s-%s (Pkg)" % (" " * indent, ar_package.short_name))
      
@@ -107,6 +133,9 @@ def show_ar_package(indent: int, ar_package: ARPackage):
         show_client_server_interface(indent + 2, cs_interface)
     for child_pkg in ar_package.getARPackages():
         show_ar_package(indent + 2, child_pkg)
+    for bsw_module_description in ar_package.getBswModuleDescriptions():
+        show_bsw_module_description(indent + 2, bsw_module_description)
+    
 
 def _usage():
     print("Dump all the arxml data to screen")
@@ -122,6 +151,8 @@ def cli_main():
         # print help information and exit:
         print(str(err))  # will print something like "option -a not recognized"
         _usage()
+
+    logging.basicConfig(format='[%(levelname)s] : %(message)s', level = logging.DEBUG)
     
     arxml_files = []
     for o, arg in opts:

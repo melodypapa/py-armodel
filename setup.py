@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='armodel',
-    version='0.1.3',
+    version='1.0.0',
     description='the python arxml parser',
 
     url='http://github.com/melodypapa/py-armodel',

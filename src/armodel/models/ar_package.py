@@ -4,6 +4,8 @@ from .port_interface import SenderReceiverInterface, ClientServerInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType, ServiceSwComponentType, CompositionSwComponentType
 from .datatype import ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
+from .implementation import BswImplementation
+from .bsw_module_template import BswModuleDescription, BswModuleEntry
 
 class ARPackage(Identifiable, CollectableElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -91,6 +93,24 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = compu_method
         return self.elements[short_name]
 
+    def createBswModuleDescription(self, short_name: str) -> BswModuleDescription:
+        if (short_name not in self.elements):
+            bsw_module_description = BswModuleDescription(self, short_name)
+            self.elements[short_name] = bsw_module_description
+        return self.elements[short_name]
+
+    def createBswModuleEntry(self, short_name: str) -> BswModuleEntry:
+        if (short_name not in self.elements):
+            entry = BswModuleEntry(self, short_name)
+            self.elements[short_name] = entry
+        return self.elements[short_name]
+
+    def createBswImplementation(self, short_name: str) -> BswImplementation:
+        if (short_name not in self.elements):
+            sw_component = BswImplementation(self, short_name)
+            self.elements[short_name] = sw_component
+        return self.elements[short_name]
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
 
@@ -120,6 +140,12 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getCompuMethods(self) -> List[CompuMethod]:
         return list(filter(lambda a: isinstance(a, CompuMethod), self.elements.values()))
+
+    def getBswModuleDescriptions(self) -> List[BswModuleDescription]:
+        return list(filter(lambda a: isinstance(a, BswModuleDescription), self.elements.values()))
+
+    def getBswModuleEntries(self) -> List[BswModuleEntry]:
+        return list(filter(lambda a: isinstance(a, BswModuleEntry), self.elements.values()))
 
 class AUTOSAR (ARObject, CollectableElement):
     __instance = None

@@ -4,6 +4,7 @@ from .general_structure import ARElement, Identifiable, ARObject
 from .ar_ref import AutosarVariableRef, RefType, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
 from .port_prototype import RPortPrototype, PPortPrototype
 from .data_prototype import VariableDataPrototype
+from .common_structure import ExecutableEntity, InternalBehavior
 
 class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
@@ -51,7 +52,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
 
         self.sw_impl_policy = None
 
-class RunnableEntity(Identifiable):
+class RunnableEntity(ExecutableEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.can_be_invoked_concurrently = False        # Type: bool
@@ -195,10 +196,6 @@ class InternalTriggerOccurredEvent(RTEEvent):
         super().__init__(parent, short_name)
 
         self.event_source_ref = None    # type: RefType  
-
-class InternalBehavior(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
 
 class SwcInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):

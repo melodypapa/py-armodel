@@ -27,7 +27,7 @@ class ConstantReference(ValueSpecification):
     def __init__(self):
         super().__init__()
 
-        self. constant_ref = None
+        self.constant_ref = None
 
 
 class AbstractImplementationDataTypeElement(Identifiable):
@@ -57,3 +57,37 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     # type：List[ImplementationDataTypeElement]:
     def getImplementationDataTypeElements(self):
         return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values()))
+
+class InternalBehavior(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+class ExecutableEntity(Identifiable, metaclass=ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == ExecutableEntity:
+            raise NotImplementedError("ExecutableEntity is an abstract class.")
+        super().__init__(parent, short_name)
+    
+        self.activation_reason = None           # *
+        self.minimum_start_interval = 0.0       # 0..1
+        self.reentrancy_level = None            # 
+    
+class ModeDeclarationGroupPrototype(Identifiable):
+    """
+    The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
+    """
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+        self._sw_calibration_access = ""    # 0..1
+        self.type_tref = None                    # tref 0..1
+
+    @property
+    def sw_calibration_access(self):
+        return self._sw_calibration_access
+
+    @sw_calibration_access.setter
+    def sw_calibration_access(self, value):
+        if (value not in ("notAccessible", "readOnly", "readWrite")):
+            raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
+        self._sw_calibration_access = value
