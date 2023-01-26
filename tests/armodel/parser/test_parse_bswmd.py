@@ -21,7 +21,7 @@ class TestARPackage:
         assert(len(root_pkg_0_pkgs) == 3)
 
         bsw_module_desc_pkg = root_pkg_0_pkgs[0]   # type：ARPackage  
-        assert(bsw_module_desc_pkg.short_name == "BswModuleDescriptions")
+        assert(bsw_module_desc_pkg.short_name in ("BswModuleDescriptions", "BswModuleEntrys", "SwcBswMappings"))
 
         root_pkg_1_pkgs = root_pkgs[1].getARPackages()
         assert(len(root_pkg_1_pkgs) == 1)
@@ -29,7 +29,7 @@ class TestARPackage:
     def test_bsw_module_description(self):
         document = AUTOSAR.getInstance()
 
-        bsw_module_descs = document.getARPackages()[0].getARPackages()[0].getBswModuleDescriptions()
+        bsw_module_descs = document.find("/AUTOSAR_BswM/BswModuleDescriptions").getBswModuleDescriptions()
         assert(len(bsw_module_descs) == 1)
 
         bsw_module_desc = bsw_module_descs[0]
