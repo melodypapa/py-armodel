@@ -1,7 +1,7 @@
 import pytest
 
 from armodel import AUTOSAR
-from armodel.models.common_structure import AbstractImplementationDataTypeElement, ConstantReference, ImplementationDataTypeElement, ValueSpecification, ConstantSpecification
+from armodel.models.common_structure import AbstractImplementationDataTypeElement, ConstantReference, ImplementationDataTypeElement, ValueSpecification, ConstantSpecification, ExecutableEntity
 from armodel.models.datatype import AbstractImplementationDataType
 from armodel.models.general_structure import ARElement, ARObject, CollectableElement, Identifiable
 from armodel.models.general_structure import MultilanguageReferrable, PackageableElement, Referrable
@@ -35,6 +35,14 @@ class Test_M2_AUTOSARTemplates_CommonStructure_Constants:
         assert(isinstance(ref, ARObject))
         assert(isinstance(ref, ValueSpecification))
         assert(isinstance(ref, ConstantReference))
+
+class Test_M2_AUTOSARTemplates_CommonStructure_InternalBehavior:
+    def test_ExecutableEntity(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        with pytest.raises(NotImplementedError) as err:
+            ExecutableEntity(ar_root, "ExecutableEntity")
+        assert(str(err.value) == "ExecutableEntity is an abstract class.")
 
 class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
     def test_ImplementationDataTypeElement(self):

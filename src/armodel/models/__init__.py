@@ -9,3 +9,5 @@ from .data_prototype import *
 from .data_dictionary import *
 from .port_interface import *
 from .m2_msr import *
+from .implementation import *
+from .bsw_module_template import *

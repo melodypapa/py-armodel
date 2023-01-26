@@ -48,8 +48,16 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         MultilanguageReferrable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
-        self.category = ""
+        self._category = None
         self.desc = None
+
+    @property
+    def category(self):
+        return self._category
+
+    @category.setter
+    def category(self, value):
+        self._category = value
 
 class AtpFeature(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -69,6 +77,11 @@ class ARElement(PackageableElement, metaclass=ABCMeta):
             raise NotImplementedError("ARElement is an abstract class.")
         super().__init__(parent, short_name)
 
+class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == AtpFeature:
+            raise NotImplementedError("AtpStructureElement is an abstract class.")
+        super().__init__(parent, short_name)
 
 class Limit:
     def __init__(self):

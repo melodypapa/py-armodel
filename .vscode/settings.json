@@ -4,11 +4,16 @@
         "ARXML",
         "AUTOSAR",
         "bdist",
+        "Compu",
+        "descs",
+        "ENTITYS",
         "Multilanguage",
         "Packageable",
         "pypi",
         "pytest",
+        "reentrancy",
         "Referrable",
+        "Schedulable",
         "sdist"
     ],
     "python.formatting.autopep8Args": [

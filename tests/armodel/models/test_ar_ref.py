@@ -1,10 +1,9 @@
 """ Test ARRef """
+
 import pytest
 
-from armodel import AUTOSAR
-
 from armodel.models.ar_ref import ArVariableInImplementationDataInstanceRef, AutosarVariableRef, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
-from armodel.models.ar_ref import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RefType,  TRefType, AtpInstanceRef
+from armodel.models.ar_ref import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RefType, TRefType, AtpInstanceRef
 from armodel.models.general_structure import ARObject
 
 

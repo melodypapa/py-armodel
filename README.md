@@ -1,10 +1,10 @@
-# py-armodel
+# 1. py-armodel
 
-## Purpose
+## 1.1. Purpose
 
 To support AUTOSAR model with python 
 
-## Reference Documents
+## 1.2. Reference Documents
 1. AUTOSAR_TPS_XMLSchemaProductionRules.pdf
 2. AUTOSAR_TPS_ARXMLSerializationRules.pdf
 
@@ -12,7 +12,7 @@ To support AUTOSAR model with python
 |--|--|--|--|--|
 |[![GitHub version](https://badge.fury.io/gh/melodypapa%2Fpy-armodel.svg)](https://badge.fury.io/gh/melodypapa%2Fpy-armodel)|[![Documentation Status](https://readthedocs.org/projects/py-armodel/badge/?version=latest)](https://py-armodel.readthedocs.io/en/latest)|[![](https://www.travis-ci.com/melodypapa/py-armodel.svg?branch=main)](https://www.travis-ci.com/melodypapa/py-armodel)|[![Coverage Status](https://coveralls.io/repos/github/melodypapa/py-armodel/badge.svg?branch=main)](https://coveralls.io/github/melodypapa/py-armodel?branch=main)|[![PyPI version](https://badge.fury.io/py/armodel.svg)](https://badge.fury.io/py/armodel)|
 
-## How to create the distribution and upload to pypi
+## 1.3. How to create the distribution and upload to pypi
 1. Run `python setup.py bdist_wheel` to generate distribution
 2. Run `twine check dist/*` to check the validation of distribution
 3. Run `twine upload dist/*` to upload to pypi repository
@@ -20,20 +20,20 @@ To support AUTOSAR model with python
 
 And more details can be found at https://packaging.python.org/  
 
-## How to perform Unit test
+## 1.4. How to perform Unit test
 
 * Run `pip install pytest pytest-cov` to install pytest.
 * Run `pytest --cov=armodel --cov-report term-missing` to verify all the functionality.
 
-## How to create a distribution and wheel
+## 1.5. How to create a distribution and wheel
 
 * Run `python setup.py sdist bdist_wheel --universal`
 
-## How to create the document
+## 1.6. How to create the document
 
 1. Run `pip install sphinx` to install the necessary document
 
-## Heritage 
+## 1.7. Heritage 
 
 ```
 - ARObject
@@ -49,21 +49,28 @@ And more details can be found at https://packaging.python.org/
                   - NvDataInterface
                   - ParameterInterface
                   - SenderReceiverInterface
+            - BswModuleEntry
+          - Implementation
+            - BswImplementation
         - AtpFeature
           - AtpPrototype
-            - DataPrototype
-              - AutosarDataPrototype
-                - VariableDataPrototype
-              - ApplicationCompositeElementDataPrototype
-                - ApplicationArrayElement
-                - ApplicationRecordElement
+            - AtpPrototype
+              - DataPrototype
+                - AutosarDataPrototype
+                  - VariableDataPrototype
+                - ApplicationCompositeElementDataPrototype
+                  - ApplicationArrayElement
+                  - ApplicationRecordElement
+          - AtpStructureElement
+            - BswModuleDescription
+        - ExecutableEntity
   - ValueSpecification
     - ConstantReference
 ```
 
-## CLI usages
+## 1.8. CLI usages
 
-### arxml-dump
+### 1.8.1. arxml-dump
 
 **Dump all the arxml data to screen**
 
@@ -73,22 +80,35 @@ And more details can be found at https://packaging.python.org/
 
 -h              show the help information
 
-### Example for arxml-dump
+### 1.8.2. Example for arxml-dump
 
 **Dump the arxml data from test1.arxml and test2.arxml**
 
 `arxml-dump --arxml test1.arxml --arxml test2.arxml`
 
-## Change notes:
+## 1.9. API
 
-### 0.1.1
+### 1.9.1. Constructor
+
+```
+  ARXMLParser(options={"warning": True})
+```
+
+## 1.10. Change notes:
+
+### 1.10.1. 0.1.1
 
 Add the ARRAY category support for ImplementationDataType
 
-### 0.1.2
+### 1.10.2. 0.1.2
 
 Add the AsynchronousServerCallPoint support for ARXML
 
-### 0.1.3
+### 1.10.3. 0.1.3
 
-fix the attribute intervalType of **Limit** is empty issue.
+Fix the attribute intervalType of **Limit** is empty issue.
+
+### 1.10.4. 1.0.0
+
+1. Add the logging support
+2. Add the <warning> option to disable exception raised.
