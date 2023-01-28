@@ -60,3 +60,32 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         self.context_r_port_ref = None              # type: RefType
         self.target_required_operation_ref = None   # type: RefType
 
+class VariableInAtomicSwcInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
+    def __init__(self):
+        if type(self) == OperationInAtomicSwcInstanceRef:
+            raise NotImplementedError("OperationInAtomicSwcInstanceRef is an abstract class.")
+
+        super().__init__()
+
+class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.context_r_port_ref = None              # type: RefType
+        self.target_data_element_ref = None         # type: RefType
+
+class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.context_r_port_ref = None              # type: RefType
+        self.target_data_element_ref = None         # type: RefType
+
+class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.base_ref = None                                    # type: RefType
+        self.context_mode_declaration_group_prototype = None    # type: RefType
+        self.context_port = None                                # type: RefType
+        self.target_mode_declaration = None                     # type: RefType

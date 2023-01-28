@@ -1,7 +1,8 @@
 from typing import List, Dict
 from abc import ABCMeta
 from .general_structure import ARElement, Identifiable, ARObject
-from .ar_ref import AutosarVariableRef, RefType, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
+from .ar_ref import AutosarVariableRef, RefType, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, ProvidedPortPrototypeInstanceRef
+from .ar_ref import RequiredPortPrototypeInstanceRef, RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .port_prototype import RPortPrototype, PPortPrototype
 from .data_prototype import VariableDataPrototype
 from .common_structure import ExecutableEntity, InternalBehavior
@@ -169,14 +170,42 @@ class DataReceivedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.data_iref = None       # type: RVariableInAtomicSwcInstanceRef
+
+class SwcModeSwitchEvent(RTEEvent):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self._activation = ""     
+        self.mode_irefs = []       # type: List[RModeInAtomicSwcInstanceRef]
+
+    @property
+    def activation(self) -> str:
+        return self._activation
+
+    @activation.setter
+    def activation(self, value: str):
+        if value not in ("ON-ENTRY", "ON-EXIT", "ON-TRANSITION"):
+            raise ValueError("Invalid activation <%s> of SwcModeSwitchEvent <%s>" % (value, self.short_name))
+        self._activation = value
+
+    def addModeIRef(self, mode_iref: RModeInAtomicSwcInstanceRef):
+        self.mode_irefs.append(mode_iref)
+
 class DataReceiveErrorEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.variable_data_prototype_iref = None    
 
 class OperationInvokedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.operation_iref = None      # type: POperationInAtomicSwcInstanceRef
+
+class InitEvent(RTEEvent):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 class TimingEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -185,7 +214,7 @@ class TimingEvent(RTEEvent):
         self.period = 0
     
     @property
-    def peroid_ms(self):
+    def period_ms(self):
         if (self.period < 0.001):
             return self.period * 1000
         else:
@@ -213,6 +242,24 @@ class SwcInternalBehavior(InternalBehavior):
             self.elements[short_name] = event
         return self.elements[short_name]
 
+    def createInitEvent(self, short_name: str) -> InitEvent:
+        if (short_name not in self.elements):
+            event = InitEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
+        if (short_name not in self.elements):
+            event = DataReceivedEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
+        if (short_name not in self.elements):
+            event = SwcModeSwitchEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
     def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
         if (short_name not in self.elements):
             event = InternalTriggerOccurredEvent(self, short_name)
@@ -225,8 +272,17 @@ class SwcInternalBehavior(InternalBehavior):
     def getOperationInvokedEvents(self) -> List[OperationInvokedEvent]:
         return sorted(filter(lambda c: isinstance(c, OperationInvokedEvent), self.elements.values()), key=lambda e: e.short_name)
 
+    def getInitEvents(self) -> List[InitEvent]:
+        return sorted(filter(lambda c: isinstance(c, InitEvent), self.elements.values()), key=lambda e: e.short_name)
+
     def getTimingEvents(self) -> List[TimingEvent]:
         return sorted(filter(lambda c: isinstance(c, TimingEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getDataReceivedEvents(self) -> List[DataReceivedEvent]:
+        return sorted(filter(lambda c: isinstance(c, DataReceivedEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getSwcModeSwitchEvents(self) -> List[SwcModeSwitchEvent]:
+        return sorted(filter(lambda c: isinstance(c, SwcModeSwitchEvent), self.elements.values()), key=lambda e: e.short_name)
 
     def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
         return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements.values()), key= lambda e: e.short_name)
