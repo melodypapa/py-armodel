@@ -96,19 +96,26 @@ And more details can be found at https://packaging.python.org/
 
 ## 1.10. Change notes:
 
-### 1.10.1. 0.1.1
+**Version 0.1.1**
 
 Add the ARRAY category support for ImplementationDataType
 
-### 1.10.2. 0.1.2
+**Version 0.1.2**
 
 Add the AsynchronousServerCallPoint support for ARXML
 
-### 1.10.3. 0.1.3
+**Version 0.1.3**
 
 Fix the attribute intervalType of **Limit** is empty issue.
 
-### 1.10.4. 1.0.0
+**Version 1.0.0**
 
 1. Add the logging support
 2. Add the <warning> option to disable exception raised.
+3. Add the BswMD support
+
+**Version 1.1.0**
+
+1. Add the InitEvent support. (Issue #5)
+2. Add the DataReceiveEvent support. (Issue #5)
+3. Add the SwcModeSwitchEvent support. (Issue #5)

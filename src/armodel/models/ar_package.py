@@ -189,9 +189,9 @@ class AUTOSAR (ARObject, CollectableElement):
             if (short_name == ""):
                 continue
             element = element.getElement(short_name)
-            #print("<%s>" % short_name)
             if (element == None):
-                raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
+                return element
+            #    raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
         return element
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:

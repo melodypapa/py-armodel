@@ -19,10 +19,11 @@ class TestAUTOSAR:
 
     def test_cannot_find_element(self):
         document = AUTOSAR.getInstance()
-        with pytest.raises(Exception) as err:
-            document.find("/sw_package/not_found")
-        assert(str(err.value) ==
-               "The sw_package of reference </sw_package/not_found> does not exist.")
+        #with pytest.raises(Exception) as err:
+        #    document.find("/sw_package/not_found")
+        #assert(str(err.value) ==
+        #       "The sw_package of reference </sw_package/not_found> does not exist.")
+        assert(document.find("/sw_package/not_found") == None)
 
     def test_autosar(self):
         document = AUTOSAR.getInstance()
