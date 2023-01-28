@@ -5,7 +5,7 @@ from typing import List
 
 from .general_structure import ARObject, ARElement, Identifiable
 from .data_dictionary import SwDataDefProps
-
+from .ar_ref import RefType
 
 class ValueSpecification(ARObject, metaclass=ABCMeta):
     def __init__(self):
@@ -47,26 +47,42 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         self.is_optional = None    # type: bool
         self.sw_data_def_props = None    # type: SwDataDefProps
 
-    # type : ImplementationDataTypeElement
-    def createImplementationDataTypeElement(self, short_name: str):
+    
+    def createImplementationDataTypeElement(self, short_name: str): # type: (...) -> ImplementationDataTypeElement
         if (short_name not in self.elements):
             event = ImplementationDataTypeElement(self, short_name)
             self.elements[short_name] = event
         return self.elements[short_name]
-
-    # type：List[ImplementationDataTypeElement]:
-    def getImplementationDataTypeElements(self):
+    
+    def getImplementationDataTypeElements(self):                    # type：(...) -> List[ImplementationDataTypeElement]:
         return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values()))
 
 class ExclusiveArea(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-class InternalBehavior(Identifiable):
+class InternalBehavior(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == InternalBehavior:
+            raise NotImplementedError("InternalBehavior is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.exclusive_areas = None     # type: List[ExclusiveArea]
+        self._data_type_mapping_refs = []      # type: List[RefType]
+
+    def addDataTypeMappingRef(self, ref: RefType):
+        self._data_type_mapping_refs.append(ref)
+
+    def getDataTypeMappingRefs(self) -> List[RefType]:
+        return self._data_type_mapping_refs
+
+    def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
+        if (short_name not in self.elements):
+            event = ExclusiveArea(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def getExclusiveAreas(self) -> List[ExclusiveArea]:
+        return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements.values()))
 
 class ModeDeclaration(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -83,6 +99,17 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
         self.activation_reason = None           # *
         self.minimum_start_interval = 0.0       # 0..1
         self.reentrancy_level = None            # 
+        self.can_enter_exclusive_area_refs = [] # type: List[RefType]  
+
+    @property
+    def minimum_start_interval_ms(self) -> int:
+        return int(self.minimum_start_interval * 1000)
+
+    def addCanEnterExclusiveAreaRef(self, ref: RefType):
+        self.can_enter_exclusive_area_refs.append(ref)
+
+    def getCanEnterExclusiveAreaRefs(self):
+        return self.can_enter_exclusive_area_refs
     
 class ModeDeclarationGroupPrototype(Identifiable):
     """

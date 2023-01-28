@@ -10,6 +10,7 @@ from ..models import SenderReceiverInterface, ClientServerInterface, ClientServe
 from ..models import AutosarDataType, ARElement
 from ..models import AssemblySwConnector, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
 from ..models import CompuMethod, CompuScale, Limit, CompuScales, Compu, CompuConst, CompuConstTextContent
+from ..models import InternalBehavior, ExecutableEntity
 from ..models import Implementation
 from ..models import BswImplementation, BswModuleDescription, BswInternalBehavior, BswCalledEntity, BswModuleEntity, BswScheduleEvent
 
@@ -124,20 +125,6 @@ class ARXMLParser:
             results.append(ref)
         return results
 
-    def readSwInternalBehavior(self, element, parent: AtomicSwComponentType):
-        for child_element in element.findall("./xmlns:INTERNAL-BEHAVIORS/xmlns:SWC-INTERNAL-BEHAVIOR", self.nsmap):
-            short_name = self.readShortName(child_element)
-            behavior = parent.createSwcInternalBehavior(short_name)
-
-            self.readRunnableEntities(child_element, behavior)
-            self.readOperationInvokedEvents(child_element, behavior)
-            self.readInitEvents(child_element, behavior)
-            self.readTimingEvents(child_element, behavior)
-            self.readDataReceivedEvent(child_element, behavior)
-            self.readSwcModeSwitchEvent(child_element, behavior)
-            self.readInternalTriggerOccurredEvent(child_element, behavior)
-            self.readExplicitInterRunnableVariables(child_element, behavior)
-
     def readAutosarVariableInImplDatatype(self, element, accessed_variable_ref: AutosarVariableRef):
         child_element = element.find("./xmlns:ACCESSED-VARIABLE/xmlns:AUTOSAR-VARIABLE-IREF", self.nsmap)
         if (child_element != None):
@@ -196,7 +183,18 @@ class ARXMLParser:
             mode_group = parent.createProvidedModeGroup(short_name)
             mode_group.type_tref = self.readChildRefElement(child_element, "TYPE-TREF")
 
+    def readCanEnterExclusiveAreaRefs(self, element, entity: ExecutableEntity):
+        child_element = element.find("./xmlns:CAN-ENTER-EXCLUSIVE-AREA-REFS", self.nsmap)
+        if child_element != None:
+            for ref in self.readChildRefElementList(child_element, "CAN-ENTER-EXCLUSIVE-AREA-REF"):
+                entity.addCanEnterExclusiveAreaRef(ref)
+
+    def readExecutableEntity(self, element, entity: ExecutableEntity):
+        self.readCanEnterExclusiveAreaRefs(element, entity)
+
     def readBswModuleEntity(self, element, entity: BswModuleEntity):
+        self.readExecutableEntity(element, entity)
+        
         entity.implemented_entry_ref = self.readChildRefElement(element, "IMPLEMENTED-ENTRY-REF")
 
     def readBswCalledEntity(self, element, parent: BswInternalBehavior):
@@ -256,12 +254,41 @@ class ARXMLParser:
 
             self.readBswScheduleEvent(child_element, event)
 
+    def readDataTypeMappingRefs(self, element, behavior: InternalBehavior):
+        child_element = element.find("./xmlns:DATA-TYPE-MAPPING-REFS", self.nsmap)
+        if child_element != None:
+            for ref in self.readChildRefElementList(child_element, "DATA-TYPE-MAPPING-REF"):
+                behavior.addDataTypeMappingRef(ref)
+
+    def readInternalBehavior(self, element, behavior: InternalBehavior):
+        for child_element in element.findall("./xmlns:EXCLUSIVE-AREAS/xmlns:EXCLUSIVE-AREA", self.nsmap):
+            short_name = self.readShortName(child_element)
+            behavior.createExclusiveArea(short_name)
+
+        self.readDataTypeMappingRefs(element, behavior)
+
+    def readSwInternalBehavior(self, element, parent: AtomicSwComponentType):
+        for child_element in element.findall("./xmlns:INTERNAL-BEHAVIORS/xmlns:SWC-INTERNAL-BEHAVIOR", self.nsmap):
+            short_name = self.readShortName(child_element)
+            behavior = parent.createSwcInternalBehavior(short_name)
+
+            self.readRunnableEntities(child_element, behavior)
+            self.readOperationInvokedEvents(child_element, behavior)
+            self.readInitEvents(child_element, behavior)
+            self.readTimingEvents(child_element, behavior)
+            self.readDataReceivedEvent(child_element, behavior)
+            self.readSwcModeSwitchEvent(child_element, behavior)
+            self.readInternalTriggerOccurredEvent(child_element, behavior)
+            self.readExplicitInterRunnableVariables(child_element, behavior)
+            
     def readBswInternalBehavior(self, element, parent: BswModuleDescription):
         for child_element in element.findall("./xmlns:INTERNAL-BEHAVIORS/xmlns:BSW-INTERNAL-BEHAVIOR", self.nsmap):
             short_name = self.readShortName(child_element)
-            logging.debug("readBswInternalBehavior %s" % short_name)
-
             behavior = parent.createBswInternalBehavior(short_name)
+            logging.debug("readBswInternalBehavior %s" % behavior.full_name)
+
+            # read the internal behavior
+            self.readInternalBehavior(child_element, behavior)
 
             self.readBswCalledEntity(child_element, behavior)
             self.readBswSchedulableEntity(child_element, behavior)
