@@ -1,5 +1,6 @@
 from ..models import AUTOSAR, ARPackage, ARObject, EcuAbstractionSwComponentType, AtomicSwComponentType, SwComponentType, CompositionSwComponentType
-from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, VariableAccess, ServerCallPoint, OperationInvokedEvent
+from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, VariableAccess, ServerCallPoint, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
+from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 from ..models import RefType, AutosarVariableRef, ArVariableInImplementationDataInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
 from ..models import ImplementationDataType, SwDataDefProps, SwPointerTargetProps, DataTypeMappingSet, DataTypeMap, ImplementationDataTypeElement
 from ..models import DataPrototype, RPortPrototype, PPortPrototype
@@ -11,7 +12,6 @@ from ..models import AssemblySwConnector, ProvidedPortPrototypeInstanceRef, Requ
 from ..models import CompuMethod, CompuScale, Limit, CompuScales, Compu, CompuConst, CompuConstTextContent
 from ..models import Implementation
 from ..models import BswImplementation, BswModuleDescription, BswInternalBehavior, BswCalledEntity, BswModuleEntity, BswScheduleEvent
-
 
 from typing import List
 import xml.etree.ElementTree as ET
@@ -57,6 +57,12 @@ class ARXMLParser:
         if (value == "true"):
             return True
         return False
+
+    def readChildElementFloatValue(self, short_name, element, key) -> float:
+        value = self.readChildElement(short_name, element, key)
+        if (value == None):
+            return None
+        return float(value)
 
     def readChildElementBooleanValue(self, short_name, element, key) -> bool:
         value = self.readChildElement(short_name, element, key)
@@ -125,7 +131,10 @@ class ARXMLParser:
 
             self.readRunnableEntities(child_element, behavior)
             self.readOperationInvokedEvents(child_element, behavior)
+            self.readInitEvents(child_element, behavior)
             self.readTimingEvents(child_element, behavior)
+            self.readDataReceivedEvent(child_element, behavior)
+            self.readSwcModeSwitchEvent(child_element, behavior)
             self.readInternalTriggerOccurredEvent(child_element, behavior)
             self.readExplicitInterRunnableVariables(child_element, behavior)
 
@@ -225,7 +234,7 @@ class ARXMLParser:
             short_name = self.readShortName(child_element)
             logging.debug("readBswTimingEvent %s" % short_name)
             event = parent.createBswTimingEvent(short_name)
-            event.period = float(self.readChildElement(short_name, child_element, "PERIOD"))
+            event.period = self.readChildElementFloatValue(short_name, child_element, "PERIOD")
 
             self.readBswScheduleEvent(child_element, event)
 
@@ -317,13 +326,29 @@ class ARXMLParser:
     def readReadLocalVariables(self, element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "READ-LOCAL-VARIABLES")
 
-    def readROperationIRef(self, element, serverCallPoint: ServerCallPoint):
+    def readROperationIRef(self, element, parent: ServerCallPoint):
         child_element = element.find("./xmlns:OPERATION-IREF", self.nsmap)
         if (child_element != None):
             operation_iref = ROperationInAtomicSwcInstanceRef()
             operation_iref.context_r_port_ref = self.readChildRefElement(child_element, "CONTEXT-R-PORT-REF")
             operation_iref.target_required_operation_ref = self.readChildRefElement(child_element, "TARGET-REQUIRED-OPERATION-REF")
-            serverCallPoint.operation_iref = operation_iref
+            parent.operation_iref = operation_iref
+
+    def readRVariableInAtomicSwcInstanceRef(self, element, parent: DataReceivedEvent):
+        child_element = element.find("./xmlns:DATA-IRE", self.nsmap)
+        if (child_element != None):
+            data_iref = RVariableInAtomicSwcInstanceRef()
+            data_iref.context_r_port_ref = self.readChildRefElement(child_element, "CONTEXT-R-PORT-REF")
+            data_iref.target_required_operation_ref = self.readChildRefElement(child_element, "TARGET-DATA-ELEMENT-REF")
+            parent.data_iref = data_iref
+
+    def readRModeInAtomicSwcInstanceRef(self, element, parent: SwcModeSwitchEvent):
+        for child_element in element.findall("./xmlns:MODE-IREFS/xmlns:MODE-IREF", self.nsmap):
+            mode_iref = RModeInAtomicSwcInstanceRef()
+            mode_iref.context_port = self.readChildRefElement(child_element, "CONTEXT-PORT-REF")
+            mode_iref.context_mode_declaration_group_prototype = self.readChildRefElement(child_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF")
+            mode_iref.target_mode_declaration = self.readChildRefElement(child_element, "TARGET-MODE-DECLARATION-REF")
+            parent.addModeIRef(mode_iref)
 
     def readSynchronousServerCallPoint(self, element, parent: RunnableEntity):
         for child_element in element.findall("./xmlns:SERVER-CALL-POINTS/xmlns:SYNCHRONOUS-SERVER-CALL-POINT", self.nsmap):
@@ -386,6 +411,13 @@ class ARXMLParser:
             self.readSwDataDefProps(child_element, prototype)
             prototype.type_tref = self.readChildRefElement(child_element, "TYPE-TREF")
 
+    def readInitEvents(self, element, parent: SwcInternalBehavior):
+        for child_element in element.findall("./xmlns:EVENTS/xmlns:INIT-EVENT", self.nsmap):
+            short_name = self.readShortName(child_element)
+            event = parent.createInitEvent(short_name)
+
+            self.readRTEEvent(child_element, event)
+
     def readTimingEvents(self, element, parent: SwcInternalBehavior):
         for child_element in element.findall("./xmlns:EVENTS/xmlns:TIMING-EVENT", self.nsmap):
             short_name = self.readShortName(child_element)
@@ -397,6 +429,22 @@ class ARXMLParser:
             if (offset != None):
                 event.offset = (float)(offset)
             event.period = (float)(self.readChildElement(short_name, child_element, "PERIOD"))
+
+    def readDataReceivedEvent(self, element, parent: SwcInternalBehavior):
+        for child_element in element.findall("./xmlns:EVENTS/xmlns:DATA-RECEIVED-EVENT", self.nsmap):
+            short_name = self.readShortName(child_element)
+            event = parent.createDataReceivedEvent(short_name)
+
+            self.readRTEEvent(child_element, event)
+            self.readRVariableInAtomicSwcInstanceRef(child_element, event)
+
+    def readSwcModeSwitchEvent(self, element, parent: SwcInternalBehavior):
+        for child_element in element.findall("./xmlns:EVENTS/xmlns:SWC-MODE-SWITCH-EVENT", self.nsmap):
+            short_name = self.readShortName(child_element)
+            event = parent.createSwcModeSwitchEvent(short_name)
+
+            self.readRTEEvent(child_element, event)
+            self.readRModeInAtomicSwcInstanceRef(child_element, event)
 
     def readInternalTriggerOccurredEvent(self, element, parent: SwcInternalBehavior):
         for child_element in element.findall("./xmlns:EVENTS/xmlns:INTERNAL-TRIGGER-OCCURRED-EVENT", self.nsmap):
@@ -498,7 +546,7 @@ class ARXMLParser:
             self.readReceiverComSpec(child_element, com_spec)
             try:
                 # FIXME:
-                com_spec.alive_timeout = float(self.readChildElement("", child_element, "ALIVE-TIMEOUT"))
+                com_spec.alive_timeout = self.readChildElementFloatValue("", child_element, "ALIVE-TIMEOUT")
                 com_spec.enable_updated = self.readChildElementBooleanValue("", child_element, "ENABLE-UPDATE")
                 com_spec.handle_never_received = self.readChildElementBooleanValue("", child_element, "HANDLE-NEVER-RECEIVED")
                 com_spec.handel_timeout_type = self.readChildElement("", child_element, "HANDLE-TIMEOUT-TYPE")

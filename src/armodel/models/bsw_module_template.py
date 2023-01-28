@@ -151,11 +151,23 @@ class BswInternalBehavior(InternalBehavior):
         return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements.values()))
 
 class BswModuleDescription(AtpStructureElement):
+    '''
+        Root element for the description of a single BSW module or BSW cluster. In case it
+        describes a BSW module, the short name of this element equals the name of the
+        BSW module.
+        
+        **attributes**:
+         module_id              : MODULE-ID  
+         implemented_entry_refs : PROVIDED-ENTRYS
+    '''
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # MODULE-ID
         self.module_id = 0
+        # PROVIDED-ENTRYS
         self.implemented_entry_refs = []                # type: List[RefType]
+
         self.provided_mode_groups   = {}                # ModeDeclarationGroupPrototype         *
         self.required_mode_groups   = {}                # ModeDeclarationGroupPrototype         * 
 
@@ -190,6 +202,9 @@ class BswModuleDescription(AtpStructureElement):
         return sorted(self.required_mode_groups.values(), key=lambda v: v.short_name) 
 
     def createBswInternalBehavior(self, short_name: str) -> BswInternalBehavior:
+        '''
+            Create the INTERNAL-BEHAVIORS tag
+        '''
         if (short_name not in self.elements):
             prototype = BswInternalBehavior(self, short_name)
             self.elements[short_name] = prototype

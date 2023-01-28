@@ -68,6 +68,12 @@ class InternalBehavior(Identifiable):
 
         self.exclusive_areas = None     # type: List[ExclusiveArea]
 
+class ModeDeclaration(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.value = 0
+
 class ExecutableEntity(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == ExecutableEntity:

@@ -70,7 +70,7 @@ def show_behavior(indent:int, behavior: SwcInternalBehavior):
         print("                           : %s" % (event.start_on_event_ref.value))
     for event in behavior.getTimingEvents():
         print("")
-        print("   - TimingEvent : %s (%d ms)" % (event.short_name, event.peroid_ms))
+        print("   - TimingEvent : %s (%d ms)" % (event.short_name, event.period_ms))
         print("                 : %s" % (event.start_on_event_ref.value))
 
 def show_sw_component(indent: int, sw_component: SwComponentType):
