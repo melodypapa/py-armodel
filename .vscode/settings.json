@@ -11,6 +11,7 @@
         "irefs",
         "Multilanguage",
         "Nonqueued",
+        "nsmap",
         "Packageable",
         "pypi",
         "pytest",
