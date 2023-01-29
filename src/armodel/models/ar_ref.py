@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from .general_structure import ARObject
+from .ar_object import ARObject
 
 class RefType(ARObject):
     def __init__(self):

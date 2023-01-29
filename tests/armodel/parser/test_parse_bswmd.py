@@ -1,10 +1,12 @@
 from armodel import AUTOSAR, ARPackage
 from armodel import ARXMLParser
 
-import sys
+import logging
 
-class TestARPackage:
+class TestBswMD:
     def setup_method(self):
+        logging.basicConfig(format='[%(levelname)s] : %(message)s', level = logging.DEBUG)
+
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
@@ -97,4 +99,70 @@ class TestARPackage:
         assert(entries[1].call_type == "SCHEDULED")
         assert(entries[1].execution_context == "TASK")
         assert(entries[1].sw_service_impl_policy == "STANDARD")
+
+    def test_bsw_module_swc_bsw_mapping(self):
+        document = AUTOSAR.getInstance()
+
+        pkg = document.find("/AUTOSAR_BswM/SwcBswMappings")     # type: ARPackage
+        mappings = pkg.getSwcBswMappings()
+        assert(len(mappings) == 1)
+
+        assert(mappings[0].bsw_behavior_ref.dest == "BSW-INTERNAL-BEHAVIOR")
+        assert(mappings[0].bsw_behavior_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        
+        assert(len(mappings[0].getRunnableMappings()) == 1)
+        runnable_mapping = mappings[0].getRunnableMappings()[0]
+        assert(runnable_mapping.bsw_entity_ref.dest == "BSW-SCHEDULABLE-ENTITY")
+        assert(runnable_mapping.bsw_entity_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
+        assert(runnable_mapping.swc_runnable_ref.dest == "RUNNABLE-ENTITY")
+        assert(runnable_mapping.swc_runnable_ref.value == "/AUTOSAR_BswM/SwComponentTypes/BswM/BswMInternalBehavior/RES_MainFunction")
+
+    def test_bsw_module_implementation(self):
+        document = AUTOSAR.getInstance()
+
+        pkg = document.find("/EB_BswM_TxDxM1I14R0/Implementations")     # type: ARPackage
+        assert(len(pkg.getBswImplementations()) == 1)
+        impl = pkg.getBswImplementations()[0]
+        assert(impl.short_name == "BswImplementation_0")
+        assert(len(impl.getCodeDescriptors()) == 1)
+        
+        code_desc = impl.getCodeDescriptors()[0]
+        assert(code_desc.short_name == "Files")
+        assert(len(code_desc.getArtifactDescriptors()) == 21)
+        assert(len(code_desc.getArtifactDescriptors("SWSRC")) == 4)
+        assert(len(code_desc.getArtifactDescriptors("SWHDR")) == 15)
+        assert(len(code_desc.getArtifactDescriptors("SWMAKE")) == 2)
+
+        artifact_descs = sorted(code_desc.getArtifactDescriptors("SWMAKE"), key= lambda o: o.short_label)
+        assert(artifact_descs[0].short_label == "make::BswM_defs.mak")
+        assert(artifact_descs[0].category == "SWMAKE")
+        assert(artifact_descs[1].short_label == "make::BswM_rules.mak")
+        assert(artifact_descs[1].category == "SWMAKE")
+
+        assert(impl.programming_language == "C")
+
+        assert(impl.resource_consumption.short_name == "ResourceConsumption")
+        assert(len(impl.resource_consumption.getMemorySections()) == 8)
+
+        section = impl.resource_consumption.getMemorySection("CODE")
+        assert(section.short_name == "CODE")
+        assert(section.alignment == None)
+        assert(section.sw_addr_method_ref.dest == "SW-ADDR-METHOD")
+        assert(section.sw_addr_method_ref.value == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
+
+        section = impl.resource_consumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
+        assert(section.short_name == "VAR_NO_INIT_UNSPECIFIED")
+        assert(section.alignment == "UNSPECIFIED")
+        assert(section.sw_addr_method_ref.dest == "SW-ADDR-METHOD")
+        assert(section.sw_addr_method_ref.value == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT")
+
+        assert(impl.vendor_id == 1)
+        assert(impl.sw_version == "1.14.1")
+        assert(impl.swc_bsw_mapping_ref.dest == "SWC-BSW-MAPPING")
+        assert(impl.swc_bsw_mapping_ref.value == "/AUTOSAR_BswM/SwcBswMappings/SwcBswMapping_0")
+        assert(impl.ar_release_version == "4.0.3")
+        assert(impl.behavior_ref.dest == "BSW-INTERNAL-BEHAVIOR")
+        assert(impl.behavior_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+
+
 

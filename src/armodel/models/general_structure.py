@@ -1,11 +1,7 @@
-from abc import ABCMeta, abstractmethod
-
-
-class ARObject(metaclass=ABCMeta):
-    def __init__(self):
-        if type(self) == ARObject:
-            raise NotImplementedError("ARObject is an abstract class.")
-        self.parent = None
+from abc import ABCMeta
+from typing import List
+from .ar_object import ARObject
+from .ar_ref import RefType
 
 
 class Referrable(ARObject, metaclass=ABCMeta):
@@ -70,6 +66,36 @@ class PackageableElement(Identifiable, metaclass=ABCMeta):
         if type(self) == PackageableElement:
             raise NotImplementedError("PackageableElement is an abstract class.")
         super().__init__(parent, short_name)
+
+class SwcBswRunnableMapping(ARObject):
+    def __init__(self):
+        '''
+            Maps a BswModuleEntity to a RunnableEntity if it is implemented as part of a BSW
+            module (in the case of an AUTOSAR Service, a Complex Driver or an ECU
+            Abstraction). The mapping can be used by a tool to find relevant information on the
+            behavior, e.g. whether the bswEntity shall be running in interrupt context.
+
+        '''
+        super().__init__()
+
+        self.bsw_entity_ref   = None        # type: RefType
+        self.swc_runnable_ref = None        # type: RefType
+
+class SwcBswMapping(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.bsw_behavior_ref = None            # type: RefType
+        self.runnable_mappings = []
+        self.swc_behavior_ref = None            # type: RefType
+        self.synchronized_mode_groups = []       
+        self.synchronized_triggers = []
+
+    def addRunnableMapping(self, mapping: SwcBswRunnableMapping):
+        self.runnable_mappings.append(mapping)
+
+    def getRunnableMappings(self) -> List[SwcBswRunnableMapping]:
+        return self.runnable_mappings
 
 class ARElement(PackageableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

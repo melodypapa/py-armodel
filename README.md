@@ -64,6 +64,7 @@ And more details can be found at https://packaging.python.org/
           - AtpStructureElement
             - BswModuleDescription
         - ExecutableEntity
+        - SwcBswMapping
   - ValueSpecification
     - ConstantReference
 ```

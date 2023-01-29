@@ -1,5 +1,5 @@
 from typing import List
-from .general_structure import Identifiable, ARObject, Referrable, CollectableElement
+from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
 from .port_interface import SenderReceiverInterface, ClientServerInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType, ServiceSwComponentType, CompositionSwComponentType
 from .datatype import ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
@@ -111,6 +111,12 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = sw_component
         return self.elements[short_name]
 
+    def createSwcBswMapping(self, short_name: str) -> SwcBswMapping:
+        if (short_name not in self.elements):
+            sw_component = SwcBswMapping(self, short_name)
+            self.elements[short_name] = sw_component
+        return self.elements[short_name]
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
 
@@ -146,6 +152,12 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getBswModuleEntries(self) -> List[BswModuleEntry]:
         return list(filter(lambda a: isinstance(a, BswModuleEntry), self.elements.values()))
+
+    def getBswImplementations(self) -> List[BswImplementation]:
+        return list(filter(lambda a: isinstance(a, BswImplementation), self.elements.values()))
+
+    def getSwcBswMappings(self) -> List[SwcBswMapping]:
+        return list(filter(lambda a: isinstance(a, SwcBswMapping), self.elements.values()))
 
 class AUTOSAR (ARObject, CollectableElement):
     __instance = None

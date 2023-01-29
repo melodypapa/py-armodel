@@ -22,18 +22,15 @@ class ConstantSpecification(ARElement):
 
         self.value_spec = None  # type: ValueSpecification
 
-
 class ConstantReference(ValueSpecification):
     def __init__(self):
         super().__init__()
 
         self.constant_ref = None
 
-
 class AbstractImplementationDataTypeElement(Identifiable):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
-
 
 class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
@@ -42,11 +39,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.array_size = None    # type: int
-        self.array_size_semantics = None  # type: str
-        self.is_optional = None    # type: bool
-        self.sw_data_def_props = None    # type: SwDataDefProps
-
+        self.array_size = None              # type: int
+        self.array_size_semantics = None    # type: str
+        self.is_optional = None             # type: bool
+        self.sw_data_def_props = None       # type: SwDataDefProps
     
     def createImplementationDataTypeElement(self, short_name: str): # type: (...) -> ImplementationDataTypeElement
         if (short_name not in self.elements):
@@ -130,3 +126,36 @@ class ModeDeclarationGroupPrototype(Identifiable):
         if (value not in ("notAccessible", "readOnly", "readWrite")):
             raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
         self._sw_calibration_access = value
+
+class MemorySection(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+        
+        self._alignment = None
+        self.sw_addr_method_ref = None  # type: RefType
+
+    @property
+    def alignment(self) -> str:
+        return self._alignment
+
+    @alignment.setter
+    def alignment(self, value:str):
+        if value not in ("UNKNOWN", "8" , "16", "32", "UNSPECIFIED", "BOOLEAN", "PTR"):
+            raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.short_name))
+        self._alignment = value
+
+class ResourceConsumption(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+    def createMemorySection(self, short_name: str) -> MemorySection:
+        if (short_name not in self.elements):
+            entry = MemorySection(self, short_name)
+            self.elements[short_name] = entry
+        return self.elements[short_name]
+
+    def getMemorySections(self) -> List[MemorySection]:
+        return list(filter(lambda a : isinstance(a, MemorySection), self.elements.values()))
+
+    def getMemorySection(self, short_name: str) -> MemorySection:
+        return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements.values()), None)
