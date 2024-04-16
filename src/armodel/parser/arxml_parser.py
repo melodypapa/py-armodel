@@ -372,21 +372,31 @@ class ARXMLParser:
 
     def readImplementation(self, element, impl: Implementation):
         self.readCodeDescriptor(element, impl)
-        impl.programming_language = self.readChildElement(impl.short_name, element, "PROGRAMMING-LANGUAGE")
+        impl.programming_language = self.readChildOptionalElement(element, "PROGRAMMING-LANGUAGE")
         self.readResourceConsumption(element, impl)
-        impl.sw_version = self.readChildElement(impl.short_name, element, "SW-VERSION")
+        impl.sw_version = self.readChildOptionalElement(element, "SW-VERSION")
         impl.swc_bsw_mapping_ref = self.readChildOptionalRefElement(element, "SWC-BSW-MAPPING-REF")
-        impl.vendor_id = self.readChildElementNumberValue(impl.short_name, element, "VENDOR-ID")
+        impl.vendor_id = self.readChildOptionalElementNumberValue(element, "VENDOR-ID")
 
     def readBswImplementation(self, element, parent: ARPackage):
         for child_element in element.findall("./xmlns:ELEMENTS/xmlns:BSW-IMPLEMENTATION", self.nsmap):
             short_name = self.readShortName(child_element)
-            impl = parent.createBswImplementation(short_name)
-            logging.debug("readImplementation %s" % impl.short_name)
+            impl = parent.createBswImplementation(short_name)   
+            logging.debug("readBswImplementation %s" % impl.short_name)
 
             self.readImplementation(child_element, impl)
 
             impl.ar_release_version = self.readChildElement(parent.short_name, child_element, "AR-RELEASE-VERSION")
+            impl.behavior_ref = self.readChildRefElement(parent.short_name, child_element, "BEHAVIOR-REF")
+
+    def readSwcImplementation(self, element, parent: ARPackage):
+        for child_element in element.findall("./xmlns:ELEMENTS/xmlns:SWC-IMPLEMENTATION", self.nsmap):
+            short_name = self.readShortName(child_element)
+            impl = parent.createSwcImplementation(short_name)   
+            logging.debug("readSwcImplementation %s" % impl.short_name)
+
+            self.readImplementation(child_element, impl)
+
             impl.behavior_ref = self.readChildRefElement(parent.short_name, child_element, "BEHAVIOR-REF")
 
     def readDataReceivePointByArguments(self, element, parent: RunnableEntity):
@@ -455,7 +465,7 @@ class ARXMLParser:
         for child_element in element.findall("./xmlns:RUNNABLES/xmlns:RUNNABLE-ENTITY", self.nsmap):
             short_name = self.readShortName(child_element)
             runnable = parent.createRunnableEntity(short_name)
-            runnable.can_be_invoked_concurrently = self.readChildElement(short_name, child_element, "CAN-BE-INVOKED-CONCURRENTLY")
+            runnable.can_be_invoked_concurrently = self.readChildOptionalElement(child_element, "CAN-BE-INVOKED-CONCURRENTLY")
             runnable.symbol = self.readChildElement(short_name, child_element, "SYMBOL")
 
             self.readDataReceivePointByArguments(child_element, runnable)
@@ -469,7 +479,7 @@ class ARXMLParser:
             self.readInternalTriggeringPoint(child_element, runnable)
 
     def readRTEEvent(self, element, event: RTEEvent):
-        event.start_on_event_ref = self.readChildRefElement(event.short_name, element, "START-ON-EVENT-REF")
+        event.start_on_event_ref = self.readChildOptionalRefElement(element, "START-ON-EVENT-REF")
 
     def readOperationIRef(self, element, parent: OperationInvokedEvent):
         child_element = element.find("./xmlns:OPERATION-IREF", self.nsmap)
@@ -597,8 +607,10 @@ class ARXMLParser:
                 array_sub_element = data_type.getImplementationDataTypeElements()[0]
                 if (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
                     data_type.setArrayElementType(array_sub_element.sw_data_def_props.implementation_data_type_ref.value)
+                elif (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_VALUE):  # TODO: fix 
+                    continue
                 else:
-                    self._raiseError("The catetory <%s> of array sub-element does not support." % array_sub_element.category)
+                    self._raiseError("The category <%s> of array sub-element <%s> does not support." % (array_sub_element.category, data_type.short_name))
 
     def readSwDataTypes(self, element, parent: ARPackage):
         for child_element in element.findall("./xmlns:ELEMENTS/xmlns:SW-BASE-TYPE", self.nsmap):
@@ -617,7 +629,7 @@ class ARXMLParser:
     def readReceiverComSpec(self, element, com_spec: ReceiverComSpec):
         #FIXME: readchildElement
         com_spec.data_element_ref = self.readChildOptionalRefElement(element, "DATA-ELEMENT-REF")
-        com_spec.handle_out_of_range = self.readChildElement("", element, "HANDLE-OUT-OF-RANGE")
+        com_spec.handle_out_of_range = self.readChildOptionalElement(element, "HANDLE-OUT-OF-RANGE")
         com_spec.uses_end_to_end_protection = self.readChildOptionalElementBooleanValue(element, "USES-END-TO-END-PROTECTION")
 
     def readNonqueuedReceiverComSpec(self, element, parent: RPortPrototype):
@@ -650,7 +662,7 @@ class ARXMLParser:
     def readSenderComSpec(self, element, com_spec: SenderComSpec):
         # FIXME:
         com_spec.data_element_ref = self.readChildOptionalRefElement(element, "DATA-ELEMENT-REF")
-        com_spec.handle_out_of_range = self.readChildElement("", element, "HANDLE-OUT-OF-RANGE")
+        com_spec.handle_out_of_range = self.readChildOptionalElement(element, "HANDLE-OUT-OF-RANGE")
         com_spec.uses_end_to_end_protection = self.readChildOptionalElementBooleanValue(element, "USES-END-TO-END-PROTECTION")
 
     def readNonqueuedSenderComSpec(self, element, parent: PPortPrototype):
@@ -693,6 +705,12 @@ class ARXMLParser:
         for child_element in element.findall("./xmlns:ELEMENTS/xmlns:COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE", self.nsmap):
             short_name = self.readShortName(child_element)
             sw_component = parent.createApplicationSwComponentType(short_name)
+            self.readAtomicSwComponentType(child_element, sw_component)
+
+    def readSensorActuatorSwComponentType(self, element, parent: ARPackage):
+        for child_element in element.findall("./xmlns:ELEMENTS/xmlns:SENSOR-ACTUATOR-SW-COMPONENT-TYPE", self.nsmap):
+            short_name = self.readShortName(child_element)
+            sw_component = parent.createSensorActuatorSwComponentType(short_name)
             self.readAtomicSwComponentType(child_element, sw_component)
 
     def readServiceSwComponentTypes(self, element, parent: ARPackage):
@@ -832,7 +850,7 @@ class ARXMLParser:
         for child_element in element.findall("./xmlns:ELEMENTS/xmlns:COMPU-METHOD", self.nsmap):
             short_name = self.readShortName(child_element)
             compu_method = parent.createCompuMethod(short_name)
-            compu_method.category = self.readChildElement(short_name, child_element, "CATEGORY")
+            compu_method.category = self.readChildOptionalElement(child_element, "CATEGORY")
             self.readCompuInternalToPhys(child_element, compu_method)
 
     def readSwcBswRunnableMappings(self, element, parent: SwcBswMapping):
@@ -870,13 +888,14 @@ class ARXMLParser:
             self.readEcuAbstractionSwComponents(child_element, ar_package)
             self.readApplicationSwComponentTypes(child_element, ar_package)
             self.readComplexDeviceDriverSwComponentTypes(child_element, ar_package)
+            self.readSensorActuatorSwComponentType(child_element, ar_package)
             self.readServiceSwComponentTypes(child_element, ar_package)
             self.readCompositionSwComponentTypes(child_element, ar_package)
             self.readBswModuleDescription(child_element, ar_package)
             self.readBswModuleEntry(child_element, ar_package)
             self.readSwcBswMappings(child_element, ar_package)
             self.readBswImplementation(child_element, ar_package)
-
+            self.readSwcImplementation(child_element, ar_package)
 
     def load(self, filename, document: AUTOSAR):
         tree = ET.parse(filename)

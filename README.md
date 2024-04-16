@@ -120,3 +120,14 @@ Fix the attribute intervalType of **Limit** is empty issue.
 1. Add the InitEvent support. (Issue #5)
 2. Add the DataReceiveEvent support. (Issue #5)
 3. Add the SwcModeSwitchEvent support. (Issue #5)
+
+**Version 1.2.0**
+
+1. Add the SwcImplementation support (Issue #9)
+2. Add the integer value for memory section alignment (Issue #9)
+3. Remove the required attributes for the Implementation according to the AUTOSAR standard 23R-11. (Issue #9)
+4. Change the START-ON-EVENT-REF to optional according to the AUTOSAR standard 23R-11. (Issue #9)
+5. Change the HANDLE-OUT-OF-RANGE to optional according to the AUTOSAR standard 23R-11. (Issue #9)
+6. Add the SensorActuatorSwComponentType support (Issue #9)
+7. Change the CATEGORY of COMPU-METHOD to optional.
+8. Change the CAN-BE-INVOKED-CONCURRENTLY to optional.
