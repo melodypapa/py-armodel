@@ -465,7 +465,7 @@ class ARXMLParser:
         for child_element in element.findall("./xmlns:RUNNABLES/xmlns:RUNNABLE-ENTITY", self.nsmap):
             short_name = self.readShortName(child_element)
             runnable = parent.createRunnableEntity(short_name)
-            runnable.can_be_invoked_concurrently = self.readChildElement(short_name, child_element, "CAN-BE-INVOKED-CONCURRENTLY")
+            runnable.can_be_invoked_concurrently = self.readChildOptionalElement(child_element, "CAN-BE-INVOKED-CONCURRENTLY")
             runnable.symbol = self.readChildElement(short_name, child_element, "SYMBOL")
 
             self.readDataReceivePointByArguments(child_element, runnable)
@@ -850,7 +850,7 @@ class ARXMLParser:
         for child_element in element.findall("./xmlns:ELEMENTS/xmlns:COMPU-METHOD", self.nsmap):
             short_name = self.readShortName(child_element)
             compu_method = parent.createCompuMethod(short_name)
-            compu_method.category = self.readChildElement(short_name, child_element, "CATEGORY")
+            compu_method.category = self.readChildOptionalElement(child_element, "CATEGORY")
             self.readCompuInternalToPhys(child_element, compu_method)
 
     def readSwcBswRunnableMappings(self, element, parent: SwcBswMapping):

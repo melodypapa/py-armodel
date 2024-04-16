@@ -129,3 +129,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
 4. Change the START-ON-EVENT-REF to optional according to the AUTOSAR standard 23R-11. (Issue #9)
 5. Change the HANDLE-OUT-OF-RANGE to optional according to the AUTOSAR standard 23R-11. (Issue #9)
 6. Add the SensorActuatorSwComponentType support (Issue #9)
+7. Change the CATEGORY of COMPU-METHOD to optional.
+8. Change the CAN-BE-INVOKED-CONCURRENTLY to optional.
