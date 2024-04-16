@@ -1,10 +1,10 @@
 from typing import List
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
 from .port_interface import SenderReceiverInterface, ClientServerInterface
-from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType, ServiceSwComponentType, CompositionSwComponentType
+from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType, ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType
 from .datatype import ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
-from .implementation import BswImplementation
+from .implementation import BswImplementation, SwcImplementation, Implementation
 from .bsw_module_template import BswModuleDescription, BswModuleEntry
 
 class ARPackage(Identifiable, CollectableElement):
@@ -36,6 +36,12 @@ class ARPackage(Identifiable, CollectableElement):
     def createServiceSwComponentType(self, short_name: str) -> ServiceSwComponentType:
         if (short_name not in self.elements):
             sw_component = ServiceSwComponentType(self, short_name)
+            self.elements[short_name] = sw_component
+        return self.elements[short_name]
+    
+    def createSensorActuatorSwComponentType(self, short_name: str) -> SensorActuatorSwComponentType:
+        if (short_name not in self.elements):
+            sw_component = SensorActuatorSwComponentType(self, short_name)
             self.elements[short_name] = sw_component
         return self.elements[short_name]
 
@@ -110,6 +116,12 @@ class ARPackage(Identifiable, CollectableElement):
             sw_component = BswImplementation(self, short_name)
             self.elements[short_name] = sw_component
         return self.elements[short_name]
+    
+    def createSwcImplementation(self, short_name: str) -> SwcImplementation:
+        if (short_name not in self.elements):
+            sw_component = SwcImplementation(self, short_name)
+            self.elements[short_name] = sw_component
+        return self.elements[short_name]
 
     def createSwcBswMapping(self, short_name: str) -> SwcBswMapping:
         if (short_name not in self.elements):
@@ -128,6 +140,9 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getSwComponentTypes(self) -> List[SwComponentType]:
         return list(filter(lambda a : isinstance(a, SwComponentType), self.elements.values()))
+    
+    def getSensorActuatorSwComponentType(self) -> List[SensorActuatorSwComponentType]:
+        return list(filter(lambda a : isinstance(a, SensorActuatorSwComponentType), self.elements.values()))
 
     def getAtomicSwComponentTypes(self) -> List[AtomicSwComponentType]:
         return list(filter(lambda a : isinstance(a, AtomicSwComponentType), self.elements.values()))
@@ -155,6 +170,12 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getBswImplementations(self) -> List[BswImplementation]:
         return list(filter(lambda a: isinstance(a, BswImplementation), self.elements.values()))
+    
+    def getSwcImplementations(self) -> List[SwcImplementation]:
+        return list(filter(lambda a: isinstance(a, SwcImplementation), self.elements.values()))
+    
+    def getImplementations(self) -> List[Implementation]:
+        return list(filter(lambda a: isinstance(a, Implementation), self.elements.values()))
 
     def getSwcBswMappings(self) -> List[SwcBswMapping]:
         return list(filter(lambda a: isinstance(a, SwcBswMapping), self.elements.values()))
@@ -220,6 +241,8 @@ class AUTOSAR (ARObject, CollectableElement):
             raise ValueError("%s is not ImplementationDataType." % data_type)
             
     def addDataTypeMap(self, data_type_map: DataTypeMap):
+        if (data_type_map.application_data_type_ref is None) or (data_type_map.implementation_data_type_ref is None):
+            return
         self._appl_impl_type_maps[data_type_map.application_data_type_ref.value] = data_type_map.implementation_data_type_ref.value
         self._impl_appl_type_maps[data_type_map.implementation_data_type_ref.value] = data_type_map.application_data_type_ref.value
 

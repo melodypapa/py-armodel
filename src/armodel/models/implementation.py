@@ -78,3 +78,11 @@ class BswImplementation(Implementation):
         self.recommended_configuration_ref = None       # *
         self.vendor_api_infix = ""                      # 0..1
         self.vendor_specific_module_def_ref = None      # *
+
+class SwcImplementation(Implementation):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
+        super().__init__(parent, short_name)
+
+        self.behavior_ref = None                        # type: RefType
+        self.per_instance_memory_size = None
+        self.required_rte_vendor = ""

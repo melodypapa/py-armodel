@@ -7,6 +7,8 @@ from .general_structure import ARObject, ARElement, Identifiable
 from .data_dictionary import SwDataDefProps
 from .ar_ref import RefType
 
+import re
+
 class ValueSpecification(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == ValueSpecification:
@@ -140,9 +142,19 @@ class MemorySection(Identifiable):
 
     @alignment.setter
     def alignment(self, value:str):
-        if value not in ("UNKNOWN", "8" , "16", "32", "UNSPECIFIED", "BOOLEAN", "PTR"):
+        match = False
+        if value in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
+            self._alignment = value
+            match = True
+        else:
+            m = re.match(r'^\d+', value)
+            if m:
+                self._alignment = value
+                match = True
+                
+        if not match:
             raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.short_name))
-        self._alignment = value
+        
 
 class ResourceConsumption(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
