@@ -17,16 +17,16 @@ def show_variable_access(indent:int, variable_access: VariableAccess):
             print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.port_prototype.value))
             print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.target_data_prototype.value))
 
-def show_port(indent:int, port_portotype: PortPrototype):
-    if (isinstance(port_portotype, RPortPrototype)):
-        print("%s-RPort: %s (%s)" % (" " * indent, port_portotype.short_name, port_portotype.required_interface_tref.value))
-        for client_com_spec in port_portotype.getClientComSpecs():
+def show_port(indent:int, port_prototype: PortPrototype):
+    if (isinstance(port_prototype, RPortPrototype)):
+        print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.required_interface_tref.value))
+        for client_com_spec in port_prototype.getClientComSpecs():
             print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), client_com_spec.operation_ref.value))
-        for com_spec in port_portotype.getNonqueuedReceiverComSpecs():
+        for com_spec in port_prototype.getNonqueuedReceiverComSpecs():
             print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), com_spec.data_element_ref.value))
-    elif (isinstance(port_portotype, PPortPrototype)):
-        print("%s-PPort: %s (%s)" % (" " * indent, port_portotype.short_name, port_portotype.provided_interface_tref.value))
-        for com_spec in port_portotype.getNonqueuedSenderComSpecs():
+    elif (isinstance(port_prototype, PPortPrototype)):
+        print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.provided_interface_tref.value))
+        for com_spec in port_prototype.getNonqueuedSenderComSpecs():
             print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), com_spec.data_element_ref.value))
     else:
         raise ValueError("Unsupported Port prototype")

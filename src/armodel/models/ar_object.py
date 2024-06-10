@@ -5,6 +5,6 @@ class ARObject(metaclass=ABCMeta):
         if type(self) == ARObject:
             raise NotImplementedError("ARObject is an abstract class.")
         
-        self.parent = None
+        self.parent = None              # type: ARObject
         self.checksum = None            # type: str
         self.timestamp = None           # type: str

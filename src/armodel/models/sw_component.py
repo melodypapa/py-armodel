@@ -11,6 +11,8 @@ class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)
         self.accessed_variable_ref = AutosarVariableRef()
+        self.accessed_variable_ref.parent = self
+        self.parent = parent
         self.local_variable_ref = None  # type: RefType
 
 class ExecutableEntity(Identifiable):

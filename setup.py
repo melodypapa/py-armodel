@@ -31,7 +31,7 @@ setup(
     python_requires=">=3.5",
 
     license='MIT',
-	install_requires=[],
+	install_requires=['colorama'],
     include_package_data=True,
     zip_safe=False,
 
