@@ -1,7 +1,7 @@
 import pytest
 
-from armodel.models.bsw_module_template import BswModuleDescription, BswModuleEntry, BswModuleEntity, BswCalledEntity
-from armodel import AUTOSAR
+from ....models.bsw_module_template import BswModuleDescription, BswModuleEntry, BswModuleEntity, BswCalledEntity
+from .... import AUTOSAR
 
 class TestBswModuleDescription:
     def test_construct(self):

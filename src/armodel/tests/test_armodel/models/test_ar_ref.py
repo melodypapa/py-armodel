@@ -2,9 +2,9 @@
 
 import pytest
 
-from armodel.models.ar_ref import ArVariableInImplementationDataInstanceRef, AutosarVariableRef, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
-from armodel.models.ar_ref import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RefType, TRefType, AtpInstanceRef
-from armodel.models.general_structure import ARObject
+from ....models.ar_ref import ArVariableInImplementationDataInstanceRef, AutosarVariableRef, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
+from ....models.ar_ref import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RefType, TRefType, AtpInstanceRef
+from ....models.general_structure import ARObject
 
 
 class TestARRef:

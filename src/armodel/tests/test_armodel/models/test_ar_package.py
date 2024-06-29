@@ -1,13 +1,12 @@
 """ Test AR Package """
 import pytest
 
-from armodel.models.ar_package import AUTOSAR
-from armodel.models.datatype import ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet, ImplementationDataType, SwBaseType
-from armodel.models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
-from armodel.models.m2_msr import CompuMethod
-from armodel.models.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
-from armodel.models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, ServiceSwComponentType, SwComponentType
-
+from ....models.ar_package import AUTOSAR
+from ....models.datatype import ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet, ImplementationDataType, SwBaseType
+from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
+from ....models.m2_msr import CompuMethod
+from ....models.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
+from ....models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, ServiceSwComponentType, SwComponentType
 
 class TestAUTOSAR:
 

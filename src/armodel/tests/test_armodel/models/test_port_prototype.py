@@ -1,6 +1,6 @@
 import pytest
 
-from armodel.models.port_prototype import PPortComSpec, RPortComSpec
+from ....models.port_prototype import PPortComSpec, RPortComSpec
 
 class Test_PortProtype:
     def test_PPortComSpec(self):
