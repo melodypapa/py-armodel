@@ -9,4 +9,5 @@ __pycache__
 .vscode/configurationCache.log
 .vscode/dryrun.log
 .vscode/targets.log
+*.log
 docs/py-armodel.und
