@@ -1,11 +1,11 @@
 import pytest
 
-from armodel import AUTOSAR
-from armodel.models import datatype
-from armodel.models.common_structure import ImplementationDataTypeElement
-from armodel.models.data_prototype import ApplicationRecordElement
-from armodel.models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType, ImplementationProps, SwBaseType, SymbolProps
-from armodel.models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
+from .... import AUTOSAR
+from ....models import datatype
+from ....models.common_structure import ImplementationDataTypeElement
+from ....models.data_prototype import ApplicationRecordElement
+from ....models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType, ImplementationProps, SwBaseType, SymbolProps
+from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
 
 class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
     def test_ImplementationProps(self):

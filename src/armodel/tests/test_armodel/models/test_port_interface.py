@@ -1,11 +1,11 @@
 import pytest
 
-from armodel.models.ar_package import AUTOSAR
-from armodel.models.ar_ref import RefType
-from armodel.models.data_prototype import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
-from armodel.models.datatype import AtpType
-from armodel.models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
-from armodel.models.port_interface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
+from ....models.ar_package import AUTOSAR
+from ....models.ar_ref import RefType
+from ....models.data_prototype import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
+from ....models.datatype import AtpType
+from ....models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
+from ....models.port_interface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:

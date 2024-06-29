@@ -1,10 +1,10 @@
 import pytest
 
-from armodel import AUTOSAR
-from armodel.models.common_structure import AbstractImplementationDataTypeElement, ConstantReference, ImplementationDataTypeElement, ValueSpecification, ConstantSpecification, ExecutableEntity
-from armodel.models.datatype import AbstractImplementationDataType
-from armodel.models.general_structure import ARElement, ARObject, CollectableElement, Identifiable
-from armodel.models.general_structure import MultilanguageReferrable, PackageableElement, Referrable
+from .... import AUTOSAR
+from ....models.common_structure import AbstractImplementationDataTypeElement, ConstantReference, ImplementationDataTypeElement, ValueSpecification, ConstantSpecification, ExecutableEntity
+from ....models.datatype import AbstractImplementationDataType
+from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable
+from ....models.general_structure import MultilanguageReferrable, PackageableElement, Referrable
 
 class Test_M2_AUTOSARTemplates_CommonStructure_Constants:
     

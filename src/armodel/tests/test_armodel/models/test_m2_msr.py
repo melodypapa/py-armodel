@@ -1,8 +1,8 @@
 import pytest
 
-from armodel import AUTOSAR
-from armodel.models.general_structure import ARObject
-from armodel.models.m2_msr import Compu, CompuConst, CompuConstContent, CompuConstNumericContent, CompuConstTextContent, CompuContent, CompuScale, CompuScales
+from .... import AUTOSAR
+from ....models.general_structure import ARObject
+from ....models.m2_msr import Compu, CompuConst, CompuConstContent, CompuConstNumericContent, CompuConstTextContent, CompuContent, CompuScale, CompuScales
 
 class Test_M2_MSR_AsamHdo_ComputationMethod:
     def test_CompuContent(self):

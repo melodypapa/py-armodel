@@ -16,7 +16,7 @@ def main():
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
     ap.add_argument("-f", "--format", required= False, help= "Specify the short or long name of Sw-C. [short|long]")
     ap.add_argument("--filter", required= False, help = "Set the filter condition. [CompositionSwComponent]")
-    ap.add_argument("Input", help = "The path of AUTOSAR XML", nargs='+')
+    ap.add_argument("INPUT", help = "The path of AUTOSAR XML", nargs='+')
 
     args = ap.parse_args()
 
@@ -49,7 +49,7 @@ def main():
     logger.addHandler(stdout_handler)    
 
     try:
-        parser = InputFileParser(args.Input)
+        parser = InputFileParser(args.INPUT)
         filenames = parser.parse()
 
         document = AUTOSAR().getInstance()

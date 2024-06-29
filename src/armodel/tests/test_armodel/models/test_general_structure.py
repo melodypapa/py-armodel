@@ -1,6 +1,7 @@
 import pytest
-from armodel.models.ar_package import AUTOSAR
-from armodel.models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, Limit, MultilanguageReferrable, PackageableElement, Referrable
+
+from ....models.ar_package import AUTOSAR
+from ....models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, Limit, MultilanguageReferrable, PackageableElement, Referrable
 
 class TestGeneralStructure:
     def test_ar_object(self):

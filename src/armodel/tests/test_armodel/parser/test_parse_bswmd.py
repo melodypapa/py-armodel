@@ -1,5 +1,5 @@
-from armodel import AUTOSAR, ARPackage
-from armodel import ARXMLParser
+from .... import AUTOSAR, ARPackage
+from .... import ARXMLParser
 
 import logging
 
@@ -10,7 +10,7 @@ class TestBswMD:
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
-        parser.load("tests/test_files/BswM_Bswmd.arxml", document)
+        parser.load("src/armodel/tests/test_files/BswM_Bswmd.arxml", document)
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
