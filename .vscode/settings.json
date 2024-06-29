@@ -18,7 +18,8 @@
         "reentrancy",
         "Referrable",
         "Schedulable",
-        "sdist"
+        "sdist",
+        "swcs"
     ],
     "python.formatting.autopep8Args": [
         "--max-line-length=200"

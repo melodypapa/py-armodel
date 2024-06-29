@@ -75,17 +75,47 @@ And more details can be found at https://packaging.python.org/
 
 **Dump all the arxml data to screen**
 
+
 `arxml-dump --arxml arg -h`
 
 --arxml arg     The file name of arxml data
-
 -h              show the help information
 
-### 1.8.2. Example for arxml-dump
+#### 1.8.1.1. arxml-dump usage
 
 **Dump the arxml data from test1.arxml and test2.arxml**
 
-`arxml-dump --arxml test1.arxml --arxml test2.arxml`
+```
+$arxml-dump --arxml test1.arxml --arxml test2.arxml
+```
+
+### 1.8.2. swc-list
+
+**List all the SwComponentType in the autosar model**
+
+usage: swc-list [-h] [-v] [-f FORMAT] [--filter FILTER] Input [Input ...]
+
+-h, --help          show the help message and exit
+-v, --verbose       Print debug information
+-f FORMAT, --format FORMAT
+                    Specify the short or long name of Sw-C. 
+                      *short* : only print the short name of SWComponentType
+                      *long*  : print the SWComponentType with ARPackage names
+--filter FILTER     Set the filter condition. 
+                      *CompositionSwComponent* : Print the CompositionSwComponent only.
+
+
+#### 1.8.2.1. List all the SW-Components in the specific path
+
+```
+$swc-list <arxml_folder>
+```
+
+#### 1.8.2.2. List all the CompositionSwComponent with the long name
+
+```
+$swc-list --format long --filter CompositionSwComponent <arxml_folder> 
+```
 
 ## 1.9. API
 
@@ -131,3 +161,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 6. Add the SensorActuatorSwComponentType support (Issue #9)
 7. Change the CATEGORY of COMPU-METHOD to optional.
 8. Change the CAN-BE-INVOKED-CONCURRENTLY to optional.
+
+**Version 1.3.0**
+
+1. List all the SwComponentType (Issue #11)
