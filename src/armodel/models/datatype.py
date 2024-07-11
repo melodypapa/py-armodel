@@ -1,7 +1,9 @@
 from abc import ABCMeta
 from typing import List
-from .general_structure import ARElement, Referrable, ARObject
-from .data_prototype import ApplicationArrayElement, ApplicationRecordElement
+
+from .ar_package import Referrable
+from .general_structure import ARElement, ARObject
+from .data_prototype import ApplicationRecordElement
 from .data_dictionary import SwDataDefProps
 from .common_structure import ImplementationDataTypeElement
 
@@ -14,11 +16,23 @@ class ImplementationProps(Referrable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
         self.symbol = ""
 
-
 class SymbolProps(ImplementationProps):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+class BaseTypeDefinition(ARObject):
+    def __init__(self):
+        super().__init__()
+    
+class BaseTypeDirectDefinition(BaseTypeDefinition):
+    def __init__(self):
+        super().__init__()
+
+        self.base_type_encoding = None
+        self.base_type_size = None          # type: int
+        self.byte_order = None              # type: str
+        self.mem_alignment = None
+        self.native_declaration = None      
 
 class BaseType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -26,13 +40,12 @@ class BaseType(ARElement, metaclass=ABCMeta):
             raise NotImplementedError("BaseType is an abstract class.")
 
         super().__init__(parent, short_name)
-        self.base_type_definition = None  # Type: BaseTypeDefinition
 
+        self.base_type_definition = BaseTypeDirectDefinition()
 
 class SwBaseType(BaseType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
 
 class AtpType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -84,12 +97,17 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.record_elements = []
+
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
         if (short_name not in self.elements):
             record_element = ApplicationRecordElement(self, short_name)
             self.elements[short_name] = record_element
+            self.record_elements.append(self.elements[short_name])
         return self.elements[short_name]
 
+    def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
+        return self.record_elements
 
 class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

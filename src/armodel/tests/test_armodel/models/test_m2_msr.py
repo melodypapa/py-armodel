@@ -20,10 +20,9 @@ class Test_M2_MSR_AsamHdo_ComputationMethod:
         assert(compu.compu_default_value == None)
 
     def test_CompuConstContent(self):
-        content = CompuConstContent()
-
-        assert(isinstance(content, ARObject))
-        assert(isinstance(content, CompuConstContent))
+        with pytest.raises(NotImplementedError) as err:
+            CompuConstContent()
+        assert(str(err.value) == "CompuConstContent is an abstract class.")
 
     def test_CompuConstTextContent(self):
         content = CompuConstTextContent()

@@ -2,7 +2,7 @@
 
 import pytest
 
-from ....models.ar_ref import ArVariableInImplementationDataInstanceRef, AutosarVariableRef, ProvidedPortPrototypeInstanceRef, RequiredPortPrototypeInstanceRef
+from ....models.ar_ref import ArVariableInImplementationDataInstanceRef, AutosarVariableRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 from ....models.ar_ref import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RefType, TRefType, AtpInstanceRef
 from ....models.general_structure import ARObject
 
@@ -31,13 +31,13 @@ class TestARRef:
         assert(str(err.value) == "AtpInstanceRef is an abstract class.")
 
     def test_ProvidedPortPrototypeInstanceRef(self):
-        ref_type = ProvidedPortPrototypeInstanceRef()
+        ref_type = PPortInCompositionInstanceRef()
         assert(ref_type != None)
         assert(ref_type.context_component_ref == None)
         assert(ref_type.target_p_port_ref == None)
 
     def test_RequiredPortPrototypeInstanceRef(self):
-        ref_type = RequiredPortPrototypeInstanceRef()
+        ref_type = RPortInCompositionInstanceRef()
         assert(ref_type != None)
         assert(ref_type.context_component_ref == None)
         assert(ref_type.target_r_port_ref == None)

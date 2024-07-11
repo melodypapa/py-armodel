@@ -65,6 +65,11 @@ And more details can be found at https://packaging.python.org/
             - BswModuleDescription
         - ExecutableEntity
         - SwcBswMapping
+        - PortPrototype
+          - AbstractProvidedPortPrototype
+            - PPortPrototype
+          - AbstractRequiredPortPrototype
+            - RPortPrototype
   - ValueSpecification
     - ConstantReference
 ```
@@ -89,7 +94,7 @@ And more details can be found at https://packaging.python.org/
 $arxml-dump --arxml test1.arxml --arxml test2.arxml
 ```
 
-### 1.8.2. swc-list
+### 1.8.2. arxml-swc
 
 **List all the SwComponentType in the autosar model**
 
@@ -108,13 +113,21 @@ usage: swc-list [-h] [-v] [-f FORMAT] [--filter FILTER] Input [Input ...]
 #### 1.8.2.1. List all the SW-Components in the specific path
 
 ```
-$swc-list <arxml_folder>
+$arxml-swc <arxml_folder>
 ```
 
 #### 1.8.2.2. List all the CompositionSwComponent with the long name
 
 ```
-$swc-list --format long --filter CompositionSwComponent <arxml_folder> 
+$arxml-swc --format long --filter CompositionSwComponent <arxml_folder> 
+```
+
+### 1.8.3. connector2xlsx
+
+**Export all the SwConnector (AssemblySwConnector, DelegationSwConnector) to excel file**
+
+```
+$connector2xlsx <arxml_folder> connector.xlsx
 ```
 
 ## 1.9. API
@@ -165,3 +178,18 @@ Fix the attribute intervalType of **Limit** is empty issue.
 **Version 1.3.0**
 
 1. List all the SwComponentType (Issue #11)
+2. Support to parse the DelegationSwConnector (Issue #12)
+3. Correct the class definitions of PPortInCompositionInstanceRef and RPortInCompositionInstanceRef. (Issue #12)
+
+**Version 1.4.0**
+
+1. Support to write the AUTOSAR model to arxml file (Issue #17)
+   * ARPackage
+   * CompositionSwComponent
+   * CompuMethod
+   * DataConstr
+   * Unit
+2. Support to read the AUTOSAR model from arxml file (Issue #17)
+   * ConstantSpecification
+   * DataConstr
+   * Unit

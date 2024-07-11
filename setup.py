@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='armodel',
-    version='1.3.0',
+    version='1.4.0',
     description='the python arxml parser',
 
     url='http://github.com/melodypapa/py-armodel',
@@ -31,7 +31,7 @@ setup(
     python_requires=">=3.5",
 
     license='MIT',
-	install_requires=['colorama'],
+	install_requires=['colorama', 'openpyxl', "lxml"],
     include_package_data=True,
     zip_safe=False,
 
@@ -39,8 +39,10 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'arxml-dump = armodel.cli.arxml_dump_cli:cli_main',
-            'swc-list   = armodel.cli.swc_list_cli:main',
+            'arxml-dump       = armodel.cli.arxml_dump_cli:cli_main',
+            'arxml-swc        = armodel.cli.swc_list_cli:main',
+            'connector2xlsx   = armodel.cli.connector2xlsx_cli:main',
+            'connector-update = armodel.cli.connector_update_cli:main',
         ]
     }
 )

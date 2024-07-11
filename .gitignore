@@ -11,3 +11,4 @@ __pycache__
 .vscode/targets.log
 *.log
 docs/py-armodel.und
+data

@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 from .general_structure import AtpStructureElement, ARObject, ARElement
+from .ar_object import ARBoolean
 from .common_structure import ExecutableEntity, ModeDeclarationGroupPrototype, InternalBehavior, Identifiable
 from .ar_ref import RefType
 
@@ -222,8 +223,8 @@ class BswModuleEntry(ARElement):
         super().__init__(parent, short_name)
 
         self.service_id = None                  # type: int
-        self.is_reentrant = None                # type: bool
-        self.is_synchronous = None              # type: bool
+        self.is_reentrant = None                # type: ARBoolean
+        self.is_synchronous = None              # type: ARBoolean
         self.call_type = None                   # type: str
         self._execution_context = None          # type: str
         self._sw_service_impl_policy = None     # type: str

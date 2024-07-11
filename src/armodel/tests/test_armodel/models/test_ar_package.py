@@ -26,7 +26,7 @@ class TestAUTOSAR:
 
     def test_autosar(self):
         document = AUTOSAR.getInstance()
-        assert (isinstance(document, ARObject))
+        assert (isinstance(document, CollectableElement))
         assert (isinstance(document, AUTOSAR))
         assert (len(document.getARPackages()) == 0)
         assert (document.version == "4.3.0")

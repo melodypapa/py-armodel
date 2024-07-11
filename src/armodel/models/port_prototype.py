@@ -1,6 +1,10 @@
-from typing import List, Dict
+from typing import List
+
+from .data_dictionary import SwDataDefProps
 from .general_structure import ARObject, Identifiable
 from .ar_ref import RefType, TRefType
+from .communication import TransmissionAcknowledgementRequest
+from .common_structure import ValueSpecification
 
 from abc import ABCMeta
 
@@ -68,9 +72,10 @@ class ReceiverComSpec(RPortComSpec):
         super().__init__()
 
         self.data_element_ref = None                # type: RefType
-        self.handle_out_of_range = ""
-        self.uses_end_to_end_protection = False
-
+        self.network_representation = None          # type: SwDataDefProps
+        self.handle_out_of_range = None             # type: HandleOutOfRangeStatusEnum
+        self.uses_end_to_end_protection = False     
+        
 
 class ModeSwitchSenderComSpec(RPortComSpec):
     def __init__(self):
@@ -87,10 +92,11 @@ class SenderComSpec(PPortComSpec):
 
     def __init__(self):
         super().__init__()
-        self.data_element_ref = None  # type: RefType
+        self.data_element_ref = None                # type: RefType
+        self.network_representation = None          # type: SwDataDefProps
         self.handle_out_of_range = ""
+        self.transmission_acknowledge = None        # type: TransmissionAcknowledgementRequest 
         self.uses_end_to_end_protection = False
-
 
 class QueuedSenderComSpec(PPortComSpec):
     def __init__(self):
@@ -116,12 +122,12 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
         self.alive_timeout = 0
         self.enable_updated = False
-        self.filter = None                  # type: DataFilter
-        self.handle_data_status = None      # type: boolean
+        self.filter = None                      # type: DataFilter
+        self.handle_data_status = None          # type: bool
         self.handle_never_received = False
         self.handel_timeout_type = ""
-        self.init_value = None               # type: ValueSpecification
-        self.timeout_substitution = None     # type: ValueSpecification
+        self.init_value = None                  # type: ValueSpecification
+        self.timeout_substitution = None        # type: ValueSpecification
 
 class QueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
@@ -134,12 +140,11 @@ class PortPrototype(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-
 class AbstractProvidedPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provided_com_specs = []  # type: Dict[PPortComSpec]
+        self.provided_com_specs = []  # type: List[PPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: PPortComSpec):
         if (isinstance(com_spec, NonqueuedSenderComSpec)):
@@ -160,14 +165,14 @@ class AbstractProvidedPortPrototype(PortPrototype):
         return self.provided_com_specs
 
     def getNonqueuedSenderComSpecs(self) -> List[NonqueuedSenderComSpec]:
-        return list(filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.provided_com_specs))
+        return filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.provided_com_specs)
 
 
 class AbstractRequiredPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.required_com_specs = []  # type: Dict[RPortComSpec]
+        self.required_com_specs = []  # type: List[RPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: RPortComSpec):
         if (isinstance(com_spec, ClientComSpec)):
@@ -194,10 +199,10 @@ class AbstractRequiredPortPrototype(PortPrototype):
         return self.required_com_specs
 
     def getClientComSpecs(self) -> List[ClientComSpec]:
-        return list(filter(lambda c: isinstance(c, ClientComSpec), self.required_com_specs))
+        return filter(lambda c: isinstance(c, ClientComSpec), self.required_com_specs)
 
     def getNonqueuedReceiverComSpecs(self) -> List[NonqueuedReceiverComSpec]:
-        return list(filter(lambda c: isinstance(c, NonqueuedReceiverComSpec), self.required_com_specs))
+        return filter(lambda c: isinstance(c, NonqueuedReceiverComSpec), self.required_com_specs)
 
 
 class PPortPrototype(AbstractProvidedPortPrototype):

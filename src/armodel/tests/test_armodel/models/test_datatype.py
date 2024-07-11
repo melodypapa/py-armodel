@@ -4,7 +4,8 @@ from .... import AUTOSAR
 from ....models import datatype
 from ....models.common_structure import ImplementationDataTypeElement
 from ....models.data_prototype import ApplicationRecordElement
-from ....models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType, ImplementationProps, SwBaseType, SymbolProps
+from ....models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType, ImplementationProps, SymbolProps
+from ....models.datatype import BaseTypeDirectDefinition, SwBaseType
 from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
 
 class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
@@ -53,7 +54,7 @@ class Test_M2_MSR_AsamHdo_BaseTypes:
 
         assert(base_type.parent == ar_root)
         assert(base_type.short_name == "SwBaseType")
-        assert(base_type.base_type_definition == None)
+        assert(isinstance(base_type.base_type_definition, BaseTypeDirectDefinition))
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
     def test_AtpType(self):

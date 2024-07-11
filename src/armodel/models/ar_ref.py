@@ -24,13 +24,23 @@ class AtpInstanceRef(ARObject, metaclass=ABCMeta):
             raise NotImplementedError("AtpInstanceRef is an abstract class.")
         super().__init__()
 
-class ProvidedPortPrototypeInstanceRef(AtpInstanceRef):
+class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
+    def __init__(self):
+        if type(self) == PortInCompositionTypeInstanceRef:
+            raise NotImplementedError("PortInCompositionTypeInstanceRef is an abstract class.")
+        super().__init__()
+
+        self.abstract_context_component_ref = None  # type: RefType
+        self.base_ref = None                        # type: RefType
+        self.target_port_ref = None                 # type: RefType
+
+class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def __init__(self):
         super().__init__()
         self.context_component_ref = None   # type: RefType
         self.target_p_port_ref     = None   # type: RefType
 
-class RequiredPortPrototypeInstanceRef(AtpInstanceRef):
+class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def __init__(self):
         super().__init__()
         self.context_component_ref = None   # type: RefType
