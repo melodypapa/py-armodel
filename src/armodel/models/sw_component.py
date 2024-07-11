@@ -1,9 +1,10 @@
 from typing import List, Dict
 from abc import ABCMeta
 from .general_structure import ARElement, Identifiable, ARObject
-from .ar_ref import AutosarVariableRef, RefType, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, ProvidedPortPrototypeInstanceRef
-from .ar_ref import RequiredPortPrototypeInstanceRef, RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
-from .port_prototype import RPortPrototype, PPortPrototype
+from .ar_ref import AutosarVariableRef, RefType, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
+from .ar_ref import PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
+from .ar_ref import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
+from .port_prototype import RPortPrototype, PPortPrototype, PortPrototype
 from .data_prototype import VariableDataPrototype
 from .common_structure import ExecutableEntity, InternalBehavior
 
@@ -321,23 +322,33 @@ class SwComponentType(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.ports = []     # List[PortPrototype]
+
     def createPPortPrototype(self, short_name: str) -> PPortPrototype:
+        prototype = PPortPrototype(self, short_name)
+        self.ports.append(prototype)
         if (short_name not in self.elements):
-            prototype = PPortPrototype(self, short_name)
             self.elements[short_name] = prototype
         return self.elements[short_name]
 
     def createRPortPrototype(self, short_name) -> RPortPrototype:
+        prototype = RPortPrototype(self, short_name)
+        self.ports.append(prototype)
         if (short_name not in self.elements):
-            prototype = RPortPrototype(self, short_name)
             self.elements[short_name] = prototype
         return self.elements[short_name]
 
     def getPPortPrototypes(self) -> List[PPortPrototype]:
-        return list(filter(lambda c: isinstance(c, PPortPrototype), self.elements.values()))
+        #return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key= lambda o: o.short_name))
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
-        return list(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()))
+        #return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key= lambda o: o.short_name))
+    
+    def getPortPrototype(self) -> List[PortPrototype]:
+        #return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(self.ports, key= lambda o: o.short_name))
 
 class AtomicSwComponentType(SwComponentType):
     __metaclass__ = ABCMeta
@@ -397,22 +408,22 @@ class AssemblySwConnector(SwConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provider_iref = None   # type: ProvidedPortPrototypeInstanceRef
-        self.requester_iref = None  # type: RequiredPortPrototypeInstanceRef
+        self.provider_iref = None   # type: PPortInCompositionInstanceRef
+        self.requester_iref = None  # type: RPortInCompositionInstanceRef
 
 class DelegationSwConnector(SwConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.inner_port_iref = None # type: RefType
-        self.outer_port_iref = None # type: RefType
+        self.inner_port_iref = None # type: PortInCompositionInstanceRef
+        self.outer_port_ref  = None # type: RefType
 
 class PassThroughSwConnector(SwConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provided_outer_port_iref = None # type: RefType
-        self.required_outer_port_iref = None # type: RefType
+        self.provided_outer_port_ref = None # type: RefType
+        self.required_outer_port_ref = None # type: RefType
 
 class SwComponentPrototype(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -425,18 +436,30 @@ class CompositionSwComponentType(SwComponentType):
         super().__init__(parent, short_name)
 
         self.constant_value_mapping_refs = []   # type: List[RefType]
-        self.data_type_mapping_refs = []        # type: List[RefType]
+        self._data_type_mapping_refs = []       # type: List[RefType]
         self.instantiation_rte_event_props = [] # type: List[InstantiationRTEEventProps]
 
     def createAssemblySwConnector(self, short_name: str) -> AssemblySwConnector:
         if (short_name not in self.elements):
             connector = AssemblySwConnector(self, short_name)
             self.elements[short_name] = connector
-        return self.elements[short_name] 
+        return self.elements[short_name]
+    
+    def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
+        if short_name not in self.elements:
+            connector = DelegationSwConnector(self, short_name)
+            self.elements[short_name] = connector
+        return self.elements[short_name]
 
     def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
-        return list(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()))
-
+        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key = lambda c: c.short_name))
+    
+    def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
+        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key = lambda c: c.short_name))
+    
+    def getSwConnectors(self) -> List[SwConnector]:
+        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key = lambda c: c.short_name))
+    
     def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
         if (short_name not in self.elements):
             connector = SwComponentPrototype(self, short_name)
@@ -445,3 +468,9 @@ class CompositionSwComponentType(SwComponentType):
 
     def getSwComponentPrototypes(self) -> List[SwComponentPrototype]:
         return list(filter(lambda e: isinstance(e, SwComponentPrototype), self.elements.values()))
+    
+    def addDataTypeMapping(self, data_type_mapping_ref: RefType):
+        self._data_type_mapping_refs.append(data_type_mapping_ref)
+
+    def getDataTypeMappings(self) -> List[RefType]:
+        return self._data_type_mapping_refs

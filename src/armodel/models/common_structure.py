@@ -10,13 +10,105 @@ from .ar_ref import RefType
 import re
 
 class ValueSpecification(ARObject, metaclass=ABCMeta):
+    '''
+    Base class for expressions leading to a value which can be used to initialize a data object.
+    
+    Base        : ARObject
+    Subclasses  : AbstractRuleBasedValueSpecification, ApplicationValueSpecification, CompositeValueSpecification,
+                  ConstantReference, NotAvailableValueSpecification, NumericalValueSpecification, ReferenceValueSpecification, 
+                  TextValueSpecification
+    '''
     def __init__(self):
         if type(self) == ValueSpecification:
             raise NotImplementedError("ValueSpecification is an abstract class.")
+        
         super().__init__()
 
         self.short_label = None
 
+class CompositeRuleBasedValueArgument(ValueSpecification, metaclass=ABCMeta):
+    '''
+    This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be
+    used for compound primitive data types.
+
+    Base        : ARObject
+    Subclasses  : ApplicationRuleBasedValueSpecification, ApplicationValueSpecification
+    '''
+    def __init__(self):
+        if type(self) == CompositeRuleBasedValueArgument:
+            raise NotImplementedError("CompositeRuleBasedValueArgument is an abstract class.")
+        
+        super().__init__()
+
+class CompositeValueSpecification(ValueSpecification, metaclass=ABCMeta):
+    '''
+    This abstract meta-class acts a base class for ValueSpecifications that have a composite form.
+
+    Base        : ARObject, ValueSpecification
+    Subclasses  : ArrayValueSpecification, RecordValueSpecification
+    '''            
+    def __init__(self):
+        if type(self) == CompositeValueSpecification:
+            raise NotImplementedError("CompositeValueSpecification is an abstract class.")
+        
+        super().__init__()
+
+class ApplicationValueSpecification(CompositeRuleBasedValueArgument):
+    '''
+    This meta-class represents values for DataPrototypes typed by ApplicationDataTypes (this includes in
+    particular compound primitives).
+    For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with
+    SW-INSTANCE in ASAM CDF 2.0.
+
+    Base ARObject, CompositeRuleBasedValueArgument, ValueSpecification    
+    '''
+    def __init__(self):
+        super().__init__()
+
+        self.category = None
+        self.sw_Axis_cont = []
+        self.sw_value_cont = None
+
+class RecordValueSpecification(CompositeValueSpecification):
+    '''
+    Specifies the values for a record.
+    
+    Base : ARObject, CompositeValueSpecification, ValueSpecification
+    '''
+    def __init__(self):
+        super().__init__()        
+
+        self._fields = []
+
+    def add_field(self, field: ValueSpecification):
+        self._fields.append(field)
+
+    def get_fields(self) -> List[ValueSpecification]:
+        return self._fields
+
+class TextValueSpecification(ValueSpecification):
+    def __init__(self):
+        super().__init__()
+
+        self.value = None        # type: str
+
+class NumericalValueSpecification(ValueSpecification):
+    def __init__(self):
+        super().__init__()
+
+        self.value = None        # type: float  
+
+class ArrayValueSpecification(ValueSpecification):
+    def __init__(self):
+        super().__init__()
+
+        self._element = []       # type: List[ValueSpecification]
+
+    def add_element(self, element: ValueSpecification):
+        self._element.append(element)
+
+    def get_elements(self) -> List[ValueSpecification]:
+        return self._element
 
 class ConstantSpecification(ARElement):
     def __init__(self, parent, short_name):

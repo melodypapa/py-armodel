@@ -1,11 +1,15 @@
 from typing import List
+
+from .unit import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
 from .port_interface import SenderReceiverInterface, ClientServerInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType, ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType
 from .datatype import ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
+from .common_structure import ConstantSpecification
 from .implementation import BswImplementation, SwcImplementation, Implementation
 from .bsw_module_template import BswModuleDescription, BswModuleEntry
+from .global_constraints import DataConstr
 
 class ARPackage(Identifiable, CollectableElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -128,9 +132,30 @@ class ARPackage(Identifiable, CollectableElement):
             sw_component = SwcBswMapping(self, short_name)
             self.elements[short_name] = sw_component
         return self.elements[short_name]
+    
+    def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
+        if (short_name not in self.elements):
+            spec = ConstantSpecification(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def createDataConstr(self, short_name: str) -> DataConstr:
+        if (short_name not in self.elements):
+            spec = DataConstr(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def createUnit(self, short_name: str) -> Unit:
+        if (short_name not in self.elements):
+            spec = Unit(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
+    
+    def getApplicationDataType(self) -> List[ApplicationDataType]:
+        return list(sorted(filter(lambda a: isinstance(a, ApplicationDataType), self.elements.values()), key= lambda o:o.short_name))
 
     def getImplementationDataTypes(self) -> List[ImplementationDataType]:
         return list(filter(lambda a: isinstance(a, ImplementationDataType), self.elements.values()))
@@ -179,8 +204,17 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getSwcBswMappings(self) -> List[SwcBswMapping]:
         return list(filter(lambda a: isinstance(a, SwcBswMapping), self.elements.values()))
+    
+    def getConstantSpecifications(self) -> List[ConstantSpecification]:
+        return list(filter(lambda a: isinstance(a, ConstantSpecification), self.elements.values()))
+    
+    def getDataConstrs(self) -> List[DataConstr]:
+        return list(filter(lambda a: isinstance(a, DataConstr), self.elements.values()))
+    
+    def getUnits(self) -> List[Unit]:
+        return list(filter(lambda a: isinstance(a, Unit), self.elements.values()))
 
-class AUTOSAR (ARObject, CollectableElement):
+class AUTOSAR (CollectableElement):
     __instance = None
 
     @staticmethod
