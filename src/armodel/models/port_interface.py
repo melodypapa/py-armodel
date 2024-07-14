@@ -6,14 +6,13 @@ from .general_structure import ARObject, Identifiable, AtpFeature
 from .data_prototype import VariableDataPrototype, AutosarDataPrototype
 from .ar_ref import RefType
 
-class PortInterface(AtpType, metaclass=ABCMeta):
+class PortInterface(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == PortInterface:
             raise NotImplementedError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
         self.is_service = False
-
 
 class DataInterface(PortInterface, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -140,3 +139,4 @@ class ClientServerInterface(PortInterface):
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         return list(filter(lambda c: isinstance(c, ApplicationError), self.elements.values()))
+    

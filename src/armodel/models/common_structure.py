@@ -187,7 +187,7 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
     
         self.activation_reason = None           # *
-        self.minimum_start_interval = 0.0       # 0..1
+        self.minimum_start_interval = None      # 0..1
         self.reentrancy_level = None            # 
         self.can_enter_exclusive_area_refs = [] # type: List[RefType]  
 
@@ -226,6 +226,7 @@ class MemorySection(Identifiable):
         super().__init__(parent, short_name)
         
         self._alignment = None
+        self.size = None
         self.sw_addr_method_ref = None  # type: RefType
 
     @property
@@ -234,18 +235,19 @@ class MemorySection(Identifiable):
 
     @alignment.setter
     def alignment(self, value:str):
-        match = False
-        if value in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
-            self._alignment = value
-            match = True
-        else:
-            m = re.match(r'^\d+', value)
-            if m:
+        if value is not None:
+            match = False
+            if value in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
                 self._alignment = value
                 match = True
-                
-        if not match:
-            raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.short_name))
+            else:
+                m = re.match(r'^\d+', value)
+                if m:
+                    self._alignment = value
+                    match = True
+                    
+            if not match:
+                raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.short_name))
         
 
 class ResourceConsumption(Identifiable):

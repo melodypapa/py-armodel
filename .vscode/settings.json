@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "ADDRMETHOD",
         "appl",
         "armodel",
         "ARXML",
@@ -18,13 +19,17 @@
         "nsmap",
         "openpyxl",
         "Packageable",
+        "Possbile",
+        "PPORT",
         "pypi",
         "pytest",
         "reentrancy",
         "Referrable",
+        "RPORT",
         "Schedulable",
         "sdgs",
         "sdist",
+        "sheetnames",
         "swcs"
     ],
     "python.formatting.autopep8Args": [

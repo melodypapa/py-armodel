@@ -171,10 +171,16 @@ class BswModuleDescription(AtpStructureElement):
         # MODULE-ID
         self.module_id = 0
         # PROVIDED-ENTRYS
-        self.implemented_entry_refs = []                # type: List[RefType]
+        self._implemented_entry_refs = []                # type: List[RefType]
 
         self.provided_mode_groups   = {}                # ModeDeclarationGroupPrototype         *
         self.required_mode_groups   = {}                # ModeDeclarationGroupPrototype         * 
+
+    def addImplementedEntry(self, entry_ref: RefType):
+        self._implemented_entry_refs.append(entry_ref)
+
+    def getImplementedEntries(self) -> List[RefType]:
+        return self._implemented_entry_refs
 
     @property
     def category(self) -> str:

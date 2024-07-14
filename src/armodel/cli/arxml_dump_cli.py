@@ -121,6 +121,8 @@ def show_bsw_module_description(indent: int, description: BswModuleDescription):
 def show_ar_package(indent: int, ar_package: ARPackage):
     print("%s-%s (Pkg)" % (" " * indent, ar_package.short_name))
      
+    for sub_package in ar_package.getARPackages():
+        show_ar_package(indent + 2, sub_package)
     #for data_type in ar_package.getImplementationDataTypes():
     #    show_type(indent + 2, data_type)
     #for mapping_set in ar_package.getDataTypeMappingSets():

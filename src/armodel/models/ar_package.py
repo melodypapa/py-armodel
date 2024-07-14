@@ -1,9 +1,11 @@
-from typing import List
+from typing import Dict, List
 
+from .end_to_end_protection import EndToEndProtectionSet
 from .unit import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
 from .port_interface import SenderReceiverInterface, ClientServerInterface
-from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType, ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType
+from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
+from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
 from .datatype import ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
 from .common_structure import ConstantSpecification
@@ -16,14 +18,28 @@ class ARPackage(Identifiable, CollectableElement):
         Identifiable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
+        self._ar_packages = {}      # type: Dict[str, ARPackage]
+
     def getARPackages(self):    # type: (...) -> List[ARPackage]
-        return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
+        return list(sorted(self._ar_packages.values(), key= lambda a: a.short_name))
+        #return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
 
     def createARPackage(self, short_name: str):
+        '''
         if (short_name not in self.elements):
             ar_package = ARPackage(self, short_name)
             self.elements[short_name] = ar_package
         return self.elements[short_name]
+        '''
+        if short_name not in self._ar_packages:
+            ar_package = ARPackage(self, short_name)
+            self._ar_packages[short_name] = ar_package
+        return self._ar_packages[short_name]
+    
+    def getElement(self, short_name: str) -> Referrable:
+        if (short_name in self._ar_packages):
+            return self._ar_packages[short_name]
+        return CollectableElement.getElement(self, short_name)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
         if (short_name not in self.elements):
@@ -32,8 +48,14 @@ class ARPackage(Identifiable, CollectableElement):
         return self.elements[short_name]
 
     def createApplicationSwComponentType(self, short_name: str) -> ApplicationSwComponentType:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             sw_component = ApplicationSwComponentType(self, short_name)
+            self.elements[short_name] = sw_component
+        return self.elements[short_name]
+    
+    def createComplexDeviceDriverSwComponentType(self, short_name: str) -> ComplexDeviceDriverSwComponentType:
+        if short_name not in self.elements:
+            sw_component = ComplexDeviceDriverSwComponentType(self, short_name)
             self.elements[short_name] = sw_component
         return self.elements[short_name]
 
@@ -150,6 +172,12 @@ class ARPackage(Identifiable, CollectableElement):
             spec = Unit(self, short_name)
             self.elements[short_name] = spec
         return self.elements[short_name]
+    
+    def createEndToEndProtectionSet(self, short_name: str) -> EndToEndProtectionSet:
+        if (short_name not in self.elements):
+            spec = EndToEndProtectionSet(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
@@ -174,6 +202,9 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getCompositionSwComponentTypes(self) -> List[CompositionSwComponentType]:
         return list(filter(lambda a : isinstance(a, CompositionSwComponentType), self.elements.values()))
+    
+    def getComplexDeviceDriverSwComponentTypes(self) -> List[ComplexDeviceDriverSwComponentType]:
+        return list(sorted(filter(lambda a : isinstance(a, ComplexDeviceDriverSwComponentType), self.elements.values()), key = lambda a: a.short_name))
 
     def getSenderReceiverInterfaces(self) -> List[SenderReceiverInterface]:
         return list(filter(lambda a : isinstance(a, SenderReceiverInterface), self.elements.values()))
@@ -228,26 +259,35 @@ class AUTOSAR (CollectableElement):
             raise Exception("The AUTOSAR is singleton!")
         CollectableElement.__init__(self)
 
-        self.version = "4.3.0"
+        self.schema_location = ""
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
         AUTOSAR.__instance = self
+
+        self._ar_packages = {}          # type: Dict[str, ARPackage]
 
     @property
     def full_name(self):
         return ""
 
     def clear(self):
+        self._ar_packages = {}
         self.elements = {}
 
+    def getElement(self, short_name: str) -> Referrable:
+        if (short_name in self._ar_packages):
+            return self._ar_packages[short_name]
+        return CollectableElement.getElement(self, short_name)
+
     def getARPackages(self) -> List[ARPackage]:
-        return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
+        #return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
+        return list(sorted(self._ar_packages.values(), key= lambda a: a.short_name))
 
     def createARPackage(self, short_name: str) -> ARPackage:
-        if (short_name not in self.elements):
+        if (short_name not in self._ar_packages):
             ar_package = ARPackage(self, short_name)
-            self.elements[short_name] = ar_package
-        return self.elements[short_name]
+            self._ar_packages[short_name] = ar_package
+        return self._ar_packages[short_name]
 
     def find(self, referred_name: str) -> Referrable:
         short_name_list = referred_name.split("/")

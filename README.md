@@ -50,6 +50,7 @@ And more details can be found at https://packaging.python.org/
                   - ParameterInterface
                   - SenderReceiverInterface
             - BswModuleEntry
+            - EndToEndProtectionSet
           - Implementation
             - BswImplementation
         - AtpFeature
@@ -127,8 +128,17 @@ $arxml-swc --format long --filter CompositionSwComponent <arxml_folder>
 **Export all the SwConnector (AssemblySwConnector, DelegationSwConnector) to excel file**
 
 ```
-$connector2xlsx <arxml_folder> connector.xlsx
+$connector2xlsx src/armodel/tests/test_files/SimpleTest.arxml data/SimpleTest.xlsx
 ```
+
+### 1.8.4. connector-update
+
+**Update all the SwConnector (AssemblySwConnector, DelegationSwConnector) from excel file**
+
+```
+$connector-update src/armodel/tests/test_files/SimpleTest.arxml data/SimpleTest.xlsx data/Test.arxml
+```
+
 
 ## 1.9. API
 
@@ -193,3 +203,13 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ConstantSpecification
    * DataConstr
    * Unit
+
+**Version 1.4.1**
+
+1. Support to write the AUTOSAR model to arxml file (Issue #19)
+   * ServerComSpec
+   * PerInstanceMemory
+2. Support to read the AUTOSAR model from arxml file (Issue #19)
+   * ServerComSpec
+   * PerInstanceMemory
+3. Move the ARPackage from the Elements.

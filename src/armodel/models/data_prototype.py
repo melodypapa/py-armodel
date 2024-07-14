@@ -1,7 +1,8 @@
 from abc import ABCMeta
-from .general_structure import AtpFeature, Identifiable, ARObject
+
 from .data_dictionary import SwDataDefProps
-from .ar_ref import RefType
+from .common_structure import ValueSpecification
+from .general_structure import AtpFeature, ARObject
 
 class AtpPrototype(AtpFeature, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
@@ -25,11 +26,14 @@ class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
             raise NotImplementedError("AutosarDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
-        self.type_tref = RefType()
+
+        self.type_tref = None           
 
 class VariableDataPrototype(AutosarDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.init_value = None      # type: ValueSpecification
 
 class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
@@ -37,7 +41,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMet
             raise NotImplementedError("ApplicationCompositeElementDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
-        self.type_tref = RefType()
+        self.type_tref = None           
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
@@ -46,4 +50,11 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
+
         self.is_optional = None
+
+class ParameterDataPrototype(AutosarDataPrototype):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.init_value = None      # type: ValueSpecification

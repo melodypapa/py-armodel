@@ -4,8 +4,10 @@ import logging
 import sys
 import os.path
 
-from armodel import AUTOSAR
-from armodel.parser import ARXMLParser
+
+from ..models.ar_package import AUTOSAR
+from ..parser.arxml_parser import ARXMLParser
+from ..parser.connector_xlsx_parser import ConnectorXlsReader
 
 from ..lib import InputFileParser
 from ..writer import ARXMLWriter
@@ -59,11 +61,16 @@ def main():
         parser = ARXMLParser(options)
         parser.load(args.INPUT, document)
 
+        reader = ConnectorXlsReader()
+        reader.read(args.MAPPING)
+        reader.update(document)
+
         writer = ARXMLWriter()
         writer.save(args.OUTPUT, document)
         
     except Exception as e:
         #print(e)
+        logger.error(e)
         raise e
 
 if __name__ == "__main__":
