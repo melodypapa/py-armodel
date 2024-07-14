@@ -14,8 +14,8 @@ class Test_M2_MSR_DataDictionary_DataDefProperties:
         assert(props.compu_method_ref == None)
         assert(props.data_constr_ref == None)                 
         assert(props.implementation_data_type_ref == None)
-        assert(props.sw_impl_policy == "")
-        assert(props.sw_calibration_access == "")
+        assert(props.sw_impl_policy == None)
+        assert(props.sw_calibration_access == '')
         assert(props.sw_pointer_target_props == None)
 
     def test_SwPointerTargetProps(self):

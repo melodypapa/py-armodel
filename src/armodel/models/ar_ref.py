@@ -14,15 +14,26 @@ class TRefType(RefType):
 class AutosarVariableRef(ARObject):
     def __init__(self):
         super().__init__()
-        self.autosar_variable_iref = None
-        self.autosar_variable_in_impl_datatype = None # type: ArVariableInImplementationDataInstanceRef
+        self.autosar_variable_iref = None               # type: VariableInAtomicSWCTypeInstanceRef 
+        self.autosar_variable_in_impl_datatype = None   # type: ArVariableInImplementationDataInstanceRef
         self.local_variable_ref = None
 
 class AtpInstanceRef(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == AtpInstanceRef:
             raise NotImplementedError("AtpInstanceRef is an abstract class.")
+        
         super().__init__()
+
+class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.base_ref = None                            # type: RefType
+        self.context_data_prototype_ref = None          # type: RefType
+        self.port_prototype_ref = None                  # type: RefType
+        self.root_variable_data_prototype_ref = None    # type: RefType
+        self.target_data_prototype_ref = None           # type: RefType
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
     def __init__(self):
@@ -95,7 +106,7 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.base_ref = None                                    # type: RefType
-        self.context_mode_declaration_group_prototype = None    # type: RefType
-        self.context_port = None                                # type: RefType
-        self.target_mode_declaration = None                     # type: RefType
+        self.base_ref = None                                        # type: RefType
+        self.context_mode_declaration_group_prototype_ref = None    # type: RefType
+        self.context_port_ref = None                                # type: RefType
+        self.target_mode_declaration_ref = None                         # type: RefType

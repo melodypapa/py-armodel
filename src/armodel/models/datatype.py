@@ -1,12 +1,12 @@
 from abc import ABCMeta
 from typing import List
 
+from .ar_ref import RefType
 from .ar_package import Referrable
 from .general_structure import ARElement, ARObject
 from .data_prototype import ApplicationRecordElement
 from .data_dictionary import SwDataDefProps
 from .common_structure import ImplementationDataTypeElement
-
 
 class ImplementationProps(Referrable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -156,8 +156,8 @@ class ImplementationDataType(AbstractImplementationDataType):
 
 class DataTypeMap(ARObject):
     def __init__(self):
-        self.application_data_type_ref = None  # type: RefType
-        self.implementation_data_type_ref = None  # type: RefType
+        self.application_data_type_ref = None       # type: RefType
+        self.implementation_data_type_ref = None    # type: RefType
 
 
 class DataTypeMappingSet(ARElement):

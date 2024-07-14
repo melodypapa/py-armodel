@@ -1,5 +1,6 @@
 from typing import List
 
+from .ar_object import ARBoolean
 from .data_dictionary import SwDataDefProps
 from .general_structure import ARObject, Identifiable
 from .ar_ref import RefType, TRefType
@@ -74,7 +75,7 @@ class ReceiverComSpec(RPortComSpec):
         self.data_element_ref = None                # type: RefType
         self.network_representation = None          # type: SwDataDefProps
         self.handle_out_of_range = None             # type: HandleOutOfRangeStatusEnum
-        self.uses_end_to_end_protection = False     
+        self.uses_end_to_end_protection = None      # type: ARBoolean     
         
 
 class ModeSwitchSenderComSpec(RPortComSpec):
@@ -113,7 +114,9 @@ class NonqueuedSenderComSpec(SenderComSpec):
 class ServerComSpec(PPortComSpec):
     def __init__(self):
         super().__init__()
-        self.operation_ref = None  # type: RefType
+
+        self.operation_ref = None   # type: RefType
+        self.queue_length = None    # type: int
 
 
 class NonqueuedReceiverComSpec(ReceiverComSpec):
@@ -147,13 +150,15 @@ class AbstractProvidedPortPrototype(PortPrototype):
         self.provided_com_specs = []  # type: List[PPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: PPortComSpec):
-        if (isinstance(com_spec, NonqueuedSenderComSpec)):
-            if (com_spec.data_element_ref == None):
+        if isinstance(com_spec, NonqueuedSenderComSpec):
+            if com_spec.data_element_ref == None:
                 raise ValueError(
                     "operation of NonqueuedSenderComSpec is invalid")
-            if (com_spec.data_element_ref.dest != "VARIABLE-DATA-PROTOTYPE"):
+            if com_spec.data_element_ref.dest != "VARIABLE-DATA-PROTOTYPE":
                 raise ValueError(
                     "Invalid operation dest of NonqueuedSenderComSpec")
+        elif isinstance(com_spec, ServerComSpec):
+            pass
         else:
             raise ValueError("Unsupported com spec")
 
@@ -188,6 +193,8 @@ class AbstractRequiredPortPrototype(PortPrototype):
             if (com_spec.data_element_ref.dest != "VARIABLE-DATA-PROTOTYPE"):
                 raise ValueError(
                     "Invalid date element dest of NonqueuedReceiverComSpec.")
+        elif isinstance(com_spec, QueuedReceiverComSpec):
+            pass
         else:
             raise ValueError("Unsupported RPortComSpec")
 

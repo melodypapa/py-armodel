@@ -1,11 +1,19 @@
 from .... import AUTOSAR, ARPackage
 from .... import ARXMLParser
 
-import logging
+import logging, os
 
 class TestBswMD:
     def setup_method(self):
+        logger = logging.getLogger()
+        formatter = logging.Formatter('[%(levelname)s] : %(message)s')
         logging.basicConfig(format='[%(levelname)s] : %(message)s', level = logging.DEBUG)
+        log_file = 'pytest_armodel.log'
+
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(formatter)
+        file_handler.setLevel(logging.DEBUG)
+        logger.addHandler(file_handler)
 
         document = AUTOSAR.getInstance()
         document.clear()
@@ -40,11 +48,11 @@ class TestBswMD:
         assert(bsw_module_desc.module_id == 42)
 
         # verify the provided entries
-        assert(len(bsw_module_desc.implemented_entry_refs) == 2)
-        assert(bsw_module_desc.implemented_entry_refs[0].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc.implemented_entry_refs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
-        assert(bsw_module_desc.implemented_entry_refs[1].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc.implemented_entry_refs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
+        assert(len(bsw_module_desc._implemented_entry_refs) == 2)
+        assert(bsw_module_desc._implemented_entry_refs[0].dest == "BSW-MODULE-ENTRY")
+        assert(bsw_module_desc._implemented_entry_refs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(bsw_module_desc._implemented_entry_refs[1].dest == "BSW-MODULE-ENTRY")
+        assert(bsw_module_desc._implemented_entry_refs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
 
         assert(len(bsw_module_desc.getBswInternalBehaviors()) == 1)
         behavior = bsw_module_desc.getBswInternalBehaviors()[0]
@@ -63,7 +71,7 @@ class TestBswMD:
         assert(entity.short_name == "BswM_MainFunction")
         assert(entity.minimum_start_interval == 0)
         assert(entity.minimum_start_interval_ms == 0)
-        assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1)
+        assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
         assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
         assert(entity.implemented_entry_ref.dest == "BSW-MODULE-ENTRY")

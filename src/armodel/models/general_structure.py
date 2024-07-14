@@ -1,8 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARObject
-
+from .ar_object import ARObject, MultilanguageLongName
 
 class Sd(ARObject):
     def __init__(self):
@@ -60,7 +59,7 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
             raise NotImplementedError("MultilanguageReferrable is an abstract class.")
         super().__init__(parent, short_name)
         self.parent = parent
-        self.long_name = None
+        self.long_name = None       # type: MultilanguageLongName
 
 class CollectableElement(ARObject, metaclass=ABCMeta):
     def __init__(self):
@@ -71,6 +70,11 @@ class CollectableElement(ARObject, metaclass=ABCMeta):
     def getTotalElement(self) -> int:
         #return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
         return len(self.elements.values())
+    
+    def removeElement(self, key):
+        if key not in self.elements:
+            raise KeyError("Invalid key <%s> for removing element" % key)
+        self.elements.pop(key)
 
     def getElements(self):
         return self.elements.values()

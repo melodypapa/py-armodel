@@ -29,7 +29,7 @@ class TestAUTOSAR:
         assert (isinstance(document, CollectableElement))
         assert (isinstance(document, AUTOSAR))
         assert (len(document.getARPackages()) == 0)
-        assert (document.version == "4.3.0")
+        assert (document.schema_location == "")
         assert (document.full_name == "")
 
     def test_create_autosar_package(self):

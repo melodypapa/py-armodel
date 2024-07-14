@@ -12,3 +12,4 @@ __pycache__
 *.log
 docs/py-armodel.und
 data
+src/armodel/tests/test_files/backup.arxml
