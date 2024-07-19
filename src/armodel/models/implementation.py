@@ -55,7 +55,7 @@ class Implementation(PackageableElement, metaclass=ABCMeta):
         self.resource_consumption = None        # type: ResourceConsumption
         self.sw_version = ""                    # 1
         self.swc_bsw_mapping_ref = None         # type: RefType
-        self.used_code_generator = ""           # 0..1
+        self.used_code_generator = None         # type: str
         self.vendor_id = 0                      # 1
 
     def createCodeDescriptor(self, short_name: str) -> Code:

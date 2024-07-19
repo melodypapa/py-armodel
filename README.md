@@ -128,7 +128,7 @@ $arxml-swc --format long --filter CompositionSwComponent <arxml_folder>
 **Export all the SwConnector (AssemblySwConnector, DelegationSwConnector) to excel file**
 
 ```
-$connector2xlsx src/armodel/tests/test_files/SimpleTest.arxml data/SimpleTest.xlsx
+$connector2xlsx src/armodel/tests/test_files/SoftwareComponents.arxml data/SoftwareComponents.xlsx
 ```
 
 ### 1.8.4. connector-update
@@ -136,7 +136,7 @@ $connector2xlsx src/armodel/tests/test_files/SimpleTest.arxml data/SimpleTest.xl
 **Update all the SwConnector (AssemblySwConnector, DelegationSwConnector) from excel file**
 
 ```
-$connector-update src/armodel/tests/test_files/SimpleTest.arxml data/SimpleTest.xlsx data/Test.arxml
+$connector-update src/armodel/tests/test_files/SoftwareComponents.arxml data/SoftwareComponents.xlsx data/Test.arxml
 ```
 
 
@@ -209,7 +209,22 @@ Fix the attribute intervalType of **Limit** is empty issue.
 1. Support to write the AUTOSAR model to arxml file (Issue #19)
    * ServerComSpec
    * PerInstanceMemory
+   * PortDefinedArgumentValue
+   * DataWriteAccesses
+   * NvBlockNeeds
+   * CompositeNetworkRepresentation
+   * PortGroup
 2. Support to read the AUTOSAR model from arxml file (Issue #19)
    * ServerComSpec
    * PerInstanceMemory
+   * ServerCallPoint
+   * ReadLocalVariable
+   * WrittenLocalVariable
+   * PortDefinedArgumentValue
+   * RVariableInAtomicSwcInstanceRef
+   * DataWriteAccesses
+   * NvBlockNeeds
+   * RecordValueSpecification
+   * CompositeNetworkRepresentation
+   * PortGroup
 3. Move the ARPackage from the Elements.

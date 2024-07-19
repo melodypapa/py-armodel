@@ -1,15 +1,17 @@
 from typing import List, Dict
 from abc import ABCMeta
 
-from .data_dictionary import SwDataDefProps
+from .service_mapping import RoleBasedPortAssignment
+from .per_instance_memory import PerInstanceMemory
+from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .ar_object import ARBoolean
 from .general_structure import ARElement, Identifiable, ARObject
-from .ar_ref import AutosarVariableRef, RefType, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
-from .ar_ref import PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
+from .ar_ref import AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, ParameterInAtomicSWCTypeInstanceRef,  POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, TRefType
+from .ar_ref import RefType, PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 from .ar_ref import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .port_prototype import RPortPrototype, PPortPrototype, PortPrototype
 from .data_prototype import ParameterDataPrototype, VariableDataPrototype
-from .common_structure import ExecutableEntity, InternalBehavior
+from .common_structure import ExecutableEntity, InternalBehavior, ValueSpecification
 
 class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
@@ -23,7 +25,19 @@ class AbstractAccessPoint(Identifiable):
     __metaclass__ = ABCMeta
 
     def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name) 
+        if type(self) == AbstractAccessPoint:
+            raise NotImplementedError("ARObject is an abstract class.")
+        
+        super().__init__(parent, short_name)
+
+        self.return_value_provision = None  
+
+class ParameterAccess(AbstractAccessPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.accessed_parameter = None  # type: AutosarParameterRef
+        self.sw_data_def_props = None   #   
 
 class ServerCallPoint(AbstractAccessPoint):
     __metaclass__ = ABCMeta
@@ -31,7 +45,7 @@ class ServerCallPoint(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.operation_iref = None  # type: ROperationInAtomicSwcInstanceRef
-        self.timeout = 0
+        self.timeout = None         # type: float
 
 class SynchronousServerCallPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
@@ -59,20 +73,20 @@ class RunnableEntity(ExecutableEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.can_be_invoked_concurrently = None         # Type: ARBoolean
-        self.data_read_accesses = {}                    # Type: Dict[VariableAccess]
-        self.data_received_point_by_arguments = {}      # Type: Dict[VariableAccess]
-        self.data_received_point_by_values = {}         # Type: Dict[VariableAccess]
-        self.data_send_points = {}                      # Type: Dict[VariableAccess]
-        self.data_write_accesses = {}                   # Type: Dict[VariableAccess]
-        self.written_local_variables = {}               # Type: Dict[VariableAccess]
-        self.read_local_variables = {}                  # Type: Dict[VariableAccess]
+        self.data_read_accesses = {}                    # Type: Dict[str, VariableAccess]
+        self.data_received_point_by_arguments = {}      # Type: Dict[str, VariableAccess]
+        self.data_received_point_by_values = {}         # Type: Dict[str, VariableAccess]
+        self.data_send_points = {}                      # Type: Dict[str, VariableAccess]
+        self.data_write_accesses = {}                   # Type: Dict[str, VariableAccess]
+        self.written_local_variables = {}               # Type: Dict[str, VariableAccess]
+        self.read_local_variables = {}                  # Type: Dict[str, VariableAccess]
         self.external_triggering_points = {}            # Type: Dict[InternalTriggeringPoint]
         self.internal_triggering_points = {}
         self.mode_access_points = {}
         self.mode_switch_points = {}
-        self.parameter_accesses = {}
-        self.server_call_points = {}                    # Type: Dict[ServerCallPoint]
-        self.wait_points = {}                           # Type: Dict[WaitPoint]
+        self.parameter_accesses = {}                    # Type: Dict[str, ParameterAccess]
+        self.server_call_points = {}                    # Type: Dict[str, ServerCallPoint]
+        self.wait_points = {}                           # Type: Dict[str, WaitPoint]
         self.symbol = ""
 
     def _createVariableAccess(self, short_name, variable_accesses: Dict[str, VariableAccess]):
@@ -86,6 +100,12 @@ class RunnableEntity(ExecutableEntity):
 
     def getDataReadAccesses(self) -> List[VariableAccess]:
         return sorted(self.data_read_accesses.values(), key=lambda v: v.short_name)
+    
+    def createDataWriteAccess(self, short_name: str) -> VariableAccess:
+       return self._createVariableAccess(short_name, self.data_write_accesses)
+
+    def getDataWriteAccesses(self) -> List[VariableAccess]:
+        return sorted(self.data_write_accesses.values(), key=lambda v: v.short_name)
 
     def createDataReceivePointByArgument(self, short_name: str) -> VariableAccess:
        return self._createVariableAccess(short_name, self.data_received_point_by_arguments)
@@ -116,6 +136,15 @@ class RunnableEntity(ExecutableEntity):
 
     def getWrittenLocalVariables(self) -> List[VariableAccess]:
         return sorted(self.written_local_variables.values(), key=lambda v: v.short_name)
+    
+    def createParameterAccess(self, short_name: str) -> ParameterAccess:
+        if (short_name not in self.server_call_points):
+            parameter_access = ParameterAccess(self, short_name)
+            self.parameter_accesses[short_name] = parameter_access
+        return self.parameter_accesses[short_name]
+    
+    def getParameterAccesses(self) -> List[ParameterAccess]:
+        return sorted(self.parameter_accesses.values(), key= lambda o: o.short_name)
     
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
         if (short_name not in self.server_call_points):
@@ -242,15 +271,13 @@ class InternalTriggerOccurredEvent(RTEEvent):
 
         self.event_source_ref = None    # type: RefType  
 
-class PerInstanceMemory(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
+class PortDefinedArgumentValue(ARObject):
+    def __init__(self):
+        super().__init__()
 
-        self.init_value = None          # type: str
-        self.sw_data_def_props = None   # type: SwDataDefProps
-        self.type = None                # type: str
-        self.type_definition = None     # type: str
-
+        self.value = None                   # type: ValueSpecification
+        self.value_type = None              # type: TRefType
+            
 class PortAPIOption(ARObject):
     def __init__(self):
         super().__init__()
@@ -258,8 +285,49 @@ class PortAPIOption(ARObject):
         self.enable_take_address = None     # type: ARBoolean
         self.indirect_API = None            # type: ARBoolean
         self.port_ref = None                # type: RefType
+        self._port_arg_values = []          # type: List[PortDefinedArgumentValue]
 
+    def addPortArgValue(self, value:PortDefinedArgumentValue):
+        self._port_arg_values.append(value)
 
+    def getPortArgValues(self) -> List[PortDefinedArgumentValue]:
+        return self._port_arg_values
+
+class ServiceDependency(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+class SwcServiceDependency(ServiceDependency):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self._assigned_data = []
+        self._assigned_ports = []
+        
+    def AddAssignedData(self, data: RoleBasedDataAssignment):
+        self._assigned_data.append(data)
+
+    def getAssignedData(self) -> List[RoleBasedDataAssignment]:
+        return self._assigned_data
+
+    def AddAssignedPort(self, data: RoleBasedPortAssignment):
+        self._assigned_ports.append(data)
+
+    def getAssignedPorts(self) -> List[RoleBasedPortAssignment]:
+        return self._assigned_ports
+    
+    def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
+        if (short_name not in self.elements):
+            event = NvBlockNeeds(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+    
+    def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
+        return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements.values()), key=lambda e: e.short_name)
+
+    def getServiceNeeds(self) -> List[ServiceNeeds]:
+        return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
 class SwcInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -325,6 +393,12 @@ class SwcInternalBehavior(InternalBehavior):
             event = InternalTriggerOccurredEvent(self, short_name)
             self.elements[short_name] = event
         return self.elements[short_name]
+    
+    def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
+        if (short_name not in self.elements):
+            event = SwcServiceDependency(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
 
     def getRteEvents(self) -> List[RTEEvent]:
         return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements.values()), key=lambda e: e.short_name)
@@ -346,6 +420,9 @@ class SwcInternalBehavior(InternalBehavior):
 
     def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
         return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements.values()), key= lambda e: e.short_name)
+    
+    def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
+        return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements.values()), key= lambda e: e.short_name)
     
     def getEvent(self, short_name: str) -> RTEEvent:
         if (not isinstance(self.elements[short_name], RTEEvent)):
@@ -394,6 +471,25 @@ class SwcInternalBehavior(InternalBehavior):
     
     def getRunnableEntity(self, short_name) -> RunnableEntity:
         return self.elements[short_name]
+    
+class PortGroup(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self._inner_group_iref = []    # type: List[InnerPortGroupInCompositionInstanceRef]
+        self._outer_port_ref = []      # type: List[RefType]
+
+    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef):
+        self._inner_group_iref.append(iref)
+
+    def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
+        return self._inner_group_iref
+    
+    def addOuterPortRef(self, ref: RefType):
+        self._outer_port_ref.append(ref)
+
+    def getOuterPortRefs(self) -> List[RefType]:
+        return self._outer_port_ref
 
 class SwComponentType(ARElement):
     __metaclass__ = ABCMeta
@@ -401,33 +497,35 @@ class SwComponentType(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        #self.ports = []     # List[PortPrototype]
-
     def createPPortPrototype(self, short_name: str) -> PPortPrototype:
         prototype = PPortPrototype(self, short_name)
-        #self.ports.append(prototype)
         if (short_name not in self.elements):
             self.elements[short_name] = prototype
         return self.elements[short_name]
 
     def createRPortPrototype(self, short_name) -> RPortPrototype:
         prototype = RPortPrototype(self, short_name)
-        #self.ports.append(prototype)
         if (short_name not in self.elements):
             self.elements[short_name] = prototype
+        return self.elements[short_name]
+    
+    def createPortGroup(self, short_name) -> PortGroup:
+        port_group = PortGroup(self, short_name)
+        if (short_name not in self.elements):
+            self.elements[short_name] = port_group
         return self.elements[short_name]
 
     def getPPortPrototypes(self) -> List[PPortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.elements.values()), key= lambda o: o.short_name))
-        #return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key= lambda o: o.short_name))
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key= lambda o: o.short_name))
-        #return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key= lambda o: o.short_name))
     
     def getPortPrototype(self) -> List[PortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key= lambda o: o.short_name))
-        #return list(sorted(self.ports, key= lambda o: o.short_name))
+    
+    def getPortGroups(self) -> List[PortGroup]:
+        return list(sorted(filter(lambda c: isinstance(c, PortGroup), self.elements.values()), key= lambda o: o.short_name))
 
 class AtomicSwComponentType(SwComponentType):
     __metaclass__ = ABCMeta

@@ -1,4 +1,6 @@
 
+from .data_dictionary import SwDataDefProps
+from .ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef
 from .ar_object import ARObject
 
 class TransmissionAcknowledgementRequest(ARObject):
@@ -11,5 +13,5 @@ class CompositeNetworkRepresentation(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.leaf_element = None                # type: ApplicationCompositeElementDataPrototype
+        self.leaf_element_iref = None           # type: ApplicationCompositeElementInPortInterfaceInstanceRef
         self.network_representation = None      # type: SwDataDefProps

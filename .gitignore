@@ -13,3 +13,4 @@ __pycache__
 docs/py-armodel.und
 data
 src/armodel/tests/test_files/backup.arxml
+src/armodel/tests/test_files/SimpleTest.arxml

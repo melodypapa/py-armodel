@@ -11,8 +11,8 @@ class TestSWComponents:
         parser = ARXMLParser()
         parser.load("src/armodel/tests/test_files/SoftwareComponents.arxml", document)
 
-        #writer = ARXMLWriter()
-        #writer.save("src/armodel/tests/test_files/SimpleTest.arxml", document)
+        writer = ARXMLWriter()
+        writer.save("src/armodel/tests/test_files/SimpleTest.arxml", document)
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()

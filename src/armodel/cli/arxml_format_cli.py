@@ -18,8 +18,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
     ap.add_argument("-w", "--warning", required= False, help= "Skip the error and report it as warning message", action= "store_true")
-    ap.add_argument("INPUT", help = "The path of input ARXML file")
-    ap.add_argument("MAPPING", help = "The path of connector excel file which exports with connector2xlsx")
+    ap.add_argument("INPUT", help = "The path of AUTOSAR ARXML file")
     ap.add_argument("OUTPUT", help = "The path of output ARXML file")
 
     args = ap.parse_args()
@@ -32,7 +31,7 @@ def main():
     stdout_handler.setFormatter(formatter)
 
     base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, 'connector_update.log')
+    log_file = os.path.join(base_path, 'arxml_format.log')
 
     if os.path.exists(log_file):
         os.remove(log_file)
@@ -60,10 +59,6 @@ def main():
         document = AUTOSAR().getInstance()
         parser = ARXMLParser(options)
         parser.load(args.INPUT, document)
-
-        reader = ConnectorXlsReader()
-        reader.read(args.MAPPING)
-        reader.update(document)
 
         writer = ARXMLWriter()
         writer.save(args.OUTPUT, document)

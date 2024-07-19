@@ -158,7 +158,9 @@ class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
             raise NotImplementedError("AtpStructureElement is an abstract class.")
         super().__init__(parent, short_name)
 
-class Limit:
+class Limit(ARObject):
     def __init__(self):
+        super().__init__()
+
         self.interval_type = None
         self.value = None

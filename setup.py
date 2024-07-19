@@ -40,6 +40,7 @@ setup(
     entry_points={
         'console_scripts': [
             'arxml-dump       = armodel.cli.arxml_dump_cli:cli_main',
+            'arxml-format     = armodel.cli.arxml_format_cli:main',
             'arxml-swc        = armodel.cli.swc_list_cli:main',
             'connector2xlsx   = armodel.cli.connector2xlsx_cli:main',
             'connector-update = armodel.cli.connector_update_cli:main',
