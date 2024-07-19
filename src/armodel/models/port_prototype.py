@@ -4,7 +4,7 @@ from .ar_object import ARBoolean
 from .data_dictionary import SwDataDefProps
 from .general_structure import ARObject, Identifiable
 from .ar_ref import RefType, TRefType
-from .communication import TransmissionAcknowledgementRequest
+from .communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from .common_structure import ValueSpecification
 
 from abc import ABCMeta
@@ -72,11 +72,17 @@ class ReceiverComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.data_element_ref = None                # type: RefType
-        self.network_representation = None          # type: SwDataDefProps
-        self.handle_out_of_range = None             # type: HandleOutOfRangeStatusEnum
-        self.uses_end_to_end_protection = None      # type: ARBoolean     
-        
+        self._composite_network_representation = []     # type: List[CompositeNetworkRepresentation]
+        self.data_element_ref = None                    # type: RefType
+        self.network_representation = None              # type: SwDataDefProps
+        self.handle_out_of_range = None                 # type: str
+        self.uses_end_to_end_protection = None          # type: ARBoolean     
+
+    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
+        self._composite_network_representation.append(representation)
+
+    def getCompositeNetworkRepresentations(self) -> List[CompositeNetworkRepresentation]:
+        return self._composite_network_representation
 
 class ModeSwitchSenderComSpec(RPortComSpec):
     def __init__(self):
@@ -93,11 +99,18 @@ class SenderComSpec(PPortComSpec):
 
     def __init__(self):
         super().__init__()
-        self.data_element_ref = None                # type: RefType
-        self.network_representation = None          # type: SwDataDefProps
-        self.handle_out_of_range = ""
-        self.transmission_acknowledge = None        # type: TransmissionAcknowledgementRequest 
-        self.uses_end_to_end_protection = False
+        self._composite_network_representation = []     # type: List[CompositeNetworkRepresentation]
+        self.data_element_ref = None                    # type: RefType
+        self.network_representation = None              # type: SwDataDefProps
+        self.handle_out_of_range = None                 # type: str
+        self.transmission_acknowledge = None            # type: TransmissionAcknowledgementRequest 
+        self.uses_end_to_end_protection = None          # type: ARBoolean
+
+    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
+        self._composite_network_representation.append(representation)
+
+    def getCompositeNetworkRepresentations(self) -> List[CompositeNetworkRepresentation]:
+        return self._composite_network_representation
 
 class QueuedSenderComSpec(PPortComSpec):
     def __init__(self):
@@ -124,10 +137,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         super().__init__()
 
         self.alive_timeout = 0
-        self.enable_updated = False
+        self.enable_updated = None              # type: ARBoolean
         self.filter = None                      # type: DataFilter
         self.handle_data_status = None          # type: bool
-        self.handle_never_received = False
+        self.handle_never_received = None       # type: ARBoolean
         self.handel_timeout_type = ""
         self.init_value = None                  # type: ValueSpecification
         self.timeout_substitution = None        # type: ValueSpecification

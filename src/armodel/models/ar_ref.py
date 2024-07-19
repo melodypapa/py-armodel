@@ -1,4 +1,5 @@
 from abc import ABCMeta
+from typing import List
 from .ar_object import ARObject
 
 class RefType(ARObject):
@@ -17,6 +18,13 @@ class AutosarVariableRef(ARObject):
         self.autosar_variable_iref = None               # type: VariableInAtomicSWCTypeInstanceRef 
         self.autosar_variable_in_impl_datatype = None   # type: ArVariableInImplementationDataInstanceRef
         self.local_variable_ref = None
+
+class AutosarParameterRef(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.autosar_parameter_iref = None          # type: ParameterInAtomicSWCTypeInstanceRef
+        self.local_parameter_ref = None             # type: RefType
 
 class AtpInstanceRef(ARObject, metaclass=ABCMeta):
     def __init__(self):
@@ -109,4 +117,41 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
         self.base_ref = None                                        # type: RefType
         self.context_mode_declaration_group_prototype_ref = None    # type: RefType
         self.context_port_ref = None                                # type: RefType
-        self.target_mode_declaration_ref = None                         # type: RefType
+        self.target_mode_declaration_ref = None                     # type: RefType
+
+class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.base_ref = None                                        # type: RefType
+        self.context_data_prototype_ref = None                      # type: RefType
+        self.port_prototype_ref = None                              # type: RefType
+        self.root_parameter_data_prototype_ref = None               # type: RefType
+        self.target_data_prototype_ref = None                       # type: RefType
+
+class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.base_ref = None                                        # type: RefType
+        self.context_data_prototype_ref = None                      # type: RefType
+        self.root_data_prototype_ref = None                         # type: RefType
+        self.target_data_prototype_ref = None                       # type: RefType
+
+class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.baseRef = None                                        # type: RefType
+        self.contextRef = None                                     # type: RefType
+        self.targetRef = None                                      # type: RefType
+
+class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.baseRef = None                                        # type: RefType
+        self.contextComponentRef = []                              # type: List[RefType]
+        self.contextCompositionRef = None                          # type: RefType
+        self.contextPortRef = None                                 # type: RefType
+        self.targetDataPrototypeRef = None                         # type: RefType 
