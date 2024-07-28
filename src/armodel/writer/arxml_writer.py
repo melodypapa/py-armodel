@@ -5,32 +5,36 @@ import re
 from xml.dom import minidom
 from typing import List
 
+from armodel.models.data_def_properties import ValueList
+from armodel.models.multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
+
+from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
-from ..models.data_prototype import AutosarDataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.data_prototype import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswModuleDescription, BswModuleEntry
 from ..models.ar_package import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InternalTriggerOccurredEvent, OperationInvokedEvent, ParameterAccess, PortAPIOption, PortGroup, RTEEvent, ServerCallPoint, ServiceDependency, SwcModeSwitchEvent, SwcServiceDependency, SynchronousServerCallPoint, VariableAccess
-from ..models.ar_object import ARBoolean
+from ..models.ar_object import ARBoolean, ARFloat, ARNumerical
 from ..models.ar_package import ARPackage
-from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef, AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, RModeInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef, RVariableInAtomicSwcInstanceRef, TRefType
-from ..models.calibration import SwValueCont, SwValues
+from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef, AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, RModeInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef, RVariableInAtomicSwcInstanceRef, TRefType, VariableDataPrototypeInSystemInstanceRef
+from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ..models.data_dictionary import SwDataDefProps
-from ..models.datatype import ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseType, ImplementationDataType, SwBaseType
+from ..models.data_dictionary import SwAddrMethod, SwDataDefProps
+from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseType, BaseTypeDirectDefinition, ImplementationDataType, SwBaseType
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 from ..models.port_prototype import ClientComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, PPortPrototype, PortPrototype, QueuedReceiverComSpec, RPortComSpec, RPortPrototype, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.sw_component import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwComponentType, SwConnector
 from ..models.annotation import Annotation
-from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet
-from ..models.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, SenderReceiverInterface
+from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
+from ..models.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, SenderReceiverInterface, TriggerInterface
 from ..models.unit import Unit
 from ..models.implementation import BswImplementation, Code, Implementation, SwcImplementation
 from ..models.common_structure import ConstantSpecification, ExecutableEntity, InternalBehavior, ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
-from ..models.ar_object import ARLiteral, ARObject, MultilanguageLongName
+from ..models.ar_object import ARLiteral, ARObject
 from ..models.global_constraints import DataConstr, InternalConstrs, PhysConstrs
 
 from colorama import Fore
@@ -77,6 +81,19 @@ class ARXMLWriter:
             child_element = ET.SubElement(element, key)
             child_element.text = str(value)
 
+    def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: ARNumerical):
+        if numerical is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeElementAttributes(child_element, numerical)
+            child_element.text = str(numerical.value)
+
+    def setChildElementOptionalLiteral(self, element: ET.Element, key: str, literal: ARLiteral):
+        if literal is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeElementAttributes(child_element, literal)
+            if literal.value is not None:
+                child_element.text = str(literal.value)
+
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: TRefType):
         if ref is not None:
             child_tag = ET.SubElement(parent, child_tag_name)
@@ -85,14 +102,10 @@ class ARXMLWriter:
             if ref.value is not None:
                 child_tag.text = ref.value
 
-    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: float):
+    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: ARFloat):
         if value is not None:
             child_element = ET.SubElement(element, key)
-            literal = "%g" % value
-            m = re.match(r"^\d+$", literal)
-            if m:
-                literal = literal + ".0"
-            child_element.text = literal
+            child_element.text = value.text
 
     def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: ARBoolean) -> ET.Element:
         child_element = None
@@ -138,7 +151,8 @@ class ARXMLWriter:
         if limit is not None:
             limit_tag = ET.SubElement(element, key)
             self.writeElementAttributes(limit_tag, limit)
-            limit_tag.attrib['INTERVAL-TYPE'] = limit.interval_type
+            if limit.intervalType is not None:
+                limit_tag.attrib['INTERVAL-TYPE'] = limit.intervalType
             limit_tag.text = limit.value
     
     def writeReferable(self, element: ET.Element, referrable: Referrable):
@@ -149,17 +163,28 @@ class ARXMLWriter:
         if long_name is not None:
             long_name_tag = ET.SubElement(element, key)
             self.writeElementAttributes(long_name_tag, long_name)
-            for l4 in long_name.get_l4s():
+            for l4 in long_name.getL4s():
                 l4_tag = ET.SubElement(long_name_tag, "L-4")
                 self.writeElementAttributes(l4_tag, l4)
                 if l4.l is not None:
                     l4_tag.attrib['L'] = l4.l
                 l4_tag.text = l4.value
 
+    def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
+        if paragraph is not None:
+            long_name_tag = ET.SubElement(element, key)
+            self.writeElementAttributes(long_name_tag, paragraph)
+            for l2 in paragraph.getL2s():
+                l2_tag = ET.SubElement(long_name_tag, "L-2")
+                self.writeElementAttributes(l2_tag, l2)
+                if l2.l is not None:
+                    l2_tag.attrib['L'] = l2.l
+                l2_tag.text = l2.value
+
     def writeMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.writeReferable(element, referrable)
-        if referrable.long_name is not None:
-            self.setMultiLongName(element, "LONG-NAME", referrable.long_name)
+        if referrable.longName is not None:
+            self.setMultiLongName(element, "LONG-NAME", referrable.longName)
 
     def writeAdminData(self, element: ET.Element, admin_data: AdminData):
         element = ET.SubElement(element, "ADMIN-DATA")
@@ -167,6 +192,7 @@ class ARXMLWriter:
 
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.writeMultilanguageReferrable(element, identifiable)
+        self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.desc)
         self.setChildElementOptionalValue(element, "CATEGORY", identifiable.category)
         if identifiable.admin_data is not None:
             self.writeAdminData(element, identifiable.admin_data)
@@ -238,16 +264,26 @@ class ARXMLWriter:
         self.setChildElementOptionalValue(element, "HANDLE-OUT-OF-RANGE", com_spec.handle_out_of_range)
         self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.uses_end_to_end_protection)
 
-    def writeSwValues(self, element: ET.Element, values: SwValues):
-        if values.v is not None:
-            self.setChildElementOptionalValue(element, "V", values.v)
+    def setSwValues(self, element: ET.Element, key: str, sw_values: SwValues):
+        if sw_values is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeElementAttributes(child_element, sw_values)
+            for v in sw_values.getVs():
+                self.setChildElementOptionalFloatValue(child_element, "V", v)
+            self.setChildElementOptionalValue(child_element, "VT", sw_values.vt)
+
+    def setValueList(self, element: ET.Element, key: str, value_list: ValueList):
+        if value_list is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeElementAttributes(child_element, value_list)
+            self.setChildElementOptionalFloatValue(child_element, "V", value_list.v)
 
     def writeSwValueCont(self, element: ET.Element, cont: SwValueCont):
         child_element = ET.SubElement(element, "SW-VALUE-CONT")
-        self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unit_ref)
-        if cont.sw_values_phys is not None:
-            sw_values_phys_tag = ET.SubElement(child_element, "SW-VALUES-PHYS")
-            self.writeSwValues(sw_values_phys_tag, cont.sw_values_phys)
+        self.writeElementAttributes(child_element, cont)
+        self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unitRef)
+        self.setValueList(child_element, "SW-ARRAYSIZE", cont.swArraysize)
+        self.setSwValues(child_element, "SW-VALUES-PHYS", cont.swValuesPhys)
 
     def writeValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         self.writeElementAttributes(element, value_spec)
@@ -268,7 +304,7 @@ class ARXMLWriter:
     def setNumericalValueSpecification(self, element: ET.Element, value_spec: NumericalValueSpecification):
         value_spec_tag = ET.SubElement(element, "NUMERICAL-VALUE-SPECIFICATION")
         self.writeValueSpecification(value_spec_tag, value_spec)
-        self.setChildElementOptionalNumberValue(value_spec_tag, "VALUE", value_spec.value)
+        self.setChildElementOptionalFloatValue(value_spec_tag, "VALUE", value_spec.value)
 
     def setArrayValueSpecification(self, element: ET.Element, value_spec: ArrayValueSpecification):
         value_spec_tag = ET.SubElement(element, "ARRAY-VALUE-SPECIFICATION")
@@ -279,6 +315,8 @@ class ARXMLWriter:
             for sub_element in sub_elements:
                 if isinstance(sub_element, NumericalValueSpecification):
                     self.setNumericalValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, ApplicationValueSpecification):
+                    self.setApplicationValueSpecification(elements_tag, sub_element)
                 else:
                     raise NotImplementedError("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
                 
@@ -356,19 +394,14 @@ class ARXMLWriter:
         self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-INTERFACE-TREF", prototype.provided_interface_tref)
 
     def writeRPortPrototype(self, ports_tag: ET.Element, prototype: RPortPrototype):
-        prototype_tag = ET.SubElement(ports_tag, "R-PORT-PROTOTYPE")
-        
-        self.writeElementAttributes(prototype_tag, prototype)
-        self.setShortName(prototype_tag, prototype.short_name)
-
         self.logger.debug("writeRPortPrototype %s" % prototype.short_name)
-        
+        prototype_tag = ET.SubElement(ports_tag, "R-PORT-PROTOTYPE")
+        self.writeIdentifiable(prototype_tag, prototype)
         com_specs = prototype.getRequiredComSpecs()
         if len(com_specs) > 0:
             com_specs_tag = ET.SubElement(prototype_tag, "REQUIRED-COM-SPECS")
             for com_spec in com_specs:
                 self.writeRPortComSpec(com_specs_tag, com_spec)
-
         self.setChildElementOptionalRefType(prototype_tag, "REQUIRED-INTERFACE-TREF", prototype.required_interface_tref)
     
     def writePortPrototypes(self, ports_tag: ET.Element, port_prototypes: List[PortPrototype]):
@@ -392,11 +425,20 @@ class ARXMLWriter:
             for iref in irefs:
                 self.writeInnerGroupIRef(child_element, iref)
 
+    def writePortGroupOuterPortRefs(self, element: ET.Element, parent: PortGroup):
+        refs = parent.getOuterPortRefs()
+        if len(refs) > 0:
+            outer_ports_element = ET.SubElement(element, "OUTER-PORTS")
+            for ref in refs:
+                child_element = ET.SubElement(outer_ports_element, "PORT-PROTOTYPE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", ref)
+
     def writePortGroup(self, element: ET.Element, port_group: PortGroup):
         self.logger.debug("writePortGroup %s" % port_group.short_name)
         child_element = ET.SubElement(element, "PORT-GROUP")
         self.writeIdentifiable(child_element, port_group)
         self.writePortGroupInnerGroupIRefs(child_element, port_group)
+        self.writePortGroupOuterPortRefs(child_element, port_group)
 
     def writeSwComponentTypePortGroups(self, element: ET.Element, parent: SwComponentType):
         port_groups = parent.getPortGroups()
@@ -506,40 +548,92 @@ class ARXMLWriter:
                 annotation_tag = ET.SubElement(annotations_tag, "ANNOTATION")
                 self.writeGeneralAnnotation(annotation_tag, annotation)
 
+    def setSwAxisIndividual(self, element: ET.Element, props: SwAxisIndividual):
+        child_element = ET.SubElement(element, "SW-AXIS-INDIVIDUAL")
+        self.writeElementAttributes(child_element, props)
+        self.setChildElementOptionalRefType(child_element, "INPUT-VARIABLE-TYPE-REF", props.inputVariableTypeRef)
+        self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", props.compuMethodRef)
+        self.setChildElementOptionalNumericalValue(child_element, "SW-MAX-AXIS-POINTS", props.swMaxAxisPoints) 
+        self.setChildElementOptionalNumericalValue(child_element, "SW-MIN-AXIS-POINTS", props.swMinAxisPoints)
+        self.setChildElementOptionalRefType(child_element, "DATA-CONSTR-REF", props.dataConstrRef)
+
+    def setSwAxisGrouped(self, element: ET.Element, props: SwAxisGrouped):
+        child_element = ET.SubElement(element, "SW-AXIS-GROUPED")
+        self.writeElementAttributes(child_element, props)
+        self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.sharedAxisTypeRef)
+
+    def setSwCalprmAxis(self, element: ET.Element, axis: SwCalprmAxis):
+        if axis is not None:
+            child_element = ET.SubElement(element, "SW-CALPRM-AXIS")
+            self.setChildElementOptionalNumericalValue(child_element, "SW-AXIS-INDEX", axis.swAxisIndex)
+            self.setChildElementOptionalLiteral(child_element, "CATEGORY", axis.category)
+            if axis.swCalprmAxisTypeProps is not None:
+                if isinstance(axis.swCalprmAxisTypeProps, SwAxisIndividual):
+                    self.setSwAxisIndividual(child_element, axis.swCalprmAxisTypeProps)
+                elif isinstance(axis.swCalprmAxisTypeProps, SwAxisGrouped):
+                    self.setSwAxisGrouped(child_element, axis.swCalprmAxisTypeProps)
+                else:
+                    self._raiseError("Unsupported SwCalprmAxisTypeProps %s" % type(axis.swCalprmAxisTypeProps))
+
+    def setSwCalprmAxisSet(self, element: ET.Element, key: str, set: SwCalprmAxisSet):
+        axises = set.getSwCalprmAxises()
+        if len(axises) > 0:
+            child_element = ET.SubElement(element, key)
+            for axis in axises:
+                self.setSwCalprmAxis(child_element, axis)
+
     def setSwDataDefProps(self, element: ET.Element, key: str, sw_data_def_props: SwDataDefProps):
         if sw_data_def_props is not None:
             child_element = ET.SubElement(element, key)
+            self.writeElementAttributes(child_element, sw_data_def_props)
             sw_data_def_props_variants_tag = ET.SubElement(child_element, "SW-DATA-DEF-PROPS-VARIANTS")
             sw_data_def_props_conditional_tag = ET.SubElement(sw_data_def_props_variants_tag, "SW-DATA-DEF-PROPS-CONDITIONAL")
-            self.writeElementAttributes(sw_data_def_props_conditional_tag, sw_data_def_props)
+            self.writeElementAttributes(sw_data_def_props_conditional_tag, sw_data_def_props.conditional)
             self.writeAnnotations(sw_data_def_props_conditional_tag, sw_data_def_props)
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "BASE-TYPE-REF", sw_data_def_props.base_type_ref)
-            self.setChildElementOptionalValue(sw_data_def_props_conditional_tag, "SW-CALIBRATION-ACCESS", sw_data_def_props.sw_calibration_access)
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "COMPU-METHOD-REF", sw_data_def_props.compu_method_ref)
-            self.setChildElementOptionalValue(sw_data_def_props_conditional_tag, "SW-IMPL-POLICY", sw_data_def_props.sw_impl_policy)
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", sw_data_def_props.implementation_data_type_ref)
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "DATA-CONSTR-REF", sw_data_def_props.data_constr_ref)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "BASE-TYPE-REF", sw_data_def_props.baseTypeRef)
+            self.setChildElementOptionalValue(sw_data_def_props_conditional_tag, "SW-CALIBRATION-ACCESS", sw_data_def_props.swCalibrationAccess)
+            self.setSwCalprmAxisSet(sw_data_def_props_conditional_tag, "SW-CALPRM-AXIS-SET", sw_data_def_props.swCalprmAxisSet)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "COMPU-METHOD-REF", sw_data_def_props.compuMethodRef)
+            self.setChildElementOptionalValue(sw_data_def_props_conditional_tag, "SW-IMPL-POLICY", sw_data_def_props.swImplPolicy)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", sw_data_def_props.implementationDataTypeRef)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "DATA-CONSTR-REF", sw_data_def_props.dataConstrRef)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "SW-RECORD-LAYOUT-REF", sw_data_def_props.swRecordLayoutRef)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", sw_data_def_props.valueAxisDataTypeRef)
+            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "UNIT-REF", sw_data_def_props.unitRef)
+            
 
-    def writeAutosarDataType(self, parent: ET.Element, data_type: AutosarDataType):
-        self.writeARElement(parent, data_type)
-        self.setSwDataDefProps(parent, "SW-DATA-DEF-PROPS", data_type.sw_data_def_props)
+    def writeApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
+        self.writeAutosarDataType(element, data_type)
 
-    def writeApplicationDataType(self, parent: ET.Element, data_type: ApplicationDataType):
-        self.writeAutosarDataType(parent, data_type)
+    def writeApplicationCompositeDataType(self, element: ET.Element, data_type: ApplicationCompositeDataType):
+        self.writeApplicationDataType(element, data_type)
+
+    def writeAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
+        self.writeARElement(element, data_type)
+        self.setSwDataDefProps(element, "SW-DATA-DEF-PROPS", data_type.sw_data_def_props)
 
     def writeApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
         self.logger.debug("writeApplicationPrimitiveDataType %s" % data_type.short_name)
         data_type_tag = ET.SubElement(element, "APPLICATION-PRIMITIVE-DATA-TYPE")
         self.writeApplicationDataType(data_type_tag, data_type)
 
+    def setDataPrototype(self, element: ET.Element, prototype: DataPrototype):
+        self.writeIdentifiable(element, prototype)
+
+    def setApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
+        self.setDataPrototype(element, prototype)
+        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.typeTRef)
+
+    def setApplicationRecordElement(self, element: ET.Element, prototype: ApplicationRecordElement):
+        self.setApplicationCompositeElementDataPrototype(element, prototype)
+
     def writeApplicationRecordElements(self, element: ET.Element, data_type: ApplicationRecordDataType):
-        record_elements = data_type.getApplicationRecordElements()
-        if len(record_elements) > 0:
+        records = data_type.getApplicationRecordElements()
+        if len(records) > 0:
             elements_tag = ET.SubElement(element, "ELEMENTS")
-            for record_element in record_elements:
-                record_element_tag = ET.SubElement(elements_tag, "APPLICATION-RECORD-ELEMENT")
-                self.writeIdentifiable(record_element_tag, record_element)
-                self.setChildElementOptionalRefType(record_element_tag, "TYPE-TREF", record_element.type_tref)
+            for record in records:
+                child_element = ET.SubElement(elements_tag, "APPLICATION-RECORD-ELEMENT")
+                self.setApplicationRecordElement(child_element, record)
 
     def writeApplicationRecordDataType(self, element: ET.Element, data_type: ApplicationRecordDataType):
         data_type_tag = ET.SubElement(element, "APPLICATION-RECORD-DATA-TYPE")
@@ -555,15 +649,16 @@ class ARXMLWriter:
             else:
                 raise NotImplementedError("Unsupported ApplicationDataType <%s>" % type(data_type))
 
-    def writeBaseTypeDirectDefinition(self, element: ET.Element, base_type: BaseType):
-        self.setChildElementOptionalValue(element, "BASE-TYPE-SIZE", str(base_type.base_type_definition.base_type_size))
-        self.writeChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING", base_type.base_type_definition.base_type_encoding)
-        self.writeChildElementOptionalLiteral(element, "NATIVE-DECLARATION", base_type.base_type_definition.native_declaration)
+    def writeBaseTypeDirectDefinition(self, element: ET.Element, base_type_definition: BaseTypeDirectDefinition):
+        self.setChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE", base_type_definition.baseTypeSize)
+        self.writeChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING", base_type_definition.baseTypeEncoding)
+        self.setChildElementOptionalNumericalValue(element, "MEM-ALIGNMENT", base_type_definition.memAlignment)
+        self.writeChildElementOptionalLiteral(element, "NATIVE-DECLARATION", base_type_definition.nativeDeclaration)
 
     def writeSwBaseType(self, element: ET.Element, base_type: SwBaseType):
         data_type_tag = ET.SubElement(element, "SW-BASE-TYPE")
         self.writeIdentifiable(data_type_tag, base_type)
-        self.writeBaseTypeDirectDefinition(data_type_tag, base_type)
+        self.writeBaseTypeDirectDefinition(data_type_tag, base_type.baseTypeDefinition)
 
     def writeCompuScaleConstantContents(self, element: ET.Element, contents: CompuScaleConstantContents):
         compu_const_tag = ET.SubElement(element, "COMPU-CONST")
@@ -585,20 +680,22 @@ class ARXMLWriter:
                 self.writeCompuNominatorDenominator(coeffs_tag, "COMPU-DENOMINATOR", contents.compu_rational_coeffs.compu_denominator)
 
     def writeCompuScaleContents(self, element: ET.Element, compu_scale: CompuScale):
-        if isinstance(compu_scale.compu_scale_contents, CompuScaleConstantContents):
-            self.writeCompuScaleConstantContents(element, compu_scale.compu_scale_contents)
-        elif isinstance(compu_scale.compu_scale_contents, CompuScaleRationalFormula):
-            self.writeCompuScaleRationalFormula(element, compu_scale.compu_scale_contents)
+        if isinstance(compu_scale.compuScaleContents, CompuScaleConstantContents):
+            self.writeCompuScaleConstantContents(element, compu_scale.compuScaleContents)
+        elif isinstance(compu_scale.compuScaleContents, CompuScaleRationalFormula):
+            self.writeCompuScaleRationalFormula(element, compu_scale.compuScaleContents)
         else:
-            raise NotImplementedError("Unsupported CompuScaleContents %s" % type(compu_scale.compu_scale_contents))
+            raise NotImplementedError("Unsupported CompuScaleContents %s" % type(compu_scale.compuScaleContents))
 
     def writeCompuScales(self, element: ET.Element, compu_scales: CompuScales):
         compu_scales_tag = ET.SubElement(element, "COMPU-SCALES")
         for compu_scale in compu_scales.getCompuScales():
-            compu_scale_tag = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
-            self.writeChildLimitElement(compu_scale_tag, "LOWER-LIMIT", compu_scale.lower_limit)
-            self.writeChildLimitElement(compu_scale_tag, "UPPER-LIMIT", compu_scale.upper_limit)
-            self.writeCompuScaleContents(compu_scale_tag, compu_scale)
+            child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
+            self.writeElementAttributes(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.symbol)
+            self.writeChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.lowerLimit)
+            self.writeChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.upperLimit)
+            self.writeCompuScaleContents(child_element, compu_scale)
 
     def writeCompuInternalToPhys(self, element: ET.Element, compu_method: CompuMethod):
         if compu_method.compu_internal_to_phys is not None:
@@ -621,13 +718,21 @@ class ARXMLWriter:
         self.writeSwValueCont(spec_tag, spec.sw_value_cont)
 
     def setRecordValueSpecification(self, element: ET.Element, spec: RecordValueSpecification):
-        spec_tag = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")
+        child_element = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")
+        self.writeElementAttributes(child_element, spec)
+        self.setChildElementOptionalValue(child_element, "SHORT-LABEL", spec.short_label)
         fields = spec.get_fields()
         if len(fields) > 0:
-            fields_tag = ET.SubElement(spec_tag, "FIELDS")
+            fields_tag = ET.SubElement(child_element, "FIELDS")
             for field in fields:
                 if isinstance(field, ApplicationValueSpecification):
                     self.setApplicationValueSpecification(fields_tag, field)
+                elif isinstance(field, NumericalValueSpecification):
+                    self.setNumericalValueSpecification(fields_tag, field)
+                elif isinstance(field, TextValueSpecification):
+                    self.setTextValueSpecification(fields_tag, field)
+                elif isinstance(field, ArrayValueSpecification):
+                    self.setArrayValueSpecification(fields_tag, field)
                 else:
                     raise NotImplementedError("Unsupported Field <%s>" % type(field))
 
@@ -639,34 +744,35 @@ class ARXMLWriter:
             value_spec_tag = ET.SubElement(spec_tag, "VALUE-SPEC")
             self.setValueSpecification(value_spec_tag, spec.value_spec)
                 
-    def writeInternalConstrs(self, element: ET.Element, parent: InternalConstrs):
-        constrs_tag = ET.SubElement(element, "INTERNAL-CONSTRS")
-        self.writeElementAttributes(constrs_tag, parent)
-        if parent.lower_limit is not None:
-            self.writeChildLimitElement(constrs_tag, "LOWER-LIMIT", parent.lower_limit)
-        if parent.upper_limit is not None:
-            self.writeChildLimitElement(constrs_tag, "UPPER-LIMIT", parent.upper_limit)
+    def setInternalConstrs(self, element: ET.Element, constrs: InternalConstrs):
+        if constrs is not None:
+            constrs_tag = ET.SubElement(element, "INTERNAL-CONSTRS")
+            self.writeElementAttributes(constrs_tag, constrs)
+            if constrs.lower_limit is not None:
+                self.writeChildLimitElement(constrs_tag, "LOWER-LIMIT", constrs.lower_limit)
+            if constrs.upper_limit is not None:
+                self.writeChildLimitElement(constrs_tag, "UPPER-LIMIT", constrs.upper_limit)
 
-    def writePhysConstrs(self, element: ET.Element, parent: PhysConstrs):
-        constrs_tag = ET.SubElement(element, "PHYS-CONSTRS")
-        self.writeElementAttributes(constrs_tag, parent)
-        if parent.lower_limit is not None:
-            self.writeChildLimitElement(constrs_tag, "LOWER-LIMIT", parent.lower_limit)
-        if parent.upper_limit is not None:
-            self.writeChildLimitElement(constrs_tag, "UPPER-LIMIT", parent.upper_limit)
-        self.setChildElementOptionalRefType(constrs_tag, "UNIT-REF", parent.unit_ref)
+    def setPhysConstrs(self, element: ET.Element, constrs: PhysConstrs):
+        if constrs is not None:
+            child_element = ET.SubElement(element, "PHYS-CONSTRS")
+            self.writeElementAttributes(child_element, constrs)
+            if constrs.lower_limit is not None:
+                self.writeChildLimitElement(child_element, "LOWER-LIMIT", constrs.lower_limit)
+            if constrs.upper_limit is not None:
+                self.writeChildLimitElement(child_element, "UPPER-LIMIT", constrs.upper_limit)
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", constrs.unit_ref)
                 
     def writeDataConstrRules(self, element: ET.Element, parent: DataConstr):
         rules = parent.getDataConstrRules()
         if len(rules) > 0:
             rules_tag = ET.SubElement(element, "DATA-CONSTR-RULES")
             for rule in rules:
-                rule_tag = ET.SubElement(rules_tag, "DATA-CONSTR-RULE")
-                self.writeElementAttributes(rule_tag, rule)
-                if rule.phys_constrs is not None:
-                    self.writePhysConstrs(rule_tag, rule.phys_constrs)
-                if rule.internal_constrs is not None:
-                    self.writeInternalConstrs(rule_tag, rule.internal_constrs)
+                child_element = ET.SubElement(rules_tag, "DATA-CONSTR-RULE")
+                self.writeElementAttributes(child_element, rule)
+                self.setChildElementOptionalNumericalValue(child_element, "CONSTR-LEVEL", rule.constrLevel)
+                self.setPhysConstrs(child_element, rule.physConstrs)
+                self.setInternalConstrs(child_element, rule.internalConstrs)
 
     def writeDataConstr(self, element: ET.Element, constr: DataConstr):
         child_element = ET.SubElement(element, "DATA-CONSTR")
@@ -777,7 +883,7 @@ class ARXMLWriter:
 
     def writeExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         if entity is not None:
-            self.setChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL", entity.minimum_start_interval)
+            self.setChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL", entity.minimumStartInterval)
 
     def setAutosarVariableRef(self, element: ET.Element, ref: AutosarVariableRef):
         if ref is not None:
@@ -1128,20 +1234,53 @@ class ARXMLWriter:
         if len(data_ids) > 0:
             child_element = ET.SubElement(element, "DATA-IDS")
             for data_id in data_ids:
-                self.setChildElementOptionalNumberValue(child_element, "DATA-ID")
+                self.setChildElementOptionalNumberValue(child_element, "DATA-ID", data_id)
     
     def setEndToEndDescription(self, element: ET.Element, key: str, desc: EndToEndDescription):
         if desc is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalValue(child_element, "CATEGORY", desc.category)
             self.writeEndToEndDescriptionDataId(child_element, desc)
+            self.setChildElementOptionalNumberValue(child_element, "DATA-ID-MODE", desc.dataIdMode)
+            self.setChildElementOptionalNumberValue(child_element, "MAX-DELTA-COUNTER-INIT", desc.maxDeltaCounterInit)
+            self.setChildElementOptionalNumberValue(child_element, "CRC-OFFSET", desc.crcOffset)
+            self.setChildElementOptionalNumberValue(child_element, "COUNTER-OFFSET", desc.counterOffset)
+
+    def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, iref: VariableDataPrototypeInSystemInstanceRef):
+        if iref is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", iref.contextComponentRef)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", iref.contextCompositionRef)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", iref.contextPortRef)
+            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.targetDataPrototypeRef)
+
+    def setEndToEndProtectionVariablePrototype(self, element: ET.Element, key: str, prototype: EndToEndProtectionVariablePrototype):
+        if prototype is not None:
+            child_element = ET.SubElement(element, key)
+            irefs = prototype.getReceiverIrefs()
+            if len(irefs) > 0:
+                child_element = ET.SubElement(child_element, "RECEIVER-IREFS")
+                for iref in irefs:
+                    self.setVariableDataPrototypeInSystemInstanceRef(child_element, "RECEIVER-IREF", iref)
+            self.setVariableDataPrototypeInSystemInstanceRef(child_element, "SENDER-IREF", prototype.senderIRef)
+
+    def writeEndToEndProtectionVariablePrototypes(self, element: ET.Element, parent: EndToEndProtection):
+        prototypes = parent.getEndToEndProtectionVariablePrototypes()
+        if len(prototypes) > 0:
+            child_element = ET.SubElement(element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPES")
+            for prototype in prototypes:
+                if isinstance(prototype, EndToEndProtectionVariablePrototype):
+                    self.setEndToEndProtectionVariablePrototype(child_element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE", prototype)
+                else:
+                    self._raiseError("Unsupported End To End Protection Variable Prototype <%s>" % type(prototype))
+            
 
     def setEndToEndProtection(self, element: ET.Element, protection: EndToEndProtection):
         if protection is not None:
             child_element = ET.SubElement(element, "END-TO-END-PROTECTION")
             self.writeIdentifiable(child_element, protection)
-            print(protection.endToEndProfile)
             self.setEndToEndDescription(child_element, "END-TO-END-PROFILE", protection.endToEndProfile)
+            self.writeEndToEndProtectionVariablePrototypes(child_element, protection)
 
     def writeEndToEndProtections(self, element: ET.Element, protection_set: EndToEndProtectionSet):
         protections = protection_set.getEndToEndProtections()
@@ -1219,11 +1358,21 @@ class ARXMLWriter:
         child_element = ET.SubElement(element, "BSW-MODULE-ENTRY")
         self.writeIdentifiable(child_element, impl)
 
+    def writeImplementationDataTypeElements(self, element: ET.Element, parent: ImplementationDataType):
+        sub_elements = parent.getImplementationDataTypeElements()
+        if len(sub_elements) > 0:
+            sub_elements_tag = ET.SubElement(element, "SUB-ELEMENTS")
+            for type_element in sub_elements:
+                child_element = ET.SubElement(sub_elements_tag, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
+                self.writeIdentifiable(child_element, type_element)
+                self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.swDataDefProps)
+
     def writeImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("writeImplementationDataType %s" % data_type.short_name)
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
-        self.writeIdentifiable(child_element, data_type)
-        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_type.sw_data_def_props)
+        self.writeAutosarDataType(child_element, data_type)
+        #self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_type.sw_data_def_props)
+        self.writeImplementationDataTypeElements(child_element, data_type)
 
     def writeArgumentDataPrototypes(self, element: ET.Element, parent: ClientServerOperation):
         arguments = parent.getArgumentDataPrototypes()
@@ -1293,6 +1442,55 @@ class ARXMLWriter:
         child_element = ET.SubElement(element, "ECU-ABSTRACTION-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
 
+    def setApplicationArrayElement(self, element: ET.Element, prototype: ApplicationArrayElement):
+        if prototype is not None:
+            child_element = ET.SubElement(element, "ELEMENT")
+            self.setApplicationCompositeElementDataPrototype(child_element, prototype)
+            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", prototype.arraySizeSemantics)
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS", prototype.maxNumberOfElements)
+
+    def writeApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
+        self.logger.debug("writeApplicationArrayDataType %s" % data_type.short_name)
+        child_element = ET.SubElement(element, "APPLICATION-ARRAY-DATA-TYPE")
+        self.writeApplicationCompositeDataType(child_element, data_type)
+        self.setApplicationArrayElement(child_element, data_type.element)
+
+    def setSwRecordLayoutV(self, element: ET.Element, key: str, layout_v: SwRecordLayoutV):
+        if layout_v is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", layout_v.shortLabel)
+            self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", layout_v.baseTypeRef)
+            self.setChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-AXIS", layout_v.swRecordLayoutVAxis)
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP", layout_v.swRecordLayoutVProp)
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX", layout_v.swRecordLayoutVIndex)
+
+    def setSwRecordLayoutGroup(self, element: ET.Element, key: str, group: SwRecordLayoutGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", group.shortLabel)
+            self.setChildElementOptionalLiteral(child_element, "CATEGORY", group.category)
+            self.setChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS", group.swRecordLayoutGroupAxis)
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX", group.swRecordLayoutGroupIndex)
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM", group.swRecordLayoutGroupFrom)
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.swRecordLayoutGroupTo)
+            self.setSwRecordLayoutV(child_element, "SW-RECORD-LAYOUT-V", group.swRecordLayoutGroupContentType.swRecordLayoutV)
+            self.setSwRecordLayoutGroup(child_element, "SW-RECORD-LAYOUT-GROUP", group.swRecordLayoutGroupContentType.swRecordLayoutGroup)
+        return group
+
+    def writeSwRecordLayout(self, element: ET.Element, layout: SwRecordLayout):
+        self.logger.debug("writeSwRecordLayout %s" % layout.short_name)
+        child_element = ET.SubElement(element, "SW-RECORD-LAYOUT")
+        self.writeIdentifiable(child_element, layout)
+        self.setSwRecordLayoutGroup(child_element, "SW-RECORD-LAYOUT-GROUP", layout.swRecordLayoutGroup)
+
+    def writeSwAddrMethod(self, element: ET.Element, method: SwAddrMethod):
+        self.logger.debug("writeSwAddrMethod %s" % method.short_name)
+        child_element = ET.SubElement(element, "SW-RECORD-LAYOUT")
+
+    def writeTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
+        self.logger.debug("writeTriggerInterface %s" % trigger_if.short_name)
+        child_element = ET.SubElement(element, "SW-RECORD-LAYOUT")
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
@@ -1334,6 +1532,14 @@ class ARXMLWriter:
             self.writeApplicationSwComponentType(element, ar_element)
         elif isinstance(ar_element, EcuAbstractionSwComponentType):
             self.writeEcuAbstractionSwComponentType(element, ar_element)
+        elif isinstance(ar_element, ApplicationArrayDataType):
+            self.writeApplicationArrayDataType(element, ar_element)
+        elif isinstance(ar_element, SwRecordLayout):
+            self.writeSwRecordLayout(element, ar_element)
+        elif isinstance(ar_element, SwAddrMethod):
+            self.writeSwAddrMethod(element, ar_element)
+        elif isinstance(ar_element, TriggerInterface):
+            self.writeTriggerInterface(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         
@@ -1357,8 +1563,10 @@ class ARXMLWriter:
                 self.writeARPackages(pkg_tag, pkg.getARPackages())
 
     def patch_xml(self, xml: str) -> str:
-        xml = xml.replace("<SW-DATA-DEF-PROPS-CONDITIONAL/>","<SW-DATA-DEF-PROPS-CONDITIONAL></SW-DATA-DEF-PROPS-CONDITIONAL>")
+        #xml = xml.replace("<SW-DATA-DEF-PROPS-CONDITIONAL/>","<SW-DATA-DEF-PROPS-CONDITIONAL></SW-DATA-DEF-PROPS-CONDITIONAL>")
         xml = re.sub(r"\<([\w-]+)\/\>",r"<\1></\1>", xml)
+        xml = re.sub(r"<((\w+)\s+\w+=\"\w+\")\/>", r"<\1></\2>", xml)
+        xml = xml.replace("<USES-END-TO-END-PROTECTION>false</USES-END-TO-END-PROTECTION>", "<USES-END-TO-END-PROTECTION>0</USES-END-TO-END-PROTECTION>")
         return xml
 
     def saveToFile(self, filename, root: ET.Element):

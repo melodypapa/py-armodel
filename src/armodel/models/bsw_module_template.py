@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 from .general_structure import AtpStructureElement, ARObject, ARElement
-from .ar_object import ARBoolean
+from .ar_object import ARBoolean, ARFloat
 from .common_structure import ExecutableEntity, ModeDeclarationGroupPrototype, InternalBehavior, Identifiable
 from .ar_ref import RefType
 
@@ -79,11 +79,13 @@ class BswTimingEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.period = 0.0
+        self.period = None          # type: ARFloat
 
     @property
-    def period_ms(self) -> int:
-        return int(self.period * 1000)
+    def periodMs(self) -> int:
+        if self.period is not None:
+            return int(self.period.value * 1000)
+        return None
 
 class BswDataReceivedEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):

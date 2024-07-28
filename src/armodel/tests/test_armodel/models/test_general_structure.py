@@ -47,4 +47,4 @@ class TestGeneralStructure:
     def test_limit(self):
         limit = Limit()
         assert(limit.value == None)
-        assert(limit.interval_type == None)
+        assert(limit.intervalType == None)

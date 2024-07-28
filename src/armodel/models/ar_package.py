@@ -1,12 +1,14 @@
 from typing import Dict, List
 
+from .data_dictionary import SwAddrMethod
+from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
 from .unit import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
-from .port_interface import SenderReceiverInterface, ClientServerInterface
+from .port_interface import SenderReceiverInterface, ClientServerInterface, TriggerInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
 from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
-from .datatype import ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
+from .datatype import ApplicationArrayDataType, ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
 from .common_structure import ConstantSpecification
 from .implementation import BswImplementation, SwcImplementation, Implementation
@@ -178,6 +180,30 @@ class ARPackage(Identifiable, CollectableElement):
             spec = EndToEndProtectionSet(self, short_name)
             self.elements[short_name] = spec
         return self.elements[short_name]
+    
+    def createApplicationArrayDataType(self, short_name: str) -> ApplicationArrayDataType:
+        if (short_name not in self.elements):
+            spec = ApplicationArrayDataType(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def createSwRecordLayout(self, short_name: str) -> SwRecordLayout:
+        if (short_name not in self.elements):
+            spec = SwRecordLayout(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def createSwAddrMethod(self, short_name: str) -> SwAddrMethod:
+        if (short_name not in self.elements):
+            spec = SwAddrMethod(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def createTriggerInterface(self, short_name: str) -> TriggerInterface:
+        if (short_name not in self.elements):
+            spec = TriggerInterface(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
@@ -244,6 +270,18 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getUnits(self) -> List[Unit]:
         return list(filter(lambda a: isinstance(a, Unit), self.elements.values()))
+    
+    def getApplicationArrayDataTypes(self) -> List[ApplicationArrayDataType]:
+        return list(sorted(filter(lambda a : isinstance(a, ApplicationArrayDataType), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getSwRecordLayouts(self) -> List[SwRecordLayout]:
+        return list(sorted(filter(lambda a : isinstance(a, SwRecordLayout), self.elements.values()), key = lambda a: a.short_name))
+
+    def getSwAddrMethods(self) -> List[SwAddrMethod]:
+        return list(sorted(filter(lambda a : isinstance(a, SwAddrMethod), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getTriggerInterfaces(self) -> List[TriggerInterface]:
+        return list(sorted(filter(lambda a : isinstance(a, TriggerInterface), self.elements.values()), key = lambda a: a.short_name))
 
 class AUTOSAR (CollectableElement):
     __instance = None
@@ -304,11 +342,11 @@ class AUTOSAR (CollectableElement):
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):
             if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
-                referred_type = self.find(data_type.sw_data_def_props.implementation_data_type_ref.value)
+                referred_type = self.find(data_type.sw_data_def_props.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE):
-                if (data_type.sw_data_def_props.sw_pointer_target_props.target_category == "VALUE"):
-                    referred_type = self.find(data_type.sw_data_def_props.sw_pointer_target_props.sw_data_def_props.base_type_ref.value)
+                if (data_type.sw_data_def_props.swPointerTargetProps.target_category == "VALUE"):
+                    referred_type = self.find(data_type.sw_data_def_props.swPointerTargetProps.sw_data_def_props.baseTypeRef.value)
                     return self.getDataType(referred_type)
             return data_type
         else:

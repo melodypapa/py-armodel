@@ -1,10 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
+from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
 from .ar_package import Referrable
-from .general_structure import ARElement, ARObject
-from .data_prototype import ApplicationRecordElement
+from .general_structure import ARElement, ARObject, Identifiable
+from .data_prototype import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
 from .data_dictionary import SwDataDefProps
 from .common_structure import ImplementationDataTypeElement
 
@@ -28,11 +29,11 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def __init__(self):
         super().__init__()
 
-        self.base_type_encoding = None
-        self.base_type_size = None          # type: int
-        self.byte_order = None              # type: str
-        self.mem_alignment = None
-        self.native_declaration = None      
+        self.baseTypeEncoding = None
+        self.baseTypeSize = None                # type: ARNumerical
+        self.byteOrder = None                   # type: str
+        self.memAlignment = None                # type: ARNumerical
+        self.nativeDeclaration = None      
 
 class BaseType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -41,7 +42,7 @@ class BaseType(ARElement, metaclass=ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.base_type_definition = BaseTypeDirectDefinition()
+        self.baseTypeDefinition = BaseTypeDirectDefinition()
 
 class SwBaseType(BaseType):
     def __init__(self, parent: ARObject, short_name: str):
@@ -84,15 +85,45 @@ class ApplicationCompositeDataType(ApplicationDataType, metaclass=ABCMeta):
 
         super().__init__(parent, short_name)
 
+class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.arraySizeHandling = None               # type: str
+        self.arraySizeSemantics = None              # type: str
+        self.indexDataTypeRef = None                # type: RefType
+        self.maxNumberOfElements = None             # type: ARNumerical
+
+    def setArraySizeHandling(self, handling: str):
+        self.arraySizeHandling = handling
+        return self
+    
+    def setArraySizeSemantics(self, semantics: str):
+        self.arraySizeSemantics = semantics
+        return self
+    
+    def setIndexDataTypeRef(self, ref: RefType):
+        self.indexDataTypeRef = ref
+        return self
+    
+    def setMaxNumberOfElements(self, number: ARNumerical):
+        self.maxNumberOfElements = number
+        return self
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamic_array_size_profile = ""
-        self.element = None
+        self.dynamic_array_size_profile = None      # type: ARLiteral
+        self.element = None                         # type: ApplicationArrayElement
 
-
+    def createApplicationArrayElement(self, short_name: str) -> ApplicationArrayElement:
+        if (short_name not in self.elements):
+            array_element = ApplicationArrayElement(self, short_name)
+            self.elements[short_name] = array_element
+            self.element = self.elements[short_name]
+        return self.elements[short_name]
+    
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -126,6 +157,7 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+        
         self.sub_elements = []      # List(str)
         self.symbol_props = None    # SymbolProps
         self.type_emitter = None

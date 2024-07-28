@@ -1,7 +1,7 @@
 from typing import List
 
 from .ar_ref import VariableDataPrototypeInSystemInstanceRef
-from .ar_object import ARObject
+from .ar_object import ARNumerical, ARObject
 from .general_structure import Identifiable
 
 
@@ -12,7 +12,7 @@ class EndToEndDescription(ARObject):
         self.category = None                # type: str
         self.counterOffset = None           # type: int
         self.crcOffset = None               # type: int
-        self.dataIds = []                   # type: List[int]
+        self.dataIds = []                   # type: List[ARNumerical]
         self.dataIdMode = None              # type: int
         self.dataIdNibbleOffset = None      # type: int
         self.dataLength = None              # type: int
@@ -20,10 +20,10 @@ class EndToEndDescription(ARObject):
         self.maxNoNewOrRepeatedData = None  # type: int
         self.syncCounterInit = None         # type: int
 
-    def addDataId(self, id: int):
+    def addDataId(self, id: ARNumerical):
         self.dataIds.append(id)
     
-    def getDataIds(self) -> List[int]:
+    def getDataIds(self) -> List[ARNumerical]:
         return sorted(self.dataIds, key = lambda a: a) 
 
 class EndToEndProtectionVariablePrototype(ARObject):
@@ -31,8 +31,14 @@ class EndToEndProtectionVariablePrototype(ARObject):
         super().__init__()
 
         self._receiverIRefs = []            # type: List[VariableDataPrototypeInSystemInstanceRef]
-        self.senderIRefs = None             # type: VariableDataPrototypeInSystemInstanceRef
+        self.senderIRef = None             # type: VariableDataPrototypeInSystemInstanceRef
         self.shortLabel = None              # type: str
+
+    def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef):
+        self._receiverIRefs.append(iref)
+
+    def getReceiverIrefs(self) -> List[VariableDataPrototypeInSystemInstanceRef]:
+        return self._receiverIRefs
 
 class EndToEndProtection(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -40,6 +46,12 @@ class EndToEndProtection(Identifiable):
 
         self.endToEndProfile = None                         # type: EndToEndDescription
         self.endToEndProtectionVariablePrototype = []       # type: List[EndToEndProtectionVariablePrototype]
+
+    def addEndToEndProtectionVariablePrototype(self, prototype: EndToEndProtectionVariablePrototype):
+        self.endToEndProtectionVariablePrototype.append(prototype)
+
+    def getEndToEndProtectionVariablePrototypes(self) -> List[EndToEndProtectionVariablePrototype]:
+        return self.endToEndProtectionVariablePrototype
 
 class EndToEndProtectionSet(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

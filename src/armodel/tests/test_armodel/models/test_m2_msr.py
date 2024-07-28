@@ -57,10 +57,10 @@ class Test_M2_MSR_AsamHdo_ComputationMethod:
         assert(isinstance(compu_scale, CompuScale))
 
         assert(compu_scale.compu_content == None)
-        assert(compu_scale.lower_limit == None)
-        assert(compu_scale.upper_limit == None)
-        assert(compu_scale.compu_inverse_value == None)
-        assert(compu_scale.compu_scale_contents == None)
+        assert(compu_scale.lowerLimit == None)
+        assert(compu_scale.upperLimit == None)
+        assert(compu_scale.compuInverseValue == None)
+        assert(compu_scale.compuScaleContents == None)
 
     def test_CompuScales(self):
         compu_scales = CompuScales()

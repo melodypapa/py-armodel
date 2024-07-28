@@ -1,5 +1,9 @@
 from abc import ABCMeta
-from typing import List
+import re
+from typing import Dict, List
+
+import xml.etree.cElementTree as ET
+
 
 class ARObject(metaclass=ABCMeta):
     def __init__(self):
@@ -12,7 +16,9 @@ class ARObject(metaclass=ABCMeta):
         self.timestamp = None           # type: str
         self.uuid = None                # type: str
 
-
+    def getTagName(self, tag: str, nsmap: Dict) -> str:
+        return tag.replace("{%s}" % nsmap["xmlns"], "")
+    
 class ARType(metaclass=ABCMeta):
     def __init__(self) -> None:
         self.timestamp = None           # type: str   
@@ -29,21 +35,33 @@ class ARLiteral(ARType):
 
         self.value = ""                 # type: str
 
-class LLongName(ARObject):
-    def __init__(self):
+class ARNumerical(ARType):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.l = ""
-        self.value = ""
+        self.text = None                # type: str
 
-class MultilanguageLongName(ARObject):
-    def __init__(self):
+    def _convertStringToNumberValue(self, value: str) -> int:
+        m = re.match(r"0x([0-9a-f]+)", value, re.I)
+        if (m):
+            return int(m.group(1), 16)
+        return int(value)
+
+    @property
+    def value(self) -> int:
+        if self.text is not None:
+            return self._convertStringToNumberValue(self.text)
+        return None
+
+class ARFloat(ARType):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.l4 = []        # type：List[LLongName]
+        self.text = None                # type: str
 
-    def add_l4(self, l4: LLongName):
-        self.l4.append(l4)
+    @property
+    def value(self) -> float:
+        if self.text is not None:
+            return float(self.text)
+        return None
 
-    def get_l4s(self) -> List[LLongName]:
-        return self.l4
