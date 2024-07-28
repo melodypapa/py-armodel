@@ -12,14 +12,14 @@ from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecord
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
 from ..models.data_prototype import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
-from ..models.bsw_module_template import BswModuleDescription, BswModuleEntry
+from ..models.bsw_module_template import BswInternalBehavior, BswModuleDescription, BswModuleEntity, BswModuleEntry
 from ..models.ar_package import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InternalTriggerOccurredEvent, OperationInvokedEvent, ParameterAccess, PortAPIOption, PortGroup, RTEEvent, ServerCallPoint, ServiceDependency, SwcModeSwitchEvent, SwcServiceDependency, SynchronousServerCallPoint, VariableAccess
 from ..models.ar_object import ARBoolean, ARFloat, ARNumerical
 from ..models.ar_package import ARPackage
 from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef, AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, RModeInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef, RVariableInAtomicSwcInstanceRef, TRefType, VariableDataPrototypeInSystemInstanceRef
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
-from ..models.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ModeDeclarationGroupPrototype, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.data_dictionary import SwAddrMethod, SwDataDefProps
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseType, BaseTypeDirectDefinition, ImplementationDataType, SwBaseType
@@ -85,7 +85,7 @@ class ARXMLWriter:
         if numerical is not None:
             child_element = ET.SubElement(element, key)
             self.writeElementAttributes(child_element, numerical)
-            child_element.text = str(numerical.value)
+            child_element.text = numerical.text
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, literal: ARLiteral):
         if literal is not None:
@@ -878,6 +878,7 @@ class ARXMLWriter:
                 self.setChildElementOptionalRefType(refs_tag, "DATA-TYPE-MAPPING-REF", ref)
            
     def writeInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
+        self.writeIdentifiable(element, behavior)
         self.writeExclusiveAreas(element, behavior)
         self.writeDataTypeMappingRefs(element, behavior)
 
@@ -1145,7 +1146,6 @@ class ARXMLWriter:
         self.logger.debug("writeSwInternalBehavior %s" % behavior.short_name)
 
         child_element = ET.SubElement(element, "SWC-INTERNAL-BEHAVIOR")
-        self.writeIdentifiable(child_element, behavior)
         self.writeInternalBehavior(child_element, behavior)
         self.writeRTEEvents(child_element, behavior)
         self.writeExplicitInterRunnableVariables(child_element, behavior)
@@ -1332,16 +1332,61 @@ class ARXMLWriter:
                 entry_tag = ET.SubElement(entries_tag, "BSW-MODULE-ENTRY-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(entry_tag, "BSW-MODULE-ENTRY-REF", entry)
 
+    def setModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
+        self.writeIdentifiable(element, property)
+        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.type_tref)
+
+    def writeProvidedModeGroup(self, element: ET.Element, parent: BswModuleDescription):
+        mode_groups = parent.getProvidedModeGroups()
+        if len(mode_groups) > 0:
+            mode_groups_tag = ET.SubElement(element, "PROVIDED-MODE-GROUPS")
+            for mode_group in mode_group:
+                child_element = ET.SubElement(mode_groups_tag, "MODE-DECLARATION-GROUP-PROTOTYPE") 
+                self.setModeDeclarationGroupPrototype(child_element, mode_group)
+
+    def writeBswModuleEntity(self, element, entity: BswModuleEntity):
+        self.setExecutableEntity(element, entity)
+        self.setChildElementOptionalRefType(element, "IMPLEMENTED-ENTRY-REF", entity.implementedEntryRef)
+
+    def writeBswInternalBehaviorBswModuleEntities(self, element: ET.Element, parent: BswInternalBehavior):
+        if parent.getTotalBswModuleEntities() > 0:
+            entities_tag = ET.SubElement(element, "ENTITYS")
+            for entity in parent.getBswCalledEntities():
+                if isinstance(entity, BswModuleEntity):
+                    child_element = ET.SubElement(entities_tag, "BSW-CALLED-ENTITY")
+                    self.writeIdentifiable(child_element, entity)
+                    self.logger.debug("writeBswCalledEntity %s" % entity.short_name)
+
+            self.readBswModuleEntity(child_element, entity)
+
+    def setBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
+        child_element = ET.SubElement(element, "BSW-INTERNAL-BEHAVIOR")
+        self.writeInternalBehavior(child_element, behavior)
+        self.writeBswInternalBehaviorBswModuleEntities(child_element, behavior)
+        #self.readBswSchedulableEntity(child_element, behavior)
+        #self.readBswModeSwitchEvent(child_element, behavior)
+        #self.readBswTimingEvent(element, behavior)
+        #self.readBswDataReceivedEvent(element, behavior)
+        #self.readBswInternalTriggerOccurredEvent(element, behavior)
+
+    def writeBswModuleDescriptionInternalBehaviors(self, element: ET.Element, behaviors: List[InternalBehavior]):
+        if len(behaviors) > 0:
+            child_element = ET.SubElement(element, "INTERNAL-BEHAVIORS")
+            for behavior in behaviors:
+                if isinstance(behavior, BswInternalBehavior):
+                    self.setBswInternalBehavior(child_element, behavior)
+                else:
+                    self._raiseError("Unsupport BswInternalBehavior <%s>" % type(behavior))
+
     def writeBswModuleDescription(self, element: ET.Element, desc: BswModuleDescription):
         self.logger.debug("writeBswModuleDescription %s" % desc.short_name)
         child_element = ET.SubElement(element, "BSW-MODULE-DESCRIPTION")
         self.writeIdentifiable(child_element, desc)
-
-        self.setChildElementOptionalNumberValue(child_element, "MODULE-ID", desc.module_id)
+        self.setChildElementOptionalNumericalValue(child_element, "MODULE-ID", desc.moduleId)
         self.writerBswModuleDescriptionImplementedEntry(child_element, desc)
-        #self.readProvidedModeGroup(element, bsw_module_description)
+        self.writeProvidedModeGroup(child_element, desc)
         #self.readRequiredModeGroup(element, bsw_module_description)
-        #self.readBswInternalBehavior(element, bsw_module_description)
+        self.writeBswModuleDescriptionInternalBehaviors(child_element, desc.getBswInternalBehaviors())
 
     def writeBswModuleEntry(self, element: ET.Element, entry: BswModuleEntry):
         self.logger.debug("writeBswModuleDescription %s" % entry.short_name)

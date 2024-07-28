@@ -6,7 +6,7 @@ from typing import List
 from .ar_object import ARFloat
 from .general_structure import ARObject, ARElement, Identifiable
 from .data_dictionary import SwDataDefProps
-from .ar_ref import RefType
+from .ar_ref import RefType, TRefType
 
 import re
 
@@ -158,13 +158,13 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
             raise NotImplementedError("InternalBehavior is an abstract class.")
         super().__init__(parent, short_name)
 
-        self._data_type_mapping_refs = []      # type: List[RefType]
+        self._dataTypeMappingRefs = []      # type: List[RefType]
 
     def addDataTypeMappingRef(self, ref: RefType):
-        self._data_type_mapping_refs.append(ref)
+        self._dataTypeMappingRefs.append(ref)
 
     def getDataTypeMappingRefs(self) -> List[RefType]:
-        return self._data_type_mapping_refs
+        return self._dataTypeMappingRefs
 
     def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
         if (short_name not in self.elements):
@@ -211,18 +211,18 @@ class ModeDeclarationGroupPrototype(Identifiable):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self._sw_calibration_access = ""    # 0..1
-        self.type_tref = None                    # tref 0..1
+        self._swCalibrationAccess = None        # type: str
+        self.typeTRef = None                    # type: TRefType
 
     @property
     def sw_calibration_access(self):
-        return self._sw_calibration_access
+        return self._swCalibrationAccess
 
     @sw_calibration_access.setter
     def sw_calibration_access(self, value):
         if (value not in ("notAccessible", "readOnly", "readWrite")):
             raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
-        self._sw_calibration_access = value
+        self._swCalibrationAccess = value
 
 class MemorySection(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

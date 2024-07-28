@@ -1,0 +1,9 @@
+{
+    "name": "py-armodel",
+    "author": "Melodypapa<melodypapa@outlook.com>",
+    "scripts": {
+        "pytest": "pytest",
+        "pytest-cov": "pytest --cov=armodel --cov-report term-missing",
+        "bswm-test": "pip install . &arxml-format src/armodel/tests/test_files/BswM_Bswmd.arxml data/test.arxml"
+    }
+}

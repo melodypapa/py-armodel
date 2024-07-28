@@ -52,6 +52,21 @@ class ARNumerical(ARType):
         if self.text is not None:
             return self._convertStringToNumberValue(self.text)
         return None
+    
+class ARPositiveInteger(ARNumerical):
+    def __init__(self) -> None:
+        super().__init__()
+
+    @property
+    def text(self) -> str:
+        return ARNumerical.text
+    
+    @text.setter
+    def text(self, value: str):
+        ARNumerical.text = value
+
+        if ARNumerical.value < 0:
+            raise ValueError("Invalid Positiive Integer <%s>" % value)
 
 class ARFloat(ARType):
     def __init__(self) -> None:

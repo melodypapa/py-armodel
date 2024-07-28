@@ -366,14 +366,14 @@ class ARXMLParser:
             self.logger.debug("readProvidedModeGroup %s" % short_name)
 
             mode_group = parent.createProvidedModeGroup(short_name)
-            mode_group.type_tref = self.getChildElementRefType(parent.short_name, child_element, "TYPE-TREF")
+            mode_group.typeTRef = self.getChildElementRefType(parent.short_name, child_element, "TYPE-TREF")
 
     def readRequiredModeGroup(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in element.findall("./xmlns:REQUIRED-MODE-GROUPS/xmlns:MODE-DECLARATION-GROUP-PROTOTYPE", self.nsmap):
             short_name = self.getShortName(child_element)
             self.logger.debug("readRequiredModeGroup %s" % short_name)
             mode_group = parent.createProvidedModeGroup(short_name)
-            mode_group.type_tref = self.getChildElementRefType(parent.short_name, child_element, "TYPE-TREF")
+            mode_group.typeTRef = self.getChildElementRefType(parent.short_name, child_element, "TYPE-TREF")
 
     def readCanEnterExclusiveAreaRefs(self, element: ET.Element, entity: ExecutableEntity):
         child_element = element.find("./xmlns:CAN-ENTER-EXCLUSIVE-AREA-REFS", self.nsmap)
@@ -389,7 +389,7 @@ class ARXMLParser:
 
     def readBswModuleEntity(self, element, entity: BswModuleEntity):
         self.readExecutableEntity(element, entity)
-        entity.implemented_entry_ref = self.getChildElementRefType(entity.short_name, element, "IMPLEMENTED-ENTRY-REF")
+        entity.implementedEntryRef = self.getChildElementRefType(entity.short_name, element, "IMPLEMENTED-ENTRY-REF")
 
     def readBswCalledEntity(self, element: ET.Element, parent: BswInternalBehavior):
         for child_element in element.findall("./xmlns:ENTITYS/xmlns:BSW-CALLED-ENTITY", self.nsmap):
@@ -443,7 +443,7 @@ class ARXMLParser:
             short_name = self.getShortName(child_element)
             self.logger.debug("readBswInternalTriggerOccurredEvent %s" % short_name)
             event = parent.createBswInternalTriggerOccurredEvent(short_name)
-            event.event_source_ref = self.getChildElementRefType(parent.short_name, child_element, "EVENT-SOURCE-REF")
+            event.eventSourceRef = self.getChildElementRefType(parent.short_name, child_element, "EVENT-SOURCE-REF")
 
             self.readBswScheduleEvent(child_element, event)
 
@@ -573,7 +573,7 @@ class ARXMLParser:
     def readBswModuleDescription(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         bsw_module_description = parent.createBswModuleDescription(short_name)
-        bsw_module_description.module_id = self.getChildElementNumberValue(short_name, element, "MODULE-ID")
+        bsw_module_description.moduleId = self.getChildElementOptionalNumericalValue(element, "MODULE-ID")
 
         self.logger.debug("readBswModuleDescription %s" % bsw_module_description.full_name)
 

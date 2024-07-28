@@ -258,3 +258,10 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SwRecordLayoutGroup
    * SwRecordLayoutGroupContent
    * ImplementationDataType
+
+**Version 1.4.3**
+
+1. Support to write the AUTOSAR model to arxml file (Issue #25)
+   * 
+2. Support ot read the AUTOSAR model to arxml file (Issue #25)
+   *

@@ -1,7 +1,7 @@
 from abc import ABCMeta
-from typing import List
+from typing import Dict, List
 from .general_structure import AtpStructureElement, ARObject, ARElement
-from .ar_object import ARBoolean, ARFloat
+from .ar_object import ARBoolean, ARFloat, ARPositiveInteger
 from .common_structure import ExecutableEntity, ModeDeclarationGroupPrototype, InternalBehavior, Identifiable
 from .ar_ref import RefType
 
@@ -13,7 +13,7 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
 
         self.accessed_mode_group_refs = []          # Ref ModeDeclarationGroupPrototype     *
         self.activation_point_refs = []             # Ref BswInternalTriggeringPoint        *
-        self.implemented_entry_ref = None           # type: RefType
+        self.implementedEntryRef = None           # type: RefType
         self.managed_mode_group_refs = []           # Ref ModeDeclarationGroupPrototype     *
 
 class BswCalledEntity(BswModuleEntity):
@@ -97,16 +97,19 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.event_source_ref = None        # type: RefType
+        self.eventSourceRef = None          # type: RefType
 
 class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.entities = []                  # type: List[BswModuleEntity]
+
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
         if (short_name not in self.elements):
             event = BswCalledEntity(self, short_name)
             self.elements[short_name] = event
+            self.entities.append(event)
         return self.elements[short_name]
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
@@ -116,20 +119,28 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswSchedulableEntity(self, short_name)
             self.elements[short_name] = event
+            self.entities.append(event)
         return self.elements[short_name]
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
         return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements.values()))
+    
+    def getTotalBswModuleEntities(self) -> int:
+        return len(self.entities)
+    
+    def getBswModuleEntities(self) -> List[BswModuleEntity]:
+        return list(filter(lambda a: isinstance(a, BswEvent), self.elements.values()))
 
     def createBswModeSwitchEvent(self, short_name: str) -> BswModeSwitchEvent:
         if (short_name not in self.elements):
             event = BswModeSwitchEvent(self, short_name)
             self.elements[short_name] = event
+            self.entities.append(event)
         return self.elements[short_name]
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
         return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.elements.values()))
-
+    
     def createBswTimingEvent(self, short_name: str) -> BswTimingEvent:
         if (short_name not in self.elements):
             event = BswTimingEvent(self, short_name)
@@ -171,18 +182,18 @@ class BswModuleDescription(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # MODULE-ID
-        self.module_id = 0
+        self.moduleId = None                            # type: ARPositiveInteger           
         # PROVIDED-ENTRYS
-        self._implemented_entry_refs = []                # type: List[RefType]
+        self._implementedEntryRefs = []                 # type: List[RefType]
 
-        self.provided_mode_groups   = {}                # ModeDeclarationGroupPrototype         *
-        self.required_mode_groups   = {}                # ModeDeclarationGroupPrototype         * 
+        self.providedModeGroups   = {}                  # type: Dict[str, ModeDeclarationGroupPrototype]
+        self.requiredModeGroups   = {}                  # tyep: Dict[str, ModeDeclarationGroupPrototype] 
 
     def addImplementedEntry(self, entry_ref: RefType):
-        self._implemented_entry_refs.append(entry_ref)
+        self._implementedEntryRefs.append(entry_ref)
 
     def getImplementedEntries(self) -> List[RefType]:
-        return self._implemented_entry_refs
+        return self._implementedEntryRefs
 
     @property
     def category(self) -> str:
@@ -198,21 +209,21 @@ class BswModuleDescription(AtpStructureElement):
         if (short_name not in self.elements):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self.provided_mode_groups[short_name] = prototype
+            self.providedModeGroups[short_name] = prototype
         return self.elements[short_name]
 
     def getProvidedModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
-        return sorted(self.provided_mode_groups.values(), key=lambda v: v.short_name) 
+        return sorted(self.providedModeGroups.values(), key=lambda v: v.short_name) 
 
     def createRequiredModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         if (short_name not in self.elements):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self.required_mode_groups[short_name] = property
+            self.requiredModeGroups[short_name] = property
         return self.elements[short_name]
 
     def getRequiredModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
-        return sorted(self.required_mode_groups.values(), key=lambda v: v.short_name) 
+        return sorted(self.requiredModeGroups.values(), key=lambda v: v.short_name) 
 
     def createBswInternalBehavior(self, short_name: str) -> BswInternalBehavior:
         '''

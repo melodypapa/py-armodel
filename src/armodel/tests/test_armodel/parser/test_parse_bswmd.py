@@ -46,14 +46,15 @@ class TestBswMD:
 
         bsw_module_desc = bsw_module_descs[0]
         assert(bsw_module_desc.short_name == "BswM")
-        assert(bsw_module_desc.module_id == 42)
+        assert(bsw_module_desc.moduleId.text == "042")
+        assert(bsw_module_desc.moduleId.value == 42)
 
         # verify the provided entries
-        assert(len(bsw_module_desc._implemented_entry_refs) == 2)
-        assert(bsw_module_desc._implemented_entry_refs[0].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc._implemented_entry_refs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
-        assert(bsw_module_desc._implemented_entry_refs[1].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc._implemented_entry_refs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
+        assert(len(bsw_module_desc._implementedEntryRefs) == 2)
+        assert(bsw_module_desc._implementedEntryRefs[0].dest == "BSW-MODULE-ENTRY")
+        assert(bsw_module_desc._implementedEntryRefs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(bsw_module_desc._implementedEntryRefs[1].dest == "BSW-MODULE-ENTRY")
+        assert(bsw_module_desc._implementedEntryRefs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
 
         assert(len(bsw_module_desc.getBswInternalBehaviors()) == 1)
         behavior = bsw_module_desc.getBswInternalBehaviors()[0]
@@ -75,8 +76,8 @@ class TestBswMD:
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
         assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
-        assert(entity.implemented_entry_ref.dest == "BSW-MODULE-ENTRY")
-        assert(entity.implemented_entry_ref.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(entity.implementedEntryRef.dest == "BSW-MODULE-ENTRY")
+        assert(entity.implementedEntryRef.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
         assert(len(behavior.getBswTimingEvents()) == 1)
         event = behavior.getBswTimingEvents()[0]
