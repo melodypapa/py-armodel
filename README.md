@@ -231,7 +231,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 **Version 1.4.2**
 
-1. Support to read the AUTOSAR model from arxml file (Issue #21)
+1. Support to read the AUTOSAR model from arxml file (Issue #23)
    * EndToEndProtectionSet
    * EndToEndProtection
    * EndToEndProtectionVariablePrototype
@@ -244,7 +244,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ApplicationArrayDataType
    * SwRecordLayoutGroup
    * SwRecordLayoutGroupContent
-2. Support to write the AUTOSAR model to arxml file (Issue #21)
+2. Support to write the AUTOSAR model to arxml file (Issue #23)
    * EndToEndProtectionSet
    * EndToEndProtection
    * EndToEndProtectionVariablePrototype
