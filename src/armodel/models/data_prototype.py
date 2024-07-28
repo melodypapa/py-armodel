@@ -1,5 +1,7 @@
 from abc import ABCMeta
 
+from .ar_object import ARNumerical
+from .ar_ref import RefType
 from .data_dictionary import SwDataDefProps
 from .common_structure import ValueSpecification
 from .general_structure import AtpFeature, ARObject
@@ -41,17 +43,23 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMet
             raise NotImplementedError("ApplicationCompositeElementDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
-        self.type_tref = None           
+
+        self.typeTRef = None                    # type: RefType
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.arraySizeHandling = None               # type: str
+        self.arraySizeSemantics = None              # type: str
+        self.indexDataTypeRef = None                # type: RefType
+        self.maxNumberOfElements = None             # type: ARNumerical
+
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.is_optional = None
+        self.isOptional = None
 
 class ParameterDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):

@@ -1,3 +1,5 @@
+from .annotation import *
+from .ar_object import *
 from .general_structure import *
 from .common_structure import *
 from .sw_component import *
@@ -13,6 +15,5 @@ from .implementation import *
 from .bsw_module_template import *
 from .communication import *
 from .calibration import *
-from .ar_object import *
 from .global_constraints import *
 from .unit import *

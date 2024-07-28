@@ -1,3 +1,4 @@
+from .... import ARFloat
 from .... import AUTOSAR, ARPackage
 from .... import ARXMLParser
 
@@ -69,8 +70,8 @@ class TestBswMD:
         assert(len(behavior.getBswSchedulableEntities()) == 1)
         entity = behavior.getBswSchedulableEntities()[0]
         assert(entity.short_name == "BswM_MainFunction")
-        assert(entity.minimum_start_interval == 0)
-        assert(entity.minimum_start_interval_ms == 0)
+        assert(entity.minimumStartInterval is not None)
+        assert(entity.minimumStartIntervalMs is not None)
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
         assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
@@ -82,8 +83,9 @@ class TestBswMD:
         assert(event.short_name == "TimingEvent_MainFunction")
         assert(event.starts_on_event_ref.dest == "BSW-SCHEDULABLE-ENTITY")
         assert(event.starts_on_event_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
-        assert(event.period == 0.02)
-        assert(event.period_ms == 20)
+        assert(event.period.value == 0.02)
+        assert(event.period.text == "0.02")
+        assert(event.periodMs == 20)
 
     def test_bsw_module_entries(self):
         document = AUTOSAR.getInstance()

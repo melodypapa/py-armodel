@@ -35,12 +35,12 @@ def show_type(indent: int, data_type: ImplementationDataType):
     print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, data_type.parent.full_name))
     print("%s                    : %s" % (" " * indent, data_type.category))
     if (data_type.sw_data_def_props != None):
-        if (data_type.sw_data_def_props.base_type_ref != None):
-            base_type_ref = data_type.sw_data_def_props.base_type_ref
+        if (data_type.sw_data_def_props.baseTypeRef != None):
+            base_type_ref = data_type.sw_data_def_props.baseTypeRef
             print("%s                    : %s (%s)" % (" " * indent, base_type_ref.value, base_type_ref.dest))
             
-        if (data_type.sw_data_def_props.implementation_data_type_ref != None):
-            implementation_data_type_ref = data_type.sw_data_def_props.implementation_data_type_ref
+        if (data_type.sw_data_def_props.implementationDataTypeRef != None):
+            implementation_data_type_ref = data_type.sw_data_def_props.implementationDataTypeRef
             print("%s                    : %s (%s)" % (" " * indent, implementation_data_type_ref.value, implementation_data_type_ref.dest))
 
 def show_data_type_mapping(indent: int, mapping_set: DataTypeMappingSet):

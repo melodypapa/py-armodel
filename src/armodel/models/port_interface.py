@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
+from .common_structure import Trigger
 from .datatype import AtpType
 from .general_structure import ARObject, Identifiable, AtpFeature
 from .data_prototype import VariableDataPrototype, AutosarDataPrototype
@@ -140,3 +141,8 @@ class ClientServerInterface(PortInterface):
     def getPossibleErrors(self) -> List[ApplicationError]:
         return list(filter(lambda c: isinstance(c, ApplicationError), self.elements.values()))
     
+class TriggerInterface(PortInterface):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self._triggers = []     # type: Trigger

@@ -3,6 +3,7 @@
 from abc import ABCMeta
 from typing import List
 
+from .ar_object import ARFloat
 from .general_structure import ARObject, ARElement, Identifiable
 from .data_dictionary import SwDataDefProps
 from .ar_ref import RefType
@@ -96,7 +97,7 @@ class NumericalValueSpecification(ValueSpecification):
     def __init__(self):
         super().__init__()
 
-        self.value = None        # type: float  
+        self.value = None        # type: ARFloat  
 
 class ArrayValueSpecification(ValueSpecification):
     def __init__(self):
@@ -133,10 +134,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.array_size = None              # type: int
-        self.array_size_semantics = None    # type: str
-        self.is_optional = None             # type: bool
-        self.sw_data_def_props = None       # type: SwDataDefProps
+        self.arraySize = None               # type: int
+        self.arraySizeSemantics = None      # type: str
+        self.isOptional = None              # type: bool
+        self.swDataDefProps = None          # type: SwDataDefProps
     
     def createImplementationDataTypeElement(self, short_name: str): # type: (...) -> ImplementationDataTypeElement
         if (short_name not in self.elements):
@@ -144,7 +145,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
             self.elements[short_name] = event
         return self.elements[short_name]
     
-    def getImplementationDataTypeElements(self):                    # type：(...) -> List[ImplementationDataTypeElement]:
+    def getImplementationDataTypeElements(self):                    # type：(...) -> List[ImplementationDataTypeElement]
         return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values()))
 
 class ExclusiveArea(Identifiable):
@@ -186,20 +187,22 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
             raise NotImplementedError("ExecutableEntity is an abstract class.")
         super().__init__(parent, short_name)
     
-        self.activation_reason = None           # *
-        self.minimum_start_interval = None      # 0..1
-        self.reentrancy_level = None            # 
-        self.can_enter_exclusive_area_refs = [] # type: List[RefType]  
+        self.activationReason = None            # *
+        self.minimumStartInterval = None        # type: ARFloat
+        self.reentrancyLevel = None             # 
+        self._canEnterExclusiveAreaRefs = []    # type: List[RefType]  
 
     @property
-    def minimum_start_interval_ms(self) -> int:
-        return int(self.minimum_start_interval * 1000)
+    def minimumStartIntervalMs(self) -> int:
+        if self.minimumStartInterval is not None:
+            return int(self.minimumStartInterval.value * 1000)
+        return None
 
     def addCanEnterExclusiveAreaRef(self, ref: RefType):
-        self.can_enter_exclusive_area_refs.append(ref)
+        self._canEnterExclusiveAreaRefs.append(ref)
 
     def getCanEnterExclusiveAreaRefs(self):
-        return self.can_enter_exclusive_area_refs
+        return self._canEnterExclusiveAreaRefs
     
 class ModeDeclarationGroupPrototype(Identifiable):
     """
@@ -265,3 +268,10 @@ class ResourceConsumption(Identifiable):
 
     def getMemorySection(self, short_name: str) -> MemorySection:
         return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements.values()), None)
+    
+class Trigger(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.swImplPolicy = None    # type: str
+        self.triggerPeriod = None   # type: float

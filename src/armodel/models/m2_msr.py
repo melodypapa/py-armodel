@@ -1,3 +1,4 @@
+from .ar_object import ARLiteral
 from .general_structure import ARObject, ARElement, Limit
 from .ar_ref import RefType
 from abc import ABCMeta
@@ -117,10 +118,11 @@ class CompuScale(Compu):
     def __init__(self):
         super().__init__()
 
-        self.lower_limit = None             # type: Limit
-        self.upper_limit = None             # type: Limit
-        self.compu_inverse_value = None     # type: CompuConst
-        self.compu_scale_contents = None    # type: CompuScaleContents
+        self.symbol = None                      # type: ARLiteral
+        self.lowerLimit = None                  # type: Limit
+        self.upperLimit = None                  # type: Limit
+        self.compuInverseValue = None           # type: CompuConst
+        self.compuScaleContents = None          # type: CompuScaleContents
 
 class CompuScales(CompuContent):
     def __init__(self):

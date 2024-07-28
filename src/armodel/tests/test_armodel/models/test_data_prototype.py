@@ -83,4 +83,4 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes:
         assert(isinstance(prototype, Referrable))
         assert(isinstance(prototype, ApplicationRecordElement))
 
-        assert(prototype.is_optional == None)
+        assert(prototype.isOptional == None)

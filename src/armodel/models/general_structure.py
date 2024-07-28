@@ -1,7 +1,8 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARObject, MultilanguageLongName
+from .multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
+from .ar_object import ARObject
 
 class Sd(ARObject):
     def __init__(self):
@@ -58,8 +59,9 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
         if type(self) == MultilanguageReferrable:
             raise NotImplementedError("MultilanguageReferrable is an abstract class.")
         super().__init__(parent, short_name)
+
         self.parent = parent
-        self.long_name = None       # type: MultilanguageLongName
+        self.longName = None            # type: MultilanguageLongName
 
 class CollectableElement(ARObject, metaclass=ABCMeta):
     def __init__(self):
@@ -93,7 +95,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
 
         self.admin_data = None      # type: AdminData
         self._category = None
-        self.desc = None
+        self.desc = None            # type: MultiLanguageOverviewParagraph
 
     @property
     def category(self):
@@ -162,5 +164,5 @@ class Limit(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.interval_type = None
-        self.value = None
+        self.intervalType = None       # type: str
+        self.value = None               # type: str

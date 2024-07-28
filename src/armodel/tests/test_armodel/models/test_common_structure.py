@@ -51,8 +51,8 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         data_type = ImplementationDataTypeElement(ar_root, "implementation_data_type")
 
         assert(data_type.short_name == "implementation_data_type")
-        assert(data_type.array_size == None)
-        assert(data_type.is_optional == None)
+        assert(data_type.arraySize == None)
+        assert(data_type.isOptional == None)
 
         assert(isinstance(data_type, ARObject))
         assert(isinstance(data_type, AbstractImplementationDataTypeElement))

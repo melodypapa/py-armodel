@@ -206,7 +206,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 **Version 1.4.1**
 
-1. Support to write the AUTOSAR model to arxml file (Issue #19)
+1. Support to read the AUTOSAR model from arxml file (Issue #19)
    * ServerComSpec
    * PerInstanceMemory
    * PortDefinedArgumentValue
@@ -214,7 +214,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NvBlockNeeds
    * CompositeNetworkRepresentation
    * PortGroup
-2. Support to read the AUTOSAR model from arxml file (Issue #19)
+2. Support to write the AUTOSAR model to arxml file (Issue #19)
    * ServerComSpec
    * PerInstanceMemory
    * ServerCallPoint
@@ -228,3 +228,33 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * CompositeNetworkRepresentation
    * PortGroup
 3. Move the ARPackage from the Elements.
+
+**Version 1.4.2**
+
+1. Support to read the AUTOSAR model from arxml file (Issue #21)
+   * EndToEndProtectionSet
+   * EndToEndProtection
+   * EndToEndProtectionVariablePrototype
+   * EndToEndDescription
+   * ApplicationArrayDataType
+   * SwRecordLayout
+   * SwCalprmAxisSet
+   * SwCalprmAxis
+   * ApplicationArrayElement
+   * ApplicationArrayDataType
+   * SwRecordLayoutGroup
+   * SwRecordLayoutGroupContent
+2. Support to write the AUTOSAR model to arxml file (Issue #21)
+   * EndToEndProtectionSet
+   * EndToEndProtection
+   * EndToEndProtectionVariablePrototype
+   * EndToEndDescription
+   * ApplicationArrayDataType
+   * SwRecordLayout
+   * SwCalprmAxisSet
+   * SwCalprmAxis
+   * ApplicationArrayElement
+   * ApplicationArrayDataType
+   * SwRecordLayoutGroup
+   * SwRecordLayoutGroupContent
+   * ImplementationDataType

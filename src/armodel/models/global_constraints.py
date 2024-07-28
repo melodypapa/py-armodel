@@ -1,5 +1,5 @@
 from .ar_ref import RefType
-from .ar_object import ARObject
+from .ar_object import ARNumerical, ARObject
 from .general_structure import Identifiable, Limit
 
 from typing import List
@@ -23,9 +23,9 @@ class DataConstrRule(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.constr_level = None        # type: int
-        self.internal_constrs = None    # type: InternalConstrs    
-        self.phys_constrs = None        # type: PhysConstrs
+        self.constrLevel = None         # type: ARNumerical
+        self.internalConstrs = None     # type: InternalConstrs    
+        self.physConstrs = None         # type: PhysConstrs
 
 class DataConstr(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

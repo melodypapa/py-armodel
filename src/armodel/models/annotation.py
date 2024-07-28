@@ -1,6 +1,8 @@
 
 from abc import ABCMeta
-from .ar_object import ARObject, MultilanguageLongName
+
+from .multilanguage_data import MultilanguageLongName
+from .ar_object import ARObject
 
 
 class GeneralAnnotation(ARObject, metaclass=ABCMeta):
