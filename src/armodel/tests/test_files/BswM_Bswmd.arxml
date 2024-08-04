@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AUTOSAR xmlns="http://autosar.org/schema/r4.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3_STRICT_COMPACT.xsd">
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
   <AR-PACKAGES>
     <AR-PACKAGE>
       <SHORT-NAME>AUTOSAR_BswM</SHORT-NAME>
@@ -11,19 +9,15 @@
           <ELEMENTS>
             <BSW-MODULE-DESCRIPTION>
               <SHORT-NAME>BswM</SHORT-NAME>
-              <MODULE-ID>042</MODULE-ID>
+              <MODULE-ID>34</MODULE-ID>
               <PROVIDED-ENTRYS>
-                <BSW-MODULE-ENTRY-REF-CONDITIONAL>
-                  <BSW-MODULE-ENTRY-REF DEST="BSW-MODULE-ENTRY">/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction</BSW-MODULE-ENTRY-REF>
-                </BSW-MODULE-ENTRY-REF-CONDITIONAL>
                 <BSW-MODULE-ENTRY-REF-CONDITIONAL>
                   <BSW-MODULE-ENTRY-REF DEST="BSW-MODULE-ENTRY">/AUTOSAR_BswM/BswModuleEntrys/BswM_Init</BSW-MODULE-ENTRY-REF>
                 </BSW-MODULE-ENTRY-REF-CONDITIONAL>
+                <BSW-MODULE-ENTRY-REF-CONDITIONAL>
+                  <BSW-MODULE-ENTRY-REF DEST="BSW-MODULE-ENTRY">/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction</BSW-MODULE-ENTRY-REF>
+                </BSW-MODULE-ENTRY-REF-CONDITIONAL>
               </PROVIDED-ENTRYS>
-              <PROVIDED-MODE-GROUPS>
-              </PROVIDED-MODE-GROUPS>
-              <REQUIRED-MODE-GROUPS>
-              </REQUIRED-MODE-GROUPS>
               <INTERNAL-BEHAVIORS>
                 <BSW-INTERNAL-BEHAVIOR>
                   <SHORT-NAME>InternalBehavior_0</SHORT-NAME>
@@ -52,8 +46,6 @@
                       <PERIOD>0.02</PERIOD>
                     </BSW-TIMING-EVENT>
                   </EVENTS>
-                  <MODE-SENDER-POLICYS>
-                  </MODE-SENDER-POLICYS>
                 </BSW-INTERNAL-BEHAVIOR>
               </INTERNAL-BEHAVIORS>
             </BSW-MODULE-DESCRIPTION>
@@ -63,21 +55,21 @@
           <SHORT-NAME>BswModuleEntrys</SHORT-NAME>
           <ELEMENTS>
             <BSW-MODULE-ENTRY>
-              <SHORT-NAME>BswM_MainFunction</SHORT-NAME>
-              <SERVICE-ID>3</SERVICE-ID>
-              <IS-REENTRANT>false</IS-REENTRANT>
-              <IS-SYNCHRONOUS>true</IS-SYNCHRONOUS>
-              <CALL-TYPE>SCHEDULED</CALL-TYPE>
-              <EXECUTION-CONTEXT>TASK</EXECUTION-CONTEXT>
-              <SW-SERVICE-IMPL-POLICY>STANDARD</SW-SERVICE-IMPL-POLICY>
-            </BSW-MODULE-ENTRY>
-            <BSW-MODULE-ENTRY>
               <SHORT-NAME>BswM_Init</SHORT-NAME>
               <SERVICE-ID>0</SERVICE-ID>
               <IS-REENTRANT>false</IS-REENTRANT>
               <IS-SYNCHRONOUS>true</IS-SYNCHRONOUS>
               <CALL-TYPE>REGULAR</CALL-TYPE>
               <EXECUTION-CONTEXT>UNSPECIFIED</EXECUTION-CONTEXT>
+              <SW-SERVICE-IMPL-POLICY>STANDARD</SW-SERVICE-IMPL-POLICY>
+            </BSW-MODULE-ENTRY>
+            <BSW-MODULE-ENTRY>
+              <SHORT-NAME>BswM_MainFunction</SHORT-NAME>
+              <SERVICE-ID>3</SERVICE-ID>
+              <IS-REENTRANT>false</IS-REENTRANT>
+              <IS-SYNCHRONOUS>true</IS-SYNCHRONOUS>
+              <CALL-TYPE>SCHEDULED</CALL-TYPE>
+              <EXECUTION-CONTEXT>TASK</EXECUTION-CONTEXT>
               <SW-SERVICE-IMPL-POLICY>STANDARD</SW-SERVICE-IMPL-POLICY>
             </BSW-MODULE-ENTRY>
           </ELEMENTS>
@@ -100,7 +92,6 @@
         </AR-PACKAGE>
       </AR-PACKAGES>
     </AR-PACKAGE>
-
     <AR-PACKAGE>
       <SHORT-NAME>EB_BswM_TxDxM1I14R0</SHORT-NAME>
       <AR-PACKAGES>
@@ -113,22 +104,6 @@
                 <CODE>
                   <SHORT-NAME>Files</SHORT-NAME>
                   <ARTIFACT-DESCRIPTORS>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>Autosar::src::BswM.c</SHORT-LABEL>
-                      <CATEGORY>SWSRC</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::src::BswM_Cfg.c</SHORT-LABEL>
-                      <CATEGORY>SWSRC</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::src::BswM_PBcfg.c</SHORT-LABEL>
-                      <CATEGORY>SWSRC</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::src::BswM_Lcfg.c</SHORT-LABEL>
-                      <CATEGORY>SWSRC</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
                     <AUTOSAR-ENGINEERING-OBJECT>
                       <SHORT-LABEL>Autosar::include::BswM.h</SHORT-LABEL>
                       <CATEGORY>SWHDR</CATEGORY>
@@ -150,35 +125,19 @@
                       <CATEGORY>SWHDR</CATEGORY>
                     </AUTOSAR-ENGINEERING-OBJECT>
                     <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>Autosar::src::BswM.c</SHORT-LABEL>
+                      <CATEGORY>SWSRC</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::include::BswM_CanSM.h</SHORT-LABEL>
+                      <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
                       <SHORT-LABEL>generated::include::BswM_Cfg.h</SHORT-LABEL>
                       <CATEGORY>SWHDR</CATEGORY>
                     </AUTOSAR-ENGINEERING-OBJECT>
                     <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::include::BswM_Int_Cfg.h</SHORT-LABEL>
-                      <CATEGORY>SWHDR</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
                       <SHORT-LABEL>generated::include::BswM_CfgTypes.h</SHORT-LABEL>
-                      <CATEGORY>SWHDR</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::include::BswM_PBcfg.h</SHORT-LABEL>
-                      <CATEGORY>SWHDR</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::include::BswM_MemMap.h</SHORT-LABEL>
-                      <CATEGORY>SWHDR</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::include::BswM_Trace.h</SHORT-LABEL>
-                      <CATEGORY>SWHDR</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::include::BswM_Lcfg.h</SHORT-LABEL>
-                      <CATEGORY>SWHDR</CATEGORY>
-                    </AUTOSAR-ENGINEERING-OBJECT>
-                    <AUTOSAR-ENGINEERING-OBJECT>
-                      <SHORT-LABEL>generated::include::BswM_CanSM.h</SHORT-LABEL>
                       <CATEGORY>SWHDR</CATEGORY>
                     </AUTOSAR-ENGINEERING-OBJECT>
                     <AUTOSAR-ENGINEERING-OBJECT>
@@ -188,6 +147,38 @@
                     <AUTOSAR-ENGINEERING-OBJECT>
                       <SHORT-LABEL>generated::include::BswM_EcuM.h</SHORT-LABEL>
                       <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::include::BswM_Int_Cfg.h</SHORT-LABEL>
+                      <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::include::BswM_Lcfg.h</SHORT-LABEL>
+                      <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::include::BswM_MemMap.h</SHORT-LABEL>
+                      <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::include::BswM_PBcfg.h</SHORT-LABEL>
+                      <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::include::BswM_Trace.h</SHORT-LABEL>
+                      <CATEGORY>SWHDR</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::src::BswM_Cfg.c</SHORT-LABEL>
+                      <CATEGORY>SWSRC</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::src::BswM_Lcfg.c</SHORT-LABEL>
+                      <CATEGORY>SWSRC</CATEGORY>
+                    </AUTOSAR-ENGINEERING-OBJECT>
+                    <AUTOSAR-ENGINEERING-OBJECT>
+                      <SHORT-LABEL>generated::src::BswM_PBcfg.c</SHORT-LABEL>
+                      <CATEGORY>SWSRC</CATEGORY>
                     </AUTOSAR-ENGINEERING-OBJECT>
                     <AUTOSAR-ENGINEERING-OBJECT>
                       <SHORT-LABEL>make::BswM_defs.mak</SHORT-LABEL>
@@ -205,19 +196,13 @@
                 <SHORT-NAME>ResourceConsumption</SHORT-NAME>
                 <MEMORY-SECTIONS>
                   <MEMORY-SECTION>
+                    <SHORT-NAME>CODE</SHORT-NAME>
+                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/CODE</SW-ADDRMETHOD-REF>
+                  </MEMORY-SECTION>
+                  <MEMORY-SECTION>
                     <SHORT-NAME>CONFIG_DATA_UNSPECIFIED</SHORT-NAME>
                     <ALIGNMENT>UNSPECIFIED</ALIGNMENT>
                     <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/CONFIG_DATA</SW-ADDRMETHOD-REF>
-                  </MEMORY-SECTION>
-                  <MEMORY-SECTION>
-                    <SHORT-NAME>VAR_INIT_UNSPECIFIED</SHORT-NAME>
-                    <ALIGNMENT>UNSPECIFIED</ALIGNMENT>
-                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/VAR_INIT</SW-ADDRMETHOD-REF>
-                  </MEMORY-SECTION>
-                  <MEMORY-SECTION>
-                    <SHORT-NAME>VAR_NO_INIT_UNSPECIFIED</SHORT-NAME>
-                    <ALIGNMENT>UNSPECIFIED</ALIGNMENT>
-                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT</SW-ADDRMETHOD-REF>
                   </MEMORY-SECTION>
                   <MEMORY-SECTION>
                     <SHORT-NAME>CONST_UNSPECIFIED</SHORT-NAME>
@@ -230,12 +215,18 @@
                     <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/VAR_POWER_ON_INIT</SW-ADDRMETHOD-REF>
                   </MEMORY-SECTION>
                   <MEMORY-SECTION>
-                    <SHORT-NAME>CODE</SHORT-NAME>
-                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/CODE</SW-ADDRMETHOD-REF>
+                    <SHORT-NAME>VAR_INIT_UNSPECIFIED</SHORT-NAME>
+                    <ALIGNMENT>UNSPECIFIED</ALIGNMENT>
+                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/VAR_INIT</SW-ADDRMETHOD-REF>
                   </MEMORY-SECTION>
                   <MEMORY-SECTION>
                     <SHORT-NAME>VAR_NO_INIT_8</SHORT-NAME>
                     <ALIGNMENT>8</ALIGNMENT>
+                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT</SW-ADDRMETHOD-REF>
+                  </MEMORY-SECTION>
+                  <MEMORY-SECTION>
+                    <SHORT-NAME>VAR_NO_INIT_UNSPECIFIED</SHORT-NAME>
+                    <ALIGNMENT>UNSPECIFIED</ALIGNMENT>
                     <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT</SW-ADDRMETHOD-REF>
                   </MEMORY-SECTION>
                   <MEMORY-SECTION>

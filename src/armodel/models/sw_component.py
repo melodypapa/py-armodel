@@ -4,7 +4,7 @@ from abc import ABCMeta
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
-from .ar_object import ARBoolean
+from .ar_object import ARBoolean, ARLiteral
 from .general_structure import ARElement, Identifiable, ARObject
 from .ar_ref import AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, ParameterInAtomicSWCTypeInstanceRef,  POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, TRefType
 from .ar_ref import RefType, PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
@@ -215,8 +215,8 @@ class SwcModeSwitchEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._activation = ""     
-        self.mode_irefs = []       # type: List[RModeInAtomicSwcInstanceRef]
+        self._activation = None             # type: ARLiteral
+        self.mode_irefs = []                # type: List[RModeInAtomicSwcInstanceRef]
 
     def addModeIRef(self, iref: RModeInAtomicSwcInstanceRef):
         self.mode_irefs.append(iref)
@@ -225,12 +225,12 @@ class SwcModeSwitchEvent(RTEEvent):
         return self.mode_irefs
 
     @property
-    def activation(self) -> str:
+    def activation(self) -> ARLiteral:
         return self._activation
 
     @activation.setter
-    def activation(self, value: str):
-        if value not in ("ON-ENTRY", "ON-EXIT", "ON-TRANSITION"):
+    def activation(self, value: ARLiteral):
+        if value.getValue() not in ("ON-ENTRY", "ON-EXIT", "ON-TRANSITION"):
             raise ValueError("Invalid activation <%s> of SwcModeSwitchEvent <%s>" % (value, self.short_name))
         self._activation = value
 
@@ -283,7 +283,7 @@ class PortAPIOption(ARObject):
         super().__init__()
 
         self.enable_take_address = None     # type: ARBoolean
-        self.indirect_API = None            # type: ARBoolean
+        self.indirect_api = None            # type: ARBoolean
         self.port_ref = None                # type: RefType
         self._port_arg_values = []          # type: List[PortDefinedArgumentValue]
 
@@ -521,7 +521,7 @@ class SwComponentType(ARElement):
     def getRPortPrototypes(self) -> List[RPortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key= lambda o: o.short_name))
     
-    def getPortPrototype(self) -> List[PortPrototype]:
+    def getPortPrototypes(self) -> List[PortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key= lambda o: o.short_name))
     
     def getPortGroups(self) -> List[PortGroup]:

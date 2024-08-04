@@ -24,7 +24,7 @@ class SwDataDefProps(ARObject):
         self.swImplPolicy = None                            # type: str
         self.swCalibrationAccess = None                     # type: str
         self.swCalprmAxisSet = None                         # type: SwCalprmAxisSet
-        self.swPointerTargetProps = None                    # type: SwPointerTargetProps
+        self.sw_pointer_target_props = None                    # type: SwPointerTargetProps
         self.swRecordLayoutRef = None                       # type: RefType
         self.valueAxisDataTypeRef = None                    # type: RefType
         self.unitRef = None                                 # type: RefType

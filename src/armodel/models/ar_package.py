@@ -5,12 +5,12 @@ from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
 from .unit import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
-from .port_interface import SenderReceiverInterface, ClientServerInterface, TriggerInterface
+from .port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
 from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
 from .datatype import ApplicationArrayDataType, ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
-from .common_structure import ConstantSpecification
+from .common_structure import ConstantSpecification, ModeDeclarationGroup
 from .implementation import BswImplementation, SwcImplementation, Implementation
 from .bsw_module_template import BswModuleDescription, BswModuleEntry
 from .global_constraints import DataConstr
@@ -204,6 +204,18 @@ class ARPackage(Identifiable, CollectableElement):
             spec = TriggerInterface(self, short_name)
             self.elements[short_name] = spec
         return self.elements[short_name]
+    
+    def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
+        if (short_name not in self.elements):
+            spec = ModeDeclarationGroup(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def createModeSwitchInterface(self, short_name: str) -> ModeSwitchInterface:
+        if (short_name not in self.elements):
+            spec = ModeSwitchInterface(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
@@ -282,6 +294,12 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getTriggerInterfaces(self) -> List[TriggerInterface]:
         return list(sorted(filter(lambda a : isinstance(a, TriggerInterface), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getModeDeclarationGroups(self) -> List[ModeDeclarationGroup]:
+        return list(sorted(filter(lambda a : isinstance(a, ModeDeclarationGroup), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getModeSwitchInterfaces(self) -> List[ModeSwitchInterface]:
+        return list(sorted(filter(lambda a : isinstance(a, ModeSwitchInterface), self.elements.values()), key = lambda a: a.short_name))
 
 class AUTOSAR (CollectableElement):
     __instance = None
@@ -345,8 +363,8 @@ class AUTOSAR (CollectableElement):
                 referred_type = self.find(data_type.sw_data_def_props.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE):
-                if (data_type.sw_data_def_props.swPointerTargetProps.target_category == "VALUE"):
-                    referred_type = self.find(data_type.sw_data_def_props.swPointerTargetProps.sw_data_def_props.baseTypeRef.value)
+                if (data_type.sw_data_def_props.sw_pointer_target_props.target_category == "VALUE"):
+                    referred_type = self.find(data_type.sw_data_def_props.sw_pointer_target_props.sw_data_def_props.baseTypeRef.value)
                     return self.getDataType(referred_type)
             return data_type
         else:

@@ -2,14 +2,14 @@
 from abc import ABCMeta
 from .general_structure import Identifiable
 from .ar_ref import AutosarVariableRef, AutosarParameterRef, RefType
-from .ar_object import ARBoolean, ARObject
+from .ar_object import ARBoolean, ARLiteral, ARObject
 
 
 class RoleBasedDataAssignment(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.role = None                    # type: str
+        self.role = None                    # type: ARLiteral
         self.used_data_element = None       # type: AutosarVariableRef
         self.used_parameter_element = None  # type: AutosarParameterRef
         self.used_pim_ref = None            # type: RefType

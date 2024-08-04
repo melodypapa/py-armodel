@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
+from .ar_ref import RefType
 from .multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
 from .ar_object import ARObject
 
@@ -58,10 +59,11 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == MultilanguageReferrable:
             raise NotImplementedError("MultilanguageReferrable is an abstract class.")
+        
         super().__init__(parent, short_name)
 
         self.parent = parent
-        self.longName = None            # type: MultilanguageLongName
+        self.long_name = None            # type: MultilanguageLongName
 
 class CollectableElement(ARObject, metaclass=ABCMeta):
     def __init__(self):
@@ -128,24 +130,24 @@ class SwcBswRunnableMapping(ARObject):
         '''
         super().__init__()
 
-        self.bsw_entity_ref   = None        # type: RefType
-        self.swc_runnable_ref = None        # type: RefType
+        self.bswEntityRef   = None        # type: RefType
+        self.swcRunnableRef = None        # type: RefType
 
 class SwcBswMapping(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.bsw_behavior_ref = None            # type: RefType
-        self.runnable_mappings = []
-        self.swc_behavior_ref = None            # type: RefType
-        self.synchronized_mode_groups = []       
-        self.synchronized_triggers = []
+        self.bswBehaviorRef = None              # type: RefType
+        self._runnableMappings = []
+        self.swcBehaviorRef = None              # type: RefType
+        self.synchronizedModeGroups = []       
+        self.synchronizedTriggers = []
 
     def addRunnableMapping(self, mapping: SwcBswRunnableMapping):
-        self.runnable_mappings.append(mapping)
+        self._runnableMappings.append(mapping)
 
     def getRunnableMappings(self) -> List[SwcBswRunnableMapping]:
-        return self.runnable_mappings
+        return self._runnableMappings
 
 class ARElement(PackageableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

@@ -1,7 +1,8 @@
 from abc import ABCMeta
 from typing import List
 
-from .common_structure import Trigger
+from .ar_object import ARBoolean, ARLiteral, ARNumerical
+from .common_structure import ModeDeclarationGroupPrototype, Trigger
 from .datatype import AtpType
 from .general_structure import ARObject, Identifiable, AtpFeature
 from .data_prototype import VariableDataPrototype, AutosarDataPrototype
@@ -13,7 +14,8 @@ class PortInterface(AtpType, metaclass = ABCMeta):
             raise NotImplementedError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.is_service = False
+        self.is_service = None                   # type: ARBoolean
+        self.serviceKind = None                 # type: ARLiteral
 
 class DataInterface(PortInterface, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -63,7 +65,7 @@ class ApplicationError(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.error_code = 0
+        self.error_code = None                  # type: ARNumerical
 
 class ClientServerOperation(AtpFeature):
     """
@@ -145,4 +147,19 @@ class TriggerInterface(PortInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._triggers = []     # type: Trigger
+        self._triggers = []             # type: Trigger
+
+class ModeSwitchInterface(PortInterface):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self._modeGroup = []            # type: List[ModeDeclarationGroupPrototype]
+
+    def createModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
+        prototype = ModeDeclarationGroupPrototype(self, short_name)
+        if (short_name not in self.elements):
+            self.elements[short_name] = prototype
+        return self.elements[short_name]
+    
+    def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
+        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements.values()), key= lambda o: o.short_name))

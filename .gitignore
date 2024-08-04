@@ -11,6 +11,9 @@ __pycache__
 .vscode/targets.log
 *.log
 docs/py-armodel.und
-data
+data/*.arxml
+data/*.lst
+data/*.xlsx
+data/*.sh
 src/armodel/tests/test_files/backup.arxml
 src/armodel/tests/test_files/SimpleTest.arxml

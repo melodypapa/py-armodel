@@ -187,7 +187,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
 
         assert(data_type_mapping_set.parent == ar_root)
         assert(data_type_mapping_set.short_name == "DataTypeMappingSet")
-        assert(len(data_type_mapping_set.data_type_maps) == 0)
+        assert(len(data_type_mapping_set._dataTypeMaps) == 0)
 
         data_type_map = DataTypeMap()
         data_type_mapping_set.addDataTypeMap(data_type_map)
@@ -228,7 +228,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         assert(data_type.short_name == "ImplementationDataType")
         assert(data_type.sub_elements == [])
         assert(data_type.symbol_props == None)
-        assert(data_type.type_emitter == None)
+        assert(data_type._type_emitter == None)
 
         element = data_type.createImplementationDataTypeElement("ImplementationDataTypeElement")
         assert(isinstance(element, ImplementationDataTypeElement))

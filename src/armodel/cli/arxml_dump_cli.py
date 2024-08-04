@@ -104,11 +104,11 @@ def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
 
     for event in behavior.getBswTimingEvents():
         print("%s-%s" % (" " * (indent + 2), event.short_name))
-        print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEventRef", event.starts_on_event_ref.value))
-        starts_on_event = document.find(event.starts_on_event_ref.value) # type: BswModuleEntity
+        print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEventRef", event.startsOnEventRef.value))
+        starts_on_event = document.find(event.startsOnEventRef.value) # type: BswModuleEntity
         print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEvent", starts_on_event.short_name))
-        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", starts_on_event.implementedEntryRef.value))
-        implemented_entry = document.find(starts_on_event.implementedEntryRef.value) # type: BswModuleEntry
+        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", starts_on_event.implemented_entry_ref.value))
+        implemented_entry = document.find(starts_on_event.implemented_entry_ref.value) # type: BswModuleEntry
         print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntry", implemented_entry.short_name))
         print("%s-%s: %d" % (" " * (indent + 6), "Service Id", implemented_entry.service_id))
 

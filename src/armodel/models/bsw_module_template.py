@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import Dict, List
 from .general_structure import AtpStructureElement, ARObject, ARElement
-from .ar_object import ARBoolean, ARFloat, ARPositiveInteger
+from .ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
 from .common_structure import ExecutableEntity, ModeDeclarationGroupPrototype, InternalBehavior, Identifiable
 from .ar_ref import RefType
 
@@ -11,10 +11,16 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
             raise NotImplementedError("BswModuleEntity is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.accessed_mode_group_refs = []          # Ref ModeDeclarationGroupPrototype     *
-        self.activation_point_refs = []             # Ref BswInternalTriggeringPoint        *
-        self.implementedEntryRef = None           # type: RefType
-        self.managed_mode_group_refs = []           # Ref ModeDeclarationGroupPrototype     *
+        self.accessedModeGroupRefs = []                 # type: List[RefType]
+        self.activationPointRefs = []                   # type: List[RefType]
+        self.implemented_entry_ref = None                 # type: RefType
+        self._managedModeGroupRefs = []                 # type: List[RefType]
+
+    def addManagedModeGroupRef(self, ref: RefType):
+        self._managedModeGroupRefs.append(ref)
+
+    def getManagedModeGroupRefs(self) -> List[RefType]:
+        return self._managedModeGroupRefs
 
 class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
@@ -47,7 +53,7 @@ class BswEvent(Identifiable, metaclass=ABCMeta):
             raise NotImplementedError("BswEvent is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.starts_on_event_ref = None         # type: RefType 
+        self.startsOnEventRef = None                    # type: RefType 
 
 class BswOperationInvokedEvent(BswEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -97,19 +103,62 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None          # type: RefType
+        self.event_source_ref = None                # type: RefType
+
+
+class BswModeSwitchAckRequest(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.timeout = None                         # type: ARFloat
+
+class BswModeSenderPolicy(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.ack_request = None                     # type: BswModeSwitchAckRequest
+        self.enhanced_mode_api = None               # type: ARBoolean
+        self._provided_mode_group_ref = None        # type: RefType
+        self._queue_length = None                   # type: ARNumerical
+
+    def setProvidedModeGroupRef(self, ref: RefType):
+        self._provided_mode_group_ref = ref
+        return self
+
+    def getProvidedModeGroupRef(self) -> RefType:
+        return self._provided_mode_group_ref
+    
+    def setQueueLength(self, length: any):
+        if isinstance(length, ARNumerical):
+            self._queue_length = length
+        elif isinstance(length, int):
+            self._queue_length = ARNumerical()
+            self._queue_length.setValue(length)
+        else:
+            raise ValueError("Unsupported type <%s>" % type(length))
+        
+    def getQueueLength(self) -> ARNumerical:
+        return self._queue_length
 
 class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.entities = []                  # type: List[BswModuleEntity]
+        self._entities = []                         # type: List[BswModuleEntity]
+        self._events = []                           # type: List[BswEvent]
+        self._mode_sender_policies = []             # type: List[BswModeSenderPolicy]
+
+    def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
+        self._mode_sender_policies.append(policy)
+
+    def getModeSenderPolicies(self) -> List[BswModeSenderPolicy]:
+        return self._mode_sender_policies
 
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
         if (short_name not in self.elements):
             event = BswCalledEntity(self, short_name)
             self.elements[short_name] = event
-            self.entities.append(event)
+            self._entities.append(event)
         return self.elements[short_name]
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
@@ -119,23 +168,20 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswSchedulableEntity(self, short_name)
             self.elements[short_name] = event
-            self.entities.append(event)
+            self._entities.append(event)
         return self.elements[short_name]
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
         return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements.values()))
     
-    def getTotalBswModuleEntities(self) -> int:
-        return len(self.entities)
-    
     def getBswModuleEntities(self) -> List[BswModuleEntity]:
-        return list(filter(lambda a: isinstance(a, BswEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswModuleEntity), self.elements.values()))
 
     def createBswModeSwitchEvent(self, short_name: str) -> BswModeSwitchEvent:
         if (short_name not in self.elements):
             event = BswModeSwitchEvent(self, short_name)
             self.elements[short_name] = event
-            self.entities.append(event)
+            self._events.append(event)
         return self.elements[short_name]
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
@@ -145,6 +191,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswTimingEvent(self, short_name)
             self.elements[short_name] = event
+            self._events.append(event)
         return self.elements[short_name]
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
@@ -154,6 +201,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswDataReceivedEvent(self, short_name)
             self.elements[short_name] = event
+            self._events.append(event)
         return self.elements[short_name]
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
@@ -163,10 +211,14 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswInternalTriggerOccurredEvent(self, short_name)
             self.elements[short_name] = event
+            self._events.append(event)
         return self.elements[short_name]
 
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements.values()))
+    
+    def getBswEvents(self) -> List[BswEvent]:
+        return list(filter(lambda a: isinstance(a, BswEvent), self.elements.values()))
 
 class BswModuleDescription(AtpStructureElement):
     '''
@@ -182,7 +234,7 @@ class BswModuleDescription(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # MODULE-ID
-        self.moduleId = None                            # type: ARPositiveInteger           
+        self.module_id = None                           # type: ARPositiveInteger           
         # PROVIDED-ENTRYS
         self._implementedEntryRefs = []                 # type: List[RefType]
 
@@ -241,12 +293,12 @@ class BswModuleEntry(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.service_id = None                  # type: int
-        self.is_reentrant = None                # type: ARBoolean
-        self.is_synchronous = None              # type: ARBoolean
-        self.call_type = None                   # type: str
-        self._execution_context = None          # type: str
-        self._sw_service_impl_policy = None     # type: str
+        self.service_id = None                      # type: ARNumerical
+        self.is_reentrant = None                    # type: ARBoolean
+        self.is_synchronous = None                  # type: ARBoolean
+        self.call_type = None                       # type: ARLiteral
+        self._execution_context = None              # type: ARLiteral
+        self._sw_service_impl_policy = None         # type: ARLiteral
 
     @property
     def execution_context(self):

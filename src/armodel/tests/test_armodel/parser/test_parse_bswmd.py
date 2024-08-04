@@ -1,8 +1,9 @@
-from .... import ARFloat
-from .... import AUTOSAR, ARPackage
-from .... import ARXMLParser
+import filecmp
 
-import logging, os
+from .... import AUTOSAR, ARPackage
+from .... import ARXMLParser, ARXMLWriter
+
+import logging
 
 class TestBswMD:
     def setup_method(self):
@@ -46,15 +47,15 @@ class TestBswMD:
 
         bsw_module_desc = bsw_module_descs[0]
         assert(bsw_module_desc.short_name == "BswM")
-        assert(bsw_module_desc.moduleId.text == "042")
-        assert(bsw_module_desc.moduleId.value == 42)
+        assert(bsw_module_desc.module_id.getText() == "34")
+        assert(bsw_module_desc.module_id.getValue() == 34)
 
         # verify the provided entries
         assert(len(bsw_module_desc._implementedEntryRefs) == 2)
         assert(bsw_module_desc._implementedEntryRefs[0].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc._implementedEntryRefs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(bsw_module_desc._implementedEntryRefs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
         assert(bsw_module_desc._implementedEntryRefs[1].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc._implementedEntryRefs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
+        assert(bsw_module_desc._implementedEntryRefs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
         assert(len(bsw_module_desc.getBswInternalBehaviors()) == 1)
         behavior = bsw_module_desc.getBswInternalBehaviors()[0]
@@ -71,21 +72,21 @@ class TestBswMD:
         assert(len(behavior.getBswSchedulableEntities()) == 1)
         entity = behavior.getBswSchedulableEntities()[0]
         assert(entity.short_name == "BswM_MainFunction")
-        assert(entity.minimumStartInterval is not None)
-        assert(entity.minimumStartIntervalMs is not None)
+        assert(entity.minimum_start_interval is not None)
+        assert(entity.minimum_start_interval_ms is not None)
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
         assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
-        assert(entity.implementedEntryRef.dest == "BSW-MODULE-ENTRY")
-        assert(entity.implementedEntryRef.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(entity.implemented_entry_ref.dest == "BSW-MODULE-ENTRY")
+        assert(entity.implemented_entry_ref.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
         assert(len(behavior.getBswTimingEvents()) == 1)
         event = behavior.getBswTimingEvents()[0]
         assert(event.short_name == "TimingEvent_MainFunction")
-        assert(event.starts_on_event_ref.dest == "BSW-SCHEDULABLE-ENTITY")
-        assert(event.starts_on_event_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
-        assert(event.period.value == 0.02)
-        assert(event.period.text == "0.02")
+        assert(event.startsOnEventRef.dest == "BSW-SCHEDULABLE-ENTITY")
+        assert(event.startsOnEventRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
+        assert(event.period.getValue() == 0.02)
+        assert(event.period.getText() == "0.02")
         assert(event.periodMs == 20)
 
     def test_bsw_module_entries(self):
@@ -96,20 +97,20 @@ class TestBswMD:
         assert(len(entries) == 2)
 
         assert(entries[0].short_name == "BswM_Init")
-        assert(entries[0].service_id == 0)
+        assert(entries[0].service_id._value == 0)
         assert(entries[0].is_reentrant.value == False)
         assert(entries[0].is_synchronous.value == True)
-        assert(entries[0].call_type == "REGULAR")
-        assert(entries[0].execution_context == "UNSPECIFIED")
-        assert(entries[0].sw_service_impl_policy == "STANDARD")
+        assert(entries[0].call_type.getText() == "REGULAR")
+        assert(entries[0].execution_context.getText() == "UNSPECIFIED")
+        assert(entries[0].sw_service_impl_policy.getText() == "STANDARD")
 
         assert(entries[1].short_name == "BswM_MainFunction")
-        assert(entries[1].service_id == 3)
+        assert(entries[1].service_id._value == 3)
         assert(entries[1].is_reentrant.value == False)
         assert(entries[1].is_synchronous.value == True)
-        assert(entries[1].call_type == "SCHEDULED")
-        assert(entries[1].execution_context == "TASK")
-        assert(entries[1].sw_service_impl_policy == "STANDARD")
+        assert(entries[1].call_type.getText() == "SCHEDULED")
+        assert(entries[1].execution_context.getText() == "TASK")
+        assert(entries[1].sw_service_impl_policy.getText() == "STANDARD")
 
     def test_bsw_module_swc_bsw_mapping(self):
         document = AUTOSAR.getInstance()
@@ -118,15 +119,15 @@ class TestBswMD:
         mappings = pkg.getSwcBswMappings()
         assert(len(mappings) == 1)
 
-        assert(mappings[0].bsw_behavior_ref.dest == "BSW-INTERNAL-BEHAVIOR")
-        assert(mappings[0].bsw_behavior_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        assert(mappings[0].bswBehaviorRef.dest == "BSW-INTERNAL-BEHAVIOR")
+        assert(mappings[0].bswBehaviorRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
         
         assert(len(mappings[0].getRunnableMappings()) == 1)
         runnable_mapping = mappings[0].getRunnableMappings()[0]
-        assert(runnable_mapping.bsw_entity_ref.dest == "BSW-SCHEDULABLE-ENTITY")
-        assert(runnable_mapping.bsw_entity_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
-        assert(runnable_mapping.swc_runnable_ref.dest == "RUNNABLE-ENTITY")
-        assert(runnable_mapping.swc_runnable_ref.value == "/AUTOSAR_BswM/SwComponentTypes/BswM/BswMInternalBehavior/RES_MainFunction")
+        assert(runnable_mapping.bswEntityRef.dest == "BSW-SCHEDULABLE-ENTITY")
+        assert(runnable_mapping.bswEntityRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
+        assert(runnable_mapping.swcRunnableRef.dest == "RUNNABLE-ENTITY")
+        assert(runnable_mapping.swcRunnableRef.value == "/AUTOSAR_BswM/SwComponentTypes/BswM/BswMInternalBehavior/RES_MainFunction")
 
     def test_bsw_module_implementation(self):
         document = AUTOSAR.getInstance()
@@ -144,36 +145,48 @@ class TestBswMD:
         assert(len(code_desc.getArtifactDescriptors("SWHDR")) == 15)
         assert(len(code_desc.getArtifactDescriptors("SWMAKE")) == 2)
 
-        artifact_descs = sorted(code_desc.getArtifactDescriptors("SWMAKE"), key= lambda o: o.short_label)
-        assert(artifact_descs[0].short_label == "make::BswM_defs.mak")
-        assert(artifact_descs[0].category == "SWMAKE")
-        assert(artifact_descs[1].short_label == "make::BswM_rules.mak")
-        assert(artifact_descs[1].category == "SWMAKE")
+        artifact_descs = sorted(code_desc.getArtifactDescriptors("SWMAKE"), key = lambda o: o.getShortLabel().getValue())
+        assert(artifact_descs[0].getShortLabel().getValue() == "make::BswM_defs.mak")
+        assert(artifact_descs[0].getCategory().getValue() == "SWMAKE")
+        assert(artifact_descs[1].getShortLabel().getValue() == "make::BswM_rules.mak")
+        assert(artifact_descs[1].getCategory().getValue() == "SWMAKE")
 
-        assert(impl.programming_language == "C")
+        assert(impl.programming_language.getValue() == "C")
 
-        assert(impl.resource_consumption.short_name == "ResourceConsumption")
-        assert(len(impl.resource_consumption.getMemorySections()) == 8)
+        assert(impl._resource_consumption.short_name == "ResourceConsumption")
+        assert(len(impl._resource_consumption.getMemorySections()) == 8)
 
-        section = impl.resource_consumption.getMemorySection("CODE")
+        section = impl._resource_consumption.getMemorySection("CODE")
         assert(section.short_name == "CODE")
         assert(section.alignment == None)
-        assert(section.sw_addr_method_ref.dest == "SW-ADDR-METHOD")
-        assert(section.sw_addr_method_ref.value == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
+        assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
+        assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
 
-        section = impl.resource_consumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
+        section = impl._resource_consumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
         assert(section.short_name == "VAR_NO_INIT_UNSPECIFIED")
-        assert(section.alignment == "UNSPECIFIED")
-        assert(section.sw_addr_method_ref.dest == "SW-ADDR-METHOD")
-        assert(section.sw_addr_method_ref.value == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT")
+        assert(section.alignment.getText() == "UNSPECIFIED")
+        assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
+        assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT")
 
-        assert(impl.vendor_id == 1)
-        assert(impl.sw_version == "1.14.1")
+        assert(impl.vendor_id.getValue() == 1)
+        assert(impl.sw_version.getValue() == "1.14.1")
         assert(impl.swc_bsw_mapping_ref.dest == "SWC-BSW-MAPPING")
         assert(impl.swc_bsw_mapping_ref.value == "/AUTOSAR_BswM/SwcBswMappings/SwcBswMapping_0")
-        assert(impl.ar_release_version == "4.0.3")
+        assert(impl.ar_release_version.getValue() == "4.0.3")
         assert(impl.behavior_ref.dest == "BSW-INTERNAL-BEHAVIOR")
         assert(impl.behavior_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
 
+    
+    def test_load_save(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("src/armodel/tests/test_files/SoftwareComponents.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated.arxml", document)
+
+        assert(filecmp.cmp("src/armodel/tests/test_files/SoftwareComponents.arxml", "data/generated.arxml", shallow = False) == True)
+    
 
 
