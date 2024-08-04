@@ -279,3 +279,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ARFloat
    * ARNumerical
    * ARLiteral
+4. Fix Issue #22 - raise wrong Exception: Invalid ResourceConsumption of Implementation
