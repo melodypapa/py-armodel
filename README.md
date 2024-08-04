@@ -258,3 +258,25 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SwRecordLayoutGroup
    * SwRecordLayoutGroupContent
    * ImplementationDataType
+
+**Version 1.4.3**
+
+1. Support to write the AUTOSAR model to arxml file (Issue #25)
+   * BswCalledEntity
+   * BswSchedulableEntity
+   * BswImplementation
+   * ServiceSwComponentType
+   * DataTypeMappingSet
+   * ModeRequestTypeMap
+   * PortInterface
+   * ModeInterface
+2. Support ot read the AUTOSAR model to arxml file (Issue #25)
+   * ServiceSwComponentType
+   * ModeRequestTypeMap
+   * PortInterface
+   * ModeInterface
+3. Refactor the Base ARType
+   * ARFloat
+   * ARNumerical
+   * ARLiteral
+4. Fix Issue #22 - raise wrong Exception: Invalid ResourceConsumption of Implementation

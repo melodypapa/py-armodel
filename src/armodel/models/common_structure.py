@@ -3,10 +3,10 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARFloat
+from .ar_object import ARFloat, ARLiteral, ARNumerical
 from .general_structure import ARObject, ARElement, Identifiable
 from .data_dictionary import SwDataDefProps
-from .ar_ref import RefType
+from .ar_ref import RefType, TRefType
 
 import re
 
@@ -135,9 +135,9 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         super().__init__(parent, short_name)
 
         self.arraySize = None               # type: int
-        self.arraySizeSemantics = None      # type: str
+        self.array_size_semantics = None      # type: str
         self.isOptional = None              # type: bool
-        self.swDataDefProps = None          # type: SwDataDefProps
+        self.sw_data_def_props = None          # type: SwDataDefProps
     
     def createImplementationDataTypeElement(self, short_name: str): # type: (...) -> ImplementationDataTypeElement
         if (short_name not in self.elements):
@@ -158,13 +158,13 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
             raise NotImplementedError("InternalBehavior is an abstract class.")
         super().__init__(parent, short_name)
 
-        self._data_type_mapping_refs = []      # type: List[RefType]
+        self._dataTypeMappingRefs = []      # type: List[RefType]
 
     def addDataTypeMappingRef(self, ref: RefType):
-        self._data_type_mapping_refs.append(ref)
+        self._dataTypeMappingRefs.append(ref)
 
     def getDataTypeMappingRefs(self) -> List[RefType]:
-        return self._data_type_mapping_refs
+        return self._dataTypeMappingRefs
 
     def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
         if (short_name not in self.elements):
@@ -179,7 +179,14 @@ class ModeDeclaration(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.value = 0
+        self.value = None                           # type: ARNumerical
+
+    def setValue(self, value):
+        self.value = value
+        return self
+
+    def getValue(self) -> ARNumerical:
+        return self.value
 
 class ExecutableEntity(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -187,22 +194,22 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
             raise NotImplementedError("ExecutableEntity is an abstract class.")
         super().__init__(parent, short_name)
     
-        self.activationReason = None            # *
-        self.minimumStartInterval = None        # type: ARFloat
-        self.reentrancyLevel = None             # 
-        self._canEnterExclusiveAreaRefs = []    # type: List[RefType]  
+        self.activation_reason = None               # *
+        self.minimum_start_interval = None          # type: ARFloat
+        self.reentrancy_level = None                # 
+        self._can_enter_exclusive_area_refs = []    # type: List[RefType]  
 
     @property
-    def minimumStartIntervalMs(self) -> int:
-        if self.minimumStartInterval is not None:
-            return int(self.minimumStartInterval.value * 1000)
+    def minimum_start_interval_ms(self) -> int:
+        if self.minimum_start_interval is not None:
+            return int(self.minimum_start_interval.getValue() * 1000)
         return None
 
     def addCanEnterExclusiveAreaRef(self, ref: RefType):
-        self._canEnterExclusiveAreaRefs.append(ref)
+        self._can_enter_exclusive_area_refs.append(ref)
 
     def getCanEnterExclusiveAreaRefs(self):
-        return self._canEnterExclusiveAreaRefs
+        return self._can_enter_exclusive_area_refs
     
 class ModeDeclarationGroupPrototype(Identifiable):
     """
@@ -211,40 +218,49 @@ class ModeDeclarationGroupPrototype(Identifiable):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self._sw_calibration_access = ""    # 0..1
-        self.type_tref = None                    # tref 0..1
+
+        self._swCalibrationAccess = None        # type: str
+        self.typeTRef = None                    # type: TRefType
 
     @property
     def sw_calibration_access(self):
-        return self._sw_calibration_access
+        return self._swCalibrationAccess
 
     @sw_calibration_access.setter
     def sw_calibration_access(self, value):
         if (value not in ("notAccessible", "readOnly", "readWrite")):
             raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
-        self._sw_calibration_access = value
+        self._swCalibrationAccess = value
 
 class MemorySection(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self._alignment = None
+        self._alignment = None              # type: ARLiteral
         self.size = None
-        self.sw_addr_method_ref = None  # type: RefType
+        self._options = []                  # type: List[ARLiteral]
+        self.swAddrMethodRef = None         # type: RefType
+        self.symbol = None                  # type: ARLiteral
+
+    def addOption(self, option: ARLiteral):
+        self._options.append(option)
+
+    def getOptions(self) -> List[ARLiteral]:
+        return self._options
 
     @property
-    def alignment(self) -> str:
+    def alignment(self) -> ARLiteral:
         return self._alignment
 
     @alignment.setter
-    def alignment(self, value:str):
+    def alignment(self, value: ARLiteral):
         if value is not None:
             match = False
-            if value in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
+            if value.value in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
                 self._alignment = value
                 match = True
             else:
-                m = re.match(r'^\d+', value)
+                m = re.match(r'^\d+', value.value)
                 if m:
                     self._alignment = value
                     match = True
@@ -275,3 +291,50 @@ class Trigger(Identifiable):
 
         self.swImplPolicy = None    # type: str
         self.triggerPeriod = None   # type: float
+
+class ModeRequestTypeMap(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.implementation_data_type_ref = None           # type: RefType
+        self.mode_group_ref = None                        # type: RefType
+
+class ModeDeclarationGroup(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self._initial_mode_ref = None                      # type: RefType
+        self._on_transition_value = None                   # type: ARNumerical
+
+    def createModeDeclaration(self, short_name: str) -> ModeDeclaration:
+        if (short_name not in self.elements):
+            spec = ModeDeclaration(self, short_name)
+            self.elements[short_name] = spec
+        return self.elements[short_name]
+    
+    def getModeDeclarations(self) -> List[ModeDeclaration]:
+        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements.values()), key= lambda o:o.short_name))
+    
+    def setInitialModeRef(self, ref: RefType):
+        self._initial_mode_ref = ref
+        return self
+    
+    def getInitialModeRef(self) -> RefType:
+        return self._initial_mode_ref
+
+    def setOnTransitionValue(self, value):
+        if isinstance(value, int):
+            value = ARNumerical()
+            value.setValue(value)
+        self._on_transition_value = value
+        return self
+    
+    def getOnTransitionValue(self) -> ARNumerical:
+        return self._on_transition_value
+    
+class ModeDeclarationGroupPrototype(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.swCalibrationAccess = None                 # type: str
+        self.type_tref = None                            # type: TRefType

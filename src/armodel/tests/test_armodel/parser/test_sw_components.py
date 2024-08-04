@@ -1,4 +1,4 @@
-
+import filecmp
 from ....models.sw_component import CompositionSwComponentType
 from ....writer.arxml_writer import ARXMLWriter
 from ....parser.arxml_parser import ARXMLParser
@@ -10,9 +10,6 @@ class TestSWComponents:
         document.clear()
         parser = ARXMLParser()
         parser.load("src/armodel/tests/test_files/SoftwareComponents.arxml", document)
-
-        writer = ARXMLWriter()
-        writer.save("src/armodel/tests/test_files/SimpleTest.arxml", document)
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
@@ -26,7 +23,7 @@ class TestSWComponents:
         sw_component = document.find("/DemoApplication/SwComponentTypes/TopLevelComposition")  
         assert(sw_component.short_name == "TopLevelComposition")
         assert(isinstance(sw_component, CompositionSwComponentType))
-        prototypes = sw_component.getPortPrototype()
+        prototypes = sw_component.getPortPrototypes()
         assert(len(prototypes) == 2)
 
     def test_composition_sw_component_types_sw_connectors(self):
@@ -55,6 +52,40 @@ class TestSWComponents:
         sw_component.removeAllDelegationSwConnector()
         assert(len(sw_component.getAssemblySwConnectors()) == 0)
         assert(len(sw_component.getDelegationSwConnectors()) == 0)
+        
+    def test_software_components_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("src/armodel/tests/test_files/SoftwareComponents.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated.arxml", document)
+
+        assert(filecmp.cmp("src/armodel/tests/test_files/SoftwareComponents.arxml", "data/generated.arxml", shallow = False) == True)
+
+    def test_software_components_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("src/armodel/tests/test_files/AUTOSAR_Datatypes.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_Datatypes.arxml", document)
+
+        assert(filecmp.cmp("src/armodel/tests/test_files/AUTOSAR_Datatypes.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow = False) == True)
+
+    def test_bswm_bswmd_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("src/armodel/tests/test_files/BswM_Bswmd.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_BswM_Bswmd.arxml", document)
+
+        assert(filecmp.cmp("src/armodel/tests/test_files/BswM_Bswmd.arxml", "data/generated_BswM_Bswmd.arxml", shallow = False) == True)
+
         
 
     

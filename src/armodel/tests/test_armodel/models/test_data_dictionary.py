@@ -16,7 +16,7 @@ class Test_M2_MSR_DataDictionary_DataDefProperties:
         assert(props.implementationDataTypeRef == None)
         assert(props.swImplPolicy == None)
         assert(props.swCalibrationAccess == None)
-        assert(props.swPointerTargetProps == None)
+        assert(props.sw_pointer_target_props == None)
 
     def test_SwPointerTargetProps(self):
         props = SwPointerTargetProps()

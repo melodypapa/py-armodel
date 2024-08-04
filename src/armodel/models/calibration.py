@@ -22,9 +22,9 @@ class SwValueCont(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swArraysize = None         # type: ValueList
-        self.unitRef = None             # type: RefType
-        self.swValuesPhys = None        # type: SwValues
+        self.sw_arraysize = None         # type: ValueList
+        self.unit_ref = None             # type: RefType
+        self.sw_values_phys = None        # type: SwValues
 
 class SwGenericAxisParam(ARObject):
     def __init__(self):
@@ -100,9 +100,9 @@ class SwCalprmAxis(ARObject):
 
         self.category = None                # type: CalprmAxisCategoryEnum
         self.displayFormat = None           # type: DisplayFormatString
-        self.swAxisIndex = None             # type: AxisIndexType   
+        self.sw_axis_index = None             # type: AxisIndexType   
         self.swCalibrationAccess = None     # type: SwCalibrationAccessEnum
-        self.swCalprmAxisTypeProps = None   # type: SwCalprmAxisTypeProps
+        self.sw_calprm_axis_type_props = None   # type: SwCalprmAxisTypeProps
 
 class SwCalprmAxisSet(ARObject):
     def __init__(self):

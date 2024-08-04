@@ -71,7 +71,7 @@
                 <SW-DATA-DEF-PROPS-VARIANTS>
                   <SW-DATA-DEF-PROPS-CONDITIONAL>
                     <COMPU-METHOD-REF DEST="COMPU-METHOD">/DemoApplication/CompuMethods/ComM_ModeTypeValues</COMPU-METHOD-REF>
-                    <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</IMPLEMENTATION-DATA-TYPE-REF>
+                    <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</IMPLEMENTATION-DATA-TYPE-REF>
                   </SW-DATA-DEF-PROPS-CONDITIONAL>
                 </SW-DATA-DEF-PROPS-VARIANTS>
               </SW-DATA-DEF-PROPS>
@@ -120,17 +120,17 @@
                   <ARGUMENTS>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>InstanceId</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <DIRECTION>IN</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>ApiId</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <DIRECTION>IN</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>ErrorId</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <DIRECTION>IN</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                   </ARGUMENTS>
@@ -152,7 +152,7 @@
               <DATA-ELEMENTS>
                 <VARIABLE-DATA-PROTOTYPE>
                   <SHORT-NAME>CounterValue</SHORT-NAME>
-                  <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                  <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                   <INIT-VALUE>
                     <NUMERICAL-VALUE-SPECIFICATION>
                       <SHORT-LABEL>CONST_951406b330e947ed9394eb477</SHORT-LABEL>
@@ -171,12 +171,12 @@
                   <ARGUMENTS>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>newCounterValue</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <DIRECTION>IN</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>returnSum</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <DIRECTION>OUT</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                   </ARGUMENTS>
@@ -192,7 +192,7 @@
                   <ARGUMENTS>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>value</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint32</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint32</TYPE-TREF>
                       <DIRECTION>IN</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                   </ARGUMENTS>
@@ -212,7 +212,7 @@
                       </SW-DATA-DEF-PROPS-CONDITIONAL>
                     </SW-DATA-DEF-PROPS-VARIANTS>
                   </SW-DATA-DEF-PROPS>
-                  <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                  <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                 </VARIABLE-DATA-PROTOTYPE>
               </DATA-ELEMENTS>
             </SENDER-RECEIVER-INTERFACE>
@@ -225,7 +225,7 @@
                   <ARGUMENTS>
                     <ARGUMENT-DATA-PROTOTYPE>
                       <SHORT-NAME>BlockChanged</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/boolean</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/boolean</TYPE-TREF>
                       <DIRECTION>IN</DIRECTION>
                     </ARGUMENT-DATA-PROTOTYPE>
                   </ARGUMENTS>
@@ -386,7 +386,7 @@
                   <EXPLICIT-INTER-RUNNABLE-VARIABLES>
                     <VARIABLE-DATA-PROTOTYPE>
                       <SHORT-NAME>CurrentCounterValue</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <INIT-VALUE>
                         <NUMERICAL-VALUE-SPECIFICATION>
                           <VALUE>0</VALUE>
@@ -411,7 +411,7 @@
                   <PER-INSTANCE-PARAMETERS>
                     <PARAMETER-DATA-PROTOTYPE>
                       <SHORT-NAME>PrmCounterValue</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint8</TYPE-TREF>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint8</TYPE-TREF>
                       <INIT-VALUE>
                         <NUMERICAL-VALUE-SPECIFICATION>
                           <VALUE>99</VALUE>
@@ -664,7 +664,7 @@
                               <VALUE>0</VALUE>
                             </NUMERICAL-VALUE-SPECIFICATION>
                           </VALUE>
-                          <VALUE-TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform/ImplementationDataTypes/uint32</VALUE-TYPE-TREF>
+                          <VALUE-TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/AUTOSAR_Platform1/ImplementationDataTypes/uint32</VALUE-TYPE-TREF>
                         </PORT-DEFINED-ARGUMENT-VALUE>
                       </PORT-ARG-VALUES>
                       <PORT-REF DEST="P-PORT-PROTOTYPE">/DemoApplication/SwComponentTypes/SWC_IoHwAbs/P_MyLED</PORT-REF>

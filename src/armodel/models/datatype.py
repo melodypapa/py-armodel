@@ -7,7 +7,7 @@ from .ar_package import Referrable
 from .general_structure import ARElement, ARObject, Identifiable
 from .data_prototype import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
 from .data_dictionary import SwDataDefProps
-from .common_structure import ImplementationDataTypeElement
+from .common_structure import ImplementationDataTypeElement, ModeRequestTypeMap
 
 class ImplementationProps(Referrable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -29,11 +29,11 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def __init__(self):
         super().__init__()
 
-        self.baseTypeEncoding = None
-        self.baseTypeSize = None                # type: ARNumerical
+        self.base_type_encoding = None
+        self.base_type_size = None                # type: ARNumerical
         self.byteOrder = None                   # type: str
-        self.memAlignment = None                # type: ARNumerical
-        self.nativeDeclaration = None      
+        self.mem_alignment = None                # type: ARNumerical
+        self.native_declaration = None      
 
 class BaseType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -158,9 +158,9 @@ class ImplementationDataType(AbstractImplementationDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.sub_elements = []      # List(str)
-        self.symbol_props = None    # SymbolProps
-        self.type_emitter = None
+        self.sub_elements = []      # type: List[str]
+        self.symbol_props = None    # type: ARLiteral
+        self._type_emitter = None    # type: ARLiteral
 
         self._array_type = None     # ImplementationDataType
 
@@ -184,6 +184,14 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def setArrayElementType(self, type: str):
         self._array_type = type
+        return self
+
+    def setTypeEmitter(self, emitter: str):
+        self._type_emitter = emitter
+        return self
+    
+    def getTypeEmitter(self) -> str:
+        return self._type_emitter
 
 
 class DataTypeMap(ARObject):
@@ -191,14 +199,23 @@ class DataTypeMap(ARObject):
         self.application_data_type_ref = None       # type: RefType
         self.implementation_data_type_ref = None    # type: RefType
 
-
 class DataTypeMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.data_type_maps = []  # type: List[DataTypeMap]
+        
+        self._dataTypeMaps = []                     # type: List[DataTypeMap]
+        self._modeRequestTypeMaps = []              # type: List[ModeRequestTypeMap]
 
     def addDataTypeMap(self, type_map: DataTypeMap):
-        self.data_type_maps.append(type_map)
+        self._dataTypeMaps.append(type_map)
 
     def getDataTypeMaps(self) -> List[DataTypeMap]:
-        return self.data_type_maps
+        return self._dataTypeMaps
+    
+    def addModeRequestTypeMap(self, map: ModeRequestTypeMap):
+        self._modeRequestTypeMaps.append(map)
+
+    def getModeRequestTypeMaps(self) -> List[ModeRequestTypeMap]:
+        return self._modeRequestTypeMaps
+    
+
