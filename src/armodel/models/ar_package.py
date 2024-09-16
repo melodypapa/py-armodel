@@ -1,5 +1,14 @@
 from typing import Dict, List
 
+from armodel.models.fibex.can_communication import CanFrame
+from armodel.models.fibex.fibex_4_multiplatform import Gateway
+
+from .system_template.transport_protocols import CanTpConfig
+from .system_template.network_management import NmConfig
+from .fibex.fibex_core import DcmIPdu, ISignal, NPdu, NmPdu
+from .fibex.lin_communication import LinUnconditionalFrame
+from .fibex.lin_topology import LinCluster
+from .timing import SwcTiming
 from .data_dictionary import SwAddrMethod
 from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
@@ -153,8 +162,8 @@ class ARPackage(Identifiable, CollectableElement):
 
     def createSwcBswMapping(self, short_name: str) -> SwcBswMapping:
         if (short_name not in self.elements):
-            sw_component = SwcBswMapping(self, short_name)
-            self.elements[short_name] = sw_component
+            mapping = SwcBswMapping(self, short_name)
+            self.elements[short_name] = mapping
         return self.elements[short_name]
     
     def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
@@ -165,14 +174,14 @@ class ARPackage(Identifiable, CollectableElement):
     
     def createDataConstr(self, short_name: str) -> DataConstr:
         if (short_name not in self.elements):
-            spec = DataConstr(self, short_name)
-            self.elements[short_name] = spec
+            constr = DataConstr(self, short_name)
+            self.elements[short_name] = constr
         return self.elements[short_name]
     
     def createUnit(self, short_name: str) -> Unit:
         if (short_name not in self.elements):
-            spec = Unit(self, short_name)
-            self.elements[short_name] = spec
+            unit = Unit(self, short_name)
+            self.elements[short_name] = unit
         return self.elements[short_name]
     
     def createEndToEndProtectionSet(self, short_name: str) -> EndToEndProtectionSet:
@@ -183,48 +192,114 @@ class ARPackage(Identifiable, CollectableElement):
     
     def createApplicationArrayDataType(self, short_name: str) -> ApplicationArrayDataType:
         if (short_name not in self.elements):
-            spec = ApplicationArrayDataType(self, short_name)
-            self.elements[short_name] = spec
+            data_type = ApplicationArrayDataType(self, short_name)
+            self.elements[short_name] = data_type
         return self.elements[short_name]
     
     def createSwRecordLayout(self, short_name: str) -> SwRecordLayout:
         if (short_name not in self.elements):
-            spec = SwRecordLayout(self, short_name)
-            self.elements[short_name] = spec
+            layout = SwRecordLayout(self, short_name)
+            self.elements[short_name] = layout
         return self.elements[short_name]
     
     def createSwAddrMethod(self, short_name: str) -> SwAddrMethod:
         if (short_name not in self.elements):
-            spec = SwAddrMethod(self, short_name)
-            self.elements[short_name] = spec
+            method = SwAddrMethod(self, short_name)
+            self.elements[short_name] = method
         return self.elements[short_name]
     
     def createTriggerInterface(self, short_name: str) -> TriggerInterface:
         if (short_name not in self.elements):
-            spec = TriggerInterface(self, short_name)
-            self.elements[short_name] = spec
+            trigger_interface = TriggerInterface(self, short_name)
+            self.elements[short_name] = trigger_interface
         return self.elements[short_name]
     
     def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
         if (short_name not in self.elements):
-            spec = ModeDeclarationGroup(self, short_name)
-            self.elements[short_name] = spec
+            group = ModeDeclarationGroup(self, short_name)
+            self.elements[short_name] = group
         return self.elements[short_name]
     
     def createModeSwitchInterface(self, short_name: str) -> ModeSwitchInterface:
         if (short_name not in self.elements):
-            spec = ModeSwitchInterface(self, short_name)
-            self.elements[short_name] = spec
+            switch_interface = ModeSwitchInterface(self, short_name)
+            self.elements[short_name] = switch_interface
         return self.elements[short_name]
-
+    
+    def createSwcTiming(self, short_name: str) -> SwcTiming:
+        if (short_name not in self.elements):
+            timing = SwcTiming(self, short_name)
+            self.elements[short_name] = timing
+        return self.elements[short_name]
+    
+    def createLinCluster(self, short_name: str) -> LinCluster:
+        if (short_name not in self.elements):
+            cluster = LinCluster(self, short_name)
+            self.elements[short_name] = cluster
+        return self.elements[short_name]
+    
+    def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
+        if (short_name not in self.elements):
+            frame = LinUnconditionalFrame(self, short_name)
+            self.elements[short_name] = frame
+        return self.elements[short_name]
+    
+    def createNmPdu(self, short_name: str) -> NmPdu:
+        if (short_name not in self.elements):
+            pdu = NmPdu(self, short_name)
+            self.elements[short_name] = pdu
+        return self.elements[short_name]
+    
+    def createNPdu(self, short_name: str) -> NPdu:
+        if (short_name not in self.elements):
+            pdu = NPdu(self, short_name)
+            self.elements[short_name] = pdu
+        return self.elements[short_name]
+    
+    def createDcmIPdu(self, short_name: str) -> DcmIPdu:
+        if (short_name not in self.elements):
+            pdu = DcmIPdu(self, short_name)
+            self.elements[short_name] = pdu
+        return self.elements[short_name]
+    
+    def createNmConfig(self, short_name: str) -> NmConfig:
+        if (short_name not in self.elements):
+            config = NmConfig(self, short_name)
+            self.elements[short_name] = config
+        return self.elements[short_name]
+    
+    def createCanTpConfig(self, short_name: str) -> CanTpConfig:
+        if (short_name not in self.elements):
+            config = CanTpConfig(self, short_name)
+            self.elements[short_name] = config
+        return self.elements[short_name]
+    
+    def createCanFrame(self, short_name: str) -> CanFrame:
+        if (short_name not in self.elements):
+            frame = CanFrame(self, short_name)
+            self.elements[short_name] = frame
+        return self.elements[short_name]
+    
+    def createGateway(self, short_name: str) -> Gateway:
+        if (short_name not in self.elements):
+            gateway = Gateway(self, short_name)
+            self.elements[short_name] = gateway
+        return self.elements[short_name]
+    
+    def createISignal(self, short_name: str) -> ISignal:
+        if (short_name not in self.elements):
+            signal = ISignal(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
-        return list(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()))
+        return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()), key= lambda o:o.short_name))
     
     def getApplicationDataType(self) -> List[ApplicationDataType]:
         return list(sorted(filter(lambda a: isinstance(a, ApplicationDataType), self.elements.values()), key= lambda o:o.short_name))
 
     def getImplementationDataTypes(self) -> List[ImplementationDataType]:
-        return list(filter(lambda a: isinstance(a, ImplementationDataType), self.elements.values()))
+        return list(sorted(filter(lambda a: isinstance(a, ImplementationDataType), self.elements.values()), key= lambda o:o.short_name))
 
     def getSwBaseTypes(self) -> List[SwBaseType]:
         return list(filter(lambda a: isinstance(a, SwBaseType), self.elements.values()))
@@ -300,8 +375,41 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getModeSwitchInterfaces(self) -> List[ModeSwitchInterface]:
         return list(sorted(filter(lambda a : isinstance(a, ModeSwitchInterface), self.elements.values()), key = lambda a: a.short_name))
-
-class AUTOSAR (CollectableElement):
+    
+    def getSwcTimings(self) -> List[SwcTiming]:
+        return list(sorted(filter(lambda a : isinstance(a, SwcTiming), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getLinClusters(self) -> List[LinCluster]:
+        return list(sorted(filter(lambda a : isinstance(a, LinCluster), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getLinUnconditionalFrames(self) -> List[LinUnconditionalFrame]:
+        return list(sorted(filter(lambda a : isinstance(a, LinUnconditionalFrame), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getNmPdus(self) -> List[NmPdu]:
+        return list(sorted(filter(lambda a : isinstance(a, NmPdu), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getNPdus(self) -> List[NPdu]:
+        return list(sorted(filter(lambda a : isinstance(a, NPdu), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getDcmIPdus(self) -> List[DcmIPdu]:
+        return list(sorted(filter(lambda a : isinstance(a, DcmIPdu), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getNmConfigs(self) -> List[NmConfig]:
+        return list(sorted(filter(lambda a : isinstance(a, NmConfig), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getCanTpConfigs(self) -> List[CanTpConfig]:
+        return list(sorted(filter(lambda a : isinstance(a, CanTpConfig), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getCanFrames(self) -> List[CanFrame]:
+        return list(sorted(filter(lambda a : isinstance(a, CanFrame), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getGateways(self) -> List[Gateway]:
+        return list(sorted(filter(lambda a : isinstance(a, Gateway), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getISignals(self) -> List[ISignal]:
+        return list(sorted(filter(lambda a : isinstance(a, ISignal), self.elements.values()), key = lambda a: a.short_name))
+    
+class AUTOSAR (CollectableElement):        
     __instance = None
 
     @staticmethod

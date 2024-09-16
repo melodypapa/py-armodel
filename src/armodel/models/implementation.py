@@ -17,13 +17,12 @@ class EngineeringObject(ARObject, metaclass=ABCMeta):
         self.revision_label = None           # type: ARLiteral
         self.short_label = None              # type: ARLiteral
 
-    def setCategory(self, category: ARLiteral):
+    def setCategory(self, category: any):
         if isinstance(category, ARLiteral):
             self.category = category
         else:
             self.category = ARLiteral()
             self.category.setValue(str(category))
-            
         return self
     
     def getCategory(self) -> ARLiteral:
@@ -86,7 +85,7 @@ class Implementation(PackageableElement, metaclass=ABCMeta):
         self.programming_language = None                    # type: ARLiteral
         self.required_artifacts = []           
         self.required_generator_tools = []
-        self._resource_consumption = None                   # type: ResourceConsumption
+        self.resource_consumption = None                    # type: ResourceConsumption
         self.sw_version = ""                                # type: ARLiteral
         self.swc_bsw_mapping_ref = None                     # type: RefType
         self.used_code_generator = None                     # type: ARLiteral
@@ -103,11 +102,11 @@ class Implementation(PackageableElement, metaclass=ABCMeta):
 
     def setResourceConsumption(self, consumption: ResourceConsumption):
         self.elements[consumption.short_name] = consumption
-        self._resource_consumption = consumption
+        self.resource_consumption = consumption
         return self
     
     def getResourceConsumption(self) -> ResourceConsumption:
-        return self._resource_consumption
+        return self.resource_consumption
 
 class BswImplementation(Implementation):
     def __init__(self, parent: ARObject, short_name: str) -> None:

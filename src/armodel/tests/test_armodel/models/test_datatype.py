@@ -26,7 +26,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
         assert(isinstance(prototype, Referrable))
         assert(isinstance(prototype, SymbolProps))
 
-        assert(prototype.parent == ar_root)
+        assert(prototype._parent == ar_root)
         assert(prototype.short_name == "SymbolProps")
         assert(prototype.symbol == "")
 
@@ -52,7 +52,7 @@ class Test_M2_MSR_AsamHdo_BaseTypes:
         assert(isinstance(base_type, Referrable))
         assert(isinstance(base_type, SwBaseType))
 
-        assert(base_type.parent == ar_root)
+        assert(base_type._parent == ar_root)
         assert(base_type.short_name == "SwBaseType")
         assert(isinstance(base_type.baseTypeDefinition, BaseTypeDirectDefinition))
 
@@ -97,7 +97,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
         assert(isinstance(data_type, Referrable))
         assert(isinstance(data_type, ApplicationPrimitiveDataType))
 
-        assert(data_type.parent == ar_root)
+        assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ApplicationPrimitiveDataType")
         assert(data_type.sw_data_def_props == None)
 
@@ -128,7 +128,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
         assert(isinstance(data_type, Referrable))
         assert(isinstance(data_type, ApplicationArrayDataType))
 
-        assert(data_type.parent == ar_root)
+        assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ApplicationArrayDataType")
         assert(data_type.dynamic_array_size_profile == None)
         assert(data_type.element == None)
@@ -153,7 +153,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
         assert(isinstance(data_type, Referrable))
         assert(isinstance(data_type, ApplicationRecordDataType))
 
-        assert(data_type.parent == ar_root)
+        assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ApplicationRecordDataType")
 
         element = data_type.createApplicationRecordElement("element")
@@ -185,7 +185,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
         assert(isinstance(data_type_mapping_set, Referrable))
         assert(isinstance(data_type_mapping_set, DataTypeMappingSet))
 
-        assert(data_type_mapping_set.parent == ar_root)
+        assert(data_type_mapping_set._parent == ar_root)
         assert(data_type_mapping_set.short_name == "DataTypeMappingSet")
         assert(len(data_type_mapping_set._dataTypeMaps) == 0)
 
@@ -224,7 +224,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         assert(isinstance(data_type, Referrable))
         assert(isinstance(data_type, ImplementationDataType))
 
-        assert(data_type.parent == ar_root)
+        assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ImplementationDataType")
         assert(data_type.sub_elements == [])
         assert(data_type.symbol_props == None)

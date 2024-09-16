@@ -1,8 +1,10 @@
 from abc import ABCMeta
 from typing import Dict, List
+
+from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .general_structure import AtpStructureElement, ARObject, ARElement
 from .ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
-from .common_structure import ExecutableEntity, ModeDeclarationGroupPrototype, InternalBehavior, Identifiable
+from .common_structure import ExecutableEntity, IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype, Identifiable
 from .ar_ref import RefType
 
 class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
@@ -105,7 +107,6 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
 
         self.event_source_ref = None                # type: RefType
 
-
 class BswModeSwitchAckRequest(ARObject):
     def __init__(self):
         super().__init__()
@@ -144,21 +145,23 @@ class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._entities = []                         # type: List[BswModuleEntity]
-        self._events = []                           # type: List[BswEvent]
-        self._mode_sender_policies = []             # type: List[BswModeSenderPolicy]
+        self.entities = []                                  # type: List[BswModuleEntity]
+        self.events = []                                    # type: List[BswEvent]
+        self.mode_sender_policies = []                      # type: List[BswModeSenderPolicy]
+        self.included_mode_declaration_group_sets = []      # type: List[IncludedModeDeclarationGroupSet]
+        self.included_data_type_sets = []                       # type: List[IncludedDataTypeSet]
 
     def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
-        self._mode_sender_policies.append(policy)
+        self.mode_sender_policies.append(policy)
 
     def getModeSenderPolicies(self) -> List[BswModeSenderPolicy]:
-        return self._mode_sender_policies
+        return self.mode_sender_policies
 
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
         if (short_name not in self.elements):
             event = BswCalledEntity(self, short_name)
             self.elements[short_name] = event
-            self._entities.append(event)
+            self.entities.append(event)
         return self.elements[short_name]
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
@@ -168,7 +171,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswSchedulableEntity(self, short_name)
             self.elements[short_name] = event
-            self._entities.append(event)
+            self.entities.append(event)
         return self.elements[short_name]
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
@@ -181,7 +184,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswModeSwitchEvent(self, short_name)
             self.elements[short_name] = event
-            self._events.append(event)
+            self.events.append(event)
         return self.elements[short_name]
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
@@ -191,7 +194,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswTimingEvent(self, short_name)
             self.elements[short_name] = event
-            self._events.append(event)
+            self.events.append(event)
         return self.elements[short_name]
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
@@ -201,7 +204,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswDataReceivedEvent(self, short_name)
             self.elements[short_name] = event
-            self._events.append(event)
+            self.events.append(event)
         return self.elements[short_name]
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
@@ -211,7 +214,7 @@ class BswInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             event = BswInternalTriggerOccurredEvent(self, short_name)
             self.elements[short_name] = event
-            self._events.append(event)
+            self.events.append(event)
         return self.elements[short_name]
 
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
@@ -219,6 +222,18 @@ class BswInternalBehavior(InternalBehavior):
     
     def getBswEvents(self) -> List[BswEvent]:
         return list(filter(lambda a: isinstance(a, BswEvent), self.elements.values()))
+    
+    def addIncludedModeDeclarationGroupSet(self, group_set: IncludedModeDeclarationGroupSet):
+        self.included_mode_declaration_group_sets.append(group_set)
+
+    def getIncludedModeDeclarationGroupSets(self) -> List[IncludedModeDeclarationGroupSet]:
+        return self.included_mode_declaration_group_sets
+    
+    def addIncludedDataTypeSet(self, type_set: IncludedDataTypeSet):
+        self.included_data_type_sets.append(type_set)
+
+    def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
+        return self.included_data_type_sets
 
 class BswModuleDescription(AtpStructureElement):
     '''
@@ -239,7 +254,7 @@ class BswModuleDescription(AtpStructureElement):
         self._implementedEntryRefs = []                 # type: List[RefType]
 
         self.providedModeGroups   = {}                  # type: Dict[str, ModeDeclarationGroupPrototype]
-        self.requiredModeGroups   = {}                  # tyep: Dict[str, ModeDeclarationGroupPrototype] 
+        self.requiredModeGroups   = {}                  # type: Dict[str, ModeDeclarationGroupPrototype] 
 
     def addImplementedEntry(self, entry_ref: RefType):
         self._implementedEntryRefs.append(entry_ref)

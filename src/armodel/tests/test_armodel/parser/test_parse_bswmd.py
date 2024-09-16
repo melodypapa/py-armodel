@@ -73,7 +73,7 @@ class TestBswMD:
         entity = behavior.getBswSchedulableEntities()[0]
         assert(entity.short_name == "BswM_MainFunction")
         assert(entity.minimum_start_interval is not None)
-        assert(entity.minimum_start_interval_ms is not None)
+        assert(entity.minimumStartIntervalMs is not None)
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
         assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
@@ -153,16 +153,16 @@ class TestBswMD:
 
         assert(impl.programming_language.getValue() == "C")
 
-        assert(impl._resource_consumption.short_name == "ResourceConsumption")
-        assert(len(impl._resource_consumption.getMemorySections()) == 8)
+        assert(impl.resource_consumption.short_name == "ResourceConsumption")
+        assert(len(impl.resource_consumption.getMemorySections()) == 8)
 
-        section = impl._resource_consumption.getMemorySection("CODE")
+        section = impl.resource_consumption.getMemorySection("CODE")
         assert(section.short_name == "CODE")
         assert(section.alignment == None)
         assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
         assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
 
-        section = impl._resource_consumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
+        section = impl.resource_consumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
         assert(section.short_name == "VAR_NO_INIT_UNSPECIFIED")
         assert(section.alignment.getText() == "UNSPECIFIED")
         assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
@@ -188,5 +188,13 @@ class TestBswMD:
 
         assert(filecmp.cmp("src/armodel/tests/test_files/SoftwareComponents.arxml", "data/generated.arxml", shallow = False) == True)
     
+    def test_bswm_bswmd_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("src/armodel/tests/test_files/BswM_Bswmd.arxml", document)
 
+        writer = ARXMLWriter()
+        writer.save("data/generated_BswM_Bswmd.arxml", document)
 
+        assert(filecmp.cmp("src/armodel/tests/test_files/BswM_Bswmd.arxml", "data/generated_BswM_Bswmd.arxml", shallow = False) == True)

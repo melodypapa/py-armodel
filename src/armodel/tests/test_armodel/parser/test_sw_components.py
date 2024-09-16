@@ -75,16 +75,16 @@ class TestSWComponents:
 
         assert(filecmp.cmp("src/armodel/tests/test_files/AUTOSAR_Datatypes.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow = False) == True)
 
-    def test_bswm_bswmd_arxml_loading_and_saving(self):
+    def test_bswm_mode_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
-        parser.load("src/armodel/tests/test_files/BswM_Bswmd.arxml", document)
+        parser.load("src/armodel/tests/test_files/BswMMode.arxml", document)
 
         writer = ARXMLWriter()
-        writer.save("data/generated_BswM_Bswmd.arxml", document)
+        writer.save("data/generated_AUTOSAR_Datatypes.arxml", document)
 
-        assert(filecmp.cmp("src/armodel/tests/test_files/BswM_Bswmd.arxml", "data/generated_BswM_Bswmd.arxml", shallow = False) == True)
+        assert(filecmp.cmp("src/armodel/tests/test_files/BswMMode.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow = False) == True)
 
         
 

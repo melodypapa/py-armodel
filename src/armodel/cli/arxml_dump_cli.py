@@ -32,7 +32,7 @@ def show_port(indent:int, port_prototype: PortPrototype):
         raise ValueError("Unsupported Port prototype")
 
 def show_type(indent: int, data_type: ImplementationDataType):
-    print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, data_type.parent.full_name))
+    print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, data_type._parent.full_name))
     print("%s                    : %s" % (" " * indent, data_type.category))
     if (data_type.sw_data_def_props != None):
         if (data_type.sw_data_def_props.baseTypeRef != None):

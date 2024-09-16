@@ -280,3 +280,26 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ARNumerical
    * ARLiteral
 4. Fix Issue #22 - raise wrong Exception: Invalid ResourceConsumption of Implementation
+
+**Version 1.5.0**
+
+1. Fix the old ARElement (Issue #27)
+   * InitEvent
+   * SwcTiming
+   * ConstantMemory
+   * ModeSwitchReceiverComSpec
+   * MODE-ACCESS-POINTS
+2. Add the timestamp to following ARElement (Issue #27)
+   * AUTOSAR-VARIABLE-IREF
+   * MODE-REQUEST-TYPE-MAP
+3. Timing Extension  (Issue #27)
+   * TIMING-REQUIREMENTS
+   * EXECUTION-ORDER-CONSTRAINT
+   * EOC-EXECUTABLE-ENTITY-REF
+4. Communication (Issue #27)
+   * LIN-CLUSTER
+   * NM-PDU
+   * LIN-UNCONDITIONAL-FRAME
+   * CAN-FRAME
+   * GATEWAY
+   * I-SIGNAL

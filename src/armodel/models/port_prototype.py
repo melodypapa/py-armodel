@@ -49,12 +49,28 @@ class ClientComSpec(RPortComSpec):
         super().__init__()
 
         self.operation_ref = None  # type: RefType
-
+    
+    @property
+    def operationRef(self) -> RefType:
+        return self.operation_ref
+    
+    @operationRef.setter
+    def operationRef(self, value:RefType):
+        self.operation_ref = value
 
 class ModeSwitchReceiverComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+        self.mode_group_ref = None # type: RefType
+
+    @property
+    def modeGroupRef(self) -> RefType:
+        return self.mode_group_ref
+    
+    @modeGroupRef.setter
+    def modeGroupRef(self, value: RefType):
+        self.mode_group_ref = value
 
 class NvRequireComSpec(RPortComSpec):
     def __init__(self):
@@ -208,8 +224,10 @@ class AbstractRequiredPortPrototype(PortPrototype):
                     "Invalid date element dest of NonqueuedReceiverComSpec.")
         elif isinstance(com_spec, QueuedReceiverComSpec):
             pass
+        elif isinstance(com_spec, ModeSwitchReceiverComSpec):
+            pass
         else:
-            raise ValueError("Unsupported RPortComSpec")
+            raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 
     def addRequiredComSpec(self, com_spec: RPortComSpec):
         self._validateRPortComSpec(com_spec)

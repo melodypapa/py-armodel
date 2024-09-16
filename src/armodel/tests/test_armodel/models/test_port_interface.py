@@ -40,7 +40,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(data_if, Referrable))
         assert(isinstance(data_if, NvDataInterface))
 
-        assert(data_if.parent == ar_root)
+        assert(data_if._parent == ar_root)
         assert(data_if.short_name == "NvDataInterface")
 
     def test_ParameterInterface(self):
@@ -63,7 +63,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(data_if, Referrable))
         assert(isinstance(data_if, ParameterInterface))
 
-        assert(data_if.parent == ar_root)
+        assert(data_if._parent == ar_root)
         assert(data_if.short_name == "ParameterInterface")
 
     def test_SenderReceiverInterface(self):
@@ -87,7 +87,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(sr_if, SenderReceiverInterface))
 
         assert(sr_if.short_name == "sr_if")
-        assert(sr_if.parent == ar_root)
+        assert(sr_if._parent == ar_root)
         assert(len(sr_if.getDataElements()) == 0)
 
         element = sr_if.createDataElement("element")
@@ -117,7 +117,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(prototype, Referrable))
         assert(isinstance(prototype, ArgumentDataPrototype))
 
-        assert(prototype.parent == ar_root)
+        assert(prototype._parent == ar_root)
         assert(prototype.short_name == "ArgumentDataPrototype")
         assert(prototype.direction == "")
         assert(prototype.server_argument_impl_policy == "")
@@ -133,7 +133,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(app_error, Referrable))
         assert(isinstance(app_error, ApplicationError))
 
-        assert(app_error.parent == ar_root)
+        assert(app_error._parent == ar_root)
         assert(app_error.short_name == "ApplicationError")
 
     def test_ClientServerOperation(self):

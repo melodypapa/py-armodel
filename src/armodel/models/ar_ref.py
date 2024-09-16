@@ -150,8 +150,31 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                                        # type: RefType
-        self.contextComponentRef = []                              # type: List[RefType]
-        self.contextCompositionRef = None                          # type: RefType
-        self.contextPortRef = None                                 # type: RefType
-        self.targetDataPrototypeRef = None                         # type: RefType 
+        self.base_ref = None                                        # type: RefType
+        self.context_component_refs = []                            # type: List[RefType]
+        self.context_composition_ref = None                         # type: RefType
+        self.context_port_ref = None                                # type: RefType
+        self.target_data_prototype_ref = None                       # type: RefType 
+
+class RModeGroupInAtomicSWCInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.context_r_port = None                                  # type: RefType
+        self.target_mode_group = None                               # type: RefType
+
+    @property
+    def contextRPort(self) -> RefType:
+        return self.context_r_port
+    
+    @contextRPort.setter
+    def contextRPort(self, value: RefType):
+        self.context_r_port = value
+
+    @property
+    def targetModeGroup(self) -> RefType:
+        return self.target_mode_group
+    
+    @targetModeGroup.setter
+    def targetModeGroup(self, value: RefType):
+        self.target_mode_group = value

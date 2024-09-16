@@ -204,7 +204,7 @@ class AbstractARXMLParser:
         return None
 
     def getChildElementRefTypeList(self, element: ET.Element, key: str) -> List[RefType]:
-        child_elements = element.findall("./xmlns:%s" % key, self.nsmap)
+        child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
             ref = RefType()

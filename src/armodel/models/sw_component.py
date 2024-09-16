@@ -1,24 +1,27 @@
 from typing import List, Dict
 from abc import ABCMeta
 
+from .rpt_scenario import ModeAccessPointIdent
+
+from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .ar_object import ARBoolean, ARLiteral
 from .general_structure import ARElement, Identifiable, ARObject
-from .ar_ref import AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, ParameterInAtomicSWCTypeInstanceRef,  POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, TRefType
+from .ar_ref import AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, ROperationInAtomicSwcInstanceRef, TRefType
 from .ar_ref import RefType, PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 from .ar_ref import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .port_prototype import RPortPrototype, PPortPrototype, PortPrototype
 from .data_prototype import ParameterDataPrototype, VariableDataPrototype
-from .common_structure import ExecutableEntity, InternalBehavior, ValueSpecification
+from .common_structure import ExecutableEntity, ValueSpecification
 
 class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)
         self.accessed_variable_ref = AutosarVariableRef()
         self.accessed_variable_ref.parent = self
-        self.parent = parent
+        self._parent = parent
         self.local_variable_ref = None  # type: RefType
 
 class AbstractAccessPoint(Identifiable):
@@ -51,7 +54,22 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.called_from_within_exclusive_area_ref = None # Type: RefType
+        self.called_from_within_exclusive_area_ref = None   # type: RefType
+
+class ModeAccessPoint(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.ident = None                   # type: ModeAccessPointIdent
+        self.mode_group_iref = None         # type: RModeGroupInAtomicSWCInstanceRef
+
+    @property
+    def modeGroupIRef(self) -> RModeGroupInAtomicSWCInstanceRef:
+        return self.mode_group_iref
+    
+    @modeGroupIRef.setter
+    def modeGroupIRef(self, value: RModeGroupInAtomicSWCInstanceRef):
+        self.mode_group_iref = value
 
 class AsynchronousServerCallPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
@@ -61,7 +79,15 @@ class AsynchronousServerCallResultPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.asynchronous_server_call_point_ref = None # Type:RefType
+        self.asynchronous_server_call_point_ref = None          # type: RefType
+
+    @property
+    def asynchronousServerCallPointRef(self) -> RefType:
+        return self.asynchronous_server_call_point_ref
+    
+    @asynchronousServerCallPointRef.setter
+    def asynchronousServerCallPointRef(self, value: RefType):
+        self.asynchronous_server_call_point_ref = value
 
 class InternalTriggeringPoint(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
@@ -72,22 +98,30 @@ class InternalTriggeringPoint(AbstractAccessPoint):
 class RunnableEntity(ExecutableEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.can_be_invoked_concurrently = None         # Type: ARBoolean
-        self.data_read_accesses = {}                    # Type: Dict[str, VariableAccess]
-        self.data_received_point_by_arguments = {}      # Type: Dict[str, VariableAccess]
-        self.data_received_point_by_values = {}         # Type: Dict[str, VariableAccess]
-        self.data_send_points = {}                      # Type: Dict[str, VariableAccess]
-        self.data_write_accesses = {}                   # Type: Dict[str, VariableAccess]
-        self.written_local_variables = {}               # Type: Dict[str, VariableAccess]
-        self.read_local_variables = {}                  # Type: Dict[str, VariableAccess]
-        self.external_triggering_points = {}            # Type: Dict[InternalTriggeringPoint]
+        self.can_be_invoked_concurrently = None         # type: ARBoolean
+        self.data_read_accesses = {}                    # type: Dict[str, VariableAccess]
+        self.data_received_point_by_arguments = {}      # type: Dict[str, VariableAccess]
+        self.data_received_point_by_values = {}         # type: Dict[str, VariableAccess]
+        self.data_send_points = {}                      # type: Dict[str, VariableAccess]
+        self.data_write_accesses = {}                   # type: Dict[str, VariableAccess]
+        self.written_local_variables = {}               # type: Dict[str, VariableAccess]
+        self.read_local_variables = {}                  # type: Dict[str, VariableAccess]
+        self.external_triggering_points = {}            # type: Dict[InternalTriggeringPoint]
         self.internal_triggering_points = {}
-        self.mode_access_points = {}
+        self.mode_access_points = []                    # type: List[ModeAccessPoint]
         self.mode_switch_points = {}
-        self.parameter_accesses = {}                    # Type: Dict[str, ParameterAccess]
-        self.server_call_points = {}                    # Type: Dict[str, ServerCallPoint]
-        self.wait_points = {}                           # Type: Dict[str, WaitPoint]
+        self.parameter_accesses = {}                    # type: Dict[str, ParameterAccess]
+        self.server_call_points = {}                    # type: Dict[str, ServerCallPoint]
+        self.wait_points = {}                           # type: Dict[str, WaitPoint]
         self.symbol = ""
+
+    @property
+    def canBeInvokedConcurrently(self) -> ARBoolean:
+        return self.can_be_invoked_concurrently
+    
+    @canBeInvokedConcurrently.setter
+    def canBeInvokedConcurrently(self, value: ARBoolean):
+        self.can_be_invoked_concurrently = value
 
     def _createVariableAccess(self, short_name, variable_accesses: Dict[str, VariableAccess]):
         if (short_name not in variable_accesses):
@@ -175,6 +209,12 @@ class RunnableEntity(ExecutableEntity):
 
     def getInternalTriggeringPoints(self) -> List[InternalTriggeringPoint]:
         return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.elements)
+    
+    def addModeAccessPoint(self, point: ModeAccessPoint):
+        self.mode_access_points.append(point)
+
+    def getModeAccessPoints(self) -> List[ModeAccessPoint]:
+        return self.mode_access_points
 
 class AbstractEvent(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -209,7 +249,15 @@ class DataReceivedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.data_iref = None       # type: RVariableInAtomicSwcInstanceRef
+        self.data_iref = None               # type: RVariableInAtomicSwcInstanceRef
+
+    @property
+    def dataIRef(self) -> RVariableInAtomicSwcInstanceRef:
+        return self.data_iref
+    
+    @dataIRef.setter
+    def dataIRef(self, value: RVariableInAtomicSwcInstanceRef):
+        self.data_iref = value
 
 class SwcModeSwitchEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -247,6 +295,14 @@ class OperationInvokedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.operation_iref = None      # type: POperationInAtomicSwcInstanceRef
+
+    @property
+    def operationIRef(self) -> POperationInAtomicSwcInstanceRef:
+        return self.operation_iref
+    
+    @operationIRef.setter
+    def operationIRef(self, value: POperationInAtomicSwcInstanceRef):
+        self.operation_iref = value
 
 class InitEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -334,30 +390,37 @@ class SwcInternalBehavior(InternalBehavior):
 
         self.handle_termination_and_restart = None      # type: str
         self.supports_multiple_instantiation = None     # type: ARBoolean
-        self._explicit_inter_runnable_variables = []    # type: List[VariableDataPrototype]
-        self._implicit_inter_runnable_variables = []    # type: List[VariableDataPrototype]
-        self._per_instance_memories = []                # type: List[PerInstanceMemory]
-        self._per_instance_parameters = []              # type: List[ParameterDataPrototype]
-        self._port_api_options = []                     # type: List[PortAPIOption]
+        self.explicit_inter_runnable_variables = []     # type: List[VariableDataPrototype]
+        self.implicit_inter_runnable_variables = []     # type: List[VariableDataPrototype]
+        self.per_instance_memories = []                 # type: List[PerInstanceMemory]
+        self.per_instance_parameters = []               # type: List[ParameterDataPrototype]
+        self.port_api_options = []                      # type: List[PortAPIOption]
+        self.included_data_type_sets = []               # type: List[IncludedDataTypeSet]
 
     def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
-        return self._explicit_inter_runnable_variables
+        return self.explicit_inter_runnable_variables
     
     def getImplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
-        return self._implicit_inter_runnable_variables
+        return self.implicit_inter_runnable_variables
     
     def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
-        return self._per_instance_memories
+        return self.per_instance_memories
     
-    def getParameterDataPrototypes(self) -> List[ParameterDataPrototype]:
-        return self._per_instance_parameters
+    def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
+        return self.per_instance_parameters
     
     def addPortAPIOption(self, option: PortAPIOption):
-        self._port_api_options.append(option)
+        self.port_api_options.append(option)
 
     def getPortAPIOptions(self) -> List[PortAPIOption]:
-        return self._port_api_options
+        return self.port_api_options
+    
+    def addIncludedDataTypeSet(self, set: IncludedDataTypeSet):
+        self.included_data_type_sets.append(set)
 
+    def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
+        return self.included_data_type_sets
+    
     def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
         if (short_name not in self.elements):
             event = OperationInvokedEvent(self, short_name)
@@ -433,28 +496,28 @@ class SwcInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             prototype = VariableDataPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self._explicit_inter_runnable_variables.append(prototype)
+            self.explicit_inter_runnable_variables.append(prototype)
         return self.elements[short_name]
     
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
         if (short_name not in self.elements):
             prototype = VariableDataPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self._implicit_inter_runnable_variables.append(prototype)
+            self.implicit_inter_runnable_variables.append(prototype)
         return self.elements[short_name]
     
     def createPerInstanceMemory(self, short_name: str) -> PerInstanceMemory:
         if (short_name not in self.elements):
             memory = PerInstanceMemory(self, short_name)
             self.elements[short_name] = memory
-            self._per_instance_memories.append(memory)
+            self.per_instance_memories.append(memory)
         return self.elements[short_name]
     
-    def createParameterDataPrototype(self, short_name: str) -> ParameterDataPrototype:
+    def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
         if (short_name not in self.elements):
             prototype = ParameterDataPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self._per_instance_parameters.append(prototype)
+            self.per_instance_parameters.append(prototype)
         return self.elements[short_name]
 
     def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:

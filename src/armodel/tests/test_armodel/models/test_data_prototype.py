@@ -42,7 +42,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes:
         assert(isinstance(prototype, MultilanguageReferrable))
         assert(isinstance(prototype, Referrable))
 
-        assert(prototype.parent == ar_root)
+        assert(prototype._parent == ar_root)
         assert(prototype.short_name == "prototype")
         assert(prototype.type_tref is None)
 

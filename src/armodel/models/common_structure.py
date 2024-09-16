@@ -152,29 +152,27 @@ class ExclusiveArea(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-class InternalBehavior(Identifiable, metaclass=ABCMeta):
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == InternalBehavior:
-            raise NotImplementedError("InternalBehavior is an abstract class.")
-        super().__init__(parent, short_name)
+class IncludedModeDeclarationGroupSet(ARObject):
+    def __init__(self):
+        super().__init__()
 
-        self._dataTypeMappingRefs = []      # type: List[RefType]
+        self.mode_declaration_group_refs = []           # type: List[RefType]
+        self.prefix = None                              # type: ARLiteral
 
-    def addDataTypeMappingRef(self, ref: RefType):
-        self._dataTypeMappingRefs.append(ref)
+    def addModeDeclarationGroupRef(self, ref: RefType):
+        self.mode_declaration_group_refs.append(ref)
+        return self
 
-    def getDataTypeMappingRefs(self) -> List[RefType]:
-        return self._dataTypeMappingRefs
+    def getModeDeclarationGroupRefs(self) -> List[RefType]:
+        return self.mode_declaration_group_refs
 
-    def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
-        if (short_name not in self.elements):
-            event = ExclusiveArea(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
-
-    def getExclusiveAreas(self) -> List[ExclusiveArea]:
-        return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements.values()))
-
+    def setPrefix(self, prefix: str):
+        self.prefix = prefix
+        return self
+    
+    def getPrefix(self) -> ARLiteral:
+        return self.prefix
+    
 class ModeDeclaration(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -197,19 +195,36 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
         self.activation_reason = None               # *
         self.minimum_start_interval = None          # type: ARFloat
         self.reentrancy_level = None                # 
-        self._can_enter_exclusive_area_refs = []    # type: List[RefType]  
+        self.can_enter_exclusive_area_refs = []     # type: List[RefType]  
+        self.sw_addr_method_ref = None              # type: RefType
 
     @property
-    def minimum_start_interval_ms(self) -> int:
+    def minimumStartIntervalMs(self) -> int:
         if self.minimum_start_interval is not None:
             return int(self.minimum_start_interval.getValue() * 1000)
         return None
 
+    @property
+    def minimumStartInterval(self) -> ARFloat:
+        return self.minimum_start_interval
+    
+    @minimumStartInterval.setter
+    def minimumStartInterval(self, value: ARFloat):
+        self.minimum_start_interval = value
+    
+    @property
+    def swAddrMethodRef(self) -> RefType:
+        return self.sw_addr_method_ref
+    
+    @swAddrMethodRef.setter
+    def swAddrMethodRef(self, ref: RefType):
+        self.sw_addr_method_ref = ref
+
     def addCanEnterExclusiveAreaRef(self, ref: RefType):
-        self._can_enter_exclusive_area_refs.append(ref)
+        self.can_enter_exclusive_area_refs.append(ref)
 
     def getCanEnterExclusiveAreaRefs(self):
-        return self._can_enter_exclusive_area_refs
+        return self.can_enter_exclusive_area_refs
     
 class ModeDeclarationGroupPrototype(Identifiable):
     """
