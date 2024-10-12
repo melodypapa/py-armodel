@@ -30,7 +30,7 @@ from ..models.data_dictionary import SwAddrMethod, SwDataDefProps
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, ImplementationDataType, SwBaseType
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping, SwcBswRunnableMapping
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
-from ..models.port_prototype import ClientComSpec, ModeSwitchReceiverComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, PPortPrototype, PortPrototype, QueuedReceiverComSpec, RPortComSpec, RPortPrototype, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.port_prototype import ClientComSpec, ModeSwitchReceiverComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, PPortPrototype, PortPrototype, QueuedReceiverComSpec, RPortComSpec, RPortPrototype, ReceiverComSpec, SenderComSpec, ServerComSpec, ParameterRequireComSpec
 from ..models.sw_component import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwComponentType, SwConnector
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
@@ -295,6 +295,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setARObjectAttributes(child_element, com_spec)
         self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.operation_ref)
 
+    def writeParameterRequireComSpec(self, element: ET.Element, com_spec: ParameterRequireComSpec):
+        self.logger.debug("writeParameterRequireComSpec")
+        child_element = ET.SubElement(element, "PARAMETER-REQUIRE-COM-SPEC")
+        self.setARObjectAttributes(child_element, com_spec)
+        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.parameter_ref)
+        self.setInitValue(child_element, com_spec.init_value)
+
     def writeModeSwitchReceiverComSpec(self, element: ET.Element, com_spec: ModeSwitchReceiverComSpec):
         self.logger.debug("writeModeSwitchReceiverComSpec")
         child_element = ET.SubElement(element, "MODE-SWITCH-RECEIVER-COM-SPEC")
@@ -310,6 +317,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeClientComSpec(element, com_spec)
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
             self.writeModeSwitchReceiverComSpec(element, com_spec)
+        elif isinstance(com_spec, ParameterRequireComSpec):
+            self.writeParameterRequireComSpec(element, com_spec)
         else:
             raise ValueError("Unsupported RPortComSpec %s" % type(com_spec))
     

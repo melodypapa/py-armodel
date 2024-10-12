@@ -34,7 +34,7 @@ from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 from ..models import AutosarVariableRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
 from ..models import ImplementationDataType, SwDataDefProps, SwPointerTargetProps, DataTypeMappingSet, DataTypeMap, ImplementationDataTypeElement
 from ..models import RPortPrototype, PPortPrototype
-from ..models import ReceiverComSpec, ClientComSpec, NonqueuedReceiverComSpec
+from ..models import ReceiverComSpec, ClientComSpec, NonqueuedReceiverComSpec, ParameterRequireComSpec
 from ..models import SenderComSpec, NonqueuedSenderComSpec, ServerComSpec
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import Identifiable, AdminData, Sdg, Sd
@@ -1057,6 +1057,13 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec.operationRef = self.getChildElementOptionalRefType(element, "OPERATION-REF")
         return com_spec
     
+    def getParameterRequireComSpec(self, element: ET.Element) -> ParameterRequireComSpec:
+        com_spec = ParameterRequireComSpec()
+        self.readElementAttributes(element, com_spec)
+        com_spec.parameter_ref = self.getChildElementOptionalRefType(element, "PARAMETER-REF")
+        com_spec.init_value = self.getInitValue(element)
+        return com_spec
+    
     def getQueuedReceiverComSpec(self, element: ET.Element) -> QueuedReceiverComSpec:
         com_spec = QueuedReceiverComSpec()
         self.readElementAttributes(element, com_spec)
@@ -1092,6 +1099,8 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addRequiredComSpec(self.getQueuedReceiverComSpec(child_element))
             elif tag_name == "MODE-SWITCH-RECEIVER-COM-SPEC":
                 parent.addRequiredComSpec(self.getModeSwitchReceiverComSpec(child_element))
+            elif tag_name == "PARAMETER-REQUIRE-COM-SPEC":
+                parent.addRequiredComSpec(self.getParameterRequireComSpec(child_element))
             else:
                 self._raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
