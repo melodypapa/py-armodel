@@ -7,7 +7,7 @@ from ..models.fibex.fibex_core import Frame
 from ..models.internal_behavior import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
 from ..models.bsw_module_template import BswModeSenderPolicy
-from ..models.port_interface import ModeSwitchInterface, PortInterface
+from ..models.port_interface import ModeSwitchInterface, PortInterface, ParameterInterface
 from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySection, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeRequestTypeMap
 from ..models.implementation import BswImplementation, EngineeringObject
 from ..models.general_structure import MultilanguageReferrable
@@ -1382,12 +1382,21 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAutosarDataPrototype(child_element, prototype)
             prototype.init_value = self.getInitValue(child_element)
 
+    def readInvalidationPolicys(self, element: ET.Element, parent: SenderReceiverInterface):
+        for child_element in element.findall("./xmlns:INVALIDATION-POLICYS/xmlns:INVALIDATION-POLICY", self.nsmap):
+            # short_name = self.getShortName(child_element)
+            policy = parent.createInvalidationPolicy()
+            self.readIdentifiable(child_element, policy)
+            policy.data_element_ref = self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF")
+            policy.handle_invalid = self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")
+
     def readSenderReceiverInterfaces(self, element, parent: ARPackage):
         short_name = self.getShortName(element)
         sr_interface = parent.createSenderReceiverInterface(short_name)
         self.readIdentifiable(element, sr_interface)
         sr_interface.is_service = self.getChildElementOptionalBooleanValue(element, "IS-SERVICE")
         self.readDataElements(element, sr_interface)
+        self.readInvalidationPolicys(element, sr_interface)
 
     def readArgumentDataPrototypes(self, element: ET.Element, parent: ClientServerOperation):
         for child_element in element.findall("./xmlns:ARGUMENTS/xmlns:ARGUMENT-DATA-PROTOTYPE", self.nsmap):
@@ -1397,6 +1406,7 @@ class ARXMLParser(AbstractARXMLParser):
             prototype.sw_data_def_props = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
             prototype.type_tref = self.getChildElementOptionalRefType(child_element, "TYPE-TREF")
             prototype.direction = self.getChildElementOptionalLiteral(child_element, "DIRECTION")
+            prototype.server_argument_impl_policy = self.getChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY")
             parent.addArgumentDataPrototype(prototype)
 
     def readPossibleErrorRefs(self, element: ET.Element, parent: ClientServerOperation):
@@ -1417,6 +1427,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall("./xmlns:POSSIBLE-ERRORS/xmlns:APPLICATION-ERROR", self.nsmap):
             short_name = self.getShortName(child_element)
             error = parent.createApplicationError(short_name)
+            self.readIdentifiable(child_element, error) # some errors has its uuid
             error.error_code = self.getChildElementOptionalNumericalValue(child_element, "ERROR-CODE")
 
     def readPortInterface(self, element: ET.Element, port_interface: PortInterface):
@@ -1958,6 +1969,22 @@ class ARXMLParser(AbstractARXMLParser):
         signal.networkRepresentationProps = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS")
         signal.systemSignalRef = self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF")
 
+    def readParameters(self, element: ET.Element, parent: ParameterInterface):
+        for child_element in element.findall("./xmlns:PARAMETERS/xmlns:PARAMETER-DATA-PROTOTYPE", self.nsmap):
+            short_name = self.getShortName(child_element)
+            prototype = parent.createParameter(short_name)
+            self.readIdentifiable(child_element, prototype)
+            prototype.sw_data_def_props = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
+            prototype.type_tref = self.getChildElementOptionalRefType(child_element, "TYPE-TREF")
+    
+    def readParameterInterface(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("ParameterInterface %s" % short_name)
+        pi_interface = parent.createParameterInterface(short_name)
+        self.readIdentifiable(element, pi_interface)
+        self.readParameters(element, pi_interface)
+
+
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "./ELEMENTS/*"):
             tag_name = self.getTagName(child_element.tag)
@@ -2058,6 +2085,8 @@ class ARXMLParser(AbstractARXMLParser):
                 pass
             elif tag_name == "SYSTEM-SIGNAL-GROUP":
                 pass
+            elif tag_name == "PARAMETER-INTERFACE":
+                self.readParameterInterface(child_element, parent)
             else:
                 self._raiseError("Unsupported element type of ARPackage <%s>" % tag_name)
                 #pass

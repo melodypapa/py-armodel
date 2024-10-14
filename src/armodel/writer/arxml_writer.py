@@ -34,7 +34,7 @@ from ..models.port_prototype import ClientComSpec, ModeSwitchReceiverComSpec, No
 from ..models.sw_component import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwComponentType, SwConnector
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
-from ..models.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
+from ..models.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface, ParameterInterface, InvalidationPolicy
 from ..models.unit import Unit
 from ..models.implementation import AutosarEngineeringObject, BswImplementation, Code, EngineeringObject, Implementation, SwcImplementation
 from ..models.common_structure import ConstantSpecification, ExecutableEntity, ResourceConsumption
@@ -1009,6 +1009,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeParameterDataPrototype(self, element: ET.Element, prototype: ParameterDataPrototype):
         child_element = ET.SubElement(element, "PARAMETER-DATA-PROTOTYPE")
         self.writeIdentifiable(child_element, prototype)
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", prototype.sw_data_def_props)
         self.writeAutosarDataPrototype(child_element, prototype)
         self.setInitValue(child_element, prototype.init_value)
 
@@ -1320,12 +1321,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self._raiseError("Unsupported Data Element <%s>" % type(data_element))
 
+    def writeInvalidationPolicy(self, element: ET.Element, policy: InvalidationPolicy):
+        self.logger.debug("writeInvalidationPolicy %s" % policy.data_element_ref.value)
+        child_element = ET.SubElement(element, "INVALIDATION-POLICY")
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", policy.data_element_ref)
+        self.setChildElementOptionalLiteral(child_element, "HANDLE-INVALID", policy.handle_invalid)
+
+    def writeInvalidationPolicys(self, element: ET.Element, sr_interface: SenderReceiverInterface):
+        invalidation_policys = sr_interface.getInvalidationPolicys()
+        if len(invalidation_policys) > 0:
+            invalidation_policys_tag = ET.SubElement(element, "INVALIDATION-POLICYS")
+            for policy in invalidation_policys:
+                if isinstance(policy, InvalidationPolicy):
+                    self.writeInvalidationPolicy(invalidation_policys_tag, policy)
+                else:
+                    self._raiseError("Unsupported Invalidation Policy <%s>" % type(policy))
+
     def writeSenderReceiverInterface(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.short_name)
         child_element = ET.SubElement(element, "SENDER-RECEIVER-INTERFACE")
         self.writeIdentifiable(child_element, sr_interface)
         self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.is_service)
         self.writeDataElements(child_element, sr_interface)
+        self.writeInvalidationPolicys(child_element, sr_interface)
 
     def writerBswModuleDescriptionImplementedEntry(self, element: ET.Element, desc: BswModuleDescription):
         entries = desc.getImplementedEntries()
@@ -1574,6 +1592,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", prototype.sw_data_def_props)
                 self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.type_tref)
                 self.setChildElementOptionalLiteral(child_element, "DIRECTION", prototype.direction)
+                self.setChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY", prototype.server_argument_impl_policy)
 
     def writePossibleErrorRefs(self, element: ET.Element, parent: ClientServerOperation):
         error_refs = parent.getPossbileErrorRefs()
@@ -1879,6 +1898,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.networkRepresentationProps)
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.systemSignalRef)
 
+    def writeParameters(self, elements: ET.Element, pi_interface: ParameterInterface):
+        parameters = pi_interface.getParameters()
+        if len(parameters) > 0:
+            parameters_tag = ET.SubElement(elements, "PARAMETERS")
+            for parameter in parameters:
+                if isinstance(parameter, ParameterDataPrototype):
+                    self.writeParameterDataPrototype(parameters_tag, parameter)
+                else:
+                    self._raiseError("Unsupported Parameter <%s>" % type(parameter))
+
+    def writeParameterInterface(self, element: ET.Element, parameter_interface: ParameterInterface):
+        self.logger.debug("ParameterInterface %s" % parameter_interface.short_name)
+        child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
+        self.writeIdentifiable(child_element, parameter_interface)
+        self.writeParameters(child_element, parameter_interface)
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
@@ -1958,6 +1993,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGateway(element, ar_element)
         elif isinstance(ar_element, ISignal):
             self.writeISignal(element, ar_element)
+        elif isinstance(ar_element, ParameterInterface):
+            self.writeParameterInterface(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         
