@@ -21,6 +21,8 @@ class SymbolProps(ImplementationProps):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.symbol = None    # type: ARLiteral
+
 class BaseTypeDefinition(ARObject):
     def __init__(self):
         super().__init__()
@@ -159,10 +161,11 @@ class ImplementationDataType(AbstractImplementationDataType):
         super().__init__(parent, short_name)
         
         self.sub_elements = []      # type: List[str]
-        self.symbol_props = None    # type: ARLiteral
+        self._symbol_props = None    # type: SymbolProps
         self._type_emitter = None    # type: ARLiteral
 
         self._array_type = None     # ImplementationDataType
+        self._struct_type = None    # ImplementationDataType
 
     #type:  ImplementationDataTypeElement
     def createImplementationDataTypeElement(self, short_name: str):
@@ -192,6 +195,21 @@ class ImplementationDataType(AbstractImplementationDataType):
     
     def getTypeEmitter(self) -> str:
         return self._type_emitter
+    
+    def setStructElementType(self, type: str):
+        self._struct_type = type
+        return self
+    
+    def getStructElementType(self) -> str:
+        return self._struct_type
+    
+    def createSymbolProps(self, short_name: str) -> SymbolProps:
+        if self._symbol_props is None:
+            self._symbol_props = SymbolProps(self, short_name)
+        return self._symbol_props
+    
+    def getSymbolProps(self) -> SymbolProps:
+        return self._symbol_props
 
 
 class DataTypeMap(ARObject):

@@ -26,8 +26,8 @@ from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRe
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ..models.data_dictionary import SwAddrMethod, SwDataDefProps
-from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, ImplementationDataType, SwBaseType
+from ..models.data_dictionary import SwAddrMethod, SwDataDefProps, SwPointerTargetProps
+from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, ImplementationDataType, SwBaseType, SymbolProps
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping, SwcBswRunnableMapping
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 from ..models.port_prototype import ClientComSpec, ModeSwitchReceiverComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, PPortPrototype, PortPrototype, QueuedReceiverComSpec, RPortComSpec, RPortPrototype, ReceiverComSpec, SenderComSpec, ServerComSpec, ParameterRequireComSpec
@@ -543,6 +543,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "SW-RECORD-LAYOUT-REF", sw_data_def_props.swRecordLayoutRef)
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", sw_data_def_props.valueAxisDataTypeRef)
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "UNIT-REF", sw_data_def_props.unitRef)
+            self.writeSwPointerTargetProps(sw_data_def_props_conditional_tag, "SW-POINTER-TARGET-PROPS", sw_data_def_props.sw_pointer_target_props)
+    
+    def writeSwPointerTargetProps(self, element: ET.Element, key: str, sw_data_def_props: SwPointerTargetProps):
+        if sw_data_def_props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, sw_data_def_props)
+            self.setChildElementOptionalLiteral(child_element, "TARGET-CATEGORY", sw_data_def_props.target_category)
+            self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", sw_data_def_props.sw_data_def_props)
             
 
     def writeApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
@@ -635,6 +643,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         for compu_scale in compu_scales.getCompuScales():
             child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
             self.setARObjectAttributes(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.short_label)
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.symbol)
             self.writeChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.lowerLimit)
             self.writeChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.upperLimit)
@@ -1573,14 +1582,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             for type_element in sub_elements:
                 child_element = ET.SubElement(sub_elements_tag, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
                 self.writeIdentifiable(child_element, type_element)
+                self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE", type_element.array_size)
+                self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", type_element.array_size_semantics)
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.sw_data_def_props)
 
     def writeImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("writeImplementationDataType %s" % data_type.short_name)
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
         self.writeAutosarDataType(child_element, data_type)
-        self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
         self.writeImplementationDataTypeElements(child_element, data_type)
+        self.setSymbolProps(child_element, "SYMBOL-PROPS", data_type.getSymbolProps())
+        self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
+
+    def setSymbolProps(self, element: ET.Element, key: str, props: SymbolProps):
+        if props is not None:
+            self.logger.debug("setSymbolProps %s" % props.short_name)
+            child_element = ET.SubElement(element, key)
+            self.writeReferable(child_element, props)
+            self.setChildElementOptionalLiteral(child_element, "SYMBOL", props.symbol)
 
     def writeArgumentDataPrototypes(self, element: ET.Element, parent: ClientServerOperation):
         arguments = parent.getArgumentDataPrototypes()

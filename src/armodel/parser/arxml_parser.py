@@ -32,7 +32,7 @@ from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrR
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, ServerCallPoint, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 from ..models import AutosarVariableRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
-from ..models import ImplementationDataType, SwDataDefProps, SwPointerTargetProps, DataTypeMappingSet, DataTypeMap, ImplementationDataTypeElement
+from ..models import ImplementationDataType, SwDataDefProps, SwPointerTargetProps, DataTypeMappingSet, DataTypeMap, ImplementationDataTypeElement, SymbolProps
 from ..models import RPortPrototype, PPortPrototype
 from ..models import ReceiverComSpec, ClientComSpec, NonqueuedReceiverComSpec, ParameterRequireComSpec
 from ..models import SenderComSpec, NonqueuedSenderComSpec, ServerComSpec
@@ -944,7 +944,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             type_element = parent.createImplementationDataTypeElement(short_name)   # type: ImplementationDataTypeElement
             self.readIdentifiable(child_element, type_element)
-            type_element.arraySize = self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE")
+            type_element.array_size = self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE")
             type_element.array_size_semantics = self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")
             self.readImplementationDataTypeElements(child_element, type_element)
             type_element.sw_data_def_props = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
@@ -955,16 +955,25 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataType(element, data_type)
         self.readImplementationDataTypeElements(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
-        if (data_type.category == ImplementationDataType.CATEGORY_ARRAY):
+        if (data_type.category.value == ImplementationDataType.CATEGORY_ARRAY):
             if (len(data_type.getImplementationDataTypeElements()) < 1):
                 self._raiseError("Array Sub-Element of <%s> do not defined." % data_type.short_name)
             array_sub_element = data_type.getImplementationDataTypeElements()[0]
-            if (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+            if (array_sub_element.category.value == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
                 data_type.setArrayElementType(array_sub_element.sw_data_def_props.implementationDataTypeRef.value)
-            elif (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_VALUE):  # TODO: fix 
+            elif (array_sub_element.category.value == ImplementationDataType.CATEGORY_TYPE_VALUE):  # TODO: fix 
                 return
             else:
-                self._raiseError("The category <%s> of array sub-element <%s> does not support." % (array_sub_element.category, data_type.short_name))
+                self._raiseError("The category <%s> of array sub-element <%s> does not support." % (array_sub_element.category.value, data_type.short_name))
+        elif (data_type.category.value == ImplementationDataType.CATEGORY_TYPE_STRUCTURE):
+            if (len(data_type.getImplementationDataTypeElements()) < 1):
+                self._raiseError("Structure Sub-Element of <%s> do not defined." % data_type.short_name)
+            self.readImplementationDataTypeSymbolProps(element, data_type)
+            struct_sub_element = data_type.getImplementationDataTypeElements()[0]
+            if (struct_sub_element.category.value == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+                data_type.setStructElementType(struct_sub_element.sw_data_def_props.implementationDataTypeRef.value)
+            else:
+                self._raiseError("The category <%s> of structure sub-element <%s> does not support." % (struct_sub_element.category.value, data_type.short_name))
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
         definition.base_type_size = self.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE")
@@ -1478,6 +1487,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall('./xmlns:COMPU-SCALES/xmlns:COMPU-SCALE', self.nsmap):
             compu_scale = CompuScale()
             self.readElementAttributes(child_element, compu_scale)
+            compu_scale.short_label = self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")
             compu_scale.symbol = self.getChildElementOptionalLiteral(child_element, "SYMBOL")
             compu_scale.lowerLimit = self.getChildLimitElement(child_element, "LOWER-LIMIT")
             compu_scale.upperLimit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
@@ -1704,6 +1714,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
         self.readIdentifiable(element, data_type)
         data_type.sw_data_def_props = self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
+
+    def readSymbolProps(self, element: ET.Element, symbol_props: SymbolProps):
+        symbol_props.symbol = self.getChildElementOptionalLiteral(element, "SYMBOL")
+
+    def readImplementationDataTypeSymbolProps(self, element: ET.Element, data_type: ImplementationDataType):
+        child_element = element.find("./xmlns:SYMBOL-PROPS", self.nsmap)
+        if child_element is not None:
+            short_name = self.getShortName(child_element)
+            self.logger.debug("readSymbolProps %s" % short_name)
+            symbol_props = data_type.createSymbolProps(short_name)
+            self.readSymbolProps(child_element, symbol_props)
 
     def readApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
         self.readAutosarDataType(element, data_type)

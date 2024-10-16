@@ -134,7 +134,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arraySize = None               # type: int
+        self.array_size = None               # type: int
         self.array_size_semantics = None      # type: str
         self.isOptional = None              # type: bool
         self.sw_data_def_props = None          # type: SwDataDefProps
