@@ -5,7 +5,7 @@ from .ar_object import ARBoolean, ARLiteral, ARNumerical
 from .common_structure import ModeDeclarationGroupPrototype, Trigger
 from .datatype import AtpType
 from .general_structure import ARObject, Identifiable, AtpFeature
-from .data_prototype import VariableDataPrototype, AutosarDataPrototype
+from .data_prototype import VariableDataPrototype, AutosarDataPrototype, ParameterDataPrototype
 from .ar_ref import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):
@@ -33,10 +33,37 @@ class ParameterInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+    def createParameter(self, short_name) -> ParameterDataPrototype:
+        if (short_name not in self.elements):
+            parameter = ParameterDataPrototype(self, short_name)
+            self.elements[short_name] = parameter
+        return self.elements[short_name]
+    
+    def getParameters(self) -> List[ParameterDataPrototype]:
+        return list(filter(lambda c: isinstance(c, ParameterDataPrototype), self.elements.values()))
+    
+    def getParameter(self, short_name) -> ParameterDataPrototype:
+        if (short_name in self.elements):
+            parameter = self.elements[short_name]
+            if (not isinstance(parameter, ParameterDataPrototype)):
+                raise IndexError("%s is not parameter." % short_name)
+            return parameter
+        raise IndexError("parameter <%s> can not be found." % short_name)
+
+
+class InvalidationPolicy(ARObject):
+    def __init__(self, parent: ARObject):
+        self.parent = parent
+        self.policy = None
+
+        self.data_element_ref = None            # type: RefType
+        self.handle_invalid = ""                # type: ARLiteral
 
 class SenderReceiverInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.invalidation_polivys = []          # type: List[InvalidationPolicy]
 
     def createDataElement(self, short_name) -> VariableDataPrototype:
         if (short_name not in self.elements):
@@ -54,6 +81,14 @@ class SenderReceiverInterface(DataInterface):
             #    raise IndexError("%s is not data element." % short_name)
             return data_element
         raise IndexError("data element <%s> can not be found." % short_name)
+    
+    def createInvalidationPolicy(self) -> InvalidationPolicy:
+        policy = InvalidationPolicy(self)
+        self.invalidation_polivys.append(policy)
+        return policy
+    
+    def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
+        return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidation_polivys))
 
 class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):

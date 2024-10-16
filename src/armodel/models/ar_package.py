@@ -14,7 +14,7 @@ from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
 from .unit import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
-from .port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
+from .port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface, ParameterInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
 from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
 from .datatype import ApplicationArrayDataType, ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
@@ -290,6 +290,12 @@ class ARPackage(Identifiable, CollectableElement):
         if (short_name not in self.elements):
             signal = ISignal(self, short_name)
             self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createParameterInterface(self, short_name: str) -> ParameterInterface:
+        if (short_name not in self.elements):
+            interface = ParameterInterface(self, short_name)
+            self.elements[short_name] = interface
         return self.elements[short_name]
     
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:

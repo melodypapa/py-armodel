@@ -3,7 +3,7 @@ from typing import List
 
 from .ar_ref import RefType
 from .multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
-from .ar_object import ARObject
+from .ar_object import ARObject, ARLiteral
 
 class Sd(ARObject):
     def __init__(self):
@@ -112,7 +112,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         CollectableElement.__init__(self)
 
         self.admin_data = None      # type: AdminData
-        self._category = None
+        self._category = None       # type: ARLiteral
         self.desc = None            # type: MultiLanguageOverviewParagraph
 
     @property
@@ -120,7 +120,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         return self._category
 
     @category.setter
-    def category(self, value):
+    def category(self, value: ARLiteral):
         self._category = value
 
 class AtpFeature(Identifiable, metaclass=ABCMeta):

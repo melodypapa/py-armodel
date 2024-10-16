@@ -26,15 +26,15 @@ from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRe
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ..models.data_dictionary import SwAddrMethod, SwDataDefProps
-from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, ImplementationDataType, SwBaseType
+from ..models.data_dictionary import SwAddrMethod, SwDataDefProps, SwPointerTargetProps
+from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, ImplementationDataType, SwBaseType, SymbolProps
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping, SwcBswRunnableMapping
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
-from ..models.port_prototype import ClientComSpec, ModeSwitchReceiverComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, PPortPrototype, PortPrototype, QueuedReceiverComSpec, RPortComSpec, RPortPrototype, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.port_prototype import ClientComSpec, ModeSwitchReceiverComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, PPortPrototype, PortPrototype, QueuedReceiverComSpec, RPortComSpec, RPortPrototype, ReceiverComSpec, SenderComSpec, ServerComSpec, ParameterRequireComSpec
 from ..models.sw_component import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwComponentType, SwConnector
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
-from ..models.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
+from ..models.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface, ParameterInterface, InvalidationPolicy
 from ..models.unit import Unit
 from ..models.implementation import AutosarEngineeringObject, BswImplementation, Code, EngineeringObject, Implementation, SwcImplementation
 from ..models.common_structure import ConstantSpecification, ExecutableEntity, ResourceConsumption
@@ -295,6 +295,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setARObjectAttributes(child_element, com_spec)
         self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.operation_ref)
 
+    def writeParameterRequireComSpec(self, element: ET.Element, com_spec: ParameterRequireComSpec):
+        self.logger.debug("writeParameterRequireComSpec")
+        child_element = ET.SubElement(element, "PARAMETER-REQUIRE-COM-SPEC")
+        self.setARObjectAttributes(child_element, com_spec)
+        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.parameter_ref)
+        self.setInitValue(child_element, com_spec.init_value)
+
     def writeModeSwitchReceiverComSpec(self, element: ET.Element, com_spec: ModeSwitchReceiverComSpec):
         self.logger.debug("writeModeSwitchReceiverComSpec")
         child_element = ET.SubElement(element, "MODE-SWITCH-RECEIVER-COM-SPEC")
@@ -310,6 +317,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeClientComSpec(element, com_spec)
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
             self.writeModeSwitchReceiverComSpec(element, com_spec)
+        elif isinstance(com_spec, ParameterRequireComSpec):
+            self.writeParameterRequireComSpec(element, com_spec)
         else:
             raise ValueError("Unsupported RPortComSpec %s" % type(com_spec))
     
@@ -534,6 +543,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "SW-RECORD-LAYOUT-REF", sw_data_def_props.swRecordLayoutRef)
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", sw_data_def_props.valueAxisDataTypeRef)
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "UNIT-REF", sw_data_def_props.unitRef)
+            self.writeSwPointerTargetProps(sw_data_def_props_conditional_tag, "SW-POINTER-TARGET-PROPS", sw_data_def_props.sw_pointer_target_props)
+    
+    def writeSwPointerTargetProps(self, element: ET.Element, key: str, sw_data_def_props: SwPointerTargetProps):
+        if sw_data_def_props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, sw_data_def_props)
+            self.setChildElementOptionalLiteral(child_element, "TARGET-CATEGORY", sw_data_def_props.target_category)
+            self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", sw_data_def_props.sw_data_def_props)
             
 
     def writeApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
@@ -626,6 +643,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         for compu_scale in compu_scales.getCompuScales():
             child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
             self.setARObjectAttributes(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.short_label)
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.symbol)
             self.writeChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.lowerLimit)
             self.writeChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.upperLimit)
@@ -1000,6 +1018,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeParameterDataPrototype(self, element: ET.Element, prototype: ParameterDataPrototype):
         child_element = ET.SubElement(element, "PARAMETER-DATA-PROTOTYPE")
         self.writeIdentifiable(child_element, prototype)
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", prototype.sw_data_def_props)
         self.writeAutosarDataPrototype(child_element, prototype)
         self.setInitValue(child_element, prototype.init_value)
 
@@ -1311,12 +1330,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self._raiseError("Unsupported Data Element <%s>" % type(data_element))
 
+    def writeInvalidationPolicy(self, element: ET.Element, policy: InvalidationPolicy):
+        self.logger.debug("writeInvalidationPolicy %s" % policy.data_element_ref.value)
+        child_element = ET.SubElement(element, "INVALIDATION-POLICY")
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", policy.data_element_ref)
+        self.setChildElementOptionalLiteral(child_element, "HANDLE-INVALID", policy.handle_invalid)
+
+    def writeInvalidationPolicys(self, element: ET.Element, sr_interface: SenderReceiverInterface):
+        invalidation_policys = sr_interface.getInvalidationPolicys()
+        if len(invalidation_policys) > 0:
+            invalidation_policys_tag = ET.SubElement(element, "INVALIDATION-POLICYS")
+            for policy in invalidation_policys:
+                if isinstance(policy, InvalidationPolicy):
+                    self.writeInvalidationPolicy(invalidation_policys_tag, policy)
+                else:
+                    self._raiseError("Unsupported Invalidation Policy <%s>" % type(policy))
+
     def writeSenderReceiverInterface(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.short_name)
         child_element = ET.SubElement(element, "SENDER-RECEIVER-INTERFACE")
         self.writeIdentifiable(child_element, sr_interface)
         self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.is_service)
         self.writeDataElements(child_element, sr_interface)
+        self.writeInvalidationPolicys(child_element, sr_interface)
 
     def writerBswModuleDescriptionImplementedEntry(self, element: ET.Element, desc: BswModuleDescription):
         entries = desc.getImplementedEntries()
@@ -1546,14 +1582,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             for type_element in sub_elements:
                 child_element = ET.SubElement(sub_elements_tag, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
                 self.writeIdentifiable(child_element, type_element)
+                self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE", type_element.array_size)
+                self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", type_element.array_size_semantics)
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.sw_data_def_props)
 
     def writeImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("writeImplementationDataType %s" % data_type.short_name)
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
         self.writeAutosarDataType(child_element, data_type)
-        self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
         self.writeImplementationDataTypeElements(child_element, data_type)
+        self.setSymbolProps(child_element, "SYMBOL-PROPS", data_type.getSymbolProps())
+        self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
+
+    def setSymbolProps(self, element: ET.Element, key: str, props: SymbolProps):
+        if props is not None:
+            self.logger.debug("setSymbolProps %s" % props.short_name)
+            child_element = ET.SubElement(element, key)
+            self.writeReferable(child_element, props)
+            self.setChildElementOptionalLiteral(child_element, "SYMBOL", props.symbol)
 
     def writeArgumentDataPrototypes(self, element: ET.Element, parent: ClientServerOperation):
         arguments = parent.getArgumentDataPrototypes()
@@ -1565,6 +1611,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", prototype.sw_data_def_props)
                 self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.type_tref)
                 self.setChildElementOptionalLiteral(child_element, "DIRECTION", prototype.direction)
+                self.setChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY", prototype.server_argument_impl_policy)
 
     def writePossibleErrorRefs(self, element: ET.Element, parent: ClientServerOperation):
         error_refs = parent.getPossbileErrorRefs()
@@ -1870,6 +1917,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.networkRepresentationProps)
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.systemSignalRef)
 
+    def writeParameters(self, elements: ET.Element, pi_interface: ParameterInterface):
+        parameters = pi_interface.getParameters()
+        if len(parameters) > 0:
+            parameters_tag = ET.SubElement(elements, "PARAMETERS")
+            for parameter in parameters:
+                if isinstance(parameter, ParameterDataPrototype):
+                    self.writeParameterDataPrototype(parameters_tag, parameter)
+                else:
+                    self._raiseError("Unsupported Parameter <%s>" % type(parameter))
+
+    def writeParameterInterface(self, element: ET.Element, parameter_interface: ParameterInterface):
+        self.logger.debug("ParameterInterface %s" % parameter_interface.short_name)
+        child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
+        self.writeIdentifiable(child_element, parameter_interface)
+        self.writeParameters(child_element, parameter_interface)
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
@@ -1949,6 +2012,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGateway(element, ar_element)
         elif isinstance(ar_element, ISignal):
             self.writeISignal(element, ar_element)
+        elif isinstance(ar_element, ParameterInterface):
+            self.writeParameterInterface(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

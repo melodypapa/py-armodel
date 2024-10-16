@@ -123,6 +123,7 @@ class CompuScale(Compu):
         self.upperLimit = None                  # type: Limit
         self.compuInverseValue = None           # type: CompuConst
         self.compuScaleContents = None          # type: CompuScaleContents
+        self.short_label = None                 # type: ARLiteral
 
 class CompuScales(CompuContent):
     def __init__(self):
