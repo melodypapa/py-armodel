@@ -1,7 +1,8 @@
 from typing import List
 import xml.etree.ElementTree as ET
 
-from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.m2.msr.documentation.block_elements import DocumentationBlock
+from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.fibex.fibex_4_multiplatform import ISignalMapping
 from ..models.fibex.fibex_core import Frame
 from ..models.internal_behavior import IncludedDataTypeSet
@@ -11,7 +12,7 @@ from ..models.port_interface import ModeSwitchInterface, PortInterface
 from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySection, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeRequestTypeMap
 from ..models.implementation import BswImplementation, EngineeringObject
 from ..models.general_structure import MultilanguageReferrable
-from ..models.multilanguage_data import LOverviewParagraph, MultiLanguageOverviewParagraph, LLongName, MultilanguageLongName
+from ..models.multilanguage_data import LOverviewParagraph, MultiLanguageOverviewParagraph, LLongName, MultiLanguageParagraph, MultilanguageLongName
 from ..models.data_def_properties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, BaseTypeDirectDefinition
@@ -22,7 +23,7 @@ from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.ar_package import AUTOSAR, ARPackage
 from ..models.ar_object import ARLiteral
 from ..models.service_needs import RoleBasedDataAssignment
-from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef, InnerPortGroupInCompositionInstanceRef, RModeGroupInAtomicSWCInstanceRef, VariableDataPrototypeInSystemInstanceRef, VariableInAtomicSWCTypeInstanceRef, AutosarParameterRef
+from ..models.ar_ref import AnyInstanceRef, ApplicationCompositeElementInPortInterfaceInstanceRef, InnerPortGroupInCompositionInstanceRef, RModeGroupInAtomicSWCInstanceRef, VariableDataPrototypeInSystemInstanceRef, VariableInAtomicSWCTypeInstanceRef, AutosarParameterRef
 from ..models.sw_component import AtomicSwComponentType, CompositionSwComponentType, ModeAccessPoint, PortAPIOption, PortDefinedArgumentValue, PortGroup, ServiceDependency, SwComponentType, SwcServiceDependency
 from ..models.data_prototype import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
@@ -75,9 +76,8 @@ class ARXMLParser(AbstractARXMLParser):
         if 'GID' in element.attrib:
             sdg.gid = element.attrib["GID"]
         self.readSd(element, sdg)
-        child_element = self.find(element, "./SDG")
-        if child_element is not None:
-            sdg.sdg_contents_type = self.getSdg(child_element)
+        for child_element in self.findall(element, "SDG"):
+            sdg.addSdgContentsType(self.getSdg(child_element))
         return sdg
     
     def readSdgs(self, element: ET.Element, admin_data: AdminData):
@@ -839,15 +839,44 @@ class ARXMLParser(AbstractARXMLParser):
                 self._raiseError("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 
     def readSwPointerTargetProps(self, element: ET.Element, parent: SwDataDefProps):
-        child_element = element.find("./xmlns:SW-POINTER-TARGET-PROPS", self.nsmap)
-        if (child_element is not None):
+        child_element = self.find(element, "SW-POINTER-TARGET-PROPS")
+        if child_element is not None:
             sw_pointer_target_props = SwPointerTargetProps()
             sw_pointer_target_props.target_category = self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY")
             sw_pointer_target_props.sw_data_def_props = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
             parent.sw_pointer_target_props = sw_pointer_target_props
 
+    def readLParagraph(self, element: ET.Element, paragraph: MultiLanguageParagraph):
+        for child_element in self.findall(element, "./L-1"):
+            l1 = LOverviewParagraph()
+            self.readElementAttributes(child_element, l1)
+            l1.value = child_element.text
+            if 'L' in child_element.attrib:
+                l1.l = child_element.attrib['L']
+            paragraph.addL1(l1)
+    
+    def getMultiLanguageParagraphs(self, element: ET.Element, key: str) -> List[MultiLanguageParagraph]:
+        paragraphs = []
+        for child_element in self.findall(element, key):
+            paragraph = MultiLanguageParagraph()
+            self.readElementAttributes(child_element, paragraph)
+            self.readLParagraph(child_element, paragraph)
+            paragraphs.append(paragraph)
+        return paragraphs
+
+    def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
+        block = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            block = DocumentationBlock()
+            self.readElementAttributes(child_element, block)
+            for paragraph in self.getMultiLanguageParagraphs(child_element, "P"):
+                block.addP(paragraph)
+        return block
+
     def readGeneralAnnotation(self, element: ET.Element, annotation: GeneralAnnotation):
         annotation.setAnnotationOrigin(self.getChildElementOptionalLiteral(element, 'ANNOTATION-ORIGIN')) \
+            .setAnnotationText(self.getDocumentationBlock(element, "ANNOTATION-TEXT")) \
             .setLabel(self.getMultilanguageLongName(element, "LABEL"))
 
     def getAnnotations(self, element: ET.Element) -> List[Annotation]:
@@ -2008,12 +2037,30 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucAbstractReferenceValue(element, value)
         value.setValueRef(self.getChildElementOptionalRefType(element, "VALUE-REF"))
         return value
+    
+    def getAnyInstanceRef(self, element: ET.Element, key) -> AnyInstanceRef:
+        instance_ref = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            instance_ref = AnyInstanceRef()
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF")) \
+                .setContextElementRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF")) \
+                .setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
+        return instance_ref
+    
+    def getEcucInstanceReferenceValue(self, element: ET.Element) -> EcucInstanceReferenceValue:
+        value = EcucInstanceReferenceValue()
+        self.readEcucAbstractReferenceValue(element, value)
+        value.setValueIRef(self.getAnyInstanceRef(element, "VALUE-IREF"))
+        return value
             
     def readEcucContainerValueReferenceValues(self, element: ET.Element, container_value: EcucContainerValue):
         for child_element in self.findall(element, "REFERENCE-VALUES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-REFERENCE-VALUE":
                 container_value.addReferenceValue(self.getEcucReferenceValue(child_element))
+            elif tag_name == "ECUC-INSTANCE-REFERENCE-VALUE":
+                container_value.addReferenceValue(self.getEcucInstanceReferenceValue(child_element))
             else:
                 raise NotImplementedError("Unsupported EcucParameterValue <%s>" % tag_name)
 

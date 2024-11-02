@@ -3,7 +3,7 @@ from typing import List
 
 from ..m2.msr.documentation.block_elements import DocumentationBlock
 from ..annotation import Annotation
-from ..ar_ref import RefType
+from ..ar_ref import AnyInstanceRef, RefType
 from ..ar_object import ARBoolean, ARLiteral, ARNumerical, ARObject
 from ..general_structure import ARElement
 
@@ -147,12 +147,12 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def __init__(self):
         super().__init__()
 
-        self.valueRef = None        # type: RefType
+        self.valueIRef = None        # type: AnyInstanceRef
 
-    def getValueRef(self) -> RefType:
+    def getValueIRef(self) -> AnyInstanceRef:
         return self.valueRef
 
-    def setValueRef(self, value: RefType):
+    def setValueIRef(self, value: AnyInstanceRef):
         self.valueRef = value
         return self
 
