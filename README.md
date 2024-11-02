@@ -303,3 +303,13 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * CAN-FRAME
    * GATEWAY
    * I-SIGNAL
+
+**Version 1.6.0**
+
+1. Add the annotation support for the Identifiable class. (Issue #29)
+2. Ecuc (Issue #29)
+   * EcucValueCollection
+   * EcucModuleConfigurationValues
+   * EcucContainerValue
+   * EcucParameterValue
+   * EcucAbstractReferenceValue

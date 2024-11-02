@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
+from .annotation import Annotation
 from .ar_ref import RefType
 from .multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
 from .ar_object import ARObject
@@ -111,6 +112,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         MultilanguageReferrable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
+        self.annotations = []       # type: List[Annotation]
         self.admin_data = None      # type: AdminData
         self._category = None
         self.desc = None            # type: MultiLanguageOverviewParagraph
@@ -122,6 +124,13 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
     @category.setter
     def category(self, value):
         self._category = value
+
+    def addAnnotation(self, annotation: Annotation):
+        self.annotations.append(annotation)
+        return self
+    
+    def getAnnotations(self) -> List[Annotation]:
+        return self.annotations
 
 class AtpFeature(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

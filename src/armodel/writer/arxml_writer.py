@@ -2,8 +2,8 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
-
 from ..models.fibex.can_communication import CanFrame
 from ..models.fibex.fibex_core import DcmIPdu, Frame, ISignal, NPdu, NmPdu
 from ..models.fibex.lin_communication import LinUnconditionalFrame
@@ -118,6 +118,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.writeMultilanguageReferrable(element, identifiable)
+        self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.desc)
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.category)
         if identifiable.admin_data is not None:
@@ -472,10 +473,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCompositionSwComponentType(element, sw_component)
 
     def writeGeneralAnnotation(self, element: ET.Element, annotation: Annotation):
-        self.setMultiLongName(element, "LABEL", annotation.label)
+        self.setMultiLongName(element, "LABEL", annotation.getLabel())
+        self.setChildElementOptionalLiteral(element, "ANNOTATION-ORIGIN", annotation.getAnnotationOrigin())
 
-    def writeAnnotations(self, element: ET.Element, props: SwDataDefProps) :
-        annotations = props.getAnnotations()
+    def setAnnotations(self, element: ET.Element, annotations: List[Annotation]) :
         if len(annotations) > 0:
             annotations_tag = ET.SubElement(element, "ANNOTATIONS")
             for annotation in annotations:
@@ -523,7 +524,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             sw_data_def_props_variants_tag = ET.SubElement(child_element, "SW-DATA-DEF-PROPS-VARIANTS")
             sw_data_def_props_conditional_tag = ET.SubElement(sw_data_def_props_variants_tag, "SW-DATA-DEF-PROPS-CONDITIONAL")
             self.setARObjectAttributes(sw_data_def_props_conditional_tag, sw_data_def_props.conditional)
-            self.writeAnnotations(sw_data_def_props_conditional_tag, sw_data_def_props)
+            self.setAnnotations(sw_data_def_props_conditional_tag, sw_data_def_props.getAnnotations())
             self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "BASE-TYPE-REF", sw_data_def_props.baseTypeRef)
             self.setChildElementOptionalLiteral(sw_data_def_props_conditional_tag, "SW-CALIBRATION-ACCESS", sw_data_def_props.swCalibrationAccess)
             self.setSwCalprmAxisSet(sw_data_def_props_conditional_tag, "SW-CALPRM-AXIS-SET", sw_data_def_props.swCalprmAxisSet)
@@ -1870,6 +1871,105 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.networkRepresentationProps)
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.systemSignalRef)
 
+    def writeEcucValueCollectionEcucValues(self, element: ET.Element, collection: EcucValueCollection):
+        value_refs = collection.getEcucValueRefs()
+        if len(value_refs) > 0:
+            ecuc_values_tag = ET.SubElement(element, "ECUC-VALUES")
+            for value_ref in value_refs:
+                child_element = ET.SubElement(ecuc_values_tag, "ECUC-MODULE-CONFIGURATION-VALUES-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "ECUC-MODULE-CONFIGURATION-VALUES-REF", value_ref) 
+
+    def writeEcucValueCollection(self, element: ET.Element, collection: EcucValueCollection):
+        self.logger.debug("EcucValueCollection %s" % collection.short_name)
+        child_element = ET.SubElement(element, "ECUC-VALUE-COLLECTION")
+        self.writeIdentifiable(child_element, collection)
+        self.setChildElementOptionalRefType(child_element, "ECU-EXTRACT-REF", collection.getEcuExtractRef())
+        self.writeEcucValueCollectionEcucValues(child_element, collection)
+
+    def writeEcucContainerValueSubContainers(self, element: ET.Element, container: EcucContainerValue):
+        sub_containers = container.getSubContainers()
+        if len(sub_containers) > 0:
+            sub_containers_tag = ET.SubElement(element, "SUB-CONTAINERS")
+            for sub_container in sub_containers:
+                if isinstance(sub_container, EcucContainerValue):
+                    self.writeEcucContainValue(sub_containers_tag, sub_container)
+                else:
+                    raise NotImplementedError("Unsupported Sub Container %s" % type(container)) 
+                
+    def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
+        self.setAnnotations(element, param_value.getAnnotations())
+
+    def setEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
+        child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
+        self.writeEcucParameterValue(child_element, param_value)
+        self.setChildElementOptionalLiteral(child_element, "VALUE", param_value.getValue())
+
+    def setEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
+        child_element = ET.SubElement(element, "ECUC-NUMERICAL-PARAM-VALUE")
+        self.writeEcucParameterValue(child_element, param_value)
+        self.setChildElementOptionalNumericalValue(child_element, "VALUE", param_value.getValue())
+                
+    def writeEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
+        param_values = container_value.getParameterValues()
+        if len(param_values) > 0:
+            child_element  = ET.SubElement(element, "PARAMETER-VALUES")
+            for param_value in param_values:
+                if isinstance(param_value, EcucTextualParamValue):
+                    self.setEcucTextualParamValue(child_element, param_value)
+                elif isinstance(param_value, EcucNumericalParamValue):
+                    self.setEcucNumericalParamValue(child_element, param_value)
+                else:
+                    raise NotImplementedError("Unsupported EcucParameterValue <%s>" % type(param_value))
+                
+    def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
+        self.setAnnotations(element, value.getAnnotations())
+
+    def setEcucReferenceValue(self, element: ET.Element, value = EcucReferenceValue()):
+        child_element = ET.SubElement(element, "ECUC-REFERENCE-VALUE")
+        self.writeEcucAbstractReferenceValue(child_element, value)
+        self.setChildElementOptionalRefType(child_element, "VALUE-REF", value.getValueRef())
+        return value
+    
+    def writeEcucContainerValueReferenceValues(self, element: ET.Element, container_value: EcucContainerValue):
+        reference_values = container_value.getReferenceValues()
+        if len(reference_values) > 0:
+            child_element  = ET.SubElement(element, "REFERENCE-VALUES")
+            for reference_value in reference_values:
+                if isinstance(reference_value, EcucReferenceValue):
+                    self.setEcucReferenceValue(child_element, reference_value)
+                else:
+                    raise NotImplementedError("Unsupported EcucParameterValue <%s>" % type(reference_value))
+
+    def writeEcucContainValue(self, element: ET.Element, container_value: EcucContainerValue):
+        self.logger.debug("EcucContainerValue %s" % container_value.short_name)
+        child_element = ET.SubElement(element, "ECUC-CONTAINER-VALUE")
+        self.writeIdentifiable(child_element, container_value)
+        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", container_value.getDefinitionRef())
+        self.writeEcucContainerValueParameterValues(child_element, container_value)
+        self.writeEcucContainerValueReferenceValues(child_element, container_value)
+        self.writeEcucContainerValueSubContainers(child_element, container_value)
+
+    def writeEcucModuleConfigurationValuesContainers(self, element: ET.Element, value: EcucModuleConfigurationValues):
+        containers = value.getContainers()
+        if len(containers) > 0:
+            containers_tag = ET.SubElement(element, "CONTAINERS")
+            for container in containers:
+                if isinstance(container, EcucContainerValue):
+                    self.writeEcucContainValue(containers_tag, container)
+                else:
+                    raise NotImplementedError("Unsupported Container %s" % type(container)) 
+
+    def writeEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
+        self.logger.debug("EcucModuleConfigurationValues %s" % values.short_name)
+        child_element = ET.SubElement(element, "ECUC-MODULE-CONFIGURATION-VALUES")
+        self.writeIdentifiable(child_element, values)
+        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinitionRef())
+        self.setChildElementOptionalLiteral(child_element, "IMPLEMENTATION-CONFIG-VARIANT", values.getImplementationConfigVariant())
+        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
+        self.writeEcucModuleConfigurationValuesContainers(child_element, values)
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
@@ -1949,6 +2049,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGateway(element, ar_element)
         elif isinstance(ar_element, ISignal):
             self.writeISignal(element, ar_element)
+        elif isinstance(ar_element, EcucValueCollection):
+            self.writeEcucValueCollection(element, ar_element)
+        elif isinstance(ar_element, EcucModuleConfigurationValues):
+            self.writeEcucModuleConfigurationValues(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

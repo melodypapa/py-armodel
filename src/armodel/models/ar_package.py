@@ -1,7 +1,8 @@
 from typing import Dict, List
 
-from armodel.models.fibex.can_communication import CanFrame
-from armodel.models.fibex.fibex_4_multiplatform import Gateway
+from .autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
+from .fibex.can_communication import CanFrame
+from .fibex.fibex_4_multiplatform import Gateway
 
 from .system_template.transport_protocols import CanTpConfig
 from .system_template.network_management import NmConfig
@@ -292,6 +293,18 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = signal
         return self.elements[short_name]
     
+    def createEcucValueCollection(self, short_name: str) -> EcucValueCollection:
+        if (short_name not in self.elements):
+            signal = EcucValueCollection(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createEcucModuleConfigurationValues(self, short_name: str) -> EcucModuleConfigurationValues:
+        if (short_name not in self.elements):
+            signal = EcucModuleConfigurationValues(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()), key= lambda o:o.short_name))
     
@@ -408,6 +421,12 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getISignals(self) -> List[ISignal]:
         return list(sorted(filter(lambda a : isinstance(a, ISignal), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getEcucValueCollections(self) -> List[EcucValueCollection]:
+        return list(sorted(filter(lambda a : isinstance(a, EcucValueCollection), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
+        return list(sorted(filter(lambda a : isinstance(a, EcucModuleConfigurationValues), self.elements.values()), key = lambda a: a.short_name))
     
 class AUTOSAR (CollectableElement):        
     __instance = None
