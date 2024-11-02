@@ -1,8 +1,8 @@
 from typing import List
 import xml.etree.ElementTree as ET
 
-from armodel.models.fibex.fibex_4_multiplatform import FrameMapping, IPduMapping, ISignalMapping
-
+from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.fibex.fibex_4_multiplatform import ISignalMapping
 from ..models.fibex.fibex_core import Frame
 from ..models.internal_behavior import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
@@ -98,6 +98,8 @@ class ARXMLParser(AbstractARXMLParser):
     
     def readIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.readMultilanguageReferrable(element, identifiable)
+        for annotation in self.getAnnotations(element):
+            identifiable.addAnnotation(annotation)
         identifiable.category = self.getChildElementOptionalLiteral(element, "CATEGORY")
         identifiable.desc = self.getMultiLanguageOverviewParagraph(element, "DESC")
         self.readAdminData(element, identifiable)
@@ -845,13 +847,16 @@ class ARXMLParser(AbstractARXMLParser):
             parent.sw_pointer_target_props = sw_pointer_target_props
 
     def readGeneralAnnotation(self, element: ET.Element, annotation: GeneralAnnotation):
-        annotation.label = self.getMultilanguageLongName(element, "LABEL")
+        annotation.setAnnotationOrigin(self.getChildElementOptionalLiteral(element, 'ANNOTATION-ORIGIN')) \
+            .setLabel(self.getMultilanguageLongName(element, "LABEL"))
 
-    def readAnnotations(self, element: ET.Element, props: SwDataDefProps) :
+    def getAnnotations(self, element: ET.Element) -> List[Annotation]:
+        annotations = []
         for child_element in element.findall("./xmlns:ANNOTATIONS/xmlns:ANNOTATION", self.nsmap):
             annotation = Annotation()
             self.readGeneralAnnotation(child_element, annotation)
-            props.addAnnotation(annotation)
+            annotations.append(annotation)
+        return annotations
 
     def getSwAxisIndividual(self, element: ET.Element) -> SwAxisIndividual:
         props = SwAxisIndividual()
@@ -898,7 +903,9 @@ class ARXMLParser(AbstractARXMLParser):
                 sw_data_def_props = SwDataDefProps()
                 self.readElementAttributes(child_element, sw_data_def_props)
 
-                self.readAnnotations(conditional_tag, sw_data_def_props)
+                for annotation in self.getAnnotations(conditional_tag):
+                    sw_data_def_props.addAnnotation(annotation)
+
                 sw_data_def_props.baseTypeRef = self.getChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF")
                 sw_data_def_props.dataConstrRef = self.getChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF")
                 sw_data_def_props.compuMethodRef = self.getChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF")
@@ -1949,6 +1956,112 @@ class ARXMLParser(AbstractARXMLParser):
         signal.networkRepresentationProps = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS")
         signal.systemSignalRef = self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF")
 
+    def readEcucValueCollectionEcucValues(self, element: ET.Element, parent: EcucValueCollection):
+        for child_element in self.findall(element, "ECUC-VALUES/ECUC-MODULE-CONFIGURATION-VALUES-REF-CONDITIONAL"):
+            ref = self.getChildElementOptionalRefType(child_element, "ECUC-MODULE-CONFIGURATION-VALUES-REF") 
+            if (ref is not None):
+                parent.addEcucValueRef(ref)
+            self.logger.debug("EcucValue <%s> of EcucValueCollection <%s> has been added", ref.value, parent.short_name)
+
+    def readEcucValueCollection(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("EcucValueCollection %s" % short_name)
+        collection = parent.createEcucValueCollection(short_name)
+        self.readIdentifiable(element, collection)
+        collection.setEcuExtractRef(self.getChildElementOptionalRefType(element, "ECU-EXTRACT-REF"))
+        self.readEcucValueCollectionEcucValues(element, collection)
+
+    def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
+        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        for annotation in self.getAnnotations(element):
+            param_value.addAnnotation(annotation)
+
+    def getEcucTextualParamValue(self, element: ET.Element) -> EcucTextualParamValue:
+        param_value = EcucTextualParamValue()
+        self.readEcucParameterValue(element, param_value)
+        param_value.setValue(self.getChildElementOptionalLiteral(element, "VALUE"))
+        return param_value
+
+    def getEcucNumericalParamValue(self, element: ET.Element) -> EcucNumericalParamValue:
+        param_value = EcucNumericalParamValue()
+        self.readEcucParameterValue(element, param_value)
+        param_value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        return param_value
+
+    def readEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
+        for child_element in self.findall(element, "PARAMETER-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-TEXTUAL-PARAM-VALUE":
+                container_value.addParameterValue(self.getEcucTextualParamValue(child_element))
+            elif tag_name == "ECUC-NUMERICAL-PARAM-VALUE":
+                container_value.addParameterValue(self.getEcucNumericalParamValue(child_element))
+            else:
+                raise NotImplementedError("Unsupported EcucParameterValue <%s>" % tag_name)
+            
+    def readEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
+        value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        for annotation in self.getAnnotations(element):
+            value.addAnnotation(annotation)
+
+    def getEcucReferenceValue(self, element: ET.Element) -> EcucReferenceValue:
+        value = EcucReferenceValue()
+        self.readEcucAbstractReferenceValue(element, value)
+        value.setValueRef(self.getChildElementOptionalRefType(element, "VALUE-REF"))
+        return value
+            
+    def readEcucContainerValueReferenceValues(self, element: ET.Element, container_value: EcucContainerValue):
+        for child_element in self.findall(element, "REFERENCE-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-REFERENCE-VALUE":
+                container_value.addReferenceValue(self.getEcucReferenceValue(child_element))
+            else:
+                raise NotImplementedError("Unsupported EcucParameterValue <%s>" % tag_name)
+
+    def readEcucContainerValue(self, element: ET.Element, container_value: EcucContainerValue):
+        self.readIdentifiable(element, container_value)
+        container_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        self.readEcucContainerValueParameterValues(element, container_value)
+        self.readEcucContainerValueReferenceValues(element, container_value)
+        self.readEcucContainerValueSubContainers(element, container_value)
+
+    def readEcucContainerValueEcucContainerValue(self, element: ET.Element, parent: EcucContainerValue):
+        short_name = self.getShortName(element)
+        self.logger.debug("EcucContainerValue %s" % short_name)
+        container_value = parent.createSubContainer(short_name)
+        self.readEcucContainerValue(element, container_value)
+
+    def readEcucContainerValueSubContainers(self, element: ET.Element, parent: EcucContainerValue):
+        for child_element in self.findall(element, "SUB-CONTAINERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-CONTAINER-VALUE":
+                self.readEcucContainerValueEcucContainerValue(child_element, parent)
+            else:
+                raise NotImplementedError("Unsupported Sub Container %s" % tag_name) 
+
+    def readEcucModuleConfigurationValuesEcucContainerValue(self, element: ET.Element, parent: EcucModuleConfigurationValues):
+        short_name = self.getShortName(element)
+        self.logger.debug("EcucContainerValue %s" % short_name)
+        container_value = parent.createContainer(short_name)
+        self.readEcucContainerValue(element, container_value)
+
+    def readEcucModuleConfigurationValuesContainers(self, element: ET.Element, values: EcucModuleConfigurationValues):
+        for child_element in self.findall(element, "CONTAINERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-CONTAINER-VALUE":
+                self.readEcucModuleConfigurationValuesEcucContainerValue(child_element, values)
+            else:
+                raise NotImplementedError("Unsupported Container %s" % tag_name) 
+
+    def readEcucModuleConfigurationValues(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("EcucModuleConfigurationValues %s" % short_name)
+        values = parent.createEcucModuleConfigurationValues(short_name)
+        self.readIdentifiable(element, values)
+        values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
+        values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        self.readEcucModuleConfigurationValuesContainers(element, values)
+
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "./ELEMENTS/*"):
             tag_name = self.getTagName(child_element.tag)
@@ -2049,11 +2162,13 @@ class ARXMLParser(AbstractARXMLParser):
                 pass
             elif tag_name == "SYSTEM-SIGNAL-GROUP":
                 pass
+            elif tag_name == "ECUC-VALUE-COLLECTION":
+                self.readEcucValueCollection(child_element, parent)
+            elif tag_name == "ECUC-MODULE-CONFIGURATION-VALUES":
+                self.readEcucModuleConfigurationValues(child_element, parent)
             else:
                 self._raiseError("Unsupported element type of ARPackage <%s>" % tag_name)
                 #pass
-
-    
 
     def readARPackages(self, element: ET.Element, parent: ARPackage):
         for child_element in element.findall("./xmlns:AR-PACKAGES/xmlns:AR-PACKAGE", self.nsmap):

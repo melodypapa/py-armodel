@@ -73,10 +73,21 @@ class ARNumerical(ARType):
         self._text = None                   # type: str
 
     def _convertStringToNumberValue(self, value: str) -> int:
-        m = re.match(r"0x([0-9a-f]+)", value, re.I)
-        if (m):
-            return int(m.group(1), 16)
-        return int(value)
+        try:
+            if value == 'true':
+                return 1
+            elif value == 'false':
+                return 0
+            else:
+                m = re.match(r"0x([0-9a-f]+)", value, re.I)
+                if m:
+                    return int(m.group(1), 16)
+                m = re.match(r"\d+\.\d+", value)
+                if m:
+                    return float(value)
+                return int(value)
+        except:
+            raise ValueError("Invalid Numerical Type <%s>" % value)
     
     @property
     def value(self) -> int:
