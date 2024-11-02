@@ -1,6 +1,7 @@
 
 from abc import ABCMeta
 
+from .m2.msr.documentation.block_elements import DocumentationBlock
 from .multilanguage_data import MultilanguageLongName
 from .ar_object import ARLiteral, ARObject
 
@@ -13,6 +14,7 @@ class GeneralAnnotation(ARObject, metaclass=ABCMeta):
         super().__init__()
 
         self.annotationOrigin = None        # type: ARLiteral
+        self.annotationText = None          # type: DocumentationBlock
         self.label = None                   # type: MultilanguageLongName
 
     def getAnnotationOrigin(self) -> ARLiteral:
@@ -20,6 +22,13 @@ class GeneralAnnotation(ARObject, metaclass=ABCMeta):
 
     def setAnnotationOrigin(self, value: ARLiteral):
         self.annotationOrigin = value
+        return self
+    
+    def getAnnotationText(self) -> DocumentationBlock:
+        return self.annotationText
+
+    def setAnnotationText(self, value: DocumentationBlock):
+        self.annotationText = value
         return self
 
     def getLabel(self) -> MultilanguageLongName:

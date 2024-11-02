@@ -20,13 +20,19 @@ class Sdg(ARObject):
         self.gid = ""
         self.sd = []                        # type: List[Sd]
         self.sdg_caption = None
-        self.sdg_contents_type = None
+        self.sdg_contents_types = []        # type: List[Sdg]
 
     def addSd(self, sd: Sd):
         self.sd.append(sd)
 
     def getSds(self) -> List[Sd]:
         return self.sd
+    
+    def addSdgContentsType(self, sdg):
+        self.sdg_contents_types.append(sdg)
+
+    def getSdgContentsTypes(self):
+        return self.sdg_contents_types
     
 class AdminData(ARObject):
     def __init__(self):

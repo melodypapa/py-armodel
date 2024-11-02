@@ -17,3 +17,5 @@ data/*.xlsx
 data/*.sh
 src/armodel/tests/test_files/backup.arxml
 src/armodel/tests/test_files/SimpleTest.arxml
+pytest_html_report.html
+output*.json

@@ -2,7 +2,9 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
-from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from armodel.models.m2.msr.documentation.block_elements import DocumentationBlock
+
+from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
 from ..models.fibex.can_communication import CanFrame
 from ..models.fibex.fibex_core import DcmIPdu, Frame, ISignal, NPdu, NmPdu
@@ -13,7 +15,7 @@ from ..models.system_template.transport_protocols import CanTpConfig
 from ..models.internal_behavior import IncludedDataTypeSet, InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
 from ..models.data_def_properties import ValueList
-from ..models.multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
+from ..models.multilanguage_data import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
@@ -22,7 +24,7 @@ from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalB
 from ..models.ar_package import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, ParameterAccess, PortAPIOption, PortGroup, RTEEvent, ServerCallPoint, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency, SynchronousServerCallPoint, VariableAccess
 from ..models.ar_package import ARPackage
-from ..models.ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef, AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef, RVariableInAtomicSwcInstanceRef, RefType, VariableDataPrototypeInSystemInstanceRef
+from ..models.ar_ref import AnyInstanceRef, ApplicationCompositeElementInPortInterfaceInstanceRef, AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef, RVariableInAtomicSwcInstanceRef, RefType, VariableDataPrototypeInSystemInstanceRef
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
@@ -63,8 +65,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if sdg is not None:
             sdg_tag = ET.SubElement(parent, "SDG")
             sdg_tag.attrib['GID'] = sdg.gid
-            self.setSdg(sdg_tag, sdg.sdg_contents_type)
             self.writeSds(sdg_tag, sdg)
+            for sdg_item in sdg.getSdgContentsTypes():
+                self.setSdg(sdg_tag, sdg_item)
             
     def writeSdgs(self, parent: ET.Element, admin_data: AdminData):
         sdgs = admin_data.getSdgs()
@@ -472,9 +475,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         for sw_component in ar_package.getCompositionSwComponentTypes():
             self.writeCompositionSwComponentType(element, sw_component)
 
+    def writeLParagraphs(self, element: ET.Element, paragraph: MultiLanguageParagraph):
+        for l1 in paragraph.getL1s():
+            l1_tag = ET.SubElement(element, "L-1")
+            self.setARObjectAttributes(l1_tag, l1)
+            if l1.l is not None:
+                l1_tag.attrib['L'] = l1.l
+                l1_tag.text = l1.value
+    
+    def setMultiLanguageParagraphs(self, element: ET.Element, key: str, paragraphs: List[MultiLanguageParagraph]):
+        for paragraph in paragraphs:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, paragraph)
+            self.writeLParagraphs(child_element, paragraph)
+        return paragraphs
+
+    def setDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
+        if block is not None:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, block)
+            self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
+
     def writeGeneralAnnotation(self, element: ET.Element, annotation: Annotation):
         self.setMultiLongName(element, "LABEL", annotation.getLabel())
         self.setChildElementOptionalLiteral(element, "ANNOTATION-ORIGIN", annotation.getAnnotationOrigin())
+        self.setDocumentationBlock(element, "ANNOTATION-TEXT", annotation.getAnnotationText())
 
     def setAnnotations(self, element: ET.Element, annotations: List[Annotation]) :
         if len(annotations) > 0:
@@ -1932,6 +1957,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "VALUE-REF", value.getValueRef())
         return value
     
+    def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: AnyInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef()) 
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF", instance_ref.getContextElementRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-REF", instance_ref.getTargetRef())
+        return instance_ref
+    
+    def setEcucInstanceReferenceValue(self, element: ET.Element, value : EcucInstanceReferenceValue):
+        child_element = ET.SubElement(element, "ECUC-INSTANCE-REFERENCE-VALUE")
+        self.writeEcucAbstractReferenceValue(child_element, value)
+        self.setAnyInstanceRef(child_element, "VALUE-IREF", value.getValueIRef())
+        return value
+    
     def writeEcucContainerValueReferenceValues(self, element: ET.Element, container_value: EcucContainerValue):
         reference_values = container_value.getReferenceValues()
         if len(reference_values) > 0:
@@ -1939,6 +1978,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for reference_value in reference_values:
                 if isinstance(reference_value, EcucReferenceValue):
                     self.setEcucReferenceValue(child_element, reference_value)
+                elif isinstance(reference_value, EcucInstanceReferenceValue):
+                    self.setEcucInstanceReferenceValue(child_element, reference_value)
                 else:
                     raise NotImplementedError("Unsupported EcucParameterValue <%s>" % type(reference_value))
 
