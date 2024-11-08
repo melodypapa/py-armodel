@@ -240,9 +240,7 @@ class Pdu(FibexElement, metaclass = ABCMeta):
         self.length = value
         return self
     
-class IPdu(Pdu):
-    __metaclass__ = ABCMeta
-
+class IPdu(Pdu, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == IPdu:
             raise NotImplementedError("IPdu is an abstract class.")
@@ -257,6 +255,10 @@ class IPdu(Pdu):
     def setContainedOpduProps(self, value):
         self.containedOpduProps = value
         return self
+    
+class SecuredIPdu(IPdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
     
 class NmPdu(Pdu):
     def __init__(self, parent: ARObject, short_name: str):

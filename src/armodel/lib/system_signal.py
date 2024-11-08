@@ -31,7 +31,7 @@ class SystemSignalAnalyzer:
         logger.info("== SYSTEM SIGNAL LIST ==")
 
         for signal in sorted(self.system_signals, key = lambda o: o.short_name):
-            if option['format'] == 'long':
+            if option['format'] == 'full':
                 logger.info("%s" % signal.full_name)
             else:
                 logger.info("%s" % signal.short_name)

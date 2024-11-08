@@ -72,7 +72,7 @@ class TestBswMD:
         assert(len(behavior.getBswSchedulableEntities()) == 1)
         entity = behavior.getBswSchedulableEntities()[0]
         assert(entity.short_name == "BswM_MainFunction")
-        assert(entity.minimum_start_interval is not None)
+        assert(entity.minimumStartInterval is not None)
         assert(entity.minimumStartIntervalMs is not None)
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")

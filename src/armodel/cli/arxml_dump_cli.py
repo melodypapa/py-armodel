@@ -21,13 +21,13 @@ def show_port(indent:int, port_prototype: PortPrototype):
     if (isinstance(port_prototype, RPortPrototype)):
         print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.required_interface_tref.value))
         for client_com_spec in port_prototype.getClientComSpecs():
-            print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), client_com_spec.operation_ref.value))
+            print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), client_com_spec.operationRef.value))
         for com_spec in port_prototype.getNonqueuedReceiverComSpecs():
-            print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), com_spec.data_element_ref.value))
+            print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), com_spec.dataElementRef.value))
     elif (isinstance(port_prototype, PPortPrototype)):
         print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.provided_interface_tref.value))
         for com_spec in port_prototype.getNonqueuedSenderComSpecs():
-            print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), com_spec.data_element_ref.value))
+            print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), com_spec.dataElementRef.value))
     else:
         raise ValueError("Unsupported Port prototype")
 

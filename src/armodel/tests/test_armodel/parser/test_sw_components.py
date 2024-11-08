@@ -13,10 +13,10 @@ class TestSWComponents:
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
-        root_pkgs = sorted(document.getARPackages(), key = lambda pkg: pkg.short_name)
+        root_pkgs = sorted(document.getARPackages(), key = lambda pkg: pkg.getShortName())
 
         assert(len(root_pkgs) == 1)
-        assert("DemoApplication" == root_pkgs[0].short_name)
+        assert("DemoApplication" == root_pkgs[0].getShortName())
 
     def test_composition_sw_component_types(self):
         document = AUTOSAR.getInstance()

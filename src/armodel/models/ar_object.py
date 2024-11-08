@@ -129,7 +129,7 @@ class ARPositiveInteger(ARNumerical):
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
 
-class ARFloat(ARType):
+class ARFloat(ARNumerical):
     def __init__(self) -> None:
         super().__init__()
 
@@ -147,7 +147,8 @@ class ARFloat(ARType):
             self._value = val * 1.0
         elif isinstance(val, str):
             self._text = val
-            self._value = float(val)
+            #self._value = float(val)
+            self._value = self._convertStringToNumberValue(val)
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
 

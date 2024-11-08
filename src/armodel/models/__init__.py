@@ -17,3 +17,4 @@ from .communication import *
 from .calibration import *
 from .global_constraints import *
 from .unit import *
+from .m2.autosar_templates.sw_component_template import *
