@@ -44,6 +44,7 @@ setup(
             'arxml-swc        = armodel.cli.swc_list_cli:main',
             'connector2xlsx   = armodel.cli.connector2xlsx_cli:main',
             'connector-update = armodel.cli.connector_update_cli:main',
+            'system-signal    = armodel.cli.system_signal_cli:main',
         ]
     }
 )

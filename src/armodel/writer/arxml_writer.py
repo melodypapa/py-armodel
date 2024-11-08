@@ -2,16 +2,18 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
-from armodel.models.m2.msr.documentation.block_elements import DocumentationBlock
 
+from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanCluster, EcuInstance, CanPhysicalChannel, CommunicationCluster, LinCluster, LinPhysicalChannel, PhysicalChannel
+from ..models.m2.msr.documentation.block_elements import DocumentationBlock
 from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
-from ..models.fibex.can_communication import CanFrame
-from ..models.fibex.fibex_core import DcmIPdu, Frame, ISignal, NPdu, NmPdu
-from ..models.fibex.lin_communication import LinUnconditionalFrame
-from ..models.fibex.lin_topology import LinCluster
-from ..models.system_template.network_management import NmConfig
-from ..models.system_template.transport_protocols import CanTpConfig
+from ..models.fibex.can_communication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from ..models.fibex.fibex_core.core_communication import FrameTriggering, IPdu, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
+from ..models.fibex.lin_communication import LinFrameTriggering, LinUnconditionalFrame
+from ..models.m2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.m2.autosar_templates.system_template import System, SystemMapping
+from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.m2.autosar_templates.system_template.transport_protocols import CanTpConfig
 from ..models.internal_behavior import IncludedDataTypeSet, InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
 from ..models.data_def_properties import ValueList
@@ -54,6 +56,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         sub_element.text = name
 
         return sub_element
+    
+    def setChildElementRxIdentifierRange(self, element: ET.Element, key: str, range: RxIdentifierRange):
+        if range is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID", range.getLowerCanId()) 
+            self.setChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID", range.getUpperCanId())
     
     def writeSds(self, parent: ET.Element, sdg: Sdg):
         for sd in sdg.getSds():
@@ -112,8 +120,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.writeReferable(element, referrable)
-        if referrable.long_name is not None:
-            self.setMultiLongName(element, "LONG-NAME", referrable.long_name)
+        if referrable.longName is not None:
+            self.setMultiLongName(element, "LONG-NAME", referrable.longName)
 
     def writeAdminData(self, element: ET.Element, admin_data: AdminData):
         element = ET.SubElement(element, "ADMIN-DATA")
@@ -122,10 +130,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.writeMultilanguageReferrable(element, identifiable)
         self.setAnnotations(element, identifiable.getAnnotations())
-        self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.desc)
-        self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.category)
-        if identifiable.admin_data is not None:
-            self.writeAdminData(element, identifiable.admin_data)
+        self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
+        self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
+        if identifiable.getAdminData() is not None:
+            self.writeAdminData(element, identifiable.getAdminData())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
         self.writeIdentifiable(parent, ar_element)
@@ -1836,40 +1844,329 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "LIN-UNCONDITIONAL-FRAME")
         self.writeFrame(child_element, frame)
 
+    def writeNmNode(self, element: ET.Element, nm_node: NmNode):
+        self.setChildElementOptionalRefType(element, "CONTROLLER-REF", nm_node.getControllerRef())
+        self.setChildElementOptionalRefType(element, "NM-IF-ECU-REF", nm_node.getNmIfEcuRef())
+        self.setChildElementOptionalNumericalValue(element, "NM-NODE-ID", nm_node.getNmNodeId())
+
+        refs = nm_node.getRxNmPduRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "RX-NM-PDU-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "RX-NM-PDU-REF", ref)
+
+        refs = nm_node.getTxNmPduRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "TX-NM-PDU-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "TX-NM-PDU-REF", ref)
+
+    def writeCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
+        self.logger.debug("writeCanNmNode %s" % nm_node.short_name)
+        child_element = ET.SubElement(element, "CAN-NM-NODE")
+        self.writeIdentifiable(child_element, nm_node)
+        self.writeNmNode(child_element, nm_node)
+
+        self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
+        self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
+        self.setChildElementRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
+
+    def writeNmClustersNmNodes(self, element: ET.Element, parent: NmCluster):
+        nodes = parent.getNmNodes()
+        if len(nodes) > 0:
+            child_element = ET.SubElement(element, "NM-NODES")
+            for node in nodes:
+                if isinstance(node, CanNmNode):
+                    self.writeCanNmNode(child_element, node)
+                else:
+                    self._raiseError("Unsupported Nm Node <%s>" % type(node))
+
+    def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.communicationClusterRef)
+        self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.nmChannelId)
+        self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.nmChannelSleepMaster)
+        self.writeNmClustersNmNodes(element, cluster)
+        self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
+
+    def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
+        self.logger.debug("WriteCanNmCluster %s" % cluster.short_name)
+        child_element = ET.SubElement(element, "CAN-NM-CLUSTER")
+        self.writeIdentifiable(child_element, cluster)
+        self.writeNmCluster(child_element, cluster)
+
+        self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ACTIVE", cluster.getNmBusloadReductionActive())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", cluster.getNmCarWakeUpRxEnabled())
+        self.setChildElementOptionalNumericalValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CHANNEL-ACTIVE", cluster.getNmChannelActive())
+        self.setChildElementOptionalFloatValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
+        self.setChildElementOptionalNumericalValue(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
+        self.setChildElementOptionalFloatValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
+        self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-TIME", cluster.getNmMsgCycleTime())
+        self.setChildElementOptionalFloatValue(child_element, "NM-NETWORK-TIMEOUT", cluster.getNmNetworkTimeout())
+        self.setChildElementOptionalNumericalValue(child_element, "NM-NID-POSITION", cluster.getNmNidPosition())
+        self.setChildElementOptionalFloatValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
+        self.setChildElementOptionalFloatValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
+        self.setChildElementOptionalNumericalValue(child_element, "NM-USER-DATA-LENGTH", cluster.getNmUserDataLength())
+        self.setChildElementOptionalFloatValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
+
+    def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
+        clusters = parent.getNmClusters()
+        if len(clusters) > 0:
+            child_element = ET.SubElement(element, "NM-CLUSTERS")
+            for cluster in clusters:
+                if isinstance(cluster, CanNmCluster):
+                    self.writeCanNmCluster(child_element, cluster)
+                else:
+                    self._raiseError("Unsupported Nm Cluster <%s>" % type(cluster))
+
     def writeNmConfig(self, element: ET.Element, config: NmConfig):
-        self.logger.debug("NmConfig %s" % config.short_name)
+        self.logger.debug("WriteNmConfig %s" % config.short_name)
         child_element = ET.SubElement(element, "NM-CONFIG")
         self.writeIdentifiable(child_element, config)
+        self.writeNmConfigNmClusters(child_element, config)
 
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("NmPdu %s" % pdu.short_name)
         child_element = ET.SubElement(element, "NM-PDU")
         self.writeIdentifiable(child_element, pdu)
+        self.writeIPdu(child_element, pdu)
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("NPdu %s" % pdu.short_name)
         child_element = ET.SubElement(element, "N-PDU")
         self.writeIdentifiable(child_element, pdu)
+        self.writeIPdu(child_element, pdu)
+
+    def writeIPdu(self, element: ET.Element, pdu: IPdu):
+        self.setChildElementOptionalLiteral(element, "LENGTH", pdu.getLength())
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
         self.logger.debug("DcmIPdu %s" % pdu.short_name)
         child_element = ET.SubElement(element, "DCM-I-PDU")
         self.writeIdentifiable(child_element, pdu)
+        self.writeIPdu(child_element, pdu)
+        self.setChildElementOptionalLiteral(child_element, "DIAG-PDU-TYPE", pdu.getDiagPduType())
 
     def writeCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("CanTpConfig %s" % config.short_name)
         child_element = ET.SubElement(element, "CAN-TP-CONFIG")
         self.writeIdentifiable(child_element, config)
 
+    def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
+        ref_list = triggering.getFramePortRefs()
+        if len(ref_list) > 0:
+            frame_port_refs_tag = ET.SubElement(element, "FRAME-PORT-REFS")
+            for ref in ref_list:
+                self.setChildElementOptionalRefType(frame_port_refs_tag, "FRAME-PORT-REF", ref)
+        self.setChildElementOptionalRefType(element, "FRAME-REF", triggering.getFrameRef())
+
+        refs = triggering.getPduTriggeringRefs()
+        if len(refs) > 0:
+            triggerings_tag = ET.SubElement(element, "PDU-TRIGGERINGS")
+            for ref in refs:
+                 child_element = ET.SubElement(triggerings_tag, 'PDU-TRIGGERING-REF-CONDITIONAL')
+                 self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", ref)
+
+    def writeCanFrameTriggering(self, element: ET.Element, triggering: CanFrameTriggering):
+        self.logger.debug("WRite CanFrameTriggering %s" % triggering.getShortName())
+        child_element = ET.SubElement(element, "CAN-FRAME-TRIGGERING")
+        self.writeIdentifiable(child_element, triggering)
+        self.writeFrameTriggering(child_element, triggering)
+
+    def writeLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
+        self.logger.debug("Write LinFrameTriggering %s" % triggering.getShortName())
+        child_element = ET.SubElement(element, "LIN-FRAME-TRIGGERING")
+        self.writeIdentifiable(child_element, triggering)
+        self.writeFrameTriggering(child_element, triggering)
+        self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
+        self.setChildElementOptionalLiteral(child_element, "LIN-CHECKSUM", triggering.getLinChecksum())
+
+    def writeISignalTriggering(self, element: ET.Element, triggering: ISignalTriggering):
+        self.logger.debug("Write ISignalTriggering %s" % triggering.getShortName())
+        child_element = ET.SubElement(element, "I-SIGNAL-TRIGGERING")
+        self.writeIdentifiable(child_element, triggering)
+        self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", triggering.getISignalGroupRef())
+        ref_list = triggering.getISignalPortRefs()
+        if len(ref_list) > 0:
+            i_signal_port_refs_tag = ET.SubElement(child_element, "I-SIGNAL-PORT-REFS")
+            for ref in ref_list:
+                self.setChildElementOptionalRefType(i_signal_port_refs_tag, "I-SIGNAL-PORT-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", triggering.getISignalRef())
+
+    def writePduTriggering(self, element: ET.Element, triggering: PduTriggering):
+        self.logger.debug("Write PduTriggering %s" % triggering.getShortName())
+        child_element = ET.SubElement(element, "PDU-TRIGGERING")
+        self.writeIdentifiable(child_element, triggering)
+        ref_list = triggering.getIPduPortRefs()
+        if len(ref_list) > 0:
+            i_signal_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
+            for ref in ref_list:
+                self.setChildElementOptionalRefType(i_signal_port_refs_tag, "I-PDU-PORT-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "I-PDU-REF", triggering.getIPduRef())
+
+        refs = triggering.getISignalTriggeringRefs()
+        if len(refs) > 0:
+            triggerings_tag = ET.SubElement(child_element, "I-SIGNAL-TRIGGERINGS")
+            for ref in refs:
+                 child_element = ET.SubElement(triggerings_tag, 'I-SIGNAL-TRIGGERING-REF-CONDITIONAL')
+                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF", ref)
+
+    def writePhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
+        connectors = channel.getCommConnectorRefs()
+        if len(connectors) > 0:
+            connectors_tag = ET.SubElement(element, "COMM-CONNECTORS")
+            for connector in connectors:
+                 child_element = ET.SubElement(connectors_tag, 'COMMUNICATION-CONNECTOR-REF-CONDITIONAL')
+                 self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF", connector)
+
+        triggerings = channel.getFrameTriggerings()
+        if len(triggerings) > 0:
+            triggerings_tag = ET.SubElement(element, "FRAME-TRIGGERINGS")
+            for triggering in triggerings:
+                if isinstance(triggering, CanFrameTriggering):
+                    self.writeCanFrameTriggering(triggerings_tag, triggering)
+                elif isinstance(triggering, LinFrameTriggering):
+                    self.writeLinFrameTriggering(triggerings_tag, triggering)
+                else:
+                    raise NotImplementedError("Unsupported Frame Triggering <%s>" % type(triggering))
+                
+        triggerings = channel.getISignalTriggerings()
+        if len(triggerings) > 0:
+            triggerings_tag = ET.SubElement(element, "I-SIGNAL-TRIGGERINGS")
+            for triggering in triggerings:
+                if isinstance(triggering, ISignalTriggering):
+                    self.writeISignalTriggering(triggerings_tag, triggering)
+                else:
+                    raise NotImplementedError("Unsupported ISignalTriggering <%s>" % type(triggering))
+                
+        triggerings = channel.getPduTriggerings()
+        if len(triggerings) > 0:
+            triggerings_tag = ET.SubElement(element, "PDU-TRIGGERINGS")
+            for triggering in triggerings:
+                if isinstance(triggering, PduTriggering):
+                    self.writePduTriggering(triggerings_tag, triggering)
+                else:
+                    raise NotImplementedError("Unsupported PduTriggering <%s>" % type(triggering))
+
+    def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
+        self.logger.debug("CanPhysicalChannel %s" % channel.short_name)
+        child_element = ET.SubElement(element, "CAN-PHYSICAL-CHANNEL")
+        self.writeIdentifiable(child_element, channel)
+        self.writePhysicalChannel(child_element, channel)
+
+    def writeLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
+        self.logger.debug("LinPhysicalChannel %s" % channel.short_name)
+        child_element = ET.SubElement(element, "LIN-PHYSICAL-CHANNEL")
+        self.writeIdentifiable(child_element, channel)
+        self.writePhysicalChannel(child_element, channel)
+
+    def writeCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
+        channels = cluster.getPhysicalChannels()
+        if len(channels) > 0:
+            child_element = ET.SubElement(element, "PHYSICAL-CHANNELS")
+            for channel in channels:
+                if isinstance(channel, CanPhysicalChannel):
+                    self.writeCanPhysicalChannel(child_element, channel)
+                elif isinstance(channel, LinPhysicalChannel):
+                    self.writeLinPhysicalChannel(child_element, channel)
+                else:
+                    raise NotImplementedError("Unsupported Physical Channel <%s>" % type(channel))
+
+    def writeCommunicationCluster(self, element: ET.Element, cluster: CommunicationCluster):
+        self.setChildElementOptionalNumericalValue(element, "BAUDRATE", cluster.getBaudrate())
+        self.writeCommunicationClusterPhysicalChannels(element, cluster)
+        self.setChildElementOptionalLiteral(element, "PROTOCOL-NAME", cluster.getProtocolName())
+        self.setChildElementOptionalLiteral(element, "PROTOCOL-VERSION", cluster.getProtocolVersion())
+
+    def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
+        self.setChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE", cluster.getCanFdBaudrate())
+
     def writeLinCluster(self, element: ET.Element, cluster: LinCluster):
         self.logger.debug("LinCluster %s" % cluster.short_name)
         child_element = ET.SubElement(element, "LIN-CLUSTER")
         self.writeIdentifiable(child_element, cluster)
+        child_element = ET.SubElement(child_element, "LIN-CLUSTER-VARIANTS")
+        child_element = ET.SubElement(child_element, "LIN-CLUSTER-CONDITIONAL")
+        self.writeCommunicationCluster(child_element, cluster)
+
+    def writeCanCluster(self, element: ET.Element, cluster: CanCluster):
+        self.logger.debug("CanCluster %s" % cluster.short_name)
+        child_element = ET.SubElement(element, "CAN-CLUSTER")
+        self.writeIdentifiable(child_element, cluster)
+
+        child_element = ET.SubElement(child_element, "CAN-CLUSTER-VARIANTS")
+        child_element = ET.SubElement(child_element, "CAN-CLUSTER-CONDITIONAL")
+        self.writeCommunicationCluster(child_element, cluster)
+        self.readAbstractCanCluster(child_element, cluster)
 
     def writeCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("CanFrame %s" % frame.short_name)
         child_element = ET.SubElement(element, "CAN-FRAME")
         self.writeFrame(child_element, frame)
+
+    def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
+        self.logger.debug("EcuInstance %s" % instance.short_name)
+        child_element = ET.SubElement(element, "ECU-INSTANCE")
+        self.writeIdentifiable(child_element, instance)
+
+    def writeSystemSignalGroup(self, element: ET.Element, group: SystemSignalGroup):
+        self.logger.debug("Write SystemSignalGroup %s" % group.short_name)
+        child_element = ET.SubElement(element, "SYSTEM-SIGNAL-GROUP")
+        self.writeIdentifiable(child_element, group)
+
+    def setSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
+        child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")
+        self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def setSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+        child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING")
+        self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
+        self.setChildElementOptionalRefType(child_element, "SIGNAL-GROUP-REF", mapping.getSignalGroupRef())
+    
+    def writeSystemMappingDataMappings(self, element: ET.Element, system_mapping: SystemMapping):
+        data_mappings = system_mapping.getDataMappings()
+        if len(data_mappings) > 0:
+            child_element = ET.SubElement(element, "DATA-MAPPINGS")
+            for data_mapping in data_mappings:
+                if isinstance(data_mapping, SenderReceiverToSignalMapping):
+                    self.setSenderReceiverToSignalMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):
+                    self.setSenderReceiverToSignalGroupMapping(child_element, data_mapping)
+                else:
+                    raise NotImplementedError("Unsupported Data Mapping %s" % type(data_mapping))
+
+    def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
+        self.logger.debug("Write SystemMapping %s" % mapping.short_name)
+        child_element = ET.SubElement(element, "SYSTEM-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.writeSystemMappingDataMappings(child_element, mapping)
+
+    def writeSystemMappings(self, element: ET.Element, system: System):
+        mappings = system.getMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "MAPPINGS")
+            for mapping in mappings:
+                if isinstance(mapping, SystemMapping):
+                    self.writeSystemMapping(mappings_tag, mapping)
+                else:
+                    raise NotImplementedError("Unsupported Mapping %s" % type(mapping))
+                
+    def writeSystem(self, element: ET.Element, system: System):
+        self.logger.debug("Write System %s" % system.short_name)
+        child_element = ET.SubElement(element, "SYSTEM")
+        self.writeIdentifiable(child_element, system)
+
+        self.setChildElementOptionalLiteral(child_element, "ECU-EXTRACT-VERSION", system.getEcuExtractVersion())
+        refs = system.getFibexElementRefs()
+        if len(refs) > 0:
+            fibex_elements_tag = ET.SubElement(child_element, "FIBEX-ELEMENTS")
+            for ref in refs:
+                fibex_element_ref_conditional_tag = ET.SubElement(fibex_elements_tag, "FIBEX-ELEMENT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(fibex_element_ref_conditional_tag, "FIBEX-ELEMENT-REF", ref)
+
+        self.writeSystemMappings(child_element, system)
+
 
     def setISignalMappings(self, element: ET.Element, mappings: List[ISignalMapping]):
         if len(mappings) > 0:
@@ -2011,6 +2308,63 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 
+    def writeISignalGroup(self, element: ET.Element, group: ISignalGroup):
+        self.logger.debug("ISignalGroup %s" % group.short_name)
+        child_element = ET.SubElement(element, "I-SIGNAL-GROUP")
+        self.writeIdentifiable(child_element, group)
+        signal_refs = group.getISignalRefs()
+        if len(signal_refs) > 0:
+            signal_refs_tag = ET.SubElement(child_element, "I-SIGNAL-REFS")
+            for signal_ref in signal_refs:
+                self.setChildElementOptionalRefType(signal_refs_tag, "I-SIGNAL-REF", signal_ref)
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-GROUP-REF", group.getSystemSignalGroupRef())
+
+    def writeISignalIPduGroup(self, element: ET.Element, group: ISignalIPduGroup):
+        self.logger.debug("ISignalIPduGroup %s" % group.short_name)
+        child_element = ET.SubElement(element, "I-SIGNAL-I-PDU-GROUP")
+        self.writeIdentifiable(child_element, group)
+        self.setChildElementOptionalLiteral(child_element, "COMMUNICATION-DIRECTION", group.getCommunicationDirection())
+        self.setChildElementOptionalLiteral(child_element, "COMMUNICATION-MODE", group.getCommunicationMode())
+        group_refs = group.getContainedISignalIPduGroupRefs()
+        if len(group_refs) > 0:
+            pdu_refs_tag = ET.SubElement(child_element, "CONTAINED-I-SIGNAL-I-PDU-GROUP-REFS")
+            for pdu_ref in group_refs:
+                self.setChildElementOptionalRefType(pdu_refs_tag, "CONTAINED-I-SIGNAL-I-PDU-GROUP-REF", pdu_ref)
+        pdu_refs = group.getISignalIPduRefs()
+        if len(pdu_refs) > 0:
+            pdu_refs_tag = ET.SubElement(child_element, "I-SIGNAL-I-PDUS")
+            for pdu_ref in pdu_refs:
+                ref_conditional_tag = ET.SubElement(pdu_refs_tag, "I-SIGNAL-I-PDU-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(ref_conditional_tag, "I-SIGNAL-I-PDU-REF", pdu_ref)
+
+    def writeSystemSignal(self, element: ET.Element, signal: SystemSignal):
+        self.logger.debug("SystemSignal %s" % signal.short_name)
+        child_element = ET.SubElement(element, "SYSTEM-SIGNAL")
+        self.writeIdentifiable(child_element, signal)
+        self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-LENGTH", signal.getDynamicLength())
+
+    def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
+        mappings = parent.getISignalToPduMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "I-SIGNAL-TO-PDU-MAPPINGS")
+            for mapping in mappings:
+                child_element = ET.SubElement(mappings_tag, "I-SIGNAL-TO-I-PDU-MAPPING")
+                self.writeIdentifiable(child_element, mapping)
+                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
+                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+                self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.getStartPosition())
+                self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
+                self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+
+    def writeISignalIPdu(self, element: ET.Element, i_pdu: ISignalIPdu):
+        self.logger.debug("ISignalIPdu %s" % i_pdu.short_name)
+        child_element = ET.SubElement(element, "I-SIGNAL-I-PDU")
+        self.writeIdentifiable(child_element, i_pdu)
+        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", i_pdu.getLength())
+        self.writeISignalToPduMappings(child_element, i_pdu)
+        self.setChildElementOptionalLiteral(child_element, "UNUSED-BIT-PATTERN", i_pdu.getUnusedBitPattern())
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
@@ -2084,6 +2438,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCanTpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
+        elif isinstance(ar_element, CanCluster):
+            self.writeCanCluster(element, ar_element)
         elif isinstance(ar_element, CanFrame):
             self.writeCanFrame(element, ar_element)
         elif isinstance(ar_element, Gateway):
@@ -2094,6 +2450,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucValueCollection(element, ar_element)
         elif isinstance(ar_element, EcucModuleConfigurationValues):
             self.writeEcucModuleConfigurationValues(element, ar_element)
+        elif isinstance(ar_element, ISignalGroup):
+            self.writeISignalGroup(element, ar_element)
+        elif isinstance(ar_element, ISignalIPduGroup):
+            self.writeISignalIPduGroup(element, ar_element)
+        elif isinstance(ar_element, SystemSignal):
+            self.writeSystemSignal(element, ar_element)
+        elif isinstance(ar_element, ISignalIPdu):
+            self.writeISignalIPdu(element, ar_element)
+        elif isinstance(ar_element, EcuInstance):
+            self.writeEcuInstance(element, ar_element)
+        elif isinstance(ar_element, SystemSignalGroup):
+            self.writeSystemSignalGroup(element, ar_element)
+        elif isinstance(ar_element, System):
+            self.writeSystem(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

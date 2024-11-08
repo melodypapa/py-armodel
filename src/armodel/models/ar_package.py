@@ -1,14 +1,16 @@
 from typing import Dict, List
 
+
+from .fibex.fibex_core.core_topology import EcuInstance, CanCluster, LinCluster
+from .fibex.fibex_core.core_communication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, SystemSignal, DcmIPdu, ISignal, NPdu, NmPdu, SystemSignalGroup
 from .autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from .fibex.can_communication import CanFrame
 from .fibex.fibex_4_multiplatform import Gateway
 
-from .system_template.transport_protocols import CanTpConfig
-from .system_template.network_management import NmConfig
-from .fibex.fibex_core import DcmIPdu, ISignal, NPdu, NmPdu
+from .m2.autosar_templates.system_template import System
+from .m2.autosar_templates.system_template.transport_protocols import CanTpConfig
+from .m2.autosar_templates.system_template.network_management import NmConfig
 from .fibex.lin_communication import LinUnconditionalFrame
-from .fibex.lin_topology import LinCluster
 from .timing import SwcTiming
 from .data_dictionary import SwAddrMethod
 from .record_layout import SwRecordLayout
@@ -239,6 +241,12 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = cluster
         return self.elements[short_name]
     
+    def createCanCluster(self, short_name: str) -> CanCluster:
+        if (short_name not in self.elements):
+            cluster = CanCluster(self, short_name)
+            self.elements[short_name] = cluster
+        return self.elements[short_name]
+    
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
         if (short_name not in self.elements):
             frame = LinUnconditionalFrame(self, short_name)
@@ -281,6 +289,12 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = frame
         return self.elements[short_name]
     
+    def createEcuInstance(self, short_name: str) -> EcuInstance:
+        if (short_name not in self.elements):
+            frame = EcuInstance(self, short_name)
+            self.elements[short_name] = frame
+        return self.elements[short_name]
+    
     def createGateway(self, short_name: str) -> Gateway:
         if (short_name not in self.elements):
             gateway = Gateway(self, short_name)
@@ -293,6 +307,24 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = signal
         return self.elements[short_name]
     
+    def createSystemSignal(self, short_name: str) -> SystemSignal:
+        if (short_name not in self.elements):
+            signal = SystemSignal(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createSystemSignalGroup(self, short_name: str) -> SystemSignalGroup:
+        if (short_name not in self.elements):
+            signal = SystemSignalGroup(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
+        if (short_name not in self.elements):
+            signal = ISignalIPdu(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
     def createEcucValueCollection(self, short_name: str) -> EcucValueCollection:
         if (short_name not in self.elements):
             signal = EcucValueCollection(self, short_name)
@@ -302,6 +334,24 @@ class ARPackage(Identifiable, CollectableElement):
     def createEcucModuleConfigurationValues(self, short_name: str) -> EcucModuleConfigurationValues:
         if (short_name not in self.elements):
             signal = EcucModuleConfigurationValues(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createISignalGroup(self, short_name: str) -> ISignalGroup:
+        if (short_name not in self.elements):
+            signal = ISignalGroup(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createISignalIPduGroup(self, short_name: str) -> ISignalIPduGroup:
+        if (short_name not in self.elements):
+            signal = ISignalIPduGroup(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
+    def createSystem(self, short_name: str) -> System:
+        if (short_name not in self.elements):
+            signal = System(self, short_name)
             self.elements[short_name] = signal
         return self.elements[short_name]
     
@@ -395,6 +445,9 @@ class ARPackage(Identifiable, CollectableElement):
     def getLinClusters(self) -> List[LinCluster]:
         return list(sorted(filter(lambda a : isinstance(a, LinCluster), self.elements.values()), key = lambda a: a.short_name))
     
+    def getCanClusters(self) -> List[CanCluster]:
+        return list(sorted(filter(lambda a : isinstance(a, CanCluster), self.elements.values()), key = lambda a: a.short_name))
+    
     def getLinUnconditionalFrames(self) -> List[LinUnconditionalFrame]:
         return list(sorted(filter(lambda a : isinstance(a, LinUnconditionalFrame), self.elements.values()), key = lambda a: a.short_name))
     
@@ -416,6 +469,9 @@ class ARPackage(Identifiable, CollectableElement):
     def getCanFrames(self) -> List[CanFrame]:
         return list(sorted(filter(lambda a : isinstance(a, CanFrame), self.elements.values()), key = lambda a: a.short_name))
     
+    def getEcuInstances(self) -> List[EcuInstance]:
+        return list(sorted(filter(lambda a : isinstance(a, EcuInstance), self.elements.values()), key = lambda a: a.short_name))
+    
     def getGateways(self) -> List[Gateway]:
         return list(sorted(filter(lambda a : isinstance(a, Gateway), self.elements.values()), key = lambda a: a.short_name))
     
@@ -427,6 +483,21 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
         return list(sorted(filter(lambda a : isinstance(a, EcucModuleConfigurationValues), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getISignalGroups(self) -> List[ISignalGroup]:
+        return list(sorted(filter(lambda a : isinstance(a, ISignalGroup), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getSystemSignals(self) -> List[SystemSignal]:
+        return list(sorted(filter(lambda a : isinstance(a, SystemSignal), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getSystemSignalGroups(self) -> List[SystemSignalGroup]:
+        return list(sorted(filter(lambda a : isinstance(a, SystemSignalGroup), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getISignalIPdus(self) -> List[ISignalIPdu]:
+        return list(sorted(filter(lambda a : isinstance(a, ISignalIPdu), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getSystems(self) -> List[System]:
+        return list(sorted(filter(lambda a : isinstance(a, System), self.elements.values()), key = lambda a: a.short_name))
     
 class AUTOSAR (CollectableElement):        
     __instance = None
@@ -490,8 +561,8 @@ class AUTOSAR (CollectableElement):
                 referred_type = self.find(data_type.sw_data_def_props.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE):
-                if (data_type.sw_data_def_props.sw_pointer_target_props.target_category == "VALUE"):
-                    referred_type = self.find(data_type.sw_data_def_props.sw_pointer_target_props.sw_data_def_props.baseTypeRef.value)
+                if (data_type.sw_data_def_props.swPointerTargetProps.target_category == "VALUE"):
+                    referred_type = self.find(data_type.sw_data_def_props.swPointerTargetProps.sw_data_def_props.baseTypeRef.value)
                     return self.getDataType(referred_type)
             return data_type
         else:

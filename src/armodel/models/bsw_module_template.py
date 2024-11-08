@@ -235,7 +235,7 @@ class BswInternalBehavior(InternalBehavior):
     def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
         return self.included_data_type_sets
 
-class BswModuleDescription(AtpStructureElement):
+class BswModuleDescription(ARElement):
     '''
         Root element for the description of a single BSW module or BSW cluster. In case it
         describes a BSW module, the short name of this element equals the name of the
@@ -262,15 +262,17 @@ class BswModuleDescription(AtpStructureElement):
     def getImplementedEntries(self) -> List[RefType]:
         return self._implementedEntryRefs
 
-    @property
-    def category(self) -> str:
-        return self._category
+    #@property
+    #def category(self) -> str:
+    #    return ARElement.getCategory(self)
 
-    @category.setter
-    def category(self, value:str):
-        if value not in ("BSW_MODULE", "BSW_CLUSTER", "LIBRARY"):
-            raise ValueError("Invalid category <%s> of BswModuleDescription <%s>" % (value, self.short_name))
-        self._category = value
+    #@category.setter
+    #def category(self, value:str):
+    #    if value is None:
+    #        return
+    #    if value not in ("BSW_MODULE", "BSW_CLUSTER", "LIBRARY"):
+    #        raise ValueError("Invalid category <%s> of BswModuleDescription <%s>" % (value, self.short_name))
+    #    ARElement.setCategory(self, value)
 
     def createProvidedModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         if (short_name not in self.elements):

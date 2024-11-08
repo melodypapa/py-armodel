@@ -13,26 +13,54 @@ class Sd(ARObject):
         self.gid = ""
         self.value = ""
 
+    def getGID(self):
+        return self.gid
+
+    def setGID(self, value):
+        self.gid = value
+        return self
+
+    def getValue(self):
+        return self.value
+
+    def setValue(self, value):
+        self.value = value
+        return self
 class Sdg(ARObject):
     def __init__(self):
         super().__init__()
 
         self.gid = ""
         self.sd = []                        # type: List[Sd]
-        self.sdg_caption = None
-        self.sdg_contents_types = []        # type: List[Sdg]
+        self.sdgCaption = None
+        self.sdgContentsTypes = []          # type: List[Sdg]
+
+    def getGID(self):
+        return self.gid
+
+    def setGID(self, value):
+        self.gid = value
+        return self
 
     def addSd(self, sd: Sd):
         self.sd.append(sd)
+        return self
 
     def getSds(self) -> List[Sd]:
         return self.sd
     
+    def getSdgCaption(self):
+        return self.sdgCaption
+
+    def setSdgCaption(self, value):
+        self.sdgCaption = value
+        return self
+    
     def addSdgContentsType(self, sdg):
-        self.sdg_contents_types.append(sdg)
+        self.sdgContentsTypes.append(sdg)
 
     def getSdgContentsTypes(self):
-        return self.sdg_contents_types
+        return self.sdgContentsTypes
     
 class AdminData(ARObject):
     def __init__(self):
@@ -74,6 +102,9 @@ class Referrable(ARObject, metaclass=ABCMeta):
     def shortName(self, value):
         self.short_name = value
 
+    def getShortName(self) -> str:
+        return self.short_name
+
     @property
     def full_name(self) -> str:
         return self._parent.full_name + "/" + self.short_name
@@ -85,9 +116,15 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self._parent = parent
-        self.long_name = None            # type: MultilanguageLongName
+        #self._parent = parent
+        self.longName = None            # type: MultilanguageLongName
 
+    def getLongName(self) -> MultilanguageLongName:
+        return self.longName
+
+    def setLongName(self, value: MultilanguageLongName):
+        self.longName = value
+        return self
 class CollectableElement(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == CollectableElement:
@@ -119,9 +156,57 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         CollectableElement.__init__(self)
 
         self.annotations = []       # type: List[Annotation]
-        self.admin_data = None      # type: AdminData
-        self._category = None
+        self.adminData = None       # type: AdminData
+        self.category = None
         self.desc = None            # type: MultiLanguageOverviewParagraph
+
+    def getAdminData(self):
+        return self.adminData
+
+    def setAdminData(self, value):
+        self.adminData = value
+        return self
+    
+    def getDesc(self):
+        return self.desc
+
+    def setDesc(self, value):
+        self.desc = value
+        return self
+
+    def getCategory(self):
+        return self.category
+
+    def setCategory(self, value):
+        self.category = value
+        return self
+    
+    def addAnnotation(self, annotation: Annotation):
+        self.annotations.append(annotation)
+        return self
+    
+    def getAnnotations(self) -> List[Annotation]:
+        return self.annotations
+    
+class Describable(ARObject, metaclass=ABCMeta):
+    def __init__(self):
+        if type(self) == Describable:
+            raise NotImplementedError("Describable is an abstract class.")
+        
+        super().__init__()
+
+        self._desc = None
+        self._category = None
+        self._adminData = None
+        self._introduction = None
+
+    @property
+    def desc(self):
+        return self._desc
+
+    @desc.setter
+    def desc(self, value):
+        self._desc = value
 
     @property
     def category(self):
@@ -130,13 +215,6 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
     @category.setter
     def category(self, value):
         self._category = value
-
-    def addAnnotation(self, annotation: Annotation):
-        self.annotations.append(annotation)
-        return self
-    
-    def getAnnotations(self) -> List[Annotation]:
-        return self.annotations
 
 class AtpFeature(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
