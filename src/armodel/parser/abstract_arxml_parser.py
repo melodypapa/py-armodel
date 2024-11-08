@@ -45,6 +45,9 @@ class AbstractARXMLParser:
         else:
             raise ValueError(error_msg)
         
+    def _raiseWarning(self, error_msg):
+        self.logger.warning(error_msg)
+        
     def getPureTagName(self, tag):
         return re.sub(r'\{[\w:\/.]+\}(\w+)', r'\1', tag)
 
@@ -233,6 +236,12 @@ class AbstractARXMLParser:
             document.schema_location = element.attrib[key]
         
         self.logger.debug("schemaLocation %s" % document.schema_location)
+
+    def getShortName(self, element: ET.Element) -> str:
+        child_element = self.find(element, "SHORT-NAME")
+        if child_element is None:
+            raise ValueError("Short Name is required")
+        return child_element.text
 
     def convert_find_key(self, key: str) -> str:
         keys = key.split("/")

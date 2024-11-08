@@ -313,3 +313,12 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * EcucContainerValue
    * EcucParameterValue
    * EcucAbstractReferenceValue
+3. To support the following AR Element:
+   * I-SIGNAL-GROUP
+   * I-SIGNAL-I-PDU-GROUP
+   * NM-CONFIG
+   * NM-NODE
+   * NM-CLUSTER
+   * CAN-NM-MODE
+   * NM-ECU
+ 4. Create the CLI (armodel-system-signal) to list all the system signals

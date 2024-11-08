@@ -1,7 +1,7 @@
 
 from abc import ABCMeta
-from ..ar_object import ARObject
-from .fibex_core import Frame
+from ..ar_object import ARLiteral, ARNumerical, ARObject
+from .fibex_core.core_communication import Frame, FrameTriggering
 
 class LinFrame(Frame):
     __metaclass__ = ABCMeta
@@ -15,3 +15,24 @@ class LinFrame(Frame):
 class LinUnconditionalFrame(LinFrame):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+class LinFrameTriggering(FrameTriggering):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.identifier = None                          # type: ARNumerical
+        self.linChecksum = None                         # type: ARLiteral
+
+    def getIdentifier(self):
+        return self.identifier
+
+    def setIdentifier(self, value):
+        self.identifier = value
+        return self
+
+    def getLinChecksum(self):
+        return self.linChecksum
+
+    def setLinChecksum(self, value):
+        self.linChecksum = value
+        return self

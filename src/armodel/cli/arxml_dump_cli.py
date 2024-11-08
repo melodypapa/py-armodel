@@ -2,9 +2,9 @@ import getopt
 import sys
 import logging
 
-from ..models import AUTOSAR, ARPackage, AtomicSwComponentType, VariableAccess, SwComponentType, DataTypeMappingSet
+from ..models import AUTOSAR, ARPackage, VariableAccess, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType
-from ..models import BswModuleDescription, BswEvent, BswInternalBehavior, BswModuleEntity, BswModuleEntry
+from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntity, BswModuleEntry
 from ..models import PortPrototype, RPortPrototype, PPortPrototype
 from ..models import SenderReceiverInterface, ClientServerInterface
 from ..parser import ARXMLParser

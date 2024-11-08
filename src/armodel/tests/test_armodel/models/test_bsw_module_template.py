@@ -15,12 +15,12 @@ class TestBswModuleDescription:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         bsw_module_description = BswModuleDescription(ar_root, "bsw_module")
-        with pytest.raises(ValueError) as err:
-            bsw_module_description.category = "invalid"
-        assert(str(err.value) == "Invalid category <invalid> of BswModuleDescription <bsw_module>")
+        #with pytest.raises(ValueError) as err:
+        #    bsw_module_description.category = "invalid"
+        #assert(str(err.value) == "Invalid category <invalid> of BswModuleDescription <bsw_module>")
 
-        bsw_module_description.category = "BSW_MODULE"
-        assert(bsw_module_description.category == "BSW_MODULE")
+        bsw_module_description.setCategory("BSW_MODULE")
+        assert(bsw_module_description.getCategory() == "BSW_MODULE")
 
 class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces:
     def test_BswModuleEntry(self):

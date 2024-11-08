@@ -1,11 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from ..m2.msr.documentation.block_elements import DocumentationBlock
-from ..annotation import Annotation
-from ..ar_ref import AnyInstanceRef, RefType
-from ..ar_object import ARBoolean, ARLiteral, ARNumerical, ARObject
-from ..general_structure import ARElement
+from ..msr.documentation.block_elements import DocumentationBlock
+from ...annotation import Annotation
+from ...ar_ref import AnyInstanceRef, RefType
+from ...ar_object import ARBoolean, ARLiteral, ARNumerical, ARObject
+from ...general_structure import ARElement
 
 class EcucValueCollection(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -28,7 +28,7 @@ class EcucValueCollection(ARElement):
         self.ecuExtractRef = value
         return self
     
-class EcucIndexableValue(ARObject, metaclass=ABCMeta):
+class EcucIndexableValue(ARObject, metaclass = ABCMeta):
     def __init__(self):
         if type(self) == EcucIndexableValue:
             raise NotImplementedError("EcucIndexableValue is an abstract class.")

@@ -1,145 +1,138 @@
 from typing import List
 
+from ..m2.msr.documentation.block_elements import DocumentationBlock
 from ..ar_ref import RefType
 from ..ar_object import ARObject, ARPositiveInteger
-from .fibex_core import FibexElement
+from .fibex_core.core_communication import FibexElement
 
 class FrameMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self._introduction = None             # type: DocumentationBlock
-        self._source_frame_ref = None         # type: RefType
-        self._target_frame_ref = None         # type: RefType
+        self.introduction = None            # type: DocumentationBlock
+        self.sourceFrameRef = None          # type: RefType
+        self.targetFrameRef = None          # type: RefType
 
-    @property
-    def introduction(self):
-        return self._introduction
+    def getIntroduction(self):
+        return self.introduction
 
-    @introduction.setter
-    def introduction(self, value):
-        self._introduction = value
+    def setIntroduction(self, value):
+        self.introduction = value
+        return self
 
-    @property
-    def sourceFrameRef(self):
-        return self._source_frame_ref
+    def getSourceFrameRef(self):
+        return self.sourceFrameRef
 
-    @sourceFrameRef.setter
-    def sourceFrameRef(self, value):
-        self._source_frame_ref = value
+    def setSourceFrameRef(self, value):
+        self.sourceFrameRef = value
+        return self
 
-    @property
-    def targetFrameRef(self):
-        return self._target_frame_ref
+    def getTargetFrameRef(self):
+        return self.targetFrameRef
 
-    @targetFrameRef.setter
-    def targetFrameRef(self, value):
-        self._target_frame_ref = value
+    def setTargetFrameRef(self, value):
+        self.targetFrameRef = value
+        return self
 
 class ISignalMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self._introduction = None           # type: DocumentationBlock
-        self._source_signal_ref = None      # type: RefType
-        self._target_signal_ref = None      # type: RefType
+        self.introduction = None         # type: DocumentationBlock
+        self.sourceSignalRef = None      # type: RefType
+        self.targetSignalRef = None      # type: RefType
 
-    @property
-    def introduction(self):
-        return self._introduction
+    def getIntroduction(self):
+        return self.introduction
 
-    @introduction.setter
-    def introduction(self, value):
-        self._introduction = value
+    def setIntroduction(self, value):
+        self.introduction = value
+        return self
 
-    @property
-    def sourceSignalRef(self):
-        return self._source_signal_ref
+    def getSourceSignalRef(self):
+        return self.sourceSignalRef
 
-    @sourceSignalRef.setter
-    def sourceSignalRef(self, value):
-        self._source_signal_ref = value
+    def setSourceSignalRef(self, value):
+        self.sourceSignalRef = value
+        return self
 
-    @property
-    def targetSignalRef(self):
-        return self._target_signal_ref
+    def getTargetSignalRef(self):
+        return self.targetSignalRef
 
-    @targetSignalRef.setter
-    def targetSignalRef(self, value):
-        self._target_signal_ref = value
+    def setTargetSignalRef(self, value):
+        self.targetSignalRef = value
+        return self
 
 class IPduMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self._introduction = None           # type: DocumentationBlock
-        self._pdur_tp_chunk_size = None     # type: ARPositiveInteger
-        self._source_ipdu_ref = None        # type: RefType
-        self._target_ipdu_ref = None        # type: RefType
+        self.introduction = None            # type: DocumentationBlock
+        self.pdurTpChunkSize = None         # type: ARPositiveInteger
+        self.sourceIpduRef = None           # type: RefType
+        self.targetIpduRef = None           # type: RefType
 
-    @property
-    def introduction(self):
-        return self._introduction
+    def getIntroduction(self):
+        return self.introduction
 
-    @introduction.setter
-    def introduction(self, value):
-        self._introduction = value
+    def setIntroduction(self, value):
+        self.introduction = value
+        return self
 
-    @property
-    def pdurTpChunkSize(self):
-        return self._pdur_tp_chunk_size
+    def getPdurTpChunkSize(self):
+        return self.pdurTpChunkSize
 
-    @pdurTpChunkSize.setter
-    def pdurTpChunkSize(self, value):
-        self._pdur_tp_chunk_size = value
+    def setPdurTpChunkSize(self, value):
+        self.pdurTpChunkSize = value
+        return self
 
-    @property
-    def sourceIPduRef(self):
-        return self._source_ipdu_ref
+    def getSourceIpduRef(self):
+        return self.sourceIpduRef
 
-    @sourceIPduRef.setter
-    def sourceIPduRef(self, value):
-        self._source_ipdu_ref = value
+    def setSourceIpduRef(self, value):
+        self.sourceIpduRef = value
+        return self
 
-    @property
-    def targetIPduRef(self):
-        return self._target_ipdu_ref
+    def getTargetIpduRef(self):
+        return self.targetIpduRef
 
-    @targetIPduRef.setter
-    def targetIPduRef(self, value):
-        self._target_ipdu_ref = value
+    def setTargetIpduRef(self, value):
+        self.targetIpduRef = value
+        return self
 
 class Gateway(FibexElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._ecu_ref = None                # type: RefType
-        self._frame_mappings = []           # type: List[FrameMapping]
-        self._i_pdu_mappings = []           # type: List[IPduMapping]
-        self._signal_mappings = []          # type: List[ISignalMapping]
+        self.ecuRef = None                # type: RefType
+        self.frameMappings = []           # type: List[FrameMapping]
+        self.iPduMappings = []            # type: List[IPduMapping]
+        self.signalMappings = []          # type: List[ISignalMapping]
+    
+    def getEcuRef(self):
+        return self.ecuRef
 
-    @property
-    def ecuRef(self) -> RefType:
-        return self._ecu_ref
-
-    @ecuRef.setter
-    def ecuRef(self, value: RefType):
-        self._ecu_ref = value
+    def setEcuRef(self, value):
+        self.ecuRef = value
+        return self
 
     def getFrameMappings(self) -> List[FrameMapping]:
-        return self._frame_mappings
+        return self.frameMappings
 
     def addFrameMapping(self, mapping: FrameMapping):
-        self._frame_mappings.append(mapping)
+        self.frameMappings.append(mapping)
+        return self
 
     def getIPduMappings(self) -> List[FrameMapping]:
-        return self._i_pdu_mappings
+        return self.iPduMappings
 
     def addIPduMappings(self, mapping: FrameMapping):
-        self._i_pdu_mappings.append(mapping)
+        self.iPduMappings.append(mapping)
+        return self
 
     def getSignalMappings(self) -> List[FrameMapping]:
-        return self._signal_mappings
+        return self.signalMappings
 
     def addSignalMapping(self, mapping: FrameMapping):
-        self._signal_mappings.append(mapping)
+        self.signalMappings.append(mapping)
+        return self
