@@ -1,12 +1,11 @@
 from typing import Dict, List
 
-
 from .fibex.fibex_core.core_topology import EcuInstance, CanCluster, LinCluster
 from .fibex.fibex_core.core_communication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, SystemSignal, DcmIPdu, ISignal, NPdu, NmPdu, SystemSignalGroup
-from .autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from .fibex.can_communication import CanFrame
 from .fibex.fibex_4_multiplatform import Gateway
 
+from .m2.autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from .m2.autosar_templates.system_template import System
 from .m2.autosar_templates.system_template.transport_protocols import CanTpConfig
 from .m2.autosar_templates.system_template.network_management import NmConfig

@@ -320,3 +320,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NM-NODE
    * NM-CLUSTER
    * CAN-NM-MODE
+   * NM-ECU
+ 4. Create the CLI (armodel-system-signal) to list all the system signals

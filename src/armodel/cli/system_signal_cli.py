@@ -6,8 +6,7 @@ import os.path
 
 from armodel import AUTOSAR
 from armodel.parser import ARXMLParser
-
-from ..lib import InputFileParser, SwComponentAnalyzer
+from ..lib import InputFileParser, SystemSignalAnalyzer
 
 def main():
     version = pkg_resources.require("armodel")[0].version
@@ -62,7 +61,11 @@ def main():
         for filename in filenames:
             parser.load(filename, document)
 
-        
+        analyzer = SystemSignalAnalyzer()
+        analyzer.import_data(document)
+        analyzer.print_out({
+            'format': format,
+        })
         
     except Exception as e:
         print(e)

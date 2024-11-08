@@ -5,14 +5,14 @@ from typing import List
 
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanCluster, EcuInstance, CanPhysicalChannel, CommunicationCluster, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.m2.msr.documentation.block_elements import DocumentationBlock
-from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.m2.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
 from ..models.fibex.can_communication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.fibex.fibex_core.core_communication import FrameTriggering, IPdu, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
 from ..models.fibex.lin_communication import LinFrameTriggering, LinUnconditionalFrame
 from ..models.m2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.m2.autosar_templates.system_template import System, SystemMapping
-from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.m2.autosar_templates.system_template.transport_protocols import CanTpConfig
 from ..models.internal_behavior import IncludedDataTypeSet, InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
@@ -1871,7 +1871,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
         self.setChildElementRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
 
-    def writeNmClustersNmNodes(self, element: ET.Element, parent: NmCluster):
+    def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
         if len(nodes) > 0:
             child_element = ET.SubElement(element, "NM-NODES")
@@ -1881,11 +1881,33 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self._raiseError("Unsupported Nm Node <%s>" % type(node))
 
+    def setCanNmClusterCoupling(self, element: ET.Element, coupling: CanNmClusterCoupling):
+        child_element = ET.SubElement(element, "CAN-NM-CLUSTER-COUPLING")
+        refs = coupling.getCoupledClusterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
+
+        self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ENABLED", coupling.getNmBusloadReductionEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
+
+    def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
+        self.logger.debug("writeNmConfigNmClusterCouplings %s" % config.getShortName())
+        couplings = config.getNmClusterCouplings()
+        if len(couplings) > 0:
+            child_element= ET.SubElement(element, "NM-CLUSTER-COUPLINGS")
+            for coupling in couplings:
+                if isinstance(coupling, CanNmClusterCoupling):
+                    self.setCanNmClusterCoupling(child_element, coupling)
+                else:
+                    self._raiseError("Unsupported Nm Cluster Coupling <%s>" % type(coupling))
+
     def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
         self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.communicationClusterRef)
         self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.nmChannelId)
         self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.nmChannelSleepMaster)
-        self.writeNmClustersNmNodes(element, cluster)
+        self.writeNmClusterNmNodes(element, cluster)
         self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
 
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
@@ -1924,6 +1946,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NM-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.writeNmConfigNmClusters(child_element, config)
+        self.writeNmConfigNmClusterCouplings(child_element, config)
 
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("NmPdu %s" % pdu.short_name)

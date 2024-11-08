@@ -6,9 +6,9 @@ from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysi
 from ..models.m2.msr.documentation.block_elements import DocumentationBlock
 from ..models.m2.autosar_templates.system_template import System, SystemMapping
 from ..models.m2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, NmCluster, NmConfig, NmNode
+from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.fibex.can_communication import CanFrameTriggering, RxIdentifierRange
-from ..models.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.m2.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.fibex.fibex_4_multiplatform import ISignalMapping
 from ..models.fibex.fibex_core.core_communication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.internal_behavior import IncludedDataTypeSet
@@ -2059,7 +2059,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanNmNode(self, element: ET.Element, parent: NmCluster):
         short_name = self.getShortName(element)
         self.logger.debug("readCanNmNode %s" % short_name)
-        nm_node = parent.createCanNmNode(short_name)        # type: CanNmNode
+        nm_node = parent.createCanNmNode(short_name)            # type: CanNmNode
         self.readIdentifiable(element, nm_node)
         self.readNmNode(element, nm_node)
 
@@ -2076,10 +2076,30 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self._raiseError("Unsupported Nm Node <%s>" % tag_name)
 
+    def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
+        coupling  = CanNmClusterCoupling()
+        
+        for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
+            coupling.addCoupledClusterRef(ref)
+
+        coupling.setNmBusloadReductionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ENABLED")) \
+                .setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
+    
+        return coupling
+
+    def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
+        self.logger.debug("readNmClusterNmClusterCouplings %s" % nm_config.getShortName())
+        for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-NM-CLUSTER-COUPLING":
+                nm_config.addNmClusterCouplings(self.getCanNmClusterCoupling(child_element))
+            else:
+                self._raiseError("Unsupported Nm Node <%s>" % tag_name)
+
     def readNmCluster(self, element: ET.Element, cluster: NmCluster):
         cluster.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF")) \
-            .setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID"))    \
-            .setNmChannelSleepMaster(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER"))
+               .setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID")) \
+               .setNmChannelSleepMaster(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER"))
         self.readNmClusterNmNodes(element, cluster)
         cluster.setNmSynchronizingNetwork(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK"))
 
@@ -2091,19 +2111,19 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmCluster(element, cluster)
 
         cluster.setNmBusloadReductionActive(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ACTIVE")) \
-            .setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED")) \
-            .setNmCbvPosition(self.getChildElementOptionalNumericalValue(element, "NM-CBV-POSITION")) \
-            .setNmChannelActive(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-ACTIVE")) \
-            .setNmImmediateNmCycleTime(self.getChildElementOptionalFloatValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME")) \
-            .setNmImmediateNmTransmissions(self. getChildElementOptionalNumericalValue(element, "NM-IMMEDIATE-NM-TRANSMISSIONS")) \
-            .setNmMessageTimeoutTime(self.getChildElementOptionalFloatValue(element, "NM-MESSAGE-TIMEOUT-TIME")) \
-            .setNmMsgCycleTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-TIME")) \
-            .setNmNetworkTimeout(self.getChildElementOptionalFloatValue(element, "NM-NETWORK-TIMEOUT")) \
-            .setNmNidPosition(self. getChildElementOptionalNumericalValue(element, "NM-NID-POSITION")) \
-            .setNmRemoteSleepIndicationTime(self.getChildElementOptionalFloatValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME")) \
-            .setNmRepeatMessageTime(self.getChildElementOptionalFloatValue(element, "NM-REPEAT-MESSAGE-TIME")) \
-            .setNmUserDataLength(self. getChildElementOptionalNumericalValue(element, "NM-USER-DATA-LENGTH")) \
-            .setNmWaitBusSleepTime(self.getChildElementOptionalFloatValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
+               .setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED")) \
+               .setNmCbvPosition(self.getChildElementOptionalNumericalValue(element, "NM-CBV-POSITION")) \
+               .setNmChannelActive(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-ACTIVE")) \
+               .setNmImmediateNmCycleTime(self.getChildElementOptionalFloatValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME")) \
+               .setNmImmediateNmTransmissions(self. getChildElementOptionalNumericalValue(element, "NM-IMMEDIATE-NM-TRANSMISSIONS")) \
+               .setNmMessageTimeoutTime(self.getChildElementOptionalFloatValue(element, "NM-MESSAGE-TIMEOUT-TIME")) \
+               .setNmMsgCycleTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-TIME")) \
+               .setNmNetworkTimeout(self.getChildElementOptionalFloatValue(element, "NM-NETWORK-TIMEOUT")) \
+               .setNmNidPosition(self. getChildElementOptionalNumericalValue(element, "NM-NID-POSITION")) \
+               .setNmRemoteSleepIndicationTime(self.getChildElementOptionalFloatValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME")) \
+               .setNmRepeatMessageTime(self.getChildElementOptionalFloatValue(element, "NM-REPEAT-MESSAGE-TIME")) \
+               .setNmUserDataLength(self. getChildElementOptionalNumericalValue(element, "NM-USER-DATA-LENGTH")) \
+               .setNmWaitBusSleepTime(self.getChildElementOptionalFloatValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
         
     def readNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTERS/*"):
@@ -2116,9 +2136,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readNmConfig(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         self.logger.debug("NmConfig %s" % short_name)
-        config = parent.createNmConfig(short_name)      # type: NmConfig
+        config = parent.createNmConfig(short_name)                  # type: NmConfig
         self.readIdentifiable(element, config)
         self.readNmConfigNmClusters(element, config)
+        self.readNmConfigNmClusterCouplings(element, config)
 
     def readCanTpConfig(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
