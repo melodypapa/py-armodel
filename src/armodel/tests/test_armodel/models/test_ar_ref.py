@@ -21,9 +21,9 @@ class TestARRef:
     def test_AutosarVariableRef(self):
         ref_type = AutosarVariableRef()
         assert(ref_type != None)
-        assert(ref_type.autosar_variable_iref == None)
-        assert(ref_type.autosar_variable_in_impl_datatype == None)
-        assert(ref_type.local_variable_ref == None)
+        assert(ref_type.autosarVariableIRef == None)
+        assert(ref_type.autosarVariableInImplDatatype == None)
+        assert(ref_type.localVariableRef == None)
 
     def test_AtpInstanceRef(self):
         with pytest.raises(NotImplementedError) as err:

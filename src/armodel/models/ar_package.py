@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from .fibex.fibex_core.core_topology import EcuInstance, CanCluster, LinCluster
-from .fibex.fibex_core.core_communication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, SystemSignal, DcmIPdu, ISignal, NPdu, NmPdu, SystemSignalGroup
+from .fibex.fibex_core.core_communication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, SecuredIPdu, SystemSignal, DcmIPdu, ISignal, NPdu, NmPdu, SystemSignalGroup
 from .fibex.can_communication import CanFrame
 from .fibex.fibex_4_multiplatform import Gateway
 
@@ -270,6 +270,12 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = pdu
         return self.elements[short_name]
     
+    def createSecuredIPdu(self, short_name: str) -> SecuredIPdu:
+        if (short_name not in self.elements):
+            pdu = SecuredIPdu(self, short_name)
+            self.elements[short_name] = pdu
+        return self.elements[short_name]
+    
     def createNmConfig(self, short_name: str) -> NmConfig:
         if (short_name not in self.elements):
             config = NmConfig(self, short_name)
@@ -458,6 +464,9 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getDcmIPdus(self) -> List[DcmIPdu]:
         return list(sorted(filter(lambda a : isinstance(a, DcmIPdu), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getSecuredIPdus(self) -> List[SecuredIPdu]:
+        return list(sorted(filter(lambda a : isinstance(a, SecuredIPdu), self.elements.values()), key = lambda a: a.short_name))
     
     def getNmConfigs(self) -> List[NmConfig]:
         return list(sorted(filter(lambda a : isinstance(a, NmConfig), self.elements.values()), key = lambda a: a.short_name))

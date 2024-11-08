@@ -108,7 +108,7 @@ class AbstractARXMLParser:
     def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> ARFloat:
         child_element = element.find("./xmlns:%s" % key, self.nsmap)
         float_value = None
-        if (child_element is not None):
+        if (child_element is not None) and (child_element.text is not None):
             float_value = ARFloat()
             float_value.setValue(child_element.text)
         return float_value

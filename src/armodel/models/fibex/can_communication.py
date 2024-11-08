@@ -31,14 +31,15 @@ class CanFrameTriggering(FrameTriggering):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.absolutelyScheduledTimings = []
+        self.absolutelyScheduledTimings = []                    
         self.canAddressingMode = None
+        self.canFdFrameSupport = None
         self.canFrameRxBehavior = None
         self.canFrameTxBehavior = None
         self.canXlFrameTriggeringProps = None
         self.identifier = None
         self.j1939requestable = None
-        self.rxIdentifierRange = None
+        self.rxIdentifierRange = None                           # type: RxIdentifierRange
         self.rxMask = None
         self.txMask = None
 
@@ -54,6 +55,13 @@ class CanFrameTriggering(FrameTriggering):
 
     def setCanAddressingMode(self, value):
         self.canAddressingMode = value
+        return self
+    
+    def getCanFdFrameSupport(self):
+        return self.canFdFrameSupport
+
+    def setCanFdFrameSupport(self, value):
+        self.canFdFrameSupport = value
         return self
 
     def getCanFrameRxBehavior(self):
@@ -91,10 +99,10 @@ class CanFrameTriggering(FrameTriggering):
         self.j1939requestable = value
         return self
 
-    def getRxIdentifierRange(self):
+    def getRxIdentifierRange(self) -> RxIdentifierRange:
         return self.rxIdentifierRange
 
-    def setRxIdentifierRange(self, value):
+    def setRxIdentifierRange(self, value: RxIdentifierRange):
         self.rxIdentifierRange = value
         return self
 

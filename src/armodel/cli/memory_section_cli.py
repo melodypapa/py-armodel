@@ -13,8 +13,10 @@ def main():
 
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
-    ap.add_argument("-f", "--format", required= False, help= "Specify the name format of SW-C. [short|full]")
+    ap.add_argument("-f", "--format", required= False, help= "Specify the short or long name of Sw-C. [short|long]")
+    
     ap.add_argument("INPUT", help = "The path of AUTOSAR XML", nargs='+')
+    ap.add_argument("")
 
     args = ap.parse_args()
 
@@ -54,8 +56,8 @@ def main():
         parser = ARXMLParser({'warning': True})
 
         format = "short"
-        if args.format is not None and args.format.lower() == "full":
-            format = "full"
+        if args.format is not None and args.format.lower() == "long":
+            format = "long"
 
         for filename in filenames:
             parser.load(filename, document)

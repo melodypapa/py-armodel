@@ -1,6 +1,10 @@
 from typing import List
 import xml.etree.ElementTree as ET
+import os
 
+from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.mode_declaration_group import ModeAccessPoint
+from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
+from ..models.m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.m2.msr.documentation.block_elements import DocumentationBlock
@@ -30,19 +34,17 @@ from ..models.ar_package import AUTOSAR, ARPackage
 from ..models.ar_object import ARLiteral
 from ..models.service_needs import RoleBasedDataAssignment
 from ..models.ar_ref import AnyInstanceRef, ApplicationCompositeElementInPortInterfaceInstanceRef, InnerPortGroupInCompositionInstanceRef, RModeGroupInAtomicSWCInstanceRef, RefType, VariableDataPrototypeInSystemInstanceRef, VariableInAtomicSWCTypeInstanceRef, AutosarParameterRef
-from ..models.sw_component import AtomicSwComponentType, CompositionSwComponentType, ModeAccessPoint, PortAPIOption, PortDefinedArgumentValue, PortGroup, ServiceDependency, SwComponentType, SwcServiceDependency
+from ..models.sw_component import AtomicSwComponentType, CompositionSwComponentType, PortAPIOption, PortDefinedArgumentValue, PortGroup, ServiceDependency, SwComponentType, SwcServiceDependency
 from ..models.data_prototype import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
 from ..models.annotation import Annotation, GeneralAnnotation
 from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrRule, PhysConstrs
 
-from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, ServerCallPoint, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
+from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 from ..models import AutosarVariableRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
 from ..models import ImplementationDataType, SwDataDefProps, SwPointerTargetProps, DataTypeMappingSet, DataTypeMap, ImplementationDataTypeElement
 from ..models import RPortPrototype, PPortPrototype
-from ..models import ReceiverComSpec, ClientComSpec, NonqueuedReceiverComSpec
-from ..models import SenderComSpec, NonqueuedSenderComSpec, ServerComSpec
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import Identifiable, AdminData, Sdg, Sd
 from ..models import AssemblySwConnector, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
@@ -151,24 +153,31 @@ class ARXMLParser(AbstractARXMLParser):
             self.readElementAttributes(child_element, paragraph)
             self.readLOverviewParagraph(child_element, paragraph)
         return paragraph
-
-    def readAutosarVariableInImplDatatype(self, element: ET.Element, accessed_variable_ref: AutosarVariableRef):
-        child_element = element.find("./xmlns:ACCESSED-VARIABLE/xmlns:AUTOSAR-VARIABLE-IREF", self.nsmap)
-        if (child_element is not None):
+    
+    def getVariableInAtomicSWCTypeInstanceRef(self, element: ET.Element) -> VariableInAtomicSWCTypeInstanceRef:
+        autosar_variable_iref  = None
+        if element is not None:
             autosar_variable_iref = VariableInAtomicSWCTypeInstanceRef()
-            self.readElementAttributes(child_element, autosar_variable_iref)
-            autosar_variable_iref.port_prototype_ref = self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF")
-            if autosar_variable_iref.port_prototype_ref is None:
-                self._raiseError("PORT-PROTOTYPE-REF of <%s> is empty." % accessed_variable_ref.parent.short_name)
-            autosar_variable_iref.target_data_prototype_ref = self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF")
-            if autosar_variable_iref.target_data_prototype_ref is None:
-                self._raiseError("TARGET-DATA-PROTOTYPE-REF of <%s> is empty." % accessed_variable_ref.parent.short_name)
-            accessed_variable_ref.autosar_variable_iref = autosar_variable_iref
+            self.readElementAttributes(element, autosar_variable_iref)
+            autosar_variable_iref.setPortPrototypeRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF"))
+            autosar_variable_iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+        return autosar_variable_iref
 
-    def readLocalVariableRef(self, element, accessed_variable_ref: AutosarVariableRef):
-        child_element = element.find("./xmlns:ACCESSED-VARIABLE", self.nsmap)
+    def getAutosarVariableInImplDatatype(self, element: ET.Element) ->  AutosarVariableRef:
+        child_element = self.find(element, "ACCESSED-VARIABLE")
+        accessed_variable_ref  = None
         if (child_element is not None):
-            accessed_variable_ref.local_variable_ref = self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF")
+            accessed_variable_ref = AutosarVariableRef()
+            accessed_variable_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
+        return accessed_variable_ref
+
+    def getLocalVariableRef(self, element: ET.Element) ->  AutosarVariableRef:
+        child_element = self.find(element, "ACCESSED-VARIABLE")
+        accessed_variable_ref  = None
+        if (child_element is not None):
+            accessed_variable_ref = AutosarVariableRef()
+            accessed_variable_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
+        return accessed_variable_ref
 
     def _readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
         for child_element in element.findall("./xmlns:%s/xmlns:VARIABLE-ACCESS" % key, self.nsmap):
@@ -178,25 +187,25 @@ class ARXMLParser(AbstractARXMLParser):
 
             if (key == "DATA-RECEIVE-POINT-BY-ARGUMENTS"):
                 variable_access = parent.createDataReceivePointByArgument(short_name)
-                self.readAutosarVariableInImplDatatype(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getAutosarVariableInImplDatatype(child_element))
             elif (key == "DATA-RECEIVE-POINT-BY-VALUES"):
                 variable_access = parent.createDataReceivePointByValue(short_name)
-                self.readAutosarVariableInImplDatatype(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getAutosarVariableInImplDatatype(child_element))
             elif (key == "DATA-READ-ACCESSS"):
                 variable_access = parent.createDataReadAccess(short_name)
-                self.readAutosarVariableInImplDatatype(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getAutosarVariableInImplDatatype(child_element))
             elif (key == "DATA-WRITE-ACCESSS"):
                 variable_access = parent.createDataWriteAccess(short_name)
-                self.readAutosarVariableInImplDatatype(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getAutosarVariableInImplDatatype(child_element))
             elif (key == "DATA-SEND-POINTS"):
                 variable_access = parent.createDataSendPoint(short_name)
-                self.readAutosarVariableInImplDatatype(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getAutosarVariableInImplDatatype(child_element))
             elif (key == "WRITTEN-LOCAL-VARIABLES"):
                 variable_access = parent.createWrittenLocalVariable(short_name)
-                self.readLocalVariableRef(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getLocalVariableRef(child_element))
             elif (key == "READ-LOCAL-VARIABLES"):
                 variable_access = parent.createReadLocalVariable(short_name)
-                self.readLocalVariableRef(child_element, variable_access.accessed_variable_ref)
+                variable_access.setAccessedVariableRef(self.getLocalVariableRef(child_element))
             else:
                 self._raiseError("Invalid key type <%s>" % key)
 
@@ -229,16 +238,14 @@ class ARXMLParser(AbstractARXMLParser):
             mode_group.type_tref = self.getChildElementRefType(parent.short_name, child_element, "TYPE-TREF")
 
     def readCanEnterExclusiveAreaRefs(self, element: ET.Element, entity: ExecutableEntity):
-        child_element = element.find("./xmlns:CAN-ENTER-EXCLUSIVE-AREA-REFS", self.nsmap)
-        if child_element is not None:
-            for ref in self.getChildElementRefTypeList(child_element, "./CAN-ENTER-EXCLUSIVE-AREA-REF"):
-                entity.addCanEnterExclusiveAreaRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "CAN-ENTER-EXCLUSIVE-AREA-REFS/CAN-ENTER-EXCLUSIVE-AREA-REF"):
+            entity.addCanEnterExclusiveAreaRef(ref)
 
     def readExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         self.logger.debug("readExecutableEntity %s" % entity.short_name)
         self.readIdentifiable(element, entity)
         self.readCanEnterExclusiveAreaRefs(element, entity)
-        entity.minimum_start_interval = self.getChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL")
+        entity.minimumStartInterval = self.getChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL")
 
     def readBswModuleEntityManagedModeGroup(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "./MANAGED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"):
@@ -627,7 +634,7 @@ class ARXMLParser(AbstractARXMLParser):
             operation_iref = ROperationInAtomicSwcInstanceRef()
             operation_iref.context_r_port_ref = self.getChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF")
             operation_iref.target_required_operation_ref = self.getChildElementOptionalRefType(child_element, "TARGET-REQUIRED-OPERATION-REF")
-            parent.operation_iref = operation_iref
+            parent.setOperationIRef(operation_iref)
 
     def readRVariableInAtomicSwcInstanceRef(self, element: ET.Element, parent: DataReceivedEvent):
         child_element = self.find(element, "DATA-IREF")
@@ -1046,10 +1053,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readElementAttributes(element, com_spec)
         for child_element in element.findall("./xmlns:COMPOSITE-NETWORK-REPRESENTATIONS/xmlns:COMPOSITE-NETWORK-REPRESENTATION", self.nsmap):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
-        com_spec.data_element_ref = self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")
-        com_spec.network_representation = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")
-        com_spec.handle_out_of_range = self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")
-        com_spec.uses_end_to_end_protection = self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION")
+        com_spec.dataElementRef = self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")
+        com_spec.networkRepresentation = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")
+        com_spec.handleOutOfRange = self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")
+        com_spec.usesEndToEndProtection = self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION")
 
     def getSwValues(self, element: ET.Element, key: str) -> SwValues:
         child_element = element.find("./xmlns:%s" % key, self.nsmap) # type: ET.Element
@@ -1109,7 +1116,7 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec = QueuedReceiverComSpec()
         self.readElementAttributes(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
-        com_spec.queue_length = self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH")
+        com_spec.queueLength = self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH")
         return com_spec
     
     def getModeSwitchReceiverComSpec(self, element: ET.Element) -> ModeSwitchReceiverComSpec:
@@ -1122,11 +1129,11 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec = NonqueuedReceiverComSpec()
         self.readElementAttributes(element, com_spec)            
         self.readReceiverComSpec(element, com_spec)
-        com_spec.alive_timeout = self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT")
-        com_spec.enable_updated = self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE")
-        com_spec.handle_never_received = self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED")
-        com_spec.handel_timeout_type = self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE")
-        com_spec.init_value = self.getInitValue(element)
+        com_spec.aliveTimeout = self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT")
+        com_spec.enableUpdated = self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE")
+        com_spec.handleNeverReceived = self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED")
+        com_spec.handleTimeoutType = self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE")
+        com_spec.initValue = self.getInitValue(element)
         return com_spec
 
     def readRequiredComSpec(self, element: ET.Element, parent: RPortPrototype):
@@ -1175,23 +1182,33 @@ class ARXMLParser(AbstractARXMLParser):
         self.readElementAttributes(element, com_spec)
         for child_element in element.findall("./xmlns:COMPOSITE-NETWORK-REPRESENTATIONS/xmlns:COMPOSITE-NETWORK-REPRESENTATION", self.nsmap):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
-        com_spec.data_element_ref = self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")
-        com_spec.network_representation = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")
-        com_spec.handle_out_of_range = self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")
-        com_spec.transmission_acknowledge = self.readTransmissionAcknowledgementRequest(element)
-        com_spec.uses_end_to_end_protection = self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION")
+        com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")) \
+                .setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")) \
+                .setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")) \
+                .setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element)) \
+                .setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
     def getNonqueuedSenderComSpec(self, element) -> NonqueuedSenderComSpec:
         com_spec = NonqueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
-        com_spec.init_value = self.getInitValue(element)
+        com_spec.setInitValue(self.getInitValue(element))
         return com_spec
     
     def getServerComSpec(self, element) -> ServerComSpec:
         com_spec = ServerComSpec()
+        com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF")) \
+                .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        return com_spec
+    
+    def getQueuedSenderComSpec(self, element) -> QueuedSenderComSpec:
+        com_spec = QueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
-        com_spec.operation_ref = self.getChildElementOptionalRefType(element, "OPERATION-REF")
-        com_spec.queue_length = self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH")
+        return com_spec
+    
+    def getModeSwitchSenderComSpec(self, element) -> ModeSwitchSenderComSpec:
+        com_spec = ModeSwitchSenderComSpec()
+        com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF")) \
+                .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         return com_spec
 
     def readProvidedComSpec(self, element: ET.Element, parent: PPortPrototype):
@@ -1201,6 +1218,10 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addProvidedComSpec(self.getNonqueuedSenderComSpec(child_element))
             elif tag_name == "SERVER-COM-SPEC":
                 parent.addProvidedComSpec(self.getServerComSpec(child_element))
+            elif tag_name == "QUEUED-SENDER-COM-SPEC":
+                parent.addProvidedComSpec(self.getQueuedSenderComSpec(child_element))
+            elif tag_name == "MODE-SWITCH-SENDER-COM-SPEC":
+                parent.addProvidedComSpec(self.getModeSwitchSenderComSpec(child_element))
             else:
                 self._raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
@@ -1896,6 +1917,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read CanFrameTriggering %s" % triggering.getShortName())
         self.readIdentifiable(element, triggering)
         self.readFrameTriggering(element, triggering)
+        triggering.setCanAddressingMode(self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE")) \
+                  .setCanFdFrameSupport(self.getChildElementOptionalBooleanValue(element, "CAN-FD-FRAME-SUPPORT")) \
+                  .setCanFrameRxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-RX-BEHAVIOR")) \
+                  .setCanFrameTxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR")) \
+                  .setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER")) \
+                  .setRxIdentifierRange(self.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
+
 
     def readLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Read LinFrameTriggering %s" % triggering.getShortName())
@@ -2047,6 +2075,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIPdu(element, pdu)
         pdu.setDiagPduType(self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE"))
 
+    def readSecuredIPdu(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("readSecuredIPdu %s" % short_name)
+        pdu = parent.createSecuredIPdu(short_name)
+        self.readIdentifiable(element, pdu)
+        self.readIPdu(element, pdu)
+
     def readNmNode(self, element: ET.Element, nm_node: NmNode):
         nm_node.setControllerRef(self.getChildElementOptionalRefType(element, "CONTROLLER-REF")) \
             .setNmIfEcuRef(self.getChildElementOptionalRefType(element, "NM-IF-ECU-REF")) \
@@ -2064,8 +2099,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmNode(element, nm_node)
 
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET")) \
-            .setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME")) \
-            .setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
+               .setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME")) \
+               .setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
 
     def readNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         self.logger.debug("readNmConfigNmNodes %s" % parent.short_name)
@@ -2364,8 +2399,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemSignalGroup(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         self.logger.debug("SystemSignalGroup %s" % short_name)
-        signal = parent.createSystemSignalGroup(short_name)
-        self.readIdentifiable(element, signal)
+        group = parent.createSystemSignalGroup(short_name)
+        self.readIdentifiable(element, group)
+        for ref_type in self.getChildElementRefTypeList(element, "SYSTEM-SIGNAL-REFS/SYSTEM-SIGNAL-REF"):
+            group.addSystemSignalRefs(ref_type)
 
     def readISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING"):
@@ -2528,10 +2565,14 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readNPdu(child_element, parent)
             elif tag_name == "DCM-I-PDU":
                 self.readDcmIPdu(child_element, parent)
+            elif tag_name == "SECURED-I-PDU":
+                self.readSecuredIPdu(child_element, parent)
             elif tag_name == "NM-CONFIG":
                 self.readNmConfig(child_element, parent)
             elif tag_name == "CAN-TP-CONFIG":
                 self.readCanTpConfig(child_element, parent)
+            elif tag_name == "LIN-TP-CONFIG":
+                pass
             elif tag_name == "SYSTEM":
                 self.readSystem(child_element, parent)
             elif tag_name == "ECU-INSTANCE":
@@ -2575,7 +2616,7 @@ class ARXMLParser(AbstractARXMLParser):
 
 
     def load(self, filename, document: AUTOSAR):
-        self.logger.info("Load %s ..." % filename)
+        self.logger.info("Load %s ..." % os.path.realpath(filename))
 
         tree = ET.parse(filename)
         root = tree.getroot()

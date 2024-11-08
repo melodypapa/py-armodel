@@ -190,41 +190,54 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == ExecutableEntity:
             raise NotImplementedError("ExecutableEntity is an abstract class.")
+        
         super().__init__(parent, short_name)
     
-        self.activation_reason = None               # *
-        self.minimum_start_interval = None          # type: ARFloat
-        self.reentrancy_level = None                # 
-        self.can_enter_exclusive_area_refs = []     # type: List[RefType]  
-        self.sw_addr_method_ref = None              # type: RefType
+        self.activationReason = None                # *
+        self.minimumStartInterval = None            # type: ARFloat
+        self.reentrancyLevel = None                 # 
+        self.canEnterExclusiveAreaRefs = []         # type: List[RefType]  
+        self.swAddrMethodRef = None                 # type: RefType
+
+    def getActivationReason(self):
+        return self.activationReason
+
+    def setActivationReason(self, value):
+        self.activationReason = value
+        return self
+
+    def getMinimumStartInterval(self):
+        return self.minimumStartInterval
+
+    def setMinimumStartInterval(self, value):
+        self.minimumStartInterval = value
+        return self
+
+    def getReentrancyLevel(self):
+        return self.reentrancyLevel
+
+    def setReentrancyLevel(self, value):
+        self.reentrancyLevel = value
+        return self
+
+    def getSwAddrMethodRef(self):
+        return self.swAddrMethodRef
+
+    def setSwAddrMethodRef(self, value):
+        self.swAddrMethodRef = value
+        return self
 
     @property
     def minimumStartIntervalMs(self) -> int:
-        if self.minimum_start_interval is not None:
-            return int(self.minimum_start_interval.getValue() * 1000)
+        if self.minimumStartInterval is not None:
+            return int(self.minimumStartInterval.getValue() * 1000)
         return None
 
-    @property
-    def minimumStartInterval(self) -> ARFloat:
-        return self.minimum_start_interval
-    
-    @minimumStartInterval.setter
-    def minimumStartInterval(self, value: ARFloat):
-        self.minimum_start_interval = value
-    
-    @property
-    def swAddrMethodRef(self) -> RefType:
-        return self.sw_addr_method_ref
-    
-    @swAddrMethodRef.setter
-    def swAddrMethodRef(self, ref: RefType):
-        self.sw_addr_method_ref = ref
-
     def addCanEnterExclusiveAreaRef(self, ref: RefType):
-        self.can_enter_exclusive_area_refs.append(ref)
+        self.canEnterExclusiveAreaRefs.append(ref)
 
     def getCanEnterExclusiveAreaRefs(self):
-        return self.can_enter_exclusive_area_refs
+        return self.canEnterExclusiveAreaRefs
     
 class ModeDeclarationGroupPrototype(Identifiable):
     """
@@ -247,21 +260,57 @@ class ModeDeclarationGroupPrototype(Identifiable):
             raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
         self._swCalibrationAccess = value
 
+    def getSwCalibrationAccess(self):
+        return self.swCalibrationAccess
+
+    def setSwCalibrationAccess(self, value):
+        self.swCalibrationAccess = value
+        return self
+
+    def getTypeTRef(self):
+        return self.typeTRef
+
+    def setTypeTRef(self, value):
+        self.typeTRef = value
+        return self
+
 class MemorySection(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
         self._alignment = None              # type: ARLiteral
         self.size = None
-        self._options = []                  # type: List[ARLiteral]
+        self.options = []                   # type: List[ARLiteral]
         self.swAddrMethodRef = None         # type: RefType
         self.symbol = None                  # type: ARLiteral
 
-    def addOption(self, option: ARLiteral):
-        self._options.append(option)
+    def getAlignment(self):
+        return self.alignment
 
-    def getOptions(self) -> List[ARLiteral]:
-        return self._options
+    def setAlignment(self, value):
+        self.alignment = value
+        return self
+
+    def getSize(self):
+        return self.size
+
+    def setSize(self, value):
+        self.size = value
+        return self
+
+    def getSwAddrMethodRef(self):
+        return self.swAddrMethodRef
+
+    def setSwAddrMethodRef(self, value):
+        self.swAddrMethodRef = value
+        return self
+
+    def getSymbol(self):
+        return self.symbol
+
+    def setSymbol(self, value):
+        self.symbol = value
+        return self
 
     @property
     def alignment(self) -> ARLiteral:
@@ -282,7 +331,12 @@ class MemorySection(Identifiable):
                     
             if not match:
                 raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.short_name))
-        
+            
+    def addOption(self, option: ARLiteral):
+        self.options.append(option)
+
+    def getOptions(self) -> List[ARLiteral]:
+        return self.options
 
 class ResourceConsumption(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
