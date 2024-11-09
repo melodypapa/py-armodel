@@ -1,14 +1,8 @@
 from typing import List
 
 from .m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
-from .ar_object import ARBoolean
-from .data_dictionary import SwDataDefProps
 from .general_structure import ARObject, Identifiable
-from .ar_ref import RefType, TRefType
-from .communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from .common_structure import ValueSpecification
-
-from abc import ABCMeta
+from .ar_ref import TRefType
 
 class PortPrototype(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

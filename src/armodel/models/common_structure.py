@@ -3,125 +3,12 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARFloat, ARLiteral, ARNumerical
-from .general_structure import ARObject, ARElement, Identifiable
-from .data_dictionary import SwDataDefProps
+from .ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical
+from .general_structure import ARObject, Identifiable
+from .m2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_ref import RefType, TRefType
 
 import re
-
-class ValueSpecification(ARObject, metaclass=ABCMeta):
-    '''
-    Base class for expressions leading to a value which can be used to initialize a data object.
-    
-    Base        : ARObject
-    Subclasses  : AbstractRuleBasedValueSpecification, ApplicationValueSpecification, CompositeValueSpecification,
-                  ConstantReference, NotAvailableValueSpecification, NumericalValueSpecification, ReferenceValueSpecification, 
-                  TextValueSpecification
-    '''
-    def __init__(self):
-        if type(self) == ValueSpecification:
-            raise NotImplementedError("ValueSpecification is an abstract class.")
-        
-        super().__init__()
-
-        self.short_label = None
-
-class CompositeRuleBasedValueArgument(ValueSpecification, metaclass=ABCMeta):
-    '''
-    This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be
-    used for compound primitive data types.
-
-    Base        : ARObject
-    Subclasses  : ApplicationRuleBasedValueSpecification, ApplicationValueSpecification
-    '''
-    def __init__(self):
-        if type(self) == CompositeRuleBasedValueArgument:
-            raise NotImplementedError("CompositeRuleBasedValueArgument is an abstract class.")
-        
-        super().__init__()
-
-class CompositeValueSpecification(ValueSpecification, metaclass=ABCMeta):
-    '''
-    This abstract meta-class acts a base class for ValueSpecifications that have a composite form.
-
-    Base        : ARObject, ValueSpecification
-    Subclasses  : ArrayValueSpecification, RecordValueSpecification
-    '''            
-    def __init__(self):
-        if type(self) == CompositeValueSpecification:
-            raise NotImplementedError("CompositeValueSpecification is an abstract class.")
-        
-        super().__init__()
-
-class ApplicationValueSpecification(CompositeRuleBasedValueArgument):
-    '''
-    This meta-class represents values for DataPrototypes typed by ApplicationDataTypes (this includes in
-    particular compound primitives).
-    For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with
-    SW-INSTANCE in ASAM CDF 2.0.
-
-    Base ARObject, CompositeRuleBasedValueArgument, ValueSpecification    
-    '''
-    def __init__(self):
-        super().__init__()
-
-        self.category = None
-        self.sw_Axis_cont = []
-        self.sw_value_cont = None
-
-class RecordValueSpecification(CompositeValueSpecification):
-    '''
-    Specifies the values for a record.
-    
-    Base : ARObject, CompositeValueSpecification, ValueSpecification
-    '''
-    def __init__(self):
-        super().__init__()        
-
-        self._fields = []
-
-    def add_field(self, field: ValueSpecification):
-        self._fields.append(field)
-
-    def get_fields(self) -> List[ValueSpecification]:
-        return self._fields
-
-class TextValueSpecification(ValueSpecification):
-    def __init__(self):
-        super().__init__()
-
-        self.value = None        # type: str
-
-class NumericalValueSpecification(ValueSpecification):
-    def __init__(self):
-        super().__init__()
-
-        self.value = None        # type: ARFloat  
-
-class ArrayValueSpecification(ValueSpecification):
-    def __init__(self):
-        super().__init__()
-
-        self._element = []       # type: List[ValueSpecification]
-
-    def add_element(self, element: ValueSpecification):
-        self._element.append(element)
-
-    def get_elements(self) -> List[ValueSpecification]:
-        return self._element
-
-class ConstantSpecification(ARElement):
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-        self.value_spec = None  # type: ValueSpecification
-
-class ConstantReference(ValueSpecification):
-    def __init__(self):
-        super().__init__()
-
-        self.constant_ref = None
 
 class AbstractImplementationDataTypeElement(Identifiable):
     def __init__(self, parent, short_name: str):
@@ -134,10 +21,54 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arraySize = None               # type: int
-        self.array_size_semantics = None      # type: str
-        self.isOptional = None              # type: bool
-        self.sw_data_def_props = None          # type: SwDataDefProps
+        self.arrayImplPolicy = None             # type: ARLiteral
+        self.arraySize = None                   # type: ARNumerical
+        self.arraySizeHandling = None           # type: ARLiteral
+        self.arraySizeSemantics = None          # type: ARLiteral
+        self.isOptional = None                  # type: ARBoolean
+        self.swDataDefProps = None              # type: SwDataDefProps
+
+    def getArrayImplPolicy(self):
+        return self.arrayImplPolicy
+
+    def setArrayImplPolicy(self, value):
+        self.arrayImplPolicy = value
+        return self
+
+    def getArraySize(self):
+        return self.arraySize
+
+    def setArraySize(self, value):
+        self.arraySize = value
+        return self
+
+    def getArraySizeHandling(self):
+        return self.arraySizeHandling
+
+    def setArraySizeHandling(self, value):
+        self.arraySizeHandling = value
+        return self
+
+    def getArraySizeSemantics(self):
+        return self.arraySizeSemantics
+
+    def setArraySizeSemantics(self, value):
+        self.arraySizeSemantics = value
+        return self
+
+    def getIsOptional(self):
+        return self.isOptional
+
+    def setIsOptional(self, value):
+        self.isOptional = value
+        return self
+
+    def getSwDataDefProps(self):
+        return self.swDataDefProps
+
+    def setSwDataDefProps(self, value):
+        self.swDataDefProps = value
+        return self
     
     def createImplementationDataTypeElement(self, short_name: str): # type: (...) -> ImplementationDataTypeElement
         if (short_name not in self.elements):

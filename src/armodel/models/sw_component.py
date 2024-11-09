@@ -1,20 +1,19 @@
-from typing import List, Dict
+from typing import List
 from abc import ABCMeta
 
+from .m2.autosar_templates.sw_component_template.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from .m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntity
-from .rpt_scenario import ModeAccessPointIdent
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .ar_object import ARBoolean, ARLiteral
 from .general_structure import ARElement, Identifiable, ARObject
-from .ar_ref import AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, ROperationInAtomicSwcInstanceRef, TRefType
+from .ar_ref import InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, TRefType
 from .ar_ref import RefType, PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from .ar_ref import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .port_prototype import RPortPrototype, PPortPrototype, PortPrototype
 from .data_prototype import ParameterDataPrototype, VariableDataPrototype
-from .common_structure import ExecutableEntity, ValueSpecification
+from .m2.autosar_templates.common_structure import ValueSpecification
 
 class AbstractEvent(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -24,8 +23,8 @@ class RTEEvent(AbstractEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.start_on_event_ref = None  # type: RefType
-        self.disabled_mode_irefs = []   # type: List[RModeInAtomicSwcInstanceRef]
+        self.start_on_event_ref = None      # type: RefType
+        self.disabled_mode_irefs = []       # type: List[RModeInAtomicSwcInstanceRef]
 
     def addDisabledModeIRef(self, iref: RModeInAtomicSwcInstanceRef):
         self.disabled_mode_irefs.append(iref)
@@ -49,15 +48,14 @@ class DataReceivedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.data_iref = None               # type: RVariableInAtomicSwcInstanceRef
+        self.dataIRef = None                   # type: RVariableInAtomicSwcInstanceRef
 
-    @property
-    def dataIRef(self) -> RVariableInAtomicSwcInstanceRef:
-        return self.data_iref
-    
-    @dataIRef.setter
-    def dataIRef(self, value: RVariableInAtomicSwcInstanceRef):
-        self.data_iref = value
+    def getDataIRef(self):
+        return self.dataIRef
+
+    def setDataIRef(self, value):
+        self.dataIRef = value
+        return self
 
 class SwcModeSwitchEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):

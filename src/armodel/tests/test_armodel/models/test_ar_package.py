@@ -5,7 +5,7 @@ from ....models.ar_package import AUTOSAR
 from ....models.datatype import ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet, ImplementationDataType, SwBaseType
 from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
 from ....models.m2_msr import CompuMethod
-from ....models.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
+from ....models.m2.autosar_templates.sw_component_template.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
 from ....models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, ServiceSwComponentType, SwComponentType
 
 class TestAUTOSAR:

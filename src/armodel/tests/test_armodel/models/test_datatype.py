@@ -99,7 +99,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
 
         assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ApplicationPrimitiveDataType")
-        assert(data_type.sw_data_def_props == None)
+        assert(data_type.swDataDefProps == None)
 
     def test_ApplicationCompositeDataType(self):
         with pytest.raises(NotImplementedError) as err:

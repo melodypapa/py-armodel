@@ -34,13 +34,13 @@ def show_port(indent:int, port_prototype: PortPrototype):
 def show_type(indent: int, data_type: ImplementationDataType):
     print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, data_type._parent.full_name))
     print("%s                    : %s" % (" " * indent, data_type.category))
-    if (data_type.sw_data_def_props != None):
-        if (data_type.sw_data_def_props.baseTypeRef != None):
-            base_type_ref = data_type.sw_data_def_props.baseTypeRef
+    if (data_type.swDataDefProps != None):
+        if (data_type.swDataDefProps.baseTypeRef != None):
+            base_type_ref = data_type.swDataDefProps.baseTypeRef
             print("%s                    : %s (%s)" % (" " * indent, base_type_ref.value, base_type_ref.dest))
             
-        if (data_type.sw_data_def_props.implementationDataTypeRef != None):
-            implementation_data_type_ref = data_type.sw_data_def_props.implementationDataTypeRef
+        if (data_type.swDataDefProps.implementationDataTypeRef != None):
+            implementation_data_type_ref = data_type.swDataDefProps.implementationDataTypeRef
             print("%s                    : %s (%s)" % (" " * indent, implementation_data_type_ref.value, implementation_data_type_ref.dest))
 
 def show_data_type_mapping(indent: int, mapping_set: DataTypeMappingSet):
@@ -92,7 +92,7 @@ def show_client_server_interface(indent: int, cs_interface: ClientServerInterfac
         print("%sOperation:%s" % (" " * (indent + 2), operation.short_name))
         for argument in operation.getArgumentDataPrototypes():
             print("%s         :%s (%s: %s)" % (" " * (indent + 2), argument.short_name, 
-                argument.direction, argument.type_tref.value))
+                argument.direction, argument.typeTRef.value))
 
 def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
     document = AUTOSAR.getInstance()
@@ -107,8 +107,8 @@ def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
         print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEventRef", event.startsOnEventRef.value))
         starts_on_event = document.find(event.startsOnEventRef.value) # type: BswModuleEntity
         print("%s-%s: %s" % (" " * (indent + 4), "StartsOnEvent", starts_on_event.short_name))
-        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", starts_on_event.implemented_entry_ref.value))
-        implemented_entry = document.find(starts_on_event.implemented_entry_ref.value) # type: BswModuleEntry
+        print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", starts_on_event.implementedEntryRef.value))
+        implemented_entry = document.find(starts_on_event.implementedEntryRef.value) # type: BswModuleEntry
         print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntry", implemented_entry.short_name))
         print("%s-%s: %d" % (" " * (indent + 6), "Service Id", implemented_entry.service_id))
 

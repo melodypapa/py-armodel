@@ -2,8 +2,8 @@ from abc import ABCMeta
 
 from .ar_object import ARNumerical
 from .ar_ref import RefType
-from .data_dictionary import SwDataDefProps
-from .common_structure import ValueSpecification
+from .m2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from .m2.autosar_templates.common_structure import ValueSpecification
 from .general_structure import AtpFeature, ARObject
 
 class AtpPrototype(AtpFeature, metaclass = ABCMeta):
@@ -20,8 +20,14 @@ class DataPrototype(AtpPrototype, metaclass = ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.sw_data_def_props = None   # type: SwDataDefProps
+        self.swDataDefProps = None          # type: SwDataDefProps
 
+    def getSwDataDefProps(self):
+        return self.swDataDefProps
+
+    def setSwDataDefProps(self, value):
+        self.swDataDefProps = value
+        return self
 class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == AutosarDataPrototype:
@@ -29,13 +35,27 @@ class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.type_tref = None           
+        self.typeTRef = None           
+
+    def getTypeTRef(self):
+        return self.typeTRef
+
+    def setTypeTRef(self, value):
+        self.typeTRef = value
+        return self
 
 class VariableDataPrototype(AutosarDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.init_value = None      # type: ValueSpecification
+        self.initValue = None      # type: ValueSpecification
+
+    def getInitValue(self):
+        return self.initValue
+
+    def setInitValue(self, value):
+        self.initValue = value
+        return self
 
 class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
@@ -45,6 +65,14 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMet
         super().__init__(parent, short_name)
 
         self.typeTRef = None                    # type: RefType
+
+    def getTypeTRef(self):
+        return self.typeTRef
+
+    def setTypeTRef(self, value):
+        self.typeTRef = value
+        return self
+
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
@@ -65,4 +93,11 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.init_value = None      # type: ValueSpecification
+        self.initValue = None                       # type: ValueSpecification
+
+    def getInitValue(self):
+        return self.initValue
+
+    def setInitValue(self, value):
+        self.initValue = value
+        return self

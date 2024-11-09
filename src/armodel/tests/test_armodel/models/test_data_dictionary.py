@@ -1,6 +1,6 @@
 import pytest
 
-from ....models.data_dictionary import SwDataDefProps, SwPointerTargetProps
+from ....models.m2.msr.data_dictionary.data_def_properties import SwDataDefProps, SwPointerTargetProps
 from ....models.general_structure import ARObject
 
 class Test_M2_MSR_DataDictionary_DataDefProperties:
@@ -24,6 +24,6 @@ class Test_M2_MSR_DataDictionary_DataDefProperties:
         assert(isinstance(props, ARObject))
         assert(isinstance(props, SwPointerTargetProps))
 
-        assert(props.function_pointer_signature == None)
-        assert(props.sw_data_def_props == None)
-        assert(props.target_category == None)
+        assert(props.getFunctionPointerSignatureRef() == None)
+        assert(props.getSwDataDefProps() == None)
+        assert(props.getTargetCategory() == None)

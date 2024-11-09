@@ -3,7 +3,7 @@ from typing import Dict, List
 
 from .data_elements import ParameterAccess, VariableAccess
 from .server_call import ServerCallPoint
-from .mode_declaration_group import ModeAccessPoint
+from .mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
 from .trigger import InternalTriggeringPoint
 
 from .....ar_ref import RefType
@@ -15,6 +15,15 @@ from .....ar_object import ARObject
 class RunnableEntityArgument(ARObject):
     def __init__(self):
         super().__init__()
+
+        self.symbol = None                                      # type: ARLiteral
+
+    def getSymbol(self):
+        return self.symbol
+
+    def setSymbol(self, value):
+        self.symbol = value
+        return self
 
 class AsynchronousServerCallPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
@@ -50,7 +59,7 @@ class RunnableEntity(ExecutableEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arguments = []                             # type: RunnableEntityArgument
+        self.arguments = []                             # type: List[RunnableEntityArgument]
         self.canBeInvokedConcurrently = None            # type: ARBoolean
         self.dataReadAccesses = {}                      # type: Dict[str, VariableAccess]
         self.dataReceivePointByArguments = {}           # type: Dict[str, VariableAccess]
@@ -60,7 +69,7 @@ class RunnableEntity(ExecutableEntity):
         self.externalTriggeringPoints = {}              # type: Dict[str, ExternalTriggeringPoint]
         self.internalTriggeringPoints = {}              # type: Dict[str, InternalTriggeringPoint]
         self.modeAccessPoints = []                      # type: List[ModeAccessPoint]
-        self.modeSwitchPoints = {}                      # type: Dict[str, ModeSwitchPoint]
+        self.modeSwitchPoints = []                      # type: List[ModeSwitchPoint]
         self.parameterAccesses = {}                     # type: Dict[str, ParameterAccess]
         self.readLocalVariables = {}                    # type: Dict[str, VariableAccess]
         self.serverCallPoints = {}                      # type: Dict[str, ServerCallPoint]
@@ -69,7 +78,7 @@ class RunnableEntity(ExecutableEntity):
         self.writtenLocalVariables = {}               # type: Dict[str, VariableAccess]
 
     def _createVariableAccess(self, short_name, variable_accesses: Dict[str, VariableAccess]):
-        if (short_name not in variable_accesses):
+        if (short_name not in self.elements):
             variable_access = VariableAccess(self, short_name)
             variable_accesses[short_name] = variable_access
         return variable_accesses[short_name]
@@ -77,8 +86,8 @@ class RunnableEntity(ExecutableEntity):
     def getArguments(self):
         return self.arguments
 
-    def setArguments(self, value):
-        self.arguments = value
+    def addArgument(self, value):
+        self.arguments.append(value)
         return self
 
     def getCanBeInvokedConcurrently(self):
@@ -130,14 +139,14 @@ class RunnableEntity(ExecutableEntity):
     def getWrittenLocalVariables(self) -> List[VariableAccess]:
         return sorted(self.writtenLocalVariables.values(), key=lambda v: v.short_name)
     
-    def createParameterAccess(self, short_name: str) -> ParameterAccess:
-        if (short_name not in self.serverCallPoints):
-            parameter_access = ParameterAccess(self, short_name)
-            self.parameterAccesses[short_name] = parameter_access
-        return self.parameterAccesses[short_name]
-    
     def getParameterAccesses(self) -> List[ParameterAccess]:
-        return sorted(self.parameterAccesses.values(), key= lambda o: o.short_name)
+        return list(sorted(filter(lambda a: isinstance(a, ParameterAccess), self.elements.values()), key= lambda o:o.short_name))
+    
+    def createParameterAccess(self, short_name: str) -> ParameterAccess:
+        if (short_name not in self.elements):
+            access = ParameterAccess(self, short_name)
+            self.elements[short_name] = access
+        return self.elements[short_name]
     
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
         if (short_name not in self.serverCallPoints):
@@ -169,8 +178,26 @@ class RunnableEntity(ExecutableEntity):
     def getInternalTriggeringPoints(self) -> List[InternalTriggeringPoint]:
         return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.elements)
     
-    def addModeAccessPoint(self, point: ModeAccessPoint):
-        self.modeAccessPoints.append(point)
-
     def getModeAccessPoints(self) -> List[ModeAccessPoint]:
         return self.modeAccessPoints
+    
+    def addModeAccessPoint(self, value):
+        self.modeAccessPoints.append(value)
+    
+    def getModeSwitchPoints(self) -> List[ModeSwitchPoint]:
+        return list(sorted(filter(lambda a: isinstance(a, ModeSwitchPoint), self.elements.values()), key= lambda o:o.short_name))
+    
+    def createModeSwitchPoint(self, short_name: str) -> ModeSwitchPoint:
+        if (short_name not in self.elements):
+            access = ModeSwitchPoint(self, short_name)
+            self.elements[short_name] = access
+            self.modeSwitchPoints.append(access)
+        return self.elements[short_name]
+    
+    def getSymbol(self):
+        return self.symbol
+
+    def setSymbol(self, value):
+        self.symbol = value
+        return self
+

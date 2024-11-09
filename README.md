@@ -323,4 +323,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NM-ECU
    * LIN-TP-CONFIG
    * SECURED-I-PDU
+   * MODE-SWITCH-POINTS
  4. Create the CLI (armodel-system-signal) to list all the system signals

@@ -7,6 +7,20 @@ class RefType(ARObject):
         self.dest = ""
         self.value = ""
 
+    def getDest(self):
+        return self.dest
+
+    def setDest(self, value):
+        self.dest = value
+        return self
+
+    def getValue(self):
+        return self.value
+
+    def setValue(self, value):
+        self.value = value
+        return self
+
 class TRefType(RefType):
     def __init__(self):
         super().__init__()
@@ -69,7 +83,6 @@ class AutosarVariableRef(ARObject):
         self.localVariableRef = value
         return self
 
-
 class AutosarParameterRef(ARObject):
     def __init__(self):
         super().__init__()
@@ -83,7 +96,6 @@ class AtpInstanceRef(ARObject, metaclass=ABCMeta):
             raise NotImplementedError("AtpInstanceRef is an abstract class.")
         
         super().__init__()
-
 class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
@@ -176,36 +188,6 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
         self.context_r_port_ref = None              # type: RefType
         self.target_required_operation_ref = None   # type: RefType
 
-class VariableInAtomicSwcInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
-    def __init__(self):
-        if type(self) == OperationInAtomicSwcInstanceRef:
-            raise NotImplementedError("OperationInAtomicSwcInstanceRef is an abstract class.")
-
-        super().__init__()
-
-class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
-    def __init__(self):
-        super().__init__()
-
-        self.context_r_port_ref = None              # type: RefType
-        self.target_data_element_ref = None         # type: RefType
-
-class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
-    def __init__(self):
-        super().__init__()
-
-        self.context_r_port_ref = None              # type: RefType
-        self.target_data_element_ref = None         # type: RefType
-
-class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
-    def __init__(self):
-        super().__init__()
-
-        self.base_ref = None                                        # type: RefType
-        self.context_mode_declaration_group_prototype_ref = None    # type: RefType
-        self.context_port_ref = None                                # type: RefType
-        self.target_mode_declaration_ref = None                     # type: RefType
-
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
@@ -243,25 +225,3 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
         self.context_port_ref = None                                # type: RefType
         self.target_data_prototype_ref = None                       # type: RefType 
 
-class RModeGroupInAtomicSWCInstanceRef(AtpInstanceRef):
-    def __init__(self):
-        super().__init__()
-
-        self.context_r_port = None                                  # type: RefType
-        self.target_mode_group = None                               # type: RefType
-
-    @property
-    def contextRPort(self) -> RefType:
-        return self.context_r_port
-    
-    @contextRPort.setter
-    def contextRPort(self, value: RefType):
-        self.context_r_port = value
-
-    @property
-    def targetModeGroup(self) -> RefType:
-        return self.target_mode_group
-    
-    @targetModeGroup.setter
-    def targetModeGroup(self, value: RefType):
-        self.target_mode_group = value

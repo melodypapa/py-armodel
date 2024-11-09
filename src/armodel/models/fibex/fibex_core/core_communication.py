@@ -2,7 +2,6 @@ from abc import ABCMeta
 from typing import List
 
 from ...ar_ref import RefType
-from ...data_dictionary import SwDataDefProps
 from ...ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARObject, ARPositiveInteger
 from ...general_structure import ARElement, Describable, Identifiable
 

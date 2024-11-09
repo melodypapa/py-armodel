@@ -77,8 +77,8 @@ class TestBswMD:
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
         assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
         assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
-        assert(entity.implemented_entry_ref.dest == "BSW-MODULE-ENTRY")
-        assert(entity.implemented_entry_ref.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(entity.implementedEntryRef.dest == "BSW-MODULE-ENTRY")
+        assert(entity.implementedEntryRef.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
         assert(len(behavior.getBswTimingEvents()) == 1)
         event = behavior.getBswTimingEvents()[0]
