@@ -15,14 +15,35 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
 
         self.accessedModeGroupRefs = []                 # type: List[RefType]
         self.activationPointRefs = []                   # type: List[RefType]
-        self.implemented_entry_ref = None                 # type: RefType
-        self._managedModeGroupRefs = []                 # type: List[RefType]
+        self.implementedEntryRef = None                 # type: RefType
+        self.managedModeGroupRefs = []                  # type: List[RefType]
+
+    def getAccessedModeGroupRefs(self):
+        return self.accessedModeGroupRefs
+
+    def addAccessedModeGroupRefs(self, value):
+        self.accessedModeGroupRefs.append(value)
+        return self
+
+    def getActivationPointRefs(self):
+        return self.activationPointRefs
+
+    def addActivationPointRefs(self, value):
+        self.activationPointRefs.append(value)
+        return self
+
+    def getImplementedEntryRef(self):
+        return self.implementedEntryRef
+
+    def setImplementedEntryRef(self, value):
+        self.implementedEntryRef = value
+        return self
 
     def addManagedModeGroupRef(self, ref: RefType):
-        self._managedModeGroupRefs.append(ref)
+        self.managedModeGroupRefs.append(ref)
 
     def getManagedModeGroupRefs(self) -> List[RefType]:
-        return self._managedModeGroupRefs
+        return self.managedModeGroupRefs
 
 class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):

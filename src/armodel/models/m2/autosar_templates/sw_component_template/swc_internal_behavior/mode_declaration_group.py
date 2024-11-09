@@ -1,7 +1,5 @@
-
-
-
-from .....ar_ref import RModeGroupInAtomicSWCInstanceRef
+from .access_count import AbstractAccessPoint
+from ...sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from .....rpt_scenario import ModeAccessPointIdent
 from .....ar_object import ARObject
 
@@ -11,12 +9,31 @@ class ModeAccessPoint(ARObject):
         super().__init__()
 
         self.ident = None                   # type: ModeAccessPointIdent
-        self.mode_group_iref = None         # type: RModeGroupInAtomicSWCInstanceRef
+        self.modeGroupIRef = None           # type: RModeGroupInAtomicSWCInstanceRef
 
-    @property
-    def modeGroupIRef(self) -> RModeGroupInAtomicSWCInstanceRef:
-        return self.mode_group_iref
-    
-    @modeGroupIRef.setter
-    def modeGroupIRef(self, value: RModeGroupInAtomicSWCInstanceRef):
-        self.mode_group_iref = value
+    def getIdent(self):
+        return self.ident
+
+    def setIdent(self, value):
+        self.ident = value
+        return self
+
+    def getModeGroupIRef(self):
+        return self.modeGroupIRef
+
+    def setModeGroupIRef(self, value):
+        self.modeGroupIRef = value
+        return self
+
+class ModeSwitchPoint(AbstractAccessPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.modeGroupIRef = None           # type: PModeGroupInAtomicSwcInstanceRef
+
+    def getModeGroupIRef(self):
+        return self.modeGroupIRef
+
+    def setModeGroupIRef(self, value):
+        self.modeGroupIRef = value
+        return self

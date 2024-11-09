@@ -4,24 +4,27 @@ from .fibex.fibex_core.core_topology import EcuInstance, CanCluster, LinCluster
 from .fibex.fibex_core.core_communication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, SecuredIPdu, SystemSignal, DcmIPdu, ISignal, NPdu, NmPdu, SystemSignalGroup
 from .fibex.can_communication import CanFrame
 from .fibex.fibex_4_multiplatform import Gateway
+from .fibex.lin_communication import LinUnconditionalFrame
 
+from .m2.msr.asam_hdo.units import PhysicalDimension
+from .m2.msr.data_dictionary.auxillary_objects import SwAddrMethod
+from .m2.autosar_templates.common_structure import ConstantSpecification
 from .m2.autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from .m2.autosar_templates.system_template import System
 from .m2.autosar_templates.system_template.transport_protocols import CanTpConfig
 from .m2.autosar_templates.system_template.network_management import NmConfig
-from .fibex.lin_communication import LinUnconditionalFrame
+
 from .timing import SwcTiming
-from .data_dictionary import SwAddrMethod
 from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
-from .unit import Unit
+from .m2.msr.asam_hdo.units import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
-from .port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
+from .m2.autosar_templates.sw_component_template.port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
 from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
 from .datatype import ApplicationArrayDataType, ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
-from .common_structure import ConstantSpecification, ModeDeclarationGroup
+from .common_structure import ModeDeclarationGroup
 from .implementation import BswImplementation, SwcImplementation, Implementation
 from .bsw_module_template import BswModuleDescription, BswModuleEntry
 from .global_constraints import DataConstr
@@ -342,6 +345,12 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = signal
         return self.elements[short_name]
     
+    def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
+        if (short_name not in self.elements):
+            signal = PhysicalDimension(self, short_name)
+            self.elements[short_name] = signal
+        return self.elements[short_name]
+    
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
         if (short_name not in self.elements):
             signal = ISignalGroup(self, short_name)
@@ -492,6 +501,9 @@ class ARPackage(Identifiable, CollectableElement):
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
         return list(sorted(filter(lambda a : isinstance(a, EcucModuleConfigurationValues), self.elements.values()), key = lambda a: a.short_name))
     
+    def getEcucModuleConfigurationValues(self) -> List[PhysicalDimension]:
+        return list(sorted(filter(lambda a : isinstance(a, PhysicalDimension), self.elements.values()), key = lambda a: a.short_name))
+    
     def getISignalGroups(self) -> List[ISignalGroup]:
         return list(sorted(filter(lambda a : isinstance(a, ISignalGroup), self.elements.values()), key = lambda a: a.short_name))
     
@@ -566,11 +578,11 @@ class AUTOSAR (CollectableElement):
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):
             if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
-                referred_type = self.find(data_type.sw_data_def_props.implementationDataTypeRef.value)
+                referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE):
-                if (data_type.sw_data_def_props.swPointerTargetProps.target_category == "VALUE"):
-                    referred_type = self.find(data_type.sw_data_def_props.swPointerTargetProps.sw_data_def_props.baseTypeRef.value)
+                if (data_type.swDataDefProps.swPointerTargetProps.target_category == "VALUE"):
+                    referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.sw_data_def_props.baseTypeRef.value)
                     return self.getDataType(referred_type)
             return data_type
         else:

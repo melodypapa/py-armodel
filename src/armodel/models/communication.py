@@ -1,5 +1,5 @@
 
-from .data_dictionary import SwDataDefProps
+from .m2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_ref import ApplicationCompositeElementInPortInterfaceInstanceRef
 from .ar_object import ARObject
 

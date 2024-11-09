@@ -44,7 +44,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes:
 
         assert(prototype._parent == ar_root)
         assert(prototype.short_name == "prototype")
-        assert(prototype.type_tref is None)
+        assert(prototype.typeTRef is None)
 
     def test_ApplicationCompositeElementDataPrototype(self):
         with pytest.raises(NotImplementedError) as err:

@@ -1,8 +1,8 @@
 import pytest
 
 from .... import AUTOSAR
-from ....models.common_structure import AbstractImplementationDataTypeElement, ConstantReference, ImplementationDataTypeElement, ValueSpecification, ConstantSpecification, ExecutableEntity
-from ....models.datatype import AbstractImplementationDataType
+from ....models.m2.autosar_templates.common_structure import ConstantReference, ConstantSpecification, ValueSpecification
+from ....models.common_structure import AbstractImplementationDataTypeElement, ImplementationDataTypeElement, ExecutableEntity
 from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable
 from ....models.general_structure import MultilanguageReferrable, PackageableElement, Referrable
 
@@ -30,7 +30,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_Constants:
     def test_ConstantReference(self):
         ref = ConstantReference()
 
-        assert(ref.constant_ref == None)
+        assert(ref.getConstantRef() == None)
 
         assert(isinstance(ref, ARObject))
         assert(isinstance(ref, ValueSpecification))

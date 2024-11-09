@@ -3,7 +3,7 @@
 from .access_count import AbstractAccessPoint
 
 from .....general_structure import Identifiable
-from .....data_dictionary import SwDataDefProps
+from ....msr.data_dictionary.data_def_properties import SwDataDefProps
 from .....ar_ref import AutosarParameterRef, AutosarVariableRef
 from .....ar_object import ARObject
 

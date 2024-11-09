@@ -109,7 +109,7 @@ class Referrable(ARObject, metaclass=ABCMeta):
     def full_name(self) -> str:
         return self._parent.full_name + "/" + self.short_name
 
-class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
+class MultilanguageReferrable(Referrable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == MultilanguageReferrable:
             raise NotImplementedError("MultilanguageReferrable is an abstract class.")
@@ -125,7 +125,7 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
     def setLongName(self, value: MultilanguageLongName):
         self.longName = value
         return self
-class CollectableElement(ARObject, metaclass=ABCMeta):
+class CollectableElement(ARObject, metaclass = ABCMeta):
     def __init__(self):
         if type(self) == CollectableElement:
             raise NotImplementedError("CollectableElement is an abstract class.")

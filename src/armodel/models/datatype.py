@@ -4,9 +4,8 @@ from typing import List
 from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
 from .ar_package import Referrable
-from .general_structure import ARElement, ARObject, Identifiable
+from .general_structure import ARElement, ARObject
 from .data_prototype import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
-from .data_dictionary import SwDataDefProps
 from .common_structure import ImplementationDataTypeElement, ModeRequestTypeMap
 
 class ImplementationProps(Referrable, metaclass=ABCMeta):
@@ -56,16 +55,23 @@ class AtpType(ARElement, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
 
-class AutosarDataType(AtpType, metaclass=ABCMeta):
+class AutosarDataType(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AutosarDataType:
             raise NotImplementedError("AutosarDataType is an abstract class.")
 
         super().__init__(parent, short_name)
-        self.sw_data_def_props = None   # type: SwDataDefProps
 
+        self.swDataDefProps = None                  # type: SwDataDefProps
 
-class ApplicationDataType(AutosarDataType, metaclass=ABCMeta):
+    def getSwDataDefProps(self):
+        return self.swDataDefProps
+
+    def setSwDataDefProps(self, value):
+        self.swDataDefProps = value
+        return self
+
+class ApplicationDataType(AutosarDataType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == ApplicationDataType:
             raise NotImplementedError("ApplicationDataType is an abstract class.")

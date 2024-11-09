@@ -1,12 +1,12 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARBoolean, ARLiteral, ARNumerical
-from .common_structure import ModeDeclarationGroupPrototype, Trigger
-from .datatype import AtpType
-from .general_structure import ARObject, Identifiable, AtpFeature
-from .data_prototype import VariableDataPrototype, AutosarDataPrototype
-from .ar_ref import RefType
+from ....ar_object import ARBoolean, ARLiteral, ARNumerical
+from ....common_structure import ModeDeclarationGroupPrototype, Trigger
+from ....datatype import AtpType
+from ....general_structure import ARObject, Identifiable, AtpFeature
+from ....data_prototype import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
+from ....ar_ref import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -14,29 +14,100 @@ class PortInterface(AtpType, metaclass = ABCMeta):
             raise NotImplementedError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.is_service = None                   # type: ARBoolean
-        self.serviceKind = None                 # type: ARLiteral
+        self.isService = None                       # type: ARBoolean
+        self.serviceKind = None                     # type: ARLiteral
 
-class DataInterface(PortInterface, metaclass=ABCMeta):
+    def getIsService(self):
+        return self.isService
+
+    def setIsService(self, value):
+        self.isService = value
+        return self
+
+    def getServiceKind(self):
+        return self.serviceKind
+
+    def setServiceKind(self, value):
+        self.serviceKind = value
+        return self
+
+class DataInterface(PortInterface, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == DataInterface:
             raise NotImplementedError("DataInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-
 class NvDataInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.nvDatas = []       # type: List[VariableDataPrototype]
+
+    def getNvDatas(self):
+        return self.nvDatas
+
+    def setNvData(self, value):
+        self.nvDatas.append(value)
+        return self
 
 
 class ParameterInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.parameters = []                        # type: List[ParameterDataPrototype]
+
+    def getParameters(self):
+        return self.parameters
+
+    def addParameter(self, value):
+        self.parameters.append(value)
+        return self
+    
+class InvalidationPolicy(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.dataElementRef = None                      # type: RefType
+        self.handleInvalid = None                       # type: ARLiteral
+
+    def getDataElementRef(self):
+        return self.dataElementRef
+
+    def setDataElementRef(self, value):
+        self.dataElementRef = value
+        return self
+
+    def getHandleInvalid(self):
+        return self.handleInvalid
+
+    def setHandleInvalid(self, value):
+        self.handleInvalid = value
+        return self
+
+
 
 class SenderReceiverInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.invalidationPolicies = []                # type: List[InvalidationPolicy]
+        self.metaDataItemSets = []                    # type: List[MetaDataItemSet]
+
+    def getInvalidationPolicies(self):
+        return self.invalidationPolicies
+
+    def addInvalidationPolicy(self, value):
+        self.invalidationPolicies.append(value)
+        return self
+
+    def getMetaDataItemSets(self):
+        return self.metaDataItemSets
+
+    def addMetaDataItemSet(self, value):
+        self.metaDataItemSets.append(value)
+        return self
+
 
     def createDataElement(self, short_name) -> VariableDataPrototype:
         if (short_name not in self.elements):
