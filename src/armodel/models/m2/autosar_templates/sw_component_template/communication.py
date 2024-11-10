@@ -178,6 +178,34 @@ class ReceiverComSpec(RPortComSpec):
         self.handleOutOfRange = None                    # type: ARLiteral
         self.usesEndToEndProtection = None              # type: ARBoolean     
 
+    def getDataElementRef(self):
+        return self.dataElementRef
+
+    def setDataElementRef(self, value):
+        self.dataElementRef = value
+        return self
+
+    def getNetworkRepresentation(self):
+        return self.networkRepresentation
+
+    def setNetworkRepresentation(self, value):
+        self.networkRepresentation = value
+        return self
+
+    def getHandleOutOfRange(self):
+        return self.handleOutOfRange
+
+    def setHandleOutOfRange(self, value):
+        self.handleOutOfRange = value
+        return self
+
+    def getUsesEndToEndProtection(self):
+        return self.usesEndToEndProtection
+
+    def setUsesEndToEndProtection(self, value):
+        self.usesEndToEndProtection = value
+        return self
+
     def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
         self.compositeNetworkRepresentations.append(representation)
 

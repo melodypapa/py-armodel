@@ -1,6 +1,6 @@
 from typing import List
 
-from .m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
+from .m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
 from .general_structure import ARObject, Identifiable
 from .ar_ref import TRefType
 
@@ -50,32 +50,21 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
     def _validateRPortComSpec(self, com_spec: RPortComSpec):
         if (isinstance(com_spec, ClientComSpec)):
-            if (com_spec.operationRef == None):
-                raise ValueError(
-                    "The operation reference of ClientComSpec has not been defined.")
-            if (com_spec.operationRef.dest != "CLIENT-SERVER-OPERATION"):
-                raise ValueError("Invalid operation dest of ClientComSpec.")
-        elif (isinstance(com_spec, NonqueuedReceiverComSpec)):
-            if (com_spec.dataElementRef == None):
-                raise ValueError(
-                    "The data element reference of NonqueuedReceiverComSpec has not been defined.")
-            if (com_spec.dataElementRef.dest != "VARIABLE-DATA-PROTOTYPE"):
-                raise ValueError(
-                    "Invalid date element dest of NonqueuedReceiverComSpec.")
+            if com_spec.getOperationRef() is not None:
+                if com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION":
+                    raise ValueError("Invalid operation dest of ClientComSpec.")
+        elif isinstance(com_spec, NonqueuedReceiverComSpec):
+            if com_spec.getDataElementRef() is not None:
+                if com_spec.getDataElementRef().getDest() != "VARIABLE-DATA-PROTOTYPE":
+                    raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
         elif isinstance(com_spec, QueuedReceiverComSpec):
             pass
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
             pass
         elif isinstance(com_spec, ParameterRequireComSpec):
-            if com_spec.parameter_ref == None:
-                raise ValueError(
-                    "The parameter reference of ParameterRequireComSpec has not been defined.")
-            if com_spec.parameter_ref.dest != "PARAMETER-DATA-PROTOTYPE":
-                raise ValueError(
-                    "Invalid parameter dest of ParameterRequireComSpec.")
-            if com_spec.init_value == None:
-                raise ValueError(
-                    "The initial value of ParameterRequireComSpec has not been defined.")
+            if com_spec.getParameterRef() is not None:
+                if com_spec.getParameterRef().getDest() != "PARAMETER-DATA-PROTOTYPE":
+                    raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 
