@@ -7,7 +7,7 @@ from .ar_package import *
 from .ar_ref import *
 from .datatype import *
 from .port_prototype import * 
-from .data_prototype import *
+from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import *
 from .m2.msr.asam_hdo.units import *
 from .m2.msr.data_dictionary.data_def_properties import *
 from .m2.msr.data_dictionary.auxillary_objects import *

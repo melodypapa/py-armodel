@@ -5,7 +5,7 @@ from ....ar_object import ARBoolean, ARLiteral, ARNumerical
 from ....common_structure import ModeDeclarationGroupPrototype, Trigger
 from ....datatype import AtpType
 from ....general_structure import ARObject, Identifiable, AtpFeature
-from ....data_prototype import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
+from .data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from ....ar_ref import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):
@@ -50,7 +50,6 @@ class NvDataInterface(DataInterface):
         self.nvDatas.append(value)
         return self
 
-
 class ParameterInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -58,11 +57,14 @@ class ParameterInterface(DataInterface):
         self.parameters = []                        # type: List[ParameterDataPrototype]
 
     def getParameters(self):
-        return self.parameters
+        return list(sorted(filter(lambda a : isinstance(a, ParameterDataPrototype), self.elements.values()), key = lambda a: a.short_name))
 
-    def addParameter(self, value):
-        self.parameters.append(value)
-        return self
+    def createParameter(self, short_name: str) -> ParameterDataPrototype:
+        if (short_name not in self.elements):
+            parameter = ParameterDataPrototype(self, short_name)
+            self.elements[short_name] = parameter
+            self.parameters.append(parameter)
+        return self.elements[short_name]
     
 class InvalidationPolicy(ARObject):
     def __init__(self):
@@ -85,8 +87,6 @@ class InvalidationPolicy(ARObject):
         self.handleInvalid = value
         return self
 
-
-
 class SenderReceiverInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -108,7 +108,6 @@ class SenderReceiverInterface(DataInterface):
         self.metaDataItemSets.append(value)
         return self
 
-
     def createDataElement(self, short_name) -> VariableDataPrototype:
         if (short_name not in self.elements):
             data_element = VariableDataPrototype(self, short_name)
@@ -125,6 +124,14 @@ class SenderReceiverInterface(DataInterface):
             #    raise IndexError("%s is not data element." % short_name)
             return data_element
         raise IndexError("data element <%s> can not be found." % short_name)
+    
+    def createInvalidationPolicy(self) -> InvalidationPolicy:
+        policy = InvalidationPolicy(self)
+        self.invalidation_polivys.append(policy)
+        return policy
+    
+    def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
+        return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidation_polivys))
 
 class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):

@@ -66,6 +66,16 @@ class AbstractRequiredPortPrototype(PortPrototype):
             pass
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
             pass
+        elif isinstance(com_spec, ParameterRequireComSpec):
+            if com_spec.parameter_ref == None:
+                raise ValueError(
+                    "The parameter reference of ParameterRequireComSpec has not been defined.")
+            if com_spec.parameter_ref.dest != "PARAMETER-DATA-PROTOTYPE":
+                raise ValueError(
+                    "Invalid parameter dest of ParameterRequireComSpec.")
+            if com_spec.init_value == None:
+                raise ValueError(
+                    "The initial value of ParameterRequireComSpec has not been defined.")
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 

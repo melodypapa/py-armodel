@@ -149,6 +149,22 @@ class ParameterRequireComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+        self.initValue = None                           # type: ValueSpecification
+        self.parameterRef = None                        # type: RefType
+
+    def getInitValue(self):
+        return self.initValue
+
+    def setInitValue(self, value):
+        self.initValue = value
+        return self
+
+    def getParameterRef(self):
+        return self.parameterRef
+
+    def setParameterRef(self, value):
+        self.parameterRef = value
+        return self
 
 class ReceiverComSpec(RPortComSpec):
     __metaclass__ = ABCMeta

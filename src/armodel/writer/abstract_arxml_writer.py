@@ -1,3 +1,4 @@
+import sys
 from abc import ABCMeta
 import re
 from xml.dom import minidom
@@ -111,7 +112,10 @@ class AbstractARXMLWriter:
         return xml
 
     def saveToFile(self, filename, root: ET.Element):
-        xml = ET.tostring(root, encoding = "UTF-8", xml_declaration = True, short_empty_elements = False)
+        if sys.version_info <= (3,9):
+            xml = ET.tostring(root, encoding = "UTF-8", short_empty_elements = False)
+        else:
+            xml = ET.tostring(root, encoding = "UTF-8", xml_declaration = True, short_empty_elements = False)
         
         dom = minidom.parseString(xml.decode())
         xml = dom.toprettyxml(indent = "  ", encoding = "UTF-8")

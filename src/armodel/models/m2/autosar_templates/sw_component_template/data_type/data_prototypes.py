@@ -1,10 +1,10 @@
 from abc import ABCMeta
 
-from .ar_object import ARNumerical
-from .ar_ref import RefType
-from .m2.msr.data_dictionary.data_def_properties import SwDataDefProps
-from .m2.autosar_templates.common_structure import ValueSpecification
-from .general_structure import AtpFeature, ARObject
+from .....ar_object import ARNumerical
+from .....ar_ref import RefType
+from ....msr.data_dictionary.data_def_properties import SwDataDefProps
+from ...common_structure import ValueSpecification
+from .....general_structure import AtpFeature, ARObject
 
 class AtpPrototype(AtpFeature, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
@@ -28,6 +28,7 @@ class DataPrototype(AtpPrototype, metaclass = ABCMeta):
     def setSwDataDefProps(self, value):
         self.swDataDefProps = value
         return self
+    
 class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == AutosarDataPrototype:

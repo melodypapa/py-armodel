@@ -50,9 +50,9 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataTypeElement(ar_root, "implementation_data_type")
 
-        assert(data_type.short_name == "implementation_data_type")
-        assert(data_type.arraySize == None)
-        assert(data_type.isOptional == None)
+        assert(data_type.getShortName() == "implementation_data_type")
+        assert(data_type.getArraySize() == None)
+        assert(data_type.getIsOptional() == None)
 
         assert(isinstance(data_type, ARObject))
         assert(isinstance(data_type, AbstractImplementationDataTypeElement))
@@ -65,7 +65,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         assert(isinstance(data_type, ImplementationDataTypeElement))
 
         sub_type = data_type.createImplementationDataTypeElement("sub_type")
-        assert(sub_type.short_name == "sub_type")
+        assert(sub_type.getShortName() == "sub_type")
         assert(isinstance(sub_type, ImplementationDataTypeElement))
 
         assert(len(data_type.getImplementationDataTypeElements()) == 1)
