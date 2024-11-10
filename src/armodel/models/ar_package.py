@@ -6,20 +6,20 @@ from .fibex.can_communication import CanFrame
 from .fibex.fibex_4_multiplatform import Gateway
 from .fibex.lin_communication import LinUnconditionalFrame
 
-from .m2.msr.asam_hdo.units import PhysicalDimension
+from .m2.msr.asam_hdo.units import PhysicalDimension, Unit
 from .m2.msr.data_dictionary.auxillary_objects import SwAddrMethod
 from .m2.autosar_templates.common_structure import ConstantSpecification
 from .m2.autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from .m2.autosar_templates.system_template import System
 from .m2.autosar_templates.system_template.transport_protocols import CanTpConfig
 from .m2.autosar_templates.system_template.network_management import NmConfig
+from .m2.autosar_templates.sw_component_template.port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
 
 from .timing import SwcTiming
 from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
-from .m2.msr.asam_hdo.units import Unit
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
-from .m2.autosar_templates.sw_component_template.port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
+
 from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
 from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
 from .datatype import ApplicationArrayDataType, ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType

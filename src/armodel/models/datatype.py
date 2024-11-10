@@ -1,24 +1,13 @@
 from abc import ABCMeta
 from typing import List
 
+from armodel.models.m2.autosar_templates.sw_component_template.components import SymbolProps
+
 from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
-from .ar_package import Referrable
-from .general_structure import ARElement, ARObject
-from .data_prototype import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
+from .general_structure import ARElement, ARObject, Referrable
+from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
 from .common_structure import ImplementationDataTypeElement, ModeRequestTypeMap
-
-class ImplementationProps(Referrable, metaclass=ABCMeta):
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ImplementationProps:
-            raise NotImplementedError("ImplementationProps is an abstract class.")
-
-        super().__init__(parent, short_name)
-        self.symbol = ""
-
-class SymbolProps(ImplementationProps):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
 
 class BaseTypeDefinition(ARObject):
     def __init__(self):
@@ -153,7 +142,6 @@ class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):
 
         super().__init__(parent, short_name)
 
-
 class ImplementationDataType(AbstractImplementationDataType):
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
     CATEGORY_TYPE_VALUE = "VALUE"
@@ -165,10 +153,11 @@ class ImplementationDataType(AbstractImplementationDataType):
         super().__init__(parent, short_name)
         
         self.sub_elements = []      # type: List[str]
-        self.symbol_props = None    # type: ARLiteral
+        self.symbolProps = None     # type: SymbolProps
         self._type_emitter = None    # type: ARLiteral
 
         self._array_type = None     # ImplementationDataType
+        self._struct_type = None    # ImplementationDataType
 
     #type:  ImplementationDataTypeElement
     def createImplementationDataTypeElement(self, short_name: str):
@@ -198,7 +187,23 @@ class ImplementationDataType(AbstractImplementationDataType):
     
     def getTypeEmitter(self) -> str:
         return self._type_emitter
-
+    
+    def setStructElementType(self, type: str):
+        self._struct_type = type
+        return self
+    
+    def getStructElementType(self) -> str:
+        return self._struct_type
+    
+    def createSymbolProps(self, short_name: str) -> SymbolProps:
+        if short_name not in self.element:
+            symbol_props = SymbolProps(self, short_name)
+            self.elements[short_name] = symbol_props
+            self.symbolProps = symbol_props
+        return self.symbolProps
+    
+    def getSymbolProps(self) -> SymbolProps:
+        return self.symbolProps
 
 class DataTypeMap(ARObject):
     def __init__(self):

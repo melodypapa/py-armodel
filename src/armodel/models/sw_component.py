@@ -12,7 +12,7 @@ from .general_structure import ARElement, Identifiable, ARObject
 from .ar_ref import InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, TRefType
 from .ar_ref import RefType, PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 from .port_prototype import RPortPrototype, PPortPrototype, PortPrototype
-from .data_prototype import ParameterDataPrototype, VariableDataPrototype
+from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
 from .m2.autosar_templates.common_structure import ValueSpecification
 
 class AbstractEvent(Identifiable):

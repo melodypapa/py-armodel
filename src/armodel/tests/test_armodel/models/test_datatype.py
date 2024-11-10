@@ -1,13 +1,13 @@
 import pytest
 
-from .... import AUTOSAR
-from ....models import datatype
+from ....models.m2.autosar_templates.sw_component_template.components import SymbolProps
+from ....models.m2.autosar_templates.common_structure.implementation import ImplementationProps
 from ....models.common_structure import ImplementationDataTypeElement
-from ....models.data_prototype import ApplicationRecordElement
-from ....models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType, ImplementationProps, SymbolProps
+from ....models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationRecordElement
+from ....models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType
 from ....models.datatype import BaseTypeDirectDefinition, SwBaseType
 from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
-
+from .... import AUTOSAR
 class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
     def test_ImplementationProps(self):
         with pytest.raises(NotImplementedError) as err:
@@ -28,7 +28,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
 
         assert(prototype._parent == ar_root)
         assert(prototype.short_name == "SymbolProps")
-        assert(prototype.symbol == "")
+        assert(prototype.symbol == None)
 
 class Test_M2_MSR_AsamHdo_BaseTypes:
     def test_BaseType(self):
@@ -227,7 +227,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ImplementationDataType")
         assert(data_type.sub_elements == [])
-        assert(data_type.symbol_props == None)
+        assert(data_type.symbolProps == None)
         assert(data_type._type_emitter == None)
 
         element = data_type.createImplementationDataTypeElement("ImplementationDataTypeElement")

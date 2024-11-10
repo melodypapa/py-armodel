@@ -4,7 +4,7 @@ from typing import List
 from .annotation import Annotation
 from .ar_ref import RefType
 from .multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
-from .ar_object import ARObject
+from .ar_object import ARObject, ARLiteral
 
 class Sd(ARObject):
     def __init__(self):
@@ -213,7 +213,7 @@ class Describable(ARObject, metaclass=ABCMeta):
         return self._category
 
     @category.setter
-    def category(self, value):
+    def category(self, value: ARLiteral):
         self._category = value
 
 class AtpFeature(Identifiable, metaclass=ABCMeta):

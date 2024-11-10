@@ -18,7 +18,7 @@ from ..models.m2.autosar_templates.system_template.data_mapping import SenderRec
 from ..models.m2.autosar_templates.system_template import System, SystemMapping
 from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.m2.autosar_templates.system_template.transport_protocols import CanTpConfig
-from ..models.m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
 from ..models.fibex.can_communication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -33,7 +33,7 @@ from ..models.multilanguage_data import MultiLanguageOverviewParagraph, MultiLan
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
-from ..models.data_prototype import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleDescription, BswModuleEntity, BswModuleEntry, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.ar_package import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, PortGroup, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
@@ -331,7 +331,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeClientComSpec")
         child_element = ET.SubElement(element, "CLIENT-COM-SPEC")
         self.setARObjectAttributes(child_element, com_spec)
-        self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.operationRef)
+        self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.getOperationRef())
+
+    def writeParameterRequireComSpec(self, element: ET.Element, com_spec: ParameterRequireComSpec):
+        self.logger.debug("writeParameterRequireComSpec")
+        child_element = ET.SubElement(element, "PARAMETER-REQUIRE-COM-SPEC")
+        self.setARObjectAttributes(child_element, com_spec)
+        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.parameter_ref)
+        self.setInitValue(child_element, com_spec.init_value)
 
     def writeModeSwitchReceiverComSpec(self, element: ET.Element, com_spec: ModeSwitchReceiverComSpec):
         self.logger.debug("writeModeSwitchReceiverComSpec")
@@ -348,6 +355,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeClientComSpec(element, com_spec)
         elif isinstance(com_spec, ModeSwitchReceiverComSpec):
             self.writeModeSwitchReceiverComSpec(element, com_spec)
+        elif isinstance(com_spec, ParameterRequireComSpec):
+            self.writeParameterRequireComSpec(element, com_spec)
         else:
             raise ValueError("Unsupported RPortComSpec %s" % type(com_spec))
     
@@ -691,6 +700,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         for compu_scale in compu_scales.getCompuScales():
             child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
             self.setARObjectAttributes(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.short_label)
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.symbol)
             self.writeChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.lowerLimit)
             self.writeChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.upperLimit)
@@ -1416,9 +1426,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.short_name)
         child_element = ET.SubElement(element, "SENDER-RECEIVER-INTERFACE")
         self.setIdentifiable(child_element, sr_interface)
-        self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.isService)
+        self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.getIsService())
         self.writeSenderReceiverInterfaceDataElements(child_element, sr_interface)
-        self.writeSenderReceiverInterfaceInvalidationPolicies(child_element, sr_interface)
 
     def writerBswModuleDescriptionImplementedEntry(self, element: ET.Element, desc: BswModuleDescription):
         entries = desc.getImplementedEntries()
@@ -1670,6 +1679,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", prototype.swDataDefProps)
                 self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.typeTRef)
                 self.setChildElementOptionalLiteral(child_element, "DIRECTION", prototype.direction)
+                self.setChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY", prototype.server_argument_impl_policy)
 
     def writePossibleErrorRefs(self, element: ET.Element, parent: ClientServerOperation):
         error_refs = parent.getPossbileErrorRefs()
@@ -2565,26 +2575,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGateway(element, ar_element)
         elif isinstance(ar_element, ISignal):
             self.writeISignal(element, ar_element)
-        elif isinstance(ar_element, EcucValueCollection):
-            self.writeEcucValueCollection(element, ar_element)
-        elif isinstance(ar_element, EcucModuleConfigurationValues):
-            self.writeEcucModuleConfigurationValues(element, ar_element)
-        elif isinstance(ar_element, ISignalGroup):
-            self.writeISignalGroup(element, ar_element)
-        elif isinstance(ar_element, ISignalIPduGroup):
-            self.writeISignalIPduGroup(element, ar_element)
-        elif isinstance(ar_element, SystemSignal):
-            self.writeSystemSignal(element, ar_element)
-        elif isinstance(ar_element, ISignalIPdu):
-            self.writeISignalIPdu(element, ar_element)
-        elif isinstance(ar_element, EcuInstance):
-            self.writeEcuInstance(element, ar_element)
-        elif isinstance(ar_element, SystemSignalGroup):
-            self.writeSystemSignalGroup(element, ar_element)
-        elif isinstance(ar_element, System):
-            self.writeSystem(element, ar_element)
-        elif isinstance(ar_element, PhysicalDimension):
-            self.writePhysicalDimension(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

@@ -2,13 +2,16 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from armodel.models.m2.autosar_templates.common_structure.implementation import ImplementationProps
+from armodel.models.m2.autosar_templates.sw_component_template.components import SymbolProps
+
 from ..models.m2.autosar_templates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntityArgument
 from ..models.m2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
-from ..models.m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.m2.msr.documentation.block_elements import DocumentationBlock
@@ -22,7 +25,7 @@ from ..models.fibex.fibex_core.core_communication import Frame, FrameTriggering,
 from ..models.internal_behavior import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
 from ..models.bsw_module_template import BswModeSenderPolicy
-from ..models.m2.autosar_templates.sw_component_template.port_interface import InvalidationPolicy, ModeSwitchInterface, PortInterface
+from ..models.m2.autosar_templates.sw_component_template.port_interface import InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface
 from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySection, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeRequestTypeMap
 from ..models.implementation import BswImplementation, EngineeringObject
 from ..models.general_structure import MultilanguageReferrable
@@ -39,7 +42,7 @@ from ..models.ar_object import ARLiteral
 from ..models.service_needs import RoleBasedDataAssignment
 from ..models.ar_ref import AnyInstanceRef, ApplicationCompositeElementInPortInterfaceInstanceRef, InnerPortGroupInCompositionInstanceRef, RefType, VariableDataPrototypeInSystemInstanceRef, VariableInAtomicSWCTypeInstanceRef, AutosarParameterRef
 from ..models.sw_component import AtomicSwComponentType, CompositionSwComponentType, PortAPIOption, PortDefinedArgumentValue, PortGroup, ServiceDependency, SwComponentType, SwcServiceDependency
-from ..models.data_prototype import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
 from ..models.annotation import Annotation, GeneralAnnotation
 from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrRule, PhysConstrs
@@ -1057,7 +1060,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataType(element, data_type)
         self.readImplementationDataTypeElements(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
-        if (data_type.category == ImplementationDataType.CATEGORY_ARRAY):
+        if (data_type.category.value == ImplementationDataType.CATEGORY_ARRAY):
             if (len(data_type.getImplementationDataTypeElements()) < 1):
                 self._raiseError("Array Sub-Element of <%s> do not defined." % data_type.short_name)
             array_sub_element = data_type.getImplementationDataTypeElements()[0]
@@ -1066,7 +1069,16 @@ class ARXMLParser(AbstractARXMLParser):
             elif (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_VALUE):  # TODO: fix 
                 return
             else:
-                self._raiseError("The category <%s> of array sub-element <%s> does not support." % (array_sub_element.category, data_type.short_name))
+                self._raiseError("The category <%s> of array sub-element <%s> does not support." % (array_sub_element.category.value, data_type.short_name))
+        elif (data_type.category.value == ImplementationDataType.CATEGORY_TYPE_STRUCTURE):
+            if (len(data_type.getImplementationDataTypeElements()) < 1):
+                self._raiseError("Structure Sub-Element of <%s> do not defined." % data_type.short_name)
+            self.readImplementationDataTypeSymbolProps(element, data_type)
+            struct_sub_element = data_type.getImplementationDataTypeElements()[0]
+            if (struct_sub_element.category.value == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+                data_type.setStructElementType(struct_sub_element.sw_data_def_props.implementationDataTypeRef.value)
+            else:
+                self._raiseError("The category <%s> of structure sub-element <%s> does not support." % (struct_sub_element.category.value, data_type.short_name))
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
         definition.base_type_size = self.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE")
@@ -1159,6 +1171,13 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec.operationRef = self.getChildElementOptionalRefType(element, "OPERATION-REF")
         return com_spec
     
+    def getParameterRequireComSpec(self, element: ET.Element) -> ParameterRequireComSpec:
+        com_spec = ParameterRequireComSpec()
+        self.readElementAttributes(element, com_spec)
+        com_spec.setInitValue(self.getInitValue(element)) \
+                .setParameterRef(self.getChildElementOptionalRefType(element, "PARAMETER-REF"))
+        return com_spec
+    
     def getQueuedReceiverComSpec(self, element: ET.Element) -> QueuedReceiverComSpec:
         com_spec = QueuedReceiverComSpec()
         self.readElementAttributes(element, com_spec)
@@ -1194,6 +1213,8 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addRequiredComSpec(self.getQueuedReceiverComSpec(child_element))
             elif tag_name == "MODE-SWITCH-RECEIVER-COM-SPEC":
                 parent.addRequiredComSpec(self.getModeSwitchReceiverComSpec(child_element))
+            elif tag_name == "PARAMETER-REQUIRE-COM-SPEC":
+                parent.addRequiredComSpec(self.getParameterRequireComSpec(child_element))
             else:
                 self._raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
@@ -1496,6 +1517,14 @@ class ARXMLParser(AbstractARXMLParser):
                   .setHandleInvalid(self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID"))
             sr_interface.addInvalidationPolicy(policy)
 
+    def readInvalidationPolicys(self, element: ET.Element, parent: SenderReceiverInterface):
+        for child_element in element.findall("./xmlns:INVALIDATION-POLICYS/xmlns:INVALIDATION-POLICY", self.nsmap):
+            # short_name = self.getShortName(child_element)
+            policy = parent.createInvalidationPolicy()
+            self.readIdentifiable(child_element, policy)
+            policy.data_element_ref = self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF")
+            policy.handle_invalid = self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")
+
     def readSenderReceiverInterfaces(self, element, parent: ARPackage):
         short_name = self.getShortName(element)
         sr_interface = parent.createSenderReceiverInterface(short_name)
@@ -1512,6 +1541,7 @@ class ARXMLParser(AbstractARXMLParser):
             prototype.swDataDefProps = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
             prototype.typeTRef = self.getChildElementOptionalRefType(child_element, "TYPE-TREF")
             prototype.direction = self.getChildElementOptionalLiteral(child_element, "DIRECTION")
+            prototype.server_argument_impl_policy = self.getChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY")
             parent.addArgumentDataPrototype(prototype)
 
     def readPossibleErrorRefs(self, element: ET.Element, parent: ClientServerOperation):
@@ -1532,6 +1562,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall("./xmlns:POSSIBLE-ERRORS/xmlns:APPLICATION-ERROR", self.nsmap):
             short_name = self.getShortName(child_element)
             error = parent.createApplicationError(short_name)
+            self.readIdentifiable(child_element, error) # some errors has its uuid
             error.error_code = self.getChildElementOptionalNumericalValue(child_element, "ERROR-CODE")
 
     def readPortInterface(self, element: ET.Element, port_interface: PortInterface):
@@ -1582,6 +1613,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in element.findall('./xmlns:COMPU-SCALES/xmlns:COMPU-SCALE', self.nsmap):
             compu_scale = CompuScale()
             self.readElementAttributes(child_element, compu_scale)
+            compu_scale.short_label = self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")
             compu_scale.symbol = self.getChildElementOptionalLiteral(child_element, "SYMBOL")
             compu_scale.lowerLimit = self.getChildLimitElement(child_element, "LOWER-LIMIT")
             compu_scale.upperLimit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
@@ -1814,6 +1846,20 @@ class ARXMLParser(AbstractARXMLParser):
     def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
         self.readIdentifiable(element, data_type)
         data_type.swDataDefProps = self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
+
+    def readImplementationProps(self, element: ET.Element, props: ImplementationProps):
+        props.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+
+    def readSymbolProps(self, element: ET.Element, props: SymbolProps):
+        self.readImplementationProps(element, props)
+
+    def readImplementationDataTypeSymbolProps(self, element: ET.Element, data_type: ImplementationDataType):
+        child_element = element.find("./xmlns:SYMBOL-PROPS", self.nsmap)
+        if child_element is not None:
+            short_name = self.getShortName(child_element)
+            self.logger.debug("readSymbolProps %s" % short_name)
+            props = data_type.createSymbolProps(short_name)
+            self.readSymbolProps(child_element, props)
 
     def readApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
         self.readAutosarDataType(element, data_type)
@@ -2556,8 +2602,21 @@ class ARXMLParser(AbstractARXMLParser):
         system.setEcuExtractVersion(self.getChildElementOptionalLiteral(element, "ECU-EXTRACT-VERSION"))
         for child_element in self.findall(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL"):
             system.addFibexElementRef(self.getChildElementOptionalRefType(child_element, "FIBEX-ELEMENT-REF"))
-
         self.readSystemMappings(element, system)
+
+    def readParameterInterfaceParameters(self, element: ET.Element, parent: ParameterInterface):
+        for child_element in element.findall("./xmlns:PARAMETERS/xmlns:PARAMETER-DATA-PROTOTYPE", self.nsmap):
+            short_name = self.getShortName(child_element)
+            prototype = parent.createParameter(short_name)
+            self.readParameterDataPrototype(child_element, prototype)
+    
+    def readParameterInterface(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("ParameterInterface %s" % short_name)
+        pi_interface = parent.createParameterInterface(short_name)
+        self.readIdentifiable(element, pi_interface)
+        self.readParameterInterfaceParameters(element, pi_interface)
+
 
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "./ELEMENTS/*"):
@@ -2668,9 +2727,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEcucModuleConfigurationValues(child_element, parent)
             elif tag_name == "PHYSICAL-DIMENSION":
                 self.readPhysicalDimensions(child_element, parent)
+            elif tag_name == "PARAMETER-INTERFACE":
+                self.readParameterInterface(child_element, parent)
             else:
                 self._raiseError("Unsupported element type of ARPackage <%s>" % tag_name)
-                #pass
 
     def readARPackages(self, element: ET.Element, parent: ARPackage):
         for child_element in element.findall("./xmlns:AR-PACKAGES/xmlns:AR-PACKAGE", self.nsmap):
