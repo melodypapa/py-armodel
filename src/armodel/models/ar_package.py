@@ -56,318 +56,318 @@ class ARPackage(Identifiable, CollectableElement):
         if (short_name in self._ar_packages):
             return self._ar_packages[short_name]
         return CollectableElement.getElement(self, short_name)
-
+    
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
         if (short_name not in self.elements):
             sw_component = EcuAbstractionSwComponentType(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            self.addElement(sw_component)
+        return self.getElement(short_name)
 
     def createApplicationSwComponentType(self, short_name: str) -> ApplicationSwComponentType:
         if short_name not in self.elements:
             sw_component = ApplicationSwComponentType(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            self.addElement(sw_component)
+        return self.getElement(short_name)
     
     def createComplexDeviceDriverSwComponentType(self, short_name: str) -> ComplexDeviceDriverSwComponentType:
         if short_name not in self.elements:
             sw_component = ComplexDeviceDriverSwComponentType(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            self.addElement(sw_component)
+        return self.getElement(short_name)
 
     def createServiceSwComponentType(self, short_name: str) -> ServiceSwComponentType:
         if (short_name not in self.elements):
             sw_component = ServiceSwComponentType(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            self.addElement(sw_component)
+        return self.getElement(short_name)
     
     def createSensorActuatorSwComponentType(self, short_name: str) -> SensorActuatorSwComponentType:
         if (short_name not in self.elements):
             sw_component = SensorActuatorSwComponentType(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            self.addElement(sw_component)
+        return self.getElement(short_name)
 
     def createCompositionSwComponentType(self, short_name: str) -> CompositionSwComponentType:
         if (short_name not in self.elements):
             sw_component = CompositionSwComponentType(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            self.addElement(sw_component)
+        return self.getElement(short_name)
 
     def createSenderReceiverInterface(self, short_name: str) -> SenderReceiverInterface:
         if (short_name not in self.elements):
             sr_interface = SenderReceiverInterface(self, short_name)
-            self.elements[short_name] = sr_interface
-        return self.elements[short_name]
+            self.addElement(sr_interface)
+        return self.getElement(short_name)
 
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
         if (short_name not in self.elements):
-            sr_interface = ClientServerInterface(self, short_name)
-            self.elements[short_name] = sr_interface
-        return self.elements[short_name]
+            cs_interface = ClientServerInterface(self, short_name)
+            self.addElement(cs_interface)
+        return self.getElement(short_name)
 
     def createApplicationPrimitiveDataType(self, short_name: str) -> ApplicationPrimitiveDataType:
         if (short_name not in self.elements):
             data_type = ApplicationPrimitiveDataType(self, short_name)
-            self.elements[short_name] = data_type
-        return self.elements[short_name]
+            self.addElement(data_type)
+        return self.getElement(short_name)
 
     def createApplicationRecordDataType(self, short_name: str) -> ApplicationPrimitiveDataType:
         if (short_name not in self.elements):
             data_type = ApplicationRecordDataType(self, short_name)
-            self.elements[short_name] = data_type
-        return self.elements[short_name]
+            self.addElement(data_type)
+        return self.getElement(short_name)
 
     def createImplementationDataType(self, short_name: str) -> ImplementationDataType:
         if (short_name not in self.elements):
             data_type = ImplementationDataType(self, short_name)
-            self.elements[short_name] = data_type
-        return self.elements[short_name]
+            self.addElement(data_type)
+        return data_type
 
     def createSwBaseType(self, short_name: str) -> SwBaseType:
         if (short_name not in self.elements):
             base_type = SwBaseType(self, short_name)
-            self.elements[short_name] = base_type
-        return self.elements[short_name]
+            self.addElement(base_type)
+        return self.getElement(short_name)
 
     def createDataTypeMappingSet(self, short_name: str) -> DataTypeMappingSet:
         if (short_name not in self.elements):
             mapping_set = DataTypeMappingSet(self, short_name)
-            self.elements[short_name] = mapping_set
-        return self.elements[short_name]
+            self.addElement(mapping_set)
+        return self.getElement(short_name)
 
     def createCompuMethod(self, short_name: str) -> CompuMethod:
         if (short_name not in self.elements):
             compu_method = CompuMethod(self, short_name)
-            self.elements[short_name] = compu_method
-        return self.elements[short_name]
+            self.addElement(compu_method)
+        return self.getElement(short_name)
 
     def createBswModuleDescription(self, short_name: str) -> BswModuleDescription:
         if (short_name not in self.elements):
-            bsw_module_description = BswModuleDescription(self, short_name)
-            self.elements[short_name] = bsw_module_description
-        return self.elements[short_name]
+            desc = BswModuleDescription(self, short_name)
+            self.addElement(desc)
+        return self.getElement(short_name)
 
     def createBswModuleEntry(self, short_name: str) -> BswModuleEntry:
         if (short_name not in self.elements):
             entry = BswModuleEntry(self, short_name)
-            self.elements[short_name] = entry
-        return self.elements[short_name]
+            self.addElement(entry)
+        return self.getElement(short_name)
 
     def createBswImplementation(self, short_name: str) -> BswImplementation:
         if (short_name not in self.elements):
-            sw_component = BswImplementation(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            impl = BswImplementation(self, short_name)
+            self.addElement(impl)
+        return self.getElement(short_name)
     
     def createSwcImplementation(self, short_name: str) -> SwcImplementation:
         if (short_name not in self.elements):
-            sw_component = SwcImplementation(self, short_name)
-            self.elements[short_name] = sw_component
-        return self.elements[short_name]
+            impl = SwcImplementation(self, short_name)
+            self.addElement(impl)
+        return self.getElement(short_name)
 
     def createSwcBswMapping(self, short_name: str) -> SwcBswMapping:
         if (short_name not in self.elements):
             mapping = SwcBswMapping(self, short_name)
-            self.elements[short_name] = mapping
-        return self.elements[short_name]
+            self.addElement(mapping)
+        return self.getElement(short_name)
     
     def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
         if (short_name not in self.elements):
             spec = ConstantSpecification(self, short_name)
-            self.elements[short_name] = spec
-        return self.elements[short_name]
+            self.addElement(spec)
+        return self.getElement(short_name)
     
     def createDataConstr(self, short_name: str) -> DataConstr:
         if (short_name not in self.elements):
             constr = DataConstr(self, short_name)
-            self.elements[short_name] = constr
-        return self.elements[short_name]
+            self.addElement(constr)
+        return self.getElement(short_name)
     
     def createUnit(self, short_name: str) -> Unit:
         if (short_name not in self.elements):
             unit = Unit(self, short_name)
-            self.elements[short_name] = unit
-        return self.elements[short_name]
+            self.addElement(unit)
+        return self.getElement(short_name)
     
     def createEndToEndProtectionSet(self, short_name: str) -> EndToEndProtectionSet:
         if (short_name not in self.elements):
-            spec = EndToEndProtectionSet(self, short_name)
-            self.elements[short_name] = spec
-        return self.elements[short_name]
+            e2d_set = EndToEndProtectionSet(self, short_name)
+            self.addElement(e2d_set)
+        return self.getElement(short_name)
     
     def createApplicationArrayDataType(self, short_name: str) -> ApplicationArrayDataType:
         if (short_name not in self.elements):
             data_type = ApplicationArrayDataType(self, short_name)
-            self.elements[short_name] = data_type
-        return self.elements[short_name]
+            self.addElement(data_type)
+        return self.getElement(short_name)
     
     def createSwRecordLayout(self, short_name: str) -> SwRecordLayout:
         if (short_name not in self.elements):
             layout = SwRecordLayout(self, short_name)
-            self.elements[short_name] = layout
-        return self.elements[short_name]
+            self.addElement(layout)
+        return self.getElement(short_name)
     
     def createSwAddrMethod(self, short_name: str) -> SwAddrMethod:
         if (short_name not in self.elements):
             method = SwAddrMethod(self, short_name)
-            self.elements[short_name] = method
-        return self.elements[short_name]
+            self.addElement(method)
+        return self.getElement(short_name)
     
     def createTriggerInterface(self, short_name: str) -> TriggerInterface:
         if (short_name not in self.elements):
             trigger_interface = TriggerInterface(self, short_name)
-            self.elements[short_name] = trigger_interface
-        return self.elements[short_name]
+            self.addElement(trigger_interface)
+        return trigger_interface
     
     def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
         if (short_name not in self.elements):
             group = ModeDeclarationGroup(self, short_name)
-            self.elements[short_name] = group
-        return self.elements[short_name]
+            self.addElement(group)
+        return self.getElement(short_name)
     
     def createModeSwitchInterface(self, short_name: str) -> ModeSwitchInterface:
         if (short_name not in self.elements):
             switch_interface = ModeSwitchInterface(self, short_name)
-            self.elements[short_name] = switch_interface
-        return self.elements[short_name]
+            self.addElement(switch_interface)
+        return self.getElement(short_name)
     
     def createSwcTiming(self, short_name: str) -> SwcTiming:
         if (short_name not in self.elements):
             timing = SwcTiming(self, short_name)
-            self.elements[short_name] = timing
-        return self.elements[short_name]
+            self.addElement(timing)
+        return self.getElement(short_name)
     
     def createLinCluster(self, short_name: str) -> LinCluster:
         if (short_name not in self.elements):
             cluster = LinCluster(self, short_name)
-            self.elements[short_name] = cluster
-        return self.elements[short_name]
+            self.addElement(cluster)
+        return self.getElement(short_name)
     
     def createCanCluster(self, short_name: str) -> CanCluster:
         if (short_name not in self.elements):
             cluster = CanCluster(self, short_name)
-            self.elements[short_name] = cluster
-        return self.elements[short_name]
+            self.addElement(cluster)
+        return self.getElement(short_name)
     
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
         if (short_name not in self.elements):
             frame = LinUnconditionalFrame(self, short_name)
-            self.elements[short_name] = frame
-        return self.elements[short_name]
+            self.addElement(frame)
+        return self.getElement(short_name)
     
     def createNmPdu(self, short_name: str) -> NmPdu:
         if (short_name not in self.elements):
-            pdu = NmPdu(self, short_name)
-            self.elements[short_name] = pdu
-        return self.elements[short_name]
+            element = NmPdu(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createNPdu(self, short_name: str) -> NPdu:
         if (short_name not in self.elements):
-            pdu = NPdu(self, short_name)
-            self.elements[short_name] = pdu
-        return self.elements[short_name]
+            element = NPdu(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createDcmIPdu(self, short_name: str) -> DcmIPdu:
         if (short_name not in self.elements):
-            pdu = DcmIPdu(self, short_name)
-            self.elements[short_name] = pdu
-        return self.elements[short_name]
+            element = DcmIPdu(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createSecuredIPdu(self, short_name: str) -> SecuredIPdu:
         if (short_name not in self.elements):
-            pdu = SecuredIPdu(self, short_name)
-            self.elements[short_name] = pdu
-        return self.elements[short_name]
+            element = SecuredIPdu(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createNmConfig(self, short_name: str) -> NmConfig:
         if (short_name not in self.elements):
-            config = NmConfig(self, short_name)
-            self.elements[short_name] = config
-        return self.elements[short_name]
+            element = NmConfig(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createCanTpConfig(self, short_name: str) -> CanTpConfig:
         if (short_name not in self.elements):
-            config = CanTpConfig(self, short_name)
-            self.elements[short_name] = config
-        return self.elements[short_name]
+            element = CanTpConfig(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createCanFrame(self, short_name: str) -> CanFrame:
         if (short_name not in self.elements):
-            frame = CanFrame(self, short_name)
-            self.elements[short_name] = frame
-        return self.elements[short_name]
+            element = CanFrame(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createEcuInstance(self, short_name: str) -> EcuInstance:
         if (short_name not in self.elements):
-            frame = EcuInstance(self, short_name)
-            self.elements[short_name] = frame
-        return self.elements[short_name]
+            element = EcuInstance(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createGateway(self, short_name: str) -> Gateway:
         if (short_name not in self.elements):
-            gateway = Gateway(self, short_name)
-            self.elements[short_name] = gateway
-        return self.elements[short_name]
+            element = Gateway(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createISignal(self, short_name: str) -> ISignal:
         if (short_name not in self.elements):
-            signal = ISignal(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = ISignal(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createSystemSignal(self, short_name: str) -> SystemSignal:
         if (short_name not in self.elements):
-            signal = SystemSignal(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = SystemSignal(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createSystemSignalGroup(self, short_name: str) -> SystemSignalGroup:
         if (short_name not in self.elements):
-            signal = SystemSignalGroup(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = SystemSignalGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
         if (short_name not in self.elements):
-            signal = ISignalIPdu(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = ISignalIPdu(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createEcucValueCollection(self, short_name: str) -> EcucValueCollection:
         if (short_name not in self.elements):
-            signal = EcucValueCollection(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = EcucValueCollection(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createEcucModuleConfigurationValues(self, short_name: str) -> EcucModuleConfigurationValues:
         if (short_name not in self.elements):
-            signal = EcucModuleConfigurationValues(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = EcucModuleConfigurationValues(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
         if (short_name not in self.elements):
-            signal = PhysicalDimension(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = PhysicalDimension(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
         if (short_name not in self.elements):
-            signal = ISignalGroup(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = ISignalGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createISignalIPduGroup(self, short_name: str) -> ISignalIPduGroup:
         if (short_name not in self.elements):
-            signal = ISignalIPduGroup(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = ISignalIPduGroup(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def createSystem(self, short_name: str) -> System:
         if (short_name not in self.elements):
-            signal = System(self, short_name)
-            self.elements[short_name] = signal
-        return self.elements[short_name]
+            element = System(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
     
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()), key= lambda o:o.short_name))
@@ -538,7 +538,11 @@ class AUTOSAR (CollectableElement):
         self._impl_appl_type_maps = {}
         AUTOSAR.__instance = self
 
-        self._ar_packages = {}          # type: Dict[str, ARPackage]
+        self._ar_packages = {}                  # type: Dict[str, ARPackage]
+        self.short_name_mappings = {}           # type: Dict[str, str]
+
+    def reload(self):
+        pass
 
     @property
     def full_name(self):
@@ -574,6 +578,9 @@ class AUTOSAR (CollectableElement):
                 return element
             #    raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
         return element
+    
+    def findByShortName(self, short_name: str) -> Referrable:
+        pass
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):

@@ -550,7 +550,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             memory_section = consumption.createMemorySection(short_name)
             self.readIdentifiable(child_element, memory_section)
-            memory_section.alignment = self.getChildElementOptionalLiteral(child_element, "ALIGNMENT")
+            memory_section.setAlignment(self.getChildElementOptionalLiteral(child_element, "ALIGNMENT"))
             self.readMemorySectionOptions(child_element, memory_section)
             memory_section.size = self.getChildElementOptionalNumericalValue(child_element, "SIZE")
             memory_section.swAddrMethodRef = self.getChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF")
@@ -1060,23 +1060,24 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataType(element, data_type)
         self.readImplementationDataTypeElements(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
-        if (data_type.category.value == ImplementationDataType.CATEGORY_ARRAY):
+        if (data_type.getCategory().getValue() == ImplementationDataType.CATEGORY_ARRAY):
             if (len(data_type.getImplementationDataTypeElements()) < 1):
                 self._raiseError("Array Sub-Element of <%s> do not defined." % data_type.short_name)
+
             array_sub_element = data_type.getImplementationDataTypeElements()[0]
-            if (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+            if (array_sub_element.category.getValue() == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
                 data_type.setArrayElementType(array_sub_element.swDataDefProps.implementationDataTypeRef.value)
-            elif (array_sub_element.category == ImplementationDataType.CATEGORY_TYPE_VALUE):  # TODO: fix 
+            elif (array_sub_element.category.getValue() == ImplementationDataType.CATEGORY_TYPE_VALUE):  # TODO: fix 
                 return
             else:
                 self._raiseError("The category <%s> of array sub-element <%s> does not support." % (array_sub_element.category.value, data_type.short_name))
-        elif (data_type.category.value == ImplementationDataType.CATEGORY_TYPE_STRUCTURE):
+        elif (data_type.getCategory().getValue() == ImplementationDataType.CATEGORY_TYPE_STRUCTURE):
             if (len(data_type.getImplementationDataTypeElements()) < 1):
                 self._raiseError("Structure Sub-Element of <%s> do not defined." % data_type.short_name)
             self.readImplementationDataTypeSymbolProps(element, data_type)
             struct_sub_element = data_type.getImplementationDataTypeElements()[0]
-            if (struct_sub_element.category.value == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
-                data_type.setStructElementType(struct_sub_element.sw_data_def_props.implementationDataTypeRef.value)
+            if (struct_sub_element.getCategory().getValue() == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+                data_type.setStructElementType(struct_sub_element.getSwDataDefProps().getImplementationDataTypeRef().getValue())
             else:
                 self._raiseError("The category <%s> of structure sub-element <%s> does not support." % (struct_sub_element.category.value, data_type.short_name))
 
@@ -2754,3 +2755,5 @@ class ARXMLParser(AbstractARXMLParser):
 
         self.getAUTOSARInfo(root, document)
         self.readARPackages(root, document)
+
+        document.reload()

@@ -142,6 +142,9 @@ class CollectableElement(ARObject, metaclass = ABCMeta):
 
     def getElements(self):
         return self.elements.values()
+    
+    def addElement(self, element: Referrable):
+        self.elements[element.getShortName()] = element
 
     def getElement(self, short_name: str) -> Referrable:
         if (short_name not in self.elements):
@@ -157,7 +160,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
 
         self.annotations = []       # type: List[Annotation]
         self.adminData = None       # type: AdminData
-        self.category = None
+        self.category = None        # type: ARLiteral
         self.desc = None            # type: MultiLanguageOverviewParagraph
 
     def getAdminData(self):
