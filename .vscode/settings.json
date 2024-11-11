@@ -56,6 +56,7 @@
         "SWHDR",
         "SWMAKE",
         "SWSRC",
+        "topdown",
         "Triggerings"
     ],
     "python.formatting.autopep8Args": [
