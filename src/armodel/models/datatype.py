@@ -1,13 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from armodel.models.m2.autosar_templates.sw_component_template.components import SymbolProps
-
 from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
-from .general_structure import ARElement, ARObject, Referrable
+from .general_structure import ARElement, ARObject
 from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
-from .common_structure import ImplementationDataTypeElement, ModeRequestTypeMap
+from .common_structure import ModeRequestTypeMap
 
 class BaseTypeDefinition(ARObject):
     def __init__(self):
@@ -18,9 +16,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         super().__init__()
 
         self.base_type_encoding = None
-        self.base_type_size = None                # type: ARNumerical
-        self.byteOrder = None                   # type: str
-        self.mem_alignment = None                # type: ARNumerical
+        self.base_type_size = None                  # type: ARNumerical
+        self.byteOrder = None                       # type: str
+        self.mem_alignment = None                   # type: ARNumerical
         self.native_declaration = None      
 
 class BaseType(ARElement, metaclass=ABCMeta):
@@ -135,75 +133,8 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
         return self.record_elements
 
-class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractImplementationDataType:
-            raise NotImplementedError("AbstractImplementationDataType is an abstract class.")
 
-        super().__init__(parent, short_name)
 
-class ImplementationDataType(AbstractImplementationDataType):
-    CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
-    CATEGORY_TYPE_VALUE = "VALUE"
-    CATEGORY_TYPE_STRUCTURE = "STRUCTURE"
-    CATEGORY_DATA_REFERENCE = "DATA_REFERENCE"
-    CATEGORY_ARRAY = "ARRAY"
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-        
-        self.sub_elements = []      # type: List[str]
-        self.symbolProps = None     # type: SymbolProps
-        self._type_emitter = None    # type: ARLiteral
-
-        self._array_type = None     # ImplementationDataType
-        self._struct_type = None    # ImplementationDataType
-
-    #type:  ImplementationDataTypeElement
-    def createImplementationDataTypeElement(self, short_name: str):
-        self.sub_elements.append(short_name)
-        if (short_name not in self.elements):
-            event = ImplementationDataTypeElement(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
-
-    def getImplementationDataTypeElements(self) -> List[ImplementationDataTypeElement]:
-        elements = []
-        for sub_element in self.sub_elements:
-            elements.append(self.elements[sub_element])
-        return elements
-        # return filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values())
-
-    def getArrayElementType(self) -> str:
-        return self._array_type
-
-    def setArrayElementType(self, type: str):
-        self._array_type = type
-        return self
-
-    def setTypeEmitter(self, emitter: str):
-        self._type_emitter = emitter
-        return self
-    
-    def getTypeEmitter(self) -> str:
-        return self._type_emitter
-    
-    def setStructElementType(self, type: str):
-        self._struct_type = type
-        return self
-    
-    def getStructElementType(self) -> str:
-        return self._struct_type
-    
-    def createSymbolProps(self, short_name: str) -> SymbolProps:
-        if short_name not in self.element:
-            symbol_props = SymbolProps(self, short_name)
-            self.elements[short_name] = symbol_props
-            self.symbolProps = symbol_props
-        return self.symbolProps
-    
-    def getSymbolProps(self) -> SymbolProps:
-        return self.symbolProps
 
 class DataTypeMap(ARObject):
     def __init__(self):

@@ -108,7 +108,10 @@ class Referrable(ARObject, metaclass=ABCMeta):
     @property
     def full_name(self) -> str:
         return self._parent.full_name + "/" + self.short_name
-
+    
+    def getFullName(self) -> str:
+        return self.full_name
+    
 class MultilanguageReferrable(Referrable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == MultilanguageReferrable:

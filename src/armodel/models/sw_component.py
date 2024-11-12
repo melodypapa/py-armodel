@@ -1,6 +1,8 @@
 from typing import List
 from abc import ABCMeta
 
+from .m2.autosar_templates.sw_component_template.components import SwComponentType
+from .m2.autosar_templates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef
 from .m2.autosar_templates.sw_component_template.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from .m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntity
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
@@ -8,10 +10,9 @@ from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .ar_object import ARBoolean, ARLiteral
-from .general_structure import ARElement, Identifiable, ARObject
-from .ar_ref import InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, TRefType
-from .ar_ref import RefType, PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from .port_prototype import RPortPrototype, PPortPrototype, PortPrototype
+from .general_structure import Identifiable, ARObject
+from .ar_ref import TRefType
+from .ar_ref import RefType
 from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
 from .m2.autosar_templates.common_structure import ValueSpecification
 
@@ -333,60 +334,7 @@ class SwcInternalBehavior(InternalBehavior):
     def getRunnableEntity(self, short_name) -> RunnableEntity:
         return self.elements[short_name]
     
-class PortGroup(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
 
-        self._inner_group_iref = []    # type: List[InnerPortGroupInCompositionInstanceRef]
-        self._outer_port_ref = []      # type: List[RefType]
-
-    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef):
-        self._inner_group_iref.append(iref)
-
-    def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
-        return self._inner_group_iref
-    
-    def addOuterPortRef(self, ref: RefType):
-        self._outer_port_ref.append(ref)
-
-    def getOuterPortRefs(self) -> List[RefType]:
-        return self._outer_port_ref
-
-class SwComponentType(ARElement):
-    __metaclass__ = ABCMeta
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-    def createPPortPrototype(self, short_name: str) -> PPortPrototype:
-        prototype = PPortPrototype(self, short_name)
-        if (short_name not in self.elements):
-            self.elements[short_name] = prototype
-        return self.elements[short_name]
-
-    def createRPortPrototype(self, short_name) -> RPortPrototype:
-        prototype = RPortPrototype(self, short_name)
-        if (short_name not in self.elements):
-            self.elements[short_name] = prototype
-        return self.elements[short_name]
-    
-    def createPortGroup(self, short_name) -> PortGroup:
-        port_group = PortGroup(self, short_name)
-        if (short_name not in self.elements):
-            self.elements[short_name] = port_group
-        return self.elements[short_name]
-
-    def getPPortPrototypes(self) -> List[PPortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.elements.values()), key= lambda o: o.short_name))
-
-    def getRPortPrototypes(self) -> List[RPortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key= lambda o: o.short_name))
-    
-    def getPortPrototypes(self) -> List[PortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key= lambda o: o.short_name))
-    
-    def getPortGroups(self) -> List[PortGroup]:
-        return list(sorted(filter(lambda c: isinstance(c, PortGroup), self.elements.values()), key= lambda o: o.short_name))
 
 class AtomicSwComponentType(SwComponentType):
     __metaclass__ = ABCMeta
@@ -434,89 +382,4 @@ class ServiceSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-class SwConnector(Identifiable):
-    __metaclass__ = ABCMeta
 
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.mapping_ref = None     # type: RefType
-
-class AssemblySwConnector(SwConnector):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.provider_iref = None   # type: PPortInCompositionInstanceRef
-        self.requester_iref = None  # type: RPortInCompositionInstanceRef
-
-class DelegationSwConnector(SwConnector):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.inner_port_iref = None # type: PortInCompositionTypeInstanceRef
-        self.outer_port_ref  = None # type: RefType
-
-class PassThroughSwConnector(SwConnector):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.provided_outer_port_ref = None # type: RefType
-        self.required_outer_port_ref = None # type: RefType
-
-class SwComponentPrototype(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.type_tref = RefType()
-
-class CompositionSwComponentType(SwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.constant_value_mapping_refs = []   # type: List[RefType]
-        self._data_type_mapping_refs = []       # type: List[RefType]
-        self.instantiation_rte_event_props = [] # type: List[InstantiationRTEEventProps]
-
-    def removeAllAssemblySwConnector(self):
-        for sw_connector in self.getAssemblySwConnectors():
-            self.elements.pop(sw_connector.short_name)
-
-    def removeAllDelegationSwConnector(self):
-        for sw_connector in self.getDelegationSwConnectors():
-            self.elements.pop(sw_connector.short_name)
-
-    def createAssemblySwConnector(self, short_name: str) -> AssemblySwConnector:
-        if (short_name not in self.elements):
-            connector = AssemblySwConnector(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name]
-    
-    def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
-        if short_name not in self.elements:
-            connector = DelegationSwConnector(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name]
-
-    def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key = lambda c: c.short_name))
-    
-    def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key = lambda c: c.short_name))
-    
-    def getSwConnectors(self) -> List[SwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key = lambda c: c.short_name))
-    
-    def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
-        if (short_name not in self.elements):
-            connector = SwComponentPrototype(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name] 
-
-    def getSwComponentPrototypes(self) -> List[SwComponentPrototype]:
-        return list(filter(lambda e: isinstance(e, SwComponentPrototype), self.elements.values()))
-    
-    def addDataTypeMapping(self, data_type_mapping_ref: RefType):
-        self._data_type_mapping_refs.append(data_type_mapping_ref)
-
-    def getDataTypeMappings(self) -> List[RefType]:
-        return self._data_type_mapping_refs

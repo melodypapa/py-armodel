@@ -1,5 +1,5 @@
 import filecmp
-from ....models.sw_component import CompositionSwComponentType
+from ....models.m2.autosar_templates.sw_component_template.composition import CompositionSwComponentType
 from ....writer.arxml_writer import ARXMLWriter
 from ....parser.arxml_parser import ARXMLParser
 from ....models.ar_package import AUTOSAR

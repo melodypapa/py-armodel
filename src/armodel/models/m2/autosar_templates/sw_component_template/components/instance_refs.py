@@ -1,5 +1,7 @@
 from abc import ABCMeta
-from .....ar_ref import AtpInstanceRef, RefType
+
+from ...generic_structure.abstract_structure import AtpInstanceRef
+from .....ar_ref import RefType
 
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
@@ -147,3 +149,33 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def setTargetDataElementRef(self, value):
         self.targetDataElementRef = value
         return self
+
+class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.baseRef = None                                         # type: RefType
+        self.contextRefs = []                                       # type: List[RefType]
+        self.targetRef = None                                       # type: RefType
+
+    def getBaseRef(self):
+        return self.baseRef
+
+    def setBaseRef(self, value):
+        self.baseRef = value
+        return self
+
+    def getContextRefs(self):
+        return self.contextRefs
+
+    def addContextRefs(self, value):
+        self.contextRefs.append(value)
+        return self
+
+    def getTargetRef(self):
+        return self.targetRef
+
+    def setTargetRef(self, value):
+        self.targetRef = value
+        return self
+

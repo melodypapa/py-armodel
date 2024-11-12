@@ -1,5 +1,11 @@
 from typing import Dict, List
 
+
+
+
+
+
+
 from .fibex.fibex_core.core_topology import EcuInstance, CanCluster, LinCluster
 from .fibex.fibex_core.core_communication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, SecuredIPdu, SystemSignal, DcmIPdu, ISignal, NPdu, NmPdu, SystemSignalGroup
 from .fibex.can_communication import CanFrame
@@ -9,20 +15,23 @@ from .fibex.lin_communication import LinUnconditionalFrame
 from .m2.msr.asam_hdo.units import PhysicalDimension, Unit
 from .m2.msr.data_dictionary.auxillary_objects import SwAddrMethod
 from .m2.autosar_templates.common_structure import ConstantSpecification
+from .m2.autosar_templates.common_structure.implementation_data_types import ImplementationDataType
 from .m2.autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from .m2.autosar_templates.system_template import System
 from .m2.autosar_templates.system_template.transport_protocols import CanTpConfig
 from .m2.autosar_templates.system_template.network_management import NmConfig
-from .m2.autosar_templates.sw_component_template.port_interface import ModeSwitchInterface, SenderReceiverInterface, ClientServerInterface, TriggerInterface
+from .m2.autosar_templates.sw_component_template.composition import CompositionSwComponentType
+from .m2.autosar_templates.sw_component_template.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
+from .m2.autosar_templates.sw_component_template.components import SwComponentType
 
 from .timing import SwcTiming
 from .record_layout import SwRecordLayout
 from .end_to_end_protection import EndToEndProtectionSet
 from .general_structure import Identifiable, ARObject, Referrable, CollectableElement, SwcBswMapping
 
-from .sw_component import SwComponentType, EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
-from .sw_component import ServiceSwComponentType, CompositionSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
-from .datatype import ApplicationArrayDataType, ImplementationDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
+from .sw_component import EcuAbstractionSwComponentType, AtomicSwComponentType, ApplicationSwComponentType
+from .sw_component import ServiceSwComponentType, SensorActuatorSwComponentType, ComplexDeviceDriverSwComponentType
+from .datatype import ApplicationArrayDataType, ApplicationDataType, DataTypeMappingSet, DataTypeMap, SwBaseType, ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .m2_msr import CompuMethod
 from .common_structure import ModeDeclarationGroup
 from .implementation import BswImplementation, SwcImplementation, Implementation
@@ -98,6 +107,12 @@ class ARPackage(Identifiable, CollectableElement):
             sr_interface = SenderReceiverInterface(self, short_name)
             self.addElement(sr_interface)
         return self.getElement(short_name)
+    
+    def createParameterInterface(self, short_name: str) -> ParameterInterface:
+        if (short_name not in self.elements):
+            sr_interface = ParameterInterface(self, short_name)
+            self.addElement(sr_interface)
+        return self.getElement(short_name)
 
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
         if (short_name not in self.elements):
@@ -121,7 +136,7 @@ class ARPackage(Identifiable, CollectableElement):
         if (short_name not in self.elements):
             data_type = ImplementationDataType(self, short_name)
             self.addElement(data_type)
-        return data_type
+        return self.getElement(short_name)
 
     def createSwBaseType(self, short_name: str) -> SwBaseType:
         if (short_name not in self.elements):
@@ -397,13 +412,16 @@ class ARPackage(Identifiable, CollectableElement):
         return list(sorted(filter(lambda a : isinstance(a, ComplexDeviceDriverSwComponentType), self.elements.values()), key = lambda a: a.short_name))
 
     def getSenderReceiverInterfaces(self) -> List[SenderReceiverInterface]:
-        return list(filter(lambda a : isinstance(a, SenderReceiverInterface), self.elements.values()))
+        return list(sorted(filter(lambda a : isinstance(a, SenderReceiverInterface), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getParameterInterfaces(self) -> List[ParameterInterface]:
+        return list(sorted(filter(lambda a : isinstance(a, ParameterInterface), self.elements.values()), key = lambda a: a.short_name))
 
     def getClientServerInterfaces(self) -> List[ClientServerInterface]:
-        return list(filter(lambda a : isinstance(a, ClientServerInterface), self.elements.values()))
+        return list(sorted(filter(lambda a : isinstance(a, ClientServerInterface), self.elements.values()), key = lambda a: a.short_name))
 
     def getDataTypeMappingSets(self) -> List[DataTypeMappingSet]:
-        return list(filter(lambda a: isinstance(a, DataTypeMappingSet), self.elements.values()))
+        return list(sorted(filter(lambda a : isinstance(a, DataTypeMappingSet), self.elements.values()), key = lambda a: a.short_name))
     
     def getCompuMethods(self) -> List[CompuMethod]:
         return list(filter(lambda a: isinstance(a, CompuMethod), self.elements.values()))

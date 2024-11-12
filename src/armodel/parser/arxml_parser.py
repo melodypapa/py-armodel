@@ -2,18 +2,25 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from armodel.models.m2.autosar_templates.common_structure.implementation import ImplementationProps
-from armodel.models.m2.autosar_templates.sw_component_template.components import SymbolProps
-
+from ..models.ar_ref import RefType
+from ..models.m2.autosar_templates.common_structure.implementation import ImplementationProps
 from ..models.m2.autosar_templates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
-from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from ..models.m2.autosar_templates.generic_structure.abstract_structure import AnyInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
+from ..models.m2.autosar_templates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntityArgument
-from ..models.m2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from ..models.m2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType, SymbolProps
+from ..models.m2.autosar_templates.sw_component_template.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
+
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
 from ..models.m2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
+from ..models.m2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from ..models.m2.msr.documentation.block_elements import DocumentationBlock
 from ..models.m2.autosar_templates.system_template import System, SystemMapping
 from ..models.m2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
@@ -40,8 +47,7 @@ from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.ar_package import AUTOSAR, ARPackage
 from ..models.ar_object import ARLiteral
 from ..models.service_needs import RoleBasedDataAssignment
-from ..models.ar_ref import AnyInstanceRef, ApplicationCompositeElementInPortInterfaceInstanceRef, InnerPortGroupInCompositionInstanceRef, RefType, VariableDataPrototypeInSystemInstanceRef, VariableInAtomicSWCTypeInstanceRef, AutosarParameterRef
-from ..models.sw_component import AtomicSwComponentType, CompositionSwComponentType, PortAPIOption, PortDefinedArgumentValue, PortGroup, ServiceDependency, SwComponentType, SwcServiceDependency
+from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
 from ..models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
 from ..models.annotation import Annotation, GeneralAnnotation
@@ -49,13 +55,11 @@ from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrR
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
-from ..models import AutosarVariableRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
-from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap, ImplementationDataTypeElement
+
+from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
 from ..models import RPortPrototype, PPortPrototype
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import Identifiable, AdminData, Sdg, Sd
-from ..models import AssemblySwConnector, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from ..models import DelegationSwConnector
 from ..models import CompuMethod, CompuScale, CompuScales, Compu, CompuConst, CompuConstTextContent, CompuScaleConstantContents, CompuScaleRationalFormula, CompuRationalCoeffs, CompuNominatorDenominator
 from ..models import InternalBehavior, ExecutableEntity
 from ..models import Implementation, Code, AutosarEngineeringObject, ResourceConsumption
@@ -1098,8 +1102,8 @@ class ARXMLParser(AbstractARXMLParser):
         iref = None
         if child_element is not None:
             iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-            iref.root_data_prototype_ref = self.getChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF")
-            iref.target_data_prototype_ref = self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF")
+            iref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF"))\
+                .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
 
     def getCompositeNetworkRepresentation(self, element: ET.Element) -> CompositeNetworkRepresentation:
@@ -1109,9 +1113,9 @@ class ARXMLParser(AbstractARXMLParser):
         representation.network_representation = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")
         return representation
 
-    def readReceiverComSpec(self, element, com_spec: ReceiverComSpec):
+    def readReceiverComSpec(self, element: ET.Element, com_spec: ReceiverComSpec):
         self.readElementAttributes(element, com_spec)
-        for child_element in element.findall("./xmlns:COMPOSITE-NETWORK-REPRESENTATIONS/xmlns:COMPOSITE-NETWORK-REPRESENTATION", self.nsmap):
+        for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.dataElementRef = self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")
         com_spec.networkRepresentation = self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")
@@ -1304,14 +1308,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readProvidedComSpec(element, prototype)
 
     def readPortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):
-        for child_element in element.findall("./xmlns:INNER-GROUP-IREFS/xmlns:INNER-GROUP-IREF", self.nsmap):
+        for child_element in self.findall(element, "INNER-GROUP-IREFS/INNER-GROUP-IREF"):
             inner_group_iref = InnerPortGroupInCompositionInstanceRef()
-            inner_group_iref.contextRef = self.getChildElementOptionalRefType(child_element, "CONTEXT-REF")
-            inner_group_iref.targetRef = self.getChildElementOptionalRefType(child_element, "TARGET-REF")
+            #inner_group_iref.contextRef = self.getChildElementOptionalRefType(child_element, "CONTEXT-REF")
+            inner_group_iref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
             parent.addInnerGroupIRef(inner_group_iref)
 
     def readPortGroupOuterPortRefs(self, element: ET.Element, parent: PortGroup):
-        for child_element in element.findall("./xmlns:OUTER-PORTS/xmlns:PORT-PROTOTYPE-REF-CONDITIONAL", self.nsmap):
+        for child_element in self.findall(element, "OUTER-PORTS/PORT-PROTOTYPE-REF-CONDITIONAL"):
             parent.addOuterPortRef(self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF"))
 
     def readPortGroup(self, element: ET.Element, parent: SwComponentType):
@@ -1368,40 +1372,40 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAtomicSwComponentType(element, sw_component)
 
     def readPPortInCompositionInstanceRef(self, element: ET.Element, p_port_in_composition_instance_ref: PPortInCompositionInstanceRef):
-        p_port_in_composition_instance_ref.context_component_ref = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
-        p_port_in_composition_instance_ref.target_p_port_ref = self.getChildElementOptionalRefType(element, "TARGET-P-PORT-REF")
+        p_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")) \
+                                          .setTargetPPortRef(self.getChildElementOptionalRefType(element, "TARGET-P-PORT-REF"))
         
         self.logger.debug("PPortInCompositionInstanceRef")
         self.logger.debug("  CONTEXT-COMPONENT-REF DEST: %s, %s"
-                          % (p_port_in_composition_instance_ref.context_component_ref.dest, p_port_in_composition_instance_ref.context_component_ref.value))
+                          % (p_port_in_composition_instance_ref.getContextComponentRef().getDest(), p_port_in_composition_instance_ref.getContextComponentRef().getValue()))
         self.logger.debug("  TARGET-P-PORT-REF DEST: %s, %s" 
-                          % (p_port_in_composition_instance_ref.target_p_port_ref.dest, p_port_in_composition_instance_ref.target_p_port_ref.value))
+                          % (p_port_in_composition_instance_ref.getTargetPPortRef().getDest(), p_port_in_composition_instance_ref.getTargetPPortRef().getValue()))
 
     def readRPortInCompositionInstanceRef(self, element, r_port_in_composition_instance_ref: RPortInCompositionInstanceRef):
-        r_port_in_composition_instance_ref.context_component_ref = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
-        r_port_in_composition_instance_ref.target_r_port_ref = self.getChildElementOptionalRefType(element, "TARGET-R-PORT-REF")
+        r_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")) \
+                                          .setTargetRPortRef(self.getChildElementOptionalRefType(element, "TARGET-R-PORT-REF"))
 
         self.logger.debug("RPortInCompositionInstanceRef")
         self.logger.debug("  CONTEXT-COMPONENT-REF DEST: %s, %s"
-                          % (r_port_in_composition_instance_ref.context_component_ref.dest, r_port_in_composition_instance_ref.context_component_ref.value))
+                          % (r_port_in_composition_instance_ref.getContextComponentRef().getDest(), r_port_in_composition_instance_ref.getContextComponentRef().getValue()))
         self.logger.debug("  TARGET-P-PORT-REF DEST: %s, %s" 
-                          % (r_port_in_composition_instance_ref.target_r_port_ref.dest, r_port_in_composition_instance_ref.target_r_port_ref.value))
+                          % (r_port_in_composition_instance_ref.getTargetRPortRef().getDest(), r_port_in_composition_instance_ref.getTargetRPortRef().getValue()))
 
     def readAssemblySwConnectorProviderIRef(self, element: ET.Element, parent: AssemblySwConnector):
-        child_element = element.find("./xmlns:PROVIDER-IREF", self.nsmap)
+        child_element = self.find(element, "PROVIDER-IREF")
         if (child_element is not None):
             provide_iref = PPortInCompositionInstanceRef()
             self.readElementAttributes(child_element, provide_iref)
             self.readPPortInCompositionInstanceRef(child_element, provide_iref)
-            parent.provider_iref = provide_iref
+            parent.setProviderIRef(provide_iref)
 
     def readAssemblySwConnectorRequesterIRef(self, element: ET.Element, parent: AssemblySwConnector):
-        child_element = element.find("./xmlns:REQUESTER-IREF", self.nsmap)
+        child_element = self.find(element, "REQUESTER-IREF")
         if (child_element is not None):
             requester_iref = RPortInCompositionInstanceRef()
             self.readElementAttributes(child_element, requester_iref)
             self.readRPortInCompositionInstanceRef(child_element, requester_iref)
-            parent.requester_iref = requester_iref
+            parent.setRequesterIRef(requester_iref)
 
     def readAssemblySwConnectors(self, element: ET.Element, parent: CompositionSwComponentType):
         for child_element in element.findall("./xmlns:CONNECTORS/xmlns:ASSEMBLY-SW-CONNECTOR", self.nsmap):
@@ -1414,26 +1418,26 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAssemblySwConnectorRequesterIRef(child_element, connector)
 
     def readDelegationSwConnectorInnerPortIRef(self, element, parent: DelegationSwConnector):
-        inner_port_iref_element = element.find("./xmlns:INNER-PORT-IREF", self.nsmap)
+        inner_port_iref_element = self.find(element, "INNER-PORT-IREF")
         if (inner_port_iref_element is not None):
-            child_element = inner_port_iref_element.find("./xmlns:R-PORT-IN-COMPOSITION-INSTANCE-REF", self.nsmap)
+            child_element = self.find(inner_port_iref_element, "R-PORT-IN-COMPOSITION-INSTANCE-REF")
             if (child_element is not None):
                 r_port_in_composition_instance_ref = RPortInCompositionInstanceRef()
                 self.readRPortInCompositionInstanceRef(child_element, r_port_in_composition_instance_ref)
-                parent.inner_port_iref = r_port_in_composition_instance_ref
+                parent.setInnerPortIRref(r_port_in_composition_instance_ref)
                 return
             
-            child_element = inner_port_iref_element.find("./xmlns:P-PORT-IN-COMPOSITION-INSTANCE-REF", self.nsmap)
+            child_element = self.find(inner_port_iref_element, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
             if (child_element is not None):
                 p_port_in_composition_instance_ref = PPortInCompositionInstanceRef()
                 self.readPPortInCompositionInstanceRef(child_element, p_port_in_composition_instance_ref)
-                parent.inner_port_iref = p_port_in_composition_instance_ref
+                parent.setInnerPortIRref(p_port_in_composition_instance_ref)
                 return
             
             self._raiseError("Unsupported child element of INNER-PORT-IREF")
 
     def readDelegationSwConnectors(self, element, parent: CompositionSwComponentType):
-        for child_element in element.findall("./xmlns:CONNECTORS/xmlns:DELEGATION-SW-CONNECTOR", self.nsmap):
+        for child_element in self.findall(element, "CONNECTORS/DELEGATION-SW-CONNECTOR"):
             short_name = self.getShortName(child_element)
             self.logger.debug("readDelegationSwConnectors %s" % short_name)
 
@@ -1441,12 +1445,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, connector)
             self.readDelegationSwConnectorInnerPortIRef(child_element, connector)
 
-            if connector.inner_port_iref == None and connector.outer_port_iref == None:
+            if connector.getInnerPortIRref() == None and connector.getOuterPortRef() == None:
                 self._raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
 
-            connector.outer_port_ref = self.getChildElementOptionalRefType(child_element, "OUTER-PORT-REF")
+            connector.setOuterPortRef(self.getChildElementOptionalRefType(child_element, "OUTER-PORT-REF"))
             self.logger.debug("OUTER-PORT-REF DEST: %s, %s"
-                          % (connector.outer_port_ref.dest, connector.outer_port_ref.value))
+                          % (connector.getOuterPortRef().getDest(), connector.getOuterPortRef().getValue()))
 
     def readSwComponentPrototypes(self, element: ET.Element, parent: CompositionSwComponentType):
         for child_element in element.findall("./xmlns:COMPONENTS/xmlns:SW-COMPONENT-PROTOTYPE", self.nsmap):
@@ -1454,7 +1458,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readSwComponentPrototypes %s" % short_name)
             prototype = parent.createSwComponentPrototype(short_name)
             self.readIdentifiable(child_element, prototype)
-            prototype.type_tref = self.getChildElementOptionalRefType(child_element, "TYPE-TREF")
+            prototype.typeTRef = self.getChildElementOptionalRefType(child_element, "TYPE-TREF")
 
     def readCompositionSwComponentTypeDataTypeMappingSet(self, element: ET.Element, parent: CompositionSwComponentType):
         child_element = element.find("./xmlns:DATA-TYPE-MAPPING-REFS", self.nsmap)
@@ -1801,10 +1805,10 @@ class ARXMLParser(AbstractARXMLParser):
         iref = None
         if element is not None:
             iref = VariableDataPrototypeInSystemInstanceRef()
-            iref.context_component_refs = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
-            iref.context_composition_ref = self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF")
-            iref.context_port_ref = self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")
-            iref.target_data_prototype_ref = self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF")
+            #iref.addContextComponentRef() = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
+            iref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF")) \
+                .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
+                .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
     
     def getEndToEndProtectionVariablePrototype(self, element: ET.Element) -> EndToEndProtectionVariablePrototype:
@@ -2410,8 +2414,8 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             instance_ref = AnyInstanceRef()
             instance_ref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF")) \
-                .setContextElementRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF")) \
-                .setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
+                        .setContextElementRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF")) \
+                        .setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
         return instance_ref
     
     def getEcucInstanceReferenceValue(self, element: ET.Element) -> EcucInstanceReferenceValue:
