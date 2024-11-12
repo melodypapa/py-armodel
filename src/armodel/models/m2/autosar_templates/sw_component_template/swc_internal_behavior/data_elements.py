@@ -1,12 +1,8 @@
-
-
-from .access_count import AbstractAccessPoint
-
 from .....general_structure import Identifiable
+from .....ar_object import ARLiteral, ARObject
 from ....msr.data_dictionary.data_def_properties import SwDataDefProps
-from .....ar_ref import AutosarParameterRef, AutosarVariableRef
-from .....ar_object import ARObject
-
+from ..swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
+from .access_count import AbstractAccessPoint
 class ParameterAccess(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -31,10 +27,6 @@ class ParameterAccess(AbstractAccessPoint):
 class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)
-
-        #self.accessedVariableRef = AutosarVariableRef()         # type: AutosarVariableRef
-        #self.accessedVariableRef.parent = self
-        #self.localVariableRef = None                               # type: RefType
 
         self.accessedVariableRef = None                             # type: AutosarVariableRef
         self.scope = None                                           # type: ARLiteral

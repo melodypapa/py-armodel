@@ -20,3 +20,4 @@ from .calibration import *
 from .global_constraints import *
 from .m2.msr.asam_hdo.units import *
 from .m2.autosar_templates.sw_component_template import *
+from .m2.autosar_templates.sw_component_template.composition import *

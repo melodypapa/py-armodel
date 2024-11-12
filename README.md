@@ -325,3 +325,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SECURED-I-PDU
    * MODE-SWITCH-POINTS
  4. Create the CLI (armodel-system-signal) to list all the system signals
+
+**Version 1.7.0**
+
+1. Reorganize the current fold structure.

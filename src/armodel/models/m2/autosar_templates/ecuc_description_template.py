@@ -1,9 +1,10 @@
 from abc import ABCMeta
 from typing import List
 
+from ..autosar_templates.generic_structure.abstract_structure import AnyInstanceRef
 from ..msr.documentation.block_elements import DocumentationBlock
 from ...annotation import Annotation
-from ...ar_ref import AnyInstanceRef, RefType
+from ...ar_ref import RefType
 from ...ar_object import ARBoolean, ARLiteral, ARNumerical, ARObject
 from ...general_structure import ARElement
 

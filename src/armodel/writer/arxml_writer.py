@@ -2,6 +2,10 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from armodel.models.m2.autosar_templates.common_structure.implementation_data_types import ImplementationDataType
+
+
+
 from ..models.m2.msr.data_dictionary.auxillary_objects import SwAddrMethod
 from ..models.m2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from ..models.m2.msr.asam_hdo.units import PhysicalDimension
@@ -9,11 +13,19 @@ from ..models.m2.msr.documentation.block_elements import DocumentationBlock
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 
 from ..models.m2.autosar_templates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
-from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.m2.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.m2.autosar_templates.generic_structure.abstract_structure import AnyInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType
+from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntityArgument, SynchronousServerCallPoint
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.data_elements import ParameterAccess, VariableAccess
-from ..models.m2.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.m2.autosar_templates.sw_component_template.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
+from ..models.m2.autosar_templates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
+from ..models.m2.autosar_templates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
+from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from ..models.m2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.m2.autosar_templates.system_template import System, SystemMapping
 from ..models.m2.autosar_templates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
@@ -36,17 +48,16 @@ from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
 from ..models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleDescription, BswModuleEntity, BswModuleEntry, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.ar_package import AUTOSAR
-from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, PortGroup, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
+from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
 from ..models.ar_package import ARPackage
-from ..models.ar_ref import AnyInstanceRef, ApplicationCompositeElementInPortInterfaceInstanceRef, AutosarParameterRef, AutosarVariableRef, InnerPortGroupInCompositionInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef, RefType, VariableDataPrototypeInSystemInstanceRef
+from ..models.ar_ref import RefType
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, ImplementationDataType, SwBaseType
+from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, SwBaseType
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping, SwcBswRunnableMapping
 
 from ..models.port_prototype import PPortPrototype, PortPrototype, RPortPrototype
-from ..models.sw_component import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwComponentType, SwConnector
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.m2.autosar_templates.sw_component_template.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
@@ -396,8 +407,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeInnerGroupIRef(self, element: ET.Element, inner_group_iref: InnerPortGroupInCompositionInstanceRef):
         child_element = ET.SubElement(element, "INNER-GROUP-IREF")
-        self.setChildElementOptionalRefType(child_element, "CONTEXT-REF", inner_group_iref.contextRef)
-        self.setChildElementOptionalRefType(child_element, "TARGET-REF", inner_group_iref.targetRef)
+        #self.setChildElementOptionalRefType(child_element, "CONTEXT-REF", inner_group_iref.contextRef)
+        self.setChildElementOptionalRefType(child_element, "TARGET-REF", inner_group_iref.getTargetRef())
 
     def writePortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):
         irefs = parent.getInnerGroupIRefs()
@@ -439,7 +450,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSwComponentPrototype(self, element: ET.Element, prototype: SwComponentPrototype):
         prototype_tag = ET.SubElement(element, "SW-COMPONENT-PROTOTYPE")
         self.setIdentifiable(prototype_tag, prototype)
-        self.setChildElementOptionalRefType(prototype_tag, "TYPE-TREF", prototype.type_tref)
+        self.setChildElementOptionalRefType(prototype_tag, "TYPE-TREF", prototype.getTypeTRef())
 
     def writeSwComponentPrototypes(self, element: ET.Element, sw_component: CompositionSwComponentType):
         components_tag = ET.SubElement(element, "COMPONENTS")
@@ -450,37 +461,40 @@ class ARXMLWriter(AbstractARXMLWriter):
         connector_tag = ET.SubElement(element, "ASSEMBLY-SW-CONNECTOR")
         self.setIdentifiable(connector_tag, sw_connector)
 
-        if sw_connector.provider_iref is not None:
+        if sw_connector.getProviderIRef() is not None:
             provider_iref_tag = ET.SubElement(connector_tag, "PROVIDER-IREF")
-            self.setARObjectAttributes(provider_iref_tag, sw_connector.provider_iref)
-            self.setChildElementOptionalRefType(provider_iref_tag, "CONTEXT-COMPONENT-REF", sw_connector.provider_iref.context_component_ref)
-            self.setChildElementOptionalRefType(provider_iref_tag, "TARGET-P-PORT-REF", sw_connector.provider_iref.target_p_port_ref)
+            provider_iref = sw_connector.getProviderIRef()
+            self.setARObjectAttributes(provider_iref_tag, provider_iref)
+            self.setChildElementOptionalRefType(provider_iref_tag, "CONTEXT-COMPONENT-REF", provider_iref.getContextComponentRef())
+            self.setChildElementOptionalRefType(provider_iref_tag, "TARGET-P-PORT-REF", provider_iref.getTargetPPortRef())
 
-        if sw_connector.requester_iref is not None:
+        if sw_connector.getRequesterIRef() is not None:
             requester_iref_tag = ET.SubElement(connector_tag, "REQUESTER-IREF")
-            self.setARObjectAttributes(requester_iref_tag, sw_connector.requester_iref)
-            self.setChildElementOptionalRefType(requester_iref_tag, "CONTEXT-COMPONENT-REF", sw_connector.requester_iref.context_component_ref)
-            self.setChildElementOptionalRefType(requester_iref_tag, "TARGET-R-PORT-REF", sw_connector.requester_iref.target_r_port_ref)
+            requester_iref = sw_connector.getRequesterIRef()
+            self.setARObjectAttributes(requester_iref_tag, requester_iref)
+            self.setChildElementOptionalRefType(requester_iref_tag, "CONTEXT-COMPONENT-REF", requester_iref.getContextComponentRef())
+            self.setChildElementOptionalRefType(requester_iref_tag, "TARGET-R-PORT-REF", requester_iref.getTargetRPortRef())
 
     def writeDelegationSwConnector(self, element: ET.Element, sw_connector: DelegationSwConnector):
         connector_tag = ET.SubElement(element, "DELEGATION-SW-CONNECTOR")
         self.setIdentifiable(connector_tag, sw_connector)
 
-        if sw_connector.inner_port_iref is not None:
+        if sw_connector.getInnerPortIRref() is not None:
             inner_port_iref_tag = ET.SubElement(connector_tag, "INNER-PORT-IREF")
-            if isinstance(sw_connector.inner_port_iref, PPortInCompositionInstanceRef):
+            inner_port_iref = sw_connector.getInnerPortIRref()
+            if isinstance(inner_port_iref, PPortInCompositionInstanceRef):
                 instance_ref_tag = ET.SubElement(inner_port_iref_tag, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
-                self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", sw_connector.inner_port_iref.context_component_ref)
-                self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-P-PORT-REF", sw_connector.inner_port_iref.target_p_port_ref)
-            elif isinstance(sw_connector.inner_port_iref, RPortInCompositionInstanceRef):
+                self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", inner_port_iref.getContextComponentRef())
+                self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-P-PORT-REF", inner_port_iref.getTargetPPortRef())
+            elif isinstance(inner_port_iref, RPortInCompositionInstanceRef):
                 instance_ref_tag = ET.SubElement(inner_port_iref_tag, "R-PORT-IN-COMPOSITION-INSTANCE-REF")
-                self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", sw_connector.inner_port_iref.context_component_ref)
-                self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-R-PORT-REF", sw_connector.inner_port_iref.target_r_port_ref)
+                self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", inner_port_iref.getContextComponentRef())
+                self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-R-PORT-REF", inner_port_iref.getTargetRPortRef())
             else:
-                self._raiseError("Invalid inner port of DelegationSwConnector <%s>" % sw_connector.short_name)
+                self._raiseError("Invalid inner port of DelegationSwConnector <%s>" % sw_connector.getShortName())
 
-        if sw_connector.outer_port_ref is not None:
-            self.setChildElementOptionalRefType(connector_tag, "OUTER-PORT-REF", sw_connector.outer_port_ref)
+        if sw_connector.getOuterPortRef() is not None:
+            self.setChildElementOptionalRefType(connector_tag, "OUTER-PORT-REF", sw_connector.getOuterPortRef())
             #self.writeChildOptionalRefElement(requester_iref_tag, "TARGET-R-PORT-REF", sw_connector.requester_iref.target_r_port_ref)
         
     def writeSwConnector(self, element: ET.Element, sw_connector: SwConnector):
@@ -1660,7 +1674,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setIdentifiable(child_element, type_element)
                 self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE", type_element.getArraySize())
                 self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", type_element.getArraySizeSemantics())
-                self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.swDataDefProps)
+                self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.getSwDataDefProps())
 
     def writeImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("writeImplementationDataType %s" % data_type.short_name)

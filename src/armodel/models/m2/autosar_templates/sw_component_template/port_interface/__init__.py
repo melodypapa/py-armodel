@@ -1,12 +1,12 @@
 from abc import ABCMeta
 from typing import List
 
-from ....ar_object import ARBoolean, ARLiteral, ARNumerical
-from ....common_structure import ModeDeclarationGroupPrototype, Trigger
-from ....datatype import AtpType
-from ....general_structure import ARObject, Identifiable, AtpFeature
-from .data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
-from ....ar_ref import RefType
+from ..data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
+from .....ar_object import ARBoolean, ARLiteral, ARNumerical
+from .....common_structure import ModeDeclarationGroupPrototype, Trigger
+from .....datatype import AtpType
+from .....general_structure import ARObject, Identifiable, AtpFeature
+from .....ar_ref import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

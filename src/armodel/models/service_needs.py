@@ -1,7 +1,9 @@
 
 from abc import ABCMeta
+
+from .m2.autosar_templates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
 from .general_structure import Identifiable
-from .ar_ref import AutosarVariableRef, AutosarParameterRef, RefType
+from .ar_ref import RefType
 from .ar_object import ARBoolean, ARLiteral, ARObject
 
 

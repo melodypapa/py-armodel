@@ -1,10 +1,10 @@
 import pytest
 
+from ....models.m2.autosar_templates.common_structure.implementation_data_types import AbstractImplementationDataType, ImplementationDataType, ImplementationDataTypeElement
 from ....models.m2.autosar_templates.sw_component_template.components import SymbolProps
 from ....models.m2.autosar_templates.common_structure.implementation import ImplementationProps
-from ....models.common_structure import ImplementationDataTypeElement
 from ....models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationRecordElement
-from ....models.datatype import AbstractImplementationDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet, ImplementationDataType
+from ....models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet
 from ....models.datatype import BaseTypeDirectDefinition, SwBaseType
 from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
 from .... import AUTOSAR
