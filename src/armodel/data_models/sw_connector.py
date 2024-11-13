@@ -17,6 +17,6 @@ class AssemblySwConnectorData(SwConnectorData):
         super().__init__()
 
         self.provider_swc= ""
-        self.pport = ""
-        self.requester_swc = ""
-        self.rport = ""        
+        self.p_port = ""
+        self.r_swc = ""
+        self.r_port = ""        

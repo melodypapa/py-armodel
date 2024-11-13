@@ -15,7 +15,7 @@ from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDe
 from ..models.m2.autosar_templates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.m2.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.m2.autosar_templates.generic_structure.abstract_structure import AnyInstanceRef
-from ..models.m2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType
+from ..models.m2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
 from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntityArgument, SynchronousServerCallPoint
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
@@ -57,7 +57,6 @@ from ..models.communication import CompositeNetworkRepresentation, TransmissionA
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, SwBaseType
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping, SwcBswRunnableMapping
 
-from ..models.port_prototype import PPortPrototype, PortPrototype, RPortPrototype
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.m2.autosar_templates.sw_component_template.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
@@ -383,7 +382,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for com_spec in com_specs:
                 self.writePPortComSpec(com_specs_tag, com_spec)
 
-        self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-INTERFACE-TREF", prototype.provided_interface_tref)
+        self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-INTERFACE-TREF", prototype.getProvidedInterfaceTRef())
 
     def writeRPortPrototype(self, ports_tag: ET.Element, prototype: RPortPrototype):
         self.logger.debug("writeRPortPrototype %s" % prototype.short_name)
@@ -394,7 +393,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             com_specs_tag = ET.SubElement(prototype_tag, "REQUIRED-COM-SPECS")
             for com_spec in com_specs:
                 self.writeRPortComSpec(com_specs_tag, com_spec)
-        self.setChildElementOptionalRefType(prototype_tag, "REQUIRED-INTERFACE-TREF", prototype.required_interface_tref)
+        self.setChildElementOptionalRefType(prototype_tag, "REQUIRED-INTERFACE-TREF", prototype.getRequiredInterfaceTRef())
     
     def writePortPrototypes(self, ports_tag: ET.Element, port_prototypes: List[PortPrototype]):
         for port_prototype in port_prototypes:
@@ -453,8 +452,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(prototype_tag, "TYPE-TREF", prototype.getTypeTRef())
 
     def writeSwComponentPrototypes(self, element: ET.Element, sw_component: CompositionSwComponentType):
-        components_tag = ET.SubElement(element, "COMPONENTS")
-        for prototype in sw_component.getSwComponentPrototypes():
+        prototypes = sw_component.getSwComponentPrototypes()
+        if len(prototypes) > 0:
+            components_tag = ET.SubElement(element, "COMPONENTS")
+        for prototype in prototypes:
             self.writeSwComponentPrototype(components_tag, prototype)
 
     def writeAssemblySwConnector(self, element: ET.Element, sw_connector: AssemblySwConnector):
@@ -509,8 +510,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         sw_connectors = sw_component.getSwConnectors()
         if len(sw_connectors) > 0:
             connectors_tag = ET.SubElement(element, "CONNECTORS")
+            # Change the implementation to compatible with AUTOSAR builder
             for sw_connector in sw_connectors:
                 self.writeSwConnector(connectors_tag, sw_connector)
+            #for sw_connector in sw_component.getAssemblySwConnectors():
+            #    self.writeSwConnector(connectors_tag, sw_connector)
+            #for sw_connector in sw_component.getDelegationSwConnectors():
+            #    self.writeSwConnector(connectors_tag, sw_connector)
 
     def writeCompositionSwComponentTypeDataTypeMappingSet(self, element: ET.Element, parent: CompositionSwComponentType):
         data_type_mappings = parent.getDataTypeMappings()

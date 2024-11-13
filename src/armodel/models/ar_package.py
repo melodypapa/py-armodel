@@ -531,24 +531,16 @@ class ARPackage(Identifiable, CollectableElement):
     def getSystems(self) -> List[System]:
         return list(sorted(filter(lambda a : isinstance(a, System), self.elements.values()), key = lambda a: a.short_name))
     
-class AUTOSAR (CollectableElement):        
-    __instance = None
-
-    @staticmethod
-    def getInstance():
-        if (AUTOSAR.__instance == None):
-            AUTOSAR()
-        return AUTOSAR.__instance
-
+class AbstractAUTOSAR(CollectableElement):
     def __init__(self):
-        if (AUTOSAR.__instance != None):
-            raise Exception("The AUTOSAR is singleton!")
+        super().__init__()
+
         CollectableElement.__init__(self)
 
         self.schema_location = ""
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
-        AUTOSAR.__instance = self
+        
 
         self._ar_packages = {}                  # type: Dict[str, ARPackage]
         self.short_name_mappings = {}           # type: Dict[str, str]
@@ -624,3 +616,26 @@ class AUTOSAR (CollectableElement):
             raise IndexError("Invalid Implementation data type <%s>" % impl_data_type)
         
         return self.find(self._impl_appl_type_maps[impl_data_type])
+
+    
+class AUTOSAR (AbstractAUTOSAR):        
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if (AUTOSAR.__instance == None):
+            AUTOSAR()
+        return AUTOSAR.__instance
+
+    def __init__(self):
+        if (AUTOSAR.__instance != None):
+            raise Exception("The AUTOSAR is singleton!")
+        
+        AUTOSAR.__instance = self
+
+        super().__init__()
+
+class AUTOSARDoc(AbstractAUTOSAR):
+    def __init__(self):
+        super().__init__()
+        

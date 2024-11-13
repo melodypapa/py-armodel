@@ -41,20 +41,19 @@ class AssemblySwConnector(SwConnector):
         self.providerIRef = None        # type: PPortInCompositionInstanceRef
         self.requesterIRef = None       # type: RPortInCompositionInstanceRef
 
-    def getProviderIRef(self):
+    def getProviderIRef(self) -> PPortInCompositionInstanceRef:
         return self.providerIRef
 
-    def setProviderIRef(self, value):
+    def setProviderIRef(self, value: PPortInCompositionInstanceRef):
         self.providerIRef = value
         return self
 
-    def getRequesterIRef(self):
+    def getRequesterIRef(self) -> PPortInCompositionInstanceRef:
         return self.requesterIRef
 
-    def setRequesterIRef(self, value):
+    def setRequesterIRef(self, value: PPortInCompositionInstanceRef):
         self.requesterIRef = value
         return self
-
 
 class DelegationSwConnector(SwConnector):
     def __init__(self, parent: ARObject, short_name: str):
@@ -150,5 +149,6 @@ class CompositionSwComponentType(SwComponentType):
         self.dataTypeMappingRefs.append(data_type_mapping_ref)
 
     def getDataTypeMappings(self) -> List[RefType]:
-        return self.dataTypeMappingRefs        
+        return self.dataTypeMappingRefs     
+       
         
