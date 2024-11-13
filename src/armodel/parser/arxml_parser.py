@@ -12,7 +12,7 @@ from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.i
 from ..models.m2.autosar_templates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
 from ..models.m2.autosar_templates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntityArgument
-from ..models.m2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType, SymbolProps
+from ..models.m2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
 from ..models.m2.autosar_templates.sw_component_template.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
 
 from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
@@ -57,7 +57,6 @@ from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInv
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 
 from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
-from ..models import RPortPrototype, PPortPrototype
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import Identifiable, AdminData, Sdg, Sd
 from ..models import CompuMethod, CompuScale, CompuScales, Compu, CompuConst, CompuConstTextContent, CompuScaleConstantContents, CompuScaleRationalFormula, CompuRationalCoeffs, CompuNominatorDenominator
@@ -1228,12 +1227,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("readRPortPrototype %s" % short_name)
         prototype = parent.createRPortPrototype(short_name)
         self.readIdentifiable(element, prototype)
-        prototype.required_interface_tref = self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF")
+        prototype.setRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF"))
 
         self.readRequiredComSpec(element, prototype)
 
     def readAtomicSwComponentTypePorts(self, element: ET.Element, sw_component: AtomicSwComponentType):
-        for child_element in element.findall("./xmlns:PORTS/*", self.nsmap):
+        for child_element in self.findall(element, "PORTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "P-PORT-PROTOTYPE":
                 self.readPPortPrototype(child_element, sw_component)
@@ -1303,7 +1302,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("readPPortPrototype %s" % short_name)
         prototype = parent.createPPortPrototype(short_name)
         self.readIdentifiable(element, prototype)
-        prototype.provided_interface_tref = self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF")
+        prototype.setProvidedInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF"))
 
         self.readProvidedComSpec(element, prototype)
 

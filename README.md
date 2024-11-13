@@ -326,6 +326,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * MODE-SWITCH-POINTS
  4. Create the CLI (armodel-system-signal) to list all the system signals
 
-**Version 1.7.0**
+**Version 1.6.1**
 
-1. Reorganize the current fold structure.
+1. Organize the armodel package.
+2. Add the Get/Set method for several class.
