@@ -47,9 +47,9 @@ from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
 from ..models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleDescription, BswModuleEntity, BswModuleEntry, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
-from ..models.ar_package import AUTOSAR
+from ..models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
-from ..models.ar_package import ARPackage
+from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
 from ..models.ar_ref import RefType
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype

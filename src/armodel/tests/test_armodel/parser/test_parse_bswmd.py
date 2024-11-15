@@ -1,6 +1,8 @@
 import filecmp
 
-from .... import AUTOSAR, ARPackage
+from ....models.m2.autosar_templates.generic_structure.ar_package import ARPackage
+
+from .... import AUTOSAR
 from .... import ARXMLParser, ARXMLWriter
 
 import logging

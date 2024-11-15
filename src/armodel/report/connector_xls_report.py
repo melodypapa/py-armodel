@@ -1,5 +1,6 @@
+from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
 from .excel_report import ExcelReporter
-from ..models import AUTOSAR, ARPackage, CompositionSwComponentType
+from ..models import AUTOSAR, CompositionSwComponentType
 from ..models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 from typing import List
 

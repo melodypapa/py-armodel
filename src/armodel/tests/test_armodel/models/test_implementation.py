@@ -1,6 +1,6 @@
 
 from ....models.implementation import AutosarEngineeringObject, Code
-from ....models.ar_package import AUTOSAR
+from ....models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 
 
 class TestImplementation:

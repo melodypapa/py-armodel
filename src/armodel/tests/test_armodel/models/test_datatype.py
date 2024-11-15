@@ -226,7 +226,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
 
         assert(data_type._parent == ar_root)
         assert(data_type.short_name == "ImplementationDataType")
-        assert(data_type.sub_elements == [])
+        assert(data_type.subElements == [])
         assert(data_type.symbolProps == None)
         assert(data_type._type_emitter == None)
 

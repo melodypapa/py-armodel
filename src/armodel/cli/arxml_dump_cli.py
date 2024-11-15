@@ -2,7 +2,9 @@ import getopt
 import sys
 import logging
 
-from ..models import AUTOSAR, ARPackage, VariableAccess, SwComponentType, DataTypeMappingSet
+from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
+
+from ..models import AUTOSAR, VariableAccess, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType
 from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntity, BswModuleEntry
 from ..models import PortPrototype, RPortPrototype, PPortPrototype
