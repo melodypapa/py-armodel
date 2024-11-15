@@ -2,9 +2,10 @@ import getopt
 import sys
 import logging
 
+from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.data_elements import VariableAccess
 from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
 
-from ..models import AUTOSAR, VariableAccess, SwComponentType, DataTypeMappingSet
+from ..models import AUTOSAR, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType
 from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntity, BswModuleEntry
 from ..models import PortPrototype, RPortPrototype, PPortPrototype
@@ -12,38 +13,38 @@ from ..models import SenderReceiverInterface, ClientServerInterface
 from ..parser import ARXMLParser
 
 def show_variable_access(indent:int, variable_access: VariableAccess):
-    if (variable_access.accessed_variable_ref != None):
-        accessed_variable_ref = variable_access.accessed_variable_ref
-        if (accessed_variable_ref.autosar_variable_in_impl_datatype != None):
-            autosar_variable_in_impl_datatype = accessed_variable_ref.autosar_variable_in_impl_datatype
-            print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.port_prototype.value))
-            print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.target_data_prototype.value))
+    if (variable_access.getAccessedVariableRef() != None):
+        accessed_variable_ref = variable_access.getAccessedVariableRef()
+        if (accessed_variable_ref.getAutosarVariableInImplDatatype() != None):
+            autosar_variable_in_impl_datatype = accessed_variable_ref.getAutosarVariableInImplDatatype()
+            print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.getPortPrototypeRef().getValue()))
+            print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.getTargetDataPrototypeRef().getValue()))
 
 def show_port(indent:int, port_prototype: PortPrototype):
     if (isinstance(port_prototype, RPortPrototype)):
-        print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.required_interface_tref.value))
+        print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.getRequiredInterfaceTRef().getValue()))
         for client_com_spec in port_prototype.getClientComSpecs():
-            print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), client_com_spec.operationRef.value))
+            print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), client_com_spec.getOperationRef().getValue()))
         for com_spec in port_prototype.getNonqueuedReceiverComSpecs():
-            print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), com_spec.dataElementRef.value))
+            print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), com_spec.getDataElementRef().getValue()))
     elif (isinstance(port_prototype, PPortPrototype)):
-        print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.provided_interface_tref.value))
+        print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.getProvidedInterfaceTRef().getValue()))
         for com_spec in port_prototype.getNonqueuedSenderComSpecs():
-            print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), com_spec.dataElementRef.value))
+            print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), com_spec.getDataElementRef().getValue()))
     else:
         raise ValueError("Unsupported Port prototype")
 
 def show_type(indent: int, data_type: ImplementationDataType):
     print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, data_type._parent.full_name))
-    print("%s                    : %s" % (" " * indent, data_type.category))
-    if (data_type.swDataDefProps != None):
-        if (data_type.swDataDefProps.baseTypeRef != None):
-            base_type_ref = data_type.swDataDefProps.baseTypeRef
-            print("%s                    : %s (%s)" % (" " * indent, base_type_ref.value, base_type_ref.dest))
+    print("%s                    : %s" % (" " * indent, data_type.getCategory()))
+    if (data_type.getSwDataDefProps() != None):
+        if (data_type.getSwDataDefProps().getBaseTypeRef() != None):
+            base_type_ref = data_type.getSwDataDefProps().getBaseTypeRef()
+            print("%s                    : %s (%s)" % (" " * indent, base_type_ref.getValue(), base_type_ref.getDest()))
             
-        if (data_type.swDataDefProps.implementationDataTypeRef != None):
-            implementation_data_type_ref = data_type.swDataDefProps.implementationDataTypeRef
-            print("%s                    : %s (%s)" % (" " * indent, implementation_data_type_ref.value, implementation_data_type_ref.dest))
+        if (data_type.getSwDataDefProps().getImplementationDataTypeRef() != None):
+            implementation_data_type_ref = data_type.getSwDataDefProps().getImplementationDataTypeRef()
+            print("%s                    : %s (%s)" % (" " * indent, implementation_data_type_ref.getValue(), implementation_data_type_ref.getDest()))
 
 def show_data_type_mapping(indent: int, mapping_set: DataTypeMappingSet):
     print("%s- Data Mapping Set <%s>:" % (" " * indent, mapping_set.short_name))
@@ -65,8 +66,8 @@ def show_behavior(indent:int, behavior: SwcInternalBehavior):
         for server_call_point in runnable.getServerCallPoints():
             print("%s-scp : %s" % (" " * (indent + 4), variable_access.short_name))
             if (server_call_point.operation_iref != None):
-                print("%s: %s" % (" " * (indent + 9), server_call_point.operation_iref.conext_r_port.value))
-                print("%s: %s" % (" " * (indent + 9), server_call_point.operation_iref.target_required_operation.value))
+                print("%s: %s" % (" " * (indent + 9), server_call_point.getOperationIRef().getContextRPortRef().getValue()))
+                print("%s: %s" % (" " * (indent + 9), server_call_point.getOperationIRef().getTargetRequiredOperationRef().getValue()))
     for event in behavior.getOperationInvokedEvents():
         print("   - OperationInvokedEvent : %s" % event.short_name)
         print("                           : %s" % (event.start_on_event_ref.value))
