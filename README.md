@@ -330,3 +330,8 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. Organize the armodel package.
 2. Add the Get/Set method for several class.
+
+**Version 1.6.2**
+
+1. Change the AUTOSAR.clear() to AUTOSAR.new().
+2. Fix the several refactor methods issue.

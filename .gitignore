@@ -2,7 +2,6 @@
 .pytest_cache
 /src/*.egg-info
 /build/
-/dist/
 /htmlcov/
 /reports/coverage.xml
 __pycache__
