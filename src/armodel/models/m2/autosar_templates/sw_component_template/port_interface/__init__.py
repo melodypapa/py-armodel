@@ -127,11 +127,11 @@ class SenderReceiverInterface(DataInterface):
     
     def createInvalidationPolicy(self) -> InvalidationPolicy:
         policy = InvalidationPolicy(self)
-        self.invalidation_polivys.append(policy)
+        self.invalidationPolicies.append(policy)
         return policy
     
     def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
-        return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidation_polivys))
+        return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
 
 class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):

@@ -5,7 +5,6 @@ import sys
 import os.path
 
 from armodel import AUTOSAR
-from armodel.models.m2.autosar_templates.generic_structure.ar_package import ARPackage
 from armodel.parser import ARXMLParser
 
 from ..lib import InputFileParser, SwComponentAnalyzer
