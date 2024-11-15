@@ -5,11 +5,8 @@ import sys
 import os.path
 
 
-from ..models.ar_package import AUTOSAR
+from ..models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 from ..parser.arxml_parser import ARXMLParser
-from ..parser.connector_xlsx_parser import ConnectorXlsReader
-
-from ..lib import InputFileParser
 from ..writer import ARXMLWriter
 
 def main():

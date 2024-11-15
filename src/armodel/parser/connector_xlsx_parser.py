@@ -5,11 +5,13 @@ from openpyxl.worksheet.worksheet import Worksheet
 import openpyxl
 import re
 
+from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
+
 from ..parser.excel_parser import AbstractExcelParser
 from ..data_models.sw_connector import AssemblySwConnectorData, DelegationSwConnectorData, SwConnectorData
 from ..models.ar_ref import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef, RefType
 from ..models.sw_component import CompositionSwComponentType
-from ..models.ar_package import AUTOSAR, ARPackage
+from ..models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 
 class ConnectorXls:
 

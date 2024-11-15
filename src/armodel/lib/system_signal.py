@@ -1,7 +1,9 @@
 import logging
 from typing import List
 
-from ..models.ar_package import AUTOSAR, ARPackage
+from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
+
+from ..models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 from ..models.fibex.fibex_core.core_communication import SystemSignal
 
 class SystemSignalAnalyzer:

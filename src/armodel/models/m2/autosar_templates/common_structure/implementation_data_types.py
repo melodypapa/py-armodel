@@ -85,6 +85,7 @@ class AbstractImplementationDataType(AutosarDataType, metaclass = ABCMeta):
         super().__init__(parent, short_name)
 
 class ImplementationDataType(AbstractImplementationDataType):
+
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
     CATEGORY_TYPE_VALUE = "VALUE"
     CATEGORY_TYPE_STRUCTURE = "STRUCTURE"
@@ -93,17 +94,22 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.arrayImplPolicy = None
+        self.arraySize = None
+        self.arraySizeHandling = None                   # type: ARLiteral
+        self.arraySizeSemantics = None                  # type: ARLiteral
         
-        self.sub_elements = []          # type: List[str]
-        self.symbolProps = None         # type: SymbolProps
-        self._type_emitter = None       # type: ARLiteral
+        self.subElements = []                           # type: List[str]
+        self.symbolProps = None                         # type: SymbolProps
+        self._type_emitter = None                       # type: ARLiteral
 
         self._array_type = None         # ImplementationDataType
         self._struct_type = None        # ImplementationDataType
 
     
     def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:     
-        self.sub_elements.append(short_name)
+        self.subElements.append(short_name)
         if (short_name not in self.elements):
             event = ImplementationDataTypeElement(self, short_name)
             self.elements[short_name] = event
@@ -111,7 +117,7 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def getImplementationDataTypeElements(self) -> List[ImplementationDataTypeElement]:
         elements = []
-        for sub_element in self.sub_elements:
+        for sub_element in self.subElements:
             elements.append(self.elements[sub_element])
         return elements
         # return filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values())

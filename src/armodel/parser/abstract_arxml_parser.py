@@ -7,7 +7,7 @@ import re
 import logging
 import xml.etree.ElementTree as ET
 
-from ..models.ar_package import AUTOSAR
+from ..models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 from ..models.ar_ref import RefType
 from ..models.ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARObject
 from ..models.general_structure import Limit

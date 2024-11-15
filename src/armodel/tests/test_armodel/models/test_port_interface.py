@@ -1,6 +1,6 @@
 import pytest
 
-from ....models.ar_package import AUTOSAR
+from ....models.m2.autosar_templates.autosar_top_level_structure import AUTOSAR
 from ....models.ar_ref import RefType
 from ....models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from ....models.datatype import AtpType

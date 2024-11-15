@@ -1,7 +1,9 @@
 import logging
 
 from typing import List
-from ..models import AUTOSAR, ARPackage, AtomicSwComponentType, CompositionSwComponentType
+
+from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
+from ..models import AUTOSAR, AtomicSwComponentType, CompositionSwComponentType
 
 class SwComponentAnalyzer:
     def __init__(self) -> None:

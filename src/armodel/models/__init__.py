@@ -3,7 +3,7 @@ from .ar_object import *
 from .general_structure import *
 from .common_structure import *
 from .sw_component import *
-from .ar_package import *
+from .m2.autosar_templates.autosar_top_level_structure import *
 from .ar_ref import *
 from .datatype import *
 from .port_prototype import * 
