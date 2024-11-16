@@ -6,7 +6,7 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Iden
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import AbstractImplementationDataTypeElement, ImplementationDataTypeElement
+from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataTypeElement
 from .... import AUTOSAR
 from ....models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, ConstantSpecification, ValueSpecification
 from ....models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity

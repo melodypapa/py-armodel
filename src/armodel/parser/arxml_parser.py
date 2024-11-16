@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
+
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
@@ -30,7 +32,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataTypeElement
+from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
@@ -65,7 +67,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identi
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
-from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
@@ -74,7 +76,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
 from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
@@ -84,11 +86,11 @@ from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
-from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
+from ..models import ImplementationDataType,  SwPointerTargetProps
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import InternalBehavior
 from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent
-from ..models import ApplicationRecordDataType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType
 
 from .abstract_arxml_parser import AbstractARXMLParser
 

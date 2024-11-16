@@ -2,14 +2,10 @@ from abc import ABCMeta
 from typing import List
 
 from ...CommonStructure.TriggerDeclaration import Trigger
-
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
-
-from ..data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
+from ..Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ...CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ...GenericStructure.AbstractStructure import AtpType

@@ -8,7 +8,7 @@ from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, 
 from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ....datatype import AutosarDataType
+from ..SWComponentTemplate.Datatype.Datatypes import AutosarDataType
 from ..SWComponentTemplate.Components import SymbolProps
 
 class AbstractImplementationDataTypeElement(Identifiable):

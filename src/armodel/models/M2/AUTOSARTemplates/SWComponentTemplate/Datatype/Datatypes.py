@@ -1,15 +1,12 @@
-from abc import ABCMeta
 from typing import List
-
-from .M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
-from .M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
-from .M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
+from ...CommonStructure.ModeDeclaration import ModeRequestTypeMap
+from ...GenericStructure.AbstractStructure import AtpType
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ...GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from ...SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
+from ....MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from abc import ABCMeta
 
 class AutosarDataType(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -26,6 +23,7 @@ class AutosarDataType(AtpType, metaclass = ABCMeta):
     def setSwDataDefProps(self, value):
         self.swDataDefProps = value
         return self
+
 
 class ApplicationDataType(AutosarDataType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -47,30 +45,6 @@ class ApplicationCompositeDataType(ApplicationDataType, metaclass=ABCMeta):
 
         super().__init__(parent, short_name)
 
-class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.arraySizeHandling = None               # type: str
-        self.arraySizeSemantics = None              # type: str
-        self.indexDataTypeRef = None                # type: RefType
-        self.maxNumberOfElements = None             # type: ARNumerical
-
-    def setArraySizeHandling(self, handling: str):
-        self.arraySizeHandling = handling
-        return self
-    
-    def setArraySizeSemantics(self, semantics: str):
-        self.arraySizeSemantics = semantics
-        return self
-    
-    def setIndexDataTypeRef(self, ref: RefType):
-        self.indexDataTypeRef = ref
-        return self
-    
-    def setMaxNumberOfElements(self, number: ARNumerical):
-        self.maxNumberOfElements = number
-        return self
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
@@ -85,7 +59,8 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
             self.elements[short_name] = array_element
             self.element = self.elements[short_name]
         return self.elements[short_name]
-    
+
+
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -102,16 +77,18 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
         return self.record_elements
 
+
 class DataTypeMap(ARObject):
     def __init__(self):
 
         self.application_data_type_ref = None       # type: RefType
         self.implementation_data_type_ref = None    # type: RefType
 
+
 class DataTypeMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self._dataTypeMaps = []                     # type: List[DataTypeMap]
         self._modeRequestTypeMaps = []              # type: List[ModeRequestTypeMap]
 
@@ -120,11 +97,9 @@ class DataTypeMappingSet(ARElement):
 
     def getDataTypeMaps(self) -> List[DataTypeMap]:
         return self._dataTypeMaps
-    
+
     def addModeRequestTypeMap(self, map: ModeRequestTypeMap):
         self._modeRequestTypeMaps.append(map)
 
     def getModeRequestTypeMaps(self) -> List[ModeRequestTypeMap]:
         return self._modeRequestTypeMaps
-    
-

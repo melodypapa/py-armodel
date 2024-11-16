@@ -1,6 +1,8 @@
 """ Test AR Package """
 import pytest
 
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
+
 from ....models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
@@ -11,10 +13,10 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Iden
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
+from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ....models.datatype import ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface

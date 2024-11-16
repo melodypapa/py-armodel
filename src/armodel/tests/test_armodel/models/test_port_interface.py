@@ -12,7 +12,7 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArOb
 
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface

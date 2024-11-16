@@ -78,7 +78,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMet
 
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.arraySizeHandling = None               # type: str
@@ -86,6 +86,22 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         self.indexDataTypeRef = None                # type: RefType
         self.maxNumberOfElements = None             # type: ARNumerical
 
+    def setArraySizeHandling(self, handling: str):
+        self.arraySizeHandling = handling
+        return self
+    
+    def setArraySizeSemantics(self, semantics: str):
+        self.arraySizeSemantics = semantics
+        return self
+    
+    def setIndexDataTypeRef(self, ref: RefType):
+        self.indexDataTypeRef = ref
+        return self
+    
+    def setMaxNumberOfElements(self, number: ARNumerical):
+        self.maxNumberOfElements = number
+        return self
+    
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
