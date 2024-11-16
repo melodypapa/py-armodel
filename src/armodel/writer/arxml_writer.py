@@ -2,6 +2,12 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
+
+from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+
+from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
@@ -21,8 +27,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_type
 
 
 
-from ..models.M2.MSR.data_dictionary.auxillary_objects import SwAddrMethod
-from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
+from ..models.M2.MSR.DataDictionary.auxillary_objects import SwAddrMethod
+from ..models.M2.MSR.DataDictionary.data_def_properties import SwDataDefProps
 from ..models.M2.MSR.AsamHdo.Units import PhysicalDimension
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
@@ -66,7 +72,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
+from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.common_structure import IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, DataTypeMappingSet

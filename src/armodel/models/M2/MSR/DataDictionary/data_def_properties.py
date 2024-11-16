@@ -2,7 +2,7 @@ from typing import List
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
 from ...AUTOSARTemplates.CommonStructure import ValueSpecification
-from ..DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from .CalibrationParameter import SwCalprmAxisSet
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..Documentation.Annotation import Annotation
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral

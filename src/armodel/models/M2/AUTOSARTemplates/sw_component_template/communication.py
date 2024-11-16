@@ -7,7 +7,7 @@ from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, 
 
 
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....models.ar_ref import RefType
 from .....models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ...MSR.DataDictionary.data_def_properties import SwDataDefProps
 from ..CommonStructure import ValueSpecification
