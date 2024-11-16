@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstTextContent, CompuNominatorDenominator, CompuRationalCoeffs, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
+
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
@@ -70,7 +72,7 @@ from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import Identifiable, AdminData, Sdg, Sd
-from ..models import CompuMethod, CompuScale, CompuScales, Compu, CompuConst, CompuConstTextContent, CompuScaleConstantContents, CompuScaleRationalFormula, CompuRationalCoeffs, CompuNominatorDenominator
+from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ..models import InternalBehavior, ExecutableEntity
 from ..models import Implementation, Code, AutosarEngineeringObject, ResourceConsumption
 from ..models import TransmissionAcknowledgementRequest

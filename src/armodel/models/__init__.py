@@ -1,4 +1,3 @@
-from .annotation import *
 from .general_structure import *
 from .common_structure import *
 from .sw_component import *
@@ -7,17 +6,18 @@ from .ar_ref import *
 from .datatype import *
 from .port_prototype import * 
 from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import *
-from .M2.MSR.asam_hdo.units import *
+from .M2.MSR.AsamHdo.Units import *
 from .M2.MSR.data_dictionary.data_def_properties import *
 from .M2.MSR.data_dictionary.auxillary_objects import *
 from .M2.AUTOSARTemplates.sw_component_template.port_interface import *
-from .m2_msr import *
 from .implementation import *
 from .bsw_module_template import *
 from .communication import *
 from .calibration import *
 from .global_constraints import *
-from .M2.MSR.asam_hdo.units import *
+
+from .M2.MSR.Documentation import *
+from .M2.MSR.AsamHdo import *
 from .M2.AUTOSARTemplates.sw_component_template import *
 from .M2.AUTOSARTemplates.sw_component_template.components import *
 from .M2.AUTOSARTemplates.sw_component_template.composition import *

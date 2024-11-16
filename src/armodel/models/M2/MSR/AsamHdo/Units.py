@@ -4,6 +4,7 @@ from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes 
 from ....ar_ref import RefType
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ....general_structure import ARElement
+
 class PhysicalDimension(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
