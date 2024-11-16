@@ -1,6 +1,6 @@
 
 from .M2.autosar_templates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from .M2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_object import ARObject
 
 class TransmissionAcknowledgementRequest(ARObject):

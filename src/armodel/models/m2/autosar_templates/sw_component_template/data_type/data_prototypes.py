@@ -2,7 +2,7 @@ from abc import ABCMeta
 
 from .....ar_object import ARNumerical
 from .....ar_ref import RefType
-from ....msr.data_dictionary.data_def_properties import SwDataDefProps
+from ....MSR.data_dictionary.data_def_properties import SwDataDefProps
 from ...common_structure import ValueSpecification
 from .....general_structure import AtpFeature, ARObject
 

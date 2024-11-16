@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from .M2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
 from .general_structure import ARElement, ARObject

@@ -1,5 +1,5 @@
 
-from .M2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_object import ARLiteral, ARObject
 from .general_structure import Identifiable
 

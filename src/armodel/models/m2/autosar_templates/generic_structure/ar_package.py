@@ -19,8 +19,8 @@ from armodel.models.M2.autosar_templates.sw_component_template.port_interface im
 from armodel.models.M2.autosar_templates.system_template import System
 from armodel.models.M2.autosar_templates.system_template.network_management import NmConfig
 from armodel.models.M2.autosar_templates.system_template.transport_protocols import CanTpConfig
-from armodel.models.M2.msr.asam_hdo.units import PhysicalDimension, Unit
-from armodel.models.M2.msr.data_dictionary.auxillary_objects import SwAddrMethod
+from armodel.models.M2.MSR.asam_hdo.units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.data_dictionary.auxillary_objects import SwAddrMethod
 from armodel.models.m2_msr import CompuMethod
 from armodel.models.record_layout import SwRecordLayout
 from armodel.models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType, ServiceSwComponentType
