@@ -2,7 +2,7 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
-from armodel.models.M2.autosar_templates.common_structure.implementation_data_types import ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.common_structure.implementation_data_types import ImplementationDataType
 
 
 
@@ -12,25 +12,25 @@ from ..models.M2.MSR.asam_hdo.units import PhysicalDimension
 from ..models.M2.MSR.documentation.block_elements import DocumentationBlock
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 
-from ..models.M2.autosar_templates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
-from ..models.M2.autosar_templates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
-from ..models.M2.autosar_templates.generic_structure.abstract_structure import AnyInstanceRef
-from ..models.M2.autosar_templates.sw_component_template.components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
-from ..models.M2.autosar_templates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
-from ..models.M2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntityArgument, SynchronousServerCallPoint
-from ..models.M2.autosar_templates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
-from ..models.M2.autosar_templates.sw_component_template.swc_internal_behavior.data_elements import ParameterAccess, VariableAccess
-from ..models.M2.autosar_templates.sw_component_template.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
-from ..models.M2.autosar_templates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
-from ..models.M2.autosar_templates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from ..models.M2.autosar_templates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
-from ..models.M2.autosar_templates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.autosar_templates.sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
-from ..models.M2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.autosar_templates.system_template import System, SystemMapping
-from ..models.M2.autosar_templates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
-from ..models.M2.autosar_templates.system_template.transport_protocols import CanTpConfig
-from ..models.M2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.M2.AUTOSARTemplates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.generic_structure.abstract_structure import AnyInstanceRef
+from ..models.M2.AUTOSARTemplates.sw_component_template.components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior import RunnableEntityArgument, SynchronousServerCallPoint
+from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
+from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.data_elements import ParameterAccess, VariableAccess
+from ..models.M2.AUTOSARTemplates.sw_component_template.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
+from ..models.M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
+from ..models.M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
+from ..models.M2.AUTOSARTemplates.sw_component_template.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
+from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig
+from ..models.M2.AUTOSARTemplates.sw_component_template.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
 from ..models.fibex.can_communication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -45,11 +45,11 @@ from ..models.multilanguage_data import MultiLanguageOverviewParagraph, MultiLan
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
-from ..models.M2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleDescription, BswModuleEntity, BswModuleEntry, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
-from ..models.M2.autosar_templates.autosar_top_level_structure import AUTOSAR
+from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
-from ..models.M2.autosar_templates.generic_structure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.generic_structure.ar_package import ARPackage
 from ..models.ar_ref import RefType
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet, SwValueCont, SwValues
 from ..models.common_structure import IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
@@ -59,7 +59,7 @@ from ..models.general_structure import ARElement, AdminData, Identifiable, Limit
 
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
-from ..models.M2.autosar_templates.sw_component_template.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
+from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.MSR.asam_hdo.units import Unit
 from ..models.implementation import AutosarEngineeringObject, BswImplementation, Code, EngineeringObject, Implementation, SwcImplementation
 from ..models.common_structure import ExecutableEntity, ResourceConsumption

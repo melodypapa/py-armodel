@@ -1,6 +1,6 @@
 from typing import List
 
-from ...autosar_templates.common_structure import ValueSpecification
+from ...AUTOSARTemplates.common_structure import ValueSpecification
 from ....calibration import SwCalprmAxisSet
 from ....ar_ref import RefType
 from ....annotation import Annotation

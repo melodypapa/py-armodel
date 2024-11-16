@@ -1,10 +1,10 @@
 from typing import List
 from abc import ABCMeta
 
-from .M2.autosar_templates.sw_component_template.components import SwComponentType
-from .M2.autosar_templates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef
-from .M2.autosar_templates.sw_component_template.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
-from .M2.autosar_templates.sw_component_template.swc_internal_behavior import RunnableEntity
+from .M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
+from .M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef
+from .M2.AUTOSARTemplates.sw_component_template.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from .M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior import RunnableEntity
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
@@ -13,8 +13,8 @@ from .ar_object import ARBoolean, ARLiteral
 from .general_structure import Identifiable, ARObject
 from .ar_ref import TRefType
 from .ar_ref import RefType
-from .M2.autosar_templates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
-from .M2.autosar_templates.common_structure import ValueSpecification
+from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
+from .M2.AUTOSARTemplates.common_structure import ValueSpecification
 
 class AbstractEvent(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

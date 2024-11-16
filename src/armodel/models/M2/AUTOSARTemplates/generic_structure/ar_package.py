@@ -10,15 +10,15 @@ from armodel.models.fibex.lin_communication import LinUnconditionalFrame
 from armodel.models.general_structure import ARObject, CollectableElement, Identifiable, Referrable, SwcBswMapping
 from armodel.models.global_constraints import DataConstr
 from armodel.models.implementation import BswImplementation, Implementation, SwcImplementation
-from armodel.models.M2.autosar_templates.common_structure import ConstantSpecification
-from armodel.models.M2.autosar_templates.common_structure.implementation_data_types import ImplementationDataType
-from armodel.models.M2.autosar_templates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
-from armodel.models.M2.autosar_templates.sw_component_template.components import SwComponentType
-from armodel.models.M2.autosar_templates.sw_component_template.composition import CompositionSwComponentType
-from armodel.models.M2.autosar_templates.sw_component_template.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
-from armodel.models.M2.autosar_templates.system_template import System
-from armodel.models.M2.autosar_templates.system_template.network_management import NmConfig
-from armodel.models.M2.autosar_templates.system_template.transport_protocols import CanTpConfig
+from armodel.models.M2.AUTOSARTemplates.common_structure import ConstantSpecification
+from armodel.models.M2.AUTOSARTemplates.common_structure.implementation_data_types import ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
+from armodel.models.M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
+from armodel.models.M2.AUTOSARTemplates.sw_component_template.composition import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.sw_component_template.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
+from armodel.models.M2.AUTOSARTemplates.system_template import System
+from armodel.models.M2.AUTOSARTemplates.system_template.network_management import NmConfig
+from armodel.models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig
 from armodel.models.M2.MSR.asam_hdo.units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.data_dictionary.auxillary_objects import SwAddrMethod
 from armodel.models.m2_msr import CompuMethod

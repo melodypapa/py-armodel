@@ -5,7 +5,7 @@ from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
 from .general_structure import ARElement, ARObject
-from .M2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
+from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
 from .common_structure import ModeRequestTypeMap
 
 class BaseTypeDefinition(ARObject):

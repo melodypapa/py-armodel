@@ -5,7 +5,7 @@ import sys
 import os.path
 
 
-from ..models.M2.autosar_templates.autosar_top_level_structure import AUTOSAR
+from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ..parser.arxml_parser import ARXMLParser
 from ..writer import ARXMLWriter
 
