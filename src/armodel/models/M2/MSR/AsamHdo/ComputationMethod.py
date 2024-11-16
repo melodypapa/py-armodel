@@ -1,57 +1,17 @@
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from .general_structure import ARElement, Limit
-from .ar_ref import RefType
-from abc import ABCMeta
 from typing import List
+from abc import ABCMeta
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....ar_ref import RefType
+from ....general_structure import ARElement, Limit
 
 class CompuContent(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == CompuContent:
             raise NotImplementedError("CompuContent is an abstract class.")
-        
+
         super().__init__()
 
-class Compu(ARObject):
-    def __init__(self):
-        super().__init__()
-
-        '''required'''
-        self.compu_content = None           # type: CompuContent
-
-        '''optional'''
-        self.compu_default_value = None     # type: CompuConst
-
-class CompuConstContent(ARObject, metaclass=ABCMeta):
-    '''
-    This meta-class represents the fact that the constant value of the computation method can be numerical or textual.
-    Base            : ARObject
-    Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
-    Aggregated by   : CompuConst.compuConstContentType
-    '''
-    def __init__(self):
-        if type(self) == CompuConstContent:
-            raise NotImplementedError("CompuConstContent is an abstract class.")
-        
-        super().__init__()
-
-class CompuConstTextContent(CompuConstContent):
-    '''
-    This meta-class represents the textual content of a scale.
-    Base:           ARObject, CompuConstContent
-    Aggregated by:  CompuConst.compuConstContentType
-    '''
-    def __init__(self):
-        super().__init__()
-
-        self.vt = None
-
-class CompuConstNumericContent(CompuConstContent):
-
-    def __init__(self):
-        super().__init__()
-
-        self.v = None
 
 class CompuConst(ARObject):
     '''
@@ -64,18 +24,79 @@ class CompuConst(ARObject):
 
         self.compu_const_content_type = None    # type: CompuConstContent
 
+
+class Compu(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        '''required'''
+        self.compu_content = None           # type: CompuContent
+
+        '''optional'''
+        self.compu_default_value = None     # type: CompuConst
+
+
+class CompuConstContent(ARObject, metaclass=ABCMeta):
+    '''
+    This meta-class represents the fact that the constant value of the computation method can be numerical or textual.
+    Base            : ARObject
+    Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
+    Aggregated by   : CompuConst.compuConstContentType
+    '''
+    def __init__(self):
+        if type(self) == CompuConstContent:
+            raise NotImplementedError("CompuConstContent is an abstract class.")
+
+        super().__init__()
+
+
+class CompuConstTextContent(CompuConstContent):
+    '''
+    This meta-class represents the textual content of a scale.
+    Base:           ARObject, CompuConstContent
+    Aggregated by:  CompuConst.compuConstContentType
+    '''
+    def __init__(self):
+        super().__init__()
+
+        self.vt = None
+
+
+class CompuConstNumericContent(CompuConstContent):
+
+    def __init__(self):
+        super().__init__()
+
+        self.v = None
+
+
 class CompuScaleContents(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == CompuScaleContents:
             raise NotImplementedError("CompuScaleContents is an abstract class.")
-        
+
         super().__init__()
+
 
 class CompuScaleConstantContents(CompuScaleContents):
     def __init__(self):
         super().__init__()
 
         self.compu_const = None     # type: CompuConst
+
+
+class CompuRationalCoeffs(ARObject):
+    '''
+    This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator.
+    Base            : ARObject
+    Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
+    '''
+    def __init__(self):
+        super().__init__()
+
+        self.compu_denominator = None   # type: CompuNominatorDenominator
+        self.compu_numerator = None     # type: CompuNominatorDenominator
+
 
 class CompuScaleRationalFormula(CompuScaleContents):
     '''
@@ -85,6 +106,7 @@ class CompuScaleRationalFormula(CompuScaleContents):
         super().__init__()
 
         self.compu_rational_coeffs = None   # type: CompuRationalCoeffs
+
 
 class CompuNominatorDenominator(ARObject):
     '''
@@ -103,17 +125,6 @@ class CompuNominatorDenominator(ARObject):
     def get_vs(self) -> List[float]:
         return self.v
 
-class CompuRationalCoeffs(ARObject):
-    '''
-    This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator.
-    Base            : ARObject
-    Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
-    '''
-    def __init__(self):
-        super().__init__()
-
-        self.compu_denominator = None   # type: CompuNominatorDenominator
-        self.compu_numerator = None     # type: CompuNominatorDenominator
 
 class CompuScale(Compu):
     def __init__(self):
@@ -126,6 +137,7 @@ class CompuScale(Compu):
         self.compuScaleContents = None          # type: CompuScaleContents
         self.short_label = None                 # type: ARLiteral
 
+
 class CompuScales(CompuContent):
     def __init__(self):
         super().__init__()
@@ -137,6 +149,7 @@ class CompuScales(CompuContent):
 
     def getCompuScales(self) -> List[CompuScale]:
         return self.compu_scales
+
 
 class CompuMethod(ARElement):
     CATEGORY_TEXTTABLE = "TEXTTABLE"

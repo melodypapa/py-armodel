@@ -1,8 +1,10 @@
 import pytest
 
+from ....models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstNumericContent, CompuConstTextContent, CompuContent, CompuScale
+
 from .... import AUTOSAR
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....models.m2_msr import Compu, CompuConst, CompuConstContent, CompuConstNumericContent, CompuConstTextContent, CompuContent, CompuScale, CompuScales
+from ....models.M2.MSR.AsamHdo.ComputationMethod import CompuScales
 
 class Test_M2_MSR_AsamHdo_ComputationMethod:
     def test_CompuContent(self):
