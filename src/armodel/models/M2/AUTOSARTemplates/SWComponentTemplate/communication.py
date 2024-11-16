@@ -9,7 +9,7 @@ from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, 
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ...MSR.DataDictionary.data_def_properties import SwDataDefProps
+from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..CommonStructure import ValueSpecification
 
 class PPortComSpec(ARObject, metaclass = ABCMeta):

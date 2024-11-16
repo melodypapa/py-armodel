@@ -1,6 +1,6 @@
 
 from .M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from .M2.MSR.DataDictionary.data_def_properties import SwDataDefProps
+from .M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class TransmissionAcknowledgementRequest(ARObject):

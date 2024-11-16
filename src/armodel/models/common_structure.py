@@ -9,7 +9,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from .M2.MSR.DataDictionary.data_def_properties import SwDataDefProps
+from .M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
 import re
