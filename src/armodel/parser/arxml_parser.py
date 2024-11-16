@@ -2,52 +2,32 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap
-
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
-
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs
-
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
-
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
-
 from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValues
-
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
-
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstTextContent, CompuNominatorDenominator, CompuRationalCoeffs, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
-
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
-
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
-
 from ..models.M2.MSR.Documentation.Annotation import GeneralAnnotation
 
+from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
+from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
+from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
+from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
-
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ..models.M2.AUTOSARTemplates.CommonStructure.implementation import ImplementationProps
+from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataTypeElement
@@ -59,10 +39,10 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs im
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntityArgument
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
-
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.mode_declaration_group import ModeAccessPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.server_call import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -80,7 +60,7 @@ from ..models.timing import ExecutionOrderConstraint, TimingExtension
 from ..models.bsw_module_template import BswModeSenderPolicy
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
-from ..models.implementation import BswImplementation
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
@@ -95,20 +75,20 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
 from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 from ..models.M2.MSR.AsamHdo.SpecialData import Sd
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
 from ..models import InternalBehavior
-from ..models import Implementation, Code
 from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent
 from ..models import ApplicationRecordDataType
-from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
 
 from .abstract_arxml_parser import AbstractARXMLParser
 

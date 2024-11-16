@@ -1,6 +1,6 @@
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from ....models.implementation import Code
+from ....models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 

@@ -2,38 +2,36 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
-
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
-from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable, Referrable
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
-from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
-
 from ..models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..models.M2.MSR.AsamHdo.Units import PhysicalDimension
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
+from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
+from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup
+from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable, Referrable
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
@@ -62,8 +60,6 @@ from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanClust
 
 from ..models.internal_behavior import IncludedDataTypeSet, InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
-from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
-from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
@@ -82,7 +78,7 @@ from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.MSR.AsamHdo.Units import Unit
-from ..models.implementation import BswImplementation, Code, Implementation, SwcImplementation
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral

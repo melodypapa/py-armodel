@@ -3,7 +3,7 @@ from . import *
 from abc import ABCMeta
 from typing import List
 
-from ...CommonStructure.implementation import ImplementationProps
+from ...CommonStructure.Implementation import ImplementationProps
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType

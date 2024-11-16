@@ -1,3 +1,5 @@
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
@@ -13,7 +15,7 @@ from armodel.models.fibex.fibex_core.core_topology import CanCluster, EcuInstanc
 from armodel.models.fibex.lin_communication import LinUnconditionalFrame
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
-from armodel.models.implementation import BswImplementation, Implementation, SwcImplementation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
