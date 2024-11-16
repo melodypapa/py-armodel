@@ -4,7 +4,7 @@ from typing import List
 
 from armodel.models.ar_ref import RefType
 
-from ..models.general_structure import Identifiable
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class EOCExecutableEntityRefAbstract(Identifiable):

@@ -1,9 +1,11 @@
 from typing import Dict, List
 
-from .GenericStructure.ar_package import ARPackage
+from .GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+
+from .GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from .CommonStructure.implementation_data_types import ImplementationDataType
 
-from ...general_structure import Referrable, CollectableElement
+from .GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 
 from ...datatype import ApplicationDataType, DataTypeMap, SwBaseType
 

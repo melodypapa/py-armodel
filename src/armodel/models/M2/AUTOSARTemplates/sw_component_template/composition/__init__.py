@@ -5,7 +5,7 @@ from ..components import SwComponentType
 from ..composition.instance_refs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef, RPortInCompositionInstanceRef
 from .....ar_ref import RefType
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....general_structure import Identifiable
+from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class SwComponentPrototype(Identifiable):

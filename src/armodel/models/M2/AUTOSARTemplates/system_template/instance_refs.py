@@ -1,6 +1,6 @@
 from typing import List
 from ....ar_ref import RefType
-from ..GenericStructure.abstract_structure import AtpInstanceRef
+from ..GenericStructure.AbstractStructure import AtpInstanceRef
 
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):

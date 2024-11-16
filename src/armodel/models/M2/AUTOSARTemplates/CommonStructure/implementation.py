@@ -3,7 +3,7 @@ from abc import ABCMeta
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ....general_structure import Referrable
+from ..GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 
 
 class ImplementationProps(Referrable, metaclass = ABCMeta):

@@ -1,5 +1,11 @@
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
+
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import AbstractImplementationDataType, ImplementationDataType, ImplementationDataTypeElement
@@ -8,7 +14,7 @@ from ....models.M2.AUTOSARTemplates.CommonStructure.implementation import Implem
 from ....models.M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationRecordElement
 from ....models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet
 from ....models.datatype import BaseTypeDirectDefinition, SwBaseType
-from ....models.general_structure import ARElement, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from .... import AUTOSAR
 class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
     def test_ImplementationProps(self):

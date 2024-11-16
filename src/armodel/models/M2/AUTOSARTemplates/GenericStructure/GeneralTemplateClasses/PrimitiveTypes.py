@@ -1,6 +1,8 @@
 from abc import ABCMeta
 import re
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
 class ARType(metaclass = ABCMeta):
     def __init__(self) -> None:
         self.timestamp = None           # type: str   
@@ -205,3 +207,11 @@ class ARBoolean(ARType):
                 return "true"
             else:
                 return "false"
+
+
+class Limit(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.intervalType = None       # type: str
+        self.value = None               # type: str

@@ -3,7 +3,7 @@ from ..CommonStructure.InternalBehavior import ReentrancyLevelEnum
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
 from ....ar_ref import RefType
 from ....common_structure import ExecutableEntity
-from ....general_structure import Referrable
+from ..GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from abc import ABCMeta
 from typing import List
 

@@ -1,10 +1,12 @@
 from abc import ABCMeta
 from typing import List
 
+from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
 from ...CommonStructure.implementation import ImplementationProps
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....ar_ref import RefType, TRefType
-from .....general_structure import ARElement, Identifiable
+from ...GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ..communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
 from .instance_refs import InnerPortGroupInCompositionInstanceRef

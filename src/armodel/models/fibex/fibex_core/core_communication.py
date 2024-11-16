@@ -1,13 +1,15 @@
 from abc import ABCMeta
 from typing import List
 
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
 
 from ...ar_ref import RefType
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ...general_structure import ARElement, Describable, Identifiable
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 
 class FibexElement(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

@@ -2,13 +2,14 @@ from abc import ABCMeta
 from typing import Dict, List
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
 
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
-from .general_structure import AtpStructureElement, ARElement
+from .M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from .common_structure import IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype, Identifiable
+from .common_structure import IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype
 from .ar_ref import RefType
 
 class BswCalledEntity(BswModuleEntity):

@@ -8,7 +8,7 @@ from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTyp
 from ...fibex.lin_communication import LinFrameTriggering
 from ...fibex.can_communication import CanFrameTriggering
 from ...ar_ref import RefType
-from ...general_structure import Identifiable
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ...fibex.fibex_core.core_communication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 

@@ -14,7 +14,7 @@ from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from .general_structure import Identifiable
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .ar_ref import TRefType
 from .ar_ref import RefType
 from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype

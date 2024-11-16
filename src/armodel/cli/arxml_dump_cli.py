@@ -5,7 +5,7 @@ import logging
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
 
 from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.data_elements import VariableAccess
-from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from ..models import AUTOSAR, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType

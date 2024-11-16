@@ -2,9 +2,10 @@
 from abc import ABCMeta
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
 from ....ar_ref import RefType
 from .GeneralTemplateClasses.ArObject import ARObject
-
 
 class AtpInstanceRef(ARObject, metaclass = ABCMeta):
     def __init__(self):
@@ -67,3 +68,17 @@ class AnyInstanceRef(ARObject):
     def setTargetRef(self, value:RefType):
         self.targetRef = value
         return self
+
+
+class AtpFeature(Identifiable, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == AtpFeature:
+            raise NotImplementedError("AtpFeature is an abstract class.")
+        super().__init__(parent, short_name)
+
+
+class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == AtpFeature:
+            raise NotImplementedError("AtpStructureElement is an abstract class.")
+        super().__init__(parent, short_name)

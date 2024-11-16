@@ -3,7 +3,7 @@ from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
 from ....ar_ref import RefType
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ....general_structure import ARElement
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class PhysicalDimension(ARElement):
     def __init__(self, parent: ARObject, short_name: str):

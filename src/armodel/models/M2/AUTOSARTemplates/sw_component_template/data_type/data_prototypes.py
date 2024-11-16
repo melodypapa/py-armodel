@@ -6,7 +6,7 @@ from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerica
 from .....ar_ref import RefType
 from ....MSR.data_dictionary.data_def_properties import SwDataDefProps
 from ...CommonStructure import ValueSpecification
-from .....general_structure import AtpFeature
+from ...GenericStructure.AbstractStructure import AtpFeature
 
 class AtpPrototype(AtpFeature, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):
