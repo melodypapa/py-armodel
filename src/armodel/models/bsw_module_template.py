@@ -10,7 +10,7 @@ from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .common_structure import IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype
-from .ar_ref import RefType
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):

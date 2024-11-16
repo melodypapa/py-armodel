@@ -10,9 +10,9 @@ from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral,
 from ..data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....common_structure import ModeDeclarationGroupPrototype, Trigger
-from .....datatype import AtpType
+from ...GenericStructure.AbstractStructure import AtpType
 from ...GenericStructure.AbstractStructure import AtpFeature
-from .....ar_ref import RefType
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

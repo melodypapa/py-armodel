@@ -7,7 +7,7 @@ from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject imp
 
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
 
-from ...ar_ref import RefType
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 

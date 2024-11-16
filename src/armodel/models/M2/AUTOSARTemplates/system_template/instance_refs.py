@@ -1,5 +1,5 @@
 from typing import List
-from ....ar_ref import RefType
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..GenericStructure.AbstractStructure import AtpInstanceRef
 
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):

@@ -1,7 +1,7 @@
 
 from abc import ABCMeta
 
-from .....ar_ref import RefType
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...GenericStructure.AbstractStructure import AtpInstanceRef
 
 

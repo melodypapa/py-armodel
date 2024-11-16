@@ -3,7 +3,7 @@ from typing import List
 
 from ..components import SwComponentType
 from ..composition.instance_refs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef, RPortInCompositionInstanceRef
-from .....ar_ref import RefType
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 

@@ -3,7 +3,7 @@ from typing import List
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
-from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
+from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.fibex.fibex_core.core_communication import SystemSignal
 
 class SystemSignalAnalyzer:

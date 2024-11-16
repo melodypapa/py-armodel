@@ -8,7 +8,7 @@ from .server_call import ServerCallPoint
 from .mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
 from .trigger import InternalTriggeringPoint
 
-from .....ar_ref import RefType
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....common_structure import ExecutableEntity
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject

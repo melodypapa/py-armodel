@@ -4,7 +4,7 @@ from abc import ABCMeta
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....ar_ref import RefType
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
 class CompuContent(ARObject, metaclass=ABCMeta):
