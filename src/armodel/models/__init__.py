@@ -1,5 +1,4 @@
 from .annotation import *
-from .ar_object import *
 from .general_structure import *
 from .common_structure import *
 from .sw_component import *

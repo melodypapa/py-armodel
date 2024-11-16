@@ -2,6 +2,12 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
+
+from ..models.M2.MSR.Documentation.Annotation import GeneralAnnotation
+
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
@@ -26,7 +32,7 @@ from ..models.M2.AUTOSARTemplates.sw_component_template.communication import Cli
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
-from ..models.M2.MSR.documentation.block_elements import DocumentationBlock
+from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
 from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
@@ -41,7 +47,7 @@ from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface import In
 from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySection, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeRequestTypeMap
 from ..models.implementation import BswImplementation, EngineeringObject
 from ..models.general_structure import MultilanguageReferrable
-from ..models.multilanguage_data import LOverviewParagraph, MultiLanguageOverviewParagraph, LLongName, MultiLanguageParagraph, MultilanguageLongName
+from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.data_def_properties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, BaseTypeDirectDefinition
@@ -50,12 +56,12 @@ from ..models.communication import CompositeNetworkRepresentation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
-from ..models.ar_object import ARLiteral
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ..models.service_needs import RoleBasedDataAssignment
 from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
-from ..models.annotation import Annotation, GeneralAnnotation
+from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrRule, PhysConstrs
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef

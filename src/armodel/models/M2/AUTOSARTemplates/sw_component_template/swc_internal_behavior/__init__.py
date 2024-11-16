@@ -1,13 +1,15 @@
 
 from typing import Dict, List
 
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
 from .data_elements import ParameterAccess, VariableAccess
 from .server_call import ServerCallPoint
 from .mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
 from .trigger import InternalTriggeringPoint
 
 from .....ar_ref import RefType
-from .....ar_object import ARBoolean, ARLiteral
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....common_structure import ExecutableEntity
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

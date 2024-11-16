@@ -3,10 +3,10 @@ from typing import List
 
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger
 
 
-from .....models.ar_object import ARLiteral, ARBoolean, ARPositiveInteger
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....models.ar_ref import RefType
 from .....models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ...MSR.data_dictionary.data_def_properties import SwDataDefProps

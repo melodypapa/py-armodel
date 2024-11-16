@@ -1,12 +1,14 @@
 from abc import ABCMeta
 from typing import List
 
+from .M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from .annotation import Annotation
+from .M2.MSR.Documentation.Annotation import Annotation
 from .ar_ref import RefType
-from .multilanguage_data import MultiLanguageOverviewParagraph, MultilanguageLongName
-from .ar_object import ARLiteral
+from .M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 class Sd(ARObject):
     def __init__(self):

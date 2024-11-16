@@ -4,8 +4,8 @@ from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes 
 from ...AUTOSARTemplates.CommonStructure import ValueSpecification
 from ....calibration import SwCalprmAxisSet
 from ....ar_ref import RefType
-from ....annotation import Annotation
-from ....ar_object import ARLiteral
+from ..Documentation.Annotation import Annotation
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 
 class SwDataDefPropsConditional(ARObject):

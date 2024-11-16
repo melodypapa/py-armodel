@@ -3,10 +3,10 @@ from typing import List
 
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
 
 from ...ar_ref import RefType
-from ...ar_object import ARBoolean, ARLiteral, ARPositiveInteger
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ...general_structure import ARElement, Describable, Identifiable
 
 class FibexElement(Identifiable, metaclass = ABCMeta):

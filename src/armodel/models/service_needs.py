@@ -1,12 +1,14 @@
 
 from abc import ABCMeta
 
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from .M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
 from .general_structure import Identifiable
 from .ar_ref import RefType
-from .ar_object import ARBoolean, ARLiteral
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 
 
 class RoleBasedDataAssignment(ARObject):

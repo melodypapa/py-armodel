@@ -1,5 +1,5 @@
 from typing import List
-from .....models.multilanguage_data import MultiLanguageParagraph
+from .TextModel.MultilanguageData import MultiLanguageParagraph
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class DocumentationBlock(ARObject):

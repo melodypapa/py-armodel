@@ -3,10 +3,10 @@ from typing import List
 
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
 
 from ..data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
-from .....ar_object import ARBoolean, ARLiteral
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....common_structure import ModeDeclarationGroupPrototype, Trigger
 from .....datatype import AtpType
 from .....general_structure import Identifiable, AtpFeature
