@@ -5,7 +5,7 @@ from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.bsw_module_template import BswModuleDescription, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
 from armodel.models.datatype import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet
-from armodel.models.end_to_end_protection import EndToEndProtectionSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from armodel.models.fibex.can_communication import CanFrame
 from armodel.models.fibex.fibex_4_multiplatform import Gateway
 from armodel.models.fibex.fibex_core.core_communication import DcmIPdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, NPdu, NmPdu, SecuredIPdu, SystemSignal, SystemSignalGroup
@@ -20,9 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.ecuc_description_template import EcucMod
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
-from armodel.models.M2.AUTOSARTemplates.system_template import System
-from armodel.models.M2.AUTOSARTemplates.system_template.network_management import NmConfig
-from armodel.models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.network_management import NmConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.transport_protocols import CanTpConfig
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod

@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
+
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -52,7 +54,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types impo
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
-from ..models.M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
+from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntityArgument
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
@@ -65,9 +67,9 @@ from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
-from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
-from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.fibex.can_communication import CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
@@ -86,7 +88,7 @@ from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupConte
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 
-from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
