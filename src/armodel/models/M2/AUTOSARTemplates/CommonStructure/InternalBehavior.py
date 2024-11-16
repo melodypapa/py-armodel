@@ -1,5 +1,7 @@
 from enum import Enum
 
 class ReentrancyLevelEnum(Enum):
-    def __init__(self):
-        super().__init__()
+
+    multicoreReentrant = "multicoreReentrant"
+    nonReentrant = "nonReentrant"
+    singleCoreReentrant = "singleCoreReentrant"
