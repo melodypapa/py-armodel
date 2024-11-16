@@ -2,7 +2,6 @@ from typing import List
 from abc import ABCMeta
 
 from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds
-
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
@@ -17,7 +16,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
+from .M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from .M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 
 class AbstractEvent(Identifiable):

@@ -2,6 +2,8 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
+
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
@@ -31,7 +33,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclar
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable, Referrable
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
-from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
+from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
@@ -63,7 +65,7 @@ from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, Sw
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleDescription, BswModuleEntry, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
@@ -71,7 +73,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
-from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, DataTypeMappingSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
 from ..models.M2.MSR.Documentation.Annotation import Annotation

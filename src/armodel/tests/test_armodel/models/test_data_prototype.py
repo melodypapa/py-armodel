@@ -6,7 +6,7 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArOb
 
 from .... import AUTOSAR
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes:

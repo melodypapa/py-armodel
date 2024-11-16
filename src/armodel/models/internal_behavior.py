@@ -5,7 +5,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject impor
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExclusiveArea
-from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ParameterDataPrototype
+from .M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class IncludedDataTypeSet(ARObject):
