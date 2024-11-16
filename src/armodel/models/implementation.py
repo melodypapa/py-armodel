@@ -9,7 +9,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
 from .common_structure import ResourceConsumption
-from .ar_ref import RefType
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class EngineeringObject(ARObject, metaclass=ABCMeta):
     def __init__(self):

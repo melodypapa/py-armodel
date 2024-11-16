@@ -1,7 +1,7 @@
 from typing import List
 
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....ar_ref import RefType
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...GenericStructure.AbstractStructure import AtpInstanceRef
 
 class ArVariableInImplementationDataInstanceRef(AtpInstanceRef):

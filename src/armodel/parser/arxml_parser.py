@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
+
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -22,23 +24,23 @@ from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModule
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
-from ..models.ar_ref import RefType
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.AUTOSARTemplates.CommonStructure.implementation import ImplementationProps
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataTypeElement
-from ..models.M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
-from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.sw_component_template.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
-from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior import RunnableEntityArgument
-from ..models.M2.AUTOSARTemplates.sw_component_template.components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
-from ..models.M2.AUTOSARTemplates.sw_component_template.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntityArgument
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
 
-from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.mode_declaration_group import ModeAccessPoint
-from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.server_call import ServerCallPoint
-from ..models.M2.AUTOSARTemplates.sw_component_template.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.mode_declaration_group import ModeAccessPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.server_call import ServerCallPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
@@ -53,23 +55,23 @@ from ..models.fibex.fibex_core.core_communication import Frame, FrameTriggering,
 from ..models.internal_behavior import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
 from ..models.bsw_module_template import BswModeSenderPolicy
-from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface import InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface
 from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySection, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeRequestTypeMap
 from ..models.implementation import BswImplementation, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.data_def_properties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
-from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, BaseTypeDirectDefinition
+from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType
 from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet
 from ..models.communication import CompositeNetworkRepresentation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.service_mapping import RoleBasedPortAssignment
-from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
+from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ..models.service_needs import RoleBasedDataAssignment
 from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
-from ..models.M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrRule, PhysConstrs
@@ -1114,10 +1116,10 @@ class ARXMLParser(AbstractARXMLParser):
         '''
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
-        definition.base_type_size = self.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE")
-        definition.base_type_encoding = self.getChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING")
-        definition.mem_alignment = self.getChildElementOptionalNumericalValue(element, "MEM-ALIGNMENT")
-        definition.native_declaration = self.getChildElementOptionalLiteral(element, "NATIVE-DECLARATION")
+        definition.baseTypeSize = self.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE")
+        definition.baseTypeEncoding = self.getChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING")
+        definition.memAlignment = self.getChildElementOptionalNumericalValue(element, "MEM-ALIGNMENT")
+        definition.nativeDeclaration = self.getChildElementOptionalLiteral(element, "NATIVE-DECLARATION")
 
     def readSwBaseType(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)

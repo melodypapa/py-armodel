@@ -11,8 +11,8 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObje
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical
 
-from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
-from ..models.ar_ref import RefType
+from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 

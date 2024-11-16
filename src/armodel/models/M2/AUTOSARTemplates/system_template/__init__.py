@@ -3,7 +3,7 @@ from typing import List
 
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
-from ....ar_ref import RefType
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class SystemMapping(Identifiable):

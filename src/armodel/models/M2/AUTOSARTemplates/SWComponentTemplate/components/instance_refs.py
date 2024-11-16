@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
 from ...GenericStructure.AbstractStructure import AtpInstanceRef
-from .....ar_ref import RefType
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, metaclass = ABCMeta):

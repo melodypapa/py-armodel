@@ -3,12 +3,9 @@ from typing import Dict, List
 from ..MSR.AsamHdo.BaseTypes import SwBaseType
 
 from .GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-
 from .GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from .CommonStructure.implementation_data_types import ImplementationDataType
-
 from .GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-
 from ...datatype import ApplicationDataType, DataTypeMap
 
 class AbstractAUTOSAR(CollectableElement):

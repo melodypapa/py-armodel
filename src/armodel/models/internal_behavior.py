@@ -4,9 +4,9 @@ from typing import List
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from .ar_ref import RefType
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .common_structure import ExclusiveArea
-from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype
+from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ParameterDataPrototype
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class IncludedDataTypeSet(ARObject):

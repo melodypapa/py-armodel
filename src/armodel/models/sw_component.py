@@ -5,19 +5,19 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from .M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
-from .M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef
-from .M2.AUTOSARTemplates.sw_component_template.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
-from .M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior import RunnableEntity
+from .M2.AUTOSARTemplates.SWComponentTemplate.components import SwComponentType
+from .M2.AUTOSARTemplates.SWComponentTemplate.composition.instance_refs import POperationInAtomicSwcInstanceRef
+from .M2.AUTOSARTemplates.SWComponentTemplate.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from .M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntity
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from .ar_ref import TRefType
-from .ar_ref import RefType
-from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype
 from .M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 
 class AbstractEvent(Identifiable):

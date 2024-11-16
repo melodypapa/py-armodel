@@ -1,7 +1,7 @@
 
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
-from ....ar_ref import RefType
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 

@@ -3,7 +3,7 @@ from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
 from ...AUTOSARTemplates.CommonStructure import ValueSpecification
 from ....calibration import SwCalprmAxisSet
-from ....ar_ref import RefType
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..Documentation.Annotation import Annotation
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 

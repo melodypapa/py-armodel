@@ -2,9 +2,9 @@
 from abc import ABCMeta
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
-from ....ar_ref import RefType
+from .GeneralTemplateClasses.PrimitiveTypes import RefType
 from .GeneralTemplateClasses.ArObject import ARObject
 
 class AtpInstanceRef(ARObject, metaclass = ABCMeta):
@@ -81,4 +81,12 @@ class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AtpFeature:
             raise NotImplementedError("AtpStructureElement is an abstract class.")
+        super().__init__(parent, short_name)
+
+
+class AtpType(ARElement, metaclass=ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == AtpType:
+            raise NotImplementedError("AtpType is an abstract class.")
+
         super().__init__(parent, short_name)

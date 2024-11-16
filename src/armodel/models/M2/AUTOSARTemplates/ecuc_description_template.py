@@ -8,7 +8,7 @@ from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, A
 from .GenericStructure.AbstractStructure import AnyInstanceRef
 from ..MSR.Documentation.BlockElements import DocumentationBlock
 from ..MSR.Documentation.Annotation import Annotation
-from ...ar_ref import RefType
+from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 

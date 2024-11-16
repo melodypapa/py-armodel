@@ -3,7 +3,7 @@ from typing import List
 from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ..M2.MSR.Documentation.BlockElements import DocumentationBlock
-from ..ar_ref import RefType
+from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
 from .fibex_core.core_communication import FibexElement
 

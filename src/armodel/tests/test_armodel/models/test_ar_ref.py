@@ -2,10 +2,12 @@
 
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from ....models.M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
-from ....models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.instance_refs_usage import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
-from ....models.ar_ref import RefType, TRefType
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.composition.instance_refs import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 

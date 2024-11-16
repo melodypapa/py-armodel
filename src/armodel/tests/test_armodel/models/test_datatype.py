@@ -1,5 +1,9 @@
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+
+from ....models.M2.MSR.AsamHdo.BaseTypes import BaseType, BaseTypeDirectDefinition
+
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
@@ -9,11 +13,11 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Iden
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import AbstractImplementationDataType, ImplementationDataType, ImplementationDataTypeElement
-from ....models.M2.AUTOSARTemplates.sw_component_template.components import SymbolProps
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.components import SymbolProps
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation import ImplementationProps
-from ....models.M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationRecordElement
-from ....models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AtpType, AutosarDataType, BaseType, DataTypeMap, DataTypeMappingSet
-from ....models.datatype import BaseTypeDirectDefinition, SwBaseType
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationRecordElement
+from ....models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
+from ....models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from .... import AUTOSAR
 class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:

@@ -1,9 +1,10 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.bsw_module_template import BswModuleDescription, BswModuleEntry
 from armodel.models.common_structure import ModeDeclarationGroup
-from armodel.models.datatype import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet, SwBaseType
+from armodel.models.datatype import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet
 from armodel.models.end_to_end_protection import EndToEndProtectionSet
 from armodel.models.fibex.can_communication import CanFrame
 from armodel.models.fibex.fibex_4_multiplatform import Gateway
@@ -16,9 +17,9 @@ from armodel.models.implementation import BswImplementation, Implementation, Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
-from armodel.models.M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
-from armodel.models.M2.AUTOSARTemplates.sw_component_template.composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.sw_component_template.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.components import SwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.composition import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
 from armodel.models.M2.AUTOSARTemplates.system_template import System
 from armodel.models.M2.AUTOSARTemplates.system_template.network_management import NmConfig
 from armodel.models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig

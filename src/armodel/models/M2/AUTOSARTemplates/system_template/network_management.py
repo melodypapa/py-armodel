@@ -5,7 +5,7 @@ from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
 
-from ....ar_ref import RefType
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ....fibex.fibex_core.core_communication import FibexElement
