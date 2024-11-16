@@ -8,10 +8,31 @@ from abc import ABCMeta
 from typing import List
 
 class BswModuleCallPoint(Referrable):
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.contextLimitationRefs = []                 # type: List[RefType]
+
+    def getContextLimitationRefs(self):
+        return self.contextLimitationRefs
+
+    def addContextLimitationRef(self, value):
+        self.contextLimitationRefs.append(value)
+        return self
+    
+class BswVariableAccess(Referrable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.accessedVariableRef = None                     # type: RefType
+        self.contextLimitationRefs = []                     # type: List[RefType]
+
+    def getAccessedVariableRef(self):
+        return self.accessedVariableRef
+
+    def setAccessedVariableRef(self, value):
+        self.accessedVariableRef = value
+        return self
 
     def getContextLimitationRefs(self):
         return self.contextLimitationRefs
@@ -29,25 +50,46 @@ class BswModuleEntity(ExecutableEntity, metaclass = ABCMeta):
         self.accessedModeGroupRefs = []                 # type: List[RefType]
         self.activationPointRefs = []                   # type: List[RefType]
         self.callPoints = []                            # type: List[BswModuleCallPoint]
-        self.canEnterRefs = []                          # type: List[RefType]
-        self.exclusiveAreaNestingOrderRefs = []         # type: List[RefType]
-        self.minimumStartInterval = None                # type: TimeValue
-        self.reentrancyLevel = None                     # type: ReentrancyLevelEnum
+        self.dataReceivePoints = []                     # type: List[BswVariableAccess]
+        self.dataSendPoints = []                        # type: List[BswVariableAccess]
         self.implementedEntryRef = None                 # type: RefType
+        self.issuedTriggerRefs = []                     # type: List[RefType]
         self.managedModeGroupRefs = []                  # type: List[RefType]
-
+        self.schedulerNamePrefixRef = None              # type: List[RefType]
+    
     def getAccessedModeGroupRefs(self):
         return self.accessedModeGroupRefs
 
-    def addAccessedModeGroupRefs(self, value):
+    def addAccessedModeGroupRef(self, value):
         self.accessedModeGroupRefs.append(value)
         return self
 
     def getActivationPointRefs(self):
         return self.activationPointRefs
 
-    def addActivationPointRefs(self, value):
+    def addActivationPointRef(self, value):
         self.activationPointRefs.append(value)
+        return self
+
+    def getCallPoints(self):
+        return self.callPoints
+
+    def addCallPoint(self, value):
+        self.callPoints.append(value)
+        return self
+
+    def getDataReceivePoint(self):
+        return self.dataReceivePoints
+
+    def addDataReceivePoint(self, value):
+        self.dataReceivePoints.append(value)
+        return self
+
+    def getDataSendPoints(self):
+        return self.dataSendPoints
+
+    def addDataSendPoint(self, value):
+        self.dataSendPoints.append(value)
         return self
 
     def getImplementedEntryRef(self):
@@ -57,8 +99,25 @@ class BswModuleEntity(ExecutableEntity, metaclass = ABCMeta):
         self.implementedEntryRef = value
         return self
 
-    def addManagedModeGroupRef(self, ref: RefType):
-        self.managedModeGroupRefs.append(ref)
+    def getIssuedTriggerRefs(self):
+        return self.issuedTriggerRefs
 
-    def getManagedModeGroupRefs(self) -> List[RefType]:
+    def addIssuedTriggerRefs(self, value):
+        self.issuedTriggerRefs(value)
+        return self
+
+    def getManagedModeGroupRefs(self):
         return self.managedModeGroupRefs
+
+    def addManagedModeGroupRef(self, value):
+        self.managedModeGroupRefs = value
+        return self
+
+    def getSchedulerNamePrefixRef(self):
+        return self.schedulerNamePrefixRef
+
+    def setSchedulerNamePrefixRef(self, value):
+        self.schedulerNamePrefixRef = value
+        return self
+
+    

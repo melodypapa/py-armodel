@@ -79,8 +79,9 @@ class AdminData(ARObject):
     def getSdgs(self) -> List[Sdg]:
         return self.sdg
 
-class Referrable(ARObject, metaclass=ABCMeta):
+class Referrable(ARObject, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
+        
         if type(self) == Referrable:
             raise NotImplementedError("Referrable is an abstract class.")
         ARObject.__init__(self)

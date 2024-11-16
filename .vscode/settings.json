@@ -29,6 +29,7 @@
         "levelname",
         "lxml",
         "MEMORYS",
+        "multicore",
         "Multilanguage",
         "multiplatform",
         "NOINIT",
