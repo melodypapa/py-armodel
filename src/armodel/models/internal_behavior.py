@@ -2,10 +2,9 @@ from abc import ABCMeta
 from typing import List
 
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .common_structure import ExclusiveArea
+from .M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExclusiveArea
 from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ParameterDataPrototype
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 

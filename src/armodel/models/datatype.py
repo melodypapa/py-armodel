@@ -9,7 +9,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
-from .common_structure import ModeRequestTypeMap
+from .M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
 
 class AutosarDataType(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

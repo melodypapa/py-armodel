@@ -1,18 +1,18 @@
 from typing import List
 from abc import ABCMeta
 
+from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds
+
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-from .M2.AUTOSARTemplates.SWComponentTemplate.components import SwComponentType
-from .M2.AUTOSARTemplates.SWComponentTemplate.composition.instance_refs import POperationInAtomicSwcInstanceRef
-from .M2.AUTOSARTemplates.SWComponentTemplate.components.instance_refs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from .M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
+from .M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
+from .M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from .M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntity
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
-from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
+from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType

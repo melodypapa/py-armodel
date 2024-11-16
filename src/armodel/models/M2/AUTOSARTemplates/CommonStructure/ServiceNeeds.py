@@ -1,14 +1,8 @@
-
 from abc import ABCMeta
-
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-from .M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
 
 
 class RoleBasedDataAssignment(ARObject):
@@ -20,12 +14,14 @@ class RoleBasedDataAssignment(ARObject):
         self.used_parameter_element = None  # type: AutosarParameterRef
         self.used_pim_ref = None            # type: RefType
 
+
 class ServiceNeeds(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == ServiceNeeds:
             raise NotImplementedError("ServiceNeeds is an abstract class.")
-        
+
         super().__init__(parent, short_name)
+
 
 class NvBlockNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):

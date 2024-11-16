@@ -9,7 +9,7 @@ from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ....datatype import AutosarDataType
-from ..SWComponentTemplate.components import SymbolProps
+from ..SWComponentTemplate.Components import SymbolProps
 
 class AbstractImplementationDataTypeElement(Identifiable):
     def __init__(self, parent, short_name: str):
