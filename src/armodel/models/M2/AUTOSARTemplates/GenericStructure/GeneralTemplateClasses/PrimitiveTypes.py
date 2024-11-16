@@ -208,6 +208,49 @@ class ARBoolean(ARType):
             else:
                 return "false"
 
+class NameToken(ARLiteral):
+    '''
+        This is an identifier as used in xml, e.g. xml-names. Typical usages are, for example, the names of type
+        emitters, protocols, or profiles. For details see NMTOKEN definition on the W3C website
+        (https://www.w3.org/TR/xml/#NT-Nmtoken).
+        
+        Note: Although NameToken supports a wide range of characters, the actually allowed patterns for a
+        certain attribute typed by NameToken may be further restricted by the specification of that attribute.
+        
+        Tags:
+            * xml.xsd.customType=NMTOKEN-STRING
+            * xml.xsd.type=NMTOKEN
+    '''
+    def __init__(self):
+        super().__init__()
+
+class PositiveInteger(ARPositiveInteger):
+    '''
+        This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is
+        between 0 and 4294967295.
+        
+        Tags:
+            * xml.xsd.customType=POSITIVE-INTEGER
+            * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
+
+class Integer(ARNumerical):
+    '''
+        An instance of Integer is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
+        The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
+        can only be expressed in decimal notation
+        Range is from -2147483648 and 2147483647.
+        
+        Tags:
+            * xml.xsd.customType=INTEGER
+            * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
 
 class Limit(ARObject):
     def __init__(self):

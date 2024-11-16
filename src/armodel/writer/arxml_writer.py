@@ -2,6 +2,8 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
+
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -44,12 +46,12 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import Assembl
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
-from ..models.M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
+from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
-from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
-from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
-from ..models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.transport_protocols import CanTpConfig
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
@@ -77,7 +79,7 @@ from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeData
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
 from ..models.M2.MSR.Documentation.Annotation import Annotation
-from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.MSR.AsamHdo.Units import Unit
 from ..models.implementation import BswImplementation, Code, Implementation, SwcImplementation
@@ -1377,18 +1379,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", desc.category)
             self.writeEndToEndDescriptionDataId(child_element, desc)
-            self.setChildElementOptionalNumericalValue(child_element, "DATA-ID-MODE", desc.dataIdMode)
-            self.setChildElementOptionalNumericalValue(child_element, "MAX-DELTA-COUNTER-INIT", desc.maxDeltaCounterInit)
-            self.setChildElementOptionalNumericalValue(child_element, "CRC-OFFSET", desc.crcOffset)
-            self.setChildElementOptionalNumericalValue(child_element, "COUNTER-OFFSET", desc.counterOffset)
+            self.setChildElementOptionalNumericalValue(child_element, "DATA-ID-MODE", desc.getDataIdMode())
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-DELTA-COUNTER-INIT", desc.getMaxDeltaCounterInit())
+            self.setChildElementOptionalNumericalValue(child_element, "CRC-OFFSET", desc.getCrcOffset())
+            self.setChildElementOptionalNumericalValue(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
 
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, iref: VariableDataPrototypeInSystemInstanceRef):
         if iref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", iref.context_component_refs)
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", iref.context_composition_ref)
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", iref.context_port_ref)
-            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.target_data_prototype_ref)
+            #self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", iref.getContextComponentRefs())        # TODO 
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", iref.getContextCompositionRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", iref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
 
     def setEndToEndProtectionVariablePrototype(self, element: ET.Element, key: str, prototype: EndToEndProtectionVariablePrototype):
         if prototype is not None:
@@ -2614,6 +2616,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeGateway(element, ar_element)
         elif isinstance(ar_element, ISignal):
             self.writeISignal(element, ar_element)
+        elif isinstance(ar_element, System):
+            self.writeSystem(element, ar_element)
+        elif isinstance(ar_element, EcuInstance):
+            self.writeEcuInstance(element, ar_element)
+        elif isinstance(ar_element, ISignalIPdu):
+            self.writeISignalIPdu(element, ar_element)
+        elif isinstance(ar_element, SystemSignal):
+            self.writeSystemSignal(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         
