@@ -5,7 +5,7 @@ from typing import List
 
 from .ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical
 from .general_structure import ARObject, Identifiable
-from .m2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from .M2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_ref import RefType, TRefType
 
 import re

@@ -2,8 +2,8 @@ import getopt
 import sys
 import logging
 
-from ..models.m2.autosar_templates.sw_component_template.swc_internal_behavior.data_elements import VariableAccess
-from ..models.m2.autosar_templates.generic_structure.ar_package import ARPackage
+from ..models.M2.autosar_templates.sw_component_template.swc_internal_behavior.data_elements import VariableAccess
+from ..models.M2.autosar_templates.generic_structure.ar_package import ARPackage
 
 from ..models import AUTOSAR, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType

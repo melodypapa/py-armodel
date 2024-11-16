@@ -4,7 +4,7 @@ from typing import List
 from .ar_object import ARLiteral, ARObject
 from .ar_ref import RefType
 from .common_structure import ExclusiveArea
-from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype
+from .M2.autosar_templates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype
 from .general_structure import Identifiable
 
 class IncludedDataTypeSet(ARObject):

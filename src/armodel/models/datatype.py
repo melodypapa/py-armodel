@@ -1,11 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from .m2.msr.data_dictionary.data_def_properties import SwDataDefProps
+from .M2.msr.data_dictionary.data_def_properties import SwDataDefProps
 from .ar_object import ARLiteral, ARNumerical
 from .ar_ref import RefType
 from .general_structure import ARElement, ARObject
-from .m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
+from .M2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement
 from .common_structure import ModeRequestTypeMap
 
 class BaseTypeDefinition(ARObject):

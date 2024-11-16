@@ -1,7 +1,7 @@
 
 from abc import ABCMeta
 
-from .m2.msr.documentation.block_elements import DocumentationBlock
+from .M2.msr.documentation.block_elements import DocumentationBlock
 from .multilanguage_data import MultilanguageLongName
 from .ar_object import ARLiteral, ARObject
 
