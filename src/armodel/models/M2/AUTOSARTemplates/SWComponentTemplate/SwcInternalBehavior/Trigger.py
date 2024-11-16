@@ -1,5 +1,5 @@
 
-from .access_count import AbstractAccessPoint
+from .AccessCount import AbstractAccessPoint
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 

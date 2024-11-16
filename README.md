@@ -335,3 +335,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. Change the AUTOSAR.clear() to AUTOSAR.new().
 2. Fix the several refactor methods issue.
+
+**Version 1.6.3**
+
+1. Change the Package structure according to AUTOSAR standard.

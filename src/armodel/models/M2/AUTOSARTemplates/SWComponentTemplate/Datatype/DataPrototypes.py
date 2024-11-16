@@ -2,7 +2,7 @@ from abc import ABCMeta
 
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, TRefType
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ...CommonStructure import ValueSpecification
@@ -38,7 +38,7 @@ class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.typeTRef = None           
+        self.typeTRef = None                # type:     TRefType
 
     def getTypeTRef(self):
         return self.typeTRef

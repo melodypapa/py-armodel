@@ -1,12 +1,10 @@
 from typing import List
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
-from ...AUTOSARTemplates.CommonStructure import ValueSpecification
-from .CalibrationParameter import SwCalprmAxisSet
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ..Documentation.Annotation import Annotation
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
+from ...MSR.Documentation import Annotation
+from ...MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
+from ...AUTOSARTemplates.CommonStructure import ValueSpecification
 
 class SwDataDefPropsConditional(ARObject):
     '''
@@ -261,9 +259,6 @@ class SwDataDefProps(ARObject):
     def setValueAxisDataTypeRef(self, value):
         self.valueAxisDataTypeRef = value
         return self
-
-        
-        
 
 class SwPointerTargetProps(ARObject):
     def __init__(self):

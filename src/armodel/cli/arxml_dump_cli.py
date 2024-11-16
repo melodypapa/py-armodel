@@ -2,17 +2,16 @@ import getopt
 import sys
 import logging
 
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, PortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
-
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.data_elements import VariableAccess
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswModuleEntity
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import VariableAccess
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-
 from ..models import AUTOSAR, SwComponentType
 from ..models import SwcInternalBehavior, ImplementationDataType
-from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntry
-from ..models import PortPrototype, RPortPrototype, PPortPrototype
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models import SenderReceiverInterface, ClientServerInterface
 from ..parser import ARXMLParser
 
@@ -91,7 +90,7 @@ def show_sw_component(indent: int, sw_component: SwComponentType):
 def show_sender_receiver_interface(indent: int, sr_interface: SenderReceiverInterface):
     print("%s%s" % (" " * indent, sr_interface.short_name))
     for data_element in sr_interface.getDataElements():
-        print("%sData Element:%s (%s) " % (" " * (indent + 2), data_element.short_name, data_element.type_ref.value))
+        print("%sData Element:%s (%s) " % (" " * (indent + 2), data_element.short_name, data_element.getTypeTRef().getValue()))
 
 def show_client_server_interface(indent: int, cs_interface: ClientServerInterface):
     print("%s%s" % (" " * indent, cs_interface.short_name))
