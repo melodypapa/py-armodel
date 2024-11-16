@@ -1,6 +1,6 @@
 from typing import List
 
-from .M2.autosar_templates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
+from .M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
 from .ar_object import ARNumerical, ARObject
 from .general_structure import Identifiable
 

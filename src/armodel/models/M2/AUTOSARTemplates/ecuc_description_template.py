@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from ..autosar_templates.generic_structure.abstract_structure import AnyInstanceRef
+from ..AUTOSARTemplates.generic_structure.abstract_structure import AnyInstanceRef
 from ..MSR.documentation.block_elements import DocumentationBlock
 from ...annotation import Annotation
 from ...ar_ref import RefType

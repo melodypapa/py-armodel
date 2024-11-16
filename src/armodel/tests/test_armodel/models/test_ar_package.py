@@ -1,15 +1,15 @@
 """ Test AR Package """
 import pytest
 
-from ....models.M2.autosar_templates.common_structure.implementation_data_types import ImplementationDataType
-from ....models.M2.autosar_templates.sw_component_template.components import SwComponentType
-from ....models.M2.autosar_templates.autosar_top_level_structure import AUTOSAR
+from ....models.M2.AUTOSARTemplates.common_structure.implementation_data_types import ImplementationDataType
+from ....models.M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
+from ....models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ....models.datatype import ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet, SwBaseType
 from ....models.general_structure import ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
 from ....models.m2_msr import CompuMethod
-from ....models.M2.autosar_templates.sw_component_template.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
+from ....models.M2.AUTOSARTemplates.sw_component_template.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
 from ....models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, EcuAbstractionSwComponentType, ServiceSwComponentType
-from ....models.M2.autosar_templates.sw_component_template.composition import CompositionSwComponentType
+from ....models.M2.AUTOSARTemplates.sw_component_template.composition import CompositionSwComponentType
 
 class TestAUTOSAR:
 

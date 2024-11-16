@@ -1,6 +1,6 @@
 import pytest
 
-from ....models.M2.autosar_templates.autosar_top_level_structure import AUTOSAR
+from ....models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ....models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, Limit, MultilanguageReferrable, PackageableElement, Referrable
 
 class TestGeneralStructure:
