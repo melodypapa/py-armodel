@@ -1,6 +1,8 @@
 from abc import ABCMeta
 
-from ....ar_object import ARLiteral, ARObject
+from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ....ar_object import ARLiteral
 from ....general_structure import Referrable
 
 

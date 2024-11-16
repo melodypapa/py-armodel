@@ -1,6 +1,10 @@
 
 from abc import ABCMeta
-from ..ar_object import ARLiteral, ARNumerical, ARObject
+
+from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ..ar_object import ARLiteral
 from .fibex_core.core_communication import Frame, FrameTriggering
 
 class LinFrame(Frame):

@@ -5,7 +5,7 @@ from typing import List
 from armodel.models.ar_ref import RefType
 
 from ..models.general_structure import Identifiable
-from ..models.ar_object import ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class EOCExecutableEntityRefAbstract(Identifiable):
     __metaclass__ = ABCMeta

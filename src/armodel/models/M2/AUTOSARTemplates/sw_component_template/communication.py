@@ -1,12 +1,16 @@
 from abc import ABCMeta
 from typing import List
 
+from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from .....models.ar_object import ARNumerical, ARObject, ARLiteral, ARBoolean, ARPositiveInteger
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+
+
+from .....models.ar_object import ARLiteral, ARBoolean, ARPositiveInteger
 from .....models.ar_ref import RefType
 from .....models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ...MSR.data_dictionary.data_def_properties import SwDataDefProps
-from ..common_structure import ValueSpecification
+from ..CommonStructure import ValueSpecification
 
 class PPortComSpec(ARObject, metaclass = ABCMeta):
     """

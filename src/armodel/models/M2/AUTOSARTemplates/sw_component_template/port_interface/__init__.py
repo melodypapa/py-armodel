@@ -1,11 +1,15 @@
 from abc import ABCMeta
 from typing import List
 
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+
 from ..data_type.data_prototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
-from .....ar_object import ARBoolean, ARLiteral, ARNumerical
+from .....ar_object import ARBoolean, ARLiteral
 from .....common_structure import ModeDeclarationGroupPrototype, Trigger
 from .....datatype import AtpType
-from .....general_structure import ARObject, Identifiable, AtpFeature
+from .....general_structure import Identifiable, AtpFeature
 from .....ar_ref import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):

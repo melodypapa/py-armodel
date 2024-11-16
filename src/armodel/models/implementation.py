@@ -1,6 +1,10 @@
 from abc import ABCMeta
 from typing import List
-from .ar_object import ARLiteral, ARNumerical, ARObject
+
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from .ar_object import ARLiteral
 from .general_structure import PackageableElement, Identifiable
 from .common_structure import ResourceConsumption
 from .ar_ref import RefType

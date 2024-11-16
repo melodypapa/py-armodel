@@ -2,7 +2,7 @@ import logging
 
 from typing import List
 
-from ..models.M2.AUTOSARTemplates.generic_structure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
 from ..models import AUTOSAR, AtomicSwComponentType, CompositionSwComponentType
 
 class SwComponentAnalyzer:

@@ -1,6 +1,6 @@
 
 from .access_count import AbstractAccessPoint
-from .....ar_object import ARObject
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class InternalTriggeringPoint(AbstractAccessPoint):

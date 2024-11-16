@@ -1,49 +1,15 @@
 from abc import ABCMeta
 from typing import Dict, List
 
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
+
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
-from .general_structure import AtpStructureElement, ARObject, ARElement
-from .ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
-from .common_structure import ExecutableEntity, IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype, Identifiable
+from .general_structure import AtpStructureElement, ARElement
+from .ar_object import ARBoolean, ARLiteral, ARPositiveInteger
+from .common_structure import IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype, Identifiable
 from .ar_ref import RefType
-
-class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == BswModuleEntity:
-            raise NotImplementedError("BswModuleEntity is an abstract class.")
-        super().__init__(parent, short_name)
-
-        self.accessedModeGroupRefs = []                 # type: List[RefType]
-        self.activationPointRefs = []                   # type: List[RefType]
-        self.implementedEntryRef = None                 # type: RefType
-        self.managedModeGroupRefs = []                  # type: List[RefType]
-
-    def getAccessedModeGroupRefs(self):
-        return self.accessedModeGroupRefs
-
-    def addAccessedModeGroupRefs(self, value):
-        self.accessedModeGroupRefs.append(value)
-        return self
-
-    def getActivationPointRefs(self):
-        return self.activationPointRefs
-
-    def addActivationPointRefs(self, value):
-        self.activationPointRefs.append(value)
-        return self
-
-    def getImplementedEntryRef(self):
-        return self.implementedEntryRef
-
-    def setImplementedEntryRef(self, value):
-        self.implementedEntryRef = value
-        return self
-
-    def addManagedModeGroupRef(self, ref: RefType):
-        self.managedModeGroupRefs.append(ref)
-
-    def getManagedModeGroupRefs(self) -> List[RefType]:
-        return self.managedModeGroupRefs
 
 class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):

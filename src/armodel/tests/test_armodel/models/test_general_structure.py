@@ -1,7 +1,9 @@
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
 from ....models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
-from ....models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, Limit, MultilanguageReferrable, PackageableElement, Referrable
+from ....models.general_structure import ARElement, AtpFeature, CollectableElement, Identifiable, Limit, MultilanguageReferrable, PackageableElement, Referrable
 
 class TestGeneralStructure:
     def test_ar_object(self):

@@ -1,11 +1,15 @@
 from abc import ABCMeta
 from typing import List
 
-from ..AUTOSARTemplates.generic_structure.abstract_structure import AnyInstanceRef
+from .GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+
+from ..AUTOSARTemplates.GenericStructure.abstract_structure import AnyInstanceRef
 from ..MSR.documentation.block_elements import DocumentationBlock
 from ...annotation import Annotation
 from ...ar_ref import RefType
-from ...ar_object import ARBoolean, ARLiteral, ARNumerical, ARObject
+from ...ar_object import ARBoolean, ARLiteral
 from ...general_structure import ARElement
 
 class EcucValueCollection(ARElement):

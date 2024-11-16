@@ -1,3 +1,4 @@
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.bsw_module_template import BswModuleDescription, BswModuleEntry
 from armodel.models.common_structure import ModeDeclarationGroup
 from armodel.models.datatype import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet, SwBaseType
@@ -7,11 +8,11 @@ from armodel.models.fibex.fibex_4_multiplatform import Gateway
 from armodel.models.fibex.fibex_core.core_communication import DcmIPdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, NPdu, NmPdu, SecuredIPdu, SystemSignal, SystemSignalGroup
 from armodel.models.fibex.fibex_core.core_topology import CanCluster, EcuInstance, LinCluster
 from armodel.models.fibex.lin_communication import LinUnconditionalFrame
-from armodel.models.general_structure import ARObject, CollectableElement, Identifiable, Referrable, SwcBswMapping
+from armodel.models.general_structure import CollectableElement, Identifiable, Referrable, SwcBswMapping
 from armodel.models.global_constraints import DataConstr
 from armodel.models.implementation import BswImplementation, Implementation, SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.common_structure import ConstantSpecification
-from armodel.models.M2.AUTOSARTemplates.common_structure.implementation_data_types import ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
 from armodel.models.M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
 from armodel.models.M2.AUTOSARTemplates.sw_component_template.composition import CompositionSwComponentType

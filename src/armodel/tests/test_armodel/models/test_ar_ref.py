@@ -2,11 +2,11 @@
 
 import pytest
 
-from ....models.M2.AUTOSARTemplates.generic_structure.abstract_structure import AtpInstanceRef
+from ....models.M2.AUTOSARTemplates.GenericStructure.abstract_structure import AtpInstanceRef
 from ....models.M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ....models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.instance_refs_usage import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from ....models.ar_ref import RefType, TRefType
-from ....models.general_structure import ARObject
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TestARRef:

@@ -1,6 +1,8 @@
 
 from typing import List
-from ....ar_object import ARLiteral, ARObject
+
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....ar_object import ARLiteral
 from ....general_structure import Identifiable
 
 

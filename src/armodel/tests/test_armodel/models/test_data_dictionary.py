@@ -1,7 +1,7 @@
 import pytest
 
 from ....models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps, SwPointerTargetProps
-from ....models.general_structure import ARObject
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class Test_M2_MSR_DataDictionary_DataDefProperties:
     def test_SwDataDefProps(self):

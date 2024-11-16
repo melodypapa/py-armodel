@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
 from .....models.ar_ref import RefType
-from .....models.ar_object import ARObject
+from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class DataMapping(ARObject, metaclass = ABCMeta):
     def __init__(self):

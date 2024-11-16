@@ -2,12 +2,14 @@ import getopt
 import sys
 import logging
 
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+
 from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.data_elements import VariableAccess
-from ..models.M2.AUTOSARTemplates.generic_structure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
 
 from ..models import AUTOSAR, SwComponentType, DataTypeMappingSet
 from ..models import SwcInternalBehavior, ImplementationDataType
-from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntity, BswModuleEntry
+from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntry
 from ..models import PortPrototype, RPortPrototype, PPortPrototype
 from ..models import SenderReceiverInterface, ClientServerInterface
 from ..parser import ARXMLParser

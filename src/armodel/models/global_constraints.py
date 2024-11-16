@@ -1,5 +1,6 @@
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 from .ar_ref import RefType
-from .ar_object import ARNumerical, ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .general_structure import Identifiable, Limit
 
 from typing import List

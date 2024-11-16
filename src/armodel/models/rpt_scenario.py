@@ -1,6 +1,6 @@
 
 from abc import ABCMeta
-from .ar_object import ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .general_structure import Identifiable
 
 

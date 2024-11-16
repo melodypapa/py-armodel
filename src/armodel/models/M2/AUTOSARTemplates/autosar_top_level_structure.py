@@ -1,7 +1,7 @@
 from typing import Dict, List
 
-from .generic_structure.ar_package import ARPackage
-from .common_structure.implementation_data_types import ImplementationDataType
+from .GenericStructure.ar_package import ARPackage
+from .CommonStructure.implementation_data_types import ImplementationDataType
 
 from ...general_structure import Referrable, CollectableElement
 

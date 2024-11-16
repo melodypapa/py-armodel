@@ -1,7 +1,7 @@
 from .access_count import AbstractAccessPoint
 from ..components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from .....rpt_scenario import ModeAccessPointIdent
-from .....ar_object import ARObject
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class ModeAccessPoint(ARObject):
     def __init__(self):

@@ -1,6 +1,6 @@
 from typing import List
 from .....models.multilanguage_data import MultiLanguageParagraph
-from .....models.ar_object import ARObject
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class DocumentationBlock(ARObject):
     def __init__(self):

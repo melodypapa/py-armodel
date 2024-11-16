@@ -1,6 +1,7 @@
 
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
-from .ar_object import ARLiteral, ARObject
+from .ar_object import ARLiteral
 from .general_structure import Identifiable
 
 

@@ -3,7 +3,7 @@ from abc import ABCMeta
 from typing import List
 
 from ....ar_ref import RefType
-from ....ar_object import ARObject
+from .GeneralTemplateClasses.ArObject import ARObject
 
 
 class AtpInstanceRef(ARObject, metaclass = ABCMeta):

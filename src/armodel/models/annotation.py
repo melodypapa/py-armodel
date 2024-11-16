@@ -1,9 +1,11 @@
 
 from abc import ABCMeta
 
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
 from .M2.MSR.documentation.block_elements import DocumentationBlock
 from .multilanguage_data import MultilanguageLongName
-from .ar_object import ARLiteral, ARObject
+from .ar_object import ARLiteral
 
 
 class GeneralAnnotation(ARObject, metaclass=ABCMeta):
