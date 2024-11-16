@@ -23,8 +23,8 @@ from ..models.M2.autosar_templates.sw_component_template.swc_internal_behavior.s
 from ..models.M2.autosar_templates.sw_component_template.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.msr.data_dictionary.data_def_properties import SwDataDefProps
-from ..models.M2.msr.documentation.block_elements import DocumentationBlock
+from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
+from ..models.M2.MSR.documentation.block_elements import DocumentationBlock
 from ..models.M2.autosar_templates.system_template import System, SystemMapping
 from ..models.M2.autosar_templates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.autosar_templates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode

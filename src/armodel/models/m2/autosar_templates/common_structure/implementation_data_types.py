@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from ...msr.data_dictionary.data_def_properties import SwDataDefProps
+from ...MSR.data_dictionary.data_def_properties import SwDataDefProps
 from ....general_structure import Identifiable
 from ....ar_object import ARBoolean, ARLiteral, ARNumerical, ARObject
 from ....datatype import AutosarDataType

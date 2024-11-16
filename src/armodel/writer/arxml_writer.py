@@ -6,10 +6,10 @@ from armodel.models.M2.autosar_templates.common_structure.implementation_data_ty
 
 
 
-from ..models.M2.msr.data_dictionary.auxillary_objects import SwAddrMethod
-from ..models.M2.msr.data_dictionary.data_def_properties import SwDataDefProps
-from ..models.M2.msr.asam_hdo.units import PhysicalDimension
-from ..models.M2.msr.documentation.block_elements import DocumentationBlock
+from ..models.M2.MSR.data_dictionary.auxillary_objects import SwAddrMethod
+from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
+from ..models.M2.MSR.asam_hdo.units import PhysicalDimension
+from ..models.M2.MSR.documentation.block_elements import DocumentationBlock
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 
 from ..models.M2.autosar_templates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
@@ -60,7 +60,7 @@ from ..models.general_structure import ARElement, AdminData, Identifiable, Limit
 from ..models.annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.M2.autosar_templates.sw_component_template.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
-from ..models.M2.msr.asam_hdo.units import Unit
+from ..models.M2.MSR.asam_hdo.units import Unit
 from ..models.implementation import AutosarEngineeringObject, BswImplementation, Code, EngineeringObject, Implementation, SwcImplementation
 from ..models.common_structure import ExecutableEntity, ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent

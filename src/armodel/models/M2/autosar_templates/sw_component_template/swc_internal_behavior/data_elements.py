@@ -1,6 +1,6 @@
 from .....general_structure import Identifiable
 from .....ar_object import ARLiteral, ARObject
-from ....msr.data_dictionary.data_def_properties import SwDataDefProps
+from ....MSR.data_dictionary.data_def_properties import SwDataDefProps
 from ..swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
 from .access_count import AbstractAccessPoint
 class ParameterAccess(AbstractAccessPoint):
