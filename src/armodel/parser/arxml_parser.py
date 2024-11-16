@@ -48,7 +48,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.composition import Assembl
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.mode_declaration_group import ModeAccessPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.server_call import ServerCallPoint
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -58,6 +58,7 @@ from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderRece
 from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.fibex.can_communication import CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.fibex.fibex_4_multiplatform import ISignalMapping
 from ..models.fibex.fibex_core.core_communication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.internal_behavior import IncludedDataTypeSet
@@ -68,11 +69,11 @@ from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySec
 from ..models.implementation import BswImplementation, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
-from ..models.data_def_properties import ValueList
+from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
-from ..models.communication import CompositeNetworkRepresentation
+
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -80,20 +81,17 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 from ..models.service_needs import RoleBasedDataAssignment
 from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
-from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
+from ..models.M2.MSR.AsamHdo.SpecialData import Sd
+from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
-
 from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
-from ..models.M2.MSR.AsamHdo.SpecialData import Sd
-from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ..models import InternalBehavior, ExecutableEntity
 from ..models import Implementation, Code, AutosarEngineeringObject, ResourceConsumption
-from ..models import TransmissionAcknowledgementRequest
 from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent
 from ..models import ApplicationRecordDataType
 from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont

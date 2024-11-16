@@ -1,33 +1,20 @@
 import xml.etree.cElementTree as ET
 
 from typing import List
-
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
-
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
-
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
-
 from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
-
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
-
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
-
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable, Referrable
-
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
-
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph
-
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
-
-
+from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
 
 from ..models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -53,7 +40,7 @@ from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderRece
 from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
 from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 
 from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
 from ..models.fibex.can_communication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -63,7 +50,7 @@ from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanClust
 
 from ..models.internal_behavior import IncludedDataTypeSet, InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
-from ..models.data_def_properties import ValueList
+from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
@@ -76,7 +63,6 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.common_structure import IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
-from ..models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
