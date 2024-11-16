@@ -1,8 +1,10 @@
 from typing import List
 
+from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
 from ..M2.MSR.documentation.block_elements import DocumentationBlock
 from ..ar_ref import RefType
-from ..ar_object import ARObject, ARPositiveInteger
+from ..ar_object import ARPositiveInteger
 from .fibex_core.core_communication import FibexElement
 
 class FrameMapping(ARObject):

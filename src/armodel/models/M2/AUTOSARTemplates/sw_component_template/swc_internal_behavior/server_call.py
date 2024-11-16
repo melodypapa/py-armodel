@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from .....ar_object import ARObject
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..composition.instance_refs import ROperationInAtomicSwcInstanceRef
 from .access_count import AbstractAccessPoint
 

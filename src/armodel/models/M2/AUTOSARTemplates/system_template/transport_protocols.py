@@ -1,5 +1,5 @@
 
-from ....ar_object import ARObject
+from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....fibex.fibex_core.core_communication import FibexElement
 
 class CanTpConfig(FibexElement):

@@ -1,5 +1,6 @@
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .ar_object import ARLiteral
-from .general_structure import ARObject, ARElement, Limit
+from .general_structure import ARElement, Limit
 from .ar_ref import RefType
 from abc import ABCMeta
 from typing import List

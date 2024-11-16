@@ -1,10 +1,12 @@
 from abc import ABCMeta
 
-from .....ar_object import ARNumerical
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 from .....ar_ref import RefType
 from ....MSR.data_dictionary.data_def_properties import SwDataDefProps
-from ...common_structure import ValueSpecification
-from .....general_structure import AtpFeature, ARObject
+from ...CommonStructure import ValueSpecification
+from .....general_structure import AtpFeature
 
 class AtpPrototype(AtpFeature, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):

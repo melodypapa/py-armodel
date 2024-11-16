@@ -1,7 +1,7 @@
 
 from .M2.AUTOSARTemplates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
-from .ar_object import ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class TransmissionAcknowledgementRequest(ARObject):
     def __init__(self):

@@ -1,11 +1,15 @@
 from abc import ABCMeta
 from typing import List
 
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
+
 from ...fibex.lin_communication import LinFrameTriggering
 from ...fibex.can_communication import CanFrameTriggering
 from ...ar_ref import RefType
 from ...general_structure import Identifiable
-from ...ar_object import ARFloat, ARLiteral, ARObject
+from ...ar_object import ARLiteral
 from ...fibex.fibex_core.core_communication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 
 class PhysicalChannel (Identifiable, metaclass = ABCMeta):

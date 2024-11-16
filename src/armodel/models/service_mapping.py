@@ -1,6 +1,6 @@
 
 from .ar_ref import RefType
-from .ar_object import ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class RoleBasedPortAssignment(ARObject):

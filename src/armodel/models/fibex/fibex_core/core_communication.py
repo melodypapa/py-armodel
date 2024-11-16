@@ -1,8 +1,12 @@
 from abc import ABCMeta
 from typing import List
 
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
+
 from ...ar_ref import RefType
-from ...ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARObject, ARPositiveInteger
+from ...ar_object import ARBoolean, ARLiteral, ARPositiveInteger
 from ...general_structure import ARElement, Describable, Identifiable
 
 class FibexElement(Identifiable, metaclass = ABCMeta):

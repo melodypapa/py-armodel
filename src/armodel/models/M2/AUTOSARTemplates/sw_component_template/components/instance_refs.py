@@ -1,6 +1,6 @@
 from abc import ABCMeta
 
-from ...generic_structure.abstract_structure import AtpInstanceRef
+from ...GenericStructure.abstract_structure import AtpInstanceRef
 from .....ar_ref import RefType
 
 

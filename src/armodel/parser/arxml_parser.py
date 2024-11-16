@@ -2,13 +2,15 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from ..models.M2.AUTOSARTemplates.generic_structure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+
+from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
 
 from ..models.ar_ref import RefType
-from ..models.M2.AUTOSARTemplates.common_structure.implementation import ImplementationProps
-from ..models.M2.AUTOSARTemplates.common_structure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
-from ..models.M2.AUTOSARTemplates.generic_structure.abstract_structure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.common_structure.implementation_data_types import ImplementationDataTypeElement
+from ..models.M2.AUTOSARTemplates.CommonStructure.implementation import ImplementationProps
+from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.M2.AUTOSARTemplates.GenericStructure.abstract_structure import AnyInstanceRef
+from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.sw_component_template.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
@@ -66,7 +68,7 @@ from ..models import CompuMethod, CompuScale, CompuScales, Compu, CompuConst, Co
 from ..models import InternalBehavior, ExecutableEntity
 from ..models import Implementation, Code, AutosarEngineeringObject, ResourceConsumption
 from ..models import TransmissionAcknowledgementRequest
-from ..models import BswModuleDescription, BswInternalBehavior, BswModuleEntity, BswScheduleEvent, SwcBswMapping, SwcBswRunnableMapping
+from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent, SwcBswMapping, SwcBswRunnableMapping
 from ..models import ApplicationRecordDataType
 from ..models import SwValueCont, SwValues
 

@@ -1,7 +1,9 @@
 from typing import List
 
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+
 from .M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
-from .ar_object import ARNumerical, ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .general_structure import Identifiable
 
 

@@ -1,10 +1,11 @@
 from typing import List
-
-from ...AUTOSARTemplates.common_structure import ValueSpecification
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
+from ...AUTOSARTemplates.CommonStructure import ValueSpecification
 from ....calibration import SwCalprmAxisSet
 from ....ar_ref import RefType
 from ....annotation import Annotation
-from ....ar_object import ARFloat, ARLiteral, ARObject
+from ....ar_object import ARLiteral
 
 
 class SwDataDefPropsConditional(ARObject):

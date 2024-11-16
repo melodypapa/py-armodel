@@ -7,9 +7,13 @@ import re
 import logging
 import xml.etree.ElementTree as ET
 
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
+
 from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ..models.ar_ref import RefType
-from ..models.ar_object import ARBoolean, ARFloat, ARLiteral, ARNumerical, ARObject
+from ..models.ar_object import ARBoolean, ARLiteral
 from ..models.general_structure import Limit
 
 

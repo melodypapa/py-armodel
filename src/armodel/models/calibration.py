@@ -1,7 +1,9 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARFloat, ARNumerical, ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
+
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .ar_ref import RefType
 from .data_def_properties import ValueList
 

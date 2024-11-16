@@ -2,7 +2,7 @@
 from abc import ABCMeta
 
 from .....ar_ref import RefType
-from ...generic_structure.abstract_structure import AtpInstanceRef
+from ...GenericStructure.abstract_structure import AtpInstanceRef
 
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass = ABCMeta):

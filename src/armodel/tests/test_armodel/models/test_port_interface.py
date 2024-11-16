@@ -1,10 +1,12 @@
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
 from ....models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ....models.ar_ref import RefType
 from ....models.M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from ....models.datatype import AtpType
-from ....models.general_structure import ARElement, ARObject, AtpFeature, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
+from ....models.general_structure import ARElement, AtpFeature, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable
 from ....models.M2.AUTOSARTemplates.sw_component_template.port_interface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 
 

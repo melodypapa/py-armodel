@@ -1,5 +1,5 @@
 from .....ar_ref import RefType
-from ...generic_structure.abstract_structure import AtpInstanceRef
+from ...GenericStructure.abstract_structure import AtpInstanceRef
 
 class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
     def __init__(self):

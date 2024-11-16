@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from ..models.M2.AUTOSARTemplates.generic_structure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
 
 from ..models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
 from ..models.fibex.fibex_core.core_communication import SystemSignal

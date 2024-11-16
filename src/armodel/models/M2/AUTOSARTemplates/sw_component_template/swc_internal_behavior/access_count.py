@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
 from .....general_structure import Identifiable
-from .....ar_object import ARObject
+from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class AbstractAccessPoint(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

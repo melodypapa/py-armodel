@@ -1,6 +1,8 @@
 import pytest
 
-from ....models.bsw_module_template import BswModuleDescription, BswModuleEntry, BswModuleEntity, BswCalledEntity
+from ....models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+
+from ....models.bsw_module_template import BswModuleDescription, BswModuleEntry, BswCalledEntity
 from .... import AUTOSAR
 
 class TestBswModuleDescription:

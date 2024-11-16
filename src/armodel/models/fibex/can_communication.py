@@ -1,5 +1,6 @@
+from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..general_structure import Identifiable
-from ..ar_object import ARObject, ARPositiveInteger
+from ..ar_object import ARPositiveInteger
 from .fibex_core.core_communication import Frame, FrameTriggering
 
 class RxIdentifierRange(ARObject):

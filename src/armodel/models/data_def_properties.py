@@ -1,5 +1,9 @@
 from typing import List
-from .ar_object import ARFloat, ARLiteral, ARObject
+
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
+from .ar_object import ARLiteral
 
 
 class ValueList(ARObject):

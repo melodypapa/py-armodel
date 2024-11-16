@@ -1,7 +1,9 @@
 from abc import ABCMeta
 from typing import List
 
-from .ar_object import ARLiteral, ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from .ar_object import ARLiteral
 from .ar_ref import RefType
 from .common_structure import ExclusiveArea
 from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype

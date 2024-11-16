@@ -1,7 +1,9 @@
 
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 from .multilanguage_data import MultiLanguageOverviewParagraph
 from .ar_ref import RefType
-from .ar_object import ARLiteral, ARNumerical, ARObject
+from .ar_object import ARLiteral
 from .general_structure import ARElement
 
 class SwRecordLayoutV(ARObject):
