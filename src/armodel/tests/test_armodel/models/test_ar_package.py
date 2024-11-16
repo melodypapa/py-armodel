@@ -12,14 +12,14 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Iden
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.components import SwComponentType
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ....models.datatype import ApplicationPrimitiveDataType, ApplicationRecordDataType, DataTypeMappingSet
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
 from ....models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, EcuAbstractionSwComponentType, ServiceSwComponentType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.composition import CompositionSwComponentType
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 
 class TestAUTOSAR:
 

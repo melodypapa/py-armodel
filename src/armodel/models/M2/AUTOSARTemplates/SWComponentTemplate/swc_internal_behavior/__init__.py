@@ -10,7 +10,7 @@ from .trigger import InternalTriggeringPoint
 
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from .....common_structure import ExecutableEntity
+from ...CommonStructure.InternalBehavior import ExecutableEntity
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 

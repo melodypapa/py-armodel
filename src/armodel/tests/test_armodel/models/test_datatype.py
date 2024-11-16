@@ -13,7 +13,7 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Iden
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import AbstractImplementationDataType, ImplementationDataType, ImplementationDataTypeElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.components import SymbolProps
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation import ImplementationProps
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationRecordElement
 from ....models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet

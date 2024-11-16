@@ -1,6 +1,16 @@
 import xml.etree.cElementTree as ET
 
 from typing import List
+
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
+
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
+
+from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup
+
+from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
@@ -25,17 +35,17 @@ from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.components.instance_refs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntityArgument, SynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.server_call import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.data_elements import ParameterAccess, VariableAccess
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.system_template.instance_refs import VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.components.instance_refs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
 from ..models.M2.AUTOSARTemplates.system_template.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
@@ -54,7 +64,7 @@ from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
-from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.bsw_module_template import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleDescription, BswModuleEntry, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -62,7 +72,7 @@ from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentT
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
-from ..models.common_structure import IncludedModeDeclarationGroupSet, ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
@@ -70,8 +80,8 @@ from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.MSR.AsamHdo.Units import Unit
-from ..models.implementation import AutosarEngineeringObject, BswImplementation, Code, EngineeringObject, Implementation, SwcImplementation
-from ..models.common_structure import ExecutableEntity, ResourceConsumption
+from ..models.implementation import BswImplementation, Code, Implementation, SwcImplementation
+from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
