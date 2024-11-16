@@ -2,7 +2,7 @@ import pytest
 
 from .... import AUTOSAR
 from ....models.ar_ref import RefType
-from ....models.m2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
+from ....models.M2.autosar_templates.sw_component_template.data_type.data_prototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from ....models.general_structure import ARObject, AtpFeature, Identifiable, MultilanguageReferrable, Referrable
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes:

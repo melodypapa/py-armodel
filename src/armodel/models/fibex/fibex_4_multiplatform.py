@@ -1,6 +1,6 @@
 from typing import List
 
-from ..m2.msr.documentation.block_elements import DocumentationBlock
+from ..M2.msr.documentation.block_elements import DocumentationBlock
 from ..ar_ref import RefType
 from ..ar_object import ARObject, ARPositiveInteger
 from .fibex_core.core_communication import FibexElement
