@@ -2,7 +2,7 @@ from abc import ABCMeta
 from typing import Dict
 
 
-class ARObject(metaclass=ABCMeta):
+class ARObject(metaclass = ABCMeta):
     def __init__(self):
         if type(self) == ARObject:
             raise NotImplementedError("ARObject is an abstract class.")

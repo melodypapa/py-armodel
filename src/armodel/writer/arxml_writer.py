@@ -2,6 +2,8 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph
+
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
 
@@ -10,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_type
 from ..models.M2.MSR.data_dictionary.auxillary_objects import SwAddrMethod
 from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
 from ..models.M2.MSR.asam_hdo.units import PhysicalDimension
-from ..models.M2.MSR.documentation.block_elements import DocumentationBlock
+from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.m2_msr import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
@@ -42,7 +44,7 @@ from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanClust
 from ..models.internal_behavior import IncludedDataTypeSet, InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
 from ..models.data_def_properties import ValueList
-from ..models.multilanguage_data import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from ..models.record_layout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.service_mapping import RoleBasedPortAssignment
 from ..models.service_needs import NvBlockNeeds, RoleBasedDataAssignment
@@ -58,14 +60,14 @@ from ..models.communication import CompositeNetworkRepresentation, TransmissionA
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType, BaseTypeDirectDefinition, DataTypeMappingSet, SwBaseType
 from ..models.general_structure import ARElement, AdminData, Identifiable, Limit, MultilanguageReferrable, Referrable, Sdg, SwcBswMapping, SwcBswRunnableMapping
 
-from ..models.annotation import Annotation
+from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.MSR.asam_hdo.units import Unit
 from ..models.implementation import AutosarEngineeringObject, BswImplementation, Code, EngineeringObject, Implementation, SwcImplementation
 from ..models.common_structure import ExecutableEntity, ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
-from ..models.ar_object import ARLiteral
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ..models.global_constraints import DataConstr, InternalConstrs, PhysConstrs
 
 from .abstract_arxml_writer import AbstractARXMLWriter

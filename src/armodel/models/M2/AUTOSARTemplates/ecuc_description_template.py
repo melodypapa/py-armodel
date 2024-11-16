@@ -3,13 +3,13 @@ from typing import List
 
 from .GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
 
 from ..AUTOSARTemplates.GenericStructure.abstract_structure import AnyInstanceRef
-from ..MSR.documentation.block_elements import DocumentationBlock
-from ...annotation import Annotation
+from ..MSR.Documentation.BlockElements import DocumentationBlock
+from ..MSR.Documentation.Annotation import Annotation
 from ...ar_ref import RefType
-from ...ar_object import ARBoolean, ARLiteral
+from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ...general_structure import ARElement
 
 class EcucValueCollection(ARElement):

@@ -3,7 +3,7 @@ from typing import List
 
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from .ar_object import ARLiteral
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .ar_ref import RefType
 from .common_structure import ExclusiveArea
 from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype

@@ -1,6 +1,8 @@
 from typing import List
 from abc import ABCMeta
 
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from .M2.AUTOSARTemplates.sw_component_template.components import SwComponentType
@@ -11,7 +13,7 @@ from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .service_mapping import RoleBasedPortAssignment
 from .per_instance_memory import PerInstanceMemory
 from .service_needs import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
-from .ar_object import ARBoolean, ARLiteral
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .general_structure import Identifiable
 from .ar_ref import TRefType
 from .ar_ref import RefType

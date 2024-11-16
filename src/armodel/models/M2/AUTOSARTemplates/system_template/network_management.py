@@ -3,11 +3,11 @@ from typing import List
 
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
 
 from ....ar_ref import RefType
 from ....general_structure import Identifiable
-from ....ar_object import ARBoolean, ARLiteral
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ....fibex.fibex_core.core_communication import FibexElement
 from ....fibex.can_communication import RxIdentifierRange
 

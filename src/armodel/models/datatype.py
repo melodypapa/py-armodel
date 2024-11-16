@@ -6,7 +6,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject impor
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 
 from .M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
-from .ar_object import ARLiteral
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .ar_ref import RefType
 from .general_structure import ARElement
 from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, ApplicationRecordElement

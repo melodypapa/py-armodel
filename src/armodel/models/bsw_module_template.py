@@ -3,11 +3,11 @@ from typing import Dict, List
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, ARPositiveInteger
 
 from .internal_behavior import IncludedDataTypeSet, InternalBehavior
 from .general_structure import AtpStructureElement, ARElement
-from .ar_object import ARBoolean, ARLiteral, ARPositiveInteger
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .common_structure import IncludedModeDeclarationGroupSet, ModeDeclarationGroupPrototype, Identifiable
 from .ar_ref import RefType
 

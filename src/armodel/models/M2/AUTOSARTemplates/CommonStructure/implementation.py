@@ -2,7 +2,7 @@ from abc import ABCMeta
 
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ....ar_object import ARLiteral
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ....general_structure import Referrable
 
 
