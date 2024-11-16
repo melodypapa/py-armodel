@@ -2,6 +2,12 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
+
+from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+
+from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValues
+
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
@@ -43,7 +49,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.serv
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.MSR.data_dictionary.data_def_properties import SwDataDefProps
+from ..models.M2.MSR.DataDictionary.data_def_properties import SwDataDefProps
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
 from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
@@ -63,7 +69,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.data_def_properties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from ..models.datatype import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType
-from ..models.calibration import SwAxisGrouped, SwAxisIndividual, SwCalprmAxis, SwCalprmAxisSet
+from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.communication import CompositeNetworkRepresentation
 from ..models.end_to_end_protection import EndToEndDescription, EndToEndProtection, EndToEndProtectionSet, EndToEndProtectionVariablePrototype
 from ..models.service_mapping import RoleBasedPortAssignment
@@ -88,7 +94,7 @@ from ..models import Implementation, Code, AutosarEngineeringObject, ResourceCon
 from ..models import TransmissionAcknowledgementRequest
 from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent
 from ..models import ApplicationRecordDataType
-from ..models import SwValueCont, SwValues
+from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
 
 from .abstract_arxml_parser import AbstractARXMLParser
 

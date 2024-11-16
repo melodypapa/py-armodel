@@ -3,7 +3,7 @@ from abc import ABCMeta
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....ar_ref import RefType
 from ....MSR.DataDictionary.data_def_properties import SwDataDefProps
 from ...CommonStructure import ValueSpecification
 from ...GenericStructure.AbstractStructure import AtpFeature
