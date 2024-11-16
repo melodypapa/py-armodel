@@ -1,7 +1,7 @@
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ....MSR.DataDictionary.data_def_properties import SwDataDefProps
+from ....MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef
 from .access_count import AbstractAccessPoint
 class ParameterAccess(AbstractAccessPoint):

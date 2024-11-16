@@ -5,7 +5,7 @@ from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
 
-from ...MSR.DataDictionary.data_def_properties import SwDataDefProps
+from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ....datatype import AutosarDataType

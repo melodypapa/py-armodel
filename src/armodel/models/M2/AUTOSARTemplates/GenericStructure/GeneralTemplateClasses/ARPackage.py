@@ -12,7 +12,7 @@ from armodel.models.fibex.fibex_core.core_communication import DcmIPdu, ISignal,
 from armodel.models.fibex.fibex_core.core_topology import CanCluster, EcuInstance, LinCluster
 from armodel.models.fibex.lin_communication import LinUnconditionalFrame
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
-from armodel.models.global_constraints import DataConstr
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 from armodel.models.implementation import BswImplementation, Implementation, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataType
@@ -24,7 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.system_template import System
 from armodel.models.M2.AUTOSARTemplates.system_template.network_management import NmConfig
 from armodel.models.M2.AUTOSARTemplates.system_template.transport_protocols import CanTpConfig
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.DataDictionary.auxillary_objects import SwAddrMethod
+from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from armodel.models.record_layout import SwRecordLayout
 from armodel.models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType, ServiceSwComponentType

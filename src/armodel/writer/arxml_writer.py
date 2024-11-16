@@ -2,6 +2,8 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
+
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
 
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
@@ -27,8 +29,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.implementation_data_type
 
 
 
-from ..models.M2.MSR.DataDictionary.auxillary_objects import SwAddrMethod
-from ..models.M2.MSR.DataDictionary.data_def_properties import SwDataDefProps
+from ..models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..models.M2.MSR.AsamHdo.Units import PhysicalDimension
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
@@ -86,7 +88,7 @@ from ..models.implementation import AutosarEngineeringObject, BswImplementation,
 from ..models.common_structure import ExecutableEntity, ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ..models.global_constraints import DataConstr, InternalConstrs, PhysConstrs
+from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):

@@ -1,4 +1,4 @@
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
+from .CalibrationParameter import SwCalprmAxisTypeProps
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 from typing import List
@@ -7,17 +7,43 @@ class SwGenericAxisParam(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swGenericAxisParamTypeRef = None   # type: RefType
-        self.vf = []                            # type: List[ARFloat]
+        self.swGenericAxisParamTypeRef = None           # type: RefType
+        self.vfs = []                                   # type: List[ARFloat]
 
+    def getSwGenericAxisParamTypeRef(self):
+        return self.swGenericAxisParamTypeRef
+
+    def setSwGenericAxisParamTypeRef(self, value):
+        self.swGenericAxisParamTypeRef = value
+        return self
+
+    def getVfs(self):
+        return self.vfs
+
+    def addVf(self, value):
+        self.vfs.append(value)
+        return self
 
 class SwAxisGeneric(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swAxisTypeRef = None               # type: RefType
-        self.swGenericAxisParam = []            # type: List[SwGenericAxisParam]
+        self.swAxisTypeRef = None                   # type: RefType
+        self.swGenericAxisParams = []               # type: List[SwGenericAxisParam]
 
+    def getSwAxisTypeRef(self):
+        return self.swAxisTypeRef
+
+    def setSwAxisTypeRef(self, value):
+        self.swAxisTypeRef = value
+        return self
+
+    def getSwGenericAxisParams(self):
+        return self.swGenericAxisParams
+
+    def addSwGenericAxisParam(self, value):
+        self.swGenericAxisParams.append(value)
+        return self
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):
     def __init__(self):
@@ -32,24 +58,60 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         self.swVariableRefs = []                # type: List
         self.unitRef = None                     # type: RefType
 
-    def setInputVariableTypeRef(self, ref: RefType):
-        self.inputVariableTypeRef = ref
+    def getCompuMethodRef(self):
+        return self.compuMethodRef
+
+    def setCompuMethodRef(self, value):
+        self.compuMethodRef = value
         return self
 
-    def setCompuMethodRef(self, ref: RefType):
-        self.compuMethodRef = ref
+    def getDataConstrRef(self):
+        return self.dataConstrRef
+
+    def setDataConstrRef(self, value):
+        self.dataConstrRef = value
         return self
 
-    def setSwMaxAxisPoints(self, points: int):
-        self.swMaxAxisPoints = points
+    def getInputVariableTypeRef(self):
+        return self.inputVariableTypeRef
+
+    def setInputVariableTypeRef(self, value):
+        self.inputVariableTypeRef = value
         return self
 
-    def setSwMinAxisPoints(self, points: int):
-        self.swMinAxisPoints = points
+    def getSwAxisGeneric(self):
+        return self.swAxisGeneric
+
+    def setSwAxisGeneric(self, value):
+        self.swAxisGeneric = value
         return self
 
-    def setDataConstrRef(self, ref: RefType):
-        self.dataConstrRef = ref
+    def getSwMaxAxisPoints(self):
+        return self.swMaxAxisPoints
+
+    def setSwMaxAxisPoints(self, value):
+        self.swMaxAxisPoints = value
+        return self
+
+    def getSwMinAxisPoints(self):
+        return self.swMinAxisPoints
+
+    def setSwMinAxisPoints(self, value):
+        self.swMinAxisPoints = value
+        return self
+
+    def getSwVariableRefs(self):
+        return self.swVariableRefs
+
+    def setSwVariableRefs(self, value):
+        self.swVariableRefs = value
+        return self
+
+    def getUnitRef(self):
+        return self.unitRef
+
+    def setUnitRef(self, value):
+        self.unitRef = value
         return self
 
 
@@ -61,6 +123,23 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         self.swAxisIndex = None                 # type: ARNumerical
         self.swCalprmRef = None                 # type: SwCalprmRefProxy
 
-    def setSharedAxisTypeRef(self, ref: RefType):
-        self.sharedAxisTypeRef = ref
+    def getSharedAxisTypeRef(self):
+        return self.sharedAxisTypeRef
+
+    def setSharedAxisTypeRef(self, value):
+        self.sharedAxisTypeRef = value
+        return self
+
+    def getSwAxisIndex(self):
+        return self.swAxisIndex
+
+    def setSwAxisIndex(self, value):
+        self.swAxisIndex = value
+        return self
+
+    def getSwCalprmRef(self):
+        return self.swCalprmRef
+
+    def setSwCalprmRef(self, value):
+        self.swCalprmRef = value
         return self

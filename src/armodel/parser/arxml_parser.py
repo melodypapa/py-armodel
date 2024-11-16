@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs
+
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
 
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
@@ -49,7 +51,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.serv
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.communication import ClientComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.MSR.DataDictionary.data_def_properties import SwDataDefProps
+from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.AUTOSARTemplates.system_template import System, SystemMapping
 from ..models.M2.AUTOSARTemplates.system_template.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
@@ -80,7 +82,7 @@ from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefi
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.port_prototype import ModeSwitchReceiverComSpec, QueuedReceiverComSpec
 from ..models.M2.MSR.Documentation.Annotation import Annotation
-from ..models.global_constraints import InternalConstrs, DataConstr, DataConstrRule, PhysConstrs
+from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
