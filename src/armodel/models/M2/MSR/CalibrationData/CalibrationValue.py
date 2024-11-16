@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from typing import List
 
-from armodel.models.data_def_properties import ValueList
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 
 
 class SwValues(ARObject):

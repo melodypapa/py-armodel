@@ -8,7 +8,7 @@ from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
-from ..communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
+from ..Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
 from .instance_refs import InnerPortGroupInCompositionInstanceRef
 
 class SymbolProps(ImplementationProps):

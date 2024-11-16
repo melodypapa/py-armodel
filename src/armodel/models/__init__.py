@@ -2,16 +2,12 @@ from .common_structure import *
 from .sw_component import *
 
 from .datatype import *
-from .port_prototype import * 
-from .M2.AUTOSARTemplates.SWComponentTemplate.data_type.data_prototypes import *
 from .M2.MSR.AsamHdo.Units import *
 from .M2.MSR.DataDictionary.DataDefProperties import *
 from .M2.MSR.DataDictionary.AuxillaryObjects import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.port_interface import *
 from .implementation import *
 from .bsw_module_template import *
-from .communication import *
-from .global_constraints import *
 
 from .M2.MSR.Documentation import *
 from .M2.MSR.AsamHdo import *

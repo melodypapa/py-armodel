@@ -1,14 +1,12 @@
 from abc import ABCMeta
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger
-
-
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from .....models.ar_ref import RefType
-from .....models.communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
+from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ..CommonStructure import ValueSpecification
 
@@ -45,6 +43,21 @@ class RPortComSpec(ARObject, metaclass = ABCMeta):
             raise NotImplementedError("RPortComSpec is an abstract class.")
         
         super().__init__()
+
+
+class CompositeNetworkRepresentation(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.leaf_element_iref = None           # type: ApplicationCompositeElementInPortInterfaceInstanceRef
+        self.network_representation = None      # type: SwDataDefProps
+
+
+class TransmissionAcknowledgementRequest(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.timeout = None     # type: float
 
 
 class SenderComSpec(PPortComSpec, metaclass = ABCMeta):
