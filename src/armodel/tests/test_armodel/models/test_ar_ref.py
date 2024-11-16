@@ -6,7 +6,7 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Prim
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

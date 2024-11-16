@@ -2,7 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
+from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroupContent, SwRecordLayoutV
+
 
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
@@ -16,6 +17,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewP
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
 from ..models.M2.MSR.Documentation.Annotation import GeneralAnnotation
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap
@@ -26,7 +28,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import Execut
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswModuleEntity, BswScheduleEvent
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
@@ -35,19 +37,19 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyI
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.instance_refs_usage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior import RunnableEntityArgument
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntityArgument
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.mode_declaration_group import ModeAccessPoint
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.swc_internal_behavior.server_call import ServerCallPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 
 from ..models.fibex.lin_communication import LinFrameTriggering
 from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
@@ -57,21 +59,21 @@ from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractR
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
 from ..models.fibex.fibex_4_multiplatform import ISignalMapping
 from ..models.fibex.fibex_core.core_communication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
-from ..models.internal_behavior import IncludedDataTypeSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
-from ..models.bsw_module_template import BswModeSenderPolicy
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModeSenderPolicy
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
-from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
+from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.service_mapping import RoleBasedPortAssignment
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
@@ -86,10 +88,9 @@ from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
 
 from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
 from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
-from ..models import ImplementationDataType,  SwPointerTargetProps
-from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
-from ..models import InternalBehavior
-from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent
+from ..models import ImplementationDataType
+from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType
 
 from .abstract_arxml_parser import AbstractARXMLParser
@@ -391,7 +392,7 @@ class ARXMLParser(AbstractARXMLParser):
     
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
         assignment = RoleBasedPortAssignment()
-        assignment.port_prototype_ref = self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF")
+        assignment.portPrototypeRef = self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF")
         assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
         return assignment
 

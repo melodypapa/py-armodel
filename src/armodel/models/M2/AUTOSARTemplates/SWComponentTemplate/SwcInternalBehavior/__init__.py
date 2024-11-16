@@ -1,18 +1,15 @@
 
+from .ServiceMapping import *
+
 from typing import Dict, List
 
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-
-from .data_elements import ParameterAccess, VariableAccess
-from .server_call import ServerCallPoint
-from .mode_declaration_group import ModeAccessPoint, ModeSwitchPoint
-from .trigger import InternalTriggeringPoint
-
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ...CommonStructure.InternalBehavior import ExecutableEntity
+from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, ARBoolean
+from ...SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
+from ...SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
+from ...SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
+from ...SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
+from ...CommonStructure.InternalBehavior import ExecutableEntity
 
 class RunnableEntityArgument(ARObject):
     def __init__(self):
