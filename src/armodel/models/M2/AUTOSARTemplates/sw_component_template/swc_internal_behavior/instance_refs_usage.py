@@ -2,7 +2,7 @@ from typing import List
 
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....ar_ref import RefType
-from ...GenericStructure.abstract_structure import AtpInstanceRef
+from ...GenericStructure.AbstractStructure import AtpInstanceRef
 
 class ArVariableInImplementationDataInstanceRef(AtpInstanceRef):
     def __init__(self):

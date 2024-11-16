@@ -1,13 +1,17 @@
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ....models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import AbstractImplementationDataTypeElement, ImplementationDataTypeElement
 from .... import AUTOSAR
 from ....models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, ConstantSpecification, ValueSpecification
 from ....models.common_structure import ExecutableEntity
-from ....models.general_structure import ARElement, CollectableElement, Identifiable
-from ....models.general_structure import MultilanguageReferrable, PackageableElement, Referrable
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
 
 class Test_M2_AUTOSARTemplates_CommonStructure_Constants:
     

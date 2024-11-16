@@ -1,8 +1,10 @@
 
 from typing import List
 
+from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
 from ....ar_ref import RefType
-from ....general_structure import ARElement, Identifiable
+from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class SystemMapping(Identifiable):
     def __init__(self, parent, short_name):

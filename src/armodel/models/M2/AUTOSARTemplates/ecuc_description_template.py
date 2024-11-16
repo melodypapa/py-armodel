@@ -5,12 +5,12 @@ from .GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
 
-from ..AUTOSARTemplates.GenericStructure.abstract_structure import AnyInstanceRef
+from .GenericStructure.AbstractStructure import AnyInstanceRef
 from ..MSR.Documentation.BlockElements import DocumentationBlock
 from ..MSR.Documentation.Annotation import Annotation
 from ...ar_ref import RefType
 from .GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ...general_structure import ARElement
+from .GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class EcucValueCollection(ARElement):
     def __init__(self, parent: ARObject, short_name: str):

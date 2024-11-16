@@ -1,7 +1,7 @@
 
 from abc import ABCMeta
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .general_structure import Identifiable
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class IdentCaption(Identifiable):

@@ -5,7 +5,7 @@ from openpyxl.worksheet.worksheet import Worksheet
 import openpyxl
 import re
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from ..parser.excel_parser import AbstractExcelParser
 from ..data_models.sw_connector import AssemblySwConnectorData, DelegationSwConnectorData, SwConnectorData

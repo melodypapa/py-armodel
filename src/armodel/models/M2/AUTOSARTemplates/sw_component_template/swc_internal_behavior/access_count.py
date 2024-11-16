@@ -1,6 +1,6 @@
 from abc import ABCMeta
 
-from .....general_structure import Identifiable
+from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class AbstractAccessPoint(Identifiable, metaclass = ABCMeta):

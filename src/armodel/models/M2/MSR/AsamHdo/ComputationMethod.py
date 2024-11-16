@@ -1,9 +1,11 @@
 from typing import List
 from abc import ABCMeta
+
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....ar_ref import RefType
-from ....general_structure import ARElement, Limit
+from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
 class CompuContent(ARObject, metaclass=ABCMeta):
     def __init__(self):

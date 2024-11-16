@@ -7,7 +7,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 from .ar_ref import RefType
 from .common_structure import ExclusiveArea
 from .M2.AUTOSARTemplates.sw_component_template.data_type.data_prototypes import ParameterDataPrototype
-from .general_structure import Identifiable
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class IncludedDataTypeSet(ARObject):
     def __init__(self):

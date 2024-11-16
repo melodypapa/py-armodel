@@ -1,4 +1,3 @@
-from .general_structure import *
 from .common_structure import *
 from .sw_component import *
 from .M2.AUTOSARTemplates.autosar_top_level_structure import *

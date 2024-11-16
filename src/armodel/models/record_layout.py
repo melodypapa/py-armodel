@@ -4,7 +4,7 @@ from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes
 from .M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from .ar_ref import RefType
 from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from .general_structure import ARElement
+from .M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class SwRecordLayoutV(ARObject):
     def __init__(self):

@@ -2,6 +2,14 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
+
+from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
+
+from ..models.M2.MSR.AsamHdo.AdminData import AdminData
+
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstTextContent, CompuNominatorDenominator, CompuRationalCoeffs, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
@@ -12,12 +20,12 @@ from ..models.M2.MSR.Documentation.Annotation import GeneralAnnotation
 
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from ..models.ar_ref import RefType
 from ..models.M2.AUTOSARTemplates.CommonStructure.implementation import ImplementationProps
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
-from ..models.M2.AUTOSARTemplates.GenericStructure.abstract_structure import AnyInstanceRef
+from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.CommonStructure.implementation_data_types import ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.sw_component_template.composition.instance_refs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
@@ -48,7 +56,7 @@ from ..models.bsw_module_template import BswModeSenderPolicy
 from ..models.M2.AUTOSARTemplates.sw_component_template.port_interface import InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface
 from ..models.common_structure import IncludedModeDeclarationGroupSet, MemorySection, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeRequestTypeMap
 from ..models.implementation import BswImplementation, EngineeringObject
-from ..models.general_structure import MultilanguageReferrable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from ..models.data_def_properties import ValueList
 from ..models.record_layout import SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
@@ -71,12 +79,12 @@ from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
 
 from ..models import ImplementationDataType,  SwPointerTargetProps, DataTypeMappingSet, DataTypeMap
 from ..models import SenderReceiverInterface, ClientServerInterface, ClientServerOperation, ArgumentDataPrototype
-from ..models import Identifiable, AdminData, Sdg, Sd
+from ..models.M2.MSR.AsamHdo.SpecialData import Sd
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ..models import InternalBehavior, ExecutableEntity
 from ..models import Implementation, Code, AutosarEngineeringObject, ResourceConsumption
 from ..models import TransmissionAcknowledgementRequest
-from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent, SwcBswMapping, SwcBswRunnableMapping
+from ..models import BswModuleDescription, BswInternalBehavior, BswScheduleEvent
 from ..models import ApplicationRecordDataType
 from ..models import SwValueCont, SwValues
 

@@ -1,9 +1,17 @@
 import pytest
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, PackageableElement
+
+from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
+
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 from ....models.M2.AUTOSARTemplates.autosar_top_level_structure import AUTOSAR
-from ....models.general_structure import ARElement, AtpFeature, CollectableElement, Identifiable, Limit, MultilanguageReferrable, PackageableElement, Referrable
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
 class TestGeneralStructure:
     def test_ar_object(self):

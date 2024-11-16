@@ -1,6 +1,6 @@
 import filecmp
 
-from ....models.M2.AUTOSARTemplates.GenericStructure.ar_package import ARPackage
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from .... import AUTOSAR
 from .... import ARXMLParser, ARXMLWriter
