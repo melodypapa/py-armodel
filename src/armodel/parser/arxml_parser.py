@@ -2,17 +2,21 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroupContent, SwRecordLayoutV
-
-
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs
-from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
-from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
-from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValues
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstTextContent, CompuNominatorDenominator, CompuRationalCoeffs, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
+from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValues
+from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps
+from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
+from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroupContent, SwRecordLayoutV
+from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
+from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
+from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
 from ..models.M2.MSR.Documentation.Annotation import GeneralAnnotation
@@ -46,19 +50,16 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import Assembl
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
-
-from ..models.fibex.lin_communication import LinFrameTriggering
-from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps
-from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
-from ..models.fibex.can_communication import CanFrameTriggering, RxIdentifierRange
-from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ..models.fibex.fibex_4_multiplatform import ISignalMapping
-from ..models.fibex.fibex_core.core_communication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModeSenderPolicy
@@ -66,11 +67,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import Argu
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
-from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
-from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
-from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType
-from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment
@@ -2643,18 +2641,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappings(element, system)
 
     def readParameterInterfaceParameters(self, element: ET.Element, parent: ParameterInterface):
-        for child_element in element.findall("./xmlns:PARAMETERS/xmlns:PARAMETER-DATA-PROTOTYPE", self.nsmap):
+        for child_element in self.findall(element, "PARAMETERS/PARAMETER-DATA-PROTOTYPE"):
             short_name = self.getShortName(child_element)
             prototype = parent.createParameter(short_name)
             self.readParameterDataPrototype(child_element, prototype)
     
     def readParameterInterface(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
-        self.logger.debug("ParameterInterface %s" % short_name)
+        self.logger.debug("Read ParameterInterface %s" % short_name)
         pi_interface = parent.createParameterInterface(short_name)
         self.readIdentifiable(element, pi_interface)
         self.readParameterInterfaceParameters(element, pi_interface)
 
+    def readGenericEthernetFrame(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read EthernetFrame %s" % short_name)
+        frame = parent.createGenericEthernetFrame(short_name)
+        self.readFrame(element, frame)
 
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "./ELEMENTS/*"):
@@ -2767,6 +2770,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readPhysicalDimensions(child_element, parent)
             elif tag_name == "PARAMETER-INTERFACE":
                 self.readParameterInterface(child_element, parent)
+            elif tag_name == "ETHERNET-FRAME":
+                self.readGenericEthernetFrame(child_element, parent)
             else:
                 self._raiseError("Unsupported element type of ARPackage <%s>" % tag_name)
 

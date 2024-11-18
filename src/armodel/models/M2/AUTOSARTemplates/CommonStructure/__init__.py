@@ -1,10 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .ResourceConsumption import *
 
+from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 class ValueSpecification(ARObject, metaclass = ABCMeta):

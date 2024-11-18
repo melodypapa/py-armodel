@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default">English</L-10>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>AUTOSAR</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>AISpecification</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>SwComponentTypes_Blueprint</SHORT-NAME>
+              <CATEGORY>BLUEPRINT</CATEGORY>
+              <AR-PACKAGES>
+                <AR-PACKAGE>
+                  <SHORT-NAME>SnsrActrAbstraction</SHORT-NAME>
+                  <ELEMENTS>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_BluePrint</SHORT-NAME>
+                      <PORTS>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_Reqd</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Reqd</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_Consold</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Consold</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_Cpby</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Cpby</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_Estimd</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Estimd</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                      </PORTS>
+                      <COMPONENTS>
+                        <SW-COMPONENT-PROTOTYPE>
+                          <SHORT-NAME>CPT_SnsrActr_DevCoorrVirt</SHORT-NAME>
+                          <TYPE-TREF DEST="COMPOSITION-SW-COMPONENT-TYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevCoorrVirt</TYPE-TREF>
+                        </SW-COMPONENT-PROTOTYPE>
+                        <SW-COMPONENT-PROTOTYPE>
+                          <SHORT-NAME>CPT_SnsrActr_DevDrvrActr</SHORT-NAME>
+                          <TYPE-TREF DEST="COMPOSITION-SW-COMPONENT-TYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrActr</TYPE-TREF>
+                        </SW-COMPONENT-PROTOTYPE>
+                        <SW-COMPONENT-PROTOTYPE>
+                          <SHORT-NAME>CPT_SnsrActr_DrvrActrElec</SHORT-NAME>
+                          <TYPE-TREF DEST="COMPOSITION-SW-COMPONENT-TYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DrvrActrElec</TYPE-TREF>
+                        </SW-COMPONENT-PROTOTYPE>
+                        <SW-COMPONENT-PROTOTYPE>
+                          <SHORT-NAME>CPT_SnsrActr_DevSnsrVirt</SHORT-NAME>
+                          <TYPE-TREF DEST="COMPOSITION-SW-COMPONENT-TYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevSnsrVirt</TYPE-TREF>
+                        </SW-COMPONENT-PROTOTYPE>
+                        <SW-COMPONENT-PROTOTYPE>
+                          <SHORT-NAME>CPT_SnsrActr_DevDrvrSnsr</SHORT-NAME>
+                          <TYPE-TREF DEST="COMPOSITION-SW-COMPONENT-TYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrSnsr</TYPE-TREF>
+                        </SW-COMPONENT-PROTOTYPE>
+                        <SW-COMPONENT-PROTOTYPE>
+                          <SHORT-NAME>CPT_SnsrActr_DrvrSnsrElec</SHORT-NAME>
+                          <TYPE-TREF DEST="COMPOSITION-SW-COMPONENT-TYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DrvrSnsrElec</TYPE-TREF>
+                        </SW-COMPONENT-PROTOTYPE>
+                      </COMPONENTS>
+                      <CONNECTORS>
+                        <DELEGATION-SW-CONNECTOR>
+                          <SHORT-NAME>DSC_SnsrActr_Reqd</SHORT-NAME>
+                          <INNER-PORT-IREF>
+                            <R-PORT-IN-COMPOSITION-INSTANCE-REF>
+                              <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevCoorrVirt</CONTEXT-COMPONENT-REF>
+                              <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevCoorrVirt/RP_SnsrActr_DevCoorrVirt_Reqd</TARGET-R-PORT-REF>
+                            </R-PORT-IN-COMPOSITION-INSTANCE-REF>
+                          </INNER-PORT-IREF>
+                          <OUTER-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/RP_SnsrActr_Reqd</OUTER-PORT-REF>
+                        </DELEGATION-SW-CONNECTOR>
+                        <DELEGATION-SW-CONNECTOR>
+                          <SHORT-NAME>DSC_SnsrActr_Estimd</SHORT-NAME>
+                          <INNER-PORT-IREF>
+                            <R-PORT-IN-COMPOSITION-INSTANCE-REF>
+                              <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevSnsrVirt</CONTEXT-COMPONENT-REF>
+                              <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevSnsrVirt/RP_SnsrActr_DevSnsrVirt_Estimd</TARGET-R-PORT-REF>
+                            </R-PORT-IN-COMPOSITION-INSTANCE-REF>
+                          </INNER-PORT-IREF>
+                          <OUTER-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/RP_SnsrActr_Estimd</OUTER-PORT-REF>
+                        </DELEGATION-SW-CONNECTOR>
+                        <DELEGATION-SW-CONNECTOR>
+                          <SHORT-NAME>DSC_SnsrActr_Cpby</SHORT-NAME>
+                          <INNER-PORT-IREF>
+                            <P-PORT-IN-COMPOSITION-INSTANCE-REF>
+                              <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrActr</CONTEXT-COMPONENT-REF>
+                              <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrActr/PP_SnsrActr_DevDrvrActr_Cpby</TARGET-P-PORT-REF>
+                            </P-PORT-IN-COMPOSITION-INSTANCE-REF>
+                          </INNER-PORT-IREF>
+                          <OUTER-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/PP_SnsrActr_Cpby</OUTER-PORT-REF>
+                        </DELEGATION-SW-CONNECTOR>
+                        <DELEGATION-SW-CONNECTOR>
+                          <SHORT-NAME>DSC_SnsrActr_Consold</SHORT-NAME>
+                          <INNER-PORT-IREF>
+                            <P-PORT-IN-COMPOSITION-INSTANCE-REF>
+                              <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevSnsrVirt</CONTEXT-COMPONENT-REF>
+                              <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevSnsrVirt/PP_SnsrActr_DevSnsrVirt_Consold</TARGET-P-PORT-REF>
+                            </P-PORT-IN-COMPOSITION-INSTANCE-REF>
+                          </INNER-PORT-IREF>
+                          <OUTER-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/PP_SnsrActr_Consold</OUTER-PORT-REF>
+                        </DELEGATION-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_Sp</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevCoorrVirt</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevCoorrVirt/PP_SnsrActr_DevCoorrVirt_Sp</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrActr</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrActr/RP_SnsrActr_DevDrvrActr_Sp</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_Outp</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrActr</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrActr/PP_SnsrActr_DevDrvrActr_Outp</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DrvrActrElec</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DrvrActrElec/RP_SnsrActr_DrvrActrElec_Outp</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_Consold</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevSnsrVirt</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevSnsrVirt/PP_SnsrActr_DevSnsrVirt_Consold</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrActr</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrActr/RP_SnsrActr_DevDrvrActr_Consold</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_Measd</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrSnsr</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrSnsr/PP_SnsrActr_DevDrvrSnsr_Measd</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevSnsrVirt</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevSnsrVirt/RP_SnsrActr_DevSnsrVirt_Measd</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_Raw</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrSnsr</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrSnsr/PP_SnsrActr_DevDrvrSnsr_Raw</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevSnsrVirt</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevSnsrVirt/RP_SnsrActr_DevSnsrVirt_Raw</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_ElecBascFild</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DrvrSnsrElec</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DrvrSnsrElec/PP_SnsrActr_DrvrSnsrElec_ElecBascFild</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrSnsr</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrSnsr/RP_SnsrActr_DevDrvrSnsr_ElecBascFild</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                        <ASSEMBLY-SW-CONNECTOR>
+                          <SHORT-NAME>ASC_SnsrActr_ElecRaw</SHORT-NAME>
+                          <PROVIDER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DrvrSnsrElec</CONTEXT-COMPONENT-REF>
+                            <TARGET-P-PORT-REF DEST="P-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DrvrSnsrElec/PP_SnsrActr_DrvrSnsrElec_ElecRaw</TARGET-P-PORT-REF>
+                          </PROVIDER-IREF>
+                          <REQUESTER-IREF>
+                            <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_BluePrint/CPT_SnsrActr_DevDrvrSnsr</CONTEXT-COMPONENT-REF>
+                            <TARGET-R-PORT-REF DEST="R-PORT-PROTOTYPE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/SnsrActr_DevDrvrSnsr/RP_SnsrActr_DevDrvrSnsr_ElecRaw</TARGET-R-PORT-REF>
+                          </REQUESTER-IREF>
+                        </ASSEMBLY-SW-CONNECTOR>
+                      </CONNECTORS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_DevCoorrVirt</SHORT-NAME>
+                      <PORTS>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DevCoorrVirt_Sp</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Sp</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevCoorrVirt_Reqd</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Reqd</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                      </PORTS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_DevDrvrActr</SHORT-NAME>
+                      <PORTS>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DevDrvrActr_Outp</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Outp</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DevDrvrActr_Cpby</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Cpby</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevDrvrActr_Sp</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Sp</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevDrvrActr_Consold</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Consold</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                      </PORTS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_DevDrvrSnsr</SHORT-NAME>
+                      <PORTS>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevDrvrSnsr_ElecRaw</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_ElecRaw</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevDrvrSnsr_ElecBascFild</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_ElecBascFild</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DevDrvrSnsr_Measd</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Measd</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DevDrvrSnsr_Raw</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Raw</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                      </PORTS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_DevSnsrVirt</SHORT-NAME>
+                      <PORTS>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevSnsrVirt_Estimd</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Estimd</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevSnsrVirt_Measd</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Measd</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DevSnsrVirt_Raw</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Raw</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DevSnsrVirt_Consold</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Consold</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                      </PORTS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_DrvrActrElec</SHORT-NAME>
+                      <PORTS>
+                        <R-PORT-PROTOTYPE>
+                          <SHORT-NAME>RP_SnsrActr_DrvrActrElec_Outp</SHORT-NAME>
+                          <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_Outp</REQUIRED-INTERFACE-TREF>
+                        </R-PORT-PROTOTYPE>
+                      </PORTS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                    <COMPOSITION-SW-COMPONENT-TYPE>
+                      <SHORT-NAME>SnsrActr_DrvrSnsrElec</SHORT-NAME>
+                      <PORTS>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DrvrSnsrElec_ElecRaw</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_ElecRaw</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                        <P-PORT-PROTOTYPE>
+                          <SHORT-NAME>PP_SnsrActr_DrvrSnsrElec_ElecBascFild</SHORT-NAME>
+                          <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/AUTOSAR/AISpecification/SwComponentTypes_Blueprint/SnsrActrAbstraction/PortInterfaces/IF_SnsrActr_ElecBascFild</PROVIDED-INTERFACE-TREF>
+                        </P-PORT-PROTOTYPE>
+                      </PORTS>
+                    </COMPOSITION-SW-COMPONENT-TYPE>
+                  </ELEMENTS>
+                  <AR-PACKAGES>
+                    <AR-PACKAGE>
+                      <SHORT-NAME>PortInterfaces</SHORT-NAME>
+                      <ELEMENTS>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Reqd</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Consold</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Cpby</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Estimd</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Sp</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Outp</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Measd</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_Raw</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_ElecRaw</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                        <SENDER-RECEIVER-INTERFACE>
+                          <SHORT-NAME>IF_SnsrActr_ElecBascFild</SHORT-NAME>
+                        </SENDER-RECEIVER-INTERFACE>
+                      </ELEMENTS>
+                    </AR-PACKAGE>
+                  </AR-PACKAGES>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
+

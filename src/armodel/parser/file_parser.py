@@ -20,7 +20,8 @@ class FileListParser:
         try:
             with open(file) as f_in:
                 for line in f_in:
-                    self.file_list.append(line.strip())
+                    if not line.startswith('#'):
+                        self.file_list.append(line.strip())
         except:
             self.logger.error("No such file or directory: %s" % os.path.realpath(file))
 

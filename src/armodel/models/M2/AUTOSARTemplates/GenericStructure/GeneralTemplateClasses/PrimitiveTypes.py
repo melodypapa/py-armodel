@@ -252,6 +252,19 @@ class Integer(ARNumerical):
     def __init__(self):
         super().__init__()
 
+class Boolean(ARBoolean):
+    '''
+        A Boolean value denotes a logical condition that is either 'true' or 'false'. It can be one of "0", "1", "true",
+        "false"
+        
+        Tags:
+            * xml.xsd.customType=BOOLEAN
+            * xml.xsd.pattern=0|1|true|false
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
+
 class Identifier(ARLiteral):
     '''
         An Identifier is a string with a number of constraints on its appearance, satisfying the requirements typical

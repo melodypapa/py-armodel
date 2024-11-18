@@ -1,6 +1,6 @@
 from typing import List
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ..GenericStructure.AbstractStructure import AtpInstanceRef
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):

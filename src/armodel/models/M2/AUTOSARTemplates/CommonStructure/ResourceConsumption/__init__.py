@@ -1,5 +1,3 @@
-from . import *
-
 from .MemorySectionUsage import MemorySection
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable

@@ -2,7 +2,6 @@
 from typing import List
 
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
