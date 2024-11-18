@@ -14,16 +14,8 @@ class Referrable(ARObject, metaclass = ABCMeta):
             raise NotImplementedError("Referrable is an abstract class.")
         ARObject.__init__(self)
 
-        self._parent = parent
+        self.parent = parent
         self.short_name = short_name
-
-    @property
-    def parent(self):
-        return self._parent
-
-    @parent.setter
-    def parent(self, value):
-        self._parent = value
 
     @property
     def shortName(self):
@@ -35,10 +27,13 @@ class Referrable(ARObject, metaclass = ABCMeta):
 
     def getShortName(self) -> str:
         return self.short_name
+    
+    def getParent(self):
+        return self.parent
 
     @property
     def full_name(self) -> str:
-        return self._parent.full_name + "/" + self.short_name
+        return self.parent.full_name + "/" + self.short_name
 
     def getFullName(self) -> str:
         return self.full_name

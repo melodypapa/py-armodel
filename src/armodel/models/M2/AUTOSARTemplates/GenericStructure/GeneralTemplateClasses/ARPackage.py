@@ -1,38 +1,39 @@
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from armodel.models.fibex.can_communication import CanFrame
-from armodel.models.fibex.fibex_4_multiplatform import Gateway
-from armodel.models.fibex.fibex_core.core_communication import DcmIPdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, NPdu, NmPdu, SecuredIPdu, SystemSignal, SystemSignalGroup
-from armodel.models.fibex.fibex_core.core_topology import CanCluster, EcuInstance, LinCluster
-from armodel.models.fibex.lin_communication import LinUnconditionalFrame
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.ecuc_description_template import EcucModuleConfigurationValues, EcucValueCollection
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.network_management import NmConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.transport_protocols import CanTpConfig
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
-from armodel.models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType, ServiceSwComponentType
-from armodel.models.timing import SwcTiming
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
+from .....M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from .....M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from .....M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
+from .....M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from .....M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from .....M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+from .....M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+from .....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
+from .....M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType
+from .....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
+from .....M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, NPdu, NmPdu, SecuredIPdu, SystemSignal, SystemSignalGroup
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster, EcuInstance, LinCluster
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
+from .....M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from .....M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
+from .....M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
+from .....M2.AUTOSARTemplates.SystemTemplate import System
+from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
+from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
+from .....sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType, ServiceSwComponentType
+from .....timing import SwcTiming
 
 from typing import Dict, List
 
@@ -109,6 +110,12 @@ class ARPackage(Identifiable, CollectableElement):
     def createParameterInterface(self, short_name: str) -> ParameterInterface:
         if (short_name not in self.elements):
             sr_interface = ParameterInterface(self, short_name)
+            self.addElement(sr_interface)
+        return self.getElement(short_name)
+    
+    def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
+        if (short_name not in self.elements):
+            sr_interface = GenericEthernetFrame(self, short_name)
             self.addElement(sr_interface)
         return self.getElement(short_name)
 

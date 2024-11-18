@@ -1,14 +1,9 @@
 from typing import Dict, List
-
-from .SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
-
-from ..MSR.AsamHdo.BaseTypes import SwBaseType
-
-from .GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from .GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from .CommonStructure.ImplementationDataTypes import ImplementationDataType
-from .GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from .SWComponentTemplate.Datatype.Datatypes import DataTypeMap
+from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
+from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 
 class AbstractAUTOSAR(CollectableElement):
     def __init__(self):

@@ -2,14 +2,9 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
+
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup, SwRecordLayoutV
-
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
-
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
-
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
@@ -26,7 +21,14 @@ from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
+from ..models.M2.MSR.AsamHdo.Units import Unit
+from ..models.M2.MSR.Documentation.Annotation import Annotation
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
@@ -41,7 +43,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identi
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
-from ..models.M2.AUTOSARTemplates.ecuc_description_template import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
@@ -52,23 +54,21 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import Assembl
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.data_mapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.network_management import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.transport_protocols import CanTpConfig
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
-
-from ..models.fibex.fibex_4_multiplatform import Gateway, ISignalMapping
-from ..models.fibex.can_communication import CanFrame, CanFrameTriggering, RxIdentifierRange
-from ..models.fibex.fibex_core.core_communication import FrameTriggering, IPdu, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
-from ..models.fibex.lin_communication import LinFrameTriggering, LinUnconditionalFrame
-from ..models.fibex.fibex_core.core_topology import AbstractCanCluster, CanCluster, EcuInstance, CanPhysicalChannel, CommunicationCluster, LinCluster, LinPhysicalChannel, PhysicalChannel
-
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, IPdu, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinUnconditionalFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, EcuInstance, CanPhysicalChannel, CommunicationCluster, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ..models.timing import EOCExecutableEntityRef, ExecutionOrderConstraint, SwcTiming, TimingExtension
-from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
@@ -82,15 +82,13 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
-from ..models.M2.MSR.Documentation.Annotation import Annotation
+
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, PortInterface, SenderReceiverInterface, TriggerInterface
-from ..models.M2.MSR.AsamHdo.Units import Unit
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):
@@ -2515,6 +2513,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setIdentifiable(child_element, signal)
         self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-LENGTH", signal.getDynamicLength())
 
+    def writeParameterInterface(self, element: ET.Element, signal: SystemSignal):
+        self.logger.debug("Write ParameterInterface %s" % signal.short_name)
+        child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
+        self.setIdentifiable(child_element, signal)
+
+    def writeGenericEthernetFrame(self, element: ET.Element, signal: SystemSignal):
+        self.logger.debug("Write GenericEthernetFrame %s" % signal.short_name)
+        child_element = ET.SubElement(element, "ETHERNET-FRAME")
+        self.writeFrame(child_element, signal)
+
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()
         if len(mappings) > 0:
@@ -2628,6 +2636,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignalIPdu(element, ar_element)
         elif isinstance(ar_element, SystemSignal):
             self.writeSystemSignal(element, ar_element)
+        elif isinstance(ar_element, ParameterInterface):
+            self.writeParameterInterface(element, ar_element)
+        elif isinstance(ar_element, GenericEthernetFrame):
+            self.writeGenericEthernetFrame(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

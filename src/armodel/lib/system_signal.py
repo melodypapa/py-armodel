@@ -4,7 +4,7 @@ from typing import List
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.fibex.fibex_core.core_communication import SystemSignal
+from ..models.Fibex.fibex_core.core_communication import SystemSignal
 
 class SystemSignalAnalyzer:
     def __init__(self) -> None:
