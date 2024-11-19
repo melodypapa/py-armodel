@@ -1,15 +1,11 @@
-
-from .ServiceMapping import *
-
 from typing import Dict, List
-
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, ARBoolean
-from ...SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from ...SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
-from ...SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
-from ...SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...CommonStructure.InternalBehavior import ExecutableEntity
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, ARBoolean
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 
 class RunnableEntityArgument(ARObject):
     def __init__(self):
