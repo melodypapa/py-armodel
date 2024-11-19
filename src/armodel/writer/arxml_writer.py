@@ -1356,18 +1356,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeImplementation(self, element: ET.Element, impl: Implementation):
         self.setIdentifiable(element, impl)
         self.writeCodeDescriptors(element, impl)
-        self.setChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE", impl.programming_language)
+        self.setChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE", impl.getProgrammingLanguage())
         self.setResourceConsumption(element, impl.getResourceConsumption())
-        self.setChildElementOptionalLiteral(element, "SW-VERSION", impl.sw_version)
-        self.setChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF", impl.swc_bsw_mapping_ref)
-        self.setChildElementOptionalLiteral(element, "USED-CODE-GENERATOR", impl.used_code_generator)
-        self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", impl.vendor_id)
+        self.setChildElementOptionalLiteral(element, "SW-VERSION", impl.getSwVersion())
+        self.setChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF", impl.getSwcBswMappingRef())
+        self.setChildElementOptionalLiteral(element, "USED-CODE-GENERATOR", impl.getUsedCodeGenerator())
+        self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", impl.getVendorId())
 
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("writeSwcImplementation %s" % impl.short_name)
         child_element = ET.SubElement(element, "SWC-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
-        self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.behavior_ref)
+        self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
 
     def writeEndToEndDescriptionDataId(self, element: ET.Element, parent: EndToEndDescription):
         data_ids = parent.getDataIds()
@@ -1690,8 +1690,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeBswModuleDescription %s" % impl.short_name)
         child_element = ET.SubElement(element, "BSW-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
-        self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.ar_release_version)
-        self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.behavior_ref)
+        self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
+        self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeImplementationDataTypeElements(self, element: ET.Element, parent: ImplementationDataType):

@@ -596,12 +596,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readImplementation(self, element: ET.Element, impl: Implementation):
         self.readIdentifiable(element, impl)
         self.readCodeDescriptor(element, impl)
-        impl.programming_language = self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE")
+        impl.programmingLanguage = self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE")
         self.readResourceConsumption(element, impl)
-        impl.sw_version = self.getChildElementOptionalLiteral(element, "SW-VERSION")
-        impl.swc_bsw_mapping_ref = self.getChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF")
-        impl.used_code_generator = self.getChildElementOptionalLiteral(element, "USED-CODE-GENERATOR")
-        impl.vendor_id = self.getChildElementOptionalNumericalValue(element, "VENDOR-ID")
+        impl.swVersion = self.getChildElementOptionalLiteral(element, "SW-VERSION")
+        impl.swcBswMappingRef = self.getChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF")
+        impl.usedCodeGenerator = self.getChildElementOptionalLiteral(element, "USED-CODE-GENERATOR")
+        impl.vendorId = self.getChildElementOptionalNumericalValue(element, "VENDOR-ID")
 
     def readBswImplementationVendorSpecificModuleDefRefs(self, element: ET.Element, parent: BswImplementation):
         child_element = element.find("./xmlns:VENDOR-SPECIFIC-MODULE-DEF-REFS", self.nsmap)
@@ -614,8 +614,8 @@ class ARXMLParser(AbstractARXMLParser):
         impl = parent.createBswImplementation(short_name)   
         self.logger.debug("readBswImplementation %s" % impl.getShortName())
         self.readImplementation(element, impl)
-        impl.ar_release_version = self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION")
-        impl.behavior_ref = self.getChildElementOptionalRefType(element, "BEHAVIOR-REF")
+        impl.setArReleaseVersion(self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION")) \
+            .setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
         self.readBswImplementationVendorSpecificModuleDefRefs(element, impl)
 
     def readSwcImplementation(self, element: ET.Element, parent: ARPackage):
@@ -623,7 +623,7 @@ class ARXMLParser(AbstractARXMLParser):
         impl = parent.createSwcImplementation(short_name)   
         self.logger.debug("readSwcImplementation %s" % impl.getShortName())
         self.readImplementation(element, impl)
-        impl.behavior_ref = self.getChildElementOptionalRefType(element, "BEHAVIOR-REF")
+        impl.behaviorRef = self.getChildElementOptionalRefType(element, "BEHAVIOR-REF")
 
     def readDataReceivePointByArguments(self, element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")

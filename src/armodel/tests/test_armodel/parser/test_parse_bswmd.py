@@ -153,30 +153,30 @@ class TestBswMD:
         assert(artifact_descs[1].getShortLabel().getValue() == "make::BswM_rules.mak")
         assert(artifact_descs[1].getCategory().getValue() == "SWMAKE")
 
-        assert(impl.programming_language.getValue() == "C")
+        assert(impl.programmingLanguage.getValue() == "C")
 
-        assert(impl.resource_consumption.short_name == "ResourceConsumption")
-        assert(len(impl.resource_consumption.getMemorySections()) == 8)
+        assert(impl.resourceConsumption.short_name == "ResourceConsumption")
+        assert(len(impl.resourceConsumption.getMemorySections()) == 8)
 
-        section = impl.resource_consumption.getMemorySection("CODE")
+        section = impl.resourceConsumption.getMemorySection("CODE")
         assert(section.short_name == "CODE")
         assert(section.alignment == None)
         assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
         assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
 
-        section = impl.resource_consumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
+        section = impl.resourceConsumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
         assert(section.short_name == "VAR_NO_INIT_UNSPECIFIED")
         assert(section.alignment.getText() == "UNSPECIFIED")
         assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
         assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT")
 
-        assert(impl.vendor_id.getValue() == 1)
-        assert(impl.sw_version.getValue() == "1.14.1")
-        assert(impl.swc_bsw_mapping_ref.dest == "SWC-BSW-MAPPING")
-        assert(impl.swc_bsw_mapping_ref.value == "/AUTOSAR_BswM/SwcBswMappings/SwcBswMapping_0")
-        assert(impl.ar_release_version.getValue() == "4.0.3")
-        assert(impl.behavior_ref.dest == "BSW-INTERNAL-BEHAVIOR")
-        assert(impl.behavior_ref.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        assert(impl.vendorId.getValue() == 1)
+        assert(impl.swVersion.getValue() == "1.14.1")
+        assert(impl.swcBswMappingRef.dest == "SWC-BSW-MAPPING")
+        assert(impl.swcBswMappingRef.value == "/AUTOSAR_BswM/SwcBswMappings/SwcBswMapping_0")
+        assert(impl.arReleaseVersion.getValue() == "4.0.3")
+        assert(impl.behaviorRef.dest == "BSW-INTERNAL-BEHAVIOR")
+        assert(impl.behaviorRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
 
     
     def test_load_save(self):

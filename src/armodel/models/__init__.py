@@ -14,6 +14,16 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.Communication import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.Components import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.Composition import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import *
