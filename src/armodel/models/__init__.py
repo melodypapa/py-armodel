@@ -2,6 +2,12 @@ from .sw_component import *
 from .M2.MSR.DataDictionary import *
 from .M2.MSR.Documentation import *
 from .M2.MSR.AsamHdo import *
+from .M2.MSR.AsamHdo.AdminData import *
+from .M2.MSR.AsamHdo.BaseTypes import *
+from .M2.MSR.AsamHdo.ComputationMethod import *
+from .M2.MSR.AsamHdo.SpecialData import *
+from .M2.MSR.AsamHdo.Units import *
+from .M2.MSR.AsamHdo.Constraints.GlobalConstraints import *
 from .M2.AUTOSARTemplates.AutosarTopLevelStructure import *
 from .M2.AUTOSARTemplates.BswModuleTemplate import *
 from .M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import *
@@ -9,6 +15,13 @@ from .M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import *
 from .M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import *
 from .M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import *
 from .M2.AUTOSARTemplates.CommonStructure import *
+from .M2.AUTOSARTemplates.CommonStructure.Implementation import *
+from .M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import *
+from .M2.AUTOSARTemplates.CommonStructure.InternalBehavior import *
+from .M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import *
+from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *
+from .M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *
+from .M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *
 from .M2.AUTOSARTemplates.SWComponentTemplate import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.Communication import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.Components import *

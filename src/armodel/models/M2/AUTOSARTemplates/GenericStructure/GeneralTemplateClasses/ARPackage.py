@@ -33,7 +33,7 @@ from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
 from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
 from .....sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType, ServiceSwComponentType
-from .....timing import SwcTiming
+from ...CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
 
 from typing import Dict, List
 
