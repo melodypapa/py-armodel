@@ -40,7 +40,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecifi
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
@@ -63,7 +63,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import Compo
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.timing import ExecutionOrderConstraint, TimingExtension
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModeSenderPolicy
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable

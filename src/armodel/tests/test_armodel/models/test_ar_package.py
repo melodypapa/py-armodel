@@ -19,7 +19,7 @@ from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
 from ....models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, EcuAbstractionSwComponentType, ServiceSwComponentType
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 

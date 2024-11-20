@@ -28,7 +28,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import Imp
 from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from .....M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
+from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
 from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
 from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig

@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger

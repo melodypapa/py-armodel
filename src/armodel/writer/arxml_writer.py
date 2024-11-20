@@ -52,7 +52,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Server
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface.instance_refs import ApplicationCompositeElementInPortInterfaceInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec,  QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
@@ -84,7 +84,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface, TriggerInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
