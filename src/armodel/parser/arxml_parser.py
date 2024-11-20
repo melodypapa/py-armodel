@@ -2,8 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
-
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -23,6 +21,10 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewP
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
 from ..models.M2.MSR.Documentation.Annotation import GeneralAnnotation
 
+from ..models.M2.AUTOSARTemplates.CommonStructure import SwcInternalBehavior
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent
+from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
@@ -40,15 +42,15 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
+from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntityArgument
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
@@ -71,13 +73,12 @@ from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import Bsw
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType
 
-
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
-from ..models.sw_component import AtomicSwComponentType, PortAPIOption, PortDefinedArgumentValue, ServiceDependency,  SwcServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.MSR.Documentation.Annotation import Annotation
@@ -85,10 +86,6 @@ from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 from ..models.M2.MSR.AsamHdo.SpecialData import Sd
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
-
-from ..models import SwcInternalBehavior, RunnableEntity, RTEEvent, OperationInvokedEvent, DataReceivedEvent, RVariableInAtomicSwcInstanceRef
-from ..models import SwcModeSwitchEvent, RModeInAtomicSwcInstanceRef
-from ..models import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType
@@ -807,7 +804,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.readIdentifiable(element, event)
-        event.start_on_event_ref = self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF")
+        event.startOnEventRef = self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF")
         for child_element in element.findall("./xmlns:DISABLED-MODE-IREFS/xmlns:DISABLED-MODE-IREF", self.nsmap):
             iref = self.getRModeInAtomicSwcInstanceRef(child_element)
             event.addDisabledModeIRef(iref)
@@ -815,9 +812,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readOperationIRef(self, element: ET.Element, parent: OperationInvokedEvent):
         child_element = element.find("./xmlns:OPERATION-IREF", self.nsmap)
         if (child_element is not None):
-            parent.operation_iref = POperationInAtomicSwcInstanceRef()
-            parent.operation_iref.context_p_port_ref = self.getChildElementRefType(parent.getShortName(), child_element, "CONTEXT-P-PORT-REF")
-            parent.operation_iref.target_provided_operation_ref = self.getChildElementRefType(parent.getShortName(), child_element, "TARGET-PROVIDED-OPERATION-REF")
+            parent.operationIRef = POperationInAtomicSwcInstanceRef()
+            parent.operationIRef.context_p_port_ref = self.getChildElementRefType(parent.getShortName(), child_element, "CONTEXT-P-PORT-REF")
+            parent.operationIRef.target_provided_operation_ref = self.getChildElementRefType(parent.getShortName(), child_element, "TARGET-PROVIDED-OPERATION-REF")
 
     def readOperationInvokedEvent(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
@@ -865,15 +862,15 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = element.find("./xmlns:VALUE/*", self.nsmap)
         if child_element is not None:
             argument_value.value = self.getValueSpecification(child_element)
-        argument_value.value_type = self.getChildElementOptionalRefType(element, "VALUE-TYPE-TREF")
+        argument_value.valueTypeTRef = self.getChildElementOptionalRefType(element, "VALUE-TYPE-TREF")
         return argument_value
 
     def readPortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in element.findall("./xmlns:PORT-API-OPTIONS/xmlns:PORT-API-OPTION", self.nsmap):
             option = PortAPIOption()
-            option.enable_take_address = self.getChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS")
-            option.indirect_api = self.getChildElementOptionalBooleanValue(child_element, "INDIRECT-API")
-            option.port_ref = self.getChildElementOptionalRefType(child_element, "PORT-REF")
+            option.enableTakeAddress = self.getChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS")
+            option.indirectAPI = self.getChildElementOptionalBooleanValue(child_element, "INDIRECT-API")
+            option.portRef = self.getChildElementOptionalRefType(child_element, "PORT-REF")
             for argument_value_tag in child_element.findall("./xmlns:PORT-ARG-VALUES/xmlns:PORT-DEFINED-ARGUMENT-VALUE", self.nsmap):
                 option.addPortArgValue(self.readPortDefinedArgumentValue(argument_value_tag))
             behavior.addPortAPIOption(option)

@@ -48,3 +48,8 @@ class NvBlockNeeds(ServiceNeeds):
         self.write_verification = None                  # type: ARBoolean
         self.writing_frequency = None                   # type: ARBoolean
         self.writing_priority = None                    # type: ARBoolean
+
+
+class ServiceDependency(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

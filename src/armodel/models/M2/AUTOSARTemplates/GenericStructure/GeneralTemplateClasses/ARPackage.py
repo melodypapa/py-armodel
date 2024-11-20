@@ -1,4 +1,6 @@
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
+from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType, SwComponentType, ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from .....M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from .....M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from .....M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
@@ -26,15 +28,11 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcIm
 from .....M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from ...SWComponentTemplate.Components import CompositionSwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
 from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
 from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
-from .....sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType, ServiceSwComponentType
-from ...CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
-
 from typing import Dict, List
 
 class ARPackage(Identifiable, CollectableElement):

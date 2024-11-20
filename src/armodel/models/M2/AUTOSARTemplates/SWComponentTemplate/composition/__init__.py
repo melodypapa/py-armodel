@@ -1,12 +1,8 @@
 from abc import ABCMeta
-from typing import List
-
-from ..Components import SwComponentType
-from .InstanceRefs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef, RPortInCompositionInstanceRef
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef, RPortInCompositionInstanceRef
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class SwComponentPrototype(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -97,58 +93,4 @@ class PassThroughSwConnector(SwConnector):
     def setRequiredOuterPortRef(self, value):
         self.requiredOuterPortRef = value
         return self
-
-
-class CompositionSwComponentType(SwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-        
-        self.constantValueMappingRefs = []                      # type: List[RefType]
-        self.dataTypeMappingRefs = []                           # type: List[RefType]
-        self.instantiationRTEEventProps = []                    # type: List[InstantiationRTEEventProps]
-
-    def removeAllAssemblySwConnector(self):
-        for sw_connector in self.getAssemblySwConnectors():
-            self.elements.pop(sw_connector.short_name)
-
-    def removeAllDelegationSwConnector(self):
-        for sw_connector in self.getDelegationSwConnectors():
-            self.elements.pop(sw_connector.short_name)
-
-    def createAssemblySwConnector(self, short_name: str) -> AssemblySwConnector:
-        if (short_name not in self.elements):
-            connector = AssemblySwConnector(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name]
-    
-    def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
-        if short_name not in self.elements:
-            connector = DelegationSwConnector(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name]
-
-    def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key = lambda c: c.short_name))
-    
-    def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key = lambda c: c.short_name))
-    
-    def getSwConnectors(self) -> List[SwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key = lambda c: c.short_name))
-    
-    def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
-        if (short_name not in self.elements):
-            connector = SwComponentPrototype(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name] 
-
-    def getSwComponentPrototypes(self) -> List[SwComponentPrototype]:
-        return list(filter(lambda e: isinstance(e, SwComponentPrototype), self.elements.values()))
-    
-    def addDataTypeMapping(self, data_type_mapping_ref: RefType):
-        self.dataTypeMappingRefs.append(data_type_mapping_ref)
-
-    def getDataTypeMappings(self) -> List[RefType]:
-        return self.dataTypeMappingRefs     
-       
         

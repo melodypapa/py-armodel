@@ -2,11 +2,6 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
-from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import TimingExtension
-
-from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import InternalConstrs, PhysConstrs
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis
@@ -29,6 +24,11 @@ from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 from ..models.M2.MSR.AsamHdo.Units import Unit
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import TimingExtension
+from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
@@ -36,7 +36,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMap
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup
@@ -48,12 +48,12 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntityArgument, SynchronousServerCallPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcInternalBehavior, SynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef, VariableInAtomicSWCTypeInstanceRef
@@ -72,25 +72,22 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology im
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
 
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationCompositeElementDataPrototype, ApplicationRecordElement, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.sw_component import ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, DataReceivedEvent, EcuAbstractionSwComponentType, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, PortAPIOption, RTEEvent, ServiceDependency, ServiceSwComponentType, SwcModeSwitchEvent, SwcServiceDependency
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
-
-
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface, TriggerInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
-from ..models.sw_component import RunnableEntity, SwcInternalBehavior, TimingEvent
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 from .abstract_arxml_writer import AbstractARXMLWriter
@@ -862,7 +859,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "DISABLED-MODE-IREFS")
             for iref in irefs:
                 self.setRModeInAtomicSwcInstanceRef(child_element, "DISABLED-MODE-IREF", iref)
-        self.setChildElementOptionalRefType(element, "START-ON-EVENT-REF", event.start_on_event_ref)
+        self.setChildElementOptionalRefType(element, "START-ON-EVENT-REF", event.startOnEventRef)
 
     def setTimingEvent(self, element: ET.Element, event: TimingEvent):
         if event is not None:
@@ -874,7 +871,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "OPERATION-INVOKED-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.operation_iref)
+            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.operationIRef)
 
     def setSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         if event is not None:
@@ -1167,7 +1164,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if argument_value.value is not None:
                     value_tag = ET.SubElement(child_element, "VALUE")
                     self.setValueSpecification(value_tag, argument_value.value)
-                self.setChildElementOptionalRefType(child_element, "VALUE-TYPE-TREF", argument_value.value_type)
+                self.setChildElementOptionalRefType(child_element, "VALUE-TYPE-TREF", argument_value.valueTypeTRef)
 
     def writePortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
         options = behavior.getPortAPIOptions()
@@ -1175,10 +1172,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             port_api_options_tag = ET.SubElement(element, "PORT-API-OPTIONS")
             for option in options:
                 child_element = ET.SubElement(port_api_options_tag, "PORT-API-OPTION")
-                self.setChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS", option.enable_take_address)
-                self.setChildElementOptionalBooleanValue(child_element, "INDIRECT-API", option.indirect_api)
+                self.setChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS", option.enableTakeAddress)
+                self.setChildElementOptionalBooleanValue(child_element, "INDIRECT-API", option.indirectAPI)
                 self.writePortDefinedArgumentValues(child_element, option)
-                self.setChildElementOptionalRefType(child_element, "PORT-REF", option.port_ref)
+                self.setChildElementOptionalRefType(child_element, "PORT-REF", option.portRef)
 
     def writeServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.setIdentifiable(element, dependency)
