@@ -15,7 +15,7 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Prim
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.port_interface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:

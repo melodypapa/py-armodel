@@ -1,4 +1,12 @@
 from typing import Dict, List
+
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
+from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, ARBoolean
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
@@ -195,4 +203,156 @@ class RunnableEntity(ExecutableEntity):
     def setSymbol(self, value):
         self.symbol = value
         return self
+
+
+class SwcInternalBehavior(InternalBehavior):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.handle_termination_and_restart = None      # type: str
+        self.supports_multiple_instantiation = None     # type: ARBoolean
+        self.explicit_inter_runnable_variables = []     # type: List[VariableDataPrototype]
+        self.implicit_inter_runnable_variables = []     # type: List[VariableDataPrototype]
+        self.per_instance_memories = []                 # type: List[PerInstanceMemory]
+        self.per_instance_parameters = []               # type: List[ParameterDataPrototype]
+        self.port_api_options = []                      # type: List[PortAPIOption]
+        self.included_data_type_sets = []               # type: List[IncludedDataTypeSet]
+
+    def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
+        return self.explicit_inter_runnable_variables
+
+    def getImplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
+        return self.implicit_inter_runnable_variables
+
+    def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
+        return self.per_instance_memories
+
+    def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
+        return self.per_instance_parameters
+
+    def addPortAPIOption(self, option: PortAPIOption):
+        self.port_api_options.append(option)
+
+    def getPortAPIOptions(self) -> List[PortAPIOption]:
+        return self.port_api_options
+
+    def addIncludedDataTypeSet(self, set: IncludedDataTypeSet):
+        self.included_data_type_sets.append(set)
+
+    def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
+        return self.included_data_type_sets
+
+    def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
+        if (short_name not in self.elements):
+            event = OperationInvokedEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createTimingEvent(self, short_name: str) -> TimingEvent:
+        if (short_name not in self.elements):
+            event = TimingEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createInitEvent(self, short_name: str) -> InitEvent:
+        if (short_name not in self.elements):
+            event = InitEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
+        if (short_name not in self.elements):
+            event = DataReceivedEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
+        if (short_name not in self.elements):
+            event = SwcModeSwitchEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
+        if (short_name not in self.elements):
+            event = InternalTriggerOccurredEvent(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
+        if (short_name not in self.elements):
+            event = SwcServiceDependency(self, short_name)
+            self.elements[short_name] = event
+        return self.elements[short_name]
+
+    def getRteEvents(self) -> List[RTEEvent]:
+        return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getOperationInvokedEvents(self) -> List[OperationInvokedEvent]:
+        return sorted(filter(lambda c: isinstance(c, OperationInvokedEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getInitEvents(self) -> List[InitEvent]:
+        return sorted(filter(lambda c: isinstance(c, InitEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getTimingEvents(self) -> List[TimingEvent]:
+        return sorted(filter(lambda c: isinstance(c, TimingEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getDataReceivedEvents(self) -> List[DataReceivedEvent]:
+        return sorted(filter(lambda c: isinstance(c, DataReceivedEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getSwcModeSwitchEvents(self) -> List[SwcModeSwitchEvent]:
+        return sorted(filter(lambda c: isinstance(c, SwcModeSwitchEvent), self.elements.values()), key=lambda e: e.short_name)
+
+    def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
+        return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements.values()), key= lambda e: e.short_name)
+
+    def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
+        return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements.values()), key= lambda e: e.short_name)
+
+    def getEvent(self, short_name: str) -> RTEEvent:
+        if (not isinstance(self.elements[short_name], RTEEvent)):
+            raise ValueError("Invalid Event Type <%s> of <%s>" % type(self.elements[short_name]), short_name)
+        return self.elements[short_name]
+
+    def createExplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
+        if (short_name not in self.elements):
+            prototype = VariableDataPrototype(self, short_name)
+            self.elements[short_name] = prototype
+            self.explicit_inter_runnable_variables.append(prototype)
+        return self.elements[short_name]
+
+    def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
+        if (short_name not in self.elements):
+            prototype = VariableDataPrototype(self, short_name)
+            self.elements[short_name] = prototype
+            self.implicit_inter_runnable_variables.append(prototype)
+        return self.elements[short_name]
+
+    def createPerInstanceMemory(self, short_name: str) -> PerInstanceMemory:
+        if (short_name not in self.elements):
+            memory = PerInstanceMemory(self, short_name)
+            self.elements[short_name] = memory
+            self.per_instance_memories.append(memory)
+        return self.elements[short_name]
+
+    def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
+        if (short_name not in self.elements):
+            prototype = ParameterDataPrototype(self, short_name)
+            self.elements[short_name] = prototype
+            self.per_instance_parameters.append(prototype)
+        return self.elements[short_name]
+
+    def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
+        return sorted(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements.values()), key=lambda e: e.short_name)
+
+    def createRunnableEntity(self, short_name: str) -> RunnableEntity:
+        if (short_name not in self.elements):
+            runnable = RunnableEntity(self, short_name)
+            self.elements[short_name] = runnable
+        return self.elements[short_name]
+
+    def getRunnableEntities(self) -> List[RunnableEntity]:
+        return sorted(filter(lambda c: isinstance(c, RunnableEntity), self.elements.values()), key=lambda r: r.short_name)
+
+    def getRunnableEntity(self, short_name) -> RunnableEntity:
+        return self.elements[short_name]
 

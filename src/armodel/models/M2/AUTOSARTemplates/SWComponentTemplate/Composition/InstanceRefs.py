@@ -1,8 +1,6 @@
-
 from abc import ABCMeta
-
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ...GenericStructure.AbstractStructure import AtpInstanceRef
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass = ABCMeta):

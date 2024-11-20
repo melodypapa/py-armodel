@@ -344,3 +344,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. Refactor the Implementation.
 2. Fix the Binary value
+3. Refactor the SwComponentType.

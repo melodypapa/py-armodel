@@ -2,13 +2,12 @@ from abc import ABCMeta
 from enum import Enum
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
+from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype
 
 class ReentrancyLevelEnum(Enum):
-
     multicoreReentrant = "multicoreReentrant"
     nonReentrant = "nonReentrant"
     singleCoreReentrant = "singleCoreReentrant"
@@ -106,3 +105,16 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
 
     def getConstantMemorys(self) -> List[ParameterDataPrototype]:
         return self.constant_memories
+
+class AbstractEvent(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.activationReasonRepresentationRef = None                       # type: RefType
+
+    def getActivationReasonRepresentationRef(self):
+        return self.activationReasonRepresentationRef
+
+    def setActivationReasonRepresentationRef(self, value):
+        self.activationReasonRepresentationRef = value
+        return self

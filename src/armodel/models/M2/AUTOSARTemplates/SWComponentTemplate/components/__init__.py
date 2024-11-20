@@ -1,16 +1,15 @@
-from . import *
-
 from abc import ABCMeta
 from typing import List
 
-from ...CommonStructure.Implementation import ImplementationProps
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
-from ..Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
-from .InstanceRefs import InnerPortGroupInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
+from .....M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
 
 class SymbolProps(ImplementationProps):
     def __init__(self, parent: ARObject, short_name: str):
@@ -212,7 +211,7 @@ class PortGroup(Identifiable):
     def getOuterPortRefs(self) -> List[RefType]:
         return self._outer_port_ref
 
-class SwComponentType(ARElement,  metaclass = ABCMeta):
+class SwComponentType(ARElement, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -245,4 +244,108 @@ class SwComponentType(ARElement,  metaclass = ABCMeta):
     
     def getPortGroups(self) -> List[PortGroup]:
         return list(sorted(filter(lambda c: isinstance(c, PortGroup), self.elements.values()), key= lambda o: o.short_name))
+
+
+class AtomicSwComponentType(SwComponentType, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+    def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
+        if (short_name not in self.elements):
+            if (len(list(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))) >= 1):
+                raise ValueError("The internal behavior of <%s> can not more than 1" % self.short_name)
+            behavior = SwcInternalBehavior(self, short_name)
+            self.elements[short_name] = behavior
+        return self.elements[short_name]
+
+    @property
+    def internal_behavior(self) -> SwcInternalBehavior:
+        return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))
+
+class EcuAbstractionSwComponentType(AtomicSwComponentType):
+    def __init__(self, parent:ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class ApplicationSwComponentType(AtomicSwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class NvBlockSwComponentType(AtomicSwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class SensorActuatorSwComponentType(AtomicSwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class ServiceProxySwComponentType(AtomicSwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class ServiceSwComponentType(AtomicSwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class CompositionSwComponentType(SwComponentType):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.constantValueMappingRefs = []                      # type: List[RefType]
+        self.dataTypeMappingRefs = []                           # type: List[RefType]
+        self.instantiationRTEEventProps = []                    # type: List[InstantiationRTEEventProps]
+
+    def removeAllAssemblySwConnector(self):
+        for sw_connector in self.getAssemblySwConnectors():
+            self.elements.pop(sw_connector.short_name)
+
+    def removeAllDelegationSwConnector(self):
+        for sw_connector in self.getDelegationSwConnectors():
+            self.elements.pop(sw_connector.short_name)
+
+    def createAssemblySwConnector(self, short_name: str) -> AssemblySwConnector:
+        if (short_name not in self.elements):
+            connector = AssemblySwConnector(self, short_name)
+            self.elements[short_name] = connector
+        return self.elements[short_name]
+
+    def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
+        if short_name not in self.elements:
+            connector = DelegationSwConnector(self, short_name)
+            self.elements[short_name] = connector
+        return self.elements[short_name]
+
+    def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
+        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key = lambda c: c.short_name))
+
+    def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
+        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key = lambda c: c.short_name))
+
+    def getSwConnectors(self) -> List[SwConnector]:
+        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key = lambda c: c.short_name))
+
+    def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
+        if (short_name not in self.elements):
+            connector = SwComponentPrototype(self, short_name)
+            self.elements[short_name] = connector
+        return self.elements[short_name]
+
+    def getSwComponentPrototypes(self) -> List[SwComponentPrototype]:
+        return list(filter(lambda e: isinstance(e, SwComponentPrototype), self.elements.values()))
+
+    def addDataTypeMapping(self, data_type_mapping_ref: RefType):
+        self.dataTypeMappingRefs.append(data_type_mapping_ref)
+
+    def getDataTypeMappings(self) -> List[RefType]:
+        return self.dataTypeMappingRefs
 
