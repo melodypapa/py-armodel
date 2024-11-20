@@ -42,6 +42,9 @@ class ARNumerical(ARType):
                 m = re.match(r"0x([0-9a-f]+)", value, re.I)
                 if m:
                     return int(m.group(1), 16)
+                m = re.match(r'0b([\d]+)', value, re.I)
+                if m:
+                    return int(m.group(1), 2)
                 m = re.match(r"-?\d+\.\d+", value)
                 if m:
                     return float(value)
