@@ -1,5 +1,5 @@
 from typing import List
-from ....M2.MSR.Documentation import Annotation
+from ....M2.MSR.Documentation.Annotation import Annotation
 from ....M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral

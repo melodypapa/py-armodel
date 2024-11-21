@@ -1,6 +1,5 @@
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-
 class LOverviewParagraph(ARObject):
     def __init__(self):
         super().__init__()
