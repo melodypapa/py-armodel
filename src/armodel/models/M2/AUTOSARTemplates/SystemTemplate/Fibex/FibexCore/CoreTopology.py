@@ -1,12 +1,11 @@
 from abc import ABCMeta
 from typing import List
-
-from ....GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
-from ....GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ..Fibex4Lin.LinCommunication import LinFrameTriggering
-from ..Fibex4Can.CanCommunication import CanFrameTriggering
-from .CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class PhysicalChannel (Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

@@ -1,7 +1,5 @@
-
-from .AccessCount import AbstractAccessPoint
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class InternalTriggeringPoint(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):

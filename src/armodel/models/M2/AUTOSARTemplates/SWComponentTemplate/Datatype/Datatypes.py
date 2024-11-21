@@ -1,11 +1,11 @@
 from typing import List
-from ...CommonStructure.ModeDeclaration import ModeRequestTypeMap
-from ...GenericStructure.AbstractStructure import AtpType
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
-from ...SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
-from ....MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
+from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from abc import ABCMeta
 
 class AutosarDataType(AtpType, metaclass = ABCMeta):

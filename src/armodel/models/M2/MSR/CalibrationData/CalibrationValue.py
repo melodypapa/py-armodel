@@ -1,11 +1,7 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
-
-
 from typing import List
-
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
-
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from ....M2.MSR.DataDictionary.DataDefProperties import ValueList
 
 class SwValues(ARObject):
     def __init__(self):

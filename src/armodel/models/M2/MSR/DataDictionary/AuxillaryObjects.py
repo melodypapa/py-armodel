@@ -1,10 +1,7 @@
-
 from typing import List
-
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class SwAddrMethod(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

@@ -1,8 +1,8 @@
 from typing import List
 
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ...GenericStructure.AbstractStructure import AtpInstanceRef
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 class ArVariableInImplementationDataInstanceRef(AtpInstanceRef):
     def __init__(self):

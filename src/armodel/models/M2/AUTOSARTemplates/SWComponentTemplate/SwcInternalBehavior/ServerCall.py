@@ -1,8 +1,7 @@
 from abc import ABCMeta
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
-from .AccessCount import AbstractAccessPoint
-
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
 
 class ServerCallPoint(AbstractAccessPoint, metaclass = ABCMeta):
 

@@ -1,9 +1,7 @@
-
 from typing import List
-
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class SystemMapping(Identifiable):
     def __init__(self, parent, short_name):

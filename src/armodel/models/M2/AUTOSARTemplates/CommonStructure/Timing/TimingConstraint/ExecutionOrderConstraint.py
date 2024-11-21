@@ -1,9 +1,9 @@
 from typing import List
+from abc import ABCMeta
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from abc import ABCMeta
 
 class EOCExecutableEntityRefAbstract(Identifiable):
     __metaclass__ = ABCMeta

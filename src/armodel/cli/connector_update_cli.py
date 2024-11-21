@@ -4,13 +4,10 @@ import logging
 import sys
 import os.path
 
-
+from ..writer.arxml_writer import ARXMLWriter
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..parser.arxml_parser import ARXMLParser
 from ..parser.connector_xlsx_parser import ConnectorXlsReader
-
-from ..lib import InputFileParser
-from ..writer import ARXMLWriter
 
 def main():
     version = pkg_resources.require("armodel")[0].version

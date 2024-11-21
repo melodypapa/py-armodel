@@ -1,9 +1,6 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
-
-
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.MSR.AsamHdo.SpecialData import Sdg
 from typing import List
-
 
 class AdminData(ARObject):
     def __init__(self):

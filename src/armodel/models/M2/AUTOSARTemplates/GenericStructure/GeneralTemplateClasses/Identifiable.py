@@ -1,9 +1,9 @@
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
-from .ArObject import ARObject
-from .PrimitiveTypes import ARLiteral
-from ....MSR.Documentation.Annotation import Annotation
-from ....MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from .....M2.MSR.AsamHdo.AdminData import AdminData
+from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from .....M2.MSR.Documentation.Annotation import Annotation
+from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from abc import ABCMeta
 from typing import List
 

@@ -1,12 +1,9 @@
 from abc import ABCMeta
 from typing import List
-
-from .ResourceConsumption import *
-
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 class ValueSpecification(ARObject, metaclass = ABCMeta):
     '''

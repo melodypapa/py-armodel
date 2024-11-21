@@ -1,10 +1,9 @@
 from typing import List
-
-from ...MSR.Documentation import Annotation
-from ...MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
-from ...AUTOSARTemplates.CommonStructure import ValueSpecification
+from ....M2.MSR.Documentation import Annotation
+from ....M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
+from ....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 
 class SwDataDefPropsConditional(ARObject):
     '''

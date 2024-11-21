@@ -1,15 +1,12 @@
 from abc import ABCMeta
 from typing import List
-
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
-
-from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ..SWComponentTemplate.Datatype.Datatypes import AutosarDataType
-from ..SWComponentTemplate.Components import SymbolProps
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
+from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
+from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
 class AbstractImplementationDataTypeElement(Identifiable):
     def __init__(self, parent, short_name: str):

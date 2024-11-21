@@ -1,7 +1,6 @@
 from abc import ABCMeta
 import re
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class ARType(metaclass = ABCMeta):
     def __init__(self) -> None:

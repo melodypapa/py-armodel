@@ -1,11 +1,10 @@
 from abc import ABCMeta
 from typing import List
-
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, ARBoolean
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from .Fibex.FibexCore.CoreCommunication import FibexElement
-from .Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
+from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
+from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, ARBoolean
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class NmClusterCoupling(ARObject, metaclass = ABCMeta):
     def __init__(self):

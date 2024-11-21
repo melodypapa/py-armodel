@@ -1,6 +1,6 @@
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, ARNumerical
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, ARNumerical
 
 class BswModuleEntry(ARElement):
     def __init__(self, parent: ARObject, short_name: str):

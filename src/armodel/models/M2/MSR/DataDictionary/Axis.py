@@ -1,7 +1,7 @@
-from .CalibrationParameter import SwCalprmAxisTypeProps
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 from typing import List
+from ....M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 
 class SwGenericAxisParam(ARObject):
     def __init__(self):

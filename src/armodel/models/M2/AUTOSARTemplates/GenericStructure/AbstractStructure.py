@@ -1,12 +1,9 @@
 
 from abc import ABCMeta
 from typing import List
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-
-from .GeneralTemplateClasses.PrimitiveTypes import RefType
-from .GeneralTemplateClasses.ArObject import ARObject
-
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 class AtpInstanceRef(ARObject, metaclass = ABCMeta):
     def __init__(self):
 
