@@ -1,10 +1,8 @@
 import logging
 from typing import List
-
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.Fibex.fibex_core.core_communication import SystemSignal
 
 class SystemSignalAnalyzer:
     def __init__(self) -> None:

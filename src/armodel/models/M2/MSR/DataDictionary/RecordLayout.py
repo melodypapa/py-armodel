@@ -1,7 +1,7 @@
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
-from ...MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
+from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 class SwRecordLayoutV(ARObject):
     def __init__(self):

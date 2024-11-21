@@ -1,9 +1,9 @@
-from ....AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
-from ....AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
-from ....AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from ....MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, AutosarVariableRef
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 class ParameterAccess(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):

@@ -1,16 +1,16 @@
 from abc import ABCMeta
 from typing import List
 
-from ...CommonStructure.TriggerDeclaration import Trigger
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
-from ..Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ...CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
-from ...GenericStructure.AbstractStructure import AtpType
-from ...GenericStructure.AbstractStructure import AtpFeature
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class PortInterface(AtpType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

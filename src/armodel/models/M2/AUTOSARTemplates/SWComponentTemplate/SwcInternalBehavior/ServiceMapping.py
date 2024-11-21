@@ -1,10 +1,8 @@
 from typing import List
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
-
-
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
 class RoleBasedPortAssignment(ARObject):
     def __init__(self):
         super().__init__()

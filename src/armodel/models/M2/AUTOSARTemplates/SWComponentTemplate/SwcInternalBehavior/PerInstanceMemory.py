@@ -1,6 +1,6 @@
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 class PerInstanceMemory(Identifiable):

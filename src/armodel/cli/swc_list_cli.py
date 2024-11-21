@@ -4,9 +4,8 @@ import logging
 import sys
 import os.path
 
-from armodel import AUTOSAR
-from armodel.parser import ARXMLParser
-
+from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from ..parser import ARXMLParser
 from ..lib import InputFileParser, SwComponentAnalyzer
 
 def main():

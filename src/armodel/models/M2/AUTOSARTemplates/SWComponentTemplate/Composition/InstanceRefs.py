@@ -2,7 +2,6 @@ from abc import ABCMeta
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
-
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
     def __init__(self):
         if type(self) == PortInCompositionTypeInstanceRef:

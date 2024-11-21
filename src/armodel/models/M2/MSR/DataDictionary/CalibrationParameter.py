@@ -1,8 +1,8 @@
 from typing import List
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
-
 from abc import ABCMeta
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
+
 class SwCalprmAxisTypeProps(ARObject, metaclass = ABCMeta):
     def __init__(self):
         if type(self) == SwCalprmAxisTypeProps:

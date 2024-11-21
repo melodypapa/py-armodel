@@ -1,6 +1,6 @@
-from .MemorySectionUsage import MemorySection
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from .....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from typing import List
 
 class ResourceConsumption(Identifiable):

@@ -1,5 +1,5 @@
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class Trigger(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

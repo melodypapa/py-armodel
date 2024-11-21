@@ -1,6 +1,6 @@
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, RefType
-from ..CommonStructure.Implementation import Implementation
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, RefType
+from ....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from typing import List
 
 class BswImplementation(Implementation):

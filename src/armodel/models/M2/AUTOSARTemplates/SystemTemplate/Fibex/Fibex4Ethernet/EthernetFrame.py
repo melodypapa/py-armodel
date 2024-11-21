@@ -1,5 +1,4 @@
 from abc import ABCMeta
-
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame
 

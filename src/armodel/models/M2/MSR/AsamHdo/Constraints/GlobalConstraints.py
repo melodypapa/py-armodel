@@ -1,8 +1,7 @@
 from typing import List
-from ....AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Limit, RefType
-
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Limit, RefType
 
 class InternalConstrs(ARObject):
     def __init__(self):

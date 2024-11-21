@@ -1,12 +1,10 @@
 from abc import ABCMeta
-
-from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, TRefType
-from ...GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from ...CommonStructure import ValueSpecification
-from ...GenericStructure.AbstractStructure import AtpFeature
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, TRefType
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from .....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 
 class AtpPrototype(AtpFeature, metaclass = ABCMeta):
     def __init__(self, parent:ARObject, short_name: str):

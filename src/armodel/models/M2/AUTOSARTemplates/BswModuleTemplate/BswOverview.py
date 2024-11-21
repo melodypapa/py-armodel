@@ -1,10 +1,9 @@
-from ..BswModuleTemplate.BswBehavior import BswInternalBehavior
-from ..CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger, RefType
+from ....M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
+from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger, RefType
 from typing import Dict, List
-
 
 class BswModuleDescription(ARElement):
     '''
