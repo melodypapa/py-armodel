@@ -101,6 +101,16 @@ class ARFloat(ARNumerical):
         else:
             return str(self._value)
         
+class Float(ARFloat):
+    '''
+        An instance of Float is an element from the set of real numbers.
+        Tags:
+            * xml.xsd.customType=FLOAT
+            * xml.xsd.type=double
+    '''
+    def __init__(self):
+        super().__init__()
+        
 class TimeValue(ARFloat):
     '''
         This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
@@ -177,9 +187,9 @@ class ARBoolean(ARType):
 
     def _convertStringToBoolean(self, value: str) -> bool:
         value = value.lower()
-        if value == "true":
+        if value == "true" or value == "1":
             return True
-        elif value == "false":
+        elif value == "false" or value == "0":
             return False
         else:
             return self._convertNumberToBoolean(int(value))
@@ -282,6 +292,21 @@ class Identifier(ARLiteral):
     '''
     def __init__(self):
         super().__init__()
+
+class RevisionLabelString(ARLiteral):
+    '''
+        This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
+        represents a pattern which
+            * supports three integers representing from left to right MajorVersion, MinorVersion, PatchVersion.
+            * may add an application specific suffix separated by one of ".", "_", ";".
+        Legal patterns are for example:
+            * 4.0.0
+            * 4.0.0.1234565
+            * 4.0.0_vendor specific;13
+            * 4.0.0;12
+    '''
+
+    
 class Limit(ARObject):
     def __init__(self):
         super().__init__()

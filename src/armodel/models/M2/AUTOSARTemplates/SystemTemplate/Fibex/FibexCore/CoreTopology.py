@@ -1,10 +1,11 @@
 from abc import ABCMeta
 from typing import List
+
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, RefType, ARLiteral
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class PhysicalChannel (Identifiable, metaclass = ABCMeta):
@@ -143,6 +144,7 @@ class AbstractCanCluster(CommunicationCluster, metaclass = ABCMeta):
         self.busOffRecovery = None
         self.canFdBaudrate = None
         self.canXlBaudrate = None
+        self.speed = None
 
     def getBusOffRecovery(self):
         return self.busOffRecovery
@@ -165,6 +167,12 @@ class AbstractCanCluster(CommunicationCluster, metaclass = ABCMeta):
         self.canXlBaudrate = value
         return self
 
+    def getSpeed(self):
+        return self.speed
+
+    def setSpeed(self, value):
+        self.speed = value
+        return self
 
 class CanCluster(AbstractCanCluster):
     def __init__(self, parent: ARObject, short_name: str):
@@ -172,8 +180,20 @@ class CanCluster(AbstractCanCluster):
 
 class LinCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)                 
+        super().__init__(parent, short_name)
 
-class EcuInstance(FibexElement):
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)    
+class CommunicationController(Identifiable, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == CommunicationController:
+            raise NotImplementedError("CommunicationController is an abstract class.")
+        
+        super().__init__(parent, short_name)
+
+        self.wakeUpByControllerSupported = None                         # type: Boolean
+
+    def getWakeUpByControllerSupported(self):
+        return self.wakeUpByControllerSupported
+
+    def setWakeUpByControllerSupported(self, value):
+        self.wakeUpByControllerSupported = value
+        return self

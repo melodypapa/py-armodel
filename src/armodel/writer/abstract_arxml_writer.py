@@ -9,7 +9,7 @@ import xml.etree.cElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
@@ -78,6 +78,9 @@ class AbstractARXMLWriter:
             if literal._value is not None:
                 child_element.text = str(literal._value)
 
+    def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: ARLiteral):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: TRefType):
         if ref is not None:
             child_tag = ET.SubElement(parent, child_tag_name)
@@ -90,6 +93,9 @@ class AbstractARXMLWriter:
         if value is not None:
             child_element = ET.SubElement(element, key)
             child_element.text = value.getText()
+
+    def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):
+        self.setChildElementOptionalFloatValue(element, key, value)
 
     def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: ARBoolean) -> ET.Element:
         child_element = None

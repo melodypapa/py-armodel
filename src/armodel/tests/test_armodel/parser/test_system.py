@@ -12,7 +12,7 @@ class TestSystemTemplate:
         parser.load("src/armodel/tests/test_files/CanSystem.arxml", document)
 
     
-    def test_bswm_mode_arxml_loading_and_saving(self):
+    def test_can_system_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
