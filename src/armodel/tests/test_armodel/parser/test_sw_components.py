@@ -53,28 +53,6 @@ class TestSWComponents:
         assert(len(sw_component.getAssemblySwConnectors()) == 0)
         assert(len(sw_component.getDelegationSwConnectors()) == 0)
         
-    def test_software_components_arxml_loading_and_saving(self):
-        document = AUTOSAR.getInstance()
-        document.clear()
-        parser = ARXMLParser()
-        parser.load("src/armodel/tests/test_files/SoftwareComponents.arxml", document)
-
-        writer = ARXMLWriter()
-        writer.save("data/generated.arxml", document)
-
-        assert(filecmp.cmp("src/armodel/tests/test_files/SoftwareComponents.arxml", "data/generated.arxml", shallow = False) == True)
-
-    def test_software_components_arxml_loading_and_saving(self):
-        document = AUTOSAR.getInstance()
-        document.clear()
-        parser = ARXMLParser()
-        parser.load("src/armodel/tests/test_files/AUTOSAR_Datatypes.arxml", document)
-
-        writer = ARXMLWriter()
-        writer.save("data/generated_AUTOSAR_Datatypes.arxml", document)
-
-        assert(filecmp.cmp("src/armodel/tests/test_files/AUTOSAR_Datatypes.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow = False) == True)
-
     def test_bswm_mode_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()

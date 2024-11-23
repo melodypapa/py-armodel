@@ -8,17 +8,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..parser.arxml_parser import ARXMLParser
 from ..writer import ARXMLWriter
 
-def main():
-    version = pkg_resources.require("armodel")[0].version
-
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
-    ap.add_argument("-w", "--warning", required= False, help= "Skip the error and report it as warning message", action= "store_true")
-    ap.add_argument("INPUT", help = "The path of AUTOSAR ARXML file")
-    ap.add_argument("OUTPUT", help = "The path of output ARXML file")
-
-    args = ap.parse_args()
-
+def perform_format(args):
     logger = logging.getLogger()
     
     formatter = logging.Formatter('[%(levelname)s] : %(message)s')
@@ -63,6 +53,19 @@ def main():
         #print(e)
         logger.error(e)
         raise e
+
+def main():
+    version = pkg_resources.require("armodel")[0].version
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
+    ap.add_argument("-w", "--warning", required= False, help= "Skip the error and report it as warning message", action= "store_true")
+    ap.add_argument("INPUT", help = "The path of AUTOSAR ARXML file")
+    ap.add_argument("OUTPUT", help = "The path of output ARXML file")
+
+    args = ap.parse_args()
+
+    perform_format(args)
 
 if __name__ == "__main__":
     main()

@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, TimeValue
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -94,7 +94,24 @@ class AbstractARXMLParser:
         child_element = element.find("./xmlns:%s" % key, self.nsmap)
         literal = None
         if (child_element is not None):
-            self.logger.debug("readChildOptionalElementLiteral : %s" % child_element.text)
+            self.logger.debug("getChildElementOptionalLiteral : %s" % child_element.text)
+            literal = ARLiteral()
+            self.readElementAttributes(child_element, literal)
+            # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
+            if child_element.text is None:      
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+    
+    def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> ARLiteral:
+        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        literal = None
+        if (child_element is not None):
+            self.logger.debug("getChildElementOptionalRevisionLabelString : %s" % child_element.text)
+            m = re.match(r'[0-9]+\.[0-9]+\.[0-9]+([\._;].*)?', child_element.text)
+            if not m:
+                raise ValueError("Invalid RevisionLabelString <%s>" % child_element.text)
             literal = ARLiteral()
             self.readElementAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
@@ -110,7 +127,7 @@ class AbstractARXMLParser:
         return False
     
     def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> ARFloat:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         float_value = None
         if (child_element is not None) and (child_element.text is not None):
             float_value = ARFloat()
@@ -125,19 +142,27 @@ class AbstractARXMLParser:
             float_value.setValue(child_element.text)
             results.append(float_value)
         return results
+    
+    def getChildElementOptionalTimeValue(self, element: ET.Element, key: str) -> TimeValue:
+        child_element = self.find(element, key)
+        time_value = None
+        if (child_element is not None) and (child_element.text is not None):
+            time_value = TimeValue()
+            time_value.setValue(child_element.text)
+        return time_value
 
-    def getChildElementBooleanValue(self, short_name: str, element: ET.Element, key: str) -> ARBoolean:
+    def getChildElementBooleanValue(self, short_name: str, element: ET.Element, key: str) -> Boolean:
         literal = self.getChildElementLiteral(short_name, element, key)
-        bool_value = ARBoolean()
+        bool_value = Boolean()
         bool_value.timestamp = literal.timestamp
         bool_value.value = self._convertStringToBooleanValue(literal._value)
         return bool_value
 
-    def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> ARBoolean:
+    def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> Boolean:
         literal = self.getChildElementOptionalLiteral(element, key)
         if (literal == None):
             return None
-        bool_value = ARBoolean()
+        bool_value = Boolean()
         bool_value.timestamp = literal.timestamp
         bool_value.setValue(literal.getValue())
         return bool_value

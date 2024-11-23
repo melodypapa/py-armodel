@@ -1,10 +1,48 @@
 from typing import List
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType
+
+class SwcToEcuMapping(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.componentIRefs = []                    # type: List[ComponentInSystemInstanceRef]
+        self.controlledHwElementRef = None          # type: RefType
+        self.ecuInstanceRef = None                  # type: RefType
+        self.processingUnitRef = None               # type: RefType
+
+    def getComponentIRefs(self):
+        return self.componentIRefs
+
+    def addComponentIRef(self, value):
+        self.componentIRefs.append(value)
+        return self
+
+    def getControlledHwElementRef(self):
+        return self.controlledHwElementRef
+
+    def setControlledHwElementRef(self, value):
+        self.controlledHwElementRef = value
+        return self
+
+    def getEcuInstanceRef(self):
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value):
+        self.ecuInstanceRef = value
+        return self
+
+    def getProcessingUnitRef(self):
+        return self.processingUnitRef
+
+    def setProcessingUnitRef(self, value):
+        self.processingUnitRef = value
+        return self
 
 class SystemMapping(Identifiable):
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.applicationPartitionToEcuPartitionMappings = []
@@ -28,7 +66,7 @@ class SystemMapping(Identifiable):
         self.swClusterMappings = []
         self.swcToApplicationPartitionMappings = []
         self.swImplMappings = []
-        self.swMappings = []
+        self.swMappings = []                                                        # type: List[SwcToEcuMapping]
         self.systemSignalGroupToComResourceMappings = []
         self.systemSignalToComResourceMappings = []
 
@@ -182,9 +220,12 @@ class SystemMapping(Identifiable):
     def getSwMappings(self):
         return self.swMappings
 
-    def addSwMapping(self, value):
-        self.swMappings.append(value)
-        return self
+    def createSwcToEcuMapping(self, short_name: str) -> SwcToEcuMapping:
+        if short_name not in self.elements:
+            mapping = SwcToEcuMapping(self, short_name)
+            self.addElement(mapping)
+            self.swMappings.append(mapping)
+        return self.getElement(short_name)
 
     def getSystemSignalGroupToComResourceMappings(self):
         return self.systemSignalGroupToComResourceMappings
@@ -200,9 +241,37 @@ class SystemMapping(Identifiable):
         self.systemSignalToComResourceMappings.append(value)
         return self
 
+class RootSwCompositionPrototype(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.calibrationParameterValueSetRef = None         # type: RefType
+        self.flatMapRef = None                              # type: RefType
+        self.softwareCompositionTRef = None                 # type: TRefType
+
+    def getCalibrationParameterValueSetRef(self):
+        return self.calibrationParameterValueSetRef
+
+    def setCalibrationParameterValueSetRef(self, value):
+        self.calibrationParameterValueSetRef = value
+        return self
+
+    def getFlatMapRef(self):
+        return self.flatMapRef
+
+    def setFlatMapRef(self, value):
+        self.flatMapRef = value
+        return self
+
+    def getSoftwareCompositionTRef(self):
+        return self.softwareCompositionTRef
+
+    def setSoftwareCompositionTRef(self, value):
+        self.softwareCompositionTRef = value
+        return self
 
 class System(ARElement):
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.clientIdDefinitionSetRefs = []                 # type: List[RefType]
@@ -212,12 +281,12 @@ class System(ARElement):
         self.interpolationRoutineMappingSetRefs = []        # type: List[RefType]
         self.j1939SharedAddressClusters = []
         self.mappings = []                                  # type: List[SystemMapping]
-        self.pncVectorLength = None
-        self.pncVectorOffset = None
-        self.rootSoftwareComposition = None
+        self.pncVectorLength = None                         # type: PositiveInteger
+        self.pncVectorOffset = None                         # type: PositiveInteger
+        self.rootSoftwareComposition = None                 # type: RootSwCompositionPrototype
         self.swClusters = []
         self.systemDocumentation = []
-        self.systemVersion = None
+        self.systemVersion = None                           # type: RevisionLabelString
 
     def getClientIdDefinitionSetRefs(self):
         return self.clientIdDefinitionSetRefs
@@ -287,9 +356,12 @@ class System(ARElement):
     def getRootSoftwareComposition(self):
         return self.rootSoftwareComposition
 
-    def setRootSoftwareComposition(self, value):
-        self.rootSoftwareComposition = value
-        return self
+    def createRootSoftwareComposition(self, short_name) -> RootSwCompositionPrototype:
+        if short_name not in self.elements:
+            prototype = RootSwCompositionPrototype(self, short_name)
+            self.addElement(prototype)
+            self.rootSoftwareComposition = prototype
+        return self.getElement(short_name)
 
     def getSwClusters(self):
         return self.swClusters
