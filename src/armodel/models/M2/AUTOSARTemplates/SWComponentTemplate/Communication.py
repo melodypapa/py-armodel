@@ -1,14 +1,27 @@
 from abc import ABCMeta
 from typing import List
+from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from ....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from ....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+class HandleInvalidEnum(AREnum):
+    DONT_INVALIDATE = "dontInvalidate"
+    EXTERNAL_REPLACEMENT = "externalReplacement"
+    KEEP = "keep"
+    REPLACE = "replace"
 
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ...MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from ..CommonStructure import ValueSpecification
+    def __init__(self):
+        super().__init__((
+            HandleInvalidEnum.DONT_INVALIDATE,
+            HandleInvalidEnum.EXTERNAL_REPLACEMENT,
+            HandleInvalidEnum.KEEP,
+            HandleInvalidEnum.REPLACE
+        ))
+    
 
 class PPortComSpec(ARObject, metaclass = ABCMeta):
     """

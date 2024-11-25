@@ -1,8 +1,8 @@
 from abc import ABCMeta
 
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Float, Integer
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger, PositiveUnlimitedInteger
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 class AbstractCanCommunicationControllerAttributes(ARObject, metaclass = ABCMeta):
     def __init__(self):
@@ -115,3 +115,59 @@ class AbstractCanCommunicationController(CommunicationController, metaclass = AB
 class CanCommunicationController(AbstractCanCommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+class AbstractCanCommunicationConnector(CommunicationConnector, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == AbstractCanCommunicationConnector:
+            raise NotImplementedError("AbstractCanCommunicationConnector is an abstract class.")
+        
+        super().__init__(parent, short_name)
+
+class CanCommunicationConnector(AbstractCanCommunicationConnector):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)  
+
+        # type: PositiveInteger
+        self.pncWakeupCanId = None
+        self.pncWakeupCanIdExtended = None                          # type: Boolean
+        # type: PositiveInteger
+        self.pncWakeupCanIdMask = None
+        # type: PositiveUnlimitedInteger
+        self.pncWakeupDataMask = None
+        # type: PositiveInteger
+        self.pncWakeupDlc = None
+
+    def getPncWakeupCanId(self):
+        return self.pncWakeupCanId
+
+    def setPncWakeupCanId(self, value):
+        self.pncWakeupCanId = value
+        return self
+
+    def getPncWakeupCanIdExtended(self):
+        return self.pncWakeupCanIdExtended
+
+    def setPncWakeupCanIdExtended(self, value):
+        self.pncWakeupCanIdExtended = value
+        return self
+
+    def getPncWakeupCanIdMask(self):
+        return self.pncWakeupCanIdMask
+
+    def setPncWakeupCanIdMask(self, value):
+        self.pncWakeupCanIdMask = value
+        return self
+
+    def getPncWakeupDataMask(self):
+        return self.pncWakeupDataMask
+
+    def setPncWakeupDataMask(self, value):
+        self.pncWakeupDataMask = value
+        return self
+
+    def getPncWakeupDlc(self):
+        return self.pncWakeupDlc
+
+    def setPncWakeupDlc(self, value):
+        self.pncWakeupDlc = value
+        return self

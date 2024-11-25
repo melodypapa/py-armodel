@@ -1,8 +1,8 @@
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TimeValue
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 from typing import List
 
 class EcuInstance(FibexElement):
@@ -102,18 +102,20 @@ class EcuInstance(FibexElement):
     def getCommControllers(self):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements.values()), key= lambda o:o.short_name))
 
-    def createCanCommunicationController(self, short_name) -> CanCommunicationController:
+    def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
         if (short_name not in self.elements):
             controller = CanCommunicationController(self, short_name)
             self.elements[short_name] = controller
         return self.elements[short_name]
 
     def getConnectors(self):
-        return self.connectors
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements.values()), key= lambda o:o.short_name))
 
-    def addConnector(self, value):
-        self.connectors.append(value)
-        return self
+    def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
+        if (short_name not in self.elements):
+            controller = CanCommunicationConnector(self, short_name)
+            self.elements[short_name] = controller
+        return self.elements[short_name]
 
     def getDltConfig(self):
         return self.dltConfig

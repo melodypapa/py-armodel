@@ -354,3 +354,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ROOT-SOFTWARE-COMPOSITIONS
    * SPEED
    * ECU-INSTANCE
+   * COMM-CONTROLLERS
+   * CAN-COMMUNICATION-CONNECTOR
