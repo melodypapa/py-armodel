@@ -2,10 +2,6 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
-
-
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
@@ -19,8 +15,8 @@ from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, Sw
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, ValueList
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.M2.MSR.Documentation.Annotation import Annotation
-from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -81,10 +77,10 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, IPdu, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinUnconditionalFrame
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanPhysicalChannel, CommunicationCluster, LinCluster, LinPhysicalChannel, PhysicalChannel
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
@@ -2271,6 +2267,37 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CAN-FRAME")
         self.writeFrame(child_element, frame)
 
+    def writeCommConnectorPort(self, element: ET.Element, port: CommConnectorPort):
+        self.setIdentifiable(element, port)
+        self.setChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION", port.getCommunicationDirection())
+
+    def writeFramePort(self, element: ET.Element, port: FramePort):
+        child_element = ET.SubElement(element, "FRAME-PORT")
+        self.writeCommConnectorPort(child_element, port)
+
+    def writeIPduPort(self, element: ET.Element, port: IPduPort):
+        child_element = ET.SubElement(element, "I-PDU-PORT")
+        self.writeCommConnectorPort(child_element, port)
+
+    def writeISignalPort(self, element: ET.Element, port: ISignalPort):
+        child_element = ET.SubElement(element, "I-SIGNAL-PORT")
+        self.writeCommConnectorPort(child_element, port)
+
+    def writeCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
+        self.logger.debug("write EcuCommPortInstances of CommunicationConnector %s" % connector.getShortName())
+        ports = connector.getEcuCommPortInstances()
+        if len(ports) > 0:
+            instances_tag = ET.SubElement(element, "ECU-COMM-PORT-INSTANCES")
+            for port in ports:
+                if isinstance(port, FramePort):
+                    self.writeFramePort(instances_tag, port)
+                elif isinstance(port, IPduPort):
+                    self.writeIPduPort(instances_tag, port)
+                elif isinstance(port, ISignalPort):
+                    self.writeISignalPort(instances_tag, port)
+                else:
+                    self._raiseError("Unsupported CommConnectorPort <%s>" % type(port))      
+
     def writeCanCommunicationController(self, element: ET.Element, controller: CanCommunicationController):
         self.logger.debug("Write CanCommunicationController %s" % controller.getShortName())
         self.setIdentifiable(element, controller)
@@ -2286,6 +2313,27 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self._raiseError("Unsupported Communication Controller <%s>" % type(controller))
 
+    def writeCommunicationConnector(self, element: ET.Element, connector: CommunicationConnector):
+        self.setIdentifiable(element, connector)
+        self.setChildElementOptionalRefType(element, "COMM-CONTROLLER-REF", connector.getCommControllerRef())
+        self.writeCommunicationConnectorEcuCommPortInstances(element, connector)
+
+
+    def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
+        self.logger.debug("Write CanCommunicationConnector %s" % connector.getShortName())
+        self.writeCommunicationConnector(element, connector)                
+
+    def writeEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
+        connectors = instance.getConnectors()
+        if len(connectors) > 0:
+            connectors_tag = ET.SubElement(element, "CONNECTORS")
+            for connector in connectors:
+                if isinstance(connector, CanCommunicationConnector):
+                    child_element = ET.SubElement(connectors_tag, "CAN-COMMUNICATION-CONNECTOR")
+                    self.writeCanCommunicationConnector(child_element, connector)
+                else:
+                    self._raiseError("Unsupported Communication connector <%s>" % type(connector))
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.short_name)
         child_element = ET.SubElement(element, "ECU-INSTANCE")
@@ -2295,6 +2343,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-TX-TIME-BASE", instance.getComConfigurationTxTimeBase())
         self.setChildElementOptionalBooleanValue(child_element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION", instance.getComEnableMDTForCyclicTransmission())
         self.writeEcuInstanceCommControllers(child_element, instance)
+        self.writeEcuInstanceConnectors(child_element, instance)
+        self.setChildElementOptionalBooleanValue(child_element, "SLEEP-MODE-SUPPORTED", instance.getSleepModeSupported())
+        self.setChildElementOptionalBooleanValue(child_element, "WAKE-UP-OVER-BUS-SUPPORTED", instance.getWakeUpOverBusSupported())
 
     def writeSystemSignalGroup(self, element: ET.Element, group: SystemSignalGroup):
         self.logger.debug("Write SystemSignalGroup %s" % group.short_name)

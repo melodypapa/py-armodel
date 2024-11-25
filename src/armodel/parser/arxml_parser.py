@@ -4,8 +4,6 @@ import os
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -70,9 +68,9 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommunicationCluster, LinPhysicalChannel, PhysicalChannel
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, AbstractCanCommunicationControllerAttributes, CanCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, AbstractCanCommunicationControllerAttributes, CanCommunicationConnector, CanCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
@@ -2341,6 +2339,53 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self._raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
+    def readCommConnectorPort(self, element: ET.Element, port: CommConnectorPort):
+        self.readIdentifiable(element, port)
+        port.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
+
+    def readFramePort(self, element: ET.Element, port: FramePort):
+        self.readCommConnectorPort(element, port)
+
+    def readIPduPort(self, element: ET.Element, port: IPduPort):
+        self.readCommConnectorPort(element, port)
+
+    def readISignalPort(self, element: ET.Element, port: ISignalPort):
+        self.readCommConnectorPort(element, port)
+
+    def readCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
+        self.logger.debug("read EcuCommPortInstances of CommunicationConnector %s" % connector.getShortName())
+        for child_element in self.findall(element, "ECU-COMM-PORT-INSTANCES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FRAME-PORT":
+                port = connector.createFramePort(self.getShortName(child_element))
+                self.readFramePort(child_element, port)
+            elif tag_name == "I-PDU-PORT":
+                port = connector.createIPduPort(self.getShortName(child_element))
+                self.readIPduPort(child_element, port)
+            elif tag_name == "I-SIGNAL-PORT":
+                port = connector.createISignalPort(self.getShortName(child_element))
+                self.readISignalPort(child_element, port)
+            else:
+                self._raiseError("Unsupported EcuCommPortInstances <%s>" % tag_name)       
+
+    def readCommunicationConnector(self, element: ET.Element, connector: CommunicationConnector):
+        self.readIdentifiable(element, connector)
+        connector.setCommControllerRef(self.getChildElementOptionalRefType(element, "COMM-CONTROLLER-REF"))
+        self.readCommunicationConnectorEcuCommPortInstances(element, connector)
+
+    def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
+        self.readCommunicationConnector(element, connector)
+
+    def readEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
+        self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())
+        for child_element in self.findall(element, "CONNECTORS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-COMMUNICATION-CONNECTOR":
+                connector = instance.createCanCommunicationConnector(self.getShortName(child_element))
+                self.readCanCommunicationConnector(child_element, connector)
+            else:
+                self._raiseError("Unsupported Communication Controller <%s>" % tag_name)                
+
     def readEcuInstance(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         self.logger.debug("EcuInstance %s" % short_name)
@@ -2351,6 +2396,9 @@ class ARXMLParser(AbstractARXMLParser):
                 .setComConfigurationTxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-TX-TIME-BASE")) \
                 .setComEnableMDTForCyclicTransmission(self.getChildElementOptionalBooleanValue(element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION"))
         self.readEcuInstanceCommControllers(element, instance)
+        self.readEcuInstanceConnectors(element, instance)
+        instance.setSleepModeSupported(self.getChildElementOptionalBooleanValue(element, "SLEEP-MODE-SUPPORTED")) \
+                .setWakeUpOverBusSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-OVER-BUS-SUPPORTED"))
 
     '''
     def getFrameMappings(self, element: ET.Element) -> List[FrameMapping]:

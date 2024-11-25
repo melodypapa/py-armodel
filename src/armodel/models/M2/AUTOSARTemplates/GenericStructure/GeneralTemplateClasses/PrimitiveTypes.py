@@ -1,5 +1,6 @@
 from abc import ABCMeta
 import re
+from typing import List
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class ARType(metaclass = ABCMeta):
@@ -147,6 +148,23 @@ class ARLiteral(ARType):
     def upper(self) -> str:
         return self.value.upper()
 
+class AREnum(ARLiteral):
+    def __init__(self, enum_values: List[str]):
+        super().__init__()
+        
+        self.enumValues = enum_values                # List[str]
+
+    def getEnumValues(self):
+        return self.enumValues
+
+    def setEnumValues(self, values: List[str]):
+        self.enumValues = values
+        return self
+
+    def validateEnumValue(self, value: str):
+        if value in self.enumValues:
+            return True
+        return False
 
 class String(ARLiteral):
     
@@ -248,6 +266,16 @@ class PositiveInteger(ARPositiveInteger):
     '''
     def __init__(self):
         super().__init__()
+
+class PositiveUnlimitedInteger(ARPositiveInteger):
+    '''
+        This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal.
+        
+        Tags:
+            * xml.xsd.customType=POSITIVE-UNLIMITED-INTEGER
+            * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
+            * xml.xsd.type=string
+    '''        
 
 class Integer(ARNumerical):
     '''

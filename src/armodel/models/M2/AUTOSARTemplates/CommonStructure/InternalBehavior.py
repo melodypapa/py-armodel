@@ -7,10 +7,9 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype
 
 class ReentrancyLevelEnum(Enum):
-    multicoreReentrant = "multicoreReentrant"
-    nonReentrant = "nonReentrant"
-    singleCoreReentrant = "singleCoreReentrant"
-
+    ENUM_MULTICORE_REENTRANT = "multicoreReentrant"
+    ENUM_NON_REENTRANT = "nonReentrant"
+    ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
 
 class ExclusiveArea(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
