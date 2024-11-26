@@ -9,7 +9,7 @@ import xml.etree.cElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, TimeValue
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Integer, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
@@ -70,6 +70,9 @@ class AbstractARXMLWriter:
             child_element = ET.SubElement(element, key)
             self.setARObjectAttributes(child_element, numerical)
             child_element.text = numerical._text
+
+    def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Integer):
+        self.setChildElementOptionalNumericalValue(element, key, value)
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, literal: ARLiteral):
         if literal is not None:

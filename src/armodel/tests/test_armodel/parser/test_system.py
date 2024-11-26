@@ -21,7 +21,7 @@ class TestSystemTemplate:
         writer = ARXMLWriter()
         writer.save("data/generated_CanSystem.arxml", document)
 
-        #assert(filecmp.cmp("src/armodel/tests/test_files/CanSystem.arxml", "data/generated_CanSystem.arxml", shallow = False) == True)
+        assert(filecmp.cmp("src/armodel/tests/test_files/CanSystem.arxml", "data/generated_CanSystem.arxml", shallow = False) == True)
 
         
 

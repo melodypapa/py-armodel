@@ -2,7 +2,9 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
+
+
+
 
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
@@ -27,6 +29,7 @@ from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswIntern
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap, ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
@@ -67,14 +70,16 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, AbstractCanCommunicationControllerAttributes, CanCommunicationConnector, CanCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, IPduTiming, ISignalIPdu, ISignalTriggering, PduTriggering
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 
 from .abstract_arxml_parser import AbstractARXMLParser
 
@@ -2629,13 +2634,84 @@ class ARXMLParser(AbstractARXMLParser):
                    .setStartPosition(self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")) \
                    .setTransferProperty(self.getChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY")) \
                    .setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+    
+    def getDataFilter(self, element: ET.Element, key: str) -> DataFilter:
+        filter = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            filter = DataFilter()
+            filter.setDataFilterType(self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE"))
+        return filter
+            
+    def getTransmissionModeConditions(self, element: ET.Element, key: str) -> List[TransmissionModeCondition]:
+        result = []
+        child_elements = self.findall(element, key)
+        for child_element in child_elements:
+            condition = TransmissionModeCondition()
+            condition.setDataFilter(self.getDataFilter(child_element, "DATA-FILTER")) \
+                     .setISignalInIPduRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF"))
+            result.append(condition)
+        return result
+    
+    def getTimeRangeType(self, element: ET.Element, key: str) -> TimeRangeType:
+        time_range = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            time_range = TimeRangeType()
+            time_range.setValue(self.getChildElementOptionalTimeValue(child_element, "VALUE"))
+        return time_range
+    
+    def getCyclicTiming(self, element: ET.Element, key: str) -> CyclicTiming:
+        timing = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            timing = CyclicTiming()
+        return timing
+
+    def getEventControlledTiming(self, element: ET.Element, key: str) -> EventControlledTiming:
+        timing = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            timing = EventControlledTiming()
+            timing.setNumberOfRepetitions(self.getChildElementOptionalIntegerValue(child_element, "NUMBER-OF-REPETITIONS"))
+            timing.setRepetitionPeriod(self.getTimeRangeType(child_element, "REPETITION-PERIOD"))
+        return timing
+
+    def getTransmissionModeTiming(self, element: ET.Element, key: str) -> TransmissionModeTiming:
+        timing = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            self.logger.debug("Get TransmissionModeTiming of <%s>" % key)
+            timing = TransmissionModeTiming()
+            #timing.getCyclicTiming(child_element, "")
+            timing.setEventControlledTiming(self.getEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING"))
+        return timing
+
+    def getTransmissionModeDeclaration(self, element: ET.Element, key: str) -> TransmissionModeDeclaration:
+        decl = None
+        child_element = self.find(element, key)
+        if child_element != None:
+            decl = TransmissionModeDeclaration()
+            for condition in self.getTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION"):
+                decl.addTransmissionModeCondition(condition)
+            decl.setTransmissionModeTrueTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING"))
+        return decl
+
+    def getISignalIPduIPduTimingSpecification(self, element: ET.Element) -> IPduTiming:
+        timing = None
+        child_element = self.find(element, "I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING")
+        if child_element is not None:
+            timing = IPduTiming()
+            timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
+        return timing
 
     def readISignalIPdu(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         self.logger.debug("ISignalIPdu %s" % short_name)
         i_pdu = parent.createISignalIPdu(short_name)
         self.readIdentifiable(element, i_pdu)
-        i_pdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
+        i_pdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH")) \
+            .setIPduTimingSpecification(self.getISignalIPduIPduTimingSpecification(element))
         self.readISignalToPduMappings(element, i_pdu)
         i_pdu.setUnusedBitPattern(self.getChildElementOptionalLiteral(element, "UNUSED-BIT-PATTERN"))
 

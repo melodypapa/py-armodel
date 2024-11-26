@@ -356,3 +356,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ECU-INSTANCE
    * COMM-CONTROLLERS
    * CAN-COMMUNICATION-CONNECTOR
+   * I-PDU-TIMING
+   * DATA-FILTER
+   * EVENT-CONTROLLED-TIMING

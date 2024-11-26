@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, TimeValue
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, Integer, TimeValue
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -73,7 +73,7 @@ class AbstractARXMLParser:
     '''
     
     def getChildElementLiteral(self, short_name: str, element: ET.Element, key: str) -> ARLiteral:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         if (child_element is not None):
             literal = ARLiteral()
             self.readElementAttributes(child_element, literal)
@@ -82,7 +82,7 @@ class AbstractARXMLParser:
         self._raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
         
     def getChildElementLiteralValueList(self, element: ET.Element, key: str) -> ARFloat:
-        child_elements = element.findall("./xmlns:%s" % key, self.nsmap)
+        child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
             literal = ARLiteral()
@@ -91,7 +91,7 @@ class AbstractARXMLParser:
         return results
 
     def getChildElementOptionalLiteral(self, element: ET.Element, key: str) -> ARLiteral:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         literal = None
         if (child_element is not None):
             self.logger.debug("getChildElementOptionalLiteral : %s" % child_element.text)
@@ -105,9 +105,9 @@ class AbstractARXMLParser:
         return literal
     
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> ARLiteral:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         literal = None
-        if (child_element is not None):
+        if (child_element is not None) and (child_element.text is not None):
             self.logger.debug("getChildElementOptionalRevisionLabelString : %s" % child_element.text)
             m = re.match(r'[0-9]+\.[0-9]+\.[0-9]+([\._;].*)?', child_element.text)
             if not m:
@@ -135,7 +135,7 @@ class AbstractARXMLParser:
         return float_value
     
     def getChildElementFloatValueList(self, element: ET.Element, key: str) -> ARFloat:
-        child_elements = element.findall("./xmlns:%s" % key, self.nsmap)
+        child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
             float_value = ARFloat()
@@ -187,16 +187,25 @@ class AbstractARXMLParser:
     '''
     
     def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> ARNumerical:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         if child_element == None:
             return None
         numerical = ARNumerical()
         self.readElementAttributes(child_element, numerical)
         numerical.setValue(child_element.text)
         return numerical
+    
+    def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Integer:
+        child_element = self.find(element, key)
+        if child_element == None:
+            return None
+        numerical = Integer()
+        self.readElementAttributes(child_element, numerical)
+        numerical.setValue(child_element.text)
+        return numerical
         
     def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[ARNumerical]:
-        child_elements = element.findall("./xmlns:%s" % key, self.nsmap)
+        child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
             numerical = ARNumerical()
@@ -205,7 +214,7 @@ class AbstractARXMLParser:
         return results
     
     def getChildLimitElement(self, element: ET.Element, key: str) -> Limit:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         if (child_element is not None):
             limit = Limit()
             self.readElementAttributes(child_element, limit)
@@ -224,13 +233,13 @@ class AbstractARXMLParser:
         return ref
 
     def getChildElementRefType(self, short_name: str, element: ET.Element, key: str) -> RefType:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         if (child_element is not None):
             return self._getChildElementRefTypeDestAndValue(child_element)
         self._raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
 
     def getChildElementOptionalRefType(self, element:ET.Element, key: str) -> RefType:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         if (child_element is not None):
             return self._getChildElementRefTypeDestAndValue(child_element)
         return None

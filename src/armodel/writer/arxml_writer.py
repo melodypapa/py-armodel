@@ -2,6 +2,10 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+
+
+
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
@@ -23,19 +27,17 @@ from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModule
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
-from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import TimingExtension
+from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
-from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
-from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
-from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
@@ -73,12 +75,13 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import S
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, IPdu, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinUnconditionalFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
@@ -2647,12 +2650,55 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.getStartPosition())
                 self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
                 self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
+    
+    def setDataFilter(self, element: ET.Element, key: str, filter: DataFilter):
+        child_element = ET.SubElement(element, key)
+        self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
+
+    def setTransmissionModeConditions(self, element: ET.Element, conditions: List[TransmissionModeCondition]):
+        if len(conditions) > 0:
+            conditions_tag = ET.SubElement(element, "TRANSMISSION-MODE-CONDITIONS")
+            for condition in conditions:
+                child_element = ET.SubElement(conditions_tag, "TRANSMISSION-MODE-CONDITION")
+                self.setDataFilter(child_element, "DATA-FILTER", condition.getDataFilter())
+                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF", condition.getISignalInIPduRef())
+
+    def setTimeRangeType(self, element: ET.Element, key: str, time_range: TimeRangeType):
+         if time_range is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalTimeValue(child_element, "VALUE", time_range.getValue())
+
+    def setEventControlledTiming(self, element: ET.Element, key: str, timing: EventControlledTiming):
+        if timing is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalIntegerValue(child_element, "NUMBER-OF-REPETITIONS", timing.getNumberOfRepetitions())
+            self.setTimeRangeType(child_element, "REPETITION-PERIOD", timing.getRepetitionPeriod())
+
+    def setTransmissionModeTiming(self, element: ET.Element, key: str, timing: TransmissionModeTiming):
+        if timing is not None:
+            self.logger.debug("Set TransmissionModeTiming of <%s>" % key)
+            child_element = ET.SubElement(element, key)
+            #timing.getCyclicTiming(child_element, "")
+            self.setEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING", timing.getEventControlledTiming())
+
+    def setTransmissionModeDeclaration(self, element: ET.Element, key: str, decl : TransmissionModeDeclaration):
+        if decl is not None:
+            child_element = ET.SubElement(element, key)
+            self.setTransmissionModeConditions(child_element, decl.getTransmissionModeConditions())
+            self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING", decl.getTransmissionModeTrueTiming())
+
+    def setISignalIPduIPduTimingSpecification(self, element: ET.Element, timing: IPduTiming):
+        if timing is not None:
+            spec_tag = ET.SubElement(element, "I-PDU-TIMING-SPECIFICATIONS")
+            child_element = ET.SubElement(spec_tag, "I-PDU-TIMING")
+            self.setTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
 
     def writeISignalIPdu(self, element: ET.Element, i_pdu: ISignalIPdu):
         self.logger.debug("ISignalIPdu %s" % i_pdu.short_name)
         child_element = ET.SubElement(element, "I-SIGNAL-I-PDU")
         self.setIdentifiable(child_element, i_pdu)
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH", i_pdu.getLength())
+        self.setISignalIPduIPduTimingSpecification(child_element, i_pdu.getIPduTimingSpecification())
         self.writeISignalToPduMappings(child_element, i_pdu)
         self.setChildElementOptionalLiteral(child_element, "UNUSED-BIT-PATTERN", i_pdu.getUnusedBitPattern())
 
