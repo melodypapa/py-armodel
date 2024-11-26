@@ -1,9 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from ....GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
-from ....GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, RefType, ARBoolean
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
+
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, RefType, ARBoolean, TimeValue
 
 class FibexElement(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -279,14 +281,12 @@ class DcmIPdu(IPdu):
         self.diagPduType = value
         return self
 
-
 class IPduTiming(Describable):
     def __init__(self):
         super().__init__()
 
         self.minimumDelay = None                                # type: TimeValue
-        # type: TransmissionModeDeclaration
-        self.transmissionModeDeclaration = None
+        self.transmissionModeDeclaration = None                 # type: TransmissionModeDeclaration
 
     def getMinimumDelay(self):
         return self.minimumDelay

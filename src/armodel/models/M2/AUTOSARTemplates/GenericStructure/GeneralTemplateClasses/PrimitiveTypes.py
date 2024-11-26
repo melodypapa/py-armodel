@@ -292,6 +292,21 @@ class Integer(ARNumerical):
     def __init__(self):
         super().__init__()
 
+class UnlimitedInteger(Integer):
+    '''
+        An instance of UnlimitedInteger is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
+        The range is limited by constraint 2534.
+        The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
+        can only be expressed in decimal notation.
+        
+        Tags:
+            * xml.xsd.customType=UNLIMITED-INTEGER
+            * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
+
 class Boolean(ARBoolean):
     '''
         A Boolean value denotes a logical condition that is either 'true' or 'false'. It can be one of "0", "1", "true",
