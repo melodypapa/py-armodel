@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
@@ -7,7 +7,7 @@
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
-    <AR-PACKAGE>
+    <AR-PACKAGE T="2024-11-26T21:25:17+08:00">
       <SHORT-NAME>AUTOSAR</SHORT-NAME>
       <LONG-NAME>
         <L-4 L="EN">AUTOSAR</L-4>
@@ -49,7 +49,7 @@
                   </DESC>
                   <DISPLAY-NAME>bar</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0E-5</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">LenNeg1M1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">LenNeg1M1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>DegCgrd</SHORT-NAME>
@@ -62,7 +62,7 @@
                   <DISPLAY-NAME>degC</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
                   <OFFSET-SI-TO-UNIT>-273.15</OFFSET-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">T1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">T1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>HectoPa</SHORT-NAME>
@@ -79,7 +79,7 @@
                   </INTRODUCTION>
                   <DISPLAY-NAME>hPa</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>0.01</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">LenNeg1M1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">LenNeg1M1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Hz</SHORT-NAME>
@@ -91,7 +91,7 @@
                   </DESC>
                   <DISPLAY-NAME>Hz</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Kelvin</SHORT-NAME>
@@ -103,7 +103,7 @@
                   </DESC>
                   <DISPLAY-NAME>K</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">T1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">T1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>KelvinRel</SHORT-NAME>
@@ -115,7 +115,7 @@
                   </DESC>
                   <DISPLAY-NAME>K</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">T1_1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">T1_1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>KiloGr</SHORT-NAME>
@@ -127,7 +127,7 @@
                   </DESC>
                   <DISPLAY-NAME>kg</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">M1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">M1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>KiloHz</SHORT-NAME>
@@ -139,7 +139,7 @@
                   </DESC>
                   <DISPLAY-NAME>kHz</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>0.001</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>KiloMtr</SHORT-NAME>
@@ -151,7 +151,7 @@
                   </DESC>
                   <DISPLAY-NAME>km</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>0.001</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Mtr</SHORT-NAME>
@@ -163,7 +163,7 @@
                   </DESC>
                   <DISPLAY-NAME>m</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>MtrPerSec</SHORT-NAME>
@@ -175,7 +175,7 @@
                   </DESC>
                   <DISPLAY-NAME>m/s</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len1TiNeg1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len1TiNeg1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>MtrPerSecCubd</SHORT-NAME>
@@ -187,7 +187,7 @@
                   </DESC>
                   <DISPLAY-NAME>m/s^3</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len1TiNeg3</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len1TiNeg3</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>MtrPerSecSqd</SHORT-NAME>
@@ -199,7 +199,7 @@
                   </DESC>
                   <DISPLAY-NAME>m/s^2</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>MtrRecpr</SHORT-NAME>
@@ -211,7 +211,7 @@
                   </DESC>
                   <DISPLAY-NAME>1/m</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">LenNeg1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">LenNeg1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>NoUnit</SHORT-NAME>
@@ -223,7 +223,7 @@
                   </DESC>
                   <DISPLAY-NAME>-</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">NoDimension</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">NoDimension</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Nwt</SHORT-NAME>
@@ -235,7 +235,7 @@
                   </DESC>
                   <DISPLAY-NAME>N</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len1M1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len1M1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>NwtMtr</SHORT-NAME>
@@ -247,7 +247,7 @@
                   </DESC>
                   <DISPLAY-NAME>Nm</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len2M1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len2M1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>NwtMtrPerSec</SHORT-NAME>
@@ -259,7 +259,7 @@
                   </DESC>
                   <DISPLAY-NAME>Nm/s</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len2M1TiNeg3</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len2M1TiNeg3</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>NwtPerMtr</SHORT-NAME>
@@ -271,7 +271,7 @@
                   </DESC>
                   <DISPLAY-NAME>N/m</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">M1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">M1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>NwtSecPerMtr</SHORT-NAME>
@@ -283,7 +283,7 @@
                   </DESC>
                   <DISPLAY-NAME>Ns/m</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">M1TiNeg1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">M1TiNeg1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Pa</SHORT-NAME>
@@ -300,7 +300,7 @@
                   </INTRODUCTION>
                   <DISPLAY-NAME>Pa</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">LenNeg1M1TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">LenNeg1M1TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Perc</SHORT-NAME>
@@ -312,7 +312,7 @@
                   </DESC>
                   <DISPLAY-NAME>%</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>100.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">NoDimension_1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">NoDimension_1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>PercPerSec</SHORT-NAME>
@@ -324,7 +324,7 @@
                   </DESC>
                   <DISPLAY-NAME>%/s</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>100.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg1_1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg1_1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Rad</SHORT-NAME>
@@ -336,7 +336,7 @@
                   </DESC>
                   <DISPLAY-NAME>rad</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">NoDimension_2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">NoDimension_2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>RadPerSec</SHORT-NAME>
@@ -348,7 +348,7 @@
                   </DESC>
                   <DISPLAY-NAME>rad/s</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg1_2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg1_2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>RadPerSecSqd</SHORT-NAME>
@@ -360,7 +360,7 @@
                   </DESC>
                   <DISPLAY-NAME>rad/s^2</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Rpm</SHORT-NAME>
@@ -372,7 +372,7 @@
                   </DESC>
                   <DISPLAY-NAME>rpm</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>60.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg1_2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg1_2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>RpmPerSec</SHORT-NAME>
@@ -384,7 +384,7 @@
                   </DESC>
                   <DISPLAY-NAME>rpm/s</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>60.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">TiNeg2</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">TiNeg2</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Sec</SHORT-NAME>
@@ -396,7 +396,7 @@
                   </DESC>
                   <DISPLAY-NAME>s</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Ti1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Ti1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
                 <UNIT>
                   <SHORT-NAME>Volt</SHORT-NAME>
@@ -408,7 +408,7 @@
                   </DESC>
                   <DISPLAY-NAME>V</DISPLAY-NAME>
                   <FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>
-                  <PHYSICAL-DIMENSION-REF BASE="PhysicalDimensions" DEST="PHYSICAL-DIMENSION">Len2M1TiNeg3INeg1</PHYSICAL-DIMENSION-REF>
+                  <PHYSICAL-DIMENSION-REF DEST="PHYSICAL-DIMENSION" BASE="PhysicalDimensions">Len2M1TiNeg3INeg1</PHYSICAL-DIMENSION-REF>
                 </UNIT>
               </ELEMENTS>
             </AR-PACKAGE>
