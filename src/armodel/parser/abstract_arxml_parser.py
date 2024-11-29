@@ -228,8 +228,11 @@ class AbstractARXMLParser:
     
     def _getChildElementRefTypeDestAndValue(self, element) -> RefType:
         ref = RefType()
-        ref.dest = element.attrib['DEST']
-        ref.value = element.text
+        if 'BASE' in element.attrib:
+            ref.setBase(element.attrib['BASE'])
+        if 'DEST' in element.attrib:
+            ref.setDest(element.attrib['DEST'])
+        ref.setValue(element.text)
         return ref
 
     def getChildElementRefType(self, short_name: str, element: ET.Element, key: str) -> RefType:

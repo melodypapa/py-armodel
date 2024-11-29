@@ -8,11 +8,7 @@ import logging
 import xml.etree.cElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Integer, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
-
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Integer, TimeValue, RefType, ARBoolean
 
 class AbstractARXMLWriter:
     __metaclass__ = ABCMeta
@@ -84,11 +80,15 @@ class AbstractARXMLWriter:
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: ARLiteral):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: TRefType):
+    def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: RefType):
         if ref is not None:
             child_tag = ET.SubElement(parent, child_tag_name)
-            if ref.dest is not None:
-                child_tag.attrib['DEST'] = ref.dest
+            base = ref.getBase()
+            if base is not None:
+                child_tag.attrib['BASE'] = base
+            dest = ref.getDest()
+            if dest is not None:
+                child_tag.attrib['DEST'] = dest
             if ref.value is not None:
                 child_tag.text = ref.value
 

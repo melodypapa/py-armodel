@@ -355,14 +355,35 @@ class Limit(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.intervalType = None       # type: str
-        self.value = None               # type: str
+        self.intervalType = None                # type: str
+        self.value = None                       # type: str
 
+    def getIntervalType(self):
+        return self.intervalType
+
+    def setIntervalType(self, value):
+        self.intervalType = value
+        return self
+
+    def getValue(self):
+        return self.value
+
+    def setValue(self, value):
+        self.value = value
+        return self
 
 class RefType(ARObject):
     def __init__(self):
-        self.dest = ""
-        self.value = ""
+        self.base = None                        # type: str
+        self.dest = None                        # type: str
+        self.value = None                       # type: str
+
+    def getBase(self):
+        return self.base
+
+    def setBase(self, value):
+        self.base = value
+        return self
 
     def getDest(self):
         return self.dest
