@@ -3,7 +3,7 @@
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
     <USED-LANGUAGES>
-      <L-10 L="EN" xml:space="default">English</L-10>
+      <L-10 L="EN">English</L-10>
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
@@ -349,7 +349,7 @@
                     <L-4 L="EN">Brightness Command</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Ramp defines a certain "change rate" with which the given percentage value shall be reached. (No ramp means the brightness value shall be effective immediately).</L-2>
+                    <L-2 L="EN">Ramp defines a certain &quot;change rate&quot; with which the given percentage value shall be reached. (No ramp means the brightness value shall be effective immediately).</L-2>
                   </DESC>
                   <CATEGORY>STRUCTURE</CATEGORY>
                   <SW-DATA-DEF-PROPS>
@@ -1046,7 +1046,7 @@
                     <APPLICATION-RECORD-ELEMENT>
                       <SHORT-NAME>ObjId</SHORT-NAME>
                       <DESC>
-                        <L-2 L="EN">Unique number for each object which has been tracked. The object keeps the same ID as long as it is output in the list. When an object dies, the ID can be reused for a new object. When a new object appears, for one cycle the attribute "object is new" is set. ID=0 is reserved for "no object".</L-2>
+                        <L-2 L="EN">Unique number for each object which has been tracked. The object keeps the same ID as long as it is output in the list. When an object dies, the ID can be reused for a new object. When a new object appears, for one cycle the attribute &quot;object is new&quot; is set. ID=0 is reserved for &quot;no object&quot;.</L-2>
                       </DESC>
                       <TYPE-TREF BASE="ApplicationDataTypes" DEST="APPLICATION-PRIMITIVE-DATA-TYPE">Nr2</TYPE-TREF>
                     </APPLICATION-RECORD-ELEMENT>
@@ -1156,7 +1156,7 @@
                     <APPLICATION-RECORD-ELEMENT>
                       <SHORT-NAME>ObjId</SHORT-NAME>
                       <DESC>
-                        <L-2 L="EN">Unique number for each object which has been tracked. The object keeps the same ID as long as it is output in the list. When an object dies, the ID can be reused for a new object. When a new object appears, for one cycle the attribute "object is new" is set. ID=0 is reserved for "no object".</L-2>
+                        <L-2 L="EN">Unique number for each object which has been tracked. The object keeps the same ID as long as it is output in the list. When an object dies, the ID can be reused for a new object. When a new object appears, for one cycle the attribute &quot;object is new&quot; is set. ID=0 is reserved for &quot;no object&quot;.</L-2>
                       </DESC>
                       <TYPE-TREF BASE="ApplicationDataTypes" DEST="APPLICATION-PRIMITIVE-DATA-TYPE">Nr2</TYPE-TREF>
                     </APPLICATION-RECORD-ELEMENT>
@@ -1393,7 +1393,7 @@
                     <APPLICATION-RECORD-ELEMENT>
                       <SHORT-NAME>Dir</SHORT-NAME>
                       <DESC>
-                        <L-2 L="EN">(off; increase; decrease) "Inc" refers to movement towards 100% position (large person). "Dec" refers to movement towards 0% position (small person).</L-2>
+                        <L-2 L="EN">(off; increase; decrease) &quot;Inc&quot; refers to movement towards 100% position (large person). &quot;Dec&quot; refers to movement towards 0% position (small person).</L-2>
                       </DESC>
                       <TYPE-TREF BASE="ApplicationDataTypes" DEST="APPLICATION-PRIMITIVE-DATA-TYPE">MovmtTyp1</TYPE-TREF>
                     </APPLICATION-RECORD-ELEMENT>
@@ -2107,7 +2107,7 @@
                     <APPLICATION-RECORD-ELEMENT>
                       <SHORT-NAME>WipgImdt</SHORT-NAME>
                       <DESC>
-                        <L-2 L="EN">If "on" the provided wiping mode shall be set immediately (and not after the next cycle of the wiper).</L-2>
+                        <L-2 L="EN">If &quot;on&quot; the provided wiping mode shall be set immediately (and not after the next cycle of the wiper).</L-2>
                       </DESC>
                       <TYPE-TREF BASE="ApplicationDataTypes" DEST="APPLICATION-PRIMITIVE-DATA-TYPE">OnOff1</TYPE-TREF>
                     </APPLICATION-RECORD-ELEMENT>

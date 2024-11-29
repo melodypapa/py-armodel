@@ -176,7 +176,7 @@ class RunnableEntity(ExecutableEntity):
         if (short_name not in self.elements):
             point = InternalTriggeringPoint(self, short_name)
             self.elements[point.short_name] = point
-        return self.elements[point.short_name]
+        return self.elements[short_name]
 
     def getInternalTriggeringPoints(self) -> List[InternalTriggeringPoint]:
         return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.elements)
