@@ -14,13 +14,16 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArOb
 class TestARRef:
     def test_RefType(self):
         ref_type = RefType()
-        assert(ref_type.value == "")
-        assert(ref_type.dest == "")
+        assert(ref_type.getBase() == None)
+        assert(ref_type.getValue() == None)
+        assert(ref_type.getDest() == None)
 
     def test_TRefType(self):
         ref_type = TRefType()
-        assert(ref_type.value == "")
-        assert(ref_type.dest == "")
+        assert(ref_type.getBase() == None)
+        assert(ref_type.getValue() == None)
+        assert(ref_type.getDest() == None)
+
 
     def test_AutosarVariableRef(self):
         ref_type = AutosarVariableRef()
