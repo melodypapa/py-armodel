@@ -1,9 +1,27 @@
 from typing import Dict, List
+
+from ...M2.MSR.AsamHdo.SpecialData import Sdg
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ...M2.MSR.AsamHdo import AdminData
 from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from ...M2.MSR.Documentation.BlockElements import DocumentationBlock
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+
+class FileInfoComment(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.sdgs = []                                      # type: List[Sdg]
+
+    def getSdgs(self):
+        return self.sdgs
+
+    def setSdgs(self, value):
+        self.sdgs = value
+        return self
 
 class AbstractAUTOSAR(CollectableElement):
     def __init__(self):
@@ -14,10 +32,32 @@ class AbstractAUTOSAR(CollectableElement):
         self.schema_location = ""
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
-        
 
-        self._ar_packages = {}                  # type: Dict[str, ARPackage]
-        self.short_name_mappings = {}           # type: Dict[str, str]
+        self.adminData = None                               # type: AdminData
+        self.arPackages = {}                                # type: Dict[str, ARPackage]
+        self.fileInfoComment = None                         # type: FileInfoComment
+        self.introduction = None                            # type: DocumentationBlock
+
+    def getAdminData(self):
+        return self.adminData
+
+    def setAdminData(self, value):
+        self.adminData = value
+        return self
+
+    def getFileInfoComment(self):
+        return self.fileInfoComment
+
+    def setFileInfoComment(self, value):
+        self.fileInfoComment = value
+        return self
+
+    def getIntroduction(self):
+        return self.introduction
+
+    def setIntroduction(self, value):
+        self.introduction = value
+        return self
 
     def reload(self):
         pass
@@ -27,23 +67,23 @@ class AbstractAUTOSAR(CollectableElement):
         return ""
 
     def clear(self):
-        self._ar_packages = {}
+        self.arPackages = {}
         self.elements = {}
 
     def getElement(self, short_name: str) -> Referrable:
-        if (short_name in self._ar_packages):
-            return self._ar_packages[short_name]
+        if (short_name in self.arPackages):
+            return self.arPackages[short_name]
         return CollectableElement.getElement(self, short_name)
 
     def getARPackages(self) -> List[ARPackage]:
         #return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
-        return list(sorted(self._ar_packages.values(), key= lambda a: a.short_name))
+        return list(sorted(self.arPackages.values(), key= lambda a: a.short_name))
 
     def createARPackage(self, short_name: str) -> ARPackage:
-        if (short_name not in self._ar_packages):
+        if (short_name not in self.arPackages):
             ar_package = ARPackage(self, short_name)
-            self._ar_packages[short_name] = ar_package
-        return self._ar_packages[short_name]
+            self.arPackages[short_name] = ar_package
+        return self.arPackages[short_name]
 
     def find(self, referred_name: str) -> Referrable:
         short_name_list = referred_name.split("/")
@@ -57,9 +97,6 @@ class AbstractAUTOSAR(CollectableElement):
             #    raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
         return element
     
-    def findByShortName(self, short_name: str) -> Referrable:
-        pass
-
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):
             if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):

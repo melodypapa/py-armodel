@@ -2,10 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-
-
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -21,8 +17,8 @@ from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
-from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph
-from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
+from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LParagraph, LanguageSpecific
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswModuleEntity, BswScheduleEvent, BswModeSenderPolicy
@@ -117,13 +113,17 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "./SDGS/SDG"):
             admin_data.addSdg(self.getSdg(child_element))
     
-    def readAdminData(self, element: ET.Element, identifiable: Identifiable):
-        child_element = self.find(element, "./ADMIN-DATA")
+    def getAdminData(self, element: ET.Element, key: str) -> AdminData:
+        admin_data = None
+        child_element = self.find(element, key)
         if child_element is not None:
             self.logger.debug("readAdminData")
             admin_data = AdminData()
+            admin_data.setLanguage(self.getChildElementOptionalLiteral(child_element, "LANGUAGE")) \
+                      .setUsedLanguages(self.getMultiLanguagePlainText(child_element, "USED-LANGUAGES"))
+
             self.readSdgs(child_element, admin_data)
-            identifiable.setAdminData(admin_data)
+        return admin_data
 
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.readElementAttributes(element, referrable)
@@ -138,7 +138,7 @@ class ARXMLParser(AbstractARXMLParser):
         identifiable.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY")) \
                     .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
         
-        self.readAdminData(element, identifiable)
+        identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
     
     def readLLongName(self, element: ET.Element, long_name: MultilanguageLongName):
         for child_element in self.findall(element, "./L-4"):
@@ -933,23 +933,47 @@ class ARXMLParser(AbstractARXMLParser):
             sw_pointer_target_props.sw_data_def_props = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
             parent.swPointerTargetProps = sw_pointer_target_props
 
-    def readLParagraph(self, element: ET.Element, paragraph: MultiLanguageParagraph):
-        for child_element in self.findall(element, "./L-1"):
-            l1 = LOverviewParagraph()
-            self.readElementAttributes(child_element, l1)
-            l1.value = child_element.text
-            if 'L' in child_element.attrib:
-                l1.l = child_element.attrib['L']
-            paragraph.addL1(l1)
+    def readLanguageSpecific(self, element: ET.Element, specific: LanguageSpecific):
+        self.readElementAttributes(element, specific)
+        specific.value = element.text
+        if 'L' in element.attrib:
+            specific.l = element.attrib['L']
+
+    def getLParagraphs(self, element: ET.Element, key: str) -> List[LParagraph]:
+        results = []
+        for child_element in self.findall(element, key):
+            l1 = LParagraph()
+            self.readLanguageSpecific(child_element, l1)
+            results.append(l1)
+        return results
     
     def getMultiLanguageParagraphs(self, element: ET.Element, key: str) -> List[MultiLanguageParagraph]:
         paragraphs = []
         for child_element in self.findall(element, key):
             paragraph = MultiLanguageParagraph()
             self.readElementAttributes(child_element, paragraph)
-            self.readLParagraph(child_element, paragraph)
+            for l1 in self.getLParagraphs(child_element, "L-1"):
+                paragraph.addL1(l1)
             paragraphs.append(paragraph)
         return paragraphs
+    
+    def getLPlainTexts(self, element: ET.Element, key: str) -> List[LParagraph]:
+        results = []
+        for child_element in self.findall(element, key):
+            l1 = LParagraph()
+            self.readLanguageSpecific(child_element, l1)
+            results.append(l1)
+        return results
+    
+    def getMultiLanguagePlainText(self, element: ET.Element, key: str) -> MultiLanguagePlainText:
+        paragraph = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            paragraph = MultiLanguagePlainText()
+            self.readElementAttributes(child_element, paragraph)
+            for l10 in self.getLPlainTexts(child_element, "L-10"):
+                paragraph.addL10(l10)
+        return paragraph
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
         block = None
@@ -2964,6 +2988,7 @@ class ARXMLParser(AbstractARXMLParser):
             self._raiseError("Invalid ARXML file <%s>" % filename)
 
         self.getAUTOSARInfo(root, document)
+        document.setAdminData(self.getAdminData(root, "ADMIN-DATA")) 
         self.readARPackages(root, document)
 
         document.reload()

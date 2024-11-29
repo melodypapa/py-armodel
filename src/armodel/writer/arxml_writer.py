@@ -3,9 +3,6 @@ import xml.etree.cElementTree as ET
 from typing import List
 
 
-
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
@@ -20,7 +17,8 @@ from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, Val
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
-from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultilanguageLongName
+from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LanguageSpecific
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -138,44 +136,61 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setARObjectAttributes(element, referrable)
         self.setShortName(element, referrable.short_name)
 
+    def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific):
+        child_element = ET.SubElement(element, key)
+        self.setARObjectAttributes(child_element, specific)
+        if specific.l is not None:
+            child_element.attrib['L'] = specific.l
+        child_element.text = specific.value
+
+    def setLLongName(self, element: ET.Element, name: LLongName):
+        self.setLanguageSpecific(element, "L-4", name)
+
     def setMultiLongName(self, element: ET.Element, key: str, long_name: MultilanguageLongName):
         if long_name is not None:
-            long_name_tag = ET.SubElement(element, key)
-            self.setARObjectAttributes(long_name_tag, long_name)
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, long_name)
             for l4 in long_name.getL4s():
-                l4_tag = ET.SubElement(long_name_tag, "L-4")
-                self.setARObjectAttributes(l4_tag, l4)
-                if l4.l is not None:
-                    l4_tag.attrib['L'] = l4.l
-                l4_tag.text = l4.value
+                self.setLLongName(child_element, l4)
+
+    def setLOverviewParagraph(self, element: ET.Element, name: LLongName):
+        self.setLanguageSpecific(element, "L-2", name)
 
     def setMultiLanguageOverviewParagraph(self, element: ET.Element, key: str, paragraph: MultiLanguageOverviewParagraph):
         if paragraph is not None:
-            long_name_tag = ET.SubElement(element, key)
-            self.setARObjectAttributes(long_name_tag, paragraph)
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, paragraph)
             for l2 in paragraph.getL2s():
-                l2_tag = ET.SubElement(long_name_tag, "L-2")
-                self.setARObjectAttributes(l2_tag, l2)
-                if l2.l is not None:
-                    l2_tag.attrib['L'] = l2.l
-                l2_tag.text = l2.value
+                self.setLOverviewParagraph(child_element, l2)
 
     def setMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.setReferable(element, referrable)
         if referrable.longName is not None:
             self.setMultiLongName(element, "LONG-NAME", referrable.longName)
 
+    def setLPlainText(self, element: ET.Element, text: LPlainText):
+        self.setLanguageSpecific(element, "L-10", text)
+
+    def setMultiLanguagePlainText(self, element: ET.Element, key: str, paragraph: MultiLanguagePlainText):
+        if paragraph is not None:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, paragraph)
+            for l10 in paragraph.getL10s():
+                self.setLPlainText(child_element, l10)
+
     def setAdminData(self, element: ET.Element, admin_data: AdminData):
-        element = ET.SubElement(element, "ADMIN-DATA")
-        self.writeSdgs(element, admin_data)
+        if admin_data is not None:
+            child_element = ET.SubElement(element, "ADMIN-DATA")
+            self.setChildElementOptionalLiteral(child_element, "LANGUAGE", admin_data.getLanguage())
+            self.setMultiLanguagePlainText(child_element, "USED-LANGUAGES", admin_data.getUsedLanguages())
+            self.writeSdgs(child_element, admin_data)
 
     def setIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.setMultilanguageReferrable(element, identifiable)
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
-        if identifiable.getAdminData() is not None:
-            self.setAdminData(element, identifiable.getAdminData())
+        self.setAdminData(element, identifiable.getAdminData())
 
     def setARElement(self, parent: ET.Element, ar_element: ARElement):
         self.setIdentifiable(parent, ar_element)
@@ -2826,6 +2841,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         root.attrib["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance"
         root.attrib["xsi:schemaLocation"] = document.schema_location
         
+        self.setAdminData(root, document.getAdminData())
         self.writeARPackages(root, document.getARPackages())
 
         self.saveToFile(filename, root)
