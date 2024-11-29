@@ -35,7 +35,7 @@ class MultilanguageLongName(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.l4 = []        # type：List[LLongName]
+        self.l4 = []                            # type：List[LLongName]
 
     def addL4(self, l4: LLongName):
         self.l4.append(l4)
@@ -43,3 +43,16 @@ class MultilanguageLongName(ARObject):
 
     def getL4s(self) -> List[LLongName]:
         return self.l4
+    
+class MultiLanguagePlainText(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.l10s = []                       # type: List[LPlainText]
+
+    def getL10s(self):
+        return self.l10s
+
+    def addL10(self, value):
+        self.l10s.append(value)
+        return self

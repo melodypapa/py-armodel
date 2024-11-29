@@ -255,7 +255,7 @@ class NameToken(ARLiteral):
         super().__init__()
 
 class PositiveInteger(ARPositiveInteger):
-    '''
+    r'''\n
         This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is
         between 0 and 4294967295.
         
@@ -263,12 +263,13 @@ class PositiveInteger(ARPositiveInteger):
             * xml.xsd.customType=POSITIVE-INTEGER
             * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
+        \n
     '''
     def __init__(self):
         super().__init__()
 
 class PositiveUnlimitedInteger(ARPositiveInteger):
-    '''
+    r'''
         This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal.
         
         Tags:
@@ -278,7 +279,7 @@ class PositiveUnlimitedInteger(ARPositiveInteger):
     '''        
 
 class Integer(ARNumerical):
-    '''
+    r'''
         An instance of Integer is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
         The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
         can only be expressed in decimal notation
@@ -293,7 +294,7 @@ class Integer(ARNumerical):
         super().__init__()
 
 class UnlimitedInteger(Integer):
-    '''
+    r'''
         An instance of UnlimitedInteger is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
         The range is limited by constraint 2534.
         The value can be expressed in decimal, octal, hexadecimal and binary representation. Negative numbers
