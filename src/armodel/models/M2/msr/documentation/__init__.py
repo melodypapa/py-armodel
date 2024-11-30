@@ -1,3 +1,3 @@
 from .Annotation import *
-from .BlockElements import *
+from .TextModel.BlockElements import *
 from .TextModel import *

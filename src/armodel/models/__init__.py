@@ -8,8 +8,10 @@ from .M2.MSR.AsamHdo.Constraints.GlobalConstraints import *
 from .M2.MSR.DataDictionary import *
 from .M2.MSR.Documentation import *
 from .M2.MSR.Documentation.Annotation import *
-from .M2.MSR.Documentation.BlockElements import *
 from .M2.MSR.Documentation.TextModel import *
+from .M2.MSR.Documentation.TextModel.BlockElements import *
+from .M2.MSR.Documentation.TextModel.BlockElements.ListElements import *
+from .M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import *
 from .M2.MSR.Documentation.TextModel.LanguageDataModel import *
 from .M2.MSR.Documentation.TextModel.MultilanguageData import *
 from .M2.AUTOSARTemplates.AutosarTopLevelStructure import *

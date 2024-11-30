@@ -1,6 +1,6 @@
 from typing import List
 
-from .....M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ....MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger

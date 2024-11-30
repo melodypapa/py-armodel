@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from typing import List
-from ...M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ..MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.MSR.Documentation.Annotation import Annotation
 from ...M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject

@@ -4,23 +4,23 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 
 class DataFilterTypeEnum(AREnum):
 
-    maskedNewDiffersMaskedOld = "maskedNewDiffersMaskedOld"
-    maskedNewDiffersX = "maskedNewDiffersX"
-    maskedNewEqualsX = "maskedNewEqualsX"
-    never = "never"
-    newIsOutside = "newIsOutside"
-    newIsWithin = "newIsWithin"
-    oneEveryN = "oneEveryN"
+    MASKED_NEW_DIFFERS_MASKED_OLD = "maskedNewDiffersMaskedOld"
+    MASKED_NEW_DIFFERS_X = "maskedNewDiffersX"
+    MASKED_NEW_EQUALS_X = "maskedNewEqualsX"
+    NEVER = "never"
+    NEW_IS_OUTSIDE = "newIsOutside"
+    NEW_IS_WITHIN = "newIsWithin"
+    ONE_EVERY_N = "oneEveryN"
 
     def __init__(self):
         super().__init__((
-            self.maskedNewDiffersMaskedOld,
-            self.maskedNewDiffersX,
-            self.maskedNewEqualsX, 
-            self.never,
-            self.newIsOutside,
-            self.newIsWithin,
-            self.oneEveryN
+            DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD,
+            DataFilterTypeEnum.MASKED_NEW_DIFFERS_X,
+            DataFilterTypeEnum.MASKED_NEW_EQUALS_X, 
+            DataFilterTypeEnum.NEVER,
+            DataFilterTypeEnum.NEW_IS_OUTSIDE,
+            DataFilterTypeEnum.NEW_IS_WITHIN,
+            DataFilterTypeEnum.ONE_EVERY_N
         ))
 
 

@@ -16,7 +16,8 @@ from ..models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ListElement
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LParagraph, LanguageSpecific
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
@@ -136,7 +137,8 @@ class ARXMLParser(AbstractARXMLParser):
             identifiable.addAnnotation(annotation)
 
         identifiable.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY")) \
-                    .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
+                    .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC")) \
+                    .setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         
         identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
     
@@ -965,6 +967,20 @@ class ARXMLParser(AbstractARXMLParser):
             results.append(l1)
         return results
     
+    def getListElements(self, element: ET.Element, key: str) -> List[ListElement]:
+        '''
+            Read the DocumentationBlock List
+        '''
+        result = []
+        for child_element in self.findall(element, key):
+            list = ListElement()
+            if 'TYPE' in child_element.attrib:
+                list.setType(child_element.attrib['TYPE'])
+            for block in self.getDocumentationBlockList(child_element, "ITEM"):
+                list.addItem(block)
+            result.append(list)
+        return result       
+    
     def getMultiLanguagePlainText(self, element: ET.Element, key: str) -> MultiLanguagePlainText:
         paragraph = None
         child_element = self.find(element, key)
@@ -974,16 +990,29 @@ class ARXMLParser(AbstractARXMLParser):
             for l10 in self.getLPlainTexts(child_element, "L-10"):
                 paragraph.addL10(l10)
         return paragraph
+    
+    def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
+        self.readElementAttributes(element, block)
+        for paragraph in self.getMultiLanguageParagraphs(element, "P"):
+            block.addP(paragraph)
+        for list in self.getListElements(element, "LIST"):
+            block.addList(list)
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
         block = None
         child_element = self.find(element, key)
         if child_element is not None:
             block = DocumentationBlock()
-            self.readElementAttributes(child_element, block)
-            for paragraph in self.getMultiLanguageParagraphs(child_element, "P"):
-                block.addP(paragraph)
+            self.readDocumentationBlock(child_element, block)
         return block
+    
+    def getDocumentationBlockList(self, element: ET.Element, key: str) -> List[DocumentationBlock]:
+        blocks = []
+        for child_element in self.findall(element, key):
+            block = DocumentationBlock()
+            self.readDocumentationBlock(child_element, block)
+            blocks.append(block)
+        return blocks
 
     def readGeneralAnnotation(self, element: ET.Element, annotation: GeneralAnnotation):
         annotation.setAnnotationOrigin(self.getChildElementOptionalLiteral(element, 'ANNOTATION-ORIGIN')) \
