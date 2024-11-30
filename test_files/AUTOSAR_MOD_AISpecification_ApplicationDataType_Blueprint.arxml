@@ -7071,7 +7071,7 @@ Special values FFEh and FFFh are reserved for future definition of signal qualit
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">There exist 4 principal states: open, intermediate, near closed, hard closed.The definition of intermediate and near closed has to be made for each project separately.
-Definition of "Clutch": </L-1>
+Definition of &quot;Clutch&quot;: </L-1>
                       <L-1 L="EN">Be aware that this information is not necessarily equal with the drivetrain open information. If a torque converter clutch is open, the drivetrain can still be closed. In contrary the drivetrain is open for Manual Transmission (MT) and Automatic Manual Transmission (AMT), if the clutch is open!</L-1>
                     </P>
                     <LIST TYPE="UNNUMBER">
@@ -9211,7 +9211,7 @@ Definition of "Clutch": </L-1>
                   <CATEGORY>VALUE</CATEGORY>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">Pull aid is considered to be a system that closes the door or rear lid (e.g. moves it from "ajar" to "closed") rather than a complete door/ rear lid moving system.</L-1>
+                      <L-1 L="EN">Pull aid is considered to be a system that closes the door or rear lid (e.g. moves it from &quot;ajar&quot; to &quot;closed&quot;) rather than a complete door/ rear lid moving system.</L-1>
                     </P>
                   </INTRODUCTION>
                   <SW-DATA-DEF-PROPS>
@@ -9766,7 +9766,7 @@ Definition of "Clutch": </L-1>
                   </SW-DATA-DEF-PROPS>
                 </APPLICATION-PRIMITIVE-DATA-TYPE>
                 <APPLICATION-PRIMITIVE-DATA-TYPE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmIntvModReqForTqCluReqForShiftIntvTyp1</SHORT-NAME>
+                  <SHORT-NAME>TrsmIntvModReqForTqCluReqForShiftIntvTyp1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission Torque Clutch Request for Fast Intervention Mode Type 1</L-4>
                   </LONG-NAME>
@@ -9817,7 +9817,7 @@ Definition of "Clutch": </L-1>
                   </SW-DATA-DEF-PROPS>
                 </APPLICATION-PRIMITIVE-DATA-TYPE>
                 <APPLICATION-PRIMITIVE-DATA-TYPE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmPwrStCtrl1</SHORT-NAME>
+                  <SHORT-NAME>TrsmPwrStCtrl1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Control State of Power Transmission</L-4>
                   </LONG-NAME>
