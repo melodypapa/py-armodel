@@ -167,9 +167,12 @@ class AREnum(ARLiteral):
         return False
 
 class String(ARLiteral):
-    
-    pass
+    def __init__(self):
+        super().__init__()
 
+class ReferrableSubtypesEnum(ARLiteral):
+    def __init__(self):
+        super().__init__()
 
 class ARPositiveInteger(ARNumerical):
     def __init__(self) -> None:

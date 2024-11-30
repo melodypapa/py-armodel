@@ -366,3 +366,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * INTRODUCTION
    * LIST
    * SW-INTENDED-RESOLUTION
+   * REFERENCE-BASE
