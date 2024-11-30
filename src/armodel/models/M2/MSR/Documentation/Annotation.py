@@ -1,4 +1,4 @@
-from ....M2.MSR.Documentation.BlockElements import DocumentationBlock
+from .TextModel.BlockElements import DocumentationBlock
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName

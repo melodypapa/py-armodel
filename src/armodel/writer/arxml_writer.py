@@ -3,6 +3,8 @@ import xml.etree.cElementTree as ET
 from typing import List
 
 
+
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
@@ -16,7 +18,8 @@ from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, Sw
 from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, ValueList
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.M2.MSR.Documentation.Annotation import Annotation
-from ..models.M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ListElement
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LanguageSpecific
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
@@ -190,6 +193,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
+        self.setDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
 
     def setARElement(self, parent: ET.Element, ar_element: ARElement):
@@ -588,12 +592,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setARObjectAttributes(child_element, paragraph)
             self.writeLParagraphs(child_element, paragraph)
         return paragraphs
+    
+    def setListElement(self, element: ET.Element, key: str, list: ListElement):
+        if list is not None:
+            child_element = ET.SubElement(element, key)
+            type = list.getType()
+            if type is not None:
+                child_element.attrib['TYPE'] = type
+            for item in list.getItems():
+                self.setDocumentationBlock(child_element, "ITEM", item)
 
     def setDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
         if block is not None:
             child_element = ET.SubElement(element, key)
             self.setARObjectAttributes(child_element, block)
             self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
+            for list in block.getLists():
+                self.setListElement(child_element, "LIST", list)
 
     def writeGeneralAnnotation(self, element: ET.Element, annotation: Annotation):
         self.setMultiLongName(element, "LABEL", annotation.getLabel())

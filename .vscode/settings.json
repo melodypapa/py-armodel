@@ -39,6 +39,7 @@
         "nsmap",
         "openpyxl",
         "Packageable",
+        "Paginateable",
         "pdur",
         "Pdus",
         "POLICYS",
@@ -60,7 +61,8 @@
         "SWMAKE",
         "SWSRC",
         "topdown",
-        "Triggerings"
+        "Triggerings",
+        "unnumber"
     ],
     "python.formatting.autopep8Args": [
         "--max-line-length=200"

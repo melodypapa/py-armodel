@@ -4,7 +4,7 @@ from ...M2.MSR.AsamHdo.SpecialData import Sdg
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...M2.MSR.AsamHdo import AdminData
 from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from ...M2.MSR.Documentation.BlockElements import DocumentationBlock
+from ..MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap

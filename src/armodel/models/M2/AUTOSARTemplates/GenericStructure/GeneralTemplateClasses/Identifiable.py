@@ -1,3 +1,4 @@
+from ....MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from .....M2.MSR.AsamHdo.AdminData import AdminData
 from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from .....M2.MSR.Documentation.Annotation import Annotation
@@ -89,10 +90,11 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
         MultilanguageReferrable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
-        self.annotations = []       # type: List[Annotation]
-        self.adminData = None       # type: AdminData
-        self.category = None        # type: ARLiteral
-        self.desc = None            # type: MultiLanguageOverviewParagraph
+        self.annotations = []                       # type: List[Annotation]
+        self.adminData = None                       # type: AdminData
+        self.category = None                        # type: ARLiteral
+        self.introduction = None                    # type: DocumentationBlock
+        self.desc = None                            # type: MultiLanguageOverviewParagraph
 
     def getAdminData(self):
         return self.adminData
@@ -114,6 +116,14 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
     def setCategory(self, value):
         self.category = value
         return self
+    
+    def getIntroduction(self):
+        return self.introduction
+
+    def setIntroduction(self, value):
+        self.introduction = value
+        return self
+
 
     def addAnnotation(self, annotation: Annotation):
         self.annotations.append(annotation)

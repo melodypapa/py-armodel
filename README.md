@@ -359,3 +359,9 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * I-PDU-TIMING
    * DATA-FILTER
    * EVENT-CONTROLLED-TIMING
+
+**Version 1.7.1**
+
+1. To support the following AR Element:
+   * INTRODUCTION
+   * LIST
