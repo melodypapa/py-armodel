@@ -2,6 +2,8 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
+
 
 
 
@@ -2663,10 +2665,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
         self.setIdentifiable(child_element, signal)
 
-    def writeGenericEthernetFrame(self, element: ET.Element, signal: SystemSignal):
+    def writeGenericEthernetFrame(self, element: ET.Element, signal: GenericEthernetFrame):
         self.logger.debug("Write GenericEthernetFrame %s" % signal.short_name)
         child_element = ET.SubElement(element, "ETHERNET-FRAME")
         self.writeFrame(child_element, signal)
+
+    def writeLifeCycleInfoSet(self, element: ET.Element, set: LifeCycleInfoSet):
+        self.logger.debug("Write LifeCycleInfoSet %s" % set.short_name)
+        child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
+        self.setIdentifiable(child_element, set)
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()
@@ -2828,6 +2835,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, GenericEthernetFrame):
             self.writeGenericEthernetFrame(element, ar_element)
+        elif isinstance(ar_element, LifeCycleInfoSet):
+            self.writeLifeCycleInfoSet(element, ar_element)
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

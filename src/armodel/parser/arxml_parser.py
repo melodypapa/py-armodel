@@ -2881,6 +2881,12 @@ class ARXMLParser(AbstractARXMLParser):
         frame = parent.createGenericEthernetFrame(short_name)
         self.readFrame(element, frame)
 
+    def readLifeCycleInfoSet(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read LifeCycleInfoSet %s" % short_name)
+        frame = parent.createLifeCycleInfoSet(short_name)
+        self.readIdentifiable(element, frame)
+
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "./ELEMENTS/*"):
             tag_name = self.getTagName(child_element.tag)
@@ -2994,6 +3000,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readParameterInterface(child_element, parent)
             elif tag_name == "ETHERNET-FRAME":
                 self.readGenericEthernetFrame(child_element, parent)
+            elif tag_name == "LIFE-CYCLE-INFO-SET":
+                self.readLifeCycleInfoSet(child_element, parent)
             else:
                 self._raiseError("Unsupported element type of ARPackage <%s>" % tag_name)
 

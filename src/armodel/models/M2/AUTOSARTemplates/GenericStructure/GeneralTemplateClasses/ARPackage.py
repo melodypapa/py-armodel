@@ -1,5 +1,7 @@
 from typing import Dict, List
 
+
+
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
@@ -12,13 +14,13 @@ from .....M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from .....M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from .....M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+from .....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from .....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Identifiable, Referrable
+from .....M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType
-from .....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
@@ -178,8 +180,14 @@ class ARPackage(Identifiable, CollectableElement):
     
     def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
         if (short_name not in self.elements):
-            sr_interface = GenericEthernetFrame(self, short_name)
-            self.addElement(sr_interface)
+            frame = GenericEthernetFrame(self, short_name)
+            self.addElement(frame)
+        return self.getElement(short_name)
+    
+    def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
+        if (short_name not in self.elements):
+            set = LifeCycleInfoSet(self, short_name)
+            self.addElement(set)
         return self.getElement(short_name)
 
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
