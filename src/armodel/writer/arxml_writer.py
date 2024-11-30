@@ -45,7 +45,7 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable, Referrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
@@ -2831,6 +2831,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         
+    def writeReferenceBases(self, element: ET.Element, bases: List[ReferenceBase]):
+        self.logger.debug("Write ReferenceBases")
+        if len(bases) > 0:
+            bases_tag = ET.SubElement(element, "REFERENCE-BASES")
+            for base in bases:
+                child_element = ET.SubElement(bases_tag, "REFERENCE-BASE")
+                self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", base.getShortLabel())
+                self.setChildElementOptionalBooleanValue(child_element, "IS-DEFAULT", base.getIsDefault())
+                self.setChildElementOptionalBooleanValue(child_element, "IS-GLOBAL", base.getIsDefault())
+                self.setChildElementOptionalBooleanValue(child_element,  "BASE-IS-THIS-PACKAGE", base.getBaseIsThisPackage())
+                self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
+        
     def writeARPackages(self, element: ET.Element, pkgs: List[ARPackage]):
         if len(pkgs) > 0:
             pkgs_tag = ET.SubElement(element, "AR-PACKAGES")
@@ -2841,6 +2853,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setIdentifiable(pkg_tag, pkg)
                 self.logger.debug("writeARPackage %s" % pkg.full_name)
 
+                self.writeReferenceBases(pkg_tag, pkg.getReferenceBases())
+
                 if pkg.getTotalElement() > 0:
                     elements_tag = ET.SubElement(pkg_tag, "ELEMENTS")
 
@@ -2849,6 +2863,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                             self.writeARPackageElement(elements_tag, ar_element)
 
                 self.writeARPackages(pkg_tag, pkg.getARPackages())
+                
 
     def save(self, filename, document: AUTOSAR):
         self.logger.info("Save %s ..." % filename)

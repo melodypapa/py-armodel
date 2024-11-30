@@ -64,7 +64,16 @@ class TestSWComponents:
 
         assert(filecmp.cmp("src/armodel/tests/test_files/BswMMode.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow = False) == True)
 
-        
+    def test_bswm_mode_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", document)
+
+        assert(filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", shallow = False) == True)
 
     
         

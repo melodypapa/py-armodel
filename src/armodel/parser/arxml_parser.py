@@ -42,7 +42,7 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent
@@ -2997,6 +2997,17 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self._raiseError("Unsupported element type of ARPackage <%s>" % tag_name)
 
+    def readReferenceBases(self, element: ET.Element, parent: ARPackage):
+        self.logger.debug("Read ReferenceBases")
+        for child_element in self.findall(element, "REFERENCE-BASES/REFERENCE-BASE"):
+            base = ReferenceBase()
+            base.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")) \
+                .setIsDefault(self.getChildElementOptionalBooleanValue(child_element, "IS-DEFAULT")) \
+                .setIsGlobal(self.getChildElementOptionalBooleanValue(child_element, "IS-GLOBAL")) \
+                .setBaseIsThisPackage(self.getChildElementOptionalBooleanValue(child_element, "BASE-IS-THIS-PACKAGE")) \
+                .setPackageRef(self.getChildElementOptionalRefType(child_element, "PACKAGE-REF"))
+            parent.addReferenceBase(base)
+
     def readARPackages(self, element: ET.Element, parent: ARPackage):
         for child_element in element.findall("./xmlns:AR-PACKAGES/xmlns:AR-PACKAGE", self.nsmap):
             short_name = self.getShortName(child_element)
@@ -3005,9 +3016,9 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readARPackages %s" % ar_package.full_name)
 
             self.readIdentifiable(child_element, ar_package)
-            self.readARPackageElements(child_element, ar_package)
             self.readARPackages(child_element, ar_package)
-
+            self.readARPackageElements(child_element, ar_package)
+            self.readReferenceBases(child_element, ar_package)
 
     def load(self, filename, document: AUTOSAR):
         self.logger.info("Load %s ..." % os.path.realpath(filename))

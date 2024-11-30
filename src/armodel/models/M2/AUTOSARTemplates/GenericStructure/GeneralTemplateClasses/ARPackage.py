@@ -1,6 +1,7 @@
 from typing import Dict, List
 
-from ...SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, ServiceSwComponentType, SwComponentType, ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, SensorActuatorSwComponentType
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
@@ -36,15 +37,78 @@ from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
 from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
 
+class ReferenceBase(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.globalElements = []                                    # type: List[ReferrableSubtypesEnum]
+        self.globalInPackageRefs = []                               # type: List[RefType]
+        self.isDefault = None                                       # type: Boolean
+        self.isGlobal = None                                        # type: Boolean
+        self.BaseIsThisPackage = None                               # type: Boolean
+        self.packageRef = None                                      # type: List[RefType]
+        self.shortLabel = None                                      # type: Identifier
+
+    def getGlobalElements(self):
+        return self.globalElements
+
+    def addGlobalElement(self, value):
+        self.globalElements.append(value)
+        return self
+
+    def getGlobalInPackageRefs(self):
+        return self.globalInPackageRefs
+
+    def addGlobalInPackageRef(self, value):
+        self.globalInPackageRefs.append(value)
+        return self
+
+    def getIsDefault(self):
+        return self.isDefault
+
+    def setIsDefault(self, value):
+        self.isDefault = value
+        return self
+    
+    def getIsGlobal(self):
+        return self.isGlobal
+
+    def setIsGlobal(self, value):
+        self.isGlobal = value
+        return self
+    
+    def getBaseIsThisPackage(self):
+        return self.BaseIsThisPackage
+
+    def setBaseIsThisPackage(self, value):
+        self.BaseIsThisPackage = value
+        return self
+
+    def getPackageRef(self):
+        return self.packageRef
+
+    def setPackageRef(self, value):
+        self.packageRef = value
+        return self
+
+    def getShortLabel(self):
+        return self.shortLabel
+
+    def setShortLabel(self, value):
+        self.shortLabel = value
+        return self
+
+
 class ARPackage(Identifiable, CollectableElement):
     def __init__(self, parent: ARObject, short_name: str):
         Identifiable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
-        self._ar_packages = {}      # type: Dict[str, ARPackage]
+        self.arPackages = {}                                        # type: Dict[str, ARPackage]
+        self.referenceBases = []                                     # type: List[ReferenceBase]
 
     def getARPackages(self):    # type: (...) -> List[ARPackage]
-        return list(sorted(self._ar_packages.values(), key= lambda a: a.short_name))
+        return list(sorted(self.arPackages.values(), key= lambda a: a.short_name))
         #return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
 
     def createARPackage(self, short_name: str):
@@ -54,14 +118,14 @@ class ARPackage(Identifiable, CollectableElement):
             self.elements[short_name] = ar_package
         return self.elements[short_name]
         '''
-        if short_name not in self._ar_packages:
+        if short_name not in self.arPackages:
             ar_package = ARPackage(self, short_name)
-            self._ar_packages[short_name] = ar_package
-        return self._ar_packages[short_name]
+            self.arPackages[short_name] = ar_package
+        return self.arPackages[short_name]
 
     def getElement(self, short_name: str) -> Referrable:
-        if (short_name in self._ar_packages):
-            return self._ar_packages[short_name]
+        if (short_name in self.arPackages):
+            return self.arPackages[short_name]
         return CollectableElement.getElement(self, short_name)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
@@ -540,3 +604,11 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getSystems(self) -> List[System]:
         return list(sorted(filter(lambda a : isinstance(a, System), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getReferenceBases(self):
+        return self.referenceBases
+
+    def addReferenceBase(self, value):
+        self.referenceBases.append(value)
+        return self
+
