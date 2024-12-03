@@ -8,7 +8,7 @@ class SwAddrMethod(Identifiable):
         super().__init__(parent, short_name)
 
         self.memoryAllocationKeywordPolicy = None   # type: ARLiteral
-        self.option = []                            # type: List[ARLiteral]
+        self.options = []                            # type: List[ARLiteral]
         self.sectionInitializationPolicy = None     # type: ARLiteral
         self.sectionType = None                     # type: ARLiteral
 
@@ -19,11 +19,11 @@ class SwAddrMethod(Identifiable):
         self.memoryAllocationKeywordPolicy = value
         return self
 
-    def getOption(self):
-        return self.option
+    def getOptions(self):
+        return self.options
 
     def addOption(self, value):
-        self.option.append(value)
+        self.options.append(value)
         return self
 
     def getSectionInitializationPolicy(self):

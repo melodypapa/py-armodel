@@ -367,3 +367,12 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * LIST
    * SW-INTENDED-RESOLUTION
    * REFERENCE-BASE
+  
+**Version 1.7.2**
+
+1. Fix the invalidationPolicy of SenderReceiverInterface cannot be written in ARXML
+2. To support the following AR Element:
+   * SW-ADDR-METHOD
+   * DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS
+   * DIAGNOSTIC-ROUTINE-NEEDS
+   

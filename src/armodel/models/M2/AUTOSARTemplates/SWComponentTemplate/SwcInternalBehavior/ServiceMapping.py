@@ -1,5 +1,5 @@
 from typing import List
-from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
@@ -46,12 +46,54 @@ class SwcServiceDependency(ServiceDependency):
 
     def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
         if (short_name not in self.elements):
-            event = NvBlockNeeds(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            needs = NvBlockNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createDiagnosticCommunicationManagerNeeds(self, short_name: str) -> DiagnosticCommunicationManagerNeeds:
+        if (short_name not in self.elements):
+            needs = DiagnosticCommunicationManagerNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
+        if (short_name not in self.elements):
+            needs = DiagnosticRoutineNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createDiagnosticValueNeeds(self, short_name: str) -> DiagnosticValueNeeds:
+        if (short_name not in self.elements):
+            needs = DiagnosticValueNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
+        if (short_name not in self.elements):
+            needs = DiagnosticEventNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
+        if (short_name not in self.elements):
+            needs = CryptoServiceNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
 
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getDiagnosticCommunicationManagerNeeds(self) -> List[DiagnosticCommunicationManagerNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DiagnosticCommunicationManagerNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getDiagnosticRoutineNeeds(self) -> List[DiagnosticRoutineNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DiagnosticRoutineNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getDiagnosticEventNeeds(self) -> List[DiagnosticEventNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DiagnosticEventNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
+        return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.elements.values()), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements.values()), key=lambda e: e.short_name)

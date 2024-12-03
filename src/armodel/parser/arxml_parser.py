@@ -2,6 +2,9 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+
+
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -33,7 +36,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import Res
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, RoleBasedDataAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
@@ -55,11 +58,11 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import Compo
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcInternalBehavior
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, PortGroup, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
@@ -386,7 +389,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getRoleBasedDataAssignment(self, element: ET.Element) -> RoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
         assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
-        assignment.used_parameter_element = self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT")
+        assignment.usedParameterElement = self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT")
         assignment.used_pim_ref = self.getChildElementOptionalRefType(element, "USED-PIM-REF")
         return assignment
     
@@ -418,27 +421,65 @@ class ARXMLParser(AbstractARXMLParser):
     def readNvBlockNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         short_name = self.getShortName(element)
         needs = parent.createNvBlockNeeds(short_name)
-        self.logger.debug("readNvBlockNeeds %s" % short_name)
-        needs.calc_ram_block_crc = self.getChildElementOptionalBooleanValue(element, "CALC-RAM-BLOCK-CRC")
-        needs.check_static_block_id = self.getChildElementOptionalBooleanValue(element, "CHECK-STATIC-BLOCK-ID")
-        needs.n_data_sets = self.getChildElementOptionalNumericalValue(element, "N-DATA-SETS")
-        needs.n_rom_blocks = self.getChildElementOptionalNumericalValue(element, "N-ROM-BLOCKS")
-        needs.readonly = self.getChildElementOptionalBooleanValue(element, "READONLY")
-        needs.reliability = self.getChildElementOptionalLiteral(element, "RELIABILITY")
-        needs.resistant_to_changed_sw = self.getChildElementOptionalBooleanValue(element, "RESISTANT-TO-CHANGED-SW")
-        needs.restore_at_start = self.getChildElementOptionalBooleanValue(element, "RESTORE-AT-START")
-        needs.store_at_shutdown = self.getChildElementOptionalBooleanValue(element, "STORE-AT-SHUTDOWN")
-        needs.write_only_once = self.getChildElementOptionalBooleanValue(element, "WRITE-ONLY-ONCE")
-        needs.write_verification = self.getChildElementOptionalBooleanValue(element, "WRITE-VERIFICATION")
-        needs.writing_priority = self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY")                          
+        self.logger.debug("read NvBlockNeeds %s" % short_name)
+        needs.setCalcRamBlockCrc(self.getChildElementOptionalBooleanValue(element, "CALC-RAM-BLOCK-CRC")) \
+             .setCheckStaticBlockId(self.getChildElementOptionalBooleanValue(element, "CHECK-STATIC-BLOCK-ID")) \
+             .setNDataSets(self.getChildElementOptionalNumericalValue(element, "N-DATA-SETS")) \
+             .setNRomBlocks(self.getChildElementOptionalNumericalValue(element, "N-ROM-BLOCKS")) \
+             .setReadonly(self.getChildElementOptionalBooleanValue(element, "READONLY")) \
+             .setReliability(self.getChildElementOptionalLiteral(element, "RELIABILITY")) \
+             .setResistantToChangedSw(self.getChildElementOptionalBooleanValue(element, "RESISTANT-TO-CHANGED-SW")) \
+             .setRestoreAtStart(self.getChildElementOptionalBooleanValue(element, "RESTORE-AT-START")) \
+             .setStoreAtShutdown(self.getChildElementOptionalBooleanValue(element, "STORE-AT-SHUTDOWN")) \
+             .setWriteOnlyOnce(self.getChildElementOptionalBooleanValue(element, "WRITE-ONLY-ONCE")) \
+             .setWriteVerification(self.getChildElementOptionalBooleanValue(element, "WRITE-VERIFICATION")) \
+             .setWritingPriority(self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))
+        
+    def reaDiagnosticCommunicationManagerNeeds(self, element: ET.Element, parent: SwcServiceDependency):
+        short_name = self.getShortName(element)
+        needs = parent.createDiagnosticCommunicationManagerNeeds(short_name)
+        self.logger.debug("read DiagnosticCommunicationManagerNeeds %s" % short_name)
+        needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
+
+    def readDiagnosticRoutineNeeds(self, element: ET.Element, parent: SwcServiceDependency):
+        short_name = self.getShortName(element)
+        needs = parent.createDiagnosticRoutineNeeds(short_name)
+        self.logger.debug("read DiagnosticRoutineNeeds %s" % short_name)
+        needs.setDiagRoutineType(self.getChildElementOptionalLiteral(element, "DIAG-ROUTINE-TYPE")) \
+             .setRidNumber(self.getChildElementOptionalIntegerValue(element, "RID-NUMBER"))
+
+    def readDiagnosticValueNeeds(self, element: ET.Element, parent: SwcServiceDependency):
+        short_name = self.getShortName(element)
+        needs = parent.createDiagnosticValueNeeds(short_name)
+        self.logger.debug("read DiagnosticValueNeeds %s" % short_name)
+    
+    def readDiagnosticEventNeeds(self, element: ET.Element, parent: SwcServiceDependency):
+        short_name = self.getShortName(element)
+        needs = parent.createDiagnosticEventNeeds(short_name)
+        self.logger.debug("read DiagnosticEventNeeds %s" % short_name)
+
+    def readCryptoServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
+        short_name = self.getShortName(element)
+        needs = parent.createCryptoServiceNeeds(short_name)
+        self.logger.debug("read DiagnosticValueNeeds %s" % short_name)
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in element.findall("./xmlns:SERVICE-NEEDS/*", self.nsmap):
             tag_name = self.getTagName(child_element.tag)
             if tag_name == "NV-BLOCK-NEEDS":
                 self.readNvBlockNeeds(child_element, parent)    
+            elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
+                self.reaDiagnosticCommunicationManagerNeeds(child_element, parent)
+            elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
+                self.readDiagnosticRoutineNeeds(child_element, parent)
+            elif tag_name == "DIAGNOSTIC-VALUE-NEEDS":
+                self.readDiagnosticValueNeeds(child_element, parent)
+            elif tag_name == "DIAGNOSTIC-EVENT-NEEDS":
+                self.readDiagnosticEventNeeds(child_element, parent)
+            elif tag_name == "CRYPTO-SERVICE-NEEDS":
+                self.readCryptoServiceNeeds(child_element, parent)
             else:
-                self._raiseError("Unsupported service needs <%s>" % tag_name)
+                raise NotImplementedError("Unsupported service needs <%s>" % tag_name)
 
     def readSwcServiceDependency(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
@@ -895,14 +936,14 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         event = parent.createSwcModeSwitchEvent(short_name)
         self.readRTEEvent(element, event)
-        event.activation = self.getChildElementOptionalLiteral(element, "ACTIVATION")
+        event.setActivation(self.getChildElementOptionalLiteral(element, "ACTIVATION"))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
     def readInternalTriggerOccurredEvent(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
         event = parent.createInternalTriggerOccurredEvent(short_name)
         self.readRTEEvent(element, event)
-        event.event_source_ref = self.getChildElementRefType(parent.getShortName(), element, "EVENT-SOURCE-REF")
+        event.setEventSourceRef(self.getChildElementRefType(parent.getShortName(), element, "EVENT-SOURCE-REF"))
 
     def readInitEvent(self, element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
@@ -931,8 +972,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "SW-POINTER-TARGET-PROPS")
         if child_element is not None:
             sw_pointer_target_props = SwPointerTargetProps()
-            sw_pointer_target_props.target_category = self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY")
-            sw_pointer_target_props.sw_data_def_props = self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS")
+            sw_pointer_target_props.setTargetCategory(self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY")) \
+                                   .setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
             parent.swPointerTargetProps = sw_pointer_target_props
 
     def readLanguageSpecific(self, element: ET.Element, specific: LanguageSpecific):
@@ -2026,7 +2067,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwAddrMethod(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         self.logger.debug("readSwAddrMethod %s" % short_name)
-        layout = parent.createSwAddrMethod(short_name)
+        method = parent.createSwAddrMethod(short_name)
+        method.setMemoryAllocationKeywordPolicy(self.getChildElementOptionalLiteral(element, "MEMORY-ALLOCATION-KEYWORD-POLICY")) 
+        for option in self.getChildElementLiteralValueList(element, "OPTIONS/OPTION"):
+            method.addOption(option)
+        method.setSectionInitializationPolicy(self.getChildElementOptionalLiteral(element, "SECTION-INITIALIZATION-POLICY")) \
+              .setSectionType(self.getChildElementOptionalLiteral(element, "SECTION-TYPE"))
 
     def readTriggerInterface(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)

@@ -405,3 +405,16 @@ class RefType(ARObject):
 class TRefType(RefType):
     def __init__(self):
         super().__init__()
+
+class DiagRequirementIdString(ARLiteral):
+    '''
+        This string denotes an Identifier for a requirement.
+
+        Tags:
+            * xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING
+            * xml.xsd.pattern=[0-9a-zA-Z_\-]+
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
+
