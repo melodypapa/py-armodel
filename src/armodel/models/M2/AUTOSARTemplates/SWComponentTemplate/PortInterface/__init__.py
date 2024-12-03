@@ -1,10 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
+from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, PositiveInteger
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
@@ -89,6 +90,48 @@ class InvalidationPolicy(ARObject):
 
     def setHandleInvalid(self, value):
         self.handleInvalid = value
+        return self
+    
+class MetaDataItem(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.length = None                              # type: PositiveInteger
+        self.metaDataItemType = None                    # type: TextValueSpecification
+
+    def getLength(self):
+        return self.length
+
+    def setLength(self, value):
+        self.length = value
+        return self
+
+    def getMetaDataItemType(self):
+        return self.metaDataItemType
+
+    def setMetaDataItemType(self, value):
+        self.metaDataItemType = value
+        return self
+    
+class MetaDataItemSet(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.dataElementRefs = []                           # type: List[RefType]
+        self.metaDataItems = []                             # type: List[MetaDataItem]
+
+    def getDataElementRefs(self):
+        return self.dataElementRefs
+
+    def addDataElementRef(self, value):
+        self.dataElementRefs.append(value)
+        return self
+
+    def getMetaDataItems(self):
+        return self.metaDataItems
+
+    def addMetaDataItem(self, value):
+        self.metaDataItems.append(value)
         return self
 
 class SenderReceiverInterface(DataInterface):
