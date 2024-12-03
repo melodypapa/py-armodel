@@ -479,7 +479,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 self.readCryptoServiceNeeds(child_element, parent)
             else:
-                raise NotImplementedError("Unsupported service needs <%s>" % tag_name)
+                self.notImplemented("Unsupported service needs <%s>" % tag_name)
 
     def readSwcServiceDependency(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
@@ -808,7 +808,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "RUNNABLE-ENTITY-ARGUMENT":
                 entity.addArgument(self.getRunnableEntityArgument(child_element))
             else:
-                raise NotImplementedError("Unsupported Arguments of runnable entity <%s>" % tag_name)
+                self.notImplemented("Unsupported Arguments of runnable entity <%s>" % tag_name)
 
     def readRunnableEntity(self, element: ET.Element, entity: RunnableEntity):
         self.readExecutableEntity(element, entity)
@@ -1840,7 +1840,7 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "CONSTANT-REFERENCE":
             value_spec = self.getConstantReference(element)
         else:
-            raise NotImplementedError("Unsupported RecordValueSpecificationField %s" % tag_name)
+            self.notImplemented("Unsupported RecordValueSpecificationField %s" % tag_name)
         return value_spec
 
     def readRecordValueSpecificationFields(self, element: ET.Element, spec: RecordValueSpecification):
@@ -2203,7 +2203,7 @@ class ARXMLParser(AbstractARXMLParser):
                 triggering = channel.createLinFrameTriggering(self.getShortName(child_element))
                 self.readLinFrameTriggering(child_element, triggering)
             else:
-                raise NotImplementedError("Unsupported Frame Triggering <%s>" % tag_name)
+                self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
             
         for child_element in self.findall(element, "I-SIGNAL-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -2211,7 +2211,7 @@ class ARXMLParser(AbstractARXMLParser):
                 triggering = channel.createISignalTriggering(self.getShortName(child_element))
                 self.readISignalTriggering(child_element, triggering)
             else:
-                raise NotImplementedError("Unsupported Frame Triggering <%s>" % tag_name)
+                self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
             
         for child_element in self.findall(element, "PDU-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -2219,7 +2219,7 @@ class ARXMLParser(AbstractARXMLParser):
                 triggering = channel.createPduTriggering(self.getShortName(child_element))
                 self.readPduTriggering(child_element, triggering)
             else:
-                raise NotImplementedError("Unsupported Frame Triggering <%s>" % tag_name)
+                self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
 
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readIdentifiable(element, channel)
@@ -2239,7 +2239,7 @@ class ARXMLParser(AbstractARXMLParser):
                 channel = cluster.createLinPhysicalChannel(self.getShortName(child_element))
                 self.readLinPhysicalChannel(child_element, channel)
             else:
-                raise NotImplementedError("Unsupported Physical Channel <%s>" % tag_name)
+                self.notImplemented("Unsupported Physical Channel <%s>" % tag_name)
 
 
     def readCommunicationCluster(self, element: ET.Element, cluster: CommunicationCluster):
@@ -2596,7 +2596,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-NUMERICAL-PARAM-VALUE":
                 container_value.addParameterValue(self.getEcucNumericalParamValue(child_element))
             else:
-                raise NotImplementedError("Unsupported EcucParameterValue <%s>" % tag_name)
+                self.notImplemented("Unsupported EcucParameterValue <%s>" % tag_name)
             
     def readEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
@@ -2633,7 +2633,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-INSTANCE-REFERENCE-VALUE":
                 container_value.addReferenceValue(self.getEcucInstanceReferenceValue(child_element))
             else:
-                raise NotImplementedError("Unsupported EcucParameterValue <%s>" % tag_name)
+                self.notImplemented("Unsupported EcucParameterValue <%s>" % tag_name)
 
     def readEcucContainerValue(self, element: ET.Element, container_value: EcucContainerValue):
         self.readIdentifiable(element, container_value)
@@ -2654,7 +2654,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "ECUC-CONTAINER-VALUE":
                 self.readEcucContainerValueEcucContainerValue(child_element, parent)
             else:
-                raise NotImplementedError("Unsupported Sub Container %s" % tag_name) 
+                self.notImplemented("Unsupported Sub Container %s" % tag_name) 
 
     def readEcucModuleConfigurationValuesEcucContainerValue(self, element: ET.Element, parent: EcucModuleConfigurationValues):
         short_name = self.getShortName(element)
@@ -2668,7 +2668,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "ECUC-CONTAINER-VALUE":
                 self.readEcucModuleConfigurationValuesEcucContainerValue(child_element, values)
             else:
-                raise NotImplementedError("Unsupported Container %s" % tag_name) 
+                self.notImplemented("Unsupported Container %s" % tag_name) 
 
     def readEcucModuleConfigurationValues(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
@@ -2853,7 +2853,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING":
                 mapping.addDataMapping(self.getSenderReceiverToSignalGroupMapping(child_element))
             else:
-                raise NotImplementedError("Unsupported Data Mapping %s" % tag_name)
+                self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
     def readSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         self.logger.debug("SwcToEcuMapping %s" % mapping.getShortName())
@@ -2868,7 +2868,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "SWC-TO-ECU-MAPPING":
                 self.readSwcToEcuMapping(child_element, mapping.createSwcToEcuMapping(self.getShortName(child_element)))
             else:
-                raise NotImplementedError("Unsupported Sw Mapping %s" % tag_name)
+                self.notImplemented("Unsupported Sw Mapping %s" % tag_name)
 
     def readSystemMapping(self, element: ET.Element, parent: System):
         short_name = self.getShortName(element)
@@ -2884,7 +2884,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "SYSTEM-MAPPING":
                 self.readSystemMapping(child_element, system)
             else:
-                raise NotImplementedError("Unsupported Mapping %s" % tag_name)
+                self.notImplemented("Unsupported Mapping %s" % tag_name)
             
     def readRootSwCompositionPrototype(self, element: ET.Element, system: System):
         child_element = self.find(element, "ROOT-SOFTWARE-COMPOSITIONS/ROOT-SW-COMPOSITION-PROTOTYPE")
