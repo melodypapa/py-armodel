@@ -39,6 +39,12 @@ class AbstractARXMLWriter:
         else:
             raise ValueError(error_msg)
         
+    def notImplemented(self, error_msg):
+        if (self.options['warning'] == True):
+            self.logger.error(Fore.RED + error_msg + Fore.WHITE)
+        else:
+            raise NotImplementedError(error_msg)
+        
     def setARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
         if ar_obj.timestamp is not None:
             self.logger.debug("Timestamp: %s" % ar_obj.timestamp)

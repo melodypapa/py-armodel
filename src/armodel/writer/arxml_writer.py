@@ -249,7 +249,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         elif isinstance(com_spec, ModeSwitchSenderComSpec):
             self.setModeSwitchSenderComSpec(com_specs_tag, com_spec)
         else:
-            raise NotImplementedError("Unsupported PPortComSpec %s" % type(com_spec))
+            self.notImplemented("Unsupported PPortComSpec %s" % type(com_spec))
         
     def setApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key:str, iref: ApplicationCompositeElementInPortInterfaceInstanceRef):
         if iref is not None:
@@ -330,7 +330,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(sub_element, ApplicationValueSpecification):
                     self.setApplicationValueSpecification(elements_tag, sub_element)
                 else:
-                    raise NotImplementedError("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
+                    self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
                 
     def setConstantReference(self, element: ET.Element, value_spec: ConstantReference):
         value_spec_tag = ET.SubElement(element, "CONSTANT-REFERENCE")
@@ -352,7 +352,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             elif isinstance(value_spec, RecordValueSpecification):
                 self.setRecordValueSpecification(element, value_spec)
             else:
-                raise NotImplementedError("Unsupported ValueSpecification %s" % type(value_spec))
+                self.notImplemented("Unsupported ValueSpecification %s" % type(value_spec))
 
     def setInitValue(self, element: ET.Element, init_value: ValueSpecification):
         if init_value is not None:
@@ -542,7 +542,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         elif isinstance(sw_connector, DelegationSwConnector):
             self.writeDelegationSwConnector(element, sw_connector)
         else:
-            raise NotImplementedError("Unsupported Sw Connector %s")
+            self.notImplemented("Unsupported Sw Connector %s")
 
     def writeSwConnectors(self, element: ET.Element, sw_component: CompositionSwComponentType):
         sw_connectors = sw_component.getSwConnectors()
@@ -725,7 +725,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             elif isinstance(data_type, ApplicationRecordDataType):
                 self.writeApplicationRecordDataType(parent, data_type)
             else:
-                raise NotImplementedError("Unsupported ApplicationDataType <%s>" % type(data_type))
+                self.notImplemented("Unsupported ApplicationDataType <%s>" % type(data_type))
 
     def writeBaseTypeDirectDefinition(self, element: ET.Element, base_type_definition: BaseTypeDirectDefinition):
         self.setChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE", base_type_definition.baseTypeSize)
@@ -763,7 +763,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         elif isinstance(compu_scale.compuScaleContents, CompuScaleRationalFormula):
             self.writeCompuScaleRationalFormula(element, compu_scale.compuScaleContents)
         else:
-            raise NotImplementedError("Unsupported CompuScaleContents %s" % type(compu_scale.compuScaleContents))
+            self.notImplemented("Unsupported CompuScaleContents %s" % type(compu_scale.compuScaleContents))
 
     def writeCompuScales(self, element: ET.Element, compu_scales: CompuScales):
         compu_scales_tag = ET.SubElement(element, "COMPU-SCALES")
@@ -813,7 +813,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(field, ArrayValueSpecification):
                     self.setArrayValueSpecification(fields_tag, field)
                 else:
-                    raise NotImplementedError("Unsupported Field <%s>" % type(field))
+                    self.notImplemented("Unsupported Field <%s>" % type(field))
 
     def writeConstantSpecification(self, element: ET.Element, spec: ConstantSpecification):
         spec_tag = ET.SubElement(element, "CONSTANT-SPECIFICATION")
@@ -950,7 +950,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(event, InitEvent):
                     self.setInitEvent(child_element, event)
                 else:
-                    raise NotImplementedError("Unsupported Event <%s>" % type(event))
+                    self.notImplemented("Unsupported Event <%s>" % type(event))
                 
     def writeExclusiveAreas(self, element: ET.Element, behavior: InternalBehavior):
         areas = behavior.getExclusiveAreas()
@@ -1126,7 +1126,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(argument, RunnableEntityArgument):
                     self.setRunnableEntityArgument(child_element, argument)
                 else:
-                    raise NotImplementedError("Unsupported argument of Runnable Entity <%s>" % type(argument))
+                    self.notImplemented("Unsupported argument of Runnable Entity <%s>" % type(argument))
 
     def writeRunnableEntity(self, element: ET.Element, entity: RunnableEntity):
         if entity is not None:
@@ -1153,7 +1153,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(entity, RunnableEntity):
                     self.writeRunnableEntity(runnables_tag, entity)
                 else:
-                    raise NotImplementedError("Unsupported RunnableEntity <%s>" % type(entity))
+                    self.notImplemented("Unsupported RunnableEntity <%s>" % type(entity))
                 
     def writeExplicitInterRunnableVariables(self, element: ET.Element, behavior: SwcInternalBehavior):
         prototypes = behavior.getExplicitInterRunnableVariables()
@@ -2273,7 +2273,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(triggering, LinFrameTriggering):
                     self.writeLinFrameTriggering(triggerings_tag, triggering)
                 else:
-                    raise NotImplementedError("Unsupported Frame Triggering <%s>" % type(triggering))
+                    self.notImplemented("Unsupported Frame Triggering <%s>" % type(triggering))
                 
         triggerings = channel.getISignalTriggerings()
         if len(triggerings) > 0:
@@ -2282,7 +2282,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(triggering, ISignalTriggering):
                     self.writeISignalTriggering(triggerings_tag, triggering)
                 else:
-                    raise NotImplementedError("Unsupported ISignalTriggering <%s>" % type(triggering))
+                    self.notImplemented("Unsupported ISignalTriggering <%s>" % type(triggering))
                 
         triggerings = channel.getPduTriggerings()
         if len(triggerings) > 0:
@@ -2291,7 +2291,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(triggering, PduTriggering):
                     self.writePduTriggering(triggerings_tag, triggering)
                 else:
-                    raise NotImplementedError("Unsupported PduTriggering <%s>" % type(triggering))
+                    self.notImplemented("Unsupported PduTriggering <%s>" % type(triggering))
 
     def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.logger.debug("CanPhysicalChannel %s" % channel.short_name)
@@ -2315,7 +2315,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(channel, LinPhysicalChannel):
                     self.writeLinPhysicalChannel(child_element, channel)
                 else:
-                    raise NotImplementedError("Unsupported Physical Channel <%s>" % type(channel))
+                    self.notImplemented("Unsupported Physical Channel <%s>" % type(channel))
 
     def writeCommunicationCluster(self, element: ET.Element, cluster: CommunicationCluster):
         self.setChildElementOptionalNumericalValue(element, "BAUDRATE", cluster.getBaudrate())
@@ -2460,7 +2460,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):
                     self.setSenderReceiverToSignalGroupMapping(child_element, data_mapping)
                 else:
-                    raise NotImplementedError("Unsupported Data Mapping %s" % type(data_mapping))
+                    self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
                 
     def setSwcToEcuMapping(self, element: ET.Element, mapping: SwcToEcuMapping):
         child_element = ET.SubElement(element, "SWC-TO-ECU-MAPPING")
@@ -2480,7 +2480,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(sw_mapping, SwcToEcuMapping):
                     self.setSwcToEcuMapping(child_element, sw_mapping)
                 else:
-                    raise NotImplementedError("Unsupported Sw Mapping %s" % type(sw_mapping))
+                    self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
         self.logger.debug("Write SystemMapping %s" % mapping.short_name)
@@ -2497,7 +2497,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(mapping, SystemMapping):
                     self.writeSystemMapping(mappings_tag, mapping)
                 else:
-                    raise NotImplementedError("Unsupported Mapping %s" % type(mapping))
+                    self.notImplemented("Unsupported Mapping %s" % type(mapping))
                 
     def writeRootSwCompositionPrototype(self, element: ET.Element, system: System):
         prototype = system.getRootSoftwareComposition()
@@ -2580,7 +2580,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(sub_container, EcucContainerValue):
                     self.writeEcucContainValue(sub_containers_tag, sub_container)
                 else:
-                    raise NotImplementedError("Unsupported Sub Container %s" % type(container)) 
+                    self.notImplemented("Unsupported Sub Container %s" % type(container)) 
                 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
@@ -2606,7 +2606,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(param_value, EcucNumericalParamValue):
                     self.setEcucNumericalParamValue(child_element, param_value)
                 else:
-                    raise NotImplementedError("Unsupported EcucParameterValue <%s>" % type(param_value))
+                    self.notImplemented("Unsupported EcucParameterValue <%s>" % type(param_value))
                 
     def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
@@ -2642,7 +2642,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(reference_value, EcucInstanceReferenceValue):
                     self.setEcucInstanceReferenceValue(child_element, reference_value)
                 else:
-                    raise NotImplementedError("Unsupported EcucParameterValue <%s>" % type(reference_value))
+                    self.notImplemented("Unsupported EcucParameterValue <%s>" % type(reference_value))
 
     def writeEcucContainValue(self, element: ET.Element, container_value: EcucContainerValue):
         self.logger.debug("EcucContainerValue %s" % container_value.short_name)
@@ -2661,7 +2661,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(container, EcucContainerValue):
                     self.writeEcucContainValue(containers_tag, container)
                 else:
-                    raise NotImplementedError("Unsupported Container %s" % type(container)) 
+                    self.notImplemented("Unsupported Container %s" % type(container)) 
 
     def writeEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
         self.logger.debug("EcucModuleConfigurationValues %s" % values.short_name)
@@ -2887,7 +2887,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         elif isinstance(ar_element, PhysicalDimension):
             self.writePhysicalDimension(element, ar_element)
         else:
-            raise NotImplementedError("Unsupported Elements of ARPackage <%s>" % type(ar_element))
+            self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         
     def writeReferenceBases(self, element: ET.Element, bases: List[ReferenceBase]):
         self.logger.debug("Write ReferenceBases")

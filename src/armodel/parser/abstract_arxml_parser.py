@@ -49,6 +49,12 @@ class AbstractARXMLParser:
         else:
             raise ValueError(error_msg)
         
+    def notImplemented(self, error_msg):
+        if (self.options['warning'] == True):
+            self.logger.error(Fore.RED + error_msg + Fore.WHITE)
+        else:
+            raise NotImplementedError(error_msg)
+        
     def _raiseWarning(self, error_msg):
         self.logger.warning(error_msg)
         
