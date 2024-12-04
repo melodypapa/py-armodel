@@ -1,11 +1,9 @@
 from abc import ABCMeta
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
-
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, ARLiteral, DiagRequirementIdString, PositiveInteger, RefType, String, TimeValue
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral, DiagRequirementIdString, Integer, PositiveInteger, RefType, String, TimeValue
 
 class RoleBasedDataAssignment(ARObject):
     def __init__(self):
@@ -14,7 +12,36 @@ class RoleBasedDataAssignment(ARObject):
         self.role = None                    # type: ARLiteral
         self.usedDataElement = None         # type: RefType # AutosarVariableRef
         self.usedParameterElement = None    # type: RefType # AutosarParameterRef
-        self.used_pim_ref = None            # type: RefType
+        self.usedPimRef = None              # type: RefType
+
+    def getRole(self):
+        return self.role
+
+    def setRole(self, value):
+        self.role = value
+        return self
+
+    def getUsedDataElement(self):
+        return self.usedDataElement
+
+    def setUsedDataElement(self, value):
+        self.usedDataElement = value
+        return self
+
+    def getUsedParameterElement(self):
+        return self.usedParameterElement
+
+    def setUsedParameterElement(self, value):
+        self.usedParameterElement = value
+        return self
+
+    def getUsedPimRef(self):
+        return self.usedPimRef
+
+    def setUsedPimRef(self, value):
+        self.usedPimRef = value
+        return self
+
 
 
 class ServiceNeeds(Identifiable, metaclass = ABCMeta):
@@ -243,9 +270,56 @@ class NvBlockNeeds(ServiceNeeds):
         self.writingPriority = value
         return self
 
+
+class RoleBasedDataTypeAssignment(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.role = None                                # type: Identifier
+        self.usedImplementationDataTypeRef = None       # type: RefType
+
+    def getRole(self):
+        return self.role
+
+    def setRole(self, value):
+        self.role = value
+        return self
+
+    def getUsedImplementationDataTypeRef(self):
+        return self.usedImplementationDataTypeRef
+
+    def setUsedImplementationDataTypeRef(self, value):
+        self.usedImplementationDataTypeRef = value
+        return self
+
 class ServiceDependency(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.assignedDataTypes = []                                 # type: List[RoleBasedDataTypeAssignment]
+        self.diagnosticRelevance = None                             # type: ServiceDiagnosticRelevanceEnum
+        self.symbolicNameProps = None                               # type: SymbolicNameProps
+
+    def getAssignedDataTypes(self):
+        return self.assignedDataTypes
+
+    def addAssignedDataType(self, value):
+        self.assignedDataTypes.append(value)
+        return self
+
+    def getDiagnosticRelevance(self):
+        return self.diagnosticRelevance
+
+    def setDiagnosticRelevance(self, value):
+        self.diagnosticRelevance = value
+        return self
+
+    def getSymbolicNameProps(self):
+        return self.symbolicNameProps
+
+    def setSymbolicNameProps(self, value):
+        self.symbolicNameProps = value
+        return self
 
 class DiagnosticAudienceEnum(AREnum):
     AFTER_MARKET = "aftermarket"
@@ -380,6 +454,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
 
         self.dataLength = None                                      # type: PositiveInteger
         self.diagnosticValueAccess = None                           # type: DiagnosticValueAccessEnum
+        self.DidNumber = None                                       # type: Integer
         self.fixedLength = None                                     # type: Boolean
         self.processingStyle = None                                 # type: DiagnosticProcessingStyleEnum
 
@@ -396,6 +471,13 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setDiagnosticValueAccess(self, value):
         self.diagnosticValueAccess = value
         return self
+    
+    def getDidNumber(self):
+        return self.DidNumber
+
+    def setDidNumber(self, value):
+        self.DidNumber = value
+        return self
 
     def getFixedLength(self):
         return self.fixedLength
@@ -411,9 +493,124 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.processingStyle = value
         return self
     
-class DiagEventDebounceAlgorithm(ARLiteral):
-    def __init__(self):
-        super().__init__()
+class DiagEventDebounceAlgorithm(Identifiable, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == ServiceNeeds:
+            raise NotImplementedError("DiagEventDebounceAlgorithm is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.counterBasedFdcThresholdStorageValue = None                    # type: Integer
+        self.counterDecrementStepSize = None                                # type: Integer
+        self.counterFailedThreshold = None                                  # type: Integer
+        self.counterIncrementStepSize = None                                # type: Integer
+        self.counterJumpDown = None                                         # type: Integer
+        self.counterJumpDownValue = None                                    # type: Integer
+        self.counterJumpUp = None                                           # type: Integer
+        self.counterJumpUpValue = None                                      # type: Integer
+        self.counterPassedThreshold = None                                  # type: Integer
+
+    def getCounterBasedFdcThresholdStorageValue(self):
+        return self.counterBasedFdcThresholdStorageValue
+
+    def setCounterBasedFdcThresholdStorageValue(self, value):
+        self.counterBasedFdcThresholdStorageValue = value
+        return self
+
+    def getCounterDecrementStepSize(self):
+        return self.counterDecrementStepSize
+
+    def setCounterDecrementStepSize(self, value):
+        self.counterDecrementStepSize = value
+        return self
+
+    def getCounterFailedThreshold(self):
+        return self.counterFailedThreshold
+
+    def setCounterFailedThreshold(self, value):
+        self.counterFailedThreshold = value
+        return self
+
+    def getCounterIncrementStepSize(self):
+        return self.counterIncrementStepSize
+
+    def setCounterIncrementStepSize(self, value):
+        self.counterIncrementStepSize = value
+        return self
+
+    def getCounterJumpDown(self):
+        return self.counterJumpDown
+
+    def setCounterJumpDown(self, value):
+        self.counterJumpDown = value
+        return self
+
+    def getCounterJumpDownValue(self):
+        return self.counterJumpDownValue
+
+    def setCounterJumpDownValue(self, value):
+        self.counterJumpDownValue = value
+        return self
+
+    def getCounterJumpUp(self):
+        return self.counterJumpUp
+
+    def setCounterJumpUp(self, value):
+        self.counterJumpUp = value
+        return self
+
+    def getCounterJumpUpValue(self):
+        return self.counterJumpUpValue
+
+    def setCounterJumpUpValue(self, value):
+        self.counterJumpUpValue = value
+        return self
+
+    def getCounterPassedThreshold(self):
+        return self.counterPassedThreshold
+
+    def setCounterPassedThreshold(self, value):
+        self.counterPassedThreshold = value
+        return self
+
+
+class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.timeBasedFdcThresholdStorageValue = None                       # type: TimeValue
+        self.timeFailedThreshold = None                                     # type: TimeValue
+        self.timePassedThreshold = None                                     # type: TimeValue
+
+    def getTimeBasedFdcThresholdStorageValue(self):
+        return self.timeBasedFdcThresholdStorageValue
+
+    def setTimeBasedFdcThresholdStorageValue(self, value):
+        self.timeBasedFdcThresholdStorageValue = value
+        return self
+
+    def getTimeFailedThreshold(self):
+        return self.timeFailedThreshold
+
+    def setTimeFailedThreshold(self, value):
+        self.timeFailedThreshold = value
+        return self
+
+    def getTimePassedThreshold(self):
+        return self.timePassedThreshold
+
+    def setTimePassedThreshold(self, value):
+        self.timePassedThreshold = value
+        return self
+
 
 class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -425,6 +622,8 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.inhibitingSecondaryFidRef = None                           # type: RefType
         self.prestoredFreezeframeStoredInNvm = None                     # type: Boolean
         self.usesMonitorData = None                                     # type: Boolean
+        self.dtcKind = None                                             # type: ARLiteral
+        self.udsDtcNumber = None                                        # type: Integer
 
     def getDeferringFidRefs(self):
         return self.deferringFidRefs
@@ -432,14 +631,31 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def addDeferringFidRef(self, value):
         self.deferringFidRefs.append(value)
         return self
-
+    
     def getDiagEventDebounceAlgorithm(self):
         return self.diagEventDebounceAlgorithm
 
-    def setDiagEventDebounceAlgorithm(self, value):
-        self.diagEventDebounceAlgorithm = value
-        return self
+    def createDiagEventDebounceCounterBased(self, short_name: str):
+        if (short_name not in self.elements):
+            algorithm = DiagEventDebounceCounterBased(self, short_name)
+            self.addElement(algorithm)
+            self.diagEventDebounceAlgorithm = algorithm
+        return self.getElement(short_name)
+    
+    def createDiagEventDebounceMonitorInternal(self, short_name: str):
+        if (short_name not in self.elements):
+            algorithm = DiagEventDebounceMonitorInternal(self, short_name)
+            self.addElement(algorithm)
+            self.diagEventDebounceAlgorithm = algorithm
+        return self.getElement(short_name)
 
+    def createDiagEventDebounceTimeBased(self, short_name: str):
+        if (short_name not in self.elements):
+            algorithm = DiagEventDebounceTimeBased(self, short_name)
+            self.addElement(algorithm)
+            self.diagEventDebounceAlgorithm = algorithm
+        return self.getElement(short_name)
+    
     def getInhibitingFidRef(self):
         return self.inhibitingFidRef
 
@@ -466,6 +682,20 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     def setUsesMonitorData(self, value):
         self.usesMonitorData = value
+        return self
+
+    def getDtcKind(self):
+        return self.dtcKind
+
+    def setDtcKind(self, value):
+        self.dtcKind = value
+        return self
+
+    def getUdsDtcNumber(self):
+        return self.udsDtcNumber
+
+    def setUdsDtcNumber(self, value):
+        self.udsDtcNumber = value
         return self
 
 

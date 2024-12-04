@@ -36,7 +36,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import Res
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, RoleBasedDataAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceAlgorithm, DiagEventDebounceMonitorInternal, DiagnosticEventNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
@@ -339,7 +339,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             self.logger.debug("readBswDataReceivedEvent %s" % short_name)
             event = parent.createBswDataReceivedEvent(short_name)
-            event.data_ref = self.getChildElementRefType(parent.getShortName(), child_element, "DATA-REF")
+            event.dataRef = self.getChildElementRefType(parent.getShortName(), child_element, "DATA-REF")
             # Read the Inherit BswScheduleEvent
             self.readBswScheduleEvent(child_element, event)
 
@@ -348,7 +348,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             self.logger.debug("readBswInternalTriggerOccurredEvent %s" % short_name)
             event = parent.createBswInternalTriggerOccurredEvent(short_name)
-            event.event_source_ref = self.getChildElementRefType(parent.getShortName(), child_element, "EVENT-SOURCE-REF")
+            event.eventSourceRef = self.getChildElementRefType(parent.getShortName(), child_element, "EVENT-SOURCE-REF")
             # Read the Inherit BswScheduleEvent
             self.readBswScheduleEvent(child_element, event)
 
@@ -388,9 +388,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getRoleBasedDataAssignment(self, element: ET.Element) -> RoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
-        assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
-        assignment.usedParameterElement = self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT")
-        assignment.used_pim_ref = self.getChildElementOptionalRefType(element, "USED-PIM-REF")
+        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE")) \
+                  .setUsedParameterElement(self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT")) \
+                  .setUsedPimRef(self.getChildElementOptionalRefType(element, "USED-PIM-REF"))
         return assignment
     
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
@@ -398,12 +398,24 @@ class ARXMLParser(AbstractARXMLParser):
         assignment.portPrototypeRef = self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF")
         assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
         return assignment
+    
+    def getRoleBasedDataTypeAssignment(self, element: ET.Element) -> RoleBasedDataTypeAssignment:
+        assignment = RoleBasedDataTypeAssignment()
+        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        assignment.setUsedImplementationDataTypeRef(self.getChildElementOptionalRefType(element, "USED-IMPLEMENTATION-DATA-TYPE-REF"))
+        return assignment
 
     def readServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.readIdentifiable(element, dependency)
+        for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
+            tag_name = self.getTagName(child_element.tag)
+            if (tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT"):
+                dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
+            else:
+                self._raiseError("Unsupported assigned data type <%s>" % tag_name)
 
     def readSwcServiceDependencyAssignedData(self, element: ET.Element, dependency: SwcServiceDependency):
-        for child_element in element.findall("./xmlns:ASSIGNED-DATAS/*", self.nsmap):
+        for child_element in self.findall(element, "ASSIGNED-DATAS/*"):
             tag_name = self.getTagName(child_element.tag)
             if (tag_name == "ROLE-BASED-DATA-ASSIGNMENT"):
                 dependency.AddAssignedData(self.getRoleBasedDataAssignment(child_element))
@@ -426,11 +438,17 @@ class ARXMLParser(AbstractARXMLParser):
              .setCheckStaticBlockId(self.getChildElementOptionalBooleanValue(element, "CHECK-STATIC-BLOCK-ID")) \
              .setNDataSets(self.getChildElementOptionalNumericalValue(element, "N-DATA-SETS")) \
              .setNRomBlocks(self.getChildElementOptionalNumericalValue(element, "N-ROM-BLOCKS")) \
+             .setRamBlockStatusControl(self.getChildElementOptionalLiteral(element, "RAM-BLOCK-STATUS-CONTROL")) \
              .setReadonly(self.getChildElementOptionalBooleanValue(element, "READONLY")) \
              .setReliability(self.getChildElementOptionalLiteral(element, "RELIABILITY")) \
              .setResistantToChangedSw(self.getChildElementOptionalBooleanValue(element, "RESISTANT-TO-CHANGED-SW")) \
              .setRestoreAtStart(self.getChildElementOptionalBooleanValue(element, "RESTORE-AT-START")) \
              .setStoreAtShutdown(self.getChildElementOptionalBooleanValue(element, "STORE-AT-SHUTDOWN")) \
+             .setStoreCyclic(self.getChildElementOptionalBooleanValue(element, "STORE-CYCLIC")) \
+             .setStoreEmergency(self.getChildElementOptionalBooleanValue(element, "STORE-EMERGENCY")) \
+             .setStoreImmediate(self.getChildElementOptionalBooleanValue(element, "STORE-IMMEDIATE")) \
+             .setUseAutoValidationAtShutDown(self.getChildElementOptionalBooleanValue(element, "USE-AUTO-VALIDATION-AT-SHUT-DOWN")) \
+             .setUseCRCCompMechanism(self.getChildElementOptionalBooleanValue(element, "USE-CRC-COMP-MECHANISM")) \
              .setWriteOnlyOnce(self.getChildElementOptionalBooleanValue(element, "WRITE-ONLY-ONCE")) \
              .setWriteVerification(self.getChildElementOptionalBooleanValue(element, "WRITE-VERIFICATION")) \
              .setWritingPriority(self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))
@@ -452,16 +470,38 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         needs = parent.createDiagnosticValueNeeds(short_name)
         self.logger.debug("read DiagnosticValueNeeds %s" % short_name)
+        needs.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH")) \
+             .setDiagnosticValueAccess(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-VALUE-ACCESS")) \
+             .setDidNumber(self.getChildElementOptionalIntegerValue(element, "DID-NUMBER")) \
+             .setFixedLength(self.getChildElementOptionalBooleanValue(element, "FIXED-LENGTH")) \
+             .setProcessingStyle(self.getChildElementOptionalLiteral(element, "PROCESSING-STYLE"))
+        
+    def readDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
+        self.readIdentifiable(element, algorithm)
+        
+    def readDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
+        for child_element in self.findall(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL":
+                algorithm = needs.createDiagEventDebounceMonitorInternal(self.getShortName(child_element))
+                self.readDiagEventDebounceMonitorInternal(child_element, algorithm)
+            else:
+                self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % tag_name)
     
     def readDiagnosticEventNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         short_name = self.getShortName(element)
         needs = parent.createDiagnosticEventNeeds(short_name)
         self.logger.debug("read DiagnosticEventNeeds %s" % short_name)
+        
+        self.readDiagEventDebounceAlgorithm(element, needs)
+        needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND")) \
+             .setUdsDtcNumber(self.getChildElementOptionalIntegerValue(element, "UDS-DTC-NUMBER")) 
 
     def readCryptoServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         short_name = self.getShortName(element)
         needs = parent.createCryptoServiceNeeds(short_name)
         self.logger.debug("read DiagnosticValueNeeds %s" % short_name)
+        needs.setMaximumKeyLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-KEY-LENGTH"))
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in element.findall("./xmlns:SERVICE-NEEDS/*", self.nsmap):
