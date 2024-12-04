@@ -32,7 +32,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, NvBlockNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
@@ -1212,14 +1212,30 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writePortDefinedArgumentValues(child_element, option)
                 self.setChildElementOptionalRefType(child_element, "PORT-REF", option.portRef)
 
+    def writeRoleBasedDataTypeAssignment(self, element: ET.Element, assignment: RoleBasedDataTypeAssignment):
+        child_element = ET.SubElement(element, "ROLE-BASED-DATA-TYPE-ASSIGNMENT")
+        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
+        self.setChildElementOptionalRefType(child_element, "USED-IMPLEMENTATION-DATA-TYPE-REF", assignment.usedImplementationDataTypeRef)
+
+    def writeServiceDependencyAssignedDataType(self, element: ET.Element, dependency: ServiceDependency):
+        assigned_data = dependency.getAssignedDataTypes()
+        if len(assigned_data) > 0:
+            child_element = ET.SubElement(element, "ASSIGNED-DATA-TYPES")
+            for data in assigned_data:
+                if isinstance(data, RoleBasedDataTypeAssignment):
+                    self.writeRoleBasedDataTypeAssignment(child_element, data)
+                else:
+                    self._raiseError("Unsupported Assigned Data <%s>" % type(data))
+
     def writeServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.setIdentifiable(element, dependency)
+        self.writeServiceDependencyAssignedDataType(element, dependency)
 
     def writeRoleBasedDataAssignment(self, element: ET.Element, assignment: RoleBasedDataAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-ASSIGNMENT")
         self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
-        self.setAutosarParameterRef(child_element, "USED-PARAMETER-ELEMENT", assignment.usedParameterElement)
-        self.setChildElementOptionalRefType(child_element, "USED-PIM-REF", assignment.used_pim_ref)
+        self.setAutosarParameterRef(child_element, "USED-PARAMETER-ELEMENT", assignment.getUsedParameterElement())
+        self.setChildElementOptionalRefType(child_element, "USED-PIM-REF", assignment.getUsedPimRef())
 
     def writeRoleBasedPortAssignment(self, element: ET.Element, assignment: RoleBasedPortAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-PORT-ASSIGNMENT")
@@ -1254,11 +1270,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "CHECK-STATIC-BLOCK-ID", needs.getCheckStaticBlockId())
         self.setChildElementOptionalNumericalValue(child_element, "N-DATA-SETS", needs.getNDataSets())
         self.setChildElementOptionalNumericalValue(child_element, "N-ROM-BLOCKS", needs.getNRomBlocks())
+        self.setChildElementOptionalLiteral(child_element, "RAM-BLOCK-STATUS-CONTROL", needs.getRamBlockStatusControl())
         self.setChildElementOptionalBooleanValue(child_element, "READONLY", needs.getReadonly())
         self.setChildElementOptionalLiteral(child_element, "RELIABILITY", needs.getReliability())
         self.setChildElementOptionalBooleanValue(child_element, "RESISTANT-TO-CHANGED-SW", needs.getResistantToChangedSw())
         self.setChildElementOptionalBooleanValue(child_element, "RESTORE-AT-START", needs.getRestoreAtStart())
         self.setChildElementOptionalBooleanValue(child_element, "STORE-AT-SHUTDOWN", needs.getStoreAtShutdown())
+        self.setChildElementOptionalBooleanValue(child_element, "STORE-CYCLIC", needs.getStoreCyclic())
+        self.setChildElementOptionalBooleanValue(child_element, "STORE-EMERGENCY", needs.getStoreEmergency())
+        self.setChildElementOptionalBooleanValue(child_element, "STORE-IMMEDIATE", needs.getStoreImmediate())
+        self.setChildElementOptionalBooleanValue(child_element, "USE-AUTO-VALIDATION-AT-SHUT-DOWN", needs.getUseAutoValidationAtShutDown())
+        self.setChildElementOptionalBooleanValue(child_element, "USE-CRC-COMP-MECHANISM", needs.getUseCRCCompMechanism())
         self.setChildElementOptionalBooleanValue(child_element, "WRITE-ONLY-ONCE", needs.getWriteOnlyOnce())
         self.setChildElementOptionalBooleanValue(child_element, "WRITE-VERIFICATION", needs.getWriteVerification())
         self.setChildElementOptionalLiteral(child_element, "WRITING-PRIORITY", needs.getWritingPriority())
@@ -1280,19 +1302,38 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-VALUE-NEEDS")
         self.logger.debug("write DiagnosticValueNeeds %s" % needs.short_name)
         self.setIdentifiable(child_element, needs)
-        #self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", needs.getDataLength())
+        self.setChildElementOptionalLiteral(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess())
+        self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", needs.getDidNumber())
+        self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
+        self.setChildElementOptionalLiteral(child_element, "PROCESSING-STYLE", needs.getProcessingStyle())
+
+    def setDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
+        child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL")
+        self.setIdentifiable(child_element, algorithm)
+        
+    def writeDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
+        algorithm = needs.getDiagEventDebounceAlgorithm()
+        if algorithm is not None:
+            child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM")
+            if isinstance(algorithm, DiagEventDebounceMonitorInternal):
+                self.setDiagEventDebounceMonitorInternal(child_element, algorithm)
+            else:
+                self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % type(algorithm))
 
     def writeDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-NEEDS")
         self.logger.debug("write DiagnosticEventNeeds %s" % needs.short_name)
         self.setIdentifiable(child_element, needs)
-        #self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
+        self.writeDiagEventDebounceAlgorithm(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
+        self.setChildElementOptionalIntegerValue(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
     
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
-        child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
+        child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
         self.logger.debug("write CryptoServiceNeeds %s" % needs.short_name)
         self.setIdentifiable(child_element, needs)
-        #self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
 
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         needs = parent.getServiceNeeds()

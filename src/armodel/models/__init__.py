@@ -44,6 +44,7 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTy
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *

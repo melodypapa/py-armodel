@@ -1,4 +1,3 @@
-
 from abc import ABCMeta
 from typing import List
 from colorama import Fore
@@ -8,14 +7,11 @@ import logging
 import xml.etree.ElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, Integer, TimeValue
-
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, TimeValue
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
-
 
 class AbstractARXMLParser:
     __metaclass__ = ABCMeta
@@ -126,7 +122,7 @@ class AbstractARXMLParser:
             else:
                 literal.setValue(child_element.text)
         return literal
-
+    
     def _convertStringToBooleanValue(self, value: str) -> bool:
         if (value == "true"):
             return True
@@ -208,6 +204,17 @@ class AbstractARXMLParser:
         numerical = Integer()
         self.readElementAttributes(child_element, numerical)
         numerical.setValue(child_element.text)
+        return numerical
+    
+    def getChildElementOptionalPositiveInteger(self, element: ET.Element, key: str) -> PositiveInteger:
+        child_element = self.find(element, key)
+        if child_element == None:
+            return None
+        numerical = PositiveInteger()
+        self.readElementAttributes(child_element, numerical)
+        numerical.setValue(child_element.text)
+        if numerical.getValue() < 0:
+            raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
         return numerical
         
     def getChildElementNumericalValueList(self, element: ET.Element, key: str) -> List[ARNumerical]:

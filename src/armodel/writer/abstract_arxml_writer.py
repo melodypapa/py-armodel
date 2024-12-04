@@ -76,6 +76,9 @@ class AbstractARXMLWriter:
     def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Integer):
         self.setChildElementOptionalNumericalValue(element, key, value)
 
+    def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Integer):
+        self.setChildElementOptionalNumericalValue(element, key, value)
+
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, literal: ARLiteral):
         if literal is not None:
             child_element = ET.SubElement(element, key)

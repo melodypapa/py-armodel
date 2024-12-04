@@ -128,11 +128,9 @@ class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-
 class BswSchedulableEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
 
 class BswInterruptEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
@@ -158,13 +156,18 @@ class BswEvent(Identifiable, metaclass=ABCMeta):
             raise NotImplementedError("BswEvent is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.startsOnEventRef = None                    # type: RefType 
+        self.startsOnEventRef = None                    # type: RefType
 
+    def getStartsOnEventRef(self):
+        return self.startsOnEventRef
+
+    def setStartsOnEventRef(self, value):
+        self.startsOnEventRef = value
+        return self
 
 class BswOperationInvokedEvent(BswEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
 
 class BswScheduleEvent(BswEvent, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -172,29 +175,31 @@ class BswScheduleEvent(BswEvent, metaclass=ABCMeta):
             raise NotImplementedError("BswScheduleEvent is an abstract class.")
         super().__init__(parent, short_name)
 
-
 class BswModeSwitchEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._activation = ""
+        self.activation = None
 
-    @property
-    def activation(self) -> str:
-        return self._activation
+    def getActivation(self):
+        return self.activation
 
-    @activation.setter
-    def activation(self, value: str):
-        if (value not in ()):
-            raise ValueError("Invalid activation <%s> of BswModeSwitchEvent <%s>" % (value, self.short_name))
-        self._activation = value
-
+    def setActivation(self, value):
+        self.activation = value
+        return self
 
 class BswTimingEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.period = None          # type: ARFloat
+
+    def getPeriod(self):
+        return self.period
+
+    def setPeriod(self, value):
+        self.period = value
+        return self
 
     @property
     def periodMs(self) -> int:
@@ -207,22 +212,39 @@ class BswDataReceivedEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.data_ref = None                # type: RefType
+        self.dataRef = None                # type: RefType
 
+    def getDataRef(self):
+        return self.dataRef
+
+    def setDataRef(self, value):
+        self.dataRef = value
+        return self
 
 class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.event_source_ref = None                # type: RefType
+        self.eventSourceRef = None                # type: RefType
 
+    def getEventSourceRef(self):
+        return self.eventSourceRef
 
+    def setEventSourceRef(self, value):
+        self.eventSourceRef = value
+        return self
 class BswModeSwitchAckRequest(ARObject):
     def __init__(self):
         super().__init__()
 
         self.timeout = None                         # type: ARFloat
 
+    def getTimeout(self):
+        return self.timeout
+
+    def setTimeout(self, value):
+        self.timeout = value
+        return self
 
 class BswModeSenderPolicy(ARObject):
     def __init__(self):
