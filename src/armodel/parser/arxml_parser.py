@@ -318,7 +318,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswEvent(element, event)
 
     def readBswModeSwitchEvent(self, element: ET.Element, parent: BswInternalBehavior):
-        for child_element in element.findall("./xmlns:EVENTS/xmlns:BSW-MODE-SWITCH-EVENT", self.nsmap):
+        for child_element in self.findall(element, "EVENTS/BSW-MODE-SWITCH-EVENT"):
             short_name = self.getShortName(child_element)
             self.logger.debug("readBswModeSwitchEvent %s" % short_name)
             event = parent.createBswModeSwitchEvent(short_name)
@@ -326,16 +326,16 @@ class ARXMLParser(AbstractARXMLParser):
             self.readBswScheduleEvent(child_element, event)
 
     def readBswTimingEvent(self, element: ET.Element, parent: BswInternalBehavior):
-        for child_element in element.findall("./xmlns:EVENTS/xmlns:BSW-TIMING-EVENT", self.nsmap):
+        for child_element in self.findall(element, "EVENTS/BSW-TIMING-EVENT"):
             short_name = self.getShortName(child_element)
-            self.logger.debug("readBswTimingEvent %s" % short_name)
+            self.logger.debug("read BswTimingEvent %s" % short_name)
             event = parent.createBswTimingEvent(short_name)
-            event.period = self.getChildElementOptionalFloatValue(child_element, "PERIOD")
+            event.setPeriod(self.getChildElementOptionalTimeValue(child_element, "PERIOD"))
             # Read the Inherit BswScheduleEvent
             self.readBswScheduleEvent(child_element, event)
 
     def readBswDataReceivedEvent(self, element: ET.Element, parent: BswInternalBehavior):
-        for child_element in element.findall("./xmlns:EVENTS/xmlns:BSW-DATA-RECEIVED-EVENT", self.nsmap):
+        for child_element in self.findall(element, "EVENTS/BSW-DATA-RECEIVED-EVENT"):
             short_name = self.getShortName(child_element)
             self.logger.debug("readBswDataReceivedEvent %s" % short_name)
             event = parent.createBswDataReceivedEvent(short_name)
@@ -344,7 +344,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readBswScheduleEvent(child_element, event)
 
     def readBswInternalTriggerOccurredEvent(self, element: ET.Element, parent: BswInternalBehavior):
-        for child_element in self.findall(element, "./EVENTS/BSW-INTERNAL-TRIGGER-OCCURRED-EVENT"):
+        for child_element in self.findall(element, "EVENTS/BSW-INTERNAL-TRIGGER-OCCURRED-EVENT"):
             short_name = self.getShortName(child_element)
             self.logger.debug("readBswInternalTriggerOccurredEvent %s" % short_name)
             event = parent.createBswInternalTriggerOccurredEvent(short_name)
@@ -359,7 +359,7 @@ class ARXMLParser(AbstractARXMLParser):
         return policy
 
     def readBswInternalBehaviorModeSenderPolicy(self, element: ET.Element, parent: BswInternalBehavior):
-        for child_element in self.findall(element, "./MODE-SENDER-POLICYS/*"):
+        for child_element in self.findall(element, "MODE-SENDER-POLICYS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "BSW-MODE-SENDER-POLICY":
                 parent.addModeSenderPolicy(self.getBswModeSenderPolicy(child_element))
@@ -963,8 +963,8 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         event = parent.createTimingEvent(short_name)
         self.readRTEEvent(element, event)
-        event.offset = self.getChildElementOptionalFloatValue(element, "OFFSET")
-        event.period = self.getChildElementOptionalFloatValue(element, "PERIOD")
+        event.setOffset(self.getChildElementOptionalTimeValue(element, "OFFSET")) \
+             .setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
 
     def readDataReceivedEvent(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)

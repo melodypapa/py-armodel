@@ -892,7 +892,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "TIMING-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setChildElementOptionalFloatValue(child_element, "PERIOD", event.period)
+            self.setChildElementOptionalTimeValue(child_element, "OFFSET", event.getOffset())
+            self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
 
     def setOperationInvokedEvent(self, element: ET.Element, event: OperationInvokedEvent):
         if event is not None:
@@ -1669,7 +1670,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("setBswTimingEvent %s" % event.short_name)
         child_element = ET.SubElement(element, "BSW-TIMING-EVENT")
         self.setBswScheduleEvent(child_element, event)
-        self.setChildElementOptionalFloatValue(child_element, "PERIOD", event.period)
+        self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
 
     def writeBswInternalBehaviorBswEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
