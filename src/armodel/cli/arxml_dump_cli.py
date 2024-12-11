@@ -52,8 +52,8 @@ def show_type(indent: int, data_type: ImplementationDataType):
 def show_data_type_mapping(indent: int, mapping_set: DataTypeMappingSet):
     print("%s- Data Mapping Set <%s>:" % (" " * indent, mapping_set.short_name))
     for mapping in mapping_set.getDataTypeMaps():
-        print("%s- appl: %s" % (" " * (indent + 2), mapping.application_data_type_ref.value))
-        print("%s- impl: %s" % (" " * (indent + 4), mapping.implementation_data_type_ref.value))
+        print("%s- appl: %s" % (" " * (indent + 2), mapping.applicationDataTypeRef.value))
+        print("%s- impl: %s" % (" " * (indent + 4), mapping.implementationDataTypeRef.value))
 
 def show_behavior(indent:int, behavior: SwcInternalBehavior):
     print("%s-Behavior: %s" % (" " * indent, behavior.short_name))

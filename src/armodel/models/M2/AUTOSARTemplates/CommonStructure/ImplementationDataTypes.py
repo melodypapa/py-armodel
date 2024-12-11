@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String
 from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
@@ -96,19 +96,30 @@ class ImplementationDataType(AbstractImplementationDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arrayImplPolicy = None
-        self.arraySize = None
-        self.arraySizeHandling = None                   # type: ARLiteral
-        self.arraySizeSemantics = None                  # type: ARLiteral
+        self.dynamicArraySizeProfile = None             # type: String
+        self.isStructWithOptionalElement = None         # type: Boolean
         
         self.subElements = []                           # type: List[str]
         self.symbolProps = None                         # type: SymbolProps
-        self._type_emitter = None                       # type: ARLiteral
+        self.typeEmitter = None                       # type: ARLiteral
 
-        self._array_type = None         # ImplementationDataType
-        self._struct_type = None        # ImplementationDataType
+        #self._array_type = None         # ImplementationDataType
+        #self._struct_type = None        # ImplementationDataType
 
-    
+    def getDynamicArraySizeProfile(self):
+        return self.dynamicArraySizeProfile
+
+    def setDynamicArraySizeProfile(self, value):
+        self.dynamicArraySizeProfile = value
+        return self
+
+    def getIsStructWithOptionalElement(self):
+        return self.isStructWithOptionalElement
+
+    def setIsStructWithOptionalElement(self, value):
+        self.isStructWithOptionalElement = value
+        return self
+
     def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:     
         self.subElements.append(short_name)
         if (short_name not in self.elements):
@@ -131,11 +142,11 @@ class ImplementationDataType(AbstractImplementationDataType):
         return self
 
     def setTypeEmitter(self, emitter: str):
-        self._type_emitter = emitter
+        self.typeEmitter = emitter
         return self
     
     def getTypeEmitter(self) -> str:
-        return self._type_emitter
+        return self.typeEmitter
     
     def setStructElementType(self, type: str):
         self._struct_type = type

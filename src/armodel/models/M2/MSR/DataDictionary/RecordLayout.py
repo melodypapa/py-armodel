@@ -1,6 +1,6 @@
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, RefType
 from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 class SwRecordLayoutV(ARObject):
@@ -16,29 +16,64 @@ class SwRecordLayoutV(ARObject):
         self.swRecordLayoutVIndex = None                # type: ARLiteral
         self.swRecordLayoutVProp = None                 # type: ARLiteral
 
-    def setShortLabel(self, short_label: ARLiteral):
-        self.shortLabel = short_label
+    def getBaseTypeRef(self):
+        return self.baseTypeRef
+
+    def setBaseTypeRef(self, value):
+        self.baseTypeRef = value
         return self
 
-    def setBaseTypeRef(self, ref: RefType):
-        self.baseTypeRef = ref
+    def getDesc(self):
+        return self.desc
+
+    def setDesc(self, value):
+        self.desc = value
         return self
 
-    def setSwRecordLayoutVAxis(self, axis: ARNumerical):
-        self.swRecordLayoutVAxis = axis
+    def getShortLabel(self):
+        return self.shortLabel
+
+    def setShortLabel(self, value):
+        self.shortLabel = value
         return self
 
-    def setSwRecordLayoutVFixValue(self, value: ARNumerical):
+    def getSwGenericAxisParamTypeRef(self):
+        return self.swGenericAxisParamTypeRef
+
+    def setSwGenericAxisParamTypeRef(self, value):
+        self.swGenericAxisParamTypeRef = value
+        return self
+
+    def getSwRecordLayoutVAxis(self):
+        return self.swRecordLayoutVAxis
+
+    def setSwRecordLayoutVAxis(self, value):
+        self.swRecordLayoutVAxis = value
+        return self
+
+    def getSwRecordLayoutVFixValue(self):
+        return self.swRecordLayoutVFixValue
+
+    def setSwRecordLayoutVFixValue(self, value):
         self.swRecordLayoutVFixValue = value
         return self
 
-    def setSwRecordLayoutVIndex(self, index: ARLiteral):
-        self.swRecordLayoutVIndex = index
+    def getSwRecordLayoutVIndex(self):
+        return self.swRecordLayoutVIndex
+
+    def setSwRecordLayoutVIndex(self, value):
+        self.swRecordLayoutVIndex = value
         return self
 
-    def setSwRecordLayoutVProp(self, prop: ARLiteral):
-        self.swRecordLayoutVProp = prop
+    def getSwRecordLayoutVProp(self):
+        return self.swRecordLayoutVProp
+
+    def setSwRecordLayoutVProp(self, value):
+        self.swRecordLayoutVProp = value
         return self
+
+
+    
     
 class SwRecordLayoutGroupContent(ARObject):
     def __init__(self):
@@ -47,6 +82,27 @@ class SwRecordLayoutGroupContent(ARObject):
         self.swRecordLayoutRef = None                   # type: RefType
         self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup
         self.swRecordLayoutV = None                     # type: SwRecordLayoutV
+
+    def getSwRecordLayoutRef(self):
+        return self.swRecordLayoutRef
+
+    def setSwRecordLayoutRef(self, value):
+        self.swRecordLayoutRef = value
+        return self
+
+    def getSwRecordLayoutGroup(self):
+        return self.swRecordLayoutGroup
+
+    def setSwRecordLayoutGroup(self, value):
+        self.swRecordLayoutGroup = value
+        return self
+
+    def getSwRecordLayoutV(self):
+        return self.swRecordLayoutV
+
+    def setSwRecordLayoutV(self, value):
+        self.swRecordLayoutV = value
+        return self
 
 
 class SwRecordLayoutGroup(ARObject):
@@ -60,53 +116,87 @@ class SwRecordLayoutGroup(ARObject):
         self.swRecordLayoutComponent = None             # type: ARLiteral
         self.swRecordLayoutGroupAxis = None             # type: ARNumerical
         self.swRecordLayoutGroupContentType = None      # type: SwRecordLayoutGroupContent
-        self.swRecordLayoutGroupIndex = None            # type: ARLiteral
         self.swRecordLayoutGroupFrom = None             # type: ARLiteral
+        self.swRecordLayoutGroupIndex = None            # type: ARLiteral
+        self.swRecordLayoutGroupStep = None             # type: Integer
         self.swRecordLayoutGroupTo = None               # type: ARLiteral 
 
+    def getCategory(self):
+        return self.category
 
-    def setCategory(self, category: ARLiteral):
-        self.category = category
+    def setCategory(self, value):
+        self.category = value
         return self
 
-    def setDesc(self, desc):
-        self.desc = desc
+    def getDesc(self):
+        return self.desc
+
+    def setDesc(self, value):
+        self.desc = value
         return self
 
-    def setShortLabel(self, label: ARLiteral):
-        self.shortLabel = label
+    def getShortLabel(self):
+        return self.shortLabel
+
+    def setShortLabel(self, value):
+        self.shortLabel = value
         return self
 
-    def setSwGenericAxisParamTypeRef(self, ref: RefType):
-        self.swGenericAxisParamTypeRef = ref
+    def getSwGenericAxisParamTypeRef(self):
+        return self.swGenericAxisParamTypeRef
+
+    def setSwGenericAxisParamTypeRef(self, value):
+        self.swGenericAxisParamTypeRef = value
         return self
 
-    def setSwRecordLayoutComponent(self, component: ARLiteral):
-        self.swRecordLayoutComponent = component
+    def getSwRecordLayoutComponent(self):
+        return self.swRecordLayoutComponent
+
+    def setSwRecordLayoutComponent(self, value):
+        self.swRecordLayoutComponent = value
         return self
 
-    def setSwRecordLayoutGroupAxis(self, axis: ARNumerical):
-        self.swRecordLayoutGroupAxis = axis
+    def getSwRecordLayoutGroupAxis(self):
+        return self.swRecordLayoutGroupAxis
+
+    def setSwRecordLayoutGroupAxis(self, value):
+        self.swRecordLayoutGroupAxis = value
         return self
 
-    def setSwRecordLayoutGroupIndex(self, index: ARLiteral):
-        self.swRecordLayoutGroupIndex = index
+    def getSwRecordLayoutGroupContentType(self):
+        return self.swRecordLayoutGroupContentType
+
+    def setSwRecordLayoutGroupContentType(self, value):
+        self.swRecordLayoutGroupContentType = value
         return self
 
-    def setSwRecordLayoutGroupFrom(self, from_value: ARLiteral):
-        self.swRecordLayoutGroupFrom = from_value
+    def getSwRecordLayoutGroupFrom(self):
+        return self.swRecordLayoutGroupFrom
+
+    def setSwRecordLayoutGroupFrom(self, value):
+        self.swRecordLayoutGroupFrom = value
         return self
 
-    def setSwRecordLayoutGroupTo(self, to_value: ARLiteral):
-        self.swRecordLayoutGroupTo = to_value
+    def getSwRecordLayoutGroupIndex(self):
+        return self.swRecordLayoutGroupIndex
+
+    def setSwRecordLayoutGroupIndex(self, value):
+        self.swRecordLayoutGroupIndex = value
         return self
 
-    def setSwRecordLayoutGroupContentType(self, content_type: SwRecordLayoutGroupContent):
-        self.swRecordLayoutGroupContentType = content_type
+    def getSwRecordLayoutGroupStep(self):
+        return self.swRecordLayoutGroupStep
+
+    def setSwRecordLayoutGroupStep(self, value):
+        self.swRecordLayoutGroupStep = value
         return self
 
+    def getSwRecordLayoutGroupTo(self):
+        return self.swRecordLayoutGroupTo
 
-
+    def setSwRecordLayoutGroupTo(self, value):
+        self.swRecordLayoutGroupTo = value
+        return self
 
 class SwRecordLayout(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -114,6 +204,9 @@ class SwRecordLayout(ARElement):
 
         self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup
 
-    def setSwRecordLayoutGroup(self, group: SwRecordLayoutGroup):
-        self.swRecordLayoutGroup = group
+    def getSwRecordLayoutGroup(self):
+        return self.swRecordLayoutGroup
+
+    def setSwRecordLayoutGroup(self, value):
+        self.swRecordLayoutGroup = value
         return self

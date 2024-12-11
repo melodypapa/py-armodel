@@ -9,6 +9,7 @@ class MemorySection(Identifiable):
         super().__init__(parent, short_name)
 
         self._alignment = None              # type: ARLiteral
+        self.memClassSymbol = None          # type: ARLiteral
         self.size = None
         self.options = []                   # type: List[ARLiteral]
         self.swAddrMethodRef = None         # type: RefType
@@ -19,6 +20,13 @@ class MemorySection(Identifiable):
 
     def setAlignment(self, value):
         self.alignment = value
+        return self
+    
+    def getMemClassSymbol(self):
+        return self.memClassSymbol
+
+    def setMemClassSymbol(self, value):
+        self.memClassSymbol = value
         return self
 
     def getSize(self):

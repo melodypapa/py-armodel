@@ -111,10 +111,10 @@ class AbstractAUTOSAR(CollectableElement):
             raise ValueError("%s is not ImplementationDataType." % data_type)
             
     def addDataTypeMap(self, data_type_map: DataTypeMap):
-        if (data_type_map.application_data_type_ref is None) or (data_type_map.implementation_data_type_ref is None):
+        if (data_type_map.applicationDataTypeRef is None) or (data_type_map.implementationDataTypeRef is None):
             return
-        self._appl_impl_type_maps[data_type_map.application_data_type_ref.value] = data_type_map.implementation_data_type_ref.value
-        self._impl_appl_type_maps[data_type_map.implementation_data_type_ref.value] = data_type_map.application_data_type_ref.value
+        self._appl_impl_type_maps[data_type_map.applicationDataTypeRef.value] = data_type_map.implementationDataTypeRef.value
+        self._impl_appl_type_maps[data_type_map.implementationDataTypeRef.value] = data_type_map.applicationDataTypeRef.value
 
     def convertToImplementationDataType(self, appl_data_type: str) -> ImplementationDataType:
         if (appl_data_type not in self._appl_impl_type_maps.keys()):

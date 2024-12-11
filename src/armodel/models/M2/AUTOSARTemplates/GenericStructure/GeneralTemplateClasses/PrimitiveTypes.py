@@ -340,6 +340,35 @@ class Identifier(ARLiteral):
     def __init__(self):
         super().__init__()
 
+class CIdentifier(ARLiteral):
+    '''
+        This datatype represents a string, that follows the rules of C-identifiers.
+        
+        Tags:
+            * xml.xsd.customType=C-IDENTIFIER
+            * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
+
+        self.blueprintValue = None
+        self.namePattern = None
+
+    def getBlueprintValue(self):
+        return self.blueprintValue
+
+    def setBlueprintValue(self, value):
+        self.blueprintValue = value
+        return self
+
+    def getNamePattern(self):
+        return self.namePattern
+
+    def setNamePattern(self, value):
+        self.namePattern = value
+        return self
+
 class RevisionLabelString(ARLiteral):
     '''
         This primitive represents an internal AUTOSAR revision label which identifies an engineering object. It
