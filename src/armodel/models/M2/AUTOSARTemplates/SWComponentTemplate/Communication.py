@@ -62,9 +62,22 @@ class CompositeNetworkRepresentation(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.leaf_element_iref = None           # type: ApplicationCompositeElementInPortInterfaceInstanceRef
-        self.network_representation = None      # type: SwDataDefProps
+        self.leafElementIRef = None                 # type: ApplicationCompositeElementInPortInterfaceInstanceRef
+        self.networkRepresentation = None           # type: SwDataDefProps
 
+    def getLeafElementIRef(self):
+        return self.leafElementIRef
+
+    def setLeafElementIRef(self, value):
+        self.leafElementIRef = value
+        return self
+
+    def getNetworkRepresentation(self):
+        return self.networkRepresentation
+
+    def setNetworkRepresentation(self, value):
+        self.networkRepresentation = value
+        return self
 
 class TransmissionAcknowledgementRequest(ARObject):
     def __init__(self):
@@ -205,7 +218,10 @@ class ReceiverComSpec(RPortComSpec):
         self.compositeNetworkRepresentations = []       # type: List[CompositeNetworkRepresentation]
         self.dataElementRef = None                      # type: RefType
         self.networkRepresentation = None               # type: SwDataDefProps
-        self.handleOutOfRange = None                    # type: ARLiteral
+        self.handleOutOfRange = None                    # type: HandleOutOfRangeEnum
+        self.handleOutOfRangeStatus = None              # type: HandleOutOfRangeStatusEnum
+        self.maxDeltaCounterInit = None                 # type: PositiveInteger
+        self.maxNoNewOrRepeatedData = None              # type: PositiveInteger
         self.usesEndToEndProtection = None              # type: ARBoolean     
 
     def getDataElementRef(self):
@@ -228,6 +244,28 @@ class ReceiverComSpec(RPortComSpec):
     def setHandleOutOfRange(self, value):
         self.handleOutOfRange = value
         return self
+    
+    def getHandleOutOfRangeStatus(self):
+        return self.handleOutOfRangeStatus
+
+    def setHandleOutOfRangeStatus(self, value):
+        self.handleOutOfRangeStatus = value
+        return self
+
+    def getMaxDeltaCounterInit(self):
+        return self.maxDeltaCounterInit
+
+    def setMaxDeltaCounterInit(self, value):
+        self.maxDeltaCounterInit = value
+        return self
+
+    def getMaxNoNewOrRepeatedData(self):
+        return self.maxNoNewOrRepeatedData
+
+    def setMaxNoNewOrRepeatedData(self, value):
+        self.maxNoNewOrRepeatedData = value
+        return self
+
 
     def getUsesEndToEndProtection(self):
         return self.usesEndToEndProtection

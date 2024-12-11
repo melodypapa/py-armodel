@@ -1,11 +1,12 @@
 from typing import Dict, List
 
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
 from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
-from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, ARBoolean
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
@@ -27,12 +28,8 @@ class RunnableEntityArgument(ARObject):
     def setSymbol(self, value):
         self.symbol = value
         return self
-
-class AsynchronousServerCallPoint(ServerCallPoint):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-class AsynchronousServerCallResultPoint(ServerCallPoint):
+    
+class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -43,7 +40,11 @@ class AsynchronousServerCallResultPoint(ServerCallPoint):
 
     def setAsynchronousServerCallPointRef(self, value):
         self.asynchronousServerCallPointRef = value
-        return self
+        return self    
+
+class AsynchronousServerCallPoint(ServerCallPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 class SynchronousServerCallPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
@@ -63,6 +64,7 @@ class RunnableEntity(ExecutableEntity):
         super().__init__(parent, short_name)
 
         self.arguments = []                             # type: List[RunnableEntityArgument]
+        self.asynchronousServerCallResultPoints = []    # type: List[AsynchronousServerCallResultPoint]
         self.canBeInvokedConcurrently = None            # type: ARBoolean
         self.dataReadAccesses = {}                      # type: Dict[str, VariableAccess]
         self.dataReceivePointByArguments = {}           # type: Dict[str, VariableAccess]
@@ -92,7 +94,7 @@ class RunnableEntity(ExecutableEntity):
     def addArgument(self, value):
         self.arguments.append(value)
         return self
-
+    
     def getCanBeInvokedConcurrently(self):
         return self.canBeInvokedConcurrently
 
@@ -148,29 +150,42 @@ class RunnableEntity(ExecutableEntity):
     def createParameterAccess(self, short_name: str) -> ParameterAccess:
         if (short_name not in self.elements):
             access = ParameterAccess(self, short_name)
-            self.elements[short_name] = access
-        return self.elements[short_name]
+            self.addElement(access)
+        return self.getElement(short_name)
     
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
         if (short_name not in self.serverCallPoints):
-            server_call_point = SynchronousServerCallPoint(self, short_name)
-            self.serverCallPoints[short_name] = server_call_point
-        return self.serverCallPoints[short_name]
+            point = SynchronousServerCallPoint(self, short_name)
+            self.addElement(point)
+        return self.getElement(short_name)
+            #self.serverCallPoints[short_name] = server_call_point
+        #return self.serverCallPoints[short_name]
 
     def createAsynchronousServerCallPoint(self, short_name: str) -> AsynchronousServerCallPoint:
         if (short_name not in self.serverCallPoints):
-            server_call_point = AsynchronousServerCallPoint(self, short_name)
-            self.serverCallPoints[short_name] = server_call_point
-        return self.serverCallPoints[short_name]
-
-    def getSynchronousServerCallPoint(self) -> List[ServerCallPoint]:
-        return filter(lambda o: isinstance(o, SynchronousServerCallPoint), self.getServerCallPoints())
+            point = AsynchronousServerCallPoint(self, short_name)
+            self.addElement(point)
+        return self.getElement(short_name)
+            #self.serverCallPoints[short_name] = server_call_point
+        #return self.serverCallPoints[short_name]
     
-    def getAsynchronousServerCallPoint(self) -> List[ServerCallPoint]:
-        return filter(lambda o: isinstance(o, AsynchronousServerCallPoint), self.getServerCallPoints())
+    def createAsynchronousServerCallResultPoint(self, short_name: str) -> AsynchronousServerCallResultPoint:
+        if (short_name not in self.serverCallPoints):
+            point = AsynchronousServerCallResultPoint(self, short_name)
+            self.addElement(point)
+        return self.getElement(short_name)
+
+    def getSynchronousServerCallPoint(self) -> List[SynchronousServerCallPoint]:
+        return list(sorted(filter(lambda a: isinstance(a, SynchronousServerCallPoint), self.elements.values()), key= lambda o:o.getShortName()))
+    
+    def getAsynchronousServerCallPoint(self) -> List[AsynchronousServerCallPoint]:
+        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.elements.values()), key= lambda o:o.getShortName()))
+    
+    def getAsynchronousServerCallResultPoints(self) -> List[AsynchronousServerCallResultPoint]:
+        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements.values()), key= lambda o:o.getShortName()))
 
     def getServerCallPoints(self) -> List[ServerCallPoint]:
-        return sorted(self.serverCallPoints.values(), key=lambda v: v.short_name)
+        return list(sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.elements.values()), key= lambda o:o.getShortName()))
 
     def createInternalTriggeringPoint(self, short_name: str) -> InternalTriggeringPoint:
         if (short_name not in self.elements):
@@ -245,38 +260,44 @@ class SwcInternalBehavior(InternalBehavior):
     def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
         if (short_name not in self.elements):
             event = OperationInvokedEvent(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def createTimingEvent(self, short_name: str) -> TimingEvent:
         if (short_name not in self.elements):
             event = TimingEvent(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def createInitEvent(self, short_name: str) -> InitEvent:
         if (short_name not in self.elements):
             event = InitEvent(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            self.addElement(event)
+        return self.getElement(short_name)
+    
+    def createAsynchronousServerCallReturnsEvent(self, short_name: str) -> AsynchronousServerCallReturnsEvent:
+        if (short_name not in self.elements):
+            event = AsynchronousServerCallReturnsEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
         if (short_name not in self.elements):
             event = DataReceivedEvent(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
         if (short_name not in self.elements):
             event = SwcModeSwitchEvent(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
         if (short_name not in self.elements):
             event = InternalTriggerOccurredEvent(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
         if (short_name not in self.elements):

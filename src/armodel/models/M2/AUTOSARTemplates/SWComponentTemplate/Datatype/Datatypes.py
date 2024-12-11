@@ -81,25 +81,40 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
 class DataTypeMap(ARObject):
     def __init__(self):
 
-        self.application_data_type_ref = None       # type: RefType
-        self.implementation_data_type_ref = None    # type: RefType
+        self.applicationDataTypeRef = None                  # type: RefType
+        self.implementationDataTypeRef = None               # type: RefType
 
+    def getApplicationDataTypeRef(self):
+        return self.applicationDataTypeRef
+
+    def setApplicationDataTypeRef(self, value):
+        self.applicationDataTypeRef = value
+        return self
+
+    def getImplementationDataTypeRef(self):
+        return self.implementationDataTypeRef
+
+    def setImplementationDataTypeRef(self, value):
+        self.implementationDataTypeRef = value
+        return self
 
 class DataTypeMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._dataTypeMaps = []                     # type: List[DataTypeMap]
-        self._modeRequestTypeMaps = []              # type: List[ModeRequestTypeMap]
+        self.dataTypeMaps = []                              # type: List[DataTypeMap]
+        self.modeRequestTypeMaps = []                       # type: List[ModeRequestTypeMap]
 
     def addDataTypeMap(self, type_map: DataTypeMap):
-        self._dataTypeMaps.append(type_map)
+        self.dataTypeMaps.append(type_map)
+        return self
 
     def getDataTypeMaps(self) -> List[DataTypeMap]:
-        return self._dataTypeMaps
+        return self.dataTypeMaps
 
     def addModeRequestTypeMap(self, map: ModeRequestTypeMap):
-        self._modeRequestTypeMaps.append(map)
+        self.modeRequestTypeMaps.append(map)
+        return self
 
     def getModeRequestTypeMaps(self) -> List[ModeRequestTypeMap]:
-        return self._modeRequestTypeMaps
+        return self.modeRequestTypeMaps

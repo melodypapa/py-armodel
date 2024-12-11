@@ -13,6 +13,7 @@ class Referrable(ARObject, metaclass = ABCMeta):
 
         if type(self) == Referrable:
             raise NotImplementedError("Referrable is an abstract class.")
+        
         ARObject.__init__(self)
 
         self.parent = parent
@@ -61,6 +62,7 @@ class CollectableElement(ARObject, metaclass = ABCMeta):
     def __init__(self):
         if type(self) == CollectableElement:
             raise NotImplementedError("CollectableElement is an abstract class.")
+        
         self.elements = {}              # type: dict[str, Referrable]
 
     def getTotalElement(self) -> int:
@@ -87,6 +89,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == Identifiable:
             raise NotImplementedError("Identifiable is an abstract class.")
+        
         MultilanguageReferrable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 

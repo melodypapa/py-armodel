@@ -18,8 +18,8 @@ class Test_M2_MSR_AsamHdo_ComputationMethod:
         assert(isinstance(compu, ARObject))
         assert(isinstance(compu, Compu))
 
-        assert(compu.compu_content == None)
-        assert(compu.compu_default_value == None)
+        assert(compu.compuContent == None)
+        assert(compu.compuDefaultValue == None)
 
     def test_CompuConstContent(self):
         with pytest.raises(NotImplementedError) as err:
@@ -50,7 +50,7 @@ class Test_M2_MSR_AsamHdo_ComputationMethod:
         assert(isinstance(compu_const, ARObject))
         assert(isinstance(compu_const, CompuConst))
 
-        assert(compu_const.compu_const_content_type == None)
+        assert(compu_const.compuConstContentType == None)
 
     def test_CompuScale(self):
         compu_scale = CompuScale()
@@ -58,7 +58,7 @@ class Test_M2_MSR_AsamHdo_ComputationMethod:
         assert(isinstance(compu_scale, ARObject))
         assert(isinstance(compu_scale, CompuScale))
 
-        assert(compu_scale.compu_content == None)
+        assert(compu_scale.compuContent == None)
         assert(compu_scale.lowerLimit == None)
         assert(compu_scale.upperLimit == None)
         assert(compu_scale.compuInverseValue == None)
@@ -70,7 +70,7 @@ class Test_M2_MSR_AsamHdo_ComputationMethod:
         assert(isinstance(compu_scales, ARObject))
         assert(isinstance(compu_scales, CompuScales))
 
-        assert(len(compu_scales.compu_scales) == 0)
+        assert(len(compu_scales.compuScales) == 0)
 
         compu_scale = CompuScale()
         compu_scales.addCompuScale(compu_scale)

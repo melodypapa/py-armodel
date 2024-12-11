@@ -1,7 +1,7 @@
 from typing import List
 from abc import ABCMeta
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, CIdentifier, Identifier, PositiveUnlimitedInteger, String
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
@@ -23,18 +23,35 @@ class CompuConst(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.compu_const_content_type = None    # type: CompuConstContent
+        self.compuConstContentType = None           # type: CompuConstContent
 
+    def getCompuConstContentType(self):
+        return self.compuConstContentType
+
+    def setCompuConstContentType(self, value):
+        self.compuConstContentType = value
+        return self
 
 class Compu(ARObject):
     def __init__(self):
         super().__init__()
 
-        '''required'''
-        self.compu_content = None           # type: CompuContent
+        self.compuContent = None                    # type: CompuContent
+        self.compuDefaultValue = None               # type: CompuConst
 
-        '''optional'''
-        self.compu_default_value = None     # type: CompuConst
+    def getCompuContent(self):
+        return self.compuContent
+
+    def setCompuContent(self, value):
+        self.compuContent = value
+        return self
+
+    def getCompuDefaultValue(self):
+        return self.compuDefaultValue
+
+    def setCompuDefaultValue(self, value):
+        self.compuDefaultValue = value
+        return self
 
 
 class CompuConstContent(ARObject, metaclass=ABCMeta):
@@ -62,6 +79,12 @@ class CompuConstTextContent(CompuConstContent):
 
         self.vt = None
 
+    def getVt(self):
+        return self.vt
+
+    def setVt(self, value):
+        self.vt = value
+        return self
 
 class CompuConstNumericContent(CompuConstContent):
 
@@ -70,6 +93,12 @@ class CompuConstNumericContent(CompuConstContent):
 
         self.v = None
 
+    def getV(self):
+        return self.v
+
+    def setV(self, value):
+        self.v = value
+        return self
 
 class CompuScaleContents(ARObject, metaclass=ABCMeta):
     def __init__(self):
@@ -83,8 +112,14 @@ class CompuScaleConstantContents(CompuScaleContents):
     def __init__(self):
         super().__init__()
 
-        self.compu_const = None     # type: CompuConst
+        self.compuConst = None     # type: CompuConst
 
+    def getCompuConst(self):
+        return self.compuConst
+
+    def setCompuConst(self, value):
+        self.compuConst = value
+        return self
 
 class CompuRationalCoeffs(ARObject):
     '''
@@ -95,9 +130,22 @@ class CompuRationalCoeffs(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.compu_denominator = None   # type: CompuNominatorDenominator
-        self.compu_numerator = None     # type: CompuNominatorDenominator
+        self.compuDenominator = None   # type: CompuNominatorDenominator
+        self.compuNumerator = None     # type: CompuNominatorDenominator
 
+    def getCompuDenominator(self):
+        return self.compuDenominator
+
+    def setCompuDenominator(self, value):
+        self.compuDenominator = value
+        return self
+
+    def getCompuNumerator(self):
+        return self.compuNumerator
+
+    def setCompuNumerator(self, value):
+        self.compuNumerator = value
+        return self
 
 class CompuScaleRationalFormula(CompuScaleContents):
     '''
@@ -106,8 +154,14 @@ class CompuScaleRationalFormula(CompuScaleContents):
     def __init__(self):
         super().__init__()
 
-        self.compu_rational_coeffs = None   # type: CompuRationalCoeffs
+        self.compuRationalCoeffs = None         # type: CompuRationalCoeffs
 
+    def getCompuRationalCoeffs(self):
+        return self.compuRationalCoeffs
+
+    def setCompuRationalCoeffs(self, value):
+        self.compuRationalCoeffs = value
+        return self
 
 class CompuNominatorDenominator(ARObject):
     '''
@@ -131,25 +185,90 @@ class CompuScale(Compu):
     def __init__(self):
         super().__init__()
 
-        self.symbol = None                      # type: ARLiteral
-        self.lowerLimit = None                  # type: Limit
-        self.upperLimit = None                  # type: Limit
-        self.compuInverseValue = None           # type: CompuConst
-        self.compuScaleContents = None          # type: CompuScaleContents
-        self.short_label = None                 # type: ARLiteral
+        self.a2lDisplayText = None                              # type: String
+        self.compuInverseValue = None                           # type: CompuConst
+        self.compuScaleContents = None                          # type: CompuScaleContents
+        self.desc = None                                        # type: MultiLanguageOverviewParagraph
+        self.lowerLimit = None                                  # type: Limit
+        self.mask = None                                        # type: PositiveUnlimitedInteger
+        self.shortLabel = None                                  # type: Identifier
+        self.symbol = None                                      # type: CIdentifier
+        self.upperLimit = None                                  # type: Limit
 
+    def getA2lDisplayText(self):
+        return self.a2lDisplayText
+
+    def setA2lDisplayText(self, value):
+        self.a2lDisplayText = value
+        return self
+
+    def getCompuInverseValue(self):
+        return self.compuInverseValue
+
+    def setCompuInverseValue(self, value):
+        self.compuInverseValue = value
+        return self
+
+    def getCompuScaleContents(self):
+        return self.compuScaleContents
+
+    def setCompuScaleContents(self, value):
+        self.compuScaleContents = value
+        return self
+
+    def getDesc(self):
+        return self.desc
+
+    def setDesc(self, value):
+        self.desc = value
+        return self
+
+    def getLowerLimit(self):
+        return self.lowerLimit
+
+    def setLowerLimit(self, value):
+        self.lowerLimit = value
+        return self
+
+    def getMask(self):
+        return self.mask
+
+    def setMask(self, value):
+        self.mask = value
+        return self
+
+    def getShortLabel(self):
+        return self.shortLabel
+
+    def setShortLabel(self, value):
+        self.shortLabel = value
+        return self
+
+    def getSymbol(self):
+        return self.symbol
+
+    def setSymbol(self, value):
+        self.symbol = value
+        return self
+
+    def getUpperLimit(self):
+        return self.upperLimit
+
+    def setUpperLimit(self, value):
+        self.upperLimit = value
+        return self
 
 class CompuScales(CompuContent):
     def __init__(self):
         super().__init__()
 
-        self.compu_scales = []              # type: List[CompuScale]
+        self.compuScales = []              # type: List[CompuScale]
 
     def addCompuScale(self, compu_scale: CompuScale):
-        self.compu_scales.append(compu_scale)
+        self.compuScales.append(compu_scale)
 
     def getCompuScales(self) -> List[CompuScale]:
-        return self.compu_scales
+        return self.compuScales
 
 
 class CompuMethod(ARElement):
@@ -158,7 +277,35 @@ class CompuMethod(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.compu_internal_to_phys = None  # type: Compu
-        self.compu_phys_to_internal = None  # type: Compu
-        self.display_format = None          # type: DisplayFormatString
-        self.unit_ref = None                # type: RefType
+        self.compuInternalToPhys = None     # type: Compu
+        self.compuPhysToInternal = None     # type: Compu
+        self.displayFormat = None           # type: DisplayFormatString
+        self.unitRef = None                 # type: RefType
+
+    def getCompuInternalToPhys(self):
+        return self.compuInternalToPhys
+
+    def setCompuInternalToPhys(self, value):
+        self.compuInternalToPhys = value
+        return self
+
+    def getCompuPhysToInternal(self):
+        return self.compuPhysToInternal
+
+    def setCompuPhysToInternal(self, value):
+        self.compuPhysToInternal = value
+        return self
+
+    def getDisplayFormat(self):
+        return self.displayFormat
+
+    def setDisplayFormat(self, value):
+        self.displayFormat = value
+        return self
+
+    def getUnitRef(self):
+        return self.unitRef
+
+    def setUnitRef(self, value):
+        self.unitRef = value
+        return self

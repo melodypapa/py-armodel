@@ -87,7 +87,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.provided_com_specs = []  # type: List[PPortComSpec]
+        self.providedComSpecs = []                  # type: List[PPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
@@ -108,20 +108,20 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
     def addProvidedComSpec(self, com_spec):
         self._validateRPortComSpec(com_spec)
-        self.provided_com_specs.append(com_spec)
+        self.providedComSpecs.append(com_spec)
 
     def getProvidedComSpecs(self) -> List[PPortComSpec]:
-        return self.provided_com_specs
+        return self.providedComSpecs
 
     def getNonqueuedSenderComSpecs(self) -> List[NonqueuedSenderComSpec]:
-        return filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.provided_com_specs)
+        return filter(lambda c: isinstance(c, NonqueuedSenderComSpec), self.providedComSpecs)
 
 
 class AbstractRequiredPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.required_com_specs = []  # type: List[RPortComSpec]
+        self.requiredComSpecs = []                          # type: List[RPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: RPortComSpec):
         if (isinstance(com_spec, ClientComSpec)):
@@ -145,16 +145,16 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
     def addRequiredComSpec(self, com_spec: RPortComSpec):
         self._validateRPortComSpec(com_spec)
-        self.required_com_specs.append(com_spec)
+        self.requiredComSpecs.append(com_spec)
 
     def getRequiredComSpecs(self) -> List[RPortComSpec]:
-        return self.required_com_specs
+        return self.requiredComSpecs
 
     def getClientComSpecs(self) -> List[ClientComSpec]:
-        return filter(lambda c: isinstance(c, ClientComSpec), self.required_com_specs)
+        return filter(lambda c: isinstance(c, ClientComSpec), self.requiredComSpecs)
 
     def getNonqueuedReceiverComSpecs(self) -> List[NonqueuedReceiverComSpec]:
-        return filter(lambda c: isinstance(c, NonqueuedReceiverComSpec), self.required_com_specs)
+        return filter(lambda c: isinstance(c, NonqueuedReceiverComSpec), self.requiredComSpecs)
 
 
 class PPortPrototype(AbstractProvidedPortPrototype):
@@ -190,6 +190,35 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setRequiredInterfaceTRef(self, value):
         self.requiredInterfaceTRef = value
         return self
+    
+class PRPortPrototype(PortPrototype):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.providedComSpecs = []                          # type: List[PPortComSpec]
+        self.requiredComSpecs = []                          # type: List[RPortComSpec]
+        self.providedRequiredInterface = None               # type: TRefType
+
+    def getProvidedComSpecs(self):
+        return self.providedComSpecs
+
+    def addProvidedComSpec(self, value):
+        self.providedComSpecs.append(value)
+        return self
+
+    def getRequiredComSpecs(self):
+        return self.requiredComSpecs
+
+    def addRequiredComSpec(self, value):
+        self.requiredComSpecs.append(value)
+        return self
+
+    def getProvidedRequiredInterface(self):
+        return self.providedRequiredInterface
+
+    def setProvidedRequiredInterface(self, value):
+        self.providedRequiredInterface = value
+        return self
 
 class PortGroup(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -215,16 +244,22 @@ class SwComponentType(ARElement, metaclass = ABCMeta):
         super().__init__(parent, short_name)
 
     def createPPortPrototype(self, short_name: str) -> PPortPrototype:
-        prototype = PPortPrototype(self, short_name)
         if (short_name not in self.elements):
-            self.elements[short_name] = prototype
-        return self.elements[short_name]
+            prototype = PPortPrototype(self, short_name)
+            self.addElement(prototype)
+        return self.getElement(short_name)
 
     def createRPortPrototype(self, short_name) -> RPortPrototype:
-        prototype = RPortPrototype(self, short_name)
         if (short_name not in self.elements):
-            self.elements[short_name] = prototype
-        return self.elements[short_name]
+            prototype = RPortPrototype(self, short_name)
+            self.addElement(prototype)
+        return self.getElement(short_name)
+    
+    def createPRPortPrototype(self, short_name) -> PRPortPrototype:
+        if (short_name not in self.elements):
+            prototype = PRPortPrototype(self, short_name)
+            self.addElement(prototype)
+        return self.getElement(short_name)
     
     def createPortGroup(self, short_name) -> PortGroup:
         port_group = PortGroup(self, short_name)
@@ -237,6 +272,9 @@ class SwComponentType(ARElement, metaclass = ABCMeta):
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key= lambda o: o.short_name))
+    
+    def getPRPortPrototypes(self) -> List[PRPortPrototype]:
+        return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.elements.values()), key= lambda o: o.short_name))
     
     def getPortPrototypes(self) -> List[PortPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key= lambda o: o.short_name))

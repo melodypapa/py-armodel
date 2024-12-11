@@ -78,7 +78,7 @@ class AbstractARXMLParser:
         child_element = self.find(element, key)
         if (child_element is not None):
             literal = ARLiteral()
-            self.readElementAttributes(child_element, literal)
+            self.readARObjectAttributes(child_element, literal)
             literal._value = child_element.text
             return literal
         self._raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
@@ -98,7 +98,7 @@ class AbstractARXMLParser:
         if (child_element is not None):
             self.logger.debug("getChildElementOptionalLiteral : %s" % child_element.text)
             literal = ARLiteral()
-            self.readElementAttributes(child_element, literal)
+            self.readARObjectAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
             if child_element.text is None:      
                 literal.setValue("")
@@ -115,7 +115,7 @@ class AbstractARXMLParser:
             if not m:
                 raise ValueError("Invalid RevisionLabelString <%s>" % child_element.text)
             literal = ARLiteral()
-            self.readElementAttributes(child_element, literal)
+            self.readARObjectAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
             if child_element.text is None:      
                 literal.setValue("")
@@ -193,7 +193,7 @@ class AbstractARXMLParser:
         if child_element == None:
             return None
         numerical = ARNumerical()
-        self.readElementAttributes(child_element, numerical)
+        self.readARObjectAttributes(child_element, numerical)
         numerical.setValue(child_element.text)
         return numerical
     
@@ -202,7 +202,7 @@ class AbstractARXMLParser:
         if child_element == None:
             return None
         numerical = Integer()
-        self.readElementAttributes(child_element, numerical)
+        self.readARObjectAttributes(child_element, numerical)
         numerical.setValue(child_element.text)
         return numerical
     
@@ -211,7 +211,7 @@ class AbstractARXMLParser:
         if child_element == None:
             return None
         numerical = PositiveInteger()
-        self.readElementAttributes(child_element, numerical)
+        self.readARObjectAttributes(child_element, numerical)
         numerical.setValue(child_element.text)
         if numerical.getValue() < 0:
             raise ValueError("Invalid PositiveInteger <%s>" % child_element.text)
@@ -230,7 +230,7 @@ class AbstractARXMLParser:
         child_element = self.find(element, key)
         if (child_element is not None):
             limit = Limit()
-            self.readElementAttributes(child_element, limit)
+            self.readARObjectAttributes(child_element, limit)
             if ('INTERVAL-TYPE' in child_element.attrib):
                 limit.intervalType = child_element.attrib['INTERVAL-TYPE']
             else:
@@ -275,7 +275,7 @@ class AbstractARXMLParser:
             return element.attrib[key]
         return None
     
-    def readElementAttributes(self, element: ET.Element, ar_object: ARObject):
+    def readARObjectAttributes(self, element: ET.Element, ar_object: ARObject):
         ar_object.timestamp = self.readElementOptionalAttrib(element, "T")             # read the timestamp
         ar_object.uuid      = self.readElementOptionalAttrib(element, "UUID")          # read the uuid
 
