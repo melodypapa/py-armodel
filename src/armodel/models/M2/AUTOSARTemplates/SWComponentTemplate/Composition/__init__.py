@@ -34,8 +34,16 @@ class AssemblySwConnector(SwConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.mappingRef = None          # type: RefType
         self.providerIRef = None        # type: PPortInCompositionInstanceRef
         self.requesterIRef = None       # type: RPortInCompositionInstanceRef
+
+    def getMappingRef(self):
+        return self.mappingRef
+
+    def setMappingRef(self, value):
+        self.mappingRef = value
+        return self
 
     def getProviderIRef(self) -> PPortInCompositionInstanceRef:
         return self.providerIRef

@@ -382,8 +382,21 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ROLE-BASED-DATA-TYPE-ASSIGNMENT
    * ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT
    * PR-PORT-PROTOTYPE
+
+**Version 1.7.3**
+
+1. To support the following AR Element:
    * MEM-CLASS-SYMBOL
    * ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS
- 3. To improve the following AR Element:
+   * STEP-SIZE
+   * BSW-INTERRUPT-ENTITY
+   * FLAT-MAP
+   * VARIABLE-AND-PARAMETER-INTERFACE-MAPPING
+   * PORT-INTERFACE-MAPPING-SET
+   * DATA-MAPPINGS
+   * ECU-STATE-MGR-USER-NEEDS
+   * STACK-USAGES
+   * ROUGH-ESTIMATE-STACK-USAGE
+ 2. To improve the following AR Element:
    * PARAMETER-INTERFACE
    

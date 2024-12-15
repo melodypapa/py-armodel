@@ -116,7 +116,7 @@ def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
         print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntryRef", starts_on_event.implementedEntryRef.value))
         implemented_entry = document.find(starts_on_event.implementedEntryRef.value) # type: BswModuleEntry
         print("%s-%s: %s" % (" " * (indent + 4), "ImplementedEntry", implemented_entry.short_name))
-        print("%s-%s: %d" % (" " * (indent + 6), "Service Id", implemented_entry.service_id))
+        print("%s-%s: %d" % (" " * (indent + 6), "Service Id", implemented_entry.serviceId))
 
 def show_bsw_module_description(indent: int, description: BswModuleDescription):
     print("%s-%s" % (" " * indent, description.short_name))

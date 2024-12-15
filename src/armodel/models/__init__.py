@@ -22,11 +22,14 @@ from .M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import *
 from .M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import *
 from .M2.AUTOSARTemplates.CommonStructure import *
 from .M2.AUTOSARTemplates.CommonStructure.Filter import *
+from .M2.AUTOSARTemplates.CommonStructure.FlatMap import *
 from .M2.AUTOSARTemplates.CommonStructure.Implementation import *
 from .M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import *
 from .M2.AUTOSARTemplates.CommonStructure.InternalBehavior import *
 from .M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import *
 from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import *
+from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import *
+from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import *
 from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import *
 from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *
 from .M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *

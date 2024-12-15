@@ -133,6 +133,7 @@ class AbstractARXMLParser:
         float_value = None
         if (child_element is not None) and (child_element.text is not None):
             float_value = ARFloat()
+            self.readARObjectAttributes(child_element, float_value)
             float_value.setValue(child_element.text)
         return float_value
     
@@ -162,7 +163,9 @@ class AbstractARXMLParser:
 
     def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> Boolean:
         literal = self.getChildElementOptionalLiteral(element, key)
-        if (literal == None):
+        if literal == None:
+            return None
+        if literal.getText() == "":
             return None
         bool_value = Boolean()
         bool_value.timestamp = literal.timestamp
@@ -175,19 +178,6 @@ class AbstractARXMLParser:
             return int(m.group(1), 16)
         return int(value)
 
-    '''
-    def getChildElementNumberValue(self, short_name: str, element: ET.Element, key: str) -> int:
-        value = self.getChildElement(short_name, element, key)
-        return self._convertStringToNumberValue(value)
-    
-
-    def getChildElementOptionalNumberValue(self, element: ET.Element, key: str) -> int:
-        value = self.getChildElementOptionalValue(element, key)
-        if (value == None):
-            return None
-        return self._convertStringToNumberValue(value)
-    '''
-    
     def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> ARNumerical:
         child_element = self.find(element, key)
         if child_element == None:

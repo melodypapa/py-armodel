@@ -8,7 +8,7 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDa
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, ARBoolean
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, ARBoolean
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
@@ -224,38 +224,47 @@ class SwcInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.handle_termination_and_restart = None      # type: str
-        self.supports_multiple_instantiation = None     # type: ARBoolean
-        self.explicit_inter_runnable_variables = []     # type: List[VariableDataPrototype]
-        self.implicit_inter_runnable_variables = []     # type: List[VariableDataPrototype]
-        self.per_instance_memories = []                 # type: List[PerInstanceMemory]
-        self.per_instance_parameters = []               # type: List[ParameterDataPrototype]
-        self.port_api_options = []                      # type: List[PortAPIOption]
-        self.included_data_type_sets = []               # type: List[IncludedDataTypeSet]
+        self.arTypedPerInstanceMemories = []                        # type: List[VariableDataPrototype]
+        self.events = []                                            # type: List[RTEEvent]
+        self.exclusiveAreaPolicies = []                             # type: List[SwcExclusiveAreaPolicy]
+        self.explicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
+        self.handleTerminationAndRestart = None      # type: str
+        self.implicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
+        self.includedDataTypeSets = []                              # type: List[IncludedDataTypeSet]
+        self.includedModeDeclarationGroupSets = []                  # type: List[IncludedModeDeclarationGroupSet]
+        self.instantiationDataDefProps = []                         # type: List[InstantiationDataDefProps]
+        self.perInstanceMemories = []                               # type: List[PerInstanceMemory]
+        self.perInstanceParameters = []                             # type: List[ParameterDataPrototype]
+        self.portAPIOptions = []                                    # type: List[PortAPIOption]
+        self.runnables = []                                         # type: List[RunnableEntity]
+        self.serviceDependencies = []                               # type: List[SwcServiceDependency]
+        self.sharedParameters = []                                  # type: List[ParameterDataPrototype]
+        self.supportsMultipleInstantiation = None                   # type: Boolean
+        self.variationPointProxies = []                             # type: VariationPointProxy
 
     def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
-        return self.explicit_inter_runnable_variables
+        return self.explicitInterRunnableVariables
 
     def getImplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
-        return self.implicit_inter_runnable_variables
+        return self.implicitInterRunnableVariables
 
     def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
-        return self.per_instance_memories
+        return self.perInstanceMemories
 
     def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
-        return self.per_instance_parameters
+        return self.perInstanceParameters
 
     def addPortAPIOption(self, option: PortAPIOption):
-        self.port_api_options.append(option)
+        self.portAPIOptions.append(option)
 
     def getPortAPIOptions(self) -> List[PortAPIOption]:
-        return self.port_api_options
+        return self.portAPIOptions
 
     def addIncludedDataTypeSet(self, set: IncludedDataTypeSet):
-        self.included_data_type_sets.append(set)
+        self.includedDataTypeSets.append(set)
 
     def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
-        return self.included_data_type_sets
+        return self.includedDataTypeSets
 
     def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
         if (short_name not in self.elements):
@@ -338,28 +347,28 @@ class SwcInternalBehavior(InternalBehavior):
         if (short_name not in self.elements):
             prototype = VariableDataPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self.explicit_inter_runnable_variables.append(prototype)
+            self.explicitInterRunnableVariables.append(prototype)
         return self.elements[short_name]
 
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
         if (short_name not in self.elements):
             prototype = VariableDataPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self.implicit_inter_runnable_variables.append(prototype)
+            self.implicitInterRunnableVariables.append(prototype)
         return self.elements[short_name]
 
     def createPerInstanceMemory(self, short_name: str) -> PerInstanceMemory:
         if (short_name not in self.elements):
             memory = PerInstanceMemory(self, short_name)
             self.elements[short_name] = memory
-            self.per_instance_memories.append(memory)
+            self.perInstanceMemories.append(memory)
         return self.elements[short_name]
 
     def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
         if (short_name not in self.elements):
             prototype = ParameterDataPrototype(self, short_name)
             self.elements[short_name] = prototype
-            self.per_instance_parameters.append(prototype)
+            self.perInstanceParameters.append(prototype)
         return self.elements[short_name]
 
     def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
@@ -377,3 +386,9 @@ class SwcInternalBehavior(InternalBehavior):
     def getRunnableEntity(self, short_name) -> RunnableEntity:
         return self.elements[short_name]
 
+    def getSupportsMultipleInstantiation(self):
+        return self.supportsMultipleInstantiation
+
+    def setSupportsMultipleInstantiation(self, value):
+        self.supportsMultipleInstantiation = value
+        return self

@@ -87,7 +87,6 @@ class CompuConstTextContent(CompuConstContent):
         return self
 
 class CompuConstNumericContent(CompuConstContent):
-
     def __init__(self):
         super().__init__()
 
@@ -99,6 +98,22 @@ class CompuConstNumericContent(CompuConstContent):
     def setV(self, value):
         self.v = value
         return self
+    
+class CompuConstFormulaContent(CompuConstContent):
+    def __init__(self):
+        super().__init__()
+
+        self.vf = None
+
+    def getVf(self):
+        return self.vf
+
+    def setVf(self, value):
+        self.vf = value
+        return self
+
+
+
 
 class CompuScaleContents(ARObject, metaclass=ABCMeta):
     def __init__(self):

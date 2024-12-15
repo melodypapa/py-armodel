@@ -296,6 +296,13 @@ class ValueList(ARObject):
         self.v = None                                       # type: ARFloat
         self._vf = []                                       # type: List[ARLiteral]
 
+    def getV(self):
+        return self.v
+
+    def setV(self, value):
+        self.v = value
+        return self
+
     def addVf(self, vf: ARLiteral):
         self._vf.append(vf)
 

@@ -127,10 +127,10 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert(isinstance(prototype, Referrable))
         assert(isinstance(prototype, ArgumentDataPrototype))
 
-        assert(prototype.parent == ar_root)
-        assert(prototype.short_name == "ArgumentDataPrototype")
-        assert(prototype.direction == "")
-        assert(prototype.server_argument_impl_policy == "")
+        assert(prototype.getParent() == ar_root)
+        assert(prototype.getShortName() == "ArgumentDataPrototype")
+        assert(prototype.getDirection() == None)
+        assert(prototype.getServerArgumentImplPolicy() == None)
 
     def test_ApplicationError(self):
         document = AUTOSAR.getInstance()

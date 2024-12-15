@@ -611,6 +611,28 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         self.timePassedThreshold = value
         return self
 
+class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # type: PositiveInteger
+        self.obdDtcNumber = None
+        # type: PositiveInteger
+        self.udsDtcNumber = None
+
+    def getObdDtcNumber(self):
+        return self.obdDtcNumber
+
+    def setObdDtcNumber(self, value):
+        self.obdDtcNumber = value
+        return self
+
+    def getUdsDtcNumber(self):
+        return self.udsDtcNumber
+
+    def setUdsDtcNumber(self, value):
+        self.udsDtcNumber = value
+        return self
 
 class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -698,8 +720,6 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.udsDtcNumber = value
         return self
 
-
-
 class CryptoServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -736,3 +756,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setMaximumKeyLength(self, value):
         self.maximumKeyLength = value
         return self
+
+class EcuStateMgrUserNeeds(ServiceNeeds):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
