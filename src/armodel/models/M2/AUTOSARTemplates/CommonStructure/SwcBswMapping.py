@@ -14,22 +14,64 @@ class SwcBswRunnableMapping(ARObject):
         '''
         super().__init__()
 
-        self.bswEntityRef   = None        # type: RefType
+        self.bswEntityRef = None        # type: RefType
         self.swcRunnableRef = None        # type: RefType
 
+    def getBswEntityRef(self):
+        return self.bswEntityRef
+
+    def setBswEntityRef(self, value):
+        self.bswEntityRef = value
+        return self
+
+    def getSwcRunnableRef(self):
+        return self.swcRunnableRef
+
+    def setSwcRunnableRef(self, value):
+        self.swcRunnableRef = value
+        return self
 
 class SwcBswMapping(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.bswBehaviorRef = None              # type: RefType
-        self._runnableMappings = []
+        self.runnableMappings = []              # type: List[SwcBswRunnableMapping]
         self.swcBehaviorRef = None              # type: RefType
         self.synchronizedModeGroups = []
         self.synchronizedTriggers = []
 
-    def addRunnableMapping(self, mapping: SwcBswRunnableMapping):
-        self._runnableMappings.append(mapping)
+    def getBswBehaviorRef(self):
+        return self.bswBehaviorRef
 
-    def getRunnableMappings(self) -> List[SwcBswRunnableMapping]:
-        return self._runnableMappings
+    def setBswBehaviorRef(self, value):
+        self.bswBehaviorRef = value
+        return self
+
+    def getRunnableMappings(self):
+        return self.runnableMappings
+
+    def addRunnableMapping(self, value):
+        self.runnableMappings.append(value)
+        return self
+
+    def getSwcBehaviorRef(self):
+        return self.swcBehaviorRef
+
+    def setSwcBehaviorRef(self, value):
+        self.swcBehaviorRef = value
+        return self
+
+    def getSynchronizedModeGroups(self):
+        return self.synchronizedModeGroups
+
+    def setSynchronizedModeGroups(self, value):
+        self.synchronizedModeGroups = value
+        return self
+
+    def getSynchronizedTriggers(self):
+        return self.synchronizedTriggers
+
+    def setSynchronizedTriggers(self, value):
+        self.synchronizedTriggers = value
+        return self

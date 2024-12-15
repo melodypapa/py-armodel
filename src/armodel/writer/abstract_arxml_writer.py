@@ -104,6 +104,7 @@ class AbstractARXMLWriter:
     def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: ARFloat):
         if value is not None:
             child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, value)
             child_element.text = value.getText()
 
     def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):

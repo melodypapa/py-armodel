@@ -1,5 +1,5 @@
 from typing import List
-from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
@@ -78,7 +78,13 @@ class SwcServiceDependency(ServiceDependency):
             needs = CryptoServiceNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
-
+    
+    def createEcuStateMgrUserNeeds(self, short_name: str) -> EcuStateMgrUserNeeds:
+        if (short_name not in self.elements):
+            needs = EcuStateMgrUserNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements.values()), key=lambda e: e.short_name)
     
@@ -93,6 +99,9 @@ class SwcServiceDependency(ServiceDependency):
     
     def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
         return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getEcuStateMgrUserNeeds(self) -> List[EcuStateMgrUserNeeds]:
+        return sorted(filter(lambda c: isinstance(c, EcuStateMgrUserNeeds), self.elements.values()), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements.values()), key=lambda e: e.short_name)

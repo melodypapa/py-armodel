@@ -42,7 +42,7 @@ class AnyInstanceRef(ARObject):
         super().__init__()
 
         self.baseRef = None                             # type: RefType
-        self.contextElementRef = None                   # type: RefType
+        self.contextElementRefs = []                    # type: List[RefType]
         self.targetRef = None                           # type: RefType
 
     def getBaseRef(self) -> RefType:
@@ -52,11 +52,11 @@ class AnyInstanceRef(ARObject):
         self.baseRef = value
         return self
 
-    def getContextElementRef(self) -> RefType:
-        return self.contextElementRef
+    def getContextElementRefs(self) -> List[RefType]:
+        return self.contextElementRefs
 
-    def setContextElementRef(self, value: RefType):
-        self.contextElementRef = value
+    def addContextElementRef(self, value: RefType):
+        self.contextElementRefs.append(value)
         return self
 
     def getTargetRef(self) -> RefType:

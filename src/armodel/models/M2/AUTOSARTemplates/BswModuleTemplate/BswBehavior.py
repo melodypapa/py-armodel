@@ -1,7 +1,7 @@
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARFloat, ARNumerical, TimeValue
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, String, TimeValue
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
@@ -132,23 +132,36 @@ class BswSchedulableEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+class BswInterruptCategory(AREnum):
+    CAT1 = "cat1"
+    CAT2 = "cat2"
+
+    def __init__(self):
+        super().__init__((
+            BswInterruptCategory.CAT1,
+            BswInterruptCategory.CAT2,
+        ))    
+
 class BswInterruptEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._interrupt_category = ""
-        self.interrupt_source = ""
+        self.interruptCategory = None               # type: BswInterruptCategory
+        self.interruptSource = None                 # type: String
 
-    @property
-    def interrupt_category(self) -> str:
-        return self._interrupt_category
+    def getInterruptCategory(self):
+        return self.interruptCategory
 
-    @interrupt_category.setter
-    def interrupt_category(self, value):
-        if (value.upper() not in ("CAT1", "CAT2")):
-            raise ValueError("Invalid interrupt category <%s> of %s" % (value, self.short_name))
-        self._interrupt_category = value
+    def setInterruptCategory(self, value):
+        self.interruptCategory = value
+        return self
 
+    def getInterruptSource(self):
+        return self.interruptSource
+
+    def setInterruptSource(self, value):
+        self.interruptSource = value
+        return self
 
 class BswEvent(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -293,23 +306,33 @@ class BswInternalBehavior(InternalBehavior):
 
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
         if (short_name not in self.elements):
-            event = BswCalledEntity(self, short_name)
-            self.elements[short_name] = event
-            self.entities.append(event)
-        return self.elements[short_name]
+            entity = BswCalledEntity(self, short_name)
+            self.addElement(entity)
+            self.entities.append(entity)
+        return self.getElement(short_name)
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
         return list(filter(lambda a: isinstance(a, BswCalledEntity), self.elements.values()))
 
     def createBswSchedulableEntity(self, short_name: str) -> BswSchedulableEntity:
         if (short_name not in self.elements):
-            event = BswSchedulableEntity(self, short_name)
-            self.elements[short_name] = event
-            self.entities.append(event)
-        return self.elements[short_name]
+            entity = BswSchedulableEntity(self, short_name)
+            self.addElement(entity)
+            self.entities.append(entity)
+        return self.getElement(short_name)
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
         return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements.values()))
+    
+    def createBswInterruptEntity(self, short_name: str) -> BswInterruptEntity:
+        if (short_name not in self.elements):
+            entity = BswInterruptEntity(self, short_name)
+            self.addElement(entity)
+            self.entities.append(entity)
+        return self.getElement(short_name)
+
+    def getBswInterruptEntities(self) -> List[BswInterruptEntity]:
+        return list(filter(lambda a: isinstance(a, BswInterruptEntity), self.elements.values()))
 
     def getBswModuleEntities(self) -> List[BswModuleEntity]:
         return list(filter(lambda a: isinstance(a, BswModuleEntity), self.elements.values()))

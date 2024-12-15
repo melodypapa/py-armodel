@@ -1,4 +1,6 @@
 from typing import List
+
+from ....M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
 from ....M2.MSR.DataDictionary.DataDefProperties import ValueList
@@ -21,6 +23,35 @@ class SwValueCont(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.sw_arraysize = None         # type: ValueList
-        self.unit_ref = None             # type: RefType
-        self.sw_values_phys = None        # type: SwValues
+        self.swArraysize = None             # type: ValueList
+        self.swValuesPhys = None            # type: SwValues
+        self.unitRef = None                 # type: RefType
+        self.unitDisplayName = None         # type: SingleLanguageUnitNames
+
+    def getSwArraysize(self):
+        return self.swArraysize
+
+    def setSwArraysize(self, value):
+        self.swArraysize = value
+        return self
+
+    def getSwValuesPhys(self):
+        return self.swValuesPhys
+
+    def setSwValuesPhys(self, value):
+        self.swValuesPhys = value
+        return self
+
+    def getUnitRef(self):
+        return self.unitRef
+
+    def setUnitRef(self, value):
+        self.unitRef = value
+        return self
+
+    def getUnitDisplayName(self):
+        return self.unitDisplayName
+
+    def setUnitDisplayName(self, value):
+        self.unitDisplayName = value
+        return self

@@ -3,9 +3,9 @@ from typing import List
 
 from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, PositiveInteger
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, PositiveInteger
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
@@ -183,8 +183,24 @@ class SenderReceiverInterface(DataInterface):
 class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.direction = ""
-        self.server_argument_impl_policy = ""
+
+        self.direction = None                               # type: ArgumentDirectionEnum
+        # type: ServerArgumentImplPolicyEnum
+        self.serverArgumentImplPolicy = None
+
+    def getDirection(self):
+        return self.direction
+
+    def setDirection(self, value):
+        self.direction = value
+        return self
+
+    def getServerArgumentImplPolicy(self):
+        return self.serverArgumentImplPolicy
+
+    def setServerArgumentImplPolicy(self, value):
+        self.serverArgumentImplPolicy = value
+        return self
 
 class ApplicationError(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -288,3 +304,178 @@ class ModeSwitchInterface(PortInterface):
     
     def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements.values()), key= lambda o: o.short_name))
+
+class PortInterfaceMapping(Identifiable, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == PortInterface:
+            raise NotImplementedError("PortInterfaceMapping is an abstract class.")
+        super().__init__(parent, short_name)
+
+class ClientServerApplicationErrorMapping(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.firstApplicationErrorRef = None                    # type: RefType
+        self.secondApplicationErrorRef = None                   # type: RefType
+
+    def getFirstApplicationErrorRef(self):
+        return self.firstApplicationErrorRef
+
+    def setFirstApplicationErrorRef(self, value):
+        self.firstApplicationErrorRef = value
+        return self
+
+    def getSecondApplicationErrorRef(self):
+        return self.secondApplicationErrorRef
+
+    def setSecondApplicationErrorRef(self, value):
+        self.secondApplicationErrorRef = value
+        return self
+    
+class ClientServerOperationMapping(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        
+        self.argumentMappings = []                              # type: List[DataPrototypeMapping]
+        self.firstOperationRef = None                           # type: RefType
+        self.firstToSecondDataTransformationRef = None          # type: RefType
+        self.secondOperationRef = None                          # type: RefType
+
+    def getArgumentMappings(self):
+        return self.argumentMappings
+
+    def addArgumentMapping(self, value):
+        self.argumentMappings.append(value)
+        return self
+
+    def getFirstOperationRef(self):
+        return self.firstOperationRef
+
+    def setFirstOperationRef(self, value):
+        self.firstOperationRef = value
+        return self
+
+    def getFirstToSecondDataTransformationRef(self):
+        return self.firstToSecondDataTransformationRef
+
+    def setFirstToSecondDataTransformationRef(self, value):
+        self.firstToSecondDataTransformationRef = value
+        return self
+
+    def getSecondOperationRef(self):
+        return self.secondOperationRef
+
+    def setSecondOperationRef(self, value):
+        self.secondOperationRef = value
+        return self
+    
+
+class DataPrototypeMapping(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.firstDataPrototypeRef = None                       # type: RefType
+        self.firstToSecondDataTransformationRef = None          # type: RefType
+        self.secondDataPrototypeRef = None                      # type: RefType
+        self.secondToFirstDataTransformationRef = None          # type: RefType
+        self.subElementMappings = []                            # type: List[SubElementMapping]
+        self.textTableMappings = []                             # type: List[TextTableMapping]
+
+    def getFirstDataPrototypeRef(self):
+        return self.firstDataPrototypeRef
+
+    def setFirstDataPrototypeRef(self, value):
+        self.firstDataPrototypeRef = value
+        return self
+
+    def getFirstToSecondDataTransformationRef(self):
+        return self.firstToSecondDataTransformationRef
+
+    def setFirstToSecondDataTransformationRef(self, value):
+        self.firstToSecondDataTransformationRef = value
+        return self
+
+    def getSecondDataPrototypeRef(self):
+        return self.secondDataPrototypeRef
+
+    def setSecondDataPrototypeRef(self, value):
+        self.secondDataPrototypeRef = value
+        return self
+
+    def getSecondToFirstDataTransformationRef(self):
+        return self.secondToFirstDataTransformationRef
+
+    def setSecondToFirstDataTransformationRef(self, value):
+        self.secondToFirstDataTransformationRef = value
+        return self
+
+    def getSubElementMappings(self):
+        return self.subElementMappings
+
+    def setSubElementMappings(self, value):
+        self.subElementMappings = value
+        return self
+
+    def getTextTableMappings(self):
+        return self.textTableMappings
+
+    def setTextTableMappings(self, value):
+        self.textTableMappings = value
+        return self
+
+
+
+class ClientServerInterfaceMapping(PortInterfaceMapping):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # type: ClientServerApplicationErrorMapping
+        self.errorMappings = []
+        # type: ClientServerOperationMapping
+        self.operationMappings = []
+
+    def getErrorMappings(self):
+        return self.errorMappings
+
+    def setErrorMappings(self, value):
+        self.errorMappings = value
+        return self
+
+    def getOperationMappings(self):
+        return self.operationMappings
+
+    def setOperationMappings(self, value):
+        self.operationMappings = value
+        return self
+
+
+class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.dataMappings = []                          # type: List[DataPrototypeMapping]
+
+    def getDataMappings(self):
+        return self.dataMappings
+
+    def addDataMapping(self, value):
+        self.dataMappings.append(value)
+        return self
+
+   
+class PortInterfaceMappingSet(ARElement):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.portInterfaceMappings = []                 # type: List[PortInterfaceMapping]
+
+    def getPortInterfaceMappings(self):
+        return self.portInterfaceMappings
+
+    def createVariableAndParameterInterfaceMapping(self, short_name):
+        if (short_name not in self.elements):
+            mapping = VariableAndParameterInterfaceMapping(self, short_name)
+            self.addElement(mapping)
+            self.portInterfaceMappings.append(mapping)
+        return self.getElement(short_name)

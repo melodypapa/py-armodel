@@ -19,30 +19,26 @@ class BswModuleDescription(ARElement):
         super().__init__(parent, short_name)
 
         # MODULE-ID
-        self.module_id = None                           # type: ARPositiveInteger           
+        self.moduleId = None                           # type: ARPositiveInteger
+
         # PROVIDED-ENTRYS
-        self._implementedEntryRefs = []                 # type: List[RefType]
+        self.implementedEntryRefs = []                 # type: List[RefType]
 
         self.providedModeGroups   = {}                  # type: Dict[str, ModeDeclarationGroupPrototype]
         self.requiredModeGroups   = {}                  # type: Dict[str, ModeDeclarationGroupPrototype] 
+    
+    def getModuleId(self):
+        return self.moduleId
+
+    def setModuleId(self, value):
+        self.moduleId = value
+        return self
 
     def addImplementedEntry(self, entry_ref: RefType):
-        self._implementedEntryRefs.append(entry_ref)
+        self.implementedEntryRefs.append(entry_ref)
 
     def getImplementedEntries(self) -> List[RefType]:
-        return self._implementedEntryRefs
-
-    #@property
-    #def category(self) -> str:
-    #    return ARElement.getCategory(self)
-
-    #@category.setter
-    #def category(self, value:str):
-    #    if value is None:
-    #        return
-    #    if value not in ("BSW_MODULE", "BSW_CLUSTER", "LIBRARY"):
-    #        raise ValueError("Invalid category <%s> of BswModuleDescription <%s>" % (value, self.short_name))
-    #    ARElement.setCategory(self, value)
+        return self.implementedEntryRefs
 
     def createProvidedModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         if (short_name not in self.elements):

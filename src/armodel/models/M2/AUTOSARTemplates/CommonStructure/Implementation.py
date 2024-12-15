@@ -1,6 +1,6 @@
 from abc import ABCMeta
 from typing import List
-from ....M2.AUTOSARTemplates.CommonStructure import ResourceConsumption
+from ....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String
@@ -28,17 +28,18 @@ class Code(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._artifactDescriptors = []          # type: List[AutosarEngineeringObject]
+        self.artifactDescriptors = []          # type: List[AutosarEngineeringObject]
         self.callbackHeaderRefs = []            # type: List[RefType]
 
     def addArtifactDescriptor(self, desc: AutosarEngineeringObject):
-        self._artifactDescriptors.append(desc)
+        self.artifactDescriptors.append(desc)
+        return self
 
     def getArtifactDescriptors(self, category:str = "") -> List[AutosarEngineeringObject]:
         if (category == ""):
-            return self._artifactDescriptors
+            return self.artifactDescriptors
         else:
-            return list(filter(lambda a: a.getCategory().getText() == category, self._artifactDescriptors))
+            return list(filter(lambda a: a.getCategory().getText() == category, self.artifactDescriptors))
 
 class Compiler(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -199,10 +200,12 @@ class Implementation(PackageableElement, metaclass = ABCMeta):
     def getResourceConsumption(self):
         return self.resourceConsumption
 
-    def setResourceConsumption(self, consumption: ResourceConsumption):
-        self.elements[consumption.short_name] = consumption
-        self.resourceConsumption = consumption
-        return self
+    def createResourceConsumption(self, short_name: str) -> ResourceConsumption:
+        if (short_name not in self.elements):
+            consumption = ResourceConsumption(self, short_name)
+            self.addElement(consumption)
+            self.resourceConsumption = consumption
+        return self.getElement(short_name)
 
     def getSwcBswMappingRef(self):
         return self.swcBswMappingRef

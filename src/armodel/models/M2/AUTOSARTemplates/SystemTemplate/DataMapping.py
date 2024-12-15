@@ -1,6 +1,8 @@
 from abc import ABCMeta
+
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationDirectionType
 
 class DataMapping(ARObject, metaclass = ABCMeta):
     def __init__(self):
@@ -18,15 +20,22 @@ class DataMapping(ARObject, metaclass = ABCMeta):
         self.introduction = value
         return self
 
-
 class SenderReceiverToSignalMapping(DataMapping):
     def __init__(self):
         super().__init__()
 
+        self.communicationDirection = None                          # type: CommunicationDirectionType
         self.dataElementIRef = None
         self.senderToSignalTextTableMapping = None
         self.signalToReceiverTextTableMapping = None
         self.systemSignalRef = None
+
+    def getCommunicationDirection(self):
+        return self.communicationDirection
+
+    def setCommunicationDirection(self, value):
+        self.communicationDirection = value
+        return self
 
     def getDataElementIRef(self):
         return self.dataElementIRef

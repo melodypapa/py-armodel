@@ -447,3 +447,15 @@ class DiagRequirementIdString(ARLiteral):
     def __init__(self):
         super().__init__()
 
+
+class ArgumentDirectionEnum(AREnum):
+    IN  = "in"
+    INOUT = "inout"
+    OUT = "out"
+
+    def __init__(self):
+        super().__init__((
+            ArgumentDirectionEnum.IN,
+            ArgumentDirectionEnum.INOUT,
+            ArgumentDirectionEnum.OUT  
+        ))

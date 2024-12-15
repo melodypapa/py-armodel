@@ -28,14 +28,14 @@ class TestBswMD:
         document = AUTOSAR.getInstance()
         root_pkgs = sorted(document.getARPackages(), key = lambda pkg: pkg.short_name)
         assert(len(root_pkgs) == 2)
-        assert(root_pkgs[0].short_name == "AUTOSAR_BswM")
-        assert(root_pkgs[1].short_name == "EB_BswM_TxDxM1I14R0")
+        assert(root_pkgs[0].getShortName() == "AUTOSAR_BswM")
+        assert(root_pkgs[1].getShortName() == "EB_BswM_TxDxM1I14R0")
 
         root_pkg_0_pkgs = sorted(root_pkgs[0].getARPackages(), key = lambda pkg: pkg.short_name)
         assert(len(root_pkg_0_pkgs) == 3)
 
         bsw_module_desc_pkg = root_pkg_0_pkgs[0]   # type：ARPackage  
-        assert(bsw_module_desc_pkg.short_name == "BswModuleDescriptions")
+        assert(bsw_module_desc_pkg.getShortName() == "BswModuleDescriptions")
 
         root_pkg_1_pkgs = root_pkgs[1].getARPackages()
         assert(len(root_pkg_1_pkgs) == 1)
@@ -48,16 +48,16 @@ class TestBswMD:
         assert(len(bsw_module_descs) == 1)
 
         bsw_module_desc = bsw_module_descs[0]
-        assert(bsw_module_desc.short_name == "BswM")
-        assert(bsw_module_desc.module_id.getText() == "34")
-        assert(bsw_module_desc.module_id.getValue() == 34)
+        assert(bsw_module_desc.getShortName() == "BswM")
+        assert(bsw_module_desc.moduleId.getText() == "34")
+        assert(bsw_module_desc.moduleId.getValue() == 34)
 
         # verify the provided entries
-        assert(len(bsw_module_desc._implementedEntryRefs) == 2)
-        assert(bsw_module_desc._implementedEntryRefs[0].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc._implementedEntryRefs[0].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
-        assert(bsw_module_desc._implementedEntryRefs[1].dest == "BSW-MODULE-ENTRY")
-        assert(bsw_module_desc._implementedEntryRefs[1].value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(len(bsw_module_desc.implementedEntryRefs) == 2)
+        assert(bsw_module_desc.implementedEntryRefs[0].getDest() == "BSW-MODULE-ENTRY")
+        assert(bsw_module_desc.implementedEntryRefs[0].getValue() == "/AUTOSAR_BswM/BswModuleEntrys/BswM_Init")
+        assert(bsw_module_desc.implementedEntryRefs[1].getDest() == "BSW-MODULE-ENTRY")
+        assert(bsw_module_desc.implementedEntryRefs[1].getValue() == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
         assert(len(bsw_module_desc.getBswInternalBehaviors()) == 1)
         behavior = bsw_module_desc.getBswInternalBehaviors()[0]
@@ -65,8 +65,8 @@ class TestBswMD:
 
         assert(len(behavior.getDataTypeMappingRefs()) == 1)
         data_type_mapping_ref = behavior.getDataTypeMappingRefs()[0]
-        assert(data_type_mapping_ref.dest == "DATA-TYPE-MAPPING-SET")
-        assert(data_type_mapping_ref.value == "/BswMMode/DataTypeMappingSets/BswMModeMapping")
+        assert(data_type_mapping_ref.getDest() == "DATA-TYPE-MAPPING-SET")
+        assert(data_type_mapping_ref.getValue() == "/BswMMode/DataTypeMappingSets/BswMModeMapping")
 
         assert(len(behavior.getExclusiveAreas()) == 1)
         assert(behavior.getExclusiveAreas()[0].short_name == "SCHM_BSWM_EXCLUSIVE_AREA")
@@ -77,16 +77,16 @@ class TestBswMD:
         assert(entity.minimumStartInterval is not None)
         assert(entity.minimumStartIntervalMs is not None)
         assert(len(entity.getCanEnterExclusiveAreaRefs()) == 1) 
-        assert(entity.getCanEnterExclusiveAreaRefs()[0].dest == "EXCLUSIVE-AREA")
-        assert(entity.getCanEnterExclusiveAreaRefs()[0].value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
-        assert(entity.implementedEntryRef.dest == "BSW-MODULE-ENTRY")
-        assert(entity.implementedEntryRef.value == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
+        assert(entity.getCanEnterExclusiveAreaRefs()[0].getDest() == "EXCLUSIVE-AREA")
+        assert(entity.getCanEnterExclusiveAreaRefs()[0].getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA")
+        assert(entity.implementedEntryRef.getDest() == "BSW-MODULE-ENTRY")
+        assert(entity.implementedEntryRef.getValue() == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
         assert(len(behavior.getBswTimingEvents()) == 1)
         event = behavior.getBswTimingEvents()[0]
         assert(event.short_name == "TimingEvent_MainFunction")
-        assert(event.startsOnEventRef.dest == "BSW-SCHEDULABLE-ENTITY")
-        assert(event.startsOnEventRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
+        assert(event.startsOnEventRef.getDest() == "BSW-SCHEDULABLE-ENTITY")
+        assert(event.startsOnEventRef.getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
         assert(event.period.getValue() == 0.02)
         assert(event.period.getText() == "0.02")
         assert(event.periodMs == 20)
@@ -98,21 +98,21 @@ class TestBswMD:
         entries = sorted(pkg.getBswModuleEntries(), key= lambda entry: entry.short_name)
         assert(len(entries) == 2)
 
-        assert(entries[0].short_name == "BswM_Init")
-        assert(entries[0].service_id._value == 0)
-        assert(entries[0].is_reentrant.value == False)
-        assert(entries[0].is_synchronous.value == True)
-        assert(entries[0].call_type.getText() == "REGULAR")
-        assert(entries[0].execution_context.getText() == "UNSPECIFIED")
-        assert(entries[0].sw_service_impl_policy.getText() == "STANDARD")
+        assert(entries[0].getShortName() == "BswM_Init")
+        assert(entries[0].getServiceId().getValue() == 0)
+        assert(entries[0].getIsReentrant().getValue() == False)
+        assert(entries[0].getIsSynchronous().getValue() == True)
+        assert(entries[0].getCallType().getText() == "REGULAR")
+        assert(entries[0].getExecutionContext().getText() == "UNSPECIFIED")
+        assert(entries[0].getSwServiceImplPolicy().getText() == "STANDARD")
 
-        assert(entries[1].short_name == "BswM_MainFunction")
-        assert(entries[1].service_id._value == 3)
-        assert(entries[1].is_reentrant.value == False)
-        assert(entries[1].is_synchronous.value == True)
-        assert(entries[1].call_type.getText() == "SCHEDULED")
-        assert(entries[1].execution_context.getText() == "TASK")
-        assert(entries[1].sw_service_impl_policy.getText() == "STANDARD")
+        assert(entries[1].getShortName() == "BswM_MainFunction")
+        assert(entries[1].getServiceId().getValue() == 3)
+        assert(entries[1].getIsReentrant().getValue() == False)
+        assert(entries[1].getIsSynchronous().getValue() == True)
+        assert(entries[1].getCallType().getText() == "SCHEDULED")
+        assert(entries[1].getExecutionContext().getText() == "TASK")
+        assert(entries[1].getSwServiceImplPolicy().getText() == "STANDARD")
 
     def test_bsw_module_swc_bsw_mapping(self):
         document = AUTOSAR.getInstance()
@@ -121,15 +121,15 @@ class TestBswMD:
         mappings = pkg.getSwcBswMappings()
         assert(len(mappings) == 1)
 
-        assert(mappings[0].bswBehaviorRef.dest == "BSW-INTERNAL-BEHAVIOR")
-        assert(mappings[0].bswBehaviorRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        assert(mappings[0].bswBehaviorRef.getDest() == "BSW-INTERNAL-BEHAVIOR")
+        assert(mappings[0].bswBehaviorRef.getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
         
         assert(len(mappings[0].getRunnableMappings()) == 1)
         runnable_mapping = mappings[0].getRunnableMappings()[0]
-        assert(runnable_mapping.bswEntityRef.dest == "BSW-SCHEDULABLE-ENTITY")
-        assert(runnable_mapping.bswEntityRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
-        assert(runnable_mapping.swcRunnableRef.dest == "RUNNABLE-ENTITY")
-        assert(runnable_mapping.swcRunnableRef.value == "/AUTOSAR_BswM/SwComponentTypes/BswM/BswMInternalBehavior/RES_MainFunction")
+        assert(runnable_mapping.getBswEntityRef().getDest() == "BSW-SCHEDULABLE-ENTITY")
+        assert(runnable_mapping.getBswEntityRef().getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/BswM_MainFunction")
+        assert(runnable_mapping.getSwcRunnableRef().getDest() == "RUNNABLE-ENTITY")
+        assert(runnable_mapping.getSwcRunnableRef().getValue() == "/AUTOSAR_BswM/SwComponentTypes/BswM/BswMInternalBehavior/RES_MainFunction")
 
     def test_bsw_module_implementation(self):
         document = AUTOSAR.getInstance()
@@ -161,22 +161,22 @@ class TestBswMD:
         section = impl.resourceConsumption.getMemorySection("CODE")
         assert(section.short_name == "CODE")
         assert(section.alignment == None)
-        assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
-        assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
+        assert(section.swAddrMethodRef.getDest() == "SW-ADDR-METHOD")
+        assert(section.swAddrMethodRef.getValue() == "/AUTOSAR_MemMap/SwAddrMethods/CODE")
 
         section = impl.resourceConsumption.getMemorySection("VAR_NO_INIT_UNSPECIFIED")
         assert(section.short_name == "VAR_NO_INIT_UNSPECIFIED")
         assert(section.alignment.getText() == "UNSPECIFIED")
-        assert(section.swAddrMethodRef.dest == "SW-ADDR-METHOD")
-        assert(section.swAddrMethodRef.value == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT")
+        assert(section.swAddrMethodRef.getDest() == "SW-ADDR-METHOD")
+        assert(section.swAddrMethodRef.getValue() == "/AUTOSAR_MemMap/SwAddrMethods/VAR_NOINIT")
 
         assert(impl.vendorId.getValue() == 1)
         assert(impl.swVersion.getValue() == "1.14.1")
-        assert(impl.swcBswMappingRef.dest == "SWC-BSW-MAPPING")
-        assert(impl.swcBswMappingRef.value == "/AUTOSAR_BswM/SwcBswMappings/SwcBswMapping_0")
+        assert(impl.swcBswMappingRef.getDest() == "SWC-BSW-MAPPING")
+        assert(impl.swcBswMappingRef.getValue() == "/AUTOSAR_BswM/SwcBswMappings/SwcBswMapping_0")
         assert(impl.arReleaseVersion.getValue() == "4.0.3")
-        assert(impl.behaviorRef.dest == "BSW-INTERNAL-BEHAVIOR")
-        assert(impl.behaviorRef.value == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        assert(impl.behaviorRef.getDest() == "BSW-INTERNAL-BEHAVIOR")
+        assert(impl.behaviorRef.getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
 
     
     def test_load_save(self):

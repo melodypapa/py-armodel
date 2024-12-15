@@ -1,4 +1,5 @@
 from typing import Dict, List
+
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
@@ -13,6 +14,7 @@ from .....M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from .....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
+from .....M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Identifiable, Referrable
@@ -31,7 +33,7 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcIm
 from .....M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
-from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, SenderReceiverInterface, TriggerInterface
+from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
 from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
 from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
@@ -184,6 +186,12 @@ class ARPackage(Identifiable, CollectableElement):
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
         if (short_name not in self.elements):
             set = LifeCycleInfoSet(self, short_name)
+            self.addElement(set)
+        return self.getElement(short_name)
+    
+    def createFlatMap(self, short_name: str) -> FlatMap:
+        if (short_name not in self.elements):
+            set = FlatMap(self, short_name)
             self.addElement(set)
         return self.getElement(short_name)
 
@@ -455,6 +463,18 @@ class ARPackage(Identifiable, CollectableElement):
         if (short_name not in self.elements):
             element = System(self, short_name)
             self.addElement(element)
+        return self.getElement(short_name)
+    
+    def createFlatMap(self, short_name: str) -> FlatMap:
+        if (short_name not in self.elements):
+            map = FlatMap(self, short_name)
+            self.addElement(map)
+        return self.getElement(short_name)
+    
+    def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
+        if (short_name not in self.elements):
+            map = PortInterfaceMappingSet(self, short_name)
+            self.addElement(map)
         return self.getElement(short_name)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:

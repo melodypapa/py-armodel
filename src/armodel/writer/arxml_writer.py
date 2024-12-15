@@ -2,10 +2,12 @@ import xml.etree.cElementTree as ET
 
 from typing import List
 
+
+
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
-from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
+from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg
 from ..models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
@@ -13,8 +15,9 @@ from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValu
 from ..models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from ..models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
-from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, ValueList
+from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, ValueList
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
+from ..models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ListElement
@@ -25,20 +28,21 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswEvent, BswInternalBehavior, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, NvBlockNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
-
+from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable, Referrable
@@ -46,7 +50,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyI
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
@@ -69,7 +73,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ClientServerInterface, ClientServerOperation, ModeSwitchInterface, ParameterInterface, PortInterface, SenderReceiverInterface, TriggerInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ClientServerInterface, ClientServerOperation, DataPrototypeMapping, ModeSwitchInterface, ParameterInterface, PortInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface, VariableAndParameterInterfaceMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
@@ -127,7 +131,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for sdg in sdgs:
                 self.setSdg(sdgs_tag, sdg)
     
-    def writeChildLimitElement(self, element: ET.Element, key: str, limit: Limit):
+    def setChildLimitElement(self, element: ET.Element, key: str, limit: Limit):
         if limit is not None:
             limit_tag = ET.SubElement(element, key)
             self.setARObjectAttributes(limit_tag, limit)
@@ -222,7 +226,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NONQUEUED-SENDER-COM-SPEC")
         self.setARObjectAttributes(child_element, com_spec)
         self.setSenderComSpec(child_element, com_spec)
-        self.setInitValue(child_element, com_spec.initValue)
+        self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
             
     def setServerComSpec(self, element: ET.Element, com_spec: ServerComSpec):
         child_element = ET.SubElement(element, "SERVER-COM-SPEC")
@@ -297,9 +301,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if cont is not None:
             child_element = ET.SubElement(element, "SW-VALUE-CONT")
             self.setARObjectAttributes(child_element, cont)
-            self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unit_ref)
-            self.setValueList(child_element, "SW-ARRAYSIZE", cont.sw_arraysize)
-            self.setSwValues(child_element, "SW-VALUES-PHYS", cont.sw_values_phys)
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unitRef)
+            self.setValueList(child_element, "SW-ARRAYSIZE", cont.swArraysize)
+            self.setSwValues(child_element, "SW-VALUES-PHYS", cont.swValuesPhys)
 
     def writeValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         if value_spec is not None:
@@ -350,37 +354,34 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeValueSpecification(value_spec_tag, value_spec)
         self.setChildElementOptionalRefType(value_spec_tag, "CONSTANT-REF", value_spec.getConstantRef())
 
-    def setValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
+    def setValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
         if value_spec is not None:
+            child_element = ET.SubElement(element, key)
             if isinstance(value_spec, ApplicationValueSpecification):
-                self.setApplicationValueSpecification(element, value_spec)
+                self.setApplicationValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, TextValueSpecification):
-                self.setTextValueSpecification(element, value_spec)
+                self.setTextValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ConstantReference):
-                self.setConstantReference(element, value_spec)
+                self.setConstantReference(child_element, value_spec)
             elif isinstance(value_spec, NumericalValueSpecification):
-                self.setNumericalValueSpecification(element, value_spec)
+                self.setNumericalValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ArrayValueSpecification):
-                self.setArrayValueSpecification(element, value_spec)
+                self.setArrayValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, RecordValueSpecification):
-                self.setRecordValueSpecification(element, value_spec)
+                self.setRecordValueSpecification(child_element, value_spec)
             else:
                 self.notImplemented("Unsupported ValueSpecification %s" % type(value_spec))
-
-    def setInitValue(self, element: ET.Element, init_value: ValueSpecification):
-        if init_value is not None:
-            child_element = ET.SubElement(element, "INIT-VALUE")
-            self.setValueSpecification(child_element, init_value)
 
     def writeNonqueuedReceiverComSpec(self, element: ET.Element, com_spec: NonqueuedReceiverComSpec):
         child_element = ET.SubElement(element, "NONQUEUED-RECEIVER-COM-SPEC")
         self.setARObjectAttributes(child_element, com_spec)
         self.writeReceiverComSpec(child_element, com_spec)
-        self.setChildElementOptionalFloatValue(child_element, "ALIVE-TIMEOUT", com_spec.aliveTimeout)
-        self.setChildElementOptionalBooleanValue(child_element, "ENABLE-UPDATE", com_spec.enableUpdated)
-        self.setChildElementOptionalBooleanValue(child_element, "HANDLE-NEVER-RECEIVED", com_spec.handleNeverReceived)
-        self.setChildElementOptionalLiteral(child_element, "HANDLE-TIMEOUT-TYPE", com_spec.handleTimeoutType)
-        self.setInitValue(child_element, com_spec.initValue)
+        self.setChildElementOptionalFloatValue(child_element, "ALIVE-TIMEOUT", com_spec.getAliveTimeout())
+        self.setChildElementOptionalBooleanValue(child_element, "ENABLE-UPDATE", com_spec.getEnableUpdated())
+        self.setDataFilter(child_element, "FILTER", com_spec.getFilter())
+        self.setChildElementOptionalBooleanValue(child_element, "HANDLE-NEVER-RECEIVED", com_spec.getHandleNeverReceived())
+        self.setChildElementOptionalLiteral(child_element, "HANDLE-TIMEOUT-TYPE", com_spec.getHandleTimeoutType())
+        self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
 
     def writeQueuedReceiverComSpec(self, element: ET.Element, com_spec: QueuedReceiverComSpec):
         child_element = ET.SubElement(element, "QUEUED-RECEIVER-COM-SPEC")
@@ -398,8 +399,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeParameterRequireComSpec")
         child_element = ET.SubElement(element, "PARAMETER-REQUIRE-COM-SPEC")
         self.setARObjectAttributes(child_element, com_spec)
-        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.parameter_ref)
-        self.setInitValue(child_element, com_spec.init_value)
+        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.getParameterRef())
+        self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
 
     def writeModeSwitchReceiverComSpec(self, element: ET.Element, com_spec: ModeSwitchReceiverComSpec):
         self.logger.debug("writeModeSwitchReceiverComSpec")
@@ -432,7 +433,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         prototype_tag = ET.SubElement(ports_tag, "P-PORT-PROTOTYPE")
 
         self.setIdentifiable(prototype_tag, prototype)
-        self.logger.debug("write PPortPrototype %s" % prototype.short_name)
+        self.logger.debug("write PPortPrototype %s" % prototype.getShortName())
         self.setAbstractProvidedPortPrototype(prototype_tag, prototype)
         self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-INTERFACE-TREF", prototype.getProvidedInterfaceTRef())
 
@@ -444,14 +445,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeRPortComSpec(com_specs_tag, com_spec)  
 
     def writeRPortPrototype(self, ports_tag: ET.Element, prototype: RPortPrototype):
-        self.logger.debug("write RPortPrototype %s" % prototype.short_name)
+        self.logger.debug("write RPortPrototype %s" % prototype.getShortName())
         prototype_tag = ET.SubElement(ports_tag, "R-PORT-PROTOTYPE")
         self.setIdentifiable(prototype_tag, prototype)
         self.setAbstractRequiredPortPrototype(prototype_tag, prototype)
         self.setChildElementOptionalRefType(prototype_tag, "REQUIRED-INTERFACE-TREF", prototype.getRequiredInterfaceTRef())
 
     def writePRPortPrototype(self, ports_tag: ET.Element, prototype: PRPortPrototype):
-        self.logger.debug("write PRPortPrototype %s" % prototype.short_name)
+        self.logger.debug("write PRPortPrototype %s" % prototype.getShortName())
         prototype_tag = ET.SubElement(ports_tag, "PR-PORT-PROTOTYPE")
         self.setIdentifiable(prototype_tag, prototype)
         self.setAbstractProvidedPortPrototype(prototype_tag, prototype)
@@ -490,7 +491,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", ref)
 
     def writePortGroup(self, element: ET.Element, port_group: PortGroup):
-        self.logger.debug("writePortGroup %s" % port_group.short_name)
+        self.logger.debug("writePortGroup %s" % port_group.getShortName())
         child_element = ET.SubElement(element, "PORT-GROUP")
         self.setIdentifiable(child_element, port_group)
         self.writePortGroupInnerGroupIRefs(child_element, port_group)
@@ -524,18 +525,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwComponentPrototype(components_tag, prototype)
 
     def writeAssemblySwConnector(self, element: ET.Element, sw_connector: AssemblySwConnector):
-        connector_tag = ET.SubElement(element, "ASSEMBLY-SW-CONNECTOR")
-        self.setIdentifiable(connector_tag, sw_connector)
+        child_element = ET.SubElement(element, "ASSEMBLY-SW-CONNECTOR")
+        self.setIdentifiable(child_element, sw_connector)
+        self.setChildElementOptionalRefType(child_element, "MAPPING-REF", sw_connector.getMappingRef())
 
         if sw_connector.getProviderIRef() is not None:
-            provider_iref_tag = ET.SubElement(connector_tag, "PROVIDER-IREF")
+            provider_iref_tag = ET.SubElement(child_element, "PROVIDER-IREF")
             provider_iref = sw_connector.getProviderIRef()
             self.setARObjectAttributes(provider_iref_tag, provider_iref)
             self.setChildElementOptionalRefType(provider_iref_tag, "CONTEXT-COMPONENT-REF", provider_iref.getContextComponentRef())
             self.setChildElementOptionalRefType(provider_iref_tag, "TARGET-P-PORT-REF", provider_iref.getTargetPPortRef())
 
         if sw_connector.getRequesterIRef() is not None:
-            requester_iref_tag = ET.SubElement(connector_tag, "REQUESTER-IREF")
+            requester_iref_tag = ET.SubElement(child_element, "REQUESTER-IREF")
             requester_iref = sw_connector.getRequesterIRef()
             self.setARObjectAttributes(requester_iref_tag, requester_iref)
             self.setChildElementOptionalRefType(requester_iref_tag, "CONTEXT-COMPONENT-REF", requester_iref.getContextComponentRef())
@@ -681,32 +683,35 @@ class ARXMLWriter(AbstractARXMLWriter):
             for axis in axises:
                 self.setSwCalprmAxis(child_element, axis)
 
-    def writeSwDataDefProsInvalidValue(self, element: ET.Element, props: SwDataDefProps):
-        if props.getInvalidValue() is not None:
-            child_element = ET.SubElement(element, "INVALID-VALUE")
-            self.setValueSpecification(child_element, props.getInvalidValue()) 
-
-    def setSwDataDefProps(self, element: ET.Element, key: str, sw_data_def_props: SwDataDefProps):
-        if sw_data_def_props is not None:
+    def setSwPointerTargetProps(self, element: ET.Element, key: str, props: SwPointerTargetProps):
+        if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setARObjectAttributes(child_element, sw_data_def_props)
+            self.setChildElementOptionalLiteral(child_element, "TARGET-CATEGORY", props.getTargetCategory())
+            self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
+
+    def setSwDataDefProps(self, element: ET.Element, key: str, props: SwDataDefProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, props)
             sw_data_def_props_variants_tag = ET.SubElement(child_element, "SW-DATA-DEF-PROPS-VARIANTS")
-            sw_data_def_props_conditional_tag = ET.SubElement(sw_data_def_props_variants_tag, "SW-DATA-DEF-PROPS-CONDITIONAL")
-            self.setARObjectAttributes(sw_data_def_props_conditional_tag, sw_data_def_props.conditional)
-            self.setAnnotations(sw_data_def_props_conditional_tag, sw_data_def_props.getAnnotations())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "BASE-TYPE-REF", sw_data_def_props.getBaseTypeRef())
-            self.writeSwDataDefProsInvalidValue(sw_data_def_props_conditional_tag, sw_data_def_props)
-            self.setChildElementOptionalLiteral(sw_data_def_props_conditional_tag, "SW-CALIBRATION-ACCESS", sw_data_def_props.getSwCalibrationAccess())
-            self.setSwCalprmAxisSet(sw_data_def_props_conditional_tag, "SW-CALPRM-AXIS-SET", sw_data_def_props.getSwCalprmAxisSet())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "COMPU-METHOD-REF", sw_data_def_props.getCompuMethodRef())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "DATA-CONSTR-REF", sw_data_def_props.getDataConstrRef())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "SW-ADDR-METHOD-REF", sw_data_def_props.getSwAddrMethodRef())
-            self.setChildElementOptionalLiteral(sw_data_def_props_conditional_tag, "SW-IMPL-POLICY", sw_data_def_props.getSwImplPolicy())
-            self.setChildElementOptionalNumericalValue(sw_data_def_props_conditional_tag, "SW-INTENDED-RESOLUTION", sw_data_def_props.getSwIntendedResolution())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", sw_data_def_props.getImplementationDataTypeRef())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "SW-RECORD-LAYOUT-REF", sw_data_def_props.getSwRecordLayoutRef())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", sw_data_def_props.getValueAxisDataTypeRef())
-            self.setChildElementOptionalRefType(sw_data_def_props_conditional_tag, "UNIT-REF", sw_data_def_props.getUnitRef())
+            conditional_tag = ET.SubElement(sw_data_def_props_variants_tag, "SW-DATA-DEF-PROPS-CONDITIONAL")
+            self.setARObjectAttributes(conditional_tag, props.conditional)
+            self.setAnnotations(conditional_tag, props.getAnnotations())
+            self.setChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF", props.getBaseTypeRef())
+            self.setChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF", props.getCompuMethodRef())
+            self.setChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF", props.getDataConstrRef())
+            self.setValueSpecification(conditional_tag, "INVALID-VALUE", props.getInvalidValue())
+            self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
+            self.setChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE", props.getStepSize())
+            self.setChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF", props.getSwAddrMethodRef())
+            self.setChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess())
+            self.setSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET", props.getSwCalprmAxisSet())
+            self.setChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY", props.getSwImplPolicy())
+            self.setChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION", props.getSwIntendedResolution())
+            self.setSwPointerTargetProps(conditional_tag, "SW-POINTER-TARGET-PROPS", props.getSwPointerTargetProps())
+            self.setChildElementOptionalRefType(conditional_tag, "SW-RECORD-LAYOUT-REF", props.getSwRecordLayoutRef())
+            self.setChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", props.getValueAxisDataTypeRef())
+            self.setChildElementOptionalRefType(conditional_tag, "UNIT-REF", props.getUnitRef())
 
     def setApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
         self.setAutosarDataType(element, data_type)
@@ -718,7 +723,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setARElement(element, data_type)
         self.setSwDataDefProps(element, "SW-DATA-DEF-PROPS", data_type.getSwDataDefProps())
 
-    def writeApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
+    def setApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
         self.logger.debug("writeApplicationPrimitiveDataType %s" % data_type.getShortName())
         data_type_tag = ET.SubElement(element, "APPLICATION-PRIMITIVE-DATA-TYPE")
         self.setApplicationDataType(data_type_tag, data_type)
@@ -741,7 +746,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(elements_tag, "APPLICATION-RECORD-ELEMENT")
                 self.setApplicationRecordElement(child_element, record)
 
-    def writeApplicationRecordDataType(self, element: ET.Element, data_type: ApplicationRecordDataType):
+    def setApplicationRecordDataType(self, element: ET.Element, data_type: ApplicationRecordDataType):
         data_type_tag = ET.SubElement(element, "APPLICATION-RECORD-DATA-TYPE")
         self.setApplicationDataType(data_type_tag, data_type)
         self.writeApplicationRecordElements(data_type_tag, data_type)
@@ -749,9 +754,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeApplicationDataTypes(self, parent: ET.Element, ar_package: ARPackage):
         for data_type in ar_package.getApplicationDataType():
             if isinstance(data_type, ApplicationPrimitiveDataType):
-                self.writeApplicationPrimitiveDataType(parent, data_type)
+                self.setApplicationPrimitiveDataType(parent, data_type)
             elif isinstance(data_type, ApplicationRecordDataType):
-                self.writeApplicationRecordDataType(parent, data_type)
+                self.setApplicationRecordDataType(parent, data_type)
             else:
                 self.notImplemented("Unsupported ApplicationDataType <%s>" % type(data_type))
 
@@ -761,7 +766,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(element, "MEM-ALIGNMENT", base_type_definition.memAlignment)
         self.setChildElementOptionalLiteral(element, "NATIVE-DECLARATION", base_type_definition.nativeDeclaration)
 
-    def writeSwBaseType(self, element: ET.Element, base_type: SwBaseType):
+    def setSwBaseType(self, element: ET.Element, base_type: SwBaseType):
         data_type_tag = ET.SubElement(element, "SW-BASE-TYPE")
         self.setIdentifiable(data_type_tag, base_type)
         self.writeBaseTypeDirectDefinition(data_type_tag, base_type.baseTypeDefinition)
@@ -793,48 +798,49 @@ class ARXMLWriter(AbstractARXMLWriter):
         else:
             self.notImplemented("Unsupported CompuScaleContents %s" % type(compu_scale.compuScaleContents))
 
-    def writeCompuScales(self, element: ET.Element, compu_scales: CompuScales):
-        compu_scales_tag = ET.SubElement(element, "COMPU-SCALES")
-        for compu_scale in compu_scales.getCompuScales():
-            child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
-            self.setARObjectAttributes(child_element, compu_scale)
-            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
-            self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
-            self.writeChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.getLowerLimit())
-            self.writeChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.getUpperLimit())
-            self.writeCompuScaleContents(child_element, compu_scale)
+    def setCompuConstContent(self, element: ET.Element, content: CompuConstContent):
+        if content is not None:
+            if isinstance(content, CompuConstFormulaContent):
+                self.setChildElementOptionalLiteral(element, "VF", content.getVf())
+            elif isinstance(content, CompuConstNumericContent):
+                self.setChildElementOptionalNumericalValue(element, "V", content.getV())
+            elif isinstance(content, CompuConstTextContent):
+                self.setChildElementOptionalLiteral(element, "VT", content.getVt())
+            else:
+                self.notImplemented("Unsupported CompuConstContent <%s>" % type(content))
 
-    def writeCompuInternalToPhys(self, element: ET.Element, compu_method: CompuMethod):
-        compu = compu_method.getCompuInternalToPhys()
+    def setCompuScales(self, element: ET.Element, compu_scales: CompuScales):
+        if compu_scales is not None:
+            compu_scales_tag = ET.SubElement(element, "COMPU-SCALES")
+            for compu_scale in compu_scales.getCompuScales():
+                child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
+                self.setARObjectAttributes(child_element, compu_scale)
+                self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
+                self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
+                self.setChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.getLowerLimit())
+                self.setChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.getUpperLimit())
+                self.writeCompuScaleContents(child_element, compu_scale)
+
+    def setCompuConst(self, element: ET.Element, key: str, compu_const: CompuConst):
+        if compu_const is not None:
+            child_element = ET.SubElement(element, key)
+            self.setARObjectAttributes(child_element, compu_const)
+            self.setCompuConstContent(child_element, compu_const.getCompuConstContentType())
+
+    def setCompu(self, element: ET.Element, key: str, compu: Compu):
         if  compu is not None:
-            child_element = ET.SubElement(element, "COMPU-INTERNAL-TO-PHYS")
+            child_element = ET.SubElement(element, key)
             self.setARObjectAttributes(child_element, compu)
-            compu_content = compu.getCompuContent()
-            if compu_content is not None:
-                if isinstance(compu_content, CompuScales):
-                    self.writeCompuScales(child_element, compu_content)
-                else:
-                    self.notImplemented("Unsupported CompuContent <%s>" % type(compu_content))
+            self.setCompuScales(child_element, compu.getCompuContent())
+            self.setCompuConst(child_element, "COMPU-DEFAULT-VALUE", compu.getCompuDefaultValue())
 
-    def writeCompuPhysToInternal(self, element: ET.Element, compu_method: CompuMethod):
-        compu = compu_method.getCompuPhysToInternal()
-        if  compu is not None:
-            child_element = ET.SubElement(element, "COMPU-PHYS-TO-INTERNAL")
-            self.setARObjectAttributes(child_element, compu)
-            compu_content = compu.getCompuContent()
-            if compu_content is not None:
-                if isinstance(compu_content, CompuScales):
-                    self.writeCompuScales(child_element, compu_content)
-                else:
-                    self.notImplemented("Unsupported CompuContent <%s>" % type(compu_content))
-
-    def writeCompuMethod(self, element: ET.Element, compu_method: CompuMethod):
+    def setCompuMethod(self, element: ET.Element, compu_method: CompuMethod):
         child_element = ET.SubElement(element, "COMPU-METHOD")
-        self.logger.debug("writeCompuMethods %s" % compu_method.getShortName())
+        self.logger.debug("write CompuMethods %s" % compu_method.getShortName())
         self.setIdentifiable(child_element, compu_method)
         self.setChildElementOptionalRefType(child_element, "UNIT-REF", compu_method.getUnitRef())
-        self.writeCompuInternalToPhys(child_element, compu_method)
-        self.writeCompuPhysToInternal(child_element, compu_method)
+        self.setCompu(child_element, "COMPU-INTERNAL-TO-PHYS", compu_method.getCompuInternalToPhys())
+        self.setCompu(child_element, "COMPU-PHYS-TO-INTERNAL", compu_method.getCompuPhysToInternal())
 
     def setApplicationValueSpecification(self, element: ET.Element, spec: ApplicationValueSpecification):
         spec_tag = ET.SubElement(element, "APPLICATION-VALUE-SPECIFICATION")
@@ -868,26 +874,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setIdentifiable(spec_tag, spec)
 
         if spec.getValueSpec() is not None:
-            value_spec_tag = ET.SubElement(spec_tag, "VALUE-SPEC")
-            self.setValueSpecification(value_spec_tag, spec.getValueSpec())
+            self.setValueSpecification(spec_tag, "VALUE-SPEC", spec.getValueSpec())
                 
     def setInternalConstrs(self, element: ET.Element, constrs: InternalConstrs):
         if constrs is not None:
             constrs_tag = ET.SubElement(element, "INTERNAL-CONSTRS")
             self.setARObjectAttributes(constrs_tag, constrs)
             if constrs.lower_limit is not None:
-                self.writeChildLimitElement(constrs_tag, "LOWER-LIMIT", constrs.lower_limit)
+                self.setChildLimitElement(constrs_tag, "LOWER-LIMIT", constrs.lower_limit)
             if constrs.upper_limit is not None:
-                self.writeChildLimitElement(constrs_tag, "UPPER-LIMIT", constrs.upper_limit)
+                self.setChildLimitElement(constrs_tag, "UPPER-LIMIT", constrs.upper_limit)
 
     def setPhysConstrs(self, element: ET.Element, constrs: PhysConstrs):
         if constrs is not None:
             child_element = ET.SubElement(element, "PHYS-CONSTRS")
             self.setARObjectAttributes(child_element, constrs)
             if constrs.lower_limit is not None:
-                self.writeChildLimitElement(child_element, "LOWER-LIMIT", constrs.lower_limit)
+                self.setChildLimitElement(child_element, "LOWER-LIMIT", constrs.lower_limit)
             if constrs.upper_limit is not None:
-                self.writeChildLimitElement(child_element, "UPPER-LIMIT", constrs.upper_limit)
+                self.setChildLimitElement(child_element, "UPPER-LIMIT", constrs.upper_limit)
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", constrs.unit_ref)
                 
     def writeDataConstrRules(self, element: ET.Element, parent: DataConstr):
@@ -907,7 +912,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDataConstrRules(child_element, constr) 
 
     def writeUnit(self, element: ET.Element, unit: Unit):
-        self.logger.debug("writeUnit %s" % unit.short_name)
+        self.logger.debug("writeUnit %s" % unit.getShortName())
         child_element = ET.SubElement(element, "UNIT")
         self.setIdentifiable(child_element, unit)
         self.setChildElementOptionalLiteral(child_element, "DISPLAY-NAME", unit.getDisplayName())
@@ -1064,9 +1069,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setIdentifiable(child_element, access)
         self.setAutosarVariableRef(child_element, access.getAccessedVariableRef())
 
-    def writeDataReadAccesses(self, element: ET.Element, entity: RunnableEntity):
-        #accesses = entity.getDataReadAccesses():
-        pass
+    
 
     def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: AutosarParameterRef):
         if parameter_ref is not None:
@@ -1099,12 +1102,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             for point in points:
                 self.setVariableAccess(child_element, point)
 
+    def writeDataReadAccesses(self, element: ET.Element, entity: RunnableEntity):
+        accesses = entity.getDataReadAccesses()
+        if len(accesses) > 0:
+            child_element = ET.SubElement(element, "DATA-READ-ACCESSS")
+            for access in accesses:
+                self.setVariableAccess(child_element, access)
+
     def writeDataWriteAccesses(self, element: ET.Element, entity: RunnableEntity):
-        points = entity.getDataWriteAccesses()
-        if len(points) > 0:
+        accesses = entity.getDataWriteAccesses()
+        if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-WRITE-ACCESSS")
-            for point in points:
-                self.setVariableAccess(child_element, point)
+            for access in accesses:
+                self.setVariableAccess(child_element, access)
 
     def writeReadLocalVariables(self, element: ET.Element, entity: RunnableEntity):
         variables = entity.getReadLocalVariables()
@@ -1214,6 +1224,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAsynchronousServerCallResultPoint(child_element, entity)
             self.setChildElementOptionalBooleanValue(child_element, "CAN-BE-INVOKED-CONCURRENTLY", entity.getCanBeInvokedConcurrently())
             self.writeParameterAccesses(child_element, entity)
+            self.writeDataReadAccesses(child_element, entity)
             self.writeDataReceivePointByArguments(child_element, entity)
             self.writeDataSendPoints(child_element, entity)
             self.writeDataWriteAccesses(child_element, entity)
@@ -1260,7 +1271,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PARAMETER-DATA-PROTOTYPE")
         self.setIdentifiable(child_element, prototype)
         self.setAutosarDataPrototype(child_element, prototype)
-        self.setInitValue(child_element, prototype.getInitValue())
+        self.setValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
 
     def writePerInstanceParameters(self, element: ET.Element, behavior: SwcInternalBehavior):
         prototypes = behavior.getPerInstanceParameters()
@@ -1269,16 +1280,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             for prototype in prototypes:
                 self.writeParameterDataPrototype(child_element, prototype)
 
-    def writePortDefinedArgumentValues(self, element: ET.Element, option: PortAPIOption) :
-        argument_values = option.getPortArgValues()
+    def writePortDefinedArgumentValues(self, element: ET.Element, argument_values: List[PortDefinedArgumentValue]) :
         if len(argument_values) > 0:
             child_element = ET.SubElement(element, "PORT-ARG-VALUES")
             for argument_value in argument_values:
                 child_element = ET.SubElement(child_element, "PORT-DEFINED-ARGUMENT-VALUE")
-                if argument_value.value is not None:
-                    value_tag = ET.SubElement(child_element, "VALUE")
-                    self.setValueSpecification(value_tag, argument_value.value)
-                self.setChildElementOptionalRefType(child_element, "VALUE-TYPE-TREF", argument_value.valueTypeTRef)
+                if argument_value.getValue() is not None:
+                    self.setValueSpecification(child_element, "VALUE", argument_value.getValue())
+                self.setChildElementOptionalRefType(child_element, "VALUE-TYPE-TREF", argument_value.getValueTypeTRef())
 
     def writePortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
         options = behavior.getPortAPIOptions()
@@ -1286,10 +1295,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             port_api_options_tag = ET.SubElement(element, "PORT-API-OPTIONS")
             for option in options:
                 child_element = ET.SubElement(port_api_options_tag, "PORT-API-OPTION")
-                self.setChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS", option.enableTakeAddress)
-                self.setChildElementOptionalBooleanValue(child_element, "INDIRECT-API", option.indirectAPI)
-                self.writePortDefinedArgumentValues(child_element, option)
-                self.setChildElementOptionalRefType(child_element, "PORT-REF", option.portRef)
+                self.setChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS", option.getEnableTakeAddress())
+                self.setChildElementOptionalLiteral(child_element, "ERROR-HANDLING", option.getErrorHandling())
+                self.setChildElementOptionalBooleanValue(child_element, "INDIRECT-API", option.getIndirectAPI())
+                self.writePortDefinedArgumentValues(child_element, option.getPortArgValues())
+                self.setChildElementOptionalRefType(child_element, "PORT-REF", option.getPortRef())
 
     def writeRoleBasedDataTypeAssignment(self, element: ET.Element, assignment: RoleBasedDataTypeAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-TYPE-ASSIGNMENT")
@@ -1343,7 +1353,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         child_element = ET.SubElement(element, "NV-BLOCK-NEEDS")
-        self.logger.debug("write NvBlockNeeds %s" % needs.short_name)
+        self.logger.debug("write NvBlockNeeds %s" % needs.getShortName())
         self.setIdentifiable(child_element, needs)
         self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
         self.setChildElementOptionalBooleanValue(child_element, "CHECK-STATIC-BLOCK-ID", needs.getCheckStaticBlockId())
@@ -1366,20 +1376,20 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
-        self.logger.debug("write DiagnosticCommunicationManagerNeeds %s" % needs.short_name)
+        self.logger.debug("write DiagnosticCommunicationManagerNeeds %s" % needs.getShortName())
         self.setIdentifiable(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType()) 
     
     def writeDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-NEEDS")
-        self.logger.debug("write DiagnosticRoutineNeeds %s" % needs.short_name)
+        self.logger.debug("write DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.setIdentifiable(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType())
         self.setChildElementOptionalIntegerValue(child_element, "RID-NUMBER", needs.getRidNumber())
 
     def writeDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-VALUE-NEEDS")
-        self.logger.debug("write DiagnosticValueNeeds %s" % needs.short_name)
+        self.logger.debug("write DiagnosticValueNeeds %s" % needs.getShortName())
         self.setIdentifiable(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", needs.getDataLength())
         self.setChildElementOptionalLiteral(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess())
@@ -1402,7 +1412,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-NEEDS")
-        self.logger.debug("write DiagnosticEventNeeds %s" % needs.short_name)
+        self.logger.debug("write DiagnosticEventNeeds %s" % needs.getShortName())
         self.setIdentifiable(child_element, needs)
         self.writeDiagEventDebounceAlgorithm(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
@@ -1410,9 +1420,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
-        self.logger.debug("write CryptoServiceNeeds %s" % needs.short_name)
+        self.logger.debug("write CryptoServiceNeeds %s" % needs.getShortName())
         self.setIdentifiable(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
+
+    def writeEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
+        child_element = ET.SubElement(element, "ECU-STATE-MGR-USER-NEEDS")
+        self.logger.debug("write EcuStateMgrUserNeeds %s" % needs.getShortName())
+        self.setIdentifiable(child_element, needs)
 
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         needs = parent.getServiceNeeds()
@@ -1431,6 +1446,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticEventNeeds(child_element, need)
                 elif isinstance(need, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, need)
+                elif isinstance(need, EcuStateMgrUserNeeds):
+                    self.writeEcuStateMgrUserNeeds(child_element, need)
                 else:
                     self._raiseError("Unsupported service needs <%s>" % type(need))                  
 
@@ -1464,20 +1481,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                         self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
 
     def writeSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
-        self.logger.debug("writeSwInternalBehavior %s" % behavior.short_name)
+        self.logger.debug("writeSwInternalBehavior %s" % behavior.getShortName())
 
         child_element = ET.SubElement(element, "SWC-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
         self.writeRTEEvents(child_element, behavior)
         self.writeExplicitInterRunnableVariables(child_element, behavior)
-        self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.handle_termination_and_restart)
+        self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.handleTerminationAndRestart)
         self.setIncludedDataTypeSets(child_element, behavior.getIncludedDataTypeSets())
         self.writePerInstanceMemories(child_element, behavior)
         self.writePerInstanceParameters(child_element, behavior)
         self.writePortAPIOptions(child_element, behavior)
         self.writeSwcInternalBehaviorRunnableEntities(child_element, behavior)
         self.writeSwcInternalBehaviorServiceDependencies(child_element, behavior)
-        self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-MULTIPLE-INSTANTIATION", behavior.supports_multiple_instantiation)
+        self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-MULTIPLE-INSTANTIATION", behavior.supportsMultipleInstantiation)
 
     def writeAtomicSwComponentTypeInternalBehaviors(self, element: ET.Element, behavior: InternalBehavior):
         if behavior is not None:
@@ -1492,7 +1509,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeAtomicSwComponentTypeInternalBehaviors(element, sw_component.internal_behavior)
 
     def writeComplexDeviceDriverSwComponentType(self, element: ET.Element, sw_component: ComplexDeviceDriverSwComponentType):
-        self.logger.debug("writeComplexDeviceDriverSwComponentType %s" % sw_component.short_name)
+        self.logger.debug("writeComplexDeviceDriverSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
 
@@ -1508,7 +1525,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalLiteral(artifact_desc_tag, "CATEGORY", artifact_desc.category)
 
     def setCode(self, element: ET.SubElement, code_desc: Code):
-        self.logger.debug("setCode %s" % code_desc.short_name)
+        self.logger.debug("setCode %s" % code_desc.getShortName())
         child_element = ET.SubElement(element, "CODE")
         self.setIdentifiable(child_element, code_desc)
         self.writeArtifactDescriptor(child_element, code_desc)
@@ -1542,13 +1559,33 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalNumericalValue(child_element, "SIZE", memory_section.getSize())
                 self.setChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF", memory_section.getSwAddrMethodRef())
                 self.setChildElementOptionalLiteral(child_element, "SYMBOL", memory_section.getSymbol())
-                self.logger.debug("write MemorySection %s" % memory_section.getShortName())
+                self.logger.debug("Write MemorySection %s" % memory_section.getShortName())
+
+    def setStackUsage(self, element: ET.Element, usage: StackUsage):
+        self.logger.debug("Write StackUsage %s" % usage.getShortName())
+        self.setIdentifiable(element, usage)
+
+    def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
+        if usage is not None:
+            child_element = ET.SubElement(element, "ROUGH-ESTIMATE-STACK-USAGE")
+            self.setStackUsage(child_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def writeStackUsages(self, element: ET.Element, usages: List[StackUsage]):
+        if len(usages) > 0:
+            child_element = ET.SubElement(element, "STACK-USAGES")
+            for usage in usages:
+                if isinstance(usage, RoughEstimateStackUsage):
+                    self.setRoughEstimateStackUsage(child_element, usage)
+                else:
+                    self.notImplemented("Unsupported Stack Usages: <%s>" % type(usage))
 
     def setResourceConsumption(self, element: ET.Element, consumption: ResourceConsumption):
         if consumption is not None:
             child_element = ET.SubElement(element, "RESOURCE-CONSUMPTION")
             self.setIdentifiable(child_element, consumption)
             self.writeMemorySections(child_element, consumption)
+            self.writeStackUsages(child_element, consumption.getStackUsages())
 
     def writeImplementation(self, element: ET.Element, impl: Implementation):
         self.setIdentifiable(element, impl)
@@ -1561,7 +1598,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", impl.getVendorId())
 
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
-        self.logger.debug("writeSwcImplementation %s" % impl.short_name)
+        self.logger.debug("writeSwcImplementation %s" % impl.getShortName())
         child_element = ET.SubElement(element, "SWC-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
@@ -1627,7 +1664,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setEndToEndProtection(child_element, protection)
 
     def writeEndToEndProtectionSet(self, element: ET.Element, protection_set: EndToEndProtectionSet):
-        self.logger.debug("writeEndToEndProtectionSet %s" % protection_set.short_name)
+        self.logger.debug("writeEndToEndProtectionSet %s" % protection_set.getShortName())
         child_element = ET.SubElement(element, "END-TO-END-PROTECTION-SET")
         self.setIdentifiable(child_element, protection_set)
         self.writeEndToEndProtections(child_element, protection_set)
@@ -1637,11 +1674,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.typeTRef)
 
     def writeVariableDataPrototype(self, element: ET.Element, prototype: VariableDataPrototype):
-        self.logger.debug("writeVariableDataPrototype %s" % prototype.short_name)
+        self.logger.debug("writeVariableDataPrototype %s" % prototype.getShortName())
         child_element = ET.SubElement(element, "VARIABLE-DATA-PROTOTYPE")
         self.setIdentifiable(child_element, prototype)
         self.setAutosarDataPrototype(child_element, prototype)
-        self.setInitValue(child_element, prototype.initValue)
+        self.setValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
 
     def writeSenderReceiverInterfaceDataElements(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         data_elements = sr_interface.getDataElements()
@@ -1663,7 +1700,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalLiteral(child_element, "HANDLE-INVALID", policy.getHandleInvalid())
 
     def writeSenderReceiverInterface(self, element: ET.Element, sr_interface: SenderReceiverInterface):
-        self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.short_name)
+        self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.getShortName())
         child_element = ET.SubElement(element, "SENDER-RECEIVER-INTERFACE")
         self.setIdentifiable(child_element, sr_interface)
         self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.getIsService())
@@ -1717,14 +1754,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleEntityManagedModeGroup(element, entity)
 
     def setBswCalledEntity(self, element: ET.Element, entity: BswCalledEntity):
-        self.logger.debug("setBswCalledEntity %s" % entity.short_name)
+        self.logger.debug("setBswCalledEntity %s" % entity.getShortName())
         child_element = ET.SubElement(element, "BSW-CALLED-ENTITY")
         self.setBswModuleEntity(child_element, entity)
 
     def setBswSchedulableEntity(self, element: ET.Element, entity: BswSchedulableEntity):
-        self.logger.debug("setBswCalledEntity %s" % entity.short_name)
+        self.logger.debug("set BswSchedulableEntity %s" % entity.getShortName())
         child_element = ET.SubElement(element, "BSW-SCHEDULABLE-ENTITY")
         self.setBswModuleEntity(child_element, entity)
+
+    def setBswInterruptEntity(self, element: ET.Element, entity: BswInterruptEntity):
+        self.logger.debug("read BswInterruptEntity %s" % entity.getShortName())
+        child_element = ET.SubElement(element, "BSW-INTERRUPT-ENTITY")
+        self.setBswModuleEntity(child_element, entity)
+        self.setChildElementOptionalLiteral(child_element, "INTERRUPT-CATEGORY", entity.getInterruptCategory())
+        self.setChildElementOptionalLiteral(child_element, "INTERRUPT-SOURCE", entity.getInterruptSource())
 
     def writeBswInternalBehaviorBswModuleEntities(self, element: ET.Element, parent: BswInternalBehavior):
         entities = parent.getBswModuleEntities()    
@@ -1735,8 +1779,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setBswCalledEntity(child_element, entity)
                 elif isinstance(entity, BswSchedulableEntity):
                     self.setBswSchedulableEntity(child_element, entity)
+                elif isinstance(entity, BswInterruptEntity):
+                    self.setBswInterruptEntity(child_element, entity)
                 else:
-                    self._raiseError("Unsupported BswModuleEntity <%s>" % type(entity))
+                    self.notImplemented("Unsupported BswModuleEntity <%s>" % type(entity))
 
     def setBswEvent(self, element: ET.Element, event: BswEvent):
         self.setIdentifiable(element, event)
@@ -1746,7 +1792,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setBswEvent(element, event)
 
     def setBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
-        self.logger.debug("setBswTimingEvent %s" % event.short_name)
+        self.logger.debug("setBswTimingEvent %s" % event.getShortName())
         child_element = ET.SubElement(element, "BSW-TIMING-EVENT")
         self.setBswScheduleEvent(child_element, event)
         self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
@@ -1804,10 +1850,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self._raiseError("Unsupported BswInternalBehavior <%s>" % type(behavior))
 
     def writeBswModuleDescription(self, element: ET.Element, desc: BswModuleDescription):
-        self.logger.debug("writeBswModuleDescription %s" % desc.short_name)
+        self.logger.debug("writeBswModuleDescription %s" % desc.getShortName())
         child_element = ET.SubElement(element, "BSW-MODULE-DESCRIPTION")
         self.setIdentifiable(child_element, desc)
-        self.setChildElementOptionalNumericalValue(child_element, "MODULE-ID", desc.module_id)
+        self.setChildElementOptionalNumericalValue(child_element, "MODULE-ID", desc.getModuleId())
         self.writerBswModuleDescriptionImplementedEntry(child_element, desc)
         self.writeProvidedModeGroup(child_element, desc)
         #self.readRequiredModeGroup(element, bsw_module_description)
@@ -1821,22 +1867,37 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(mode_groups_tag, "MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF", mode_group_ref)
 
+    def setSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
+        self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
+        if arg is not None:
+            child_element = ET.SubElement(element, "SW-SERVICE-ARG")
+            self.setIdentifiable(child_element, arg)
+            self.setChildElementOptionalLiteral(child_element, "DIRECTION", arg.getDirection())
+            self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", arg.getSwDataDefProps())
+
+    def writeBswModuleEntryArguments(self, element: ET.Element, entry: BswModuleEntry):
+        arguments = entry.getArguments()
+        if len(arguments) > 0:
+            child_element = ET.SubElement(element, "ARGUMENTS")
+            for argument in arguments:
+                self.setSwServiceArg(child_element, argument)
+
     def writeBswModuleEntry(self, element: ET.Element, entry: BswModuleEntry):
-        self.logger.debug("writeBswModuleDescription %s" % entry.short_name)
+        self.logger.debug("writeBswModuleDescription %s" % entry.getShortName())
         child_element = ET.SubElement(element, "BSW-MODULE-ENTRY")
         self.setIdentifiable(child_element, entry)
-        self.setChildElementOptionalNumericalValue(child_element, "SERVICE-ID", entry.service_id)
-        self.setChildElementOptionalBooleanValue(child_element, "IS-REENTRANT", entry.is_reentrant)
-        self.setChildElementOptionalBooleanValue(child_element, "IS-SYNCHRONOUS", entry.is_synchronous)
-        self.setChildElementOptionalLiteral(child_element, "CALL-TYPE", entry.call_type)
-        self.setChildElementOptionalLiteral(child_element, "EXECUTION-CONTEXT", entry.execution_context)
-        self.setChildElementOptionalLiteral(child_element, "SW-SERVICE-IMPL-POLICY", entry.sw_service_impl_policy)
-        
+        self.setChildElementOptionalNumericalValue(child_element, "SERVICE-ID", entry.getServiceId())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-REENTRANT", entry.getIsReentrant())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-SYNCHRONOUS", entry.getIsSynchronous())
+        self.setChildElementOptionalLiteral(child_element, "CALL-TYPE", entry.getCallType())
+        self.setChildElementOptionalLiteral(child_element, "EXECUTION-CONTEXT", entry.getExecutionContext())
+        self.setChildElementOptionalLiteral(child_element, "SW-SERVICE-IMPL-POLICY", entry.getSwServiceImplPolicy())
+        self.writeBswModuleEntryArguments(child_element, entry)
 
     def setSwcBswRunnableMapping(self, element: ET.SubElement, mapping: SwcBswRunnableMapping):
         child_element = ET.SubElement(element, "SWC-BSW-RUNNABLE-MAPPING")
-        self.setChildElementOptionalRefType(child_element, "BSW-ENTITY-REF", mapping.bswEntityRef)
-        self.setChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF", mapping.swcRunnableRef)
+        self.setChildElementOptionalRefType(child_element, "BSW-ENTITY-REF", mapping.getBswEntityRef())
+        self.setChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF", mapping.getSwcRunnableRef())
 
     def writeSwcBswRunnableMappings(self, element: ET.Element, parent: SwcBswMapping):
         runnable_mappings = parent.getRunnableMappings()
@@ -1849,12 +1910,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self._raiseError("Unsupported Runnable Mapping <%s>" % type(mapping))
 
     def setSwcBswMapping(self, element: ET.Element, mapping: SwcBswMapping):
-        self.logger.debug("writeBswModuleDescription %s" % mapping.short_name)
+        self.logger.debug("writeBswModuleDescription %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "SWC-BSW-MAPPING")
         self.setIdentifiable(child_element, mapping)
-        self.setChildElementOptionalRefType(child_element, "BSW-BEHAVIOR-REF", mapping.bswBehaviorRef)
+        self.setChildElementOptionalRefType(child_element, "BSW-BEHAVIOR-REF", mapping.getBswBehaviorRef())
         self.writeSwcBswRunnableMappings(child_element, mapping)
-        self.setChildElementOptionalRefType(child_element, "SWC-BEHAVIOR-REF", mapping.swcBehaviorRef)
+        self.setChildElementOptionalRefType(child_element, "SWC-BEHAVIOR-REF", mapping.getSwcBehaviorRef())
 
     def writeEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
         self.setARObjectAttributes(element, engineering_obj)
@@ -1885,7 +1946,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalRefType(child_element, "VENDOR-SPECIFIC-MODULE-DEF-REF", ref)
 
     def writeBswImplementation(self, element: ET.Element, impl: BswImplementation):
-        self.logger.debug("writeBswModuleDescription %s" % impl.short_name)
+        self.logger.debug("writeBswModuleDescription %s" % impl.getShortName())
         child_element = ET.SubElement(element, "BSW-IMPLEMENTATION")
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
@@ -1906,7 +1967,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.getSwDataDefProps())
 
     def writeImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
-        self.logger.debug("writeImplementationDataType %s" % data_type.short_name)
+        self.logger.debug("writeImplementationDataType %s" % data_type.getShortName())
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
         self.setAutosarDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
@@ -1923,7 +1984,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", prototype.swDataDefProps)
                 self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.typeTRef)
                 self.setChildElementOptionalLiteral(child_element, "DIRECTION", prototype.direction)
-                self.setChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY", prototype.server_argument_impl_policy)
+                self.setChildElementOptionalLiteral(child_element, "SERVER-ARGUMENT-IMPL-POLICY", prototype.serverArgumentImplPolicy)
 
     def writePossibleErrorRefs(self, element: ET.Element, parent: ClientServerOperation):
         error_refs = parent.getPossbileErrorRefs()
@@ -1933,7 +1994,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(error_refs_tag, "POSSIBLE-ERROR-REF", error_ref)
 
     def writeClientServerOperation(self, element: ET.Element, operation: ClientServerOperation):
-        self.logger.debug("writeClientServerOperation %s" % operation.short_name)
+        self.logger.debug("writeClientServerOperation %s" % operation.getShortName())
         child_element = ET.SubElement(element, "CLIENT-SERVER-OPERATION")
         self.setIdentifiable(child_element, operation)
         self.writeArgumentDataPrototypes(child_element, operation)
@@ -1950,7 +2011,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self._raiseError("Unsupported Operation <%s>" % type(operation))
 
     def writeApplicationError(self, element: ET.Element, error: ApplicationError):
-        self.logger.debug("writeApplicationError %s" % error.short_name)
+        self.logger.debug("writeApplicationError %s" % error.getShortName())
         child_element = ET.SubElement(element, "APPLICATION-ERROR")
         self.setIdentifiable(child_element, error)
         self.setChildElementOptionalNumericalValue(child_element, "ERROR-CODE", error.error_code)
@@ -1978,25 +2039,25 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeParameterDataPrototype(child_element, prototype)
 
     def writeParameterInterface(self, element: ET.Element, param_interface: ParameterInterface):
-        self.logger.debug("Write ParameterInterface %s" % param_interface.short_name)
+        self.logger.debug("Write ParameterInterface %s" % param_interface.getShortName())
         child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
         self.setPortInterface(child_element, param_interface)
         self.writeParameterInterfaceParameters(child_element, param_interface)
 
     def writeClientServerInterface(self, element: ET.Element, cs_interface: ClientServerInterface):
-        self.logger.debug("writeClientServerInterface %s" % cs_interface.short_name)
+        self.logger.debug("writeClientServerInterface %s" % cs_interface.getShortName())
         child_element = ET.SubElement(element, "CLIENT-SERVER-INTERFACE")
         self.setPortInterface(child_element, cs_interface)
         self.writeOperations(child_element, cs_interface)
         self.writePossibleErrors(child_element, cs_interface)
 
     def writeApplicationSwComponentType(self, element: ET.Element, sw_component: ApplicationSwComponentType):
-        self.logger.debug("writeApplicationSwComponentType %s" % sw_component.short_name)
+        self.logger.debug("writeApplicationSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "APPLICATION-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
 
     def writeEcuAbstractionSwComponentType(self, element: ET.Element, sw_component: EcuAbstractionSwComponentType):
-        self.logger.debug("writeEcuAbstractionSwComponentType %s" % sw_component.short_name)
+        self.logger.debug("writeEcuAbstractionSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "ECU-ABSTRACTION-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
 
@@ -2008,7 +2069,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS", prototype.maxNumberOfElements)
 
     def writeApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
-        self.logger.debug("writeApplicationArrayDataType %s" % data_type.short_name)
+        self.logger.debug("writeApplicationArrayDataType %s" % data_type.getShortName())
         child_element = ET.SubElement(element, "APPLICATION-ARRAY-DATA-TYPE")
         self.setApplicationCompositeDataType(child_element, data_type)
         self.setApplicationArrayElement(child_element, data_type.element)
@@ -2037,13 +2098,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         return group
 
     def writeSwRecordLayout(self, element: ET.Element, layout: SwRecordLayout):
-        self.logger.debug("writeSwRecordLayout %s" % layout.short_name)
+        self.logger.debug("writeSwRecordLayout %s" % layout.getShortName())
         child_element = ET.SubElement(element, "SW-RECORD-LAYOUT")
         self.setIdentifiable(child_element, layout)
         self.setSwRecordLayoutGroup(child_element, "SW-RECORD-LAYOUT-GROUP", layout.getSwRecordLayoutGroup())
 
     def writeSwAddrMethod(self, element: ET.Element, method: SwAddrMethod):
-        self.logger.debug("writeSwAddrMethod %s" % method.short_name)
+        self.logger.debug("writeSwAddrMethod %s" % method.getShortName())
         child_element = ET.SubElement(element, "SW-ADDR-METHOD")
         self.setIdentifiable(child_element, method)
         self.setChildElementOptionalLiteral(child_element, "MEMORY-ALLOCATION-KEYWORD-POLICY", method.getMemoryAllocationKeywordPolicy())
@@ -2056,11 +2117,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "SECTION-TYPE", method.getSectionType())
 
     def writeTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
-        self.logger.debug("writeTriggerInterface %s" % trigger_if.short_name)
+        self.logger.debug("writeTriggerInterface %s" % trigger_if.getShortName())
         child_element = ET.SubElement(element, "TRIGGER-INTERFACE")
 
     def writeServiceSwComponentType(self, element: ET.Element, sw_component: ServiceSwComponentType):
-        self.logger.debug("writeServiceSwComponentType %s" % sw_component.short_name)
+        self.logger.debug("writeServiceSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "SERVICE-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
 
@@ -2085,7 +2146,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", map.getModeGroupRef())
 
     def writeDataTypeMappingSet(self, element: ET.Element, mapping_set: DataTypeMappingSet):
-        self.logger.debug("writeDataTypeMappingSet %s" % mapping_set.short_name)
+        self.logger.debug("writeDataTypeMappingSet %s" % mapping_set.getShortName())
         child_element = ET.SubElement(element, "DATA-TYPE-MAPPING-SET")
         self.setIdentifiable(child_element, mapping_set)
         self.writeDataTypeMaps(child_element, mapping_set)
@@ -2104,7 +2165,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setModeDeclaration(child_element, mode_declaration)
 
     def writeModeDeclarationGroup(self, element: ET.Element, group: ModeDeclarationGroup):
-        self.logger.debug("writeModeDeclarationGroup %s" % group.short_name)
+        self.logger.debug("writeModeDeclarationGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "MODE-DECLARATION-GROUP")
         self.setIdentifiable(child_element, group)
         self.setChildElementOptionalRefType(child_element, "INITIAL-MODE-REF", group.initialModeRef)
@@ -2120,7 +2181,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "TYPE-TREF", mode_group.type_tref)
 
     def writeModeSwitchInterface(self, element: ET.Element, mode_interface: ModeSwitchInterface):
-        self.logger.debug("writeModeSwitchInterface %s" % mode_interface.short_name)
+        self.logger.debug("writeModeSwitchInterface %s" % mode_interface.getShortName())
         child_element = ET.SubElement(element, "MODE-SWITCH-INTERFACE")
         self.setPortInterface(child_element, mode_interface)
         self.writeModeSwitchInterfaceModeGroup(child_element, mode_interface)
@@ -2147,7 +2208,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self._raiseError("Unsupported order element <%s>" % type(order_element))
 
     def writeExecutionOrderConstraint(self, element: ET.Element, constraint: ExecutionOrderConstraint):
-        self.logger.debug("writeExecutionOrderConstraint %s" % constraint.short_name)
+        self.logger.debug("writeExecutionOrderConstraint %s" % constraint.getShortName())
         child_element = ET.SubElement(element, "EXECUTION-ORDER-CONSTRAINT")
         self.setIdentifiable(child_element, constraint)
         self.writeExecutionOrderConstraintOrderedElement(child_element, constraint)
@@ -2166,7 +2227,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTimingRequirements(element, extension)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
-        self.logger.debug("writeSWcTiming %s" % timing.short_name)
+        self.logger.debug("writeSWcTiming %s" % timing.getShortName())
         child_element = ET.SubElement(element, "SWC-TIMING")
         self.setIdentifiable(child_element, timing)
         self.writeTimingExtension(child_element, timing)
@@ -2188,7 +2249,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePduToFrameMappings(element, frame)
 
     def writeLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):
-        self.logger.debug("LinUnconditionalFrame %s" % frame.short_name)
+        self.logger.debug("LinUnconditionalFrame %s" % frame.getShortName())
         child_element = ET.SubElement(element, "LIN-UNCONDITIONAL-FRAME")
         self.writeFrame(child_element, frame)
 
@@ -2210,7 +2271,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "TX-NM-PDU-REF", ref)
 
     def writeCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
-        self.logger.debug("writeCanNmNode %s" % nm_node.short_name)
+        self.logger.debug("writeCanNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-NODE")
         self.setIdentifiable(child_element, nm_node)
         self.writeNmNode(child_element, nm_node)
@@ -2259,7 +2320,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
 
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
-        self.logger.debug("WriteCanNmCluster %s" % cluster.short_name)
+        self.logger.debug("WriteCanNmCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-CLUSTER")
         self.setIdentifiable(child_element, cluster)
         self.writeNmCluster(child_element, cluster)
@@ -2290,20 +2351,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self._raiseError("Unsupported Nm Cluster <%s>" % type(cluster))
 
     def writeNmConfig(self, element: ET.Element, config: NmConfig):
-        self.logger.debug("WriteNmConfig %s" % config.short_name)
+        self.logger.debug("WriteNmConfig %s" % config.getShortName())
         child_element = ET.SubElement(element, "NM-CONFIG")
         self.setIdentifiable(child_element, config)
         self.writeNmConfigNmClusters(child_element, config)
         self.writeNmConfigNmClusterCouplings(child_element, config)
 
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
-        self.logger.debug("NmPdu %s" % pdu.short_name)
+        self.logger.debug("NmPdu %s" % pdu.getShortName())
         child_element = ET.SubElement(element, "NM-PDU")
         self.setIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
-        self.logger.debug("NPdu %s" % pdu.short_name)
+        self.logger.debug("NPdu %s" % pdu.getShortName())
         child_element = ET.SubElement(element, "N-PDU")
         self.setIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
@@ -2312,20 +2373,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "LENGTH", pdu.getLength())
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
-        self.logger.debug("DcmIPdu %s" % pdu.short_name)
+        self.logger.debug("DcmIPdu %s" % pdu.getShortName())
         child_element = ET.SubElement(element, "DCM-I-PDU")
         self.setIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
         self.setChildElementOptionalLiteral(child_element, "DIAG-PDU-TYPE", pdu.getDiagPduType())
 
     def writeSecuredIPdu(self, element: ET.Element, pdu: DcmIPdu):
-        self.logger.debug("SecuredIPdu %s" % pdu.short_name)
+        self.logger.debug("SecuredIPdu %s" % pdu.getShortName())
         child_element = ET.SubElement(element, "SECURED-I-PDU")
         self.setIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
 
     def writeCanTpConfig(self, element: ET.Element, config: CanTpConfig):
-        self.logger.debug("CanTpConfig %s" % config.short_name)
+        self.logger.debug("CanTpConfig %s" % config.getShortName())
         child_element = ET.SubElement(element, "CAN-TP-CONFIG")
         self.setIdentifiable(child_element, config)
 
@@ -2432,13 +2493,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported PduTriggering <%s>" % type(triggering))
 
     def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
-        self.logger.debug("CanPhysicalChannel %s" % channel.short_name)
+        self.logger.debug("CanPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "CAN-PHYSICAL-CHANNEL")
         self.setIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
 
     def writeLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
-        self.logger.debug("LinPhysicalChannel %s" % channel.short_name)
+        self.logger.debug("LinPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "LIN-PHYSICAL-CHANNEL")
         self.setIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
@@ -2466,7 +2527,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(element, "SPEED", cluster.getSpeed())
 
     def writeLinCluster(self, element: ET.Element, cluster: LinCluster):
-        self.logger.debug("LinCluster %s" % cluster.short_name)
+        self.logger.debug("LinCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "LIN-CLUSTER")
         self.setIdentifiable(child_element, cluster)
         child_element = ET.SubElement(child_element, "LIN-CLUSTER-VARIANTS")
@@ -2474,7 +2535,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCommunicationCluster(child_element, cluster)
 
     def writeCanCluster(self, element: ET.Element, cluster: CanCluster):
-        self.logger.debug("CanCluster %s" % cluster.short_name)
+        self.logger.debug("CanCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "CAN-CLUSTER")
         self.setIdentifiable(child_element, cluster)
 
@@ -2484,7 +2545,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.readAbstractCanCluster(child_element, cluster)
 
     def writeCanFrame(self, element: ET.Element, frame: CanFrame):
-        self.logger.debug("Write CanFrame %s" % frame.short_name)
+        self.logger.debug("Write CanFrame %s" % frame.getShortName())
         child_element = ET.SubElement(element, "CAN-FRAME")
         self.writeFrame(child_element, frame)
 
@@ -2556,7 +2617,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self._raiseError("Unsupported Communication connector <%s>" % type(connector))
 
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
-        self.logger.debug("EcuInstance %s" % instance.short_name)
+        self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
         self.setIdentifiable(child_element, instance)
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-GW-TIME-BASE", instance.getComConfigurationGwTimeBase())
@@ -2569,7 +2630,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "WAKE-UP-OVER-BUS-SUPPORTED", instance.getWakeUpOverBusSupported())
 
     def writeSystemSignalGroup(self, element: ET.Element, group: SystemSignalGroup):
-        self.logger.debug("Write SystemSignalGroup %s" % group.short_name)
+        self.logger.debug("Write SystemSignalGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-SIGNAL-GROUP")
         self.setIdentifiable(child_element, group)
         signal_refs = group.getSystemSignalRefs()
@@ -2580,6 +2641,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")
+        self.setChildElementOptionalLiteral(child_element, "COMMUNICATION-DIRECTION", mapping.getCommunicationDirection())
         self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
@@ -2621,7 +2683,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
 
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
-        self.logger.debug("Write SystemMapping %s" % mapping.short_name)
+        self.logger.debug("Write SystemMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.setIdentifiable(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
@@ -2644,10 +2706,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ROOT-SOFTWARE-COMPOSITIONS")
             child_element = ET.SubElement(child_element, "ROOT-SW-COMPOSITION-PROTOTYPE")
             self.setIdentifiable(child_element, prototype)
+            self.setChildElementOptionalRefType(child_element, "FLAT-MAP-REF", prototype.getFlatMapRef())
             self.setChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF", prototype.getSoftwareCompositionTRef())
                 
     def writeSystem(self, element: ET.Element, system: System):
-        self.logger.debug("Write System %s" % system.short_name)
+        self.logger.debug("Write System %s" % system.getShortName())
         child_element = ET.SubElement(element, "SYSTEM")
         self.setARElement(child_element, system)
 
@@ -2663,13 +2726,69 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeRootSwCompositionPrototype(child_element, system)
         self.setChildElementOptionalRevisionLabelString(child_element, "SYSTEM-VERSION", system.getSystemVersion())
 
-    def writePhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
-        self.logger.debug("Write PhysicalDimension %s" % dimension.short_name)
+    def setPhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
+        self.logger.debug("Set PhysicalDimension %s" % dimension.getShortName())
         child_element = ET.SubElement(element, "PHYSICAL-DIMENSION")
         self.setARElement(child_element, dimension)
         self.setChildElementOptionalNumericalValue(child_element, "CURRENT-EXP", dimension.getCurrentExp())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH-EXP", dimension.getLengthExp())
         self.setChildElementOptionalNumericalValue(child_element, "TIME-EXP", dimension.getTimeExp())
+
+    def setFlatInstanceDescriptor(self, element: ET.Element, desc: FlatInstanceDescriptor):
+        self.logger.debug("Set FlatInstanceDescriptor %s" % desc.getShortName())
+        child_element = ET.SubElement(element, "FLAT-INSTANCE-DESCRIPTOR")
+        self.setIdentifiable(child_element, desc)
+        self.setAnyInstanceRef(child_element, "UPSTREAM-REFERENCE-IREF", desc.getUpstreamReferenceIRef())
+        self.setAnyInstanceRef(child_element, "ECU-EXTRACT-REFERENCE-IREF", desc.getEcuExtractReferenceIRef())
+
+    def writeFlatMapInstances(self, element: ET.Element, map: FlatMap):
+        instances = map.getInstances()
+        if len(instances) > 0:
+            child_element = ET.SubElement(element, "INSTANCES")
+            for instance in instances:
+                if isinstance(instance, FlatInstanceDescriptor):
+                    self.setFlatInstanceDescriptor(child_element, instance)
+                else:
+                    self.notImplemented("Unsupported Flat Map Instances <%s>" % type(instance))
+
+    def setFlatMap(self, element: ET.Element, map: FlatMap):
+        self.logger.debug("Set FlatMap %s" % map.getShortName())
+        child_element = ET.SubElement(element, "FLAT-MAP")
+        self.setARElement(child_element, map)
+        self.writeFlatMapInstances(child_element, map)
+
+    def setDataPrototypeMapping(self, element: ET.Element, mapping: DataPrototypeMapping):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "FIRST-DATA-PROTOTYPE-REF", mapping.getFirstDataPrototypeRef())
+        self.setChildElementOptionalRefType(child_element, "SECOND-DATA-PROTOTYPE-REF", mapping.getSecondDataPrototypeRef())
+
+    def setDataPrototypeMappings(self, element: ET.Element, key: str, mappings: List[DataPrototypeMapping]):
+        if len(mappings) > 0:
+            child_element = ET.SubElement(element, key)
+            for mapping in mappings:
+                self.setDataPrototypeMapping(child_element, mapping)
+
+    def setVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
+        self.logger.debug("set VariableAndParameterInterfaceMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "VARIABLE-AND-PARAMETER-INTERFACE-MAPPING")
+        self.setIdentifiable(child_element, mapping)
+        self.setDataPrototypeMappings(child_element, "DATA-MAPPINGS", mapping.getDataMappings())
+
+    def writePortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
+        mappings = mapping_set.getPortInterfaceMappings()
+        if len(mappings) > 0:
+            child_element = ET.SubElement(element, "PORT-INTERFACE-MAPPINGS")
+            for mapping in mappings:
+                if isinstance(mapping, VariableAndParameterInterfaceMapping):
+                    self.setVariableAndParameterInterfaceMapping(child_element, mapping)
+                else:
+                    self.notImplemented("Unsupported PortInterfaceMapping <%s>" % type(mapping))
+
+    def setPortInterfaceMappingSet(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
+        self.logger.debug("Set PortInterfaceMappingSet %s" % mapping_set.getShortName())
+        child_element = ET.SubElement(element, "PORT-INTERFACE-MAPPING-SET")
+        self.setARElement(child_element, mapping_set)
+        self.writePortInterfaceMappings(child_element, mapping_set)
 
     def setISignalMappings(self, element: ET.Element, mappings: List[ISignalMapping]):
         if len(mappings) > 0:
@@ -2680,21 +2799,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "TARGET-SIGNAL-REF", mapping.targetSignalRef)
 
     def writeGateway(self, element: ET.Element, gateway: Gateway):
-        self.logger.debug("Gateway %s" % gateway.short_name)
+        self.logger.debug("Gateway %s" % gateway.getShortName())
         child_element = ET.SubElement(element, "GATEWAY")
         self.setIdentifiable(child_element, gateway)
         self.setChildElementOptionalRefType(child_element, "ECU-REF", gateway.ecuRef)
         self.setISignalMappings(child_element, gateway.getSignalMappings())
 
     def writeISignal(self, element: ET.Element, signal: ISignal):
-        self.logger.debug("ISignal %s" % signal.short_name)
+        self.logger.debug("ISignal %s" % signal.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL")
         self.setIdentifiable(child_element, signal)
-        self.setChildElementOptionalLiteral(child_element, "DATA-TYPE-POLICY", signal.dataTypePolicy)
-        self.setInitValue(child_element, signal.initValue)
-        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", signal.length)
-        self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.networkRepresentationProps)
-        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.systemSignalRef)
+        self.setChildElementOptionalLiteral(child_element, "DATA-TYPE-POLICY", signal.getDataTypePolicy())
+        self.setValueSpecification(element, "INIT-VALUE", signal.getInitValue())
+        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", signal.getLength())
+        self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.getNetworkRepresentationProps())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.getSystemSignalRef())
 
     def writeEcucValueCollectionEcucValues(self, element: ET.Element, collection: EcucValueCollection):
         value_refs = collection.getEcucValueRefs()
@@ -2705,7 +2824,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "ECUC-MODULE-CONFIGURATION-VALUES-REF", value_ref) 
 
     def writeEcucValueCollection(self, element: ET.Element, collection: EcucValueCollection):
-        self.logger.debug("EcucValueCollection %s" % collection.short_name)
+        self.logger.debug("EcucValueCollection %s" % collection.getShortName())
         child_element = ET.SubElement(element, "ECUC-VALUE-COLLECTION")
         self.setIdentifiable(child_element, collection)
         self.setChildElementOptionalRefType(child_element, "ECU-EXTRACT-REF", collection.getEcuExtractRef())
@@ -2761,7 +2880,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "BASE-REF", instance_ref.getBaseRef()) 
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF", instance_ref.getContextElementRef())
+            for ref in instance_ref.getContextElementRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-ELEMENT-REF", ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-REF", instance_ref.getTargetRef())
         return instance_ref
     
@@ -2784,7 +2904,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported EcucParameterValue <%s>" % type(reference_value))
 
     def writeEcucContainValue(self, element: ET.Element, container_value: EcucContainerValue):
-        self.logger.debug("EcucContainerValue %s" % container_value.short_name)
+        self.logger.debug("EcucContainerValue %s" % container_value.getShortName())
         child_element = ET.SubElement(element, "ECUC-CONTAINER-VALUE")
         self.setIdentifiable(child_element, container_value)
         self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", container_value.getDefinitionRef())
@@ -2803,7 +2923,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Container %s" % type(container)) 
 
     def writeEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
-        self.logger.debug("EcucModuleConfigurationValues %s" % values.short_name)
+        self.logger.debug("EcucModuleConfigurationValues %s" % values.getShortName())
         child_element = ET.SubElement(element, "ECUC-MODULE-CONFIGURATION-VALUES")
         self.setIdentifiable(child_element, values)
         self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinitionRef())
@@ -2812,7 +2932,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 
     def writeISignalGroup(self, element: ET.Element, group: ISignalGroup):
-        self.logger.debug("ISignalGroup %s" % group.short_name)
+        self.logger.debug("ISignalGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-GROUP")
         self.setIdentifiable(child_element, group)
         signal_refs = group.getISignalRefs()
@@ -2823,7 +2943,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-GROUP-REF", group.getSystemSignalGroupRef())
 
     def writeISignalIPduGroup(self, element: ET.Element, group: ISignalIPduGroup):
-        self.logger.debug("ISignalIPduGroup %s" % group.short_name)
+        self.logger.debug("ISignalIPduGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-I-PDU-GROUP")
         self.setIdentifiable(child_element, group)
         self.setChildElementOptionalLiteral(child_element, "COMMUNICATION-DIRECTION", group.getCommunicationDirection())
@@ -2841,7 +2961,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(ref_conditional_tag, "I-SIGNAL-I-PDU-REF", pdu_ref)
 
     def writeSystemSignal(self, element: ET.Element, signal: SystemSignal):
-        self.logger.debug("SystemSignal %s" % signal.short_name)
+        self.logger.debug("SystemSignal %s" % signal.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-SIGNAL")
         self.setIdentifiable(child_element, signal)
         self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-LENGTH", signal.getDynamicLength())
@@ -2849,12 +2969,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     
 
     def writeGenericEthernetFrame(self, element: ET.Element, signal: GenericEthernetFrame):
-        self.logger.debug("Write GenericEthernetFrame %s" % signal.short_name)
+        self.logger.debug("Write GenericEthernetFrame %s" % signal.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-FRAME")
         self.writeFrame(child_element, signal)
 
     def writeLifeCycleInfoSet(self, element: ET.Element, set: LifeCycleInfoSet):
-        self.logger.debug("Write LifeCycleInfoSet %s" % set.short_name)
+        self.logger.debug("Write LifeCycleInfoSet %s" % set.getShortName())
         child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
         self.setIdentifiable(child_element, set)
 
@@ -2873,8 +2993,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
     
     def setDataFilter(self, element: ET.Element, key: str, filter: DataFilter):
-        child_element = ET.SubElement(element, key)
-        self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
+        if filter is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
 
     def setTransmissionModeConditions(self, element: ET.Element, conditions: List[TransmissionModeCondition]):
         if len(conditions) > 0:
@@ -2915,7 +3036,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
 
     def writeISignalIPdu(self, element: ET.Element, i_pdu: ISignalIPdu):
-        self.logger.debug("ISignalIPdu %s" % i_pdu.short_name)
+        self.logger.debug("ISignalIPdu %s" % i_pdu.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-I-PDU")
         self.setIdentifiable(child_element, i_pdu)
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH", i_pdu.getLength())
@@ -2931,13 +3052,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         elif isinstance(ar_element, CompositionSwComponentType):
             self.writeCompositionSwComponentType(element, ar_element)
         elif isinstance(ar_element, ApplicationPrimitiveDataType):
-            self.writeApplicationPrimitiveDataType(element, ar_element)
+            self.setApplicationPrimitiveDataType(element, ar_element)
         elif isinstance(ar_element, ApplicationRecordDataType):
-            self.writeApplicationRecordDataType(element, ar_element)
+            self.setApplicationRecordDataType(element, ar_element)
         elif isinstance(ar_element, SwBaseType):
-            self.writeSwBaseType(element, ar_element)
+            self.setSwBaseType(element, ar_element)
         elif isinstance(ar_element, CompuMethod):
-            self.writeCompuMethod(element, ar_element)
+            self.setCompuMethod(element, ar_element)
         elif isinstance(ar_element, ConstantSpecification):
             self.writeConstantSpecification(element, ar_element)
         elif isinstance(ar_element, DataConstr):
@@ -3021,7 +3142,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         elif isinstance(ar_element, LifeCycleInfoSet):
             self.writeLifeCycleInfoSet(element, ar_element)
         elif isinstance(ar_element, PhysicalDimension):
-            self.writePhysicalDimension(element, ar_element)
+            self.setPhysicalDimension(element, ar_element)
+        elif isinstance(ar_element, FlatMap):
+            self.setFlatMap(element, ar_element)
+        elif isinstance(ar_element, PortInterfaceMappingSet):
+            self.setPortInterfaceMappingSet(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

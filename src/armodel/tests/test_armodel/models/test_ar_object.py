@@ -1,4 +1,4 @@
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, TimeValue
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 
 class TestARObject:
@@ -148,4 +148,8 @@ class TestARObject:
         assert(flag.getText() == "100")
 
         
-    
+    def test_TimeValue(self):
+        value = TimeValue()
+        value.setValue("0.01")
+        assert(value.getValue() == 0.01)
+        assert(value.getText() == "0.01")
