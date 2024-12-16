@@ -86,36 +86,6 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         self.targetDataPrototypeRef = value
         return self
     
-class AutosarVariableRef(ARObject):
-    def __init__(self):
-        super().__init__()
-
-        self.autosarVariableIRef = None             # type: VariableInAtomicSWCTypeInstanceRef 
-        self.autosarVariableInImplDatatype = None   # type: ArVariableInImplementationDataInstanceRef
-        self.localVariableRef = None
-
-    def getAutosarVariableIRef(self):
-        return self.autosarVariableIRef
-
-    def setAutosarVariableIRef(self, value):
-        self.autosarVariableIRef = value
-        return self
-
-    def getAutosarVariableInImplDatatype(self):
-        return self.autosarVariableInImplDatatype
-
-    def setAutosarVariableInImplDatatype(self, value):
-        self.autosarVariableInImplDatatype = value
-        return self
-
-    def getLocalVariableRef(self):
-        return self.localVariableRef
-
-    def setLocalVariableRef(self, value):
-        self.localVariableRef = value
-        return self
-
-
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
@@ -165,5 +135,20 @@ class AutosarParameterRef(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.autosar_parameter_iref = None          # type: ParameterInAtomicSWCTypeInstanceRef
-        self.local_parameter_ref = None             # type: RefType
+        # type: ParameterInAtomicSWCTypeInstanceRef
+        self.autosarParameterIRef = None
+        self.localParameterRef = None               # type: RefType
+
+    def getAutosarParameterIRef(self):
+        return self.autosarParameterIRef
+
+    def setAutosarParameterIRef(self, value):
+        self.autosarParameterIRef = value
+        return self
+
+    def getLocalParameterRef(self):
+        return self.localParameterRef
+
+    def setLocalParameterRef(self, value):
+        self.localParameterRef = value
+        return self

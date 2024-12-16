@@ -1,5 +1,5 @@
 from typing import List
-from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
@@ -70,6 +70,12 @@ class SwcServiceDependency(ServiceDependency):
     def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
         if (short_name not in self.elements):
             needs = DiagnosticEventNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createDiagnosticEventInfoNeeds(self, short_name: str) -> DiagnosticEventInfoNeeds:
+        if (short_name not in self.elements):
+            needs = DiagnosticEventInfoNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     

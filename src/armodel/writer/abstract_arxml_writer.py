@@ -127,10 +127,8 @@ class AbstractARXMLWriter:
         return element      
         
     def patch_xml(self, xml: str) -> str:
-        #xml = xml.replace("<SW-DATA-DEF-PROPS-CONDITIONAL/>","<SW-DATA-DEF-PROPS-CONDITIONAL></SW-DATA-DEF-PROPS-CONDITIONAL>")
         xml = re.sub(r"\<([\w-]+)\/\>",r"<\1></\1>", xml)
-        xml = re.sub(r"<((\w+)\s+\w+=\"\w+\")\/>", r"<\1></\2>", xml)
-        #xml = xml.replace("<USES-END-TO-END-PROTECTION>false</USES-END-TO-END-PROTECTION>", "<USES-END-TO-END-PROTECTION>0</USES-END-TO-END-PROTECTION>")
+        xml = re.sub(r"<(([\w-]+)\s+\w+=\"[\w-]+\")\/>", r"<\1></\2>", xml)
         return xml
 
     def saveToFile(self, filename, root: ET.Element):

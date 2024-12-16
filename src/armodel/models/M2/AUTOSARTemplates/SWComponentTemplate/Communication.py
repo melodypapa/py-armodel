@@ -3,7 +3,7 @@ from typing import List
 from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger, Boolean
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
@@ -175,13 +175,29 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+        self.enhancedModeApi = None                         # type: Boolean
         self.modeGroupRef = None                            # type: RefType
+        self.supportsAsynchronousModeSwitch = None          # type: Boolean
+
+    def getEnhancedModeApi(self):
+        return self.enhancedModeApi
+
+    def setEnhancedModeApi(self, value):
+        self.enhancedModeApi = value
+        return self
 
     def getModeGroupRef(self):
         return self.modeGroupRef
 
     def setModeGroupRef(self, value):
         self.modeGroupRef = value
+        return self
+    
+    def getSupportsAsynchronousModeSwitch(self):
+        return self.supportsAsynchronousModeSwitch
+
+    def setSupportsAsynchronousModeSwitch(self, value):
+        self.supportsAsynchronousModeSwitch = value
         return self
 
 class NvRequireComSpec(RPortComSpec):
