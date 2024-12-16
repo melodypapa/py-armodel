@@ -91,7 +91,7 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
             self.constantMemories.append(prototype)
         return self.getElement(short_name)
 
-    def getConstantMemorys(self) -> List[ParameterDataPrototype]:
+    def getConstantMemories(self) -> List[ParameterDataPrototype]:
         return self.constantMemories
 
     def addDataTypeMappingRef(self, ref: RefType):

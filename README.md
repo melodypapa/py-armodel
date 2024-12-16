@@ -397,6 +397,18 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ECU-STATE-MGR-USER-NEEDS
    * STACK-USAGES
    * ROUGH-ESTIMATE-STACK-USAGE
- 2. To improve the following AR Element:
+2. To improve the following AR Element:
    * PARAMETER-INTERFACE
-   
+
+**Version 1.7.4**
+
+1. To support the following AR Element:
+   * DIAGNOSTIC-EVENT-INFO-NEEDS
+   * AR-TYPED-PER-INSTANCE-MEMORYS
+   * USED-DATA-ELEMENT
+   * ETHERNET-COMMUNICATION-CONTROLLER
+   * ETHERNET-COMMUNICATION-CONNECTOR
+   * ETHERNET-PHYSICAL-CHANNEL
+2. To improve the following AR Element:
+   * MODE-SWITCH-RECEIVER-COM-SPEC
+   * APPLICATION-ARRAY-DATA-TYPE

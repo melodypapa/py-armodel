@@ -1,4 +1,5 @@
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TimeValue
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
@@ -105,17 +106,29 @@ class EcuInstance(FibexElement):
     def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
         if (short_name not in self.elements):
             controller = CanCommunicationController(self, short_name)
-            self.elements[short_name] = controller
-        return self.elements[short_name]
+            self.addElement(controller)
+        return self.getElement(short_name)
+    
+    def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
+        if (short_name not in self.elements):
+            controller = EthernetCommunicationController(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name)
 
     def getConnectors(self):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements.values()), key= lambda o:o.short_name))
 
     def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
         if (short_name not in self.elements):
-            controller = CanCommunicationConnector(self, short_name)
-            self.elements[short_name] = controller
-        return self.elements[short_name]
+            connector = CanCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name)
+    
+    def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
+        if (short_name not in self.elements):
+            connector = EthernetCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name)
 
     def getDltConfig(self):
         return self.dltConfig

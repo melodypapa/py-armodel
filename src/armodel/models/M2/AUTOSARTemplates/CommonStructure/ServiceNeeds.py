@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
-
+from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
+from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral, DiagRequirementIdString, Integer, PositiveInteger, RefType, String, TimeValue
@@ -10,8 +11,8 @@ class RoleBasedDataAssignment(ARObject):
         super().__init__()
 
         self.role = None                    # type: ARLiteral
-        self.usedDataElement = None         # type: RefType # AutosarVariableRef
-        self.usedParameterElement = None    # type: RefType # AutosarParameterRef
+        self.usedDataElement = None         # type: AutosarVariableRef
+        self.usedParameterElement = None    # type: AutosarParameterRef
         self.usedPimRef = None              # type: RefType
 
     def getRole(self):
@@ -615,10 +616,8 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # type: PositiveInteger
-        self.obdDtcNumber = None
-        # type: PositiveInteger
-        self.udsDtcNumber = None
+        self.obdDtcNumber = None                        # type: PositiveInteger
+        self.udsDtcNumber = None                        # type: PositiveInteger
 
     def getObdDtcNumber(self):
         return self.obdDtcNumber

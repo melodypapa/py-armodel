@@ -1,5 +1,4 @@
 from typing import Dict, List
-
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
@@ -28,6 +27,7 @@ from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Ga
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, NPdu, NmPdu, SecuredIPdu, SystemSignal, SystemSignalGroup
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster, LinCluster
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
 from .....M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from .....M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
@@ -475,6 +475,12 @@ class ARPackage(Identifiable, CollectableElement):
         if (short_name not in self.elements):
             map = PortInterfaceMappingSet(self, short_name)
             self.addElement(map)
+        return self.getElement(short_name)
+    
+    def createEthernetCluster(self, short_name: str) -> EthernetCluster:
+        if (short_name not in self.elements):
+            cluster = EthernetCluster(self, short_name)
+            self.addElement(cluster)
         return self.getElement(short_name)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:

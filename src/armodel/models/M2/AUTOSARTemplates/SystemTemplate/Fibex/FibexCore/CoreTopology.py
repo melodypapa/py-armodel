@@ -2,13 +2,15 @@ from abc import ABCMeta
 from enum import Enum
 from typing import List
 
+
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger, RefType, ARLiteral, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger, RefType, ARLiteral, TimeValue
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
 
 class PhysicalChannel (Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -80,7 +82,39 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
 
 class LinPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name) 
+        super().__init__(parent, short_name)
+
+class EthernetPhysicalChannel(PhysicalChannel):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.networkEndpoints = []                              # type: List[NetworkEndpoint]
+        self.soAdConfig = None                                  # type: SoAdConfig
+        self.vlan = None                                        # type: VlanConfig
+
+    def getNetworkEndpoints(self):
+        return self.networkEndpoints
+
+    def createNetworkEndPoint(self, short_name:str) -> NetworkEndpoint:
+        if (short_name not in self.elements):
+            end_point = NetworkEndpoint(self, short_name)
+            self.addElement(end_point)
+            self.networkEndpoints.append(end_point)
+        return self.getElement(short_name)
+
+    def getSoAdConfig(self):
+        return self.soAdConfig
+
+    def setSoAdConfig(self, value):
+        self.soAdConfig = value
+        return self
+
+    def getVlan(self):
+        return self.vlan
+
+    def setVlan(self, value):
+        self.vlan = value
+        return self         
 
 class CommunicationCluster(FibexElement, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -109,6 +143,9 @@ class CommunicationCluster(FibexElement, metaclass = ABCMeta):
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
         return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements.values()), key= lambda o:o.getShortName()))
     
+    def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
+        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements.values()), key= lambda o:o.getShortName()))
+    
     def createCanPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = CanPhysicalChannel(self, short_name)
@@ -118,6 +155,12 @@ class CommunicationCluster(FibexElement, metaclass = ABCMeta):
     def createLinPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = LinPhysicalChannel(self, short_name)
+            self.addElement(channel)
+        return self.getElement(short_name)
+    
+    def createEthernetPhysicalChannel(self, short_name: str):
+        if (short_name not in self.elements):
+            channel = EthernetPhysicalChannel(self, short_name)
             self.addElement(channel)
         return self.getElement(short_name)
 
