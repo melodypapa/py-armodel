@@ -1,3 +1,4 @@
+from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
@@ -109,8 +110,7 @@ class TransmissionModeTiming(ARObject):
         super().__init__()
 
         self.cyclicTiming = None                                # type: CyclicTiming
-        # type: EventControlledTiming
-        self.eventControlledTiming = None
+        self.eventControlledTiming = None                       # type: EventControlledTiming
 
     def getCyclicTiming(self):
         return self.cyclicTiming
@@ -130,16 +130,11 @@ class TransmissionModeDeclaration(ARObject):
     def __init__(self):
         super().__init__()
 
-        # type: ModeDrivenTransmissionModeCondition
-        self.modeDrivenFalseConditions = []
-        # type: ModeDrivenTransmissionModeCondition
-        self.modeDrivenTrueConditions = []
-        # type: TransmissionModeCondition
-        self.transmissionModeConditions = []
-        # type: TransmissionModeTiming
-        self.transmissionModeFalseTiming = None
-        # type: TransmissionModeTiming
-        self.transmissionModeTrueTiming = None
+        self.modeDrivenFalseConditions = []                         # type: List[ModeDrivenTransmissionModeCondition]
+        self.modeDrivenTrueConditions = []                          # type: List[ModeDrivenTransmissionModeCondition]
+        self.transmissionModeConditions = []                        # typeL List[TransmissionModeCondition]
+        self.transmissionModeFalseTiming = None                     # type: TransmissionModeTiming
+        self.transmissionModeTrueTiming = None                      # type: TransmissionModeTiming
 
     def getModeDrivenFalseConditions(self):
         return self.modeDrivenFalseConditions

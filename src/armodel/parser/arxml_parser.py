@@ -2,8 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -49,7 +47,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyI
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip6AddressString, RefType, ARLiteral
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
@@ -84,7 +82,9 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 
 from .abstract_arxml_parser import AbstractARXMLParser
@@ -2475,18 +2475,104 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
 
+    def getIpv6Configuration(self, element: ET.Element) -> Ipv6Configuration:
+        configuration = None
+        if element is not None:
+            configuration = Ipv6Configuration()
+            configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY")) \
+                         .setDefaultRouter(self.getChildElementOptionalLiteral(element, "DEFAULT-ROUTER")) \
+                         .setEnableAnycast(self.getChildElementOptionalBooleanValue(element, "ENABLE-ANYCAST")) \
+                         .setHopCount(self.getChildElementOptionalPositiveInteger(element, "HOP-COUNT")) \
+                         .setIpAddressPrefixLength(self.getChildElementOptionalPositiveInteger(element, "IP-ADDRESS-PREFIX-LENGTH")) \
+                         .setIpv6Address(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS")) \
+                         .setIpv6AddressSource(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE"))
+        return configuration
+
+    def readNetworkEndPointNetworkEndPointAddress(self, element: ET.Element, end_point: NetworkEndpoint):
+        for child_element in self.findall(element, "NETWORK-ENDPOINT-ADDRESSES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "IPV-6-CONFIGURATION":
+                end_point.addNetworkEndpointAddress(self.getIpv6Configuration(child_element))
+            else:
+                self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
+
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.readIdentifiable(element, end_point)
+        self.readNetworkEndPointNetworkEndPointAddress(element, end_point)
+        end_point.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
 
     def readEthernetPhysicalChannelNetworkEndPoints(self, element: ET.Element, channel: EthernetPhysicalChannel):
         for child_element in self.findall(element, "NETWORK-ENDPOINTS/NETWORK-ENDPOINT"):
             end_point = channel.createNetworkEndPoint(self.getShortName(child_element))
             self.readNetworkEndPoint(child_element, end_point)
 
+    def getSocketConnectionIpduIdentifier(self, element: ET.Element) -> SocketConnectionIpduIdentifier:
+        identifier = None
+        if element is not None:
+            identifier = SocketConnectionIpduIdentifier()
+            identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID")) \
+                      .setPduCollectionSemantics(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS")) \
+                      .setPduCollectionTrigger(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER")) \
+                      .setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF")) \
+                      .setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
+        return identifier
+
+    def getSocketConnectionPdus(self, element: ET.Element) -> List[SocketConnectionIpduIdentifier]:
+        pdus = []
+        for child_element in self.findall(element, "PDUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOCKET-CONNECTION-IPDU-IDENTIFIER":
+                pdus.append(self.getSocketConnectionIpduIdentifier(child_element))
+            else:
+                self.notImplemented("Unsupported Pdu <%s>" % tag_name)
+        return pdus
+
+    def getSocketConnection(self, element: ET.Element) -> SocketConnection:
+        connection = None
+        if element is not None:
+            connection = SocketConnection()
+            connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))
+            for pdu in self.getSocketConnectionPdus(element):
+                connection.addPdu(pdu)
+            connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE")) \
+                      .setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT")) \
+                      .setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        return connection
+         
+    def readSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
+        for child_element in self.findall(element, "BUNDLED-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOCKET-CONNECTION":
+                bundle.addBundledConnection(self.getSocketConnection(child_element))
+            else: 
+                self.notImplemented("Unsupported Bundled Connection <%s>" % tag_name)
+
+    def readSocketConnectionBundle(self, element: ET.Element, bundle: SocketConnectionBundle):
+        self.readSocketConnectionBundleConnections(element, bundle)
+        bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
+
+    def readSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
+        for child_element in self.findall(element, "CONNECTION-BUNDLES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOCKET-CONNECTION-BUNDLE":
+                bundle = config.createSocketConnectionBundle(self.getShortName(child_element))
+                self.readSocketConnectionBundle(child_element, bundle)
+            else:
+                self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
+
+    def getSoAdConfig(self, element: ET.Element, key: str) -> SoAdConfig:
+        child_element = self.find(element, key)
+        config = None
+        if child_element is not None:
+            config = SoAdConfig()
+            self.readSoAdConfigConnectionBundles(child_element, config)
+        return config
+
     def readEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
         self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
         self.readEthernetPhysicalChannelNetworkEndPoints(element, channel)
+        channel.setSoAdConfig(self.getSoAdConfig(element, "SO-AD-CONFIG"))
 
     def readCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         for child_element in self.findall(element, "PHYSICAL-CHANNELS/*"):
@@ -3000,7 +3086,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("SystemSignal %s" % short_name)
         signal = parent.createSystemSignal(short_name)
         self.readIdentifiable(element, signal)
-        signal.setDynamicLength(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-LENGTH"))
+        signal.setDynamicLength(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-LENGTH")) \
+              .setPhysicalProps(self.getSwDataDefProps(element, "PHYSICAL-PROPS"))
 
     def readSystemSignalGroup(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
@@ -3053,6 +3140,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             timing = CyclicTiming()
+            timing.setTimeOffset(self.getTimeRangeType(child_element, "TIME-OFFSET")) \
+                  .setTimePeriod(self.getTimeRangeType(child_element, "TIME-PERIOD"))
         return timing
 
     def getEventControlledTiming(self, element: ET.Element, key: str) -> EventControlledTiming:
@@ -3070,8 +3159,8 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.logger.debug("Get TransmissionModeTiming of <%s>" % key)
             timing = TransmissionModeTiming()
-            #timing.getCyclicTiming(child_element, "")
-            timing.setEventControlledTiming(self.getEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING"))
+            timing.setCyclicTiming(self.getCyclicTiming(child_element, "CYCLIC-TIMING")) \
+                  .setEventControlledTiming(self.getEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING"))
         return timing
 
     def getTransmissionModeDeclaration(self, element: ET.Element, key: str) -> TransmissionModeDeclaration:
@@ -3089,7 +3178,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING")
         if child_element is not None:
             timing = IPduTiming()
-            timing.setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
+            timing.setMinimumDelay(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY")) \
+                  .setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
         return timing
 
     def readISignalIPdu(self, element: ET.Element, parent: ARPackage):

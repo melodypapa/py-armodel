@@ -211,7 +211,8 @@ class BswTimingEvent(BswScheduleEvent):
         return self.period
 
     def setPeriod(self, value):
-        self.period = value
+        if not (value is None and self.period is not None):
+            self.period = value
         return self
 
     @property
