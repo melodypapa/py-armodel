@@ -84,7 +84,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig, SocketAddress
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 
 from .abstract_arxml_parser import AbstractARXMLParser
@@ -2560,12 +2560,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
 
+    def readSocketAddress(self, element: ET.Element, address: SocketAddress):
+        self.readSocketConnectionBundleConnections(element, address)
+        address.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
+
+    def readSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):   
+        for child_element in self.findall(element, "SOCKET-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOCKET-ADDRESS":
+                bundle = config.createSocketAddress(self.getShortName(child_element))
+                self.readSocketAddress(child_element, bundle)
+            else:
+                self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
+
     def getSoAdConfig(self, element: ET.Element, key: str) -> SoAdConfig:
         child_element = self.find(element, key)
         config = None
         if child_element is not None:
             config = SoAdConfig()
             self.readSoAdConfigConnectionBundles(child_element, config)
+            self.readSoAdConfigSocketAddresses(child_element, config)
         return config
 
     def readEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):

@@ -5,6 +5,67 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+class ApplicationEndpoint(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.consumedServiceInstances = []                      # type: List[ConsumedServiceInstance]
+        self.maxNumberOfConnections = None                      # type: PositiveInteger
+        self.networkEndpointRef = None                          # type: RefType
+        self.priority = None                                    # type: PositiveInteger
+        self.providedServiceInstances = []                      # type: List[ProvidedServiceInstance]
+        self.tlsCryptoMappingRef = None                         # type: RefType
+        self.tpConfiguration = None                             # type: TransportProtocolConfiguration
+
+    def getConsumedServiceInstances(self):
+        return self.consumedServiceInstances
+
+    def addConsumedServiceInstance(self, value):
+        self.consumedServiceInstances.append(value)
+        return self
+
+    def getMaxNumberOfConnections(self):
+        return self.maxNumberOfConnections
+
+    def setMaxNumberOfConnections(self, value):
+        self.maxNumberOfConnections = value
+        return self
+
+    def getNetworkEndpointRef(self):
+        return self.networkEndpointRef
+
+    def setNetworkEndpointRef(self, value):
+        self.networkEndpointRef = value
+        return self
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        self.priority = value
+        return self
+
+    def getProvidedServiceInstances(self):
+        return self.providedServiceInstances
+
+    def addProvidedServiceInstance(self, value):
+        self.providedServiceInstances.append(value)
+        return self
+
+    def getTlsCryptoMappingRef(self):
+        return self.tlsCryptoMappingRef
+
+    def setTlsCryptoMappingRef(self, value):
+        self.tlsCryptoMappingRef = value
+        return self
+
+    def getTpConfiguration(self):
+        return self.tpConfiguration
+
+    def setTpConfiguration(self, value):
+        self.tpConfiguration = value
+        return self
+
 class SocketAddress(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -125,9 +186,9 @@ class SoAdConfig(ARObject):
         return self.connectionBundles
     
     def createSocketConnectionBundle(self, short_name:str) -> SocketConnectionBundle:
-        end_point = SocketConnectionBundle(self, short_name)
-        self.connectionBundles.append(end_point)
-        return end_point
+        bundle = SocketConnectionBundle(self, short_name)
+        self.connectionBundles.append(bundle)
+        return bundle
 
     def setConnectionBundles(self, value):
         self.connectionBundles = value
@@ -136,8 +197,9 @@ class SoAdConfig(ARObject):
     def getSocketAddresses(self):
         return self.socketAddresses
 
-    def setSocketAddresses(self, value):
-        self.socketAddresses = value
-        return self
+    def createSocketAddress(self, short_name:str) -> SocketAddress:
+        address = SocketAddress(self, short_name)
+        self.socketAddresses.append(address)
+        return address
 
 
