@@ -1,9 +1,10 @@
 from typing import List
+
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses import Identifiable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-'''
 class SocketAddress(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -18,7 +19,7 @@ class SocketAddress(Identifiable):
         self.pathMtuDiscoveryEnabled = None         # type: Boolean
         self.pduCollectionMaxBufferSize = None      # type: PositiveInteger
         self.pduCollectionTimeout = None            # type: TimeValue
-        self.staticSocketConnections = []            # type: List[StaticSocketConnection]
+        self.staticSocketConnections = []           # type: List[StaticSocketConnection]
         self.udpChecksumHandling = None             # type: UdpChecksumCalculationEnum
 
     def getAllowedIPv6ExtHeadersRef(self):
@@ -104,13 +105,39 @@ class SocketAddress(Identifiable):
     def setUdpChecksumHandling(self, value):
         self.udpChecksumHandling = value
         return self
-'''
 
 class SoAdConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.connection = None                      # type: SocketConnection
-        self.connectionBundle = None                # type: SocketConnectionBundle
-        self.socketAddress = None                   # type: SocketAddress
+        self.connections = []                               # type: List[SocketConnection]
+        self.connectionBundles = []                         # type: List[SocketConnectionBundle]
+        self.socketAddresses = []                           # type: List[SocketAddress]
+
+    def getConnections(self):
+        return self.connections
+
+    def setConnections(self, value):
+        self.connections = value
+        return self
+
+    def getConnectionBundles(self):
+        return self.connectionBundles
+    
+    def createSocketConnectionBundle(self, short_name:str) -> SocketConnectionBundle:
+        end_point = SocketConnectionBundle(self, short_name)
+        self.connectionBundles.append(end_point)
+        return end_point
+
+    def setConnectionBundles(self, value):
+        self.connectionBundles = value
+        return self
+
+    def getSocketAddresses(self):
+        return self.socketAddresses
+
+    def setSocketAddresses(self, value):
+        self.socketAddresses = value
+        return self
+
 

@@ -459,3 +459,30 @@ class ArgumentDirectionEnum(AREnum):
             ArgumentDirectionEnum.INOUT,
             ArgumentDirectionEnum.OUT  
         ))
+
+
+class Ip4AddressString(ARLiteral):
+    '''
+        This is used to specify an IP4 address. Notation: 255.255.255.255
+        
+        Tags
+            * xml.xsd.customType=IP4-ADDRESS-STRING
+            * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()
+
+class Ip6AddressString(ARLiteral):
+    '''
+        This is used to specify an IP6 address. Notation: FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF
+        Alternative notations, short-cuts with duplicate colons like ::, etc. or mixtures using colons and dots, are
+        not allowed.
+        
+        Tags:
+            * xml.xsd.customType=IP6-ADDRESS-STRING
+            * xml.xsd.pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY
+            * xml.xsd.type=string
+    '''
+    def __init__(self):
+        super().__init__()

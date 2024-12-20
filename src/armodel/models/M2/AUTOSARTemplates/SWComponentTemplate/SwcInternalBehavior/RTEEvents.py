@@ -172,3 +172,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def setEventSourceRef(self, value):
         self.eventSourceRef = value
         return self
+
+class BackgroundEvent(RTEEvent):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

@@ -60,6 +60,9 @@ from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import *
+from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import *
+from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import *
+from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *
