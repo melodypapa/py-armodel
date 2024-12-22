@@ -154,12 +154,14 @@ class AbstractARXMLParser:
             time_value.setValue(child_element.text)
         return time_value
 
+    '''
     def getChildElementBooleanValue(self, short_name: str, element: ET.Element, key: str) -> Boolean:
         literal = self.getChildElementLiteral(short_name, element, key)
         bool_value = Boolean()
         bool_value.timestamp = literal.timestamp
         bool_value.value = self._convertStringToBooleanValue(literal._value)
         return bool_value
+    '''
 
     def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> Boolean:
         literal = self.getChildElementOptionalLiteral(element, key)

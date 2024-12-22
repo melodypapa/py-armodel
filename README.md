@@ -414,3 +414,9 @@ Fix the attribute intervalType of **Limit** is empty issue.
 2. To improve the following AR Element:
    * MODE-SWITCH-RECEIVER-COM-SPEC
    * APPLICATION-ARRAY-DATA-TYPE
+
+**Version 1.7.5**
+
+1. To generate the ARXML file list based on the path.
+2. To improve the following AR Element:
+   * SO-AD-CONFIG

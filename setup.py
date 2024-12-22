@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='armodel',
-    version='1.7.4',
+    version='1.7.5',
     description='the python arxml parser',
 
     url='http://github.com/melodypapa/py-armodel',
@@ -46,6 +46,8 @@ setup(
             'armodel-component          = armodel.cli.swc_list_cli:main',
             'armodel-system-signal      = armodel.cli.system_signal_cli:main',
             'armodel-memory-section     = armodel.cli.memory_section_cli:main',
+            'armodel-file-list          = armodel.cli.file_list_cli:main',
+            'eb-file-list               = armodel.cli.eb_file_list_cli:main',
         ]
     }
 )
