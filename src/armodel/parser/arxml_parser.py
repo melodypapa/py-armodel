@@ -84,7 +84,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig, SocketAddress
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig, SocketAddress, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 
 from .abstract_arxml_parser import AbstractARXMLParser
@@ -2560,18 +2560,53 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
 
+    def getTpPort(self, element: ET.SubElement, key: str) -> TpPort:
+        port = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            port = TpPort()
+            port.setDynamicallyAssigned(self.getChildElementOptionalBooleanValue(child_element, "DYNAMICALLY-ASSIGNED")) \
+                .setPortNumber(self.getChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER"))
+        return port
+
+    def readUdpTp(self, element: ET.Element, configuration: UdpTp):
+        configuration.setUdpTpPort(self.getTpPort(element, "UDP-TP-PORT"))
+
+    def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> TransportProtocolConfiguration:
+        configuration = None
+        child_element = self.find(element, "%s/*" % key)
+        if child_element is not None:
+            tag_name = self.getTagName(child_element)
+            if tag_name == "UDP-TP":
+                configuration = UdpTp()
+                self.readUdpTp(child_element, configuration)
+            else:
+                self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % tag_name)
+        return configuration
+
+    def readSocketAddressApplicationEndpoint(self, element: ET.Element, address: SocketAddress):
+        child_element = self.find(element, "APPLICATION-ENDPOINT")
+        if child_element is not None:
+            end_point = address.createApplicationEndpoint(self.getShortName(child_element))
+            end_point.setNetworkEndpointRef(self.getChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF")) \
+                     .setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY")) \
+                     .setTpConfiguration(self.getTransportProtocolConfiguration(child_element, "TP-CONFIGURATION"))
+
     def readSocketAddress(self, element: ET.Element, address: SocketAddress):
-        self.readSocketConnectionBundleConnections(element, address)
-        address.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
+        self.readIdentifiable(element, address)
+        self.readSocketAddressApplicationEndpoint(element, address)
+        address.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF")) \
+               .setPortAddress(self.getChildElementOptionalPositiveInteger(element, "PORT-ADDRESS"))
+
 
     def readSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):   
         for child_element in self.findall(element, "SOCKET-ADDRESSS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "SOCKET-ADDRESS":
-                bundle = config.createSocketAddress(self.getShortName(child_element))
-                self.readSocketAddress(child_element, bundle)
+                address = config.createSocketAddress(self.getShortName(child_element))
+                self.readSocketAddress(child_element, address)
             else:
-                self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
+                self.notImplemented("Unsupported Socket Address <%s>" % tag_name)
 
     def getSoAdConfig(self, element: ET.Element, key: str) -> SoAdConfig:
         child_element = self.find(element, key)
