@@ -89,7 +89,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceIns
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinUnconditionalFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
@@ -2528,17 +2528,55 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported PduTriggering <%s>" % type(triggering))
 
-    def setCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
+    def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.logger.debug("Set CanPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "CAN-PHYSICAL-CHANNEL")
         self.writeIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
+
+    def writeScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
+        self.setChildElementOptionalTimeValue(element, "DELAY", entry.getDelay())
+        self.setChildElementOptionalIntegerValue(element, "POSITION-IN-TABLE", entry.getPositionInTable())
+
+    def setApplicationEntry(self, element: ET.Element, key: str, entry: ApplicationEntry):
+        if entry is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeScheduleTableEntry(child_element, entry)
+            self.setChildElementOptionalRefType(child_element, "FRAME-TRIGGERING-REF", entry.getFrameTriggeringRef())
+
+    def writeLinScheduleTableTableEntries(self, element: ET.Element, table: LinScheduleTable):
+        entries = table.getTableEntries()
+        if len(entries) > 0:
+            child_element = ET.SubElement(element, "TABLE-ENTRYS")
+            for entry in entries:
+                if isinstance(entry, ApplicationEntry):
+                    self.setApplicationEntry(child_element, "APPLICATION-ENTRY", entry)
+                else:
+                    self.notImplemented("Unsupported Schedule Table <%s>" % type(entry))
+
+    def writeLinScheduleTable(self, element: ET.Element, table: LinScheduleTable):
+        child_element = ET.SubElement(element, "LIN-SCHEDULE-TABLE")
+        self.writeIdentifiable(child_element, table)
+        self.setChildElementOptionalLiteral(child_element, "RESUME-POSITION", table.getResumePosition())
+        self.setChildElementOptionalLiteral(child_element, "RUN-MODE", table.getRunMode())
+        self.writeLinScheduleTableTableEntries(child_element, table)
+
+    def writeLinPhysicalChannelScheduleTables(self, element: ET.Element, channel: LinPhysicalChannel):
+        tables = channel.getScheduleTables()
+        if len(tables) > 0:
+            child_element = ET.SubElement(element, "SCHEDULE-TABLES")
+            for table in tables:
+                if isinstance(table, LinScheduleTable):
+                    self.writeLinScheduleTable(child_element, table)
+                else:
+                    self.notImplemented("Unsupported Schedule Table <%s>" % type(table))
 
     def writeLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
         self.logger.debug("Set LinPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "LIN-PHYSICAL-CHANNEL")
         self.writeIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
+        self.writeLinPhysicalChannelScheduleTables(child_element, channel)
 
     def setIpv6Configuration(self, element: ET.Element, configuration: Ipv6Configuration):
         if configuration is not None:
@@ -2703,7 +2741,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "PHYSICAL-CHANNELS")
             for channel in channels:
                 if isinstance(channel, CanPhysicalChannel):
-                    self.setCanPhysicalChannel(child_element, channel)
+                    self.writeCanPhysicalChannel(child_element, channel)
                 elif isinstance(channel, LinPhysicalChannel):
                     self.writeLinPhysicalChannel(child_element, channel)
                 elif isinstance(channel, EthernetPhysicalChannel):

@@ -433,6 +433,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SO-AD-ROUTING-GROUP
    * DO-IP-TP-CONFIG
    * BUS-OFF-RECOVERY
+   * SCHEDULE-TABLES
 2. Fix the following AR Element
    * SW-RECORD-LAYOUT-V-AXIS
    * SW-RECORD-LAYOUT-GROUP-AXIS
