@@ -2,8 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -78,7 +76,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmC
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, IPduTiming, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
@@ -2659,9 +2657,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCommunicationClusterPhysicalChannels(element, cluster)
         cluster.setProtocolName(self.getChildElementOptionalLiteral(element, "PROTOCOL-NAME")) \
                .setProtocolVersion(self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION"))
-
+        
+    def getCanClusterBusOffRecovery(self, element: ET.Element, key: str) -> CanClusterBusOffRecovery:
+        recovery = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            recovery = CanClusterBusOffRecovery()
+            recovery.setBorCounterL1ToL2(self.getChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2")) \
+                    .setBorTimeL1(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1")) \
+                    .setBorTimeL2(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2"))
+        return recovery
+        
     def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
-        cluster.setCanFdBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE")) \
+        cluster.setBusOffRecovery(self.getCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY")) \
+               .setCanFdBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE")) \
                .setSpeed(self.getChildElementOptionalNumericalValue(element, "SPEED"))
 
     def readLinCluster(self, element: ET.Element, parent: ARPackage):
