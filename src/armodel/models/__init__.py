@@ -34,6 +34,7 @@ from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage
 from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *
 from .M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *
 from .M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *
+from .M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import *
 from .M2.AUTOSARTemplates.SWComponentTemplate import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.Communication import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.Components import *
@@ -52,6 +53,7 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall imp
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *
 from .M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
+from .M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
 from .M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *
 from .M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import *
 from .M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import *
@@ -59,6 +61,7 @@ from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import *
+from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import *

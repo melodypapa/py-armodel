@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -72,19 +74,20 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, IPduTiming, ISignalIPdu, ISignalTriggering, PduTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig, SocketAddress, TpPort, TransportProtocolConfiguration, UdpTp
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import GenericTp, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 
 from .abstract_arxml_parser import AbstractARXMLParser
@@ -2272,7 +2275,7 @@ class ARXMLParser(AbstractARXMLParser):
             layout_v = SwRecordLayoutV()
             layout_v.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")) \
                     .setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF")) \
-                    .setSwRecordLayoutVAxis(self.getChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-AXIS")) \
+                    .setSwRecordLayoutVAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS")) \
                     .setSwRecordLayoutVProp(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP")) \
                     .setSwRecordLayoutVIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX"))
         return layout_v
@@ -2284,7 +2287,7 @@ class ARXMLParser(AbstractARXMLParser):
             group = SwRecordLayoutGroup()
             group.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")) \
                  .setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY")) \
-                 .setSwRecordLayoutGroupAxis(self.getChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS")) \
+                 .setSwRecordLayoutGroupAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS")) \
                  .setSwRecordLayoutGroupIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX")) \
                  .setSwRecordLayoutGroupFrom(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM")) \
                  .setSwRecordLayoutGroupStep(self.getChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP")) \
@@ -2572,6 +2575,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readUdpTp(self, element: ET.Element, configuration: UdpTp):
         configuration.setUdpTpPort(self.getTpPort(element, "UDP-TP-PORT"))
 
+    def readTcpTp(self, element: ET.Element, configuration: TcpTp):
+        pass
+
+    def readGenericTp(self, element: ET.Element, configuration: GenericTp):
+        pass
+
     def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> TransportProtocolConfiguration:
         configuration = None
         child_element = self.find(element, "%s/*" % key)
@@ -2580,6 +2589,12 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "UDP-TP":
                 configuration = UdpTp()
                 self.readUdpTp(child_element, configuration)
+            elif tag_name == "TCP-TP":
+                configuration = TcpTp()
+                self.readTcpTp(child_element, configuration)
+            elif tag_name == "GENERIC-TP":
+                configuration = GenericTp()
+                self.readGenericTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % tag_name)
         return configuration
@@ -2677,6 +2692,66 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
 
+    def readDiagnosticConnection(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read DiagnosticConnection %s" % short_name)
+        connection = parent.createDiagnosticConnection(short_name)
+        self.readIdentifiable(element, connection)
+
+    def readDiagnosticServiceTable(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read DiagnosticServiceTable %s" % short_name)
+        table = parent.createDiagnosticServiceTable(short_name)
+        self.readIdentifiable(element, table)
+
+    def readMultiplexedIPdu(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read MultiplexedIPdu %s" % short_name)
+        i_pdu = parent.createMultiplexedIPdu(short_name)
+        self.readIdentifiable(element, i_pdu)
+
+    def readUserDefinedIPdu(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read UserDefinedIPdu %s" % short_name)
+        i_pdu = parent.createUserDefinedIPdu(short_name)
+        self.readIdentifiable(element, i_pdu)
+
+    def readUserDefinedPdu(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read UserDefinedPdu %s" % short_name)
+        pdu = parent.createUserDefinedPdu(short_name)
+        self.readIdentifiable(element, pdu)
+
+    def readGeneralPurposePdu(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read GeneralPurposePdu %s" % short_name)
+        pdu = parent.createGeneralPurposePdu(short_name)
+        self.readIdentifiable(element, pdu)
+
+    def readGeneralPurposeIPdu(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read GeneralPurposeIPdu %s" % short_name)
+        i_pdu = parent.createGeneralPurposeIPdu(short_name)
+        self.readIdentifiable(element, i_pdu)
+
+    def readSecureCommunicationPropsSet(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read SecureCommunicationPropsSet %s" % short_name)
+        prop_set = parent.createSecureCommunicationPropsSet(short_name)
+        self.readIdentifiable(element, prop_set)
+
+    def readSoAdRoutingGroup(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read SoAdRoutingGroup %s" % short_name)
+        group = parent.createSoAdRoutingGroup(short_name)
+        self.readIdentifiable(element, group)
+
+    def readDoIpTpConfig(self, element: ET.Element, parent: ARPackage):
+        short_name = self.getShortName(element)
+        self.logger.debug("Read DoIpTpConfig %s" % short_name)
+        group = parent.createDoIpTpConfig(short_name)
+        self.readIdentifiable(element, group)
+
     def readPduToFrameMappings(self, element: ET.Element, parent: Frame):
         for child_element in self.findall(element, "PDU-TO-FRAME-MAPPINGS/PDU-TO-FRAME-MAPPING"):
             short_name = self.getShortName(child_element)
@@ -2731,6 +2806,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIPdu(element, pdu)
 
     def readNmNode(self, element: ET.Element, nm_node: NmNode):
+        self.readIdentifiable(element, nm_node)
+
         nm_node.setControllerRef(self.getChildElementOptionalRefType(element, "CONTROLLER-REF")) \
             .setNmIfEcuRef(self.getChildElementOptionalRefType(element, "NM-IF-ECU-REF")) \
             .setNmNodeId(self.getChildElementOptionalNumericalValue(element, "NM-NODE-ID"))
@@ -2739,23 +2816,30 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "TX-NM-PDU-REFS/TX-NM-PDU-REF"):
             nm_node.addTxNmPduRefs(ref)
 
-    def readCanNmNode(self, element: ET.Element, parent: NmCluster):
-        short_name = self.getShortName(element)
-        self.logger.debug("readCanNmNode %s" % short_name)
-        nm_node = parent.createCanNmNode(short_name)            # type: CanNmNode
-        self.readIdentifiable(element, nm_node)
+    def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
+        self.logger.debug("Read CanNmNode %s" % nm_node.getShortName())
+        
         self.readNmNode(element, nm_node)
 
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET")) \
                .setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME")) \
                .setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
+        
+    def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
+        self.logger.debug("Read UdpNmNode %s" % nm_node.getShortName())
+        
+        self.readNmNode(element, nm_node)
 
     def readNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         self.logger.debug("readNmConfigNmNodes %s" % parent.getShortName())
         for child_element in self.findall(element, "NM-NODES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-NODE":
-                self.readCanNmNode(child_element, parent)
+                nm_node = parent.createCanNmNode(self.getShortName(child_element))
+                self.readCanNmNode(child_element, nm_node)
+            elif tag_name == "UDP-NM-NODE":
+                nm_node = parent.readUdpNmNode(self.getShortName(child_element))
+                self.readUdpNmNode(child_element, nm_node)
             else:
                 self._raiseError("Unsupported Nm Node <%s>" % tag_name)
 
@@ -2769,6 +2853,10 @@ class ARXMLParser(AbstractARXMLParser):
                 .setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
     
         return coupling
+    
+    def getUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:
+        coupling = UdpNmClusterCoupling()
+        return coupling
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
         self.logger.debug("readNmClusterNmClusterCouplings %s" % nm_config.getShortName())
@@ -2776,10 +2864,13 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.getCanNmClusterCoupling(child_element))
+            elif tag_name == "UDP-NM-CLUSTER-COUPLING":
+                nm_config.addNmClusterCouplings(self.getUdpNmClusterCoupling(child_element))
             else:
-                self._raiseError("Unsupported Nm Node <%s>" % tag_name)
+                self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
     def readNmCluster(self, element: ET.Element, cluster: NmCluster):
+        self.readIdentifiable(element, cluster)
         cluster.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF")) \
                .setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID")) \
                .setNmChannelSleepMaster(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER"))
@@ -2790,7 +2881,6 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         self.logger.debug("readCanNmCluster %s" % short_name)
         cluster = parent.createCanNmCluster(short_name)         # type: CanNmCluster
-        self.readIdentifiable(element, cluster)
         self.readNmCluster(element, cluster)
 
         cluster.setNmBusloadReductionActive(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ACTIVE")) \
@@ -2808,11 +2898,19 @@ class ARXMLParser(AbstractARXMLParser):
                .setNmUserDataLength(self. getChildElementOptionalNumericalValue(element, "NM-USER-DATA-LENGTH")) \
                .setNmWaitBusSleepTime(self.getChildElementOptionalFloatValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
         
+    def readUdpNmCluster(self, element: ET.Element, parent: NmConfig):
+        short_name = self.getShortName(element)
+        self.logger.debug("readCanNmCluster %s" % short_name)
+        cluster = parent.createUdpNmCluster(short_name)         # type: CanNmCluster
+        self.readNmCluster(element, cluster)
+        
     def readNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-CLUSTER":
                 self.readCanNmCluster(child_element, parent)
+            elif tag_name == "UDP-NM-CLUSTER":
+                self.readUdpNmCluster(child_element, parent)
             else:
                 self._raiseError("Unsupported Nm Cluster <%s>" % tag_name)
     
@@ -2841,7 +2939,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, controller)
 
     def readEthernetCommunicationController(self, element: ET.Element, controller: EthernetCommunicationController):
-        self.logger.debug("Read CanCommunicationController %s" % controller.getShortName())
+        self.logger.debug("Read EthernetCommunicationController %s" % controller.getShortName())
+        self.readIdentifiable(element, controller)
+
+    def readLinMaster(self, element: ET.Element, controller: LinMaster):
+        self.logger.debug("Read LinMaster %s" % controller.getShortName())
         self.readIdentifiable(element, controller)
 
     def readEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
@@ -2854,6 +2956,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETHERNET-COMMUNICATION-CONTROLLER":
                 controller = instance.createEthernetCommunicationController(self.getShortName(child_element))
                 self.readEthernetCommunicationController(child_element, controller)
+            elif tag_name == "LIN-MASTER":
+                controller = instance.createLinMaster(self.getShortName(child_element))
+                self.readLinMaster(child_element, controller)
             else:
                 self._raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
@@ -2894,7 +2999,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
-    def readEthernetCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
+    def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
+        self.readCommunicationConnector(element, connector)
+
+    def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
     def readEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
@@ -2907,6 +3015,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETHERNET-COMMUNICATION-CONNECTOR":
                 connector = instance.createEthernetCommunicationConnector(self.getShortName(child_element))
                 self.readEthernetCommunicationConnector(child_element, connector)
+            elif tag_name == "LIN-COMMUNICATION-CONNECTOR":
+                connector = instance.createLinCommunicationConnector(self.getShortName(child_element))
+                self.readLinCommunicationConnector(child_element, connector)
             else:
                 self._raiseError("Unsupported Communication Connector <%s>" % tag_name)                
 
@@ -3402,8 +3513,6 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping_set)
         self.readPortInterfaceMappings(element, mapping_set)
 
-    
-
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "ELEMENTS/*"):
             tag_name = self.getTagName(child_element.tag)
@@ -3450,6 +3559,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "APPLICATION-ARRAY-DATA-TYPE":
                 self.readApplicationArrayDataType(child_element, parent)
             elif tag_name == "SW-RECORD-LAYOUT":
+                
                 self.readSwRecordLayout(child_element, parent)
             elif tag_name == "SW-ADDR-METHOD":
                 self.readSwAddrMethod(child_element, parent)
@@ -3525,6 +3635,26 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readPortInterfaceMappingSet(child_element, parent)
             elif tag_name == "ETHERNET-CLUSTER":
                 self.readEthernetCluster(child_element, parent)
+            elif tag_name == "DIAGNOSTIC-CONNECTION":
+                self.readDiagnosticConnection(child_element, parent)
+            elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
+                self.readDiagnosticServiceTable(child_element, parent)
+            elif tag_name == "MULTIPLEXED-I-PDU":
+                self.readMultiplexedIPdu(child_element, parent)
+            elif tag_name == "USER-DEFINED-I-PDU":
+                self.readUserDefinedIPdu(child_element, parent)
+            elif tag_name == "USER-DEFINED-PDU":
+                self.readUserDefinedPdu(child_element, parent)
+            elif tag_name == "GENERAL-PURPOSE-PDU":
+                self.readGeneralPurposePdu(child_element, parent)
+            elif tag_name == "GENERAL-PURPOSE-I-PDU":
+                self.readGeneralPurposeIPdu(child_element, parent)
+            elif tag_name == "SECURE-COMMUNICATION-PROPS-SET":
+                self.readSecureCommunicationPropsSet(child_element, parent)
+            elif tag_name == "SO-AD-ROUTING-GROUP":
+                self.readSoAdRoutingGroup(child_element, parent)
+            elif tag_name == "DO-IP-TP-CONFIG":
+                self.readDoIpTpConfig(child_element, parent)
             else:
                 self.notImplemented("Unsupported element type of ARPackage <%s>" % tag_name)
 

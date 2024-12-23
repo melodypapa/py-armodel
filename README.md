@@ -417,6 +417,20 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 **Version 1.7.5**
 
-1. To generate the ARXML file list based on the path.
-2. To improve the following AR Element:
-   * SO-AD-CONFIG
+1. To support the following AR Element:
+   * DIAGNOSTIC-CONNECTION
+   * DIAGNOSTIC-SERVICE-TABLE
+   * LIN-MASTER
+   * LIN-COMMUNICATION-CONNECTOR
+   * UDP-NM-CLUSTER
+   * UDP-NM-NODE
+   * MULTIPLEXED-I-PDU
+   * USER-DEFINED-I-PDU
+   * USER-DEFINED-PDU
+   * GENERAL-PURPOSE-I-PDU
+   * GENERAL-PURPOSE-PDU
+   * SECURE-COMMUNICATION-PROPS-SET
+   * SO-AD-ROUTING-GROUP
+   * DO-IP-TP-CONFIG
+2. Fix
+   * SW-RECORD-LAYOUT-V-AXIS

@@ -47,7 +47,6 @@ setup(
             'armodel-system-signal      = armodel.cli.system_signal_cli:main',
             'armodel-memory-section     = armodel.cli.memory_section_cli:main',
             'armodel-file-list          = armodel.cli.file_list_cli:main',
-            'eb-file-list               = armodel.cli.eb_file_list_cli:main',
         ]
     }
 )

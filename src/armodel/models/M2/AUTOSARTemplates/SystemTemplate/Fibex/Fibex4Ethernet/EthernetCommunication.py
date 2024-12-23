@@ -1,7 +1,7 @@
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, TimeValue
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 
 class SocketConnection(Describable):
     def __init__(self):
@@ -226,4 +226,19 @@ class SocketConnectionBundle(Referrable):
 
     def setUdpChecksumHandling(self, value):
         self.udpChecksumHandling = value
+        return self
+
+class SoAdRoutingGroup(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # type: EventGroupControlTypeEnum
+        self.eventGroupControlType = None
+
+    def getEventGroupControlType(self):
+        return self.eventGroupControlType
+
+    def setEventGroupControlType(self, value):
+        if value is not None:
+            self.eventGroupControlType = value
         return self
