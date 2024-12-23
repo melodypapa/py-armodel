@@ -437,3 +437,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
 2. Fix the following AR Element
    * SW-RECORD-LAYOUT-V-AXIS
    * SW-RECORD-LAYOUT-GROUP-AXIS
+3. Improve the following AR Element
+   * SOCKET-CONNECTION

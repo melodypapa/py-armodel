@@ -2566,11 +2566,15 @@ class ARXMLParser(AbstractARXMLParser):
         connection = None
         if element is not None:
             connection = SocketConnection()
-            connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))
+            connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST")) \
+                      .setClientPortFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-PORT-FROM-CONNECTION-REQUEST")) \
+                      .setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))
             for pdu in self.getSocketConnectionPdus(element):
                 connection.addPdu(pdu)
             connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE")) \
                       .setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT")) \
+                      .setRuntimeIpAddressConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-IP-ADDRESS-CONFIGURATION")) \
+                      .setRuntimePortConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-PORT-CONFIGURATION")) \
                       .setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
         return connection
          

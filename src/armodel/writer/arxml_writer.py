@@ -2632,10 +2632,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSocketConnection(self, element: ET.Element, connection: SocketConnection):
         if connection is not None:
             child_element = ET.SubElement(element, "SOCKET-CONNECTION")
+            self.setChildElementOptionalBooleanValue(child_element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST", connection.getClientIpAddrFromConnectionRequest())
+            self.setChildElementOptionalBooleanValue(child_element, "CLIENT-PORT-FROM-CONNECTION-REQUEST", connection.getClientPortFromConnectionRequest())
             self.setChildElementOptionalRefType(child_element, "CLIENT-PORT-REF", connection.getClientPortRef())
             self.setSocketConnectionPdus(child_element, "PDUS", connection.getPdus())
             self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", connection.getPduCollectionMaxBufferSize())
             self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", connection.getPduCollectionTimeout())
+            self.setChildElementOptionalLiteral(child_element, "RUNTIME-IP-ADDRESS-CONFIGURATION", connection.getRuntimeIpAddressConfiguration())
+            self.setChildElementOptionalLiteral(child_element, "RUNTIME-PORT-CONFIGURATION", connection.getRuntimePortConfiguration())
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", connection.getShortLabel())
 
     def writeSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
