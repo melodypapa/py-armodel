@@ -1,6 +1,10 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
+
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -76,22 +80,22 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import S
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, PduTriggering, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, PduTriggering, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SoAdConfig, SocketAddress, TpPort, TransportProtocolConfiguration, UdpTp
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import GenericTp, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinUnconditionalFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):
@@ -2092,7 +2096,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", layout_v.getShortLabel())
             self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", layout_v.getBaseTypeRef())
-            self.setChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-V-AXIS", layout_v.getSwRecordLayoutVAxis())
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS", layout_v.getSwRecordLayoutVAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP", layout_v.getSwRecordLayoutVProp())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX", layout_v.getSwRecordLayoutVIndex())
 
@@ -2101,7 +2105,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", group.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", group.getCategory())
-            self.setChildElementOptionalNumericalValue(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS", group.getSwRecordLayoutGroupAxis())
+            self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS", group.getSwRecordLayoutGroupAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX", group.getSwRecordLayoutGroupIndex())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM", group.getSwRecordLayoutGroupFrom())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.getSwRecordLayoutGroupTo())
@@ -2284,7 +2288,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "TX-NM-PDU-REF", ref)
 
     def writeCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
-        self.logger.debug("writeCanNmNode %s" % nm_node.getShortName())
+        self.logger.debug("write CanNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-NODE")
         self.writeIdentifiable(child_element, nm_node)
         self.writeNmNode(child_element, nm_node)
@@ -2293,6 +2297,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
         self.setChildElementRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
 
+    def writeUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
+        self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
+        child_element = ET.SubElement(element, "UDP-NM-NODE")
+        self.writeIdentifiable(child_element, nm_node)
+        self.writeNmNode(child_element, nm_node)
+
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
         if len(nodes) > 0:
@@ -2300,10 +2310,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for node in nodes:
                 if isinstance(node, CanNmNode):
                     self.writeCanNmNode(child_element, node)
+                elif isinstance(node, UdpNmNode):
+                    self.writeUdpNmNode(child_element, node)
                 else:
-                    self._raiseError("Unsupported Nm Node <%s>" % type(node))
+                    self.notImplemented("Unsupported Nm Node <%s>" % type(node))
 
-    def setCanNmClusterCoupling(self, element: ET.Element, coupling: CanNmClusterCoupling):
+    def writeCanNmClusterCoupling(self, element: ET.Element, coupling: CanNmClusterCoupling):
         child_element = ET.SubElement(element, "CAN-NM-CLUSTER-COUPLING")
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
@@ -2314,6 +2326,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ENABLED", coupling.getNmBusloadReductionEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
 
+    def writeUdpNmClusterCoupling(self, element: ET.Element, coupling: UdpNmClusterCoupling):
+        child_element = ET.SubElement(element, "UDP-NM-CLUSTER-COUPLING")
+
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
         self.logger.debug("writeNmConfigNmClusterCouplings %s" % config.getShortName())
         couplings = config.getNmClusterCouplings()
@@ -2321,11 +2336,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element= ET.SubElement(element, "NM-CLUSTER-COUPLINGS")
             for coupling in couplings:
                 if isinstance(coupling, CanNmClusterCoupling):
-                    self.setCanNmClusterCoupling(child_element, coupling)
+                    self.writeCanNmClusterCoupling(child_element, coupling)
+                elif isinstance(coupling, UdpNmClusterCoupling):
+                    self.writeUdpNmClusterCoupling(child_element, coupling)
                 else:
-                    self._raiseError("Unsupported Nm Cluster Coupling <%s>" % type(coupling))
+                    self.notImplemented("Unsupported Nm Cluster Coupling <%s>" % type(coupling))
 
     def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
+        self.writeIdentifiable(element, cluster)
         self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.communicationClusterRef)
         self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.nmChannelId)
         self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.nmChannelSleepMaster)
@@ -2335,7 +2353,6 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
         self.logger.debug("WriteCanNmCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-CLUSTER")
-        self.writeIdentifiable(child_element, cluster)
         self.writeNmCluster(child_element, cluster)
 
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ACTIVE", cluster.getNmBusloadReductionActive())
@@ -2353,6 +2370,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(child_element, "NM-USER-DATA-LENGTH", cluster.getNmUserDataLength())
         self.setChildElementOptionalFloatValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
 
+    def writeUdpNmCluster(self, element: ET.Element, cluster: CanNmCluster):
+        self.logger.debug("Write UdpNmCluster %s" % cluster.getShortName())
+        child_element = ET.SubElement(element, "UDP-NM-CLUSTER")
+        self.writeNmCluster(child_element, cluster)
+
     def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         clusters = parent.getNmClusters()
         if len(clusters) > 0:
@@ -2360,8 +2382,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for cluster in clusters:
                 if isinstance(cluster, CanNmCluster):
                     self.writeCanNmCluster(child_element, cluster)
+                elif isinstance(cluster, UdpNmCluster):
+                    self.writeUdpNmCluster(child_element, cluster)
                 else:
-                    self._raiseError("Unsupported Nm Cluster <%s>" % type(cluster))
+                    self.notImplemented("Unsupported Nm Cluster <%s>" % type(cluster))
 
     def writeNmConfig(self, element: ET.Element, config: NmConfig):
         self.logger.debug("WriteNmConfig %s" % config.getShortName())
@@ -2614,11 +2638,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "UDP-TP")
         self.setTpPort(child_element, "UDP-TP-PORT", configuration.getUdpTpPort())
 
-    def setTransportProtocolConfiguration(self, element: ET.Element, configuration: TransportProtocolConfiguration):
+    def writeTcpTp(self, element: ET.Element, configuration: TcpTp):
+        child_element = ET.SubElement(element, "TCP-TP")
+
+    def writeGenericTp(self, element: ET.Element, configuration: GenericTp):
+        child_element = ET.SubElement(element, "GENERIC-TP")
+
+    def writeTransportProtocolConfiguration(self, element: ET.Element, configuration: TransportProtocolConfiguration):
         if configuration is not None:
             child_element = ET.SubElement(element, "TP-CONFIGURATION")
             if isinstance(configuration, UdpTp):
                 self.writeUdpTp(child_element, configuration)
+            elif isinstance(configuration, TcpTp):
+                self.writeTcpTp(child_element, configuration)
+            elif isinstance(configuration, GenericTp):
+                self.writeGenericTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % type(configuration))
 
@@ -2631,7 +2665,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, end_point)
             self.setChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF", end_point.getNetworkEndpointRef())
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
-            self.setTransportProtocolConfiguration(child_element, end_point.getTpConfiguration())
+            self.writeTransportProtocolConfiguration(child_element, end_point.getTpConfiguration())
 
     def writeSocketAddress(self, element: ET.Element, address: SocketAddress):
         child_element = ET.SubElement(element, "SOCKET-ADDRESS")
@@ -2650,19 +2684,19 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Socket Address <%s>" % type(address))
 
-    def setSoAdConfig(self, element: ET.Element, key: str, config: SoAdConfig):
+    def writeSoAdConfig(self, element: ET.Element, key: str, config: SoAdConfig):
         if config is not None:
             child_element = ET.SubElement(element, key)
             self.writeSoAdConfigConnectionBundles(child_element, config)
             self.writeSoAdConfigSocketAddresses(child_element, config)
 
-    def setEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
+    def writeEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
         self.logger.debug("Set EthernetPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-PHYSICAL-CHANNEL")
         self.writeIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
         self.writeEthernetPhysicalChannelNetworkEndPoints(child_element, channel.getNetworkEndpoints())
-        self.setSoAdConfig(child_element, "SO-AD-CONFIG", channel.getSoAdConfig())
+        self.writeSoAdConfig(child_element, "SO-AD-CONFIG", channel.getSoAdConfig())
 
     def writeCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         channels = cluster.getPhysicalChannels()
@@ -2674,7 +2708,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(channel, LinPhysicalChannel):
                     self.writeLinPhysicalChannel(child_element, channel)
                 elif isinstance(channel, EthernetPhysicalChannel):
-                    self.setEthernetPhysicalChannel(child_element, channel)
+                    self.writeEthernetPhysicalChannel(child_element, channel)
                 else:
                     self.notImplemented("Unsupported Physical Channel <%s>" % type(channel))
 
@@ -2684,7 +2718,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "PROTOCOL-NAME", cluster.getProtocolName())
         self.setChildElementOptionalLiteral(element, "PROTOCOL-VERSION", cluster.getProtocolVersion())
 
-    def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
+    def writeAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
         self.setChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE", cluster.getCanFdBaudrate())
         self.setChildElementOptionalNumericalValue(element, "SPEED", cluster.getSpeed())
 
@@ -2704,7 +2738,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(child_element, "CAN-CLUSTER-VARIANTS")
         child_element = ET.SubElement(child_element, "CAN-CLUSTER-CONDITIONAL")
         self.writeCommunicationCluster(child_element, cluster)
-        self.readAbstractCanCluster(child_element, cluster)
+        self.writeAbstractCanCluster(child_element, cluster)
 
     def writeEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Set EthernetCluster %s" % cluster.getShortName())
@@ -2770,6 +2804,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(controller, EthernetCommunicationController):
                     child_element = ET.SubElement(controllers_tag, "ETHERNET-COMMUNICATION-CONTROLLER")
                     self.setEthernetCommunicationController(child_element, controller)
+                elif isinstance(controller, LinMaster):
+                    child_element = ET.SubElement(controllers_tag, "LIN-MASTER")
+                    self.writeLinMaster(child_element, controller)
                 else:
                     self.notImplemented("Unsupported Communication Controller <%s>" % type(controller))
 
@@ -2786,6 +2823,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
 
+    def writeLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
+        self.logger.debug("Write LinCommunicationConnector %s" % connector.getShortName())
+        self.writeCommunicationConnector(element, connector)
+
     def writeEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
         connectors = instance.getConnectors()
         if len(connectors) > 0:
@@ -2797,6 +2838,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(connector, EthernetCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "ETHERNET-COMMUNICATION-CONNECTOR")
                     self.writeEthernetCommunicationConnector(child_element, connector)
+                elif isinstance(connector, LinCommunicationConnector):
+                    child_element = ET.SubElement(connectors_tag, "LIN-COMMUNICATION-CONNECTOR")
+                    self.writeLinCommunicationConnector(child_element, connector)
                 else:
                     self._raiseError("Unsupported Communication connector <%s>" % type(connector))
 
@@ -3152,15 +3196,70 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-LENGTH", signal.getDynamicLength())
         self.setSwDataDefProps(child_element, "PHYSICAL-PROPS", signal.getPhysicalProps())
 
-    def writeGenericEthernetFrame(self, element: ET.Element, signal: GenericEthernetFrame):
-        self.logger.debug("Write GenericEthernetFrame %s" % signal.getShortName())
+    def writeGenericEthernetFrame(self, element: ET.Element, frame: GenericEthernetFrame):
+        self.logger.debug("Write GenericEthernetFrame %s" % frame.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-FRAME")
-        self.writeFrame(child_element, signal)
+        self.writeFrame(child_element, frame)
 
     def writeLifeCycleInfoSet(self, element: ET.Element, set: LifeCycleInfoSet):
         self.logger.debug("Write LifeCycleInfoSet %s" % set.getShortName())
         child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
         self.writeIdentifiable(child_element, set)
+
+    def writeDiagnosticConnection(self, element: ET.Element, connection: DiagnosticConnection):
+        self.logger.debug("Write DiagnosticConnection %s" % connection.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-CONNECTION")
+        self.writeIdentifiable(child_element, connection)
+
+    def writeDiagnosticServiceTable(self, element: ET.Element, table: DiagnosticServiceTable):
+        self.logger.debug("Write DiagnosticServiceTable %s" % table.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-SERVICE-TABLE")
+        self.writeIdentifiable(child_element, table)
+
+    def writeMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
+        self.logger.debug("Write MultiplexedIPdu %s" % i_pdu.getShortName())
+        child_element = ET.SubElement(element, "MULTIPLEXED-I-PDU")
+        self.writeIdentifiable(child_element, i_pdu)
+
+    def writeUserDefinedIPdu(self, element: ET.Element, i_pdu: UserDefinedIPdu):
+        self.logger.debug("Write UserDefinedIPdu %s" % i_pdu.getShortName())
+        child_element = ET.SubElement(element, "USER-DEFINED-I-PDU")
+        self.writeIdentifiable(child_element, i_pdu)
+
+    def writeUserDefinedPdu(self, element: ET.Element, pdu: UserDefinedPdu):
+        self.logger.debug("Write UserDefinedPdu %s" % pdu.getShortName())
+        child_element = ET.SubElement(element, "USER-DEFINED-PDU")
+        self.writeIdentifiable(child_element, pdu)
+
+    def writeGeneralPurposePdu(self, element: ET.Element, pdu: GeneralPurposePdu):
+        self.logger.debug("Write GeneralPurposePdu %s" % pdu.getShortName())
+        child_element = ET.SubElement(element, "GENERAL-PURPOSE-PDU")
+        self.writeIdentifiable(child_element, pdu)
+
+    def writeGeneralPurposeIPdu(self, element: ET.Element, i_pdu: GeneralPurposeIPdu):
+        self.logger.debug("Write GeneralPurposeIPdu %s" % i_pdu.getShortName())
+        child_element = ET.SubElement(element, "GENERAL-PURPOSE-I-PDU")
+        self.writeIdentifiable(child_element, i_pdu)
+
+    def writeSecureCommunicationPropsSet(self, element: ET.Element, set: SecureCommunicationPropsSet):
+        self.logger.debug("Write SecureCommunicationPropsSet %s" % set.getShortName())
+        child_element = ET.SubElement(element, "SECURE-COMMUNICATION-PROPS-SET")
+        self.writeIdentifiable(child_element, set)
+
+    def writeSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
+        self.logger.debug("Write SoAdRoutingGroup %s" % group.getShortName())
+        child_element = ET.SubElement(element, "SO-AD-ROUTING-GROUP")
+        self.writeIdentifiable(child_element, group)
+
+    def writeDoIpTpConfig(self, element: ET.Element, config: DoIpTpConfig):
+        self.logger.debug("Write DoIpTpConfig %s" % config.getShortName())
+        child_element = ET.SubElement(element, "DO-IP-TP-CONFIG")
+        self.writeIdentifiable(child_element, config)
+
+    def writeLinMaster(self, element: ET.Element, master: LinMaster):
+        self.logger.debug("Write LinMaster %s" % master.getShortName())
+        child_element = ET.SubElement(element, "LIN-MASTER")
+        self.writeIdentifiable(child_element, master)
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()
@@ -3347,6 +3446,26 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthernetCluster(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
+        elif isinstance(ar_element, DiagnosticConnection):
+            self.writeDiagnosticConnection(element, ar_element)
+        elif isinstance(ar_element, DiagnosticServiceTable):
+            self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, MultiplexedIPdu):
+            self.writeMultiplexedIPdu(element, ar_element)
+        elif isinstance(ar_element, UserDefinedIPdu):
+            self.writeUserDefinedIPdu(element, ar_element)
+        elif isinstance(ar_element, UserDefinedPdu):
+            self.writeUserDefinedPdu(element, ar_element)
+        elif isinstance(ar_element, GeneralPurposePdu):
+            self.writeGeneralPurposePdu(element, ar_element)
+        elif isinstance(ar_element, GeneralPurposeIPdu):
+            self.writeGeneralPurposeIPdu(element, ar_element)
+        elif isinstance(ar_element, SecureCommunicationPropsSet):
+            self.writeSecureCommunicationPropsSet(element, ar_element)
+        elif isinstance(ar_element, SoAdRoutingGroup):
+            self.writeSoAdRoutingGroup(element, ar_element)
+        elif isinstance(ar_element, DoIpTpConfig):
+            self.writeDoIpTpConfig(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
         

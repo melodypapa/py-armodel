@@ -3,7 +3,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, ARBoolean
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class NmClusterCoupling(ARObject, metaclass = ABCMeta):
@@ -210,7 +210,7 @@ class NmCluster(Identifiable, metaclass=ABCMeta):
         self.communicationClusterRef = None
         self.nmChannelId = None
         self.nmChannelSleepMaster = None
-        self._nmNodes = []                       # type: List[NmNode]
+        self.nmNodes = []                       # type: List[NmNode]
         self.nmNodeDetectionEnabled = None
         self.nmNodeIdEnabled = None
         self.nmPncParticipation = None
@@ -240,13 +240,23 @@ class NmCluster(Identifiable, metaclass=ABCMeta):
 
     def createCanNmNode(self, short_name: str) -> CanNmNode:
         if (short_name not in self.elements):
-            cluster = CanNmNode(self, short_name)
-            self.elements[short_name] = cluster
-            self._nmNodes.append(cluster)
-        return self.elements[short_name]
+            node = CanNmNode(self, short_name)
+            self.addElement(node)
+            self.nmNodes.append(node)
+        return self.getElement(short_name)
+    
+    def readUdpNmNode(self, short_name: str) -> UdpNmNode:
+        if (short_name not in self.elements):
+            node = UdpNmNode(self, short_name)
+            self.addElement(node)
+            self.nmNodes.append(node)
+        return self.getElement(short_name)
     
     def getCanNmNodes(self) -> List[CanNmNode]:
         return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements.values()), key= lambda o:o.short_name))
+    
+    def getUdpNmNodes(self) -> List[UdpNmNode]:
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements.values()), key= lambda o:o.short_name))
     
     def getNmNodes(self) -> List[NmNode]:
         return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements.values()), key= lambda o:o.short_name))
@@ -514,10 +524,7 @@ class NmEcu(Identifiable):
 
     def setNmUserDataEnabled(self, value):
         self.nmUserDataEnabled = value
-        return self
-
-
-    
+        return self   
 
 class NmConfig(FibexElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -529,11 +536,20 @@ class NmConfig(FibexElement):
     def createCanNmCluster(self, short_name: str) -> CanNmCluster:
         if (short_name not in self.elements):
             cluster = CanNmCluster(self, short_name)
-            self.elements[short_name] = cluster
-        return self.elements[short_name]
+            self.addElement(cluster)
+        return self.getElement(short_name)
     
+    def createUdpNmCluster(self, short_name: str) -> UdpNmCluster:
+        if (short_name not in self.elements):
+            cluster = UdpNmCluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+
     def getCanNmClusters(self) -> List[CanNmCluster]:
         return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements.values()), key= lambda o:o.short_name))
+    
+    def getUdpNmClusters(self) -> List[UdpNmCluster]:
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements.values()), key= lambda o:o.short_name))
     
     def getNmClusters(self) -> List[NmCluster]:
         return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements.values()), key= lambda o:o.short_name))
@@ -551,3 +567,109 @@ class NmConfig(FibexElement):
     def addNmIfEcus(self, value):
         self.nmIfEcus.append(value)
         return self
+    
+class UdpNmCluster(NmCluster):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.nmCbvPosition = None                           # type: Integer
+        self.nmImmediateNmCycleTime = None                  # type: TimeValue
+        self.nmImmediateNmTransmissions = None              # type: PositiveInteger
+        self.nmMessageTimeoutTime = None                    # type: TimeValue
+        self.nmMsgCycleTime = None                          # type: TimeValue
+        self.nmNetworkTimeout = None                        # type: TimeValue
+        self.nmNidPosition = None                           # type: Integer
+        self.nmRemoteSleepIndicationTime = None             # type: TimeValue
+        self.nmRepeatMessageTime = None                     # type: TimeValue
+        self.nmWaitBusSleepTime = None                      # type: TimeValue
+        self.vlanRef = None                                 # type: RefType
+
+    def getNmCbvPosition(self):
+        return self.nmCbvPosition
+
+    def setNmCbvPosition(self, value):
+        if value is not None:
+            self.nmCbvPosition = value
+        return self
+
+    def getNmImmediateNmCycleTime(self):
+        return self.nmImmediateNmCycleTime
+
+    def setNmImmediateNmCycleTime(self, value):
+        if value is not None:
+            self.nmImmediateNmCycleTime = value
+        return self
+
+    def getNmImmediateNmTransmissions(self):
+        return self.nmImmediateNmTransmissions
+
+    def setNmImmediateNmTransmissions(self, value):
+        if value is not None:
+            self.nmImmediateNmTransmissions = value
+        return self
+
+    def getNmMessageTimeoutTime(self):
+        return self.nmMessageTimeoutTime
+
+    def setNmMessageTimeoutTime(self, value):
+        if value is not None:
+            self.nmMessageTimeoutTime = value
+        return self
+
+    def getNmMsgCycleTime(self):
+        return self.nmMsgCycleTime
+
+    def setNmMsgCycleTime(self, value):
+        if value is not None:
+            self.nmMsgCycleTime = value
+        return self
+
+    def getNmNetworkTimeout(self):
+        return self.nmNetworkTimeout
+
+    def setNmNetworkTimeout(self, value):
+        if value is not None:
+            self.nmNetworkTimeout = value
+        return self
+
+    def getNmNidPosition(self):
+        return self.nmNidPosition
+
+    def setNmNidPosition(self, value):
+        if value is not None:
+            self.nmNidPosition = value
+        return self
+
+    def getNmRemoteSleepIndicationTime(self):
+        return self.nmRemoteSleepIndicationTime
+
+    def setNmRemoteSleepIndicationTime(self, value):
+        if value is not None:
+            self.nmRemoteSleepIndicationTime = value
+        return self
+
+    def getNmRepeatMessageTime(self):
+        return self.nmRepeatMessageTime
+
+    def setNmRepeatMessageTime(self, value):
+        if value is not None:
+            self.nmRepeatMessageTime = value
+        return self
+
+    def getNmWaitBusSleepTime(self):
+        return self.nmWaitBusSleepTime
+
+    def setNmWaitBusSleepTime(self, value):
+        if value is not None:
+            self.nmWaitBusSleepTime = value
+        return self
+
+    def getVlanRef(self):
+        return self.vlanRef
+
+    def setVlanRef(self, value):
+        if value is not None:
+            self.vlanRef = value
+        return self
+
+        

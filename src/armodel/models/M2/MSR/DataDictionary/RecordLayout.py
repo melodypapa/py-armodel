@@ -114,7 +114,7 @@ class SwRecordLayoutGroup(ARObject):
         self.shortLabel = None                          # type: ARLiteral
         self.swGenericAxisParamTypeRef = None           # type: RefType
         self.swRecordLayoutComponent = None             # type: ARLiteral
-        self.swRecordLayoutGroupAxis = None             # type: ARNumerical
+        self.swRecordLayoutGroupAxis = None             # type: AxisIndexType
         self.swRecordLayoutGroupContentType = None      # type: SwRecordLayoutGroupContent
         self.swRecordLayoutGroupFrom = None             # type: ARLiteral
         self.swRecordLayoutGroupIndex = None            # type: ARLiteral

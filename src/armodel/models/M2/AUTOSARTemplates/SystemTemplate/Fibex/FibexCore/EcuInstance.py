@@ -1,9 +1,9 @@
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TimeValue
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from typing import List
 
 class EcuInstance(FibexElement):
@@ -114,6 +114,12 @@ class EcuInstance(FibexElement):
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
+    
+    def createLinMaster(self, short_name: str) -> LinMaster:
+        if (short_name not in self.elements):
+            controller = LinMaster(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name)
 
     def getConnectors(self):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements.values()), key= lambda o:o.short_name))
@@ -127,6 +133,12 @@ class EcuInstance(FibexElement):
     def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
         if (short_name not in self.elements):
             connector = EthernetCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name)
+    
+    def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
+        if (short_name not in self.elements):
+            connector = LinCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
 

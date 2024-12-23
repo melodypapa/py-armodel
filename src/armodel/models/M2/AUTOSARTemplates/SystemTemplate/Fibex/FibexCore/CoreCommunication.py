@@ -5,7 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, RefType, ARBoolean, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, Integer, RefType, ARBoolean, String, TimeValue, UnlimitedInteger
 
 class FibexElement(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -622,4 +622,152 @@ class ISignalTriggering(Identifiable):
 
     def addISignalPortRef(self, value):
         self.iSignalPortRefs.append(value)
+        return self
+
+class MultiplexedIPdu(IPdu):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.dynamicPart = None                                     # type: DynamicPart
+        self.selectorFieldByteOrder = None                          # type: ByteOrderEnum
+        self.selectorFieldLength = None                             # type: Integer
+        self.selectorFieldStartPosition = None                      # type: Integer
+        self.staticPart = None                                      # type: StaticPart
+        self.triggerMode = None                                     # type: TriggerMode
+        self.unusedBitPattern = None                                # type: Integer
+
+    def getDynamicPart(self):
+        return self.dynamicPart
+
+    def setDynamicPart(self, value):
+        if value is not None:
+            self.dynamicPart = value
+        return self
+
+    def getSelectorFieldByteOrder(self):
+        return self.selectorFieldByteOrder
+
+    def setSelectorFieldByteOrder(self, value):
+        if value is not None:
+            self.selectorFieldByteOrder = value
+        return self
+
+    def getSelectorFieldLength(self):
+        return self.selectorFieldLength
+
+    def setSelectorFieldLength(self, value):
+        if value is not None:
+            self.selectorFieldLength = value
+        return self
+
+    def getSelectorFieldStartPosition(self):
+        return self.selectorFieldStartPosition
+
+    def setSelectorFieldStartPosition(self, value):
+        if value is not None:
+            self.selectorFieldStartPosition = value
+        return self
+
+    def getStaticPart(self):
+        return self.staticPart
+
+    def setStaticPart(self, value):
+        if value is not None:
+            self.staticPart = value
+        return self
+
+    def getTriggerMode(self):
+        return self.triggerMode
+
+    def setTriggerMode(self, value):
+        if value is not None:
+            self.triggerMode = value
+        return self
+
+    def getUnusedBitPattern(self):
+        return self.unusedBitPattern
+
+    def setUnusedBitPattern(self, value):
+        if value is not None:
+            self.unusedBitPattern = value
+        return self
+
+class UserDefinedIPdu(IPdu):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.cddType = None                                 # type: String
+
+    def getCddType(self):
+        return self.cddType
+
+    def setCddType(self, value):
+        if value is not None:
+            self.cddType = value
+        return self
+    
+class GeneralPurposeIPdu(IPdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+class UserDefinedPdu(Pdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.cddType = None                                     # type: String
+
+    def getCddType(self):
+        return self.cddType
+
+    def setCddType(self, value):
+        if value is not None:
+            self.cddType = value
+        return self
+
+class GeneralPurposePdu(Pdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.hasDynamicLength = None                            # type: Boolean
+        self.length = None                                      # type: UnlimitedInteger
+
+    def getHasDynamicLength(self):
+        return self.hasDynamicLength
+
+    def setHasDynamicLength(self, value):
+        if value is not None:
+            self.hasDynamicLength = value
+        return self
+
+    def getLength(self):
+        return self.length
+
+    def setLength(self, value):
+        if value is not None:
+            self.length = value
+        return self
+
+class SecureCommunicationPropsSet(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # type: List[SecureCommunicationAuthenticationProps]
+        self.authenticationProps = []
+        # type: List[SecureCommunicationFreshnessProps]
+        self.freshnessProps = []
+
+    def getAuthenticationProps(self):
+        return self.authenticationProps
+
+    def addAuthenticationProp(self, value):
+        if value is not None:
+            self.authenticationProps.append(value)
+        return self
+
+    def getFreshnessProps(self):
+        return self.freshnessProps
+
+    def addFreshnessProp(self, value):
+        if value is not None:
+            self.freshnessProps.append(value)
         return self

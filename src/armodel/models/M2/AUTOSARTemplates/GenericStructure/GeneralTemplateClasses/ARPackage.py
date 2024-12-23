@@ -1,4 +1,6 @@
 from typing import Dict, List
+
+
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
@@ -10,11 +12,12 @@ from .....M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 from .....M2.MSR.AsamHdo.ComputationMethod import CompuMethod
 from .....M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from .....M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+from .....M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from .....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from .....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from .....M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
-from .....M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from .....M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Identifiable, Referrable
 from .....M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
@@ -22,12 +25,14 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Appl
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
+from .....M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway
-from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, NPdu, NmPdu, SecuredIPdu, SystemSignal, SystemSignalGroup
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, GeneralPurposeIPdu, GeneralPurposePdu, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, MultiplexedIPdu, NPdu, NmPdu, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster, LinCluster
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
 from .....M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from .....M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
@@ -36,7 +41,7 @@ from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigura
 from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
 from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
-from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
+from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig
 
 class ReferenceBase(ARObject):
     def __init__(self):
@@ -480,6 +485,66 @@ class ARPackage(Identifiable, CollectableElement):
     def createEthernetCluster(self, short_name: str) -> EthernetCluster:
         if (short_name not in self.elements):
             cluster = EthernetCluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
+        if (short_name not in self.elements):
+            cluster = DiagnosticConnection(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
+        if (short_name not in self.elements):
+            cluster = DiagnosticServiceTable(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
+        if (short_name not in self.elements):
+            cluster = MultiplexedIPdu(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createUserDefinedIPdu(self, short_name: str) -> UserDefinedIPdu:
+        if (short_name not in self.elements):
+            cluster = UserDefinedIPdu(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createUserDefinedPdu(self, short_name: str) -> UserDefinedPdu:
+        if (short_name not in self.elements):
+            cluster = UserDefinedPdu(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createGeneralPurposeIPdu(self, short_name: str) -> GeneralPurposeIPdu:
+        if (short_name not in self.elements):
+            cluster = GeneralPurposeIPdu(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createGeneralPurposePdu(self, short_name: str) -> GeneralPurposePdu:
+        if (short_name not in self.elements):
+            cluster = GeneralPurposePdu(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createSecureCommunicationPropsSet(self, short_name: str) -> SecureCommunicationPropsSet:
+        if (short_name not in self.elements):
+            cluster = SecureCommunicationPropsSet(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createSoAdRoutingGroup(self, short_name: str) -> SoAdRoutingGroup:
+        if (short_name not in self.elements):
+            cluster = SoAdRoutingGroup(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
+        if (short_name not in self.elements):
+            cluster = DoIpTpConfig(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name)
 
