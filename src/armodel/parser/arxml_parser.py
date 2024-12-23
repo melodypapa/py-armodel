@@ -74,7 +74,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering, IPdu, IPduTiming, ISignalIPdu, ISignalTriggering, PduTriggering
@@ -299,8 +299,6 @@ class ARXMLParser(AbstractARXMLParser):
             ref_type = self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF")
             if ref_type is not None:
                 entity.addManagedModeGroupRef(ref_type)
-
-    
 
     def readBswEvent(self, element: ET.Element, event: BswScheduleEvent):
         event.startsOnEventRef = self.getChildElementOptionalRefType(element, "STARTS-ON-EVENT-REF")
@@ -2472,9 +2470,45 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
 
+    def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
+        entry.setDelay(self.getChildElementOptionalTimeValue(element, "DELAY")) \
+             .setPositionInTable(self.getChildElementOptionalIntegerValue(element, "POSITION-IN-TABLE"))
+
+    def getApplicationEntry(self, element: ET.Element, key: str) -> ApplicationEntry:
+        entry = None
+        if element is not None:
+            entry = ApplicationEntry()
+            self.readScheduleTableEntry(element, entry)
+            entry.setFrameTriggeringRef(self.getChildElementOptionalRefType(element, "FRAME-TRIGGERING-REF"))
+        return entry
+
+    def readLinScheduleTableTableEntries(self, element: ET.Element, table: LinScheduleTable):
+        for child_element in self.findall(element, "TABLE-ENTRYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "APPLICATION-ENTRY":
+                table = table.addTableEntry(self.getApplicationEntry(child_element, "APPLICATION-ENTRY"))
+            else:
+                self.notImplemented("Unsupported Schedule Table <%s>" % tag_name)
+
+    def readLinScheduleTable(self, element: ET.Element, table: LinScheduleTable):
+        self.readIdentifiable(element, table)
+        table.setResumePosition(self.getChildElementOptionalLiteral(element, "RESUME-POSITION")) \
+             .setRunMode(self.getChildElementOptionalLiteral(element, "RUN-MODE"))
+        self.readLinScheduleTableTableEntries(element, table)
+
+    def readLinPhysicalChannelScheduleTables(self, element: ET.Element, channel: LinPhysicalChannel):
+        for child_element in self.findall(element, "SCHEDULE-TABLES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "LIN-SCHEDULE-TABLE":
+                table = channel.createLinScheduleTable(self.getShortName(child_element))
+                self.readLinScheduleTable(child_element, table)
+            else:
+                self.notImplemented("Unsupported Schedule Table <%s>" % tag_name)
+
     def readLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
         self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
+        self.readLinPhysicalChannelScheduleTables(element, channel)
 
     def getIpv6Configuration(self, element: ET.Element) -> Ipv6Configuration:
         configuration = None

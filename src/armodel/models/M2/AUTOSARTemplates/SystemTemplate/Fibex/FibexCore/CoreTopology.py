@@ -8,7 +8,7 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
 
@@ -83,6 +83,28 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
 class LinPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        self.busIdleTimeoutPeriod = None                        # type: TimeValue
+        # type: List[LinScheduleTable]
+        self.scheduleTables = []
+
+    def getBusIdleTimeoutPeriod(self):
+        return self.busIdleTimeoutPeriod
+
+    def setBusIdleTimeoutPeriod(self, value):
+        if value is not None:
+            self.busIdleTimeoutPeriod = value
+        return self
+
+    def getScheduleTables(self):
+        return self.scheduleTables
+
+    def createLinScheduleTable(self, short_name:str) -> LinScheduleTable:
+        if (short_name not in self.elements):
+            end_point = LinScheduleTable(self, short_name)
+            self.addElement(end_point)
+            self.scheduleTables.append(end_point)
+        return self.getElement(short_name)
 
 class EthernetPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
