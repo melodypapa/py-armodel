@@ -432,5 +432,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SECURE-COMMUNICATION-PROPS-SET
    * SO-AD-ROUTING-GROUP
    * DO-IP-TP-CONFIG
-2. Fix
+   * BUS-OFF-RECOVERY
+2. Fix the following AR Element
    * SW-RECORD-LAYOUT-V-AXIS
+   * SW-RECORD-LAYOUT-GROUP-AXIS

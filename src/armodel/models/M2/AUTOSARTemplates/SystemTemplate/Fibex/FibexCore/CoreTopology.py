@@ -4,7 +4,7 @@ from typing import List
 
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger, RefType, ARLiteral, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger, PositiveUnlimitedInteger, RefType, ARLiteral, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
@@ -176,8 +176,58 @@ class CommunicationCluster(FibexElement, metaclass = ABCMeta):
 
     def setProtocolVersion(self, value):
         self.protocolVersion = value
-        return self      
+        return self
     
+class CanClusterBusOffRecovery(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.borCounterL1ToL2 = None                            # type: PositiveInteger
+        self.borTimeL1 = None                                   # type: TimeValue
+        self.borTimeL2 = None                                   # type: TimeValue
+        self.borTimeTxEnsured = None                            # type: TimeValue
+        self.mainFunctionPeriod = None                          # type: TimeValue
+
+    def getBorCounterL1ToL2(self):
+        return self.borCounterL1ToL2
+
+    def setBorCounterL1ToL2(self, value):
+        if value is not None:
+            self.borCounterL1ToL2 = value
+        return self
+
+    def getBorTimeL1(self):
+        return self.borTimeL1
+
+    def setBorTimeL1(self, value):
+        if value is not None:
+            self.borTimeL1 = value
+        return self
+
+    def getBorTimeL2(self):
+        return self.borTimeL2
+
+    def setBorTimeL2(self, value):
+        if value is not None:
+            self.borTimeL2 = value
+        return self
+
+    def getBorTimeTxEnsured(self):
+        return self.borTimeTxEnsured
+
+    def setBorTimeTxEnsured(self, value):
+        if value is not None:
+            self.borTimeTxEnsured = value
+        return self
+
+    def getMainFunctionPeriod(self):
+        return self.mainFunctionPeriod
+
+    def setMainFunctionPeriod(self, value):
+        if value is not None:
+            self.mainFunctionPeriod = value
+        return self
+
 class AbstractCanCluster(CommunicationCluster, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractCanCluster:
@@ -185,10 +235,10 @@ class AbstractCanCluster(CommunicationCluster, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.busOffRecovery = None
-        self.canFdBaudrate = None
-        self.canXlBaudrate = None
-        self.speed = None
+        self.busOffRecovery = None                              # type: CanClusterBusOffRecovery
+        self.canFdBaudrate = None                               # type: PositiveUnlimitedInteger
+        self.canXlBaudrate = None                               # type: PositiveUnlimitedInteger
+        self.speed = None                                       # type: PositiveUnlimitedInteger
 
     def getBusOffRecovery(self):
         return self.busOffRecovery
