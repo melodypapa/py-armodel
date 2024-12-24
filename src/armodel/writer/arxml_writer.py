@@ -2727,10 +2727,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
             self.writeTransportProtocolConfiguration(child_element, end_point.getTpConfiguration())
 
+    def writeSocketAddressMulticastConnectorRefs(self, element: ET.Element, address: SocketAddress):
+        refs = address.getMulticastConnectorRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "MULTICAST-CONNECTOR-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "MULTICAST-CONNECTOR-REF", ref)
+
     def writeSocketAddress(self, element: ET.Element, address: SocketAddress):
         child_element = ET.SubElement(element, "SOCKET-ADDRESS")
         self.writeIdentifiable(child_element, address)
         self.writeSocketAddressApplicationEndpoint(child_element, address)
+        self.writeSocketAddressMulticastConnectorRefs(child_element, address)
         self.setChildElementOptionalRefType(child_element, "CONNECTOR-REF", address.getConnectorRef()) 
         self.setChildElementOptionalPositiveInteger(child_element, "PORT-ADDRESS", address.getPortAddress())
 
@@ -2861,27 +2869,26 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self._raiseError("Unsupported CommConnectorPort <%s>" % type(port))      
 
-    def setCanCommunicationController(self, element: ET.Element, controller: CanCommunicationController):
+    def writeCanCommunicationController(self, element: ET.Element, controller: CanCommunicationController):
+        child_element = ET.SubElement(element, "CAN-COMMUNICATION-CONTROLLER")
         self.logger.debug("Write CanCommunicationController %s" % controller.getShortName())
-        self.writeIdentifiable(element, controller)
+        self.writeIdentifiable(child_element, controller)
 
-    def setEthernetCommunicationController(self, element: ET.Element, controller: EthernetCommunicationController):
+    def writeEthernetCommunicationController(self, element: ET.Element, controller: EthernetCommunicationController):
+        child_element = ET.SubElement(element, "ETHERNET-COMMUNICATION-CONTROLLER")
         self.logger.debug("Write EthernetCommunicationController %s" % controller.getShortName())
-        self.writeIdentifiable(element, controller)
+        self.writeIdentifiable(child_element, controller)
 
     def writeEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         controllers = instance.getCommControllers()
         if len(controllers) > 0:
-            controllers_tag = ET.SubElement(element, "COMM-CONTROLLERS")
+            child_element = ET.SubElement(element, "COMM-CONTROLLERS")
             for controller in controllers:
                 if isinstance(controller, CanCommunicationController):
-                    child_element = ET.SubElement(controllers_tag, "CAN-COMMUNICATION-CONTROLLER")
-                    self.setCanCommunicationController(child_element, controller)
+                    self.writeCanCommunicationController(child_element, controller)
                 elif isinstance(controller, EthernetCommunicationController):
-                    child_element = ET.SubElement(controllers_tag, "ETHERNET-COMMUNICATION-CONTROLLER")
-                    self.setEthernetCommunicationController(child_element, controller)
+                    self.writeEthernetCommunicationController(child_element, controller)
                 elif isinstance(controller, LinMaster):
-                    child_element = ET.SubElement(controllers_tag, "LIN-MASTER")
                     self.writeLinMaster(child_element, controller)
                 else:
                     self.notImplemented("Unsupported Communication Controller <%s>" % type(controller))

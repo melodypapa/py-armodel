@@ -2667,10 +2667,15 @@ class ARXMLParser(AbstractARXMLParser):
             end_point.setNetworkEndpointRef(self.getChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF")) \
                      .setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY")) \
                      .setTpConfiguration(self.getTransportProtocolConfiguration(child_element, "TP-CONFIGURATION"))
+            
+    def readSocketAddressMulticastConnectorRefs(self, element: ET.Element, address: SocketAddress):
+        for ref in self.getChildElementRefTypeList(element, "MULTICAST-CONNECTOR-REFS/MULTICAST-CONNECTOR-REF"):
+            address.addMulticastConnectorRef(ref)
 
     def readSocketAddress(self, element: ET.Element, address: SocketAddress):
         self.readIdentifiable(element, address)
         self.readSocketAddressApplicationEndpoint(element, address)
+        self.readSocketAddressMulticastConnectorRefs(element, address)
         address.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF")) \
                .setPortAddress(self.getChildElementOptionalPositiveInteger(element, "PORT-ADDRESS"))
 
