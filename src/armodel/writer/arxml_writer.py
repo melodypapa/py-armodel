@@ -84,7 +84,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import C
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import GenericTp, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -2598,10 +2598,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Network EndPoint Address <%s>" % type(address))
 
+    def setDoIpEntity(self, element: ET.Element, key: str, entity: DoIpEntity):
+        if entity is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE", entity.getDoIpEntityRole())
+
+    def setInfrastructureServices(self, element: ET.Element, key: str, services: InfrastructureServices):
+        if services is not None:
+            child_element = ET.SubElement(element, key)
+            self.setDoIpEntity(child_element, "DO-IP-ENTITY", services.getDoIpEntity())
+
     def writeNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())
         child_element = ET.SubElement(element, "NETWORK-ENDPOINT")
         self.writeIdentifiable(child_element, end_point)
+        self.setInfrastructureServices(child_element, "INFRASTRUCTURE-SERVICES", end_point.getInfrastructureServices())
         self.writeNetworkEndPointNetworkEndPointAddresses(child_element, end_point.getNetworkEndpointAddresses())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
 
@@ -2675,15 +2686,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "DYNAMICALLY-ASSIGNED", port.getDynamicallyAssigned())
             self.setChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER", port.getPortNumber())
 
-    def writeUdpTp(self, element: ET.Element, configuration: UdpTp):
+    def writeUdpTp(self, element: ET.Element, tp: UdpTp):
         child_element = ET.SubElement(element, "UDP-TP")
-        self.setTpPort(child_element, "UDP-TP-PORT", configuration.getUdpTpPort())
+        self.setTpPort(child_element, "UDP-TP-PORT", tp.getUdpTpPort())
 
-    def writeTcpTp(self, element: ET.Element, configuration: TcpTp):
+    def writeTcpTp(self, element: ET.Element, tp: TcpTp):
         child_element = ET.SubElement(element, "TCP-TP")
+        self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-INTERVAL", tp.getKeepAliveInterval())
+        self.setChildElementOptionalPositiveInteger(child_element, "KEEP-ALIVE-PROBES-MAX", tp.getKeepAliveProbesMax())
+        self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
+        self.setChildElementOptionalBooleanValue(child_element, "KEEP-ALIVES", tp.getKeepAlives())
+        self.setChildElementOptionalLiteral(child_element, "NAGLES-ALGORITHM", tp.getNaglesAlgorithm())
+        self.setTpPort(child_element, "TCP-TP-PORT", tp.getTcpTpPort())
 
-    def writeGenericTp(self, element: ET.Element, configuration: GenericTp):
+    def writeGenericTp(self, element: ET.Element, tp: GenericTp):
         child_element = ET.SubElement(element, "GENERIC-TP")
+        self.setChildElementOptionalLiteral(child_element, "TP-ADDRESS", tp.getTpAddress())
+        self.setChildElementOptionalLiteral(child_element, "TP-TECHNOLOGY", tp.getTpTechnology())
 
     def writeTransportProtocolConfiguration(self, element: ET.Element, configuration: TransportProtocolConfiguration):
         if configuration is not None:

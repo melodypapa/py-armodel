@@ -85,7 +85,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunicatio
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import Ipv6Configuration, NetworkEndpoint
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import GenericTp, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import ISignalMapping
 
@@ -2532,8 +2532,25 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
 
+    def getDoIpEntity(self, element: ET.Element, key:str) -> DoIpEntity:
+        entity = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            entity = DoIpEntity()
+            entity.setDoIpEntityRole(self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE"))
+        return entity
+
+    def getInfrastructureServices(self, element: ET.Element, key:str) -> InfrastructureServices:
+        services = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            services = InfrastructureServices()
+            services.setDoIpEntity(self.getDoIpEntity(child_element, "DO-IP-ENTITY"))
+        return services
+
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.readIdentifiable(element, end_point)
+        end_point.setInfrastructureServices(self.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES"))
         self.readNetworkEndPointNetworkEndPointAddress(element, end_point)
         end_point.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
 
@@ -2609,14 +2626,21 @@ class ARXMLParser(AbstractARXMLParser):
                 .setPortNumber(self.getChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER"))
         return port
 
-    def readUdpTp(self, element: ET.Element, configuration: UdpTp):
-        configuration.setUdpTpPort(self.getTpPort(element, "UDP-TP-PORT"))
+    def readUdpTp(self, element: ET.Element, tp: UdpTp):
+        tp.setUdpTpPort(self.getTpPort(element, "UDP-TP-PORT"))
 
-    def readTcpTp(self, element: ET.Element, configuration: TcpTp):
-        pass
+    def readTcpTp(self, element: ET.Element, tp: TcpTp):
+        tp.setKeepAliveInterval(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-INTERVAL")) \
+                     .setKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX")) \
+                     .setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME")) \
+                     .setKeepAlives(self.getChildElementOptionalBooleanValue(element, "KEEP-ALIVES")) \
+                     .setNaglesAlgorithm(self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM")) \
+                     .setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
 
-    def readGenericTp(self, element: ET.Element, configuration: GenericTp):
-        pass
+
+    def readGenericTp(self, element: ET.Element, tp: GenericTp):
+        tp.setTpAddress(self.getChildElementOptionalLiteral(element, "TP-ADDRESS")) \
+          .setTpTechnology(self.getChildElementOptionalLiteral(element, "TP-TECHNOLOGY"))
 
     def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> TransportProtocolConfiguration:
         configuration = None

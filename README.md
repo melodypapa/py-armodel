@@ -434,6 +434,10 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * DO-IP-TP-CONFIG
    * BUS-OFF-RECOVERY
    * SCHEDULE-TABLES
+   * INFRASTRUCTURE-SERVICES
+   * GENERIC-TP
+   * TCP-TP
+   * UDP-TP
 2. Fix the following AR Element
    * SW-RECORD-LAYOUT-V-AXIS
    * SW-RECORD-LAYOUT-GROUP-AXIS
