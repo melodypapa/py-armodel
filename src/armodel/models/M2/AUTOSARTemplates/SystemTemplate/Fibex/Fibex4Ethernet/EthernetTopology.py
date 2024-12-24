@@ -163,5 +163,119 @@ class EthernetCommunicationConnector(CommunicationConnector):
         self.pathMtuTimeout = value
         return self
     
+class RequestResponseDelay(ARObject):
+    def __init__(self):
+        super().__init__()
 
+        self.maxValue = None                                        # type: TimeValue
+        self.minValue = None                                        # type: TimeValue
+
+    def getMaxValue(self):
+        return self.maxValue
+
+    def setMaxValue(self, value):
+        if value is not None:
+            self.maxValue = value
+        return self
+
+    def getMinValue(self):
+        return self.minValue
+
+    def setMinValue(self, value):
+        if value is not None:
+            self.minValue = value
+        return self
+
+class InitialSdDelayConfig(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.initialDelayMaxValue = None                            # type: TimeValue
+        self.initialDelayMinValue = None                            # type: TimeValue
+        self.initialRepetitionsBaseDelay = None                     # type: TimeValue
+        self.initialRepetitionsMax = None                           # type: PositiveInteger
+
+    def getInitialDelayMaxValue(self):
+        return self.initialDelayMaxValue
+
+    def setInitialDelayMaxValue(self, value):
+        if value is not None:
+            self.initialDelayMaxValue = value
+        return self
+
+    def getInitialDelayMinValue(self):
+        return self.initialDelayMinValue
+
+    def setInitialDelayMinValue(self, value):
+        if value is not None:
+            self.initialDelayMinValue = value
+        return self
+
+    def getInitialRepetitionsBaseDelay(self):
+        return self.initialRepetitionsBaseDelay
+
+    def setInitialRepetitionsBaseDelay(self, value):
+        if value is not None:
+            self.initialRepetitionsBaseDelay = value
+        return self
+
+    def getInitialRepetitionsMax(self):
+        return self.initialRepetitionsMax
+
+    def setInitialRepetitionsMax(self, value):
+        if value is not None:
+            self.initialRepetitionsMax = value
+        return self
+
+    
+class SdClientConfig(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.capabilityRecord = None                                # type: TagWithOptionalValue
+        self.clientServiceMajorVersion = None                       # type: PositiveInteger
+        self.clientServiceMinorVersion = None                       # type: PositiveInteger
+        self.initialFindBehavior = None                             # type: InitialSdDelayConfig
+        self.requestResponseDelay = None                            # type: RequestResponseDelay
+        self.ttl = None                                             # type: PositiveInteger
+
+    def getClientServiceMajorVersion(self):
+        return self.clientServiceMajorVersion
+
+    def setClientServiceMajorVersion(self, value):
+        if value is not None:
+            self.clientServiceMajorVersion = value
+        return self
+
+    def getClientServiceMinorVersion(self):
+        return self.clientServiceMinorVersion
+
+    def setClientServiceMinorVersion(self, value):
+        if value is not None:
+            self.clientServiceMinorVersion = value
+        return self
+
+    def getInitialFindBehavior(self):
+        return self.initialFindBehavior
+
+    def setInitialFindBehavior(self, value):
+        if value is not None:
+            self.initialFindBehavior = value
+        return self
+
+    def getRequestResponseDelay(self):
+        return self.requestResponseDelay
+
+    def setRequestResponseDelay(self, value):
+        if value is not None:
+            self.requestResponseDelay = value
+        return self
+
+    def getTtl(self):
+        return self.ttl
+
+    def setTtl(self, value):
+        if value is not None:
+            self.ttl = value
+        return self
 
