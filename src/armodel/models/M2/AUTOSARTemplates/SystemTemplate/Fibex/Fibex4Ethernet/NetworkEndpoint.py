@@ -2,7 +2,7 @@ from abc import ABCMeta
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
 
 class NetworkEndpointAddress(ARObject, metaclass = ABCMeta):
     def __init__(self):
@@ -156,6 +156,110 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpv6AddressSource(self, value):
         self.ipv6AddressSource = value
         return self
+    
+class DoIpEntity(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.doIpEntityRole = None                                  # type: DoIpEntityRoleEnum
+
+    def getDoIpEntityRole(self):
+        return self.doIpEntityRole
+
+    def setDoIpEntityRole(self, value):
+        if value is not None:
+            self.doIpEntityRole = value
+        return self
+    
+class TimeSyncClientConfiguration(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.orderedMasters = []                                    # type: List[OrderedMaster]
+        self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
+
+    def getOrderedMasters(self):
+        return self.orderedMasters
+
+    def addOrderedMaster(self, value):
+        if value is not None:
+            self.orderedMasters.append(value)
+        return self
+
+    def getTimeSyncTechnology(self):
+        return self.timeSyncTechnology
+
+    def setTimeSyncTechnology(self, value):
+        if value is not None:
+            self.timeSyncTechnology = value
+        return self
+
+
+class TimeSyncServerConfiguration(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.priority = None                                        # type: PositiveInteger
+        self.syncInterval = None                                    # type: TimeValue
+        self.timeSyncServerIdentifier = None                        # type: String
+        self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getSyncInterval(self):
+        return self.syncInterval
+
+    def setSyncInterval(self, value):
+        if value is not None:
+            self.syncInterval = value
+        return self
+
+    def getTimeSyncServerIdentifier(self):
+        return self.timeSyncServerIdentifier
+
+    def setTimeSyncServerIdentifier(self, value):
+        if value is not None:
+            self.timeSyncServerIdentifier = value
+        return self
+
+    def getTimeSyncTechnology(self):
+        return self.timeSyncTechnology
+
+    def setTimeSyncTechnology(self, value):
+        if value is not None:
+            self.timeSyncTechnology = value
+        return self
+
+    
+class TimeSynchronization(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.timeSyncClient = None                                  # type: TimeSyncClientConfiguration
+        self.timeSyncServer = None                                  # type: TimeSyncServerConfiguration
+
+    def getTimeSyncClient(self):
+        return self.timeSyncClient
+
+    def setTimeSyncClient(self, value):
+        if value is not None:
+            self.timeSyncClient = value
+        return self
+
+    def getTimeSyncServer(self):
+        return self.timeSyncServer
+
+    def setTimeSyncServer(self, value):
+        if value is not None:
+            self.timeSyncServer = value
+        return self
+
 
 class InfrastructureServices(ARObject):
     def __init__(self):
