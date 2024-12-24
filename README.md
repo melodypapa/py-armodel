@@ -438,6 +438,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * GENERIC-TP
    * TCP-TP
    * UDP-TP
+   * CONSUMED-SERVICE-INSTANCES
 2. Fix the following AR Element
    * SW-RECORD-LAYOUT-V-AXIS
    * SW-RECORD-LAYOUT-GROUP-AXIS

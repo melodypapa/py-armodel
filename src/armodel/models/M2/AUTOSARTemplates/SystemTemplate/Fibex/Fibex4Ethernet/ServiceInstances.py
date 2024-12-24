@@ -147,6 +147,273 @@ class TcpTp(TcpUdpConfig):
     def setTcpTpPort(self, value):
         self.tcpTpPort = value
         return self
+    
+class AbstractServiceInstance(Identifiable, metaclass = ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) == AbstractServiceInstance:
+            raise NotImplementedError("AbstractServiceInstance is an abstract class.")
+        
+        super().__init__(parent, short_name)
+
+        # type: List[TagWithOptionalValue]
+        self.capabilityRecords = []
+        self.majorVersion = None                                # type: PositiveInteger
+        # type: PduActivationRoutingGroup
+        self.methodActivationRoutingGroup = None
+        self.routingGroupRefs = []                              # type: List[RefType]
+
+    def getCapabilityRecords(self):
+        return self.capabilityRecords
+
+    def addCapabilityRecord(self, value):
+        if value is not None:
+            self.capabilityRecords.append(value)
+        return self
+
+    def getMajorVersion(self):
+        return self.majorVersion
+
+    def setMajorVersion(self, value):
+        if value is not None:
+            self.majorVersion = value
+        return self
+
+    def getMethodActivationRoutingGroup(self):
+        return self.methodActivationRoutingGroup
+
+    def setMethodActivationRoutingGroup(self, value):
+        if value is not None:
+            self.methodActivationRoutingGroup = value
+        return self
+
+    def getRoutingGroupRefs(self):
+        return self.routingGroupRefs
+
+    def addRoutingGroupRef(self, value):
+        if value is not None:
+            self.routingGroupRefs.append(value)
+        return self
+    
+class ConsumedEventGroup(Identifiable):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.applicationEndpointRef = None                                          # type: RefType
+        self.autoRequire = None                                                     # type: Boolean
+        self.eventGroupIdentifier = None                                            # type: PositiveInteger
+        self.eventMulticastAddressRefs = []                                         # type: List[RefType]
+        self.pduActivationRoutingGroups = []                                        # type: List[PduActivationRoutingGroup]
+        self.priority = None                                                        # type: PositiveInteger
+        self.routingGroupRefs = []                                                  # type: List[RefType]
+        self.sdClientConfig = None                                                  # type: SdClientConfig
+        self.sdClientTimerConfigRef = None                                          # type: RefType
+
+    def getApplicationEndpointRef(self):
+        return self.applicationEndpointRef
+
+    def setApplicationEndpointRef(self, value):
+        if value is not None:
+            self.applicationEndpointRef = value
+        return self
+
+    def getAutoRequire(self):
+        return self.autoRequire
+
+    def setAutoRequire(self, value):
+        if value is not None:
+            self.autoRequire = value
+        return self
+
+    def getEventGroupIdentifier(self):
+        return self.eventGroupIdentifier
+
+    def setEventGroupIdentifier(self, value):
+        if value is not None:
+            self.eventGroupIdentifier = value
+        return self
+
+    def getEventMulticastAddressRefs(self):
+        return self.eventMulticastAddressRefs
+
+    def addEventMulticastAddressRef(self, value):
+        if value is not None:
+            self.eventMulticastAddressRefs.append(value)
+        return self
+
+    def getPduActivationRoutingGroups(self):
+        return self.pduActivationRoutingGroups
+
+    def setPduActivationRoutingGroups(self, value):
+        if value is not None:
+            self.pduActivationRoutingGroups = value
+        return self
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getRoutingGroupRefs(self):
+        return self.routingGroupRefs
+
+    def addRoutingGroupRef(self, value):
+        if value is not None:
+            self.routingGroupRefs.append(value)
+        return self
+
+    def getSdClientConfig(self):
+        return self.sdClientConfig
+
+    def setSdClientConfig(self, value):
+        if value is not None:
+            self.sdClientConfig = value
+        return self
+
+    def getSdClientTimerConfigRef(self):
+        return self.sdClientTimerConfigRef
+
+    def setSdClientTimerConfigRef(self, value):
+        if value is not None:
+            self.sdClientTimerConfigRef = value
+        return self
+
+
+class ConsumedServiceInstance(AbstractServiceInstance):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.allowedServiceProviderRefs = []                                        # type: List[RefType]
+        self.autoRequire = None                                                     # type: Boolean
+        self.blocklistedVersions = []                                               # type: List[SomeipServiceVersion]
+        self.consumedEventGroups = []                                               # type: List[ConsumedEventGroup]
+        self.eventMulticastSubscriptionAddressRef = None                            # type: RefType
+        self.instanceIdentifier = None                                              # type: AnyServiceInstanceId
+        self.localUnicastAddressRefs = []                                           # type: List[RefType]
+        self.minorVersion = None                                                    # type: AnyVersionString
+        self.providedServiceInstanceRef = None                                      # type: RefType
+        self.remoteUnicastAddressRefs = []                                          # type: List[RefType]
+        self.sdClientConfig = None                                                  # type: SdClientConfig
+        self.sdClientTimerConfigRef = None                                          # type: RefType
+        self.serviceIdentifier = None                                               # type: PositiveInteger
+        self.versionDrivenFindBehavior = None                                       # type: ServiceVersionAcceptanceKindEnum     
+
+    def getAllowedServiceProviderRefs(self):
+        return self.allowedServiceProviderRefs
+
+    def setAllowedServiceProviderRefs(self, value):
+        if value is not None:
+            self.allowedServiceProviderRefs = value
+        return self
+
+    def getAutoRequire(self):
+        return self.autoRequire
+
+    def setAutoRequire(self, value):
+        if value is not None:
+            self.autoRequire = value
+        return self
+
+    def getBlocklistedVersions(self):
+        return self.blocklistedVersions
+
+    def setBlocklistedVersions(self, value):
+        if value is not None:
+            self.blocklistedVersions = value
+        return self
+
+    def getConsumedEventGroups(self):
+        return self.consumedEventGroups
+
+    def createConsumedEventGroup(self, short_name: str) -> ConsumedEventGroup:
+        if short_name not in self.elements:
+            group = ConsumedEventGroup(self, short_name)
+            self.addElement(group)
+            self.consumedEventGroups.append(group)
+        return self.getElement(short_name)
+
+    def getEventMulticastSubscriptionAddressRef(self):
+        return self.eventMulticastSubscriptionAddressRef
+
+    def setEventMulticastSubscriptionAddressRef(self, value):
+        if value is not None:
+            self.eventMulticastSubscriptionAddressRef = value
+        return self
+
+    def getInstanceIdentifier(self):
+        return self.instanceIdentifier
+
+    def setInstanceIdentifier(self, value):
+        if value is not None:
+            self.instanceIdentifier = value
+        return self
+
+    def getLocalUnicastAddressRefs(self):
+        return self.localUnicastAddressRefs
+
+    def setLocalUnicastAddressRefs(self, value):
+        if value is not None:
+            self.localUnicastAddressRefs = value
+        return self
+
+    def getMinorVersion(self):
+        return self.minorVersion
+
+    def setMinorVersion(self, value):
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+    def getProvidedServiceInstanceRef(self):
+        return self.providedServiceInstanceRef
+
+    def setProvidedServiceInstanceRef(self, value):
+        if value is not None:
+            self.providedServiceInstanceRef = value
+        return self
+
+    def getRemoteUnicastAddressRefs(self):
+        return self.remoteUnicastAddressRefs
+
+    def setRemoteUnicastAddressRefs(self, value):
+        if value is not None:
+            self.remoteUnicastAddressRefs = value
+        return self
+
+    def getSdClientConfig(self):
+        return self.sdClientConfig
+
+    def setSdClientConfig(self, value):
+        if value is not None:
+            self.sdClientConfig = value
+        return self
+
+    def getSdClientTimerConfigRef(self):
+        return self.sdClientTimerConfigRef
+
+    def setSdClientTimerConfigRef(self, value):
+        if value is not None:
+            self.sdClientTimerConfigRef = value
+        return self
+
+    def getServiceIdentifier(self):
+        return self.serviceIdentifier
+
+    def setServiceIdentifier(self, value):
+        if value is not None:
+            self.serviceIdentifier = value
+        return self
+
+    def getVersionDrivenFindBehavior(self):
+        return self.versionDrivenFindBehavior
+
+    def setVersionDrivenFindBehavior(self, value):
+        if value is not None:
+            self.versionDrivenFindBehavior = value
+        return self
+   
 
 class ApplicationEndpoint(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -163,9 +430,12 @@ class ApplicationEndpoint(Identifiable):
     def getConsumedServiceInstances(self):
         return self.consumedServiceInstances
 
-    def addConsumedServiceInstance(self, value):
-        self.consumedServiceInstances.append(value)
-        return self
+    def createConsumedServiceInstance(self, short_name:str) -> ConsumedServiceInstance:
+        if short_name not in self.elements:
+            instance = ConsumedServiceInstance(self, short_name)
+            self.addElement(instance)
+            self.consumedServiceInstances.append(instance)
+        return self.getElement(short_name)
 
     def getMaxNumberOfConnections(self):
         return self.maxNumberOfConnections

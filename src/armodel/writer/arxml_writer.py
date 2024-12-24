@@ -83,9 +83,9 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, RequestResponseDelay, SdClientConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import GenericTp, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, GenericTp, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
@@ -2717,12 +2717,79 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % type(configuration))
 
         return configuration
+    
+    def writeConsumedEventGroupRoutingGroupRefs(self, element: ET.Element, group: ConsumedEventGroup):
+        refs = group.getRoutingGroupRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ROUTING-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "ROUTING-GROUP-REF", ref)
+
+    def setRequestResponseDelay(self, element: ET.Element, key: str, delay: RequestResponseDelay):
+        if delay is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalTimeValue(child_element, "MAX-VALUE", delay.getMaxValue())
+            self.setChildElementOptionalTimeValue(child_element, "MIN-VALUE", delay.getMinValue())
+
+    def setInitialSdDelayConfig(self, element: ET.Element, key: str, config: InitialSdDelayConfig):
+        if config is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE", config.getInitialDelayMaxValue())
+            self.setChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE", config.getInitialDelayMinValue())
+            self.setChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY", config.getInitialRepetitionsBaseDelay())
+            self.setChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX", config.getInitialRepetitionsMax())
+
+    def setSdClientConfig(self, element: ET.Element, key: str, config: SdClientConfig):
+        if config is not None:
+            child_element = ET.SubElement(element, key)
+
+            self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MAJOR-VERSION", config.getClientServiceMajorVersion())
+            self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MINOR-VERSION", config.getClientServiceMinorVersion())
+            self.setInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR", config.getInitialFindBehavior())
+            self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
+            self.setChildElementOptionalPositiveInteger(child_element, "TTL", config.getTtl())
+    
+    def writeConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
+        child_element = ET.SubElement(element, "CONSUMED-EVENT-GROUP")
+        self.writeIdentifiable(child_element, group)
+        self.setChildElementOptionalRefType(child_element, "APPLICATION-ENDPOINT-REF", group.getApplicationEndpointRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", group.getEventGroupIdentifier())
+        self.writeConsumedEventGroupRoutingGroupRefs(child_element, group)
+        self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", group.getSdClientConfig())
+    
+    def writeConsumedServiceInstanceConsumedEventGroups(self, element: ET.Element, instance: ConsumedServiceInstance):
+        groups = instance.getConsumedEventGroups()
+        if len(groups) > 0:
+            child_element = ET.SubElement(element, "CONSUMED-EVENT-GROUPS")
+            for group in groups:
+                if isinstance(group, ConsumedEventGroup):
+                    self.writeConsumedEventGroup(child_element, group)
+                else:
+                    self.notImplemented("Unsupported ConsumedEventGroups <%s>" % type(group)) 
+    
+    def writeConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
+        child_element = ET.SubElement(element, "CONSUMED-SERVICE-INSTANCE")
+        self.writeIdentifiable(child_element, instance)
+        self.writeConsumedServiceInstanceConsumedEventGroups(child_element, instance)
+        self.setChildElementOptionalRefType(child_element, "PROVIDED-SERVICE-INSTANCE-REF", instance.getProvidedServiceInstanceRef())
+        self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", instance.getSdClientConfig())
+    
+    def writeSocketAddressApplicationEndpointConsumedServiceInstances(self, element: ET.Element, end_point: ApplicationEndpoint):
+        instances = end_point.getConsumedServiceInstances()
+        if len(instances) > 0:
+            child_element = ET.SubElement(element, "CONSUMED-SERVICE-INSTANCES")
+            for instance in instances:
+                if isinstance(instance, ConsumedServiceInstance):
+                    self.writeConsumedServiceInstance(child_element, instance)
+                else:   
+                    self.notImplemented("Unsupported ConsumedServiceInstances <%s>" % type(instance))
 
     def writeSocketAddressApplicationEndpoint(self, element: ET.Element, address: SocketAddress):
         end_point = address.getApplicationEndpoint()
         if end_point is not None:
             child_element = ET.SubElement(element, "APPLICATION-ENDPOINT")
             self.writeIdentifiable(child_element, end_point)
+            self.writeSocketAddressApplicationEndpointConsumedServiceInstances(child_element, end_point)
             self.setChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF", end_point.getNetworkEndpointRef())
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
             self.writeTransportProtocolConfiguration(child_element, end_point.getTpConfiguration())
