@@ -431,6 +431,15 @@ class RefType(ARObject):
         self.value = value
         return self
 
+    def getShortValue(self):
+        if self.value is None:
+            raise ValueError("Invalid value of RefType")
+        m = re.match(r'\/[\w\/]+\/(\w+)', self.value)
+        if m:
+            return m.group(1)
+        return self.value
+
+
 class TRefType(RefType):
     def __init__(self):
         super().__init__()

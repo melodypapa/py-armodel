@@ -1,12 +1,9 @@
 from abc import ABCMeta
 from typing import List
-
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
-
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, Integer, RefType, ARBoolean, String, TimeValue, UnlimitedInteger
-
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
 class FibexElement(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == FibexElement:
@@ -500,7 +497,7 @@ class PduTriggering(Identifiable):
         return self
 
     def getISignalTriggeringRefs(self):
-        return self.iSignalTriggeringRefs
+        return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
 
     def addISignalTriggeringRef(self, value):
         self.iSignalTriggeringRefs.append(value)

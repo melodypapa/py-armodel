@@ -72,6 +72,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, ScheduleTableEntry
@@ -2667,12 +2668,19 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSoAdConfigConnectionBundles(child_element, config)
             self.readSoAdConfigSocketAddresses(child_element, config)
         return config
+    
+    def readEthernetPhysicalChannelVlan(self, element: ET.Element, channel: EthernetPhysicalChannel):
+        child_element = self.find(element, "VLAN")
+        if child_element is not None:
+            vlan = channel.createVlanConfig(self.getShortName(child_element))
+            vlan.setVlanIdentifier(self.getChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER"))
 
     def readEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
         self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
         self.readEthernetPhysicalChannelNetworkEndPoints(element, channel)
         channel.setSoAdConfig(self.getSoAdConfig(element, "SO-AD-CONFIG"))
+        self.readEthernetPhysicalChannelVlan(element, channel)
 
     def readCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         for child_element in self.findall(element, "PHYSICAL-CHANNELS/*"):
@@ -2739,11 +2747,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
 
-    def readDiagnosticConnection(self, element: ET.Element, parent: ARPackage):
-        short_name = self.getShortName(element)
-        self.logger.debug("Read DiagnosticConnection %s" % short_name)
-        connection = parent.createDiagnosticConnection(short_name)
+    def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
+        for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
+            connection.addFunctionalRequestRef(ref)
+
+    def readDiagnosticConnection(self, element: ET.Element, connection: DiagnosticConnection):
+        self.logger.debug("Read DiagnosticConnection %s" % connection.getShortName())
         self.readIdentifiable(element, connection)
+        self.readDiagnosticConnectionFunctionalRequestRefs(element, connection)
+        connection.setPhysicalRequestRef(self.getChildElementOptionalRefType(element, "PHYSICAL-REQUEST-REF")) \
+                  .setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
 
     def readDiagnosticServiceTable(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
@@ -3683,7 +3696,8 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETHERNET-CLUSTER":
                 self.readEthernetCluster(child_element, parent)
             elif tag_name == "DIAGNOSTIC-CONNECTION":
-                self.readDiagnosticConnection(child_element, parent)
+                connection = parent.createDiagnosticConnection(self.getShortName(child_element))
+                self.readDiagnosticConnection(child_element, connection)
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 self.readDiagnosticServiceTable(child_element, parent)
             elif tag_name == "MULTIPLEXED-I-PDU":
