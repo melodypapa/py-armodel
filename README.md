@@ -443,3 +443,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SW-RECORD-LAYOUT-GROUP-AXIS
 3. Improve the following AR Element
    * SOCKET-CONNECTION
+   * SOCKET-ADDRESS
