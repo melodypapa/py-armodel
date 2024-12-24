@@ -2731,6 +2731,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSoAdConfigConnectionBundles(child_element, config)
             self.writeSoAdConfigSocketAddresses(child_element, config)
 
+    def writeEthernetPhysicalChannelVlan(self, element: ET.Element, channel: EthernetPhysicalChannel):
+        vlan = channel.getVlan()
+        if vlan is not None:
+            child_element = ET.SubElement(element, "VLAN")
+            self.writeIdentifiable(child_element, vlan)
+            self.setChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER", vlan.getVlanIdentifier())
+
     def writeEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
         self.logger.debug("Set EthernetPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-PHYSICAL-CHANNEL")
@@ -2738,6 +2745,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannel(child_element, channel)
         self.writeEthernetPhysicalChannelNetworkEndPoints(child_element, channel.getNetworkEndpoints())
         self.writeSoAdConfig(child_element, "SO-AD-CONFIG", channel.getSoAdConfig())
+        self.writeEthernetPhysicalChannelVlan(child_element, channel)
 
     def writeCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         channels = cluster.getPhysicalChannels()
@@ -3255,10 +3263,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
         self.writeIdentifiable(child_element, set)
 
+    def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
+        refs = connection.getFunctionalRequestRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "FUNCTIONAL-REQUEST-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "FUNCTIONAL-REQUEST-REF", ref)
+
     def writeDiagnosticConnection(self, element: ET.Element, connection: DiagnosticConnection):
         self.logger.debug("Write DiagnosticConnection %s" % connection.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-CONNECTION")
         self.writeIdentifiable(child_element, connection)
+        self.writeDiagnosticConnectionFunctionalRequestRefs(child_element, connection)
+        self.setChildElementOptionalRefType(child_element, "PHYSICAL-REQUEST-REF", connection.getPhysicalRequestRef())
+        self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseOnEventRef())
 
     def writeDiagnosticServiceTable(self, element: ET.Element, table: DiagnosticServiceTable):
         self.logger.debug("Write DiagnosticServiceTable %s" % table.getShortName())

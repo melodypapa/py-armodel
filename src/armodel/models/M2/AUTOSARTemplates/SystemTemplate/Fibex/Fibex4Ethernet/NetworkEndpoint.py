@@ -157,7 +157,6 @@ class Ipv6Configuration(NetworkEndpointAddress):
         self.ipv6AddressSource = value
         return self
 
-
 class InfrastructureServices(ARObject):
     def __init__(self):
         super().__init__()

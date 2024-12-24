@@ -277,7 +277,7 @@ class System(ARElement):
         self.clientIdDefinitionSetRefs = []                 # type: List[RefType]
         self.containerIPduHeaderByteOrder = None
         self.ecuExtractVersion = None
-        self.fibexElements = []
+        self.fibexElements = []                             # type: List[RefType]
         self.interpolationRoutineMappingSetRefs = []        # type: List[RefType]
         self.j1939SharedAddressClusters = []
         self.mappings = []                                  # type: List[SystemMapping]
@@ -310,10 +310,11 @@ class System(ARElement):
         return self
 
     def getFibexElementRefs(self):
-        return self.fibexElements
+        return sorted(self.fibexElements, key= lambda i: i.getValue())
 
     def addFibexElementRef(self, value):
-        self.fibexElements.append(value)
+        if value is not None:
+            self.fibexElements.append(value)
         return self
 
     def getInterpolationRoutineMappingSetRefs(self):
