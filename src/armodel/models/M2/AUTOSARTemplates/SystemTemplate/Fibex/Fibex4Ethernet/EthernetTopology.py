@@ -1,47 +1,66 @@
 from typing import List
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, PositiveUnlimitedInteger, RefType, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, MacAddressString, PositiveInteger, RefType, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, PhysicalChannel
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
 
+class MacMulticastGroup(Identifiable):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.macMulticastAddress = None                                     # type: MacAddressString
+
+    def getMacMulticastAddress(self):
+        return self.macMulticastAddress
+
+    def setMacMulticastAddress(self, value):
+        if value is not None:
+            self.macMulticastAddress = value
+        return self
 class EthernetCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.couplingPorts = []                             # type: List[CouplingPortConnection]
-        self.couplingPortStartupActiveTime = None           # type: TimeValue
-        self.couplingPortSwitchoffDelay = None              # type: TimeValue
-        self.macMulticastGroups = []                        # type: MacMulticastGroup
+        self.couplingPorts = []                                             # type: List[CouplingPortConnection]
+        self.couplingPortStartupActiveTime = None                           # type: TimeValue
+        self.couplingPortSwitchoffDelay = None                              # type: TimeValue
+        self.macMulticastGroups = []                                        # type: List[MacMulticastGroup]
 
     def getCouplingPorts(self):
         return self.couplingPorts
 
-    def setCouplingPorts(self, value):
-        self.couplingPorts = value
+    def addCouplingPort(self, value):
+        if value is not None:
+            self.couplingPorts.append(value)
         return self
 
     def getCouplingPortStartupActiveTime(self):
         return self.couplingPortStartupActiveTime
 
     def setCouplingPortStartupActiveTime(self, value):
-        self.couplingPortStartupActiveTime = value
+        if value is not None:
+            self.couplingPortStartupActiveTime = value
         return self
 
     def getCouplingPortSwitchoffDelay(self):
         return self.couplingPortSwitchoffDelay
 
     def setCouplingPortSwitchoffDelay(self, value):
-        self.couplingPortSwitchoffDelay = value
+        if value is not None:
+            self.couplingPortSwitchoffDelay = value
         return self
 
     def getMacMulticastGroups(self):
         return self.macMulticastGroups
 
-    def setMacMulticastGroups(self, value):
-        self.macMulticastGroups = value
-        return self
-    
+    def createMacMulticastGroup(self, short_name: str) -> MacMulticastGroup:
+        if (short_name not in self.elements):
+            group = MacMulticastGroup(self, short_name)
+            self.addElement(group)
+            self.macMulticastGroups.append(group)
+        return self.getElement(short_name)
+
 class CouplingPort(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -278,3 +297,5 @@ class SdClientConfig(ARObject):
         if value is not None:
             self.ttl = value
         return self
+
+

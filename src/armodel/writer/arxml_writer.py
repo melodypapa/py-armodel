@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, RequestResponseDelay, SdClientConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
@@ -2962,6 +2962,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCommunicationCluster(child_element, cluster)
         self.writeAbstractCanCluster(child_element, cluster)
 
+    def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
+            self.writeIdentifiable(child_element, group)
+            self.setChildElementOptionalLiteral(child_element, "MAC-MULTICAST-ADDRESS", group.getMacMulticastAddress())
+
+    def writeEthernetClusterMacMulticastGroups(self, element: ET.Element, cluster: EthernetCluster):
+        groups = cluster.getMacMulticastGroups()
+        if len(groups) > 0:
+            child_element = ET.SubElement(element, "MAC-MULTICAST-GROUPS")
+            for group in groups:
+                if isinstance(group, MacMulticastGroup):
+                    self.writeMacMulticastGroup(child_element, group)
+                else:
+                    self.notImplemented("Unsupported assigned data type <%s>" % type(group))
+
     def writeEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Set EthernetCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-CLUSTER")
@@ -2970,6 +2986,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(child_element, "ETHERNET-CLUSTER-VARIANTS")
         child_element = ET.SubElement(child_element, "ETHERNET-CLUSTER-CONDITIONAL")
         self.writeCommunicationCluster(child_element, cluster)
+        self.writeEthernetClusterMacMulticastGroups(child_element, cluster)
 
     def writeCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Write CanFrame %s" % frame.getShortName())

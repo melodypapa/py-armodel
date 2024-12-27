@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import C
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, RequestResponseDelay, SdClientConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
@@ -391,15 +391,15 @@ class ARXMLParser(AbstractARXMLParser):
     def readServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.readIdentifiable(element, dependency)
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if (tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT"):
                 dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
-                self._raiseError("Unsupported assigned data type <%s>" % tag_name)
+                self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
     def readSwcServiceDependencyAssignedData(self, element: ET.Element, dependency: SwcServiceDependency):
         for child_element in self.findall(element, "ASSIGNED-DATAS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if (tag_name == "ROLE-BASED-DATA-ASSIGNMENT"):
                 dependency.AddAssignedData(self.getRoleBasedDataAssignment(child_element))
             else:
@@ -407,7 +407,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwcServiceDependencyAssignedPorts(self, element: ET.Element, dependency: SwcServiceDependency):
         for child_element in self.findall(element, "ASSIGNED-PORTS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if (tag_name == "ROLE-BASED-PORT-ASSIGNMENT"):
                 dependency.AddAssignedPort(self.getRoleBasedPortAssignment(child_element))
             else:
@@ -507,7 +507,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "NV-BLOCK-NEEDS":
                 self.readNvBlockNeeds(child_element, parent)    
             elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
@@ -538,7 +538,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwcInternalBehaviorServiceDependencies(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "SERVICE-DEPENDENCYS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if (tag_name == "SWC-SERVICE-DEPENDENCY"):
                 self.readSwcServiceDependency(child_element, parent)
             else:
@@ -717,7 +717,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readArtifactDescriptor(self, element: ET.Element, code_desc: Code):
         for child_element in self.findall(element, "ARTIFACT-DESCRIPTORS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "AUTOSAR-ENGINEERING-OBJECT":
                 code_desc.addArtifactDescriptor(self.getAutosarEngineeringObject(child_element))
             else:
@@ -890,7 +890,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readInternalBehaviorServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "SERVER-CALL-POINTS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "SYNCHRONOUS-SERVER-CALL-POINT":
                 self.readSynchronousServerCallPoint(child_element, parent)
             elif tag_name == "ASYNCHRONOUS-SERVER-CALL-POINT":
@@ -1107,7 +1107,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "TIMING-EVENT":
                 self.readTimingEvent(child_element, parent)
             elif tag_name == "SWC-MODE-SWITCH-EVENT":
@@ -1265,7 +1265,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getSwCalprmAxisSet(self, element: ET.Element, key: str) -> SwCalprmAxisSet:
         set = SwCalprmAxisSet()
         for child_element in self.findall(element, "%s/*" % key):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "SW-CALPRM-AXIS":
                 set.addSwCalprmAxis(self.getSwCalprmAxis(child_element))
         return set
@@ -1510,7 +1510,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readRequiredComSpec(self, element: ET.Element, parent: RPortPrototype):
         for child_element in self.findall(element, "REQUIRED-COM-SPECS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "NONQUEUED-RECEIVER-COM-SPEC":
                 parent.addRequiredComSpec(self.getNonqueuedReceiverComSpec(child_element))
             elif tag_name == "CLIENT-COM-SPEC":
@@ -1612,7 +1612,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readProvidedComSpec(self, element: ET.Element, parent: PPortPrototype):
         for child_element in self.findall(element, "PROVIDED-COM-SPECS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "NONQUEUED-SENDER-COM-SPEC":
                 parent.addProvidedComSpec(self.getNonqueuedSenderComSpec(child_element))
             elif tag_name == "SERVER-COM-SPEC":
@@ -1645,7 +1645,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwComponentTypePortGroups(self, element: ET.Element, parent: SwComponentType):
         for child_element in self.findall(element, "PORT-GROUPS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "PORT-GROUP":
                 self.readPortGroup(child_element, parent)
             else:
@@ -2190,7 +2190,7 @@ class ARXMLParser(AbstractARXMLParser):
     
     def readEndToEndProtectionVariablePrototypes(self, element: ET.Element, parent: EndToEndProtection):
         for child_element in element.findall("./xmlns:END-TO-END-PROTECTION-VARIABLE-PROTOTYPES/*", self.nsmap):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE":
                 parent.addEndToEndProtectionVariablePrototype(self.getEndToEndProtectionVariablePrototype(child_element))
             else:
@@ -2206,7 +2206,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEndToEndProtections(self, element: ET.Element, parent: EndToEndProtectionSet):
         for child_element in element.findall("./xmlns:END-TO-END-PROTECTIONS/*", self.nsmap):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-PROTECTION":
                 self.readEndToEndProtection(child_element, parent)
 
@@ -2895,6 +2895,19 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCommunicationCluster(child_element, cluster)
             self.readAbstractCanCluster(child_element, cluster)
 
+    def readMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
+        self.readIdentifiable(element, group)
+        group.setMacMulticastAddress(self.getChildElementOptionalLiteral(element, "MAC-MULTICAST-ADDRESS",))
+
+    def readEthernetClusterMacMulticastGroups(self, element: ET.Element, cluster: EthernetCluster):
+        for child_element in self.findall(element, "MAC-MULTICAST-GROUPS/*"):
+            tag_name = self.getTagName(child_element)
+            if (tag_name == "MAC-MULTICAST-GROUP"):
+                group = cluster.createMacMulticastGroup(self.getShortName(child_element))
+                self.readMacMulticastGroup(child_element, group)
+            else:
+                self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
+
     def readEthernetCluster(self, element: ET.Element, parent: ARPackage):
         short_name = self.getShortName(element)
         self.logger.debug("Read EthernetCluster %s" % short_name)
@@ -2903,6 +2916,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "ETHERNET-CLUSTER-VARIANTS/ETHERNET-CLUSTER-CONDITIONAL")
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
+            self.readEthernetClusterMacMulticastGroups(child_element, cluster)
 
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
@@ -3732,7 +3746,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readARPackageElements(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "ELEMENTS/*"):
-            tag_name = self.getTagName(child_element.tag)
+            tag_name = self.getTagName(child_element)
             if tag_name == "COMPOSITION-SW-COMPONENT-TYPE":
                 self.readCompositionSwComponentType(child_element, parent)
             elif tag_name == "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE":
