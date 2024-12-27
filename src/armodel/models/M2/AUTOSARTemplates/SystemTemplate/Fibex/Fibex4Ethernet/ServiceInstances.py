@@ -1,11 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String, TimeValue
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 
 class TransportProtocolConfiguration(ARObject, metaclass = ABCMeta):
     def __init__(self):
@@ -413,7 +413,221 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         if value is not None:
             self.versionDrivenFindBehavior = value
         return self
-   
+    
+class InitialSdDelayConfig(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.initialDelayMaxValue = None                        # type: TimeValue
+        self.initialDelayMinValue = None                        # type: TimeValue
+        self.initialRepetitionsBaseDelay = None                 # type: TimeValue
+        self.initialRepetitionsMax = None                       # type: PositiveInteger
+
+    def getInitialDelayMaxValue(self):
+        return self.initialDelayMaxValue
+
+    def setInitialDelayMaxValue(self, value):
+        if value is not None:
+            self.initialDelayMaxValue = value
+        return self
+
+    def getInitialDelayMinValue(self):
+        return self.initialDelayMinValue
+
+    def setInitialDelayMinValue(self, value):
+        if value is not None:
+            self.initialDelayMinValue = value
+        return self
+
+    def getInitialRepetitionsBaseDelay(self):
+        return self.initialRepetitionsBaseDelay
+
+    def setInitialRepetitionsBaseDelay(self, value):
+        if value is not None:
+            self.initialRepetitionsBaseDelay = value
+        return self
+
+    def getInitialRepetitionsMax(self):
+        return self.initialRepetitionsMax
+
+    def setInitialRepetitionsMax(self, value):
+        if value is not None:
+            self.initialRepetitionsMax = value
+        return self
+
+    
+class SdServerConfig(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.capabilityRecords = []                             # type：List[TagWithOptionalValue]
+        self.initialOfferBehavior = None                        # type: InitialSdDelayConfig
+        self.offerCyclicDelay = None                            # type: TimeValue
+        self.requestResponseDelay = None                        # type: RequestResponseDelay
+        self.serverServiceMajorVersion = None                   # type: PositiveInteger
+        self.serverServiceMinorVersion = None                   # type: PositiveInteger
+        self.ttl = None                                         # type: PositiveInteger
+
+    def getCapabilityRecords(self):
+        return self.capabilityRecords
+
+    def setCapabilityRecords(self, value):
+        if value is not None:
+            self.capabilityRecords = value
+        return self
+
+    def getInitialOfferBehavior(self):
+        return self.initialOfferBehavior
+
+    def setInitialOfferBehavior(self, value):
+        if value is not None:
+            self.initialOfferBehavior = value
+        return self
+
+    def getOfferCyclicDelay(self):
+        return self.offerCyclicDelay
+
+    def setOfferCyclicDelay(self, value):
+        if value is not None:
+            self.offerCyclicDelay = value
+        return self
+
+    def getRequestResponseDelay(self):
+        return self.requestResponseDelay
+
+    def setRequestResponseDelay(self, value):
+        if value is not None:
+            self.requestResponseDelay = value
+        return self
+
+    def getServerServiceMajorVersion(self):
+        return self.serverServiceMajorVersion
+
+    def setServerServiceMajorVersion(self, value):
+        if value is not None:
+            self.serverServiceMajorVersion = value
+        return self
+
+    def getServerServiceMinorVersion(self):
+        return self.serverServiceMinorVersion
+
+    def setServerServiceMinorVersion(self, value):
+        if value is not None:
+            self.serverServiceMinorVersion = value
+        return self
+
+    def getTtl(self):
+        return self.ttl
+
+    def setTtl(self, value):
+        if value is not None:
+            self.ttl = value
+        return self
+
+    
+class EventHandler(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.applicationEndpointRef = None                      # type: RefType
+        self.consumedEventGroupRefs = []                        # type: List[RefType]
+        self.multicastThreshold = None                          # type: PositiveInteger
+        self.routingGroupRefs = []                              # type: List[RefType]
+        self.sdServerConfig = None                              # type: SdServerConfig
+
+    def getApplicationEndpointRef(self):
+        return self.applicationEndpointRef
+
+    def setApplicationEndpointRef(self, value):
+        if value is not None:
+            self.applicationEndpointRef = value
+        return self
+
+    def getConsumedEventGroupRefs(self):
+        return self.consumedEventGroupRefs
+
+    def addConsumedEventGroupRef(self, value):
+        if value is not None:
+            self.consumedEventGroupRefs.append(value)
+        return self
+
+    def getMulticastThreshold(self):
+        return self.multicastThreshold
+
+    def setMulticastThreshold(self, value):
+        if value is not None:
+            self.multicastThreshold = value
+        return self
+
+    def getRoutingGroupRefs(self):
+        return self.routingGroupRefs
+
+    def addRoutingGroupRef(self, value):
+        if value is not None:
+            self.routingGroupRefs.append(value)
+        return self
+
+    def getSdServerConfig(self):
+        return self.sdServerConfig
+
+    def setSdServerConfig(self, value):
+        if value is not None:
+            self.sdServerConfig = value
+        return self
+
+
+class ProvidedServiceInstance(AbstractServiceInstance):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.eventHandlers = []                                 # type: List[EventHandler]
+        self.instanceIdentifier = None                          # type: PositiveInteger
+        self.priority = None                                    # type: PositiveInteger
+        self.sdServerConfig = None                              # type：SdServerConfig
+        self.serviceIdentifier = None                           # type: PositiveInteger
+
+    def getEventHandlers(self):
+        return self.eventHandlers
+
+    def createEventHandler(self, short_name:str) -> EventHandler:
+        if short_name not in self.elements:
+            instance = EventHandler(self, short_name)
+            self.addElement(instance)
+            self.eventHandlers.append(instance)
+        return self.getElement(short_name)
+
+    def getInstanceIdentifier(self):
+        return self.instanceIdentifier
+
+    def setInstanceIdentifier(self, value):
+        if value is not None:
+            self.instanceIdentifier = value
+        return self
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getSdServerConfig(self):
+        return self.sdServerConfig
+
+    def setSdServerConfig(self, value):
+        if value is not None:
+            self.sdServerConfig = value
+        return self
+
+    def getServiceIdentifier(self):
+        return self.serviceIdentifier
+
+    def setServiceIdentifier(self, value):
+        if value is not None:
+            self.serviceIdentifier = value
+        return self
+
 
 class ApplicationEndpoint(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -461,10 +675,13 @@ class ApplicationEndpoint(Identifiable):
     def getProvidedServiceInstances(self):
         return self.providedServiceInstances
 
-    def addProvidedServiceInstance(self, value):
-        self.providedServiceInstances.append(value)
-        return self
-
+    def createProvidedServiceInstance(self, short_name:str) -> ProvidedServiceInstance:
+        if short_name not in self.elements:
+            instance = ProvidedServiceInstance(self, short_name)
+            self.addElement(instance)
+            self.providedServiceInstances.append(instance)
+        return self.getElement(short_name)
+    
     def getTlsCryptoMappingRef(self):
         return self.tlsCryptoMappingRef
 
@@ -624,4 +841,135 @@ class SoAdConfig(ARObject):
         self.socketAddresses.append(address)
         return address
 
+class ProvidedServiceInstance(AbstractServiceInstance):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
+        self.allowedServiceConsumerRefs = []                                    # type: List[RefType]
+        self.ProvidedServiceInstance = None                                     # type: Boolean
+        self.eventHandlers = []                                                 # type: List[EventHandler]
+        self.instanceIdentifier = None                                          # type: PositiveInteger
+        self.loadBalancingPriority = None                                       # type: PositiveInteger
+        self.loadBalancingWeight = None                                         # type: PositiveInteger
+        self.localUnicastAddressRefs = []                                       # type: List[RefType]
+        self.minorVersion = None                                                # type: PositiveInteger
+        self.priority = None                                                    # type: PositiveInteger
+        self.remoteMulticastSubscriptionAddressRefs = []                        # type: List[RefType]
+        self.remoteUnicastAddressRefs = []                                      # type: List[RefType]
+        self.sdServerConfig = None                                              # type: SdServerConfig
+        self.sdServerTimerConfigRef = None                                      # type: RefType
+        self.serviceIdentifier = None                                           # type: PositiveInteger
+
+    def getAllowedServiceConsumerRefs(self):
+        return self.allowedServiceConsumerRefs
+
+    def setAllowedServiceConsumerRefs(self, value):
+        if value is not None:
+            self.allowedServiceConsumerRefs = value
+        return self
+
+    def getProvidedServiceInstance(self):
+        return self.ProvidedServiceInstance
+
+    def setProvidedServiceInstance(self, value):
+        if value is not None:
+            self.ProvidedServiceInstance = value
+        return self
+
+    def getEventHandlers(self):
+        return self.eventHandlers
+
+    def createEventHandler(self, short_name:str) -> EventHandler:
+        if short_name not in self.elements:
+            instance = EventHandler(self, short_name)
+            self.addElement(instance)
+            self.eventHandlers.append(instance)
+        return self.getElement(short_name)
+    
+    def getInstanceIdentifier(self):
+        return self.instanceIdentifier
+
+    def setInstanceIdentifier(self, value):
+        if value is not None:
+            self.instanceIdentifier = value
+        return self
+
+    def getLoadBalancingPriority(self):
+        return self.loadBalancingPriority
+
+    def setLoadBalancingPriority(self, value):
+        if value is not None:
+            self.loadBalancingPriority = value
+        return self
+
+    def getLoadBalancingWeight(self):
+        return self.loadBalancingWeight
+
+    def setLoadBalancingWeight(self, value):
+        if value is not None:
+            self.loadBalancingWeight = value
+        return self
+
+    def getLocalUnicastAddressRefs(self):
+        return self.localUnicastAddressRefs
+
+    def setLocalUnicastAddressRefs(self, value):
+        if value is not None:
+            self.localUnicastAddressRefs = value
+        return self
+
+    def getMinorVersion(self):
+        return self.minorVersion
+
+    def setMinorVersion(self, value):
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getRemoteMulticastSubscriptionAddressRefs(self):
+        return self.remoteMulticastSubscriptionAddressRefs
+
+    def setRemoteMulticastSubscriptionAddressRefs(self, value):
+        if value is not None:
+            self.remoteMulticastSubscriptionAddressRefs = value
+        return self
+
+    def getRemoteUnicastAddressRefs(self):
+        return self.remoteUnicastAddressRefs
+
+    def setRemoteUnicastAddressRefs(self, value):
+        if value is not None:
+            self.remoteUnicastAddressRefs = value
+        return self
+
+    def getSdServerConfig(self):
+        return self.sdServerConfig
+
+    def setSdServerConfig(self, value):
+        if value is not None:
+            self.sdServerConfig = value
+        return self
+
+    def getSdServerTimerConfigRef(self):
+        return self.sdServerTimerConfigRef
+
+    def setSdServerTimerConfigRef(self, value):
+        if value is not None:
+            self.sdServerTimerConfigRef = value
+        return self
+
+    def getServiceIdentifier(self):
+        return self.serviceIdentifier
+
+    def setServiceIdentifier(self, value):
+        if value is not None:
+            self.serviceIdentifier = value
+        return self
