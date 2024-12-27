@@ -278,4 +278,3 @@ class SdClientConfig(ARObject):
         if value is not None:
             self.ttl = value
         return self
-

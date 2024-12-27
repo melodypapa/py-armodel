@@ -445,3 +445,8 @@ Fix the attribute intervalType of **Limit** is empty issue.
 3. Improve the following AR Element
    * SOCKET-CONNECTION
    * SOCKET-ADDRESS
+
+**Version 1.7.6**
+
+1. To support the following AR Element:
+   * PROVIDED-SERVICE-INSTANCE
