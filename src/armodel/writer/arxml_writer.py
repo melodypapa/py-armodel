@@ -205,7 +205,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
 
-    def setARElement(self, parent: ET.Element, ar_element: ARElement):
+    def writeARElement(self, parent: ET.Element, ar_element: ARElement):
         self.writeIdentifiable(parent, ar_element)
     
     def setTransmissionAcknowledgementRequest(self, element: ET.Element, acknowledge: TransmissionAcknowledgementRequest):
@@ -728,7 +728,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setApplicationDataType(element, data_type)
 
     def setAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
-        self.setARElement(element, data_type)
+        self.writeARElement(element, data_type)
         self.setSwDataDefProps(element, "SW-DATA-DEF-PROPS", data_type.getSwDataDefProps())
 
     def writeApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
@@ -2986,7 +2986,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Set EthernetCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-CLUSTER")
-        self.setARElement(child_element, cluster)
+        self.writeARElement(child_element, cluster)
 
         child_element = ET.SubElement(child_element, "ETHERNET-CLUSTER-VARIANTS")
         child_element = ET.SubElement(child_element, "ETHERNET-CLUSTER-CONDITIONAL")
@@ -3087,10 +3087,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self._raiseError("Unsupported Communication connector <%s>" % type(connector))
 
+    def writeEcuInstanceAssociatedComIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
+        refs = instance.getAssociatedComIPduGroupRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ASSOCIATED-COM-I-PDU-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "ASSOCIATED-COM-I-PDU-GROUP-REF", ref)
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
         self.writeIdentifiable(child_element, instance)
+        self.writeEcuInstanceAssociatedComIPduGroupRefs(child_element, instance)
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-GW-TIME-BASE", instance.getComConfigurationGwTimeBase())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-RX-TIME-BASE", instance.getComConfigurationRxTimeBase())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-TX-TIME-BASE", instance.getComConfigurationTxTimeBase())
@@ -3179,20 +3187,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, prototype)
             self.setChildElementOptionalRefType(child_element, "FLAT-MAP-REF", prototype.getFlatMapRef())
             self.setChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF", prototype.getSoftwareCompositionTRef())
+
+    def writeSystemFibexElementRefs(self, element: ET.Element, system: System):
+        refs = system.getFibexElementRefs()
+        if len(refs) > 0:
+            fibex_elements_tag = ET.SubElement(element, "FIBEX-ELEMENTS")
+            for ref in refs:
+                child_element = ET.SubElement(fibex_elements_tag, "FIBEX-ELEMENT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "FIBEX-ELEMENT-REF", ref)
                 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
         child_element = ET.SubElement(element, "SYSTEM")
-        self.setARElement(child_element, system)
-
+        self.writeARElement(child_element, system)
         self.setChildElementOptionalLiteral(child_element, "ECU-EXTRACT-VERSION", system.getEcuExtractVersion())
-        refs = system.getFibexElementRefs()
-        if len(refs) > 0:
-            fibex_elements_tag = ET.SubElement(child_element, "FIBEX-ELEMENTS")
-            for ref in refs:
-                fibex_element_ref_conditional_tag = ET.SubElement(fibex_elements_tag, "FIBEX-ELEMENT-REF-CONDITIONAL")
-                self.setChildElementOptionalRefType(fibex_element_ref_conditional_tag, "FIBEX-ELEMENT-REF", ref)
-
+        self.writeSystemFibexElementRefs(child_element, system)
         self.writeSystemMappings(child_element, system)
         self.writeRootSwCompositionPrototype(child_element, system)
         self.setChildElementOptionalRevisionLabelString(child_element, "SYSTEM-VERSION", system.getSystemVersion())
@@ -3200,7 +3209,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writePhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
         self.logger.debug("Set PhysicalDimension %s" % dimension.getShortName())
         child_element = ET.SubElement(element, "PHYSICAL-DIMENSION")
-        self.setARElement(child_element, dimension)
+        self.writeARElement(child_element, dimension)
         self.setChildElementOptionalNumericalValue(child_element, "CURRENT-EXP", dimension.getCurrentExp())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH-EXP", dimension.getLengthExp())
         self.setChildElementOptionalNumericalValue(child_element, "TIME-EXP", dimension.getTimeExp())
@@ -3225,7 +3234,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeFlatMap(self, element: ET.Element, map: FlatMap):
         self.logger.debug("Set FlatMap %s" % map.getShortName())
         child_element = ET.SubElement(element, "FLAT-MAP")
-        self.setARElement(child_element, map)
+        self.writeARElement(child_element, map)
         self.writeFlatMapInstances(child_element, map)
 
     def setDataPrototypeMapping(self, element: ET.Element, mapping: DataPrototypeMapping):
@@ -3258,7 +3267,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writePortInterfaceMappingSet(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         self.logger.debug("Set PortInterfaceMappingSet %s" % mapping_set.getShortName())
         child_element = ET.SubElement(element, "PORT-INTERFACE-MAPPING-SET")
-        self.setARElement(child_element, mapping_set)
+        self.writeARElement(child_element, mapping_set)
         self.writePortInterfaceMappings(child_element, mapping_set)
 
     def setISignalMappings(self, element: ET.Element, mappings: List[ISignalMapping]):

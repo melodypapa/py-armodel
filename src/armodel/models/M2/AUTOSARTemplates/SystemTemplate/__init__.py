@@ -310,7 +310,8 @@ class System(ARElement):
         return self
 
     def getFibexElementRefs(self):
-        return sorted(self.fibexElements, key= lambda i: i.getShortValue())
+        #return sorted(self.fibexElements, key= lambda i: i.getShortValue())
+        return self.fibexElements
 
     def addFibexElementRef(self, value):
         if value is not None:
