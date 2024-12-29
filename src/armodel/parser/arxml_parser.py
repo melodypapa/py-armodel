@@ -98,7 +98,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEnd
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
 from .abstract_arxml_parser import AbstractARXMLParser
 
@@ -2852,10 +2852,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticConnectionFunctionalRequestRefs(element, connection)
         connection.setPhysicalRequestRef(self.getChildElementOptionalRefType(element, "PHYSICAL-REQUEST-REF")) \
                   .setResponseOnEventRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
-
+        
+    def readDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
+        for ref in self.getChildElementRefTypeList(element, "DIAGNOSTIC-CONNECTIONS/DIAGNOSTIC-CONNECTION-REF-CONDITIONAL/DIAGNOSTIC-CONNECTION-REF"):
+            table.addDiagnosticConnectionRef(ref)
+        
     def readDiagnosticServiceTable(self, element: ET.Element, table: DiagnosticServiceTable):
         self.logger.debug("Read DiagnosticServiceTable <%s>" % table.getShortName())
         self.readIdentifiable(element, table)
+        self.readDiagnosticServiceTableDiagnosticConnectionRefs(element, table)
+        table.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
 
     def readMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
         self.logger.debug("Read MultiplexedIPdu <%s>" % i_pdu.getShortName())
@@ -3046,6 +3052,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Read CanTpConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+
+    def readLinTpConfig(self, element: ET.Element, config: LinTpConfig):
+        self.logger.debug("Read LinTpConfig <%s>" % config.getShortName())
         self.readIdentifiable(element, config)
 
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
@@ -3625,7 +3635,7 @@ class ARXMLParser(AbstractARXMLParser):
                 spec = parent.createConstantSpecification(self.getShortName(child_element))
                 self.readConstantSpecification(child_element, spec)
             elif tag_name == "DATA-CONSTR":
-                constr = parent.createDataConstr()
+                constr = parent.createDataConstr(self.getShortName(child_element))
                 self.readDataConstr(child_element, constr)
             elif tag_name == "END-TO-END-PROTECTION-SET":
                 protection_set = parent.createEndToEndProtectionSet(self.getShortName(child_element))
@@ -3714,7 +3724,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CAN-TP-CONFIG":
                 config = parent.createCanTpConfig(self.getShortName(child_element))
                 self.readCanTpConfig(child_element, config)
-            #elif tag_name == "LIN-TP-CONFIG":
+            elif tag_name == "LIN-TP-CONFIG":
+                config = parent.createLinTpConfig(self.getShortName(child_element))
+                self.readLinTpConfig(child_element, config)
             elif tag_name == "SYSTEM":
                 system = parent.createSystem(self.getShortName(child_element))
                 self.readSystem(child_element, system)

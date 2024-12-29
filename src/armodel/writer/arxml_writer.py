@@ -94,7 +94,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology im
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):
@@ -2387,20 +2387,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Nm Cluster <%s>" % type(cluster))
 
     def writeNmConfig(self, element: ET.Element, config: NmConfig):
-        self.logger.debug("WriteNmConfig %s" % config.getShortName())
+        self.logger.debug("Write NmConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "NM-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.writeNmConfigNmClusters(child_element, config)
         self.writeNmConfigNmClusterCouplings(child_element, config)
 
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
-        self.logger.debug("NmPdu %s" % pdu.getShortName())
+        self.logger.debug("Write NmPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "NM-PDU")
         self.writeIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
-        self.logger.debug("NPdu %s" % pdu.getShortName())
+        self.logger.debug("Write NPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "N-PDU")
         self.writeIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
@@ -2409,21 +2409,26 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "LENGTH", pdu.getLength())
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
-        self.logger.debug("DcmIPdu %s" % pdu.getShortName())
+        self.logger.debug("Write DcmIPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "DCM-I-PDU")
         self.writeIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
         self.setChildElementOptionalLiteral(child_element, "DIAG-PDU-TYPE", pdu.getDiagPduType())
 
     def writeSecuredIPdu(self, element: ET.Element, pdu: DcmIPdu):
-        self.logger.debug("SecuredIPdu %s" % pdu.getShortName())
+        self.logger.debug("Write SecuredIPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "SECURED-I-PDU")
         self.writeIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
 
     def writeCanTpConfig(self, element: ET.Element, config: CanTpConfig):
-        self.logger.debug("CanTpConfig %s" % config.getShortName())
+        self.logger.debug("Write CanTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "CAN-TP-CONFIG")
+        self.writeIdentifiable(child_element, config)
+
+    def writeLinTpConfig(self, element: ET.Element, config: LinTpConfig):
+        self.logger.debug("Write LinTpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "LIN-TP-CONFIG")
         self.writeIdentifiable(child_element, config)
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
@@ -3459,10 +3464,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "PHYSICAL-REQUEST-REF", connection.getPhysicalRequestRef())
         self.setChildElementOptionalRefType(child_element, "RESPONSE-REF", connection.getResponseOnEventRef())
 
+    def writeDiagnosticServiceTableDiagnosticConnectionRefs(self, element: ET.Element, table: DiagnosticServiceTable):
+        refs = table.getDiagnosticConnectionRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "DIAGNOSTIC-CONNECTIONS")
+            for ref in refs:
+                child_element = ET.SubElement(refs_tag, "DIAGNOSTIC-CONNECTION-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-CONNECTION-REF", ref)
+
     def writeDiagnosticServiceTable(self, element: ET.Element, table: DiagnosticServiceTable):
         self.logger.debug("Write DiagnosticServiceTable %s" % table.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-SERVICE-TABLE")
         self.writeIdentifiable(child_element, table)
+        self.writeDiagnosticServiceTableDiagnosticConnectionRefs(child_element, table)
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", table.getEcuInstanceRef())
 
     def writeMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
         self.logger.debug("Write MultiplexedIPdu %s" % i_pdu.getShortName())
@@ -3660,6 +3675,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSecuredIPdu(element, ar_element)
         elif isinstance(ar_element, CanTpConfig):
             self.writeCanTpConfig(element, ar_element)
+        elif isinstance(ar_element, LinTpConfig):
+            self.writeLinTpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):

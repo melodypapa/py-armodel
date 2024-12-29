@@ -40,7 +40,7 @@ from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigura
 from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
 from .....M2.AUTOSARTemplates.SystemTemplate import System
 from .....M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
-from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig
+from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
 class ReferenceBase(ARObject):
     def __init__(self):
@@ -388,6 +388,12 @@ class ARPackage(Identifiable, CollectableElement):
     def createCanTpConfig(self, short_name: str) -> CanTpConfig:
         if (short_name not in self.elements):
             element = CanTpConfig(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
+    
+    def createLinTpConfig(self, short_name: str) -> LinTpConfig:
+        if (short_name not in self.elements):
+            element = LinTpConfig(self, short_name)
             self.addElement(element)
         return self.getElement(short_name)
 
