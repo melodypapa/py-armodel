@@ -156,9 +156,9 @@ class ImplementationDataType(AbstractImplementationDataType):
         return self._struct_type
     
     def createSymbolProps(self, short_name: str) -> SymbolProps:
-        if short_name not in self.element:
+        if short_name not in self.elements:
             symbol_props = SymbolProps(self, short_name)
-            self.elements[short_name] = symbol_props
+            self.addElement(symbol_props)
             self.symbolProps = symbol_props
         return self.symbolProps
     
