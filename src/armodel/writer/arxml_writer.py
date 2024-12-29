@@ -30,7 +30,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecifi
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation
+from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation, ImplementationProps
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, ServiceDependency
@@ -55,7 +55,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PRPortPrototype, PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PRPortPrototype, PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype, SymbolProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AsynchronousServerCallPoint, RunnableEntity, RunnableEntityArgument, SwcInternalBehavior, SynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
@@ -1989,12 +1989,24 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeImplementationDataTypeElements(child_element, type_element)
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.getSwDataDefProps())
 
+    def writeImplementationProps(self, element: ET.Element, props: ImplementationProps):
+        self.setChildElementOptionalLiteral(element, "SYMBOL", props.getSymbol())
+
+    def writeSymbolProps(self, element: ET.Element, props: SymbolProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "SYMBOL-PROPS")
+            self.writeImplementationProps(child_element, props)
+
+    def writeImplementationDataTypeSymbolProps(self, element: ET.Element, data_type: ImplementationDataType):
+        self.writeSymbolProps(element, data_type.getSymbolProps())
+
     def writeImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("writeImplementationDataType %s" % data_type.getShortName())
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
         self.setAutosarDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
         self.writeImplementationDataTypeElements(child_element, data_type)
+        self.writeImplementationDataTypeSymbolProps(element, data_type)
         self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
 
     def writeArgumentDataPrototypes(self, element: ET.Element, parent: ClientServerOperation):

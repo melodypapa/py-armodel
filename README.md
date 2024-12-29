@@ -459,5 +459,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * LIN-TP-CONFIG
    * DIAGNOSTIC-SERVICE-TABLE
    * LIN-MASTER
+   * IMPLEMENTATION-DATA-TYPE
 3. Fix the following AR Element
    * I-PDU-MAPPING

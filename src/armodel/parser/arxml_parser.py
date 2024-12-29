@@ -1346,6 +1346,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataType(element, data_type)
         data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
         self.readImplementationDataTypeElements(element, data_type)
+        self.readImplementationDataTypeSymbolProps(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
@@ -2166,11 +2167,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readImplementationProps(element, props)
 
     def readImplementationDataTypeSymbolProps(self, element: ET.Element, data_type: ImplementationDataType):
-        child_element = element.find("./xmlns:SYMBOL-PROPS", self.nsmap)
+        child_element = self.find(element, "SYMBOL-PROPS")
         if child_element is not None:
-            short_name = self.getShortName(child_element)
-            self.logger.debug("readSymbolProps %s" % short_name)
-            props = data_type.createSymbolProps(short_name)
+            props = data_type.createSymbolProps(self.getShortName(child_element))
             self.readSymbolProps(child_element, props)
 
     def readApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
