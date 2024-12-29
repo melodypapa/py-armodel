@@ -91,7 +91,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunicatio
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, AbstractCanCommunicationControllerAttributes, CanCommunicationConnector, CanCommunicationController, CanControllerConfigurationRequirements, CanControllerFdConfiguration, CanControllerFdConfigurationRequirements
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
@@ -3594,10 +3594,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DO-IP-TP-CONFIG")
         self.writeIdentifiable(child_element, config)
 
-    def writeLinMaster(self, element: ET.Element, master: LinMaster):
-        self.logger.debug("Write LinMaster %s" % master.getShortName())
+    def writeLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
+        self.writeCommunicationController(element, controller)
+        self.setChildElementOptionalLiteral(element, "PROTOCOL-VERSION", controller.getProtocolVersion())
+
+    def writeLinMaster(self, element: ET.Element, controller: LinMaster):
+        self.logger.debug("Write LinMaster %s" % controller.getShortName())
         child_element = ET.SubElement(element, "LIN-MASTER")
-        self.writeIdentifiable(child_element, master)
+        self.writeIdentifiable(child_element, controller)
+        variants_tag = ET.SubElement(child_element, "LIN-MASTER-VARIANTS")
+        cond_tag = ET.SubElement(variants_tag, "LIN-MASTER-CONDITIONAL")
+        self.writeLinCommunicationController(cond_tag, controller)
+        self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE", controller.getTimeBase())
+        self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE-JITTER", controller.getTimeBaseJitter())
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()
