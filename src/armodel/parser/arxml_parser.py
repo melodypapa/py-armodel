@@ -2,10 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-
-
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -97,7 +93,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFr
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
 from .abstract_arxml_parser import AbstractARXMLParser
@@ -3214,21 +3210,29 @@ class ARXMLParser(AbstractARXMLParser):
             mappings.append(mapping)
         return mappings
     
-    '''
+    def getTargetIPduRef(self, element, key: str) -> TargetIPduRef:
+        i_pdu_ref = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            i_pdu_ref = TargetIPduRef()
+            i_pdu_ref.setTargetIPdu(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
+        return i_pdu_ref
+    
     def getIPduMappings(self, element: ET.Element) -> List[IPduMapping]:
         mappings = []
-        for child_element in self.findall(element, tag_name):
+        for child_element in self.findall(element, "I-PDU-MAPPINGS/I-PDU-MAPPING"):
             mapping = IPduMapping()
-            mapping.sourceIPduRef = self.getChildElementOptionalRefType(child_element, "SOURCE-IPDU-REF")
-            mapping.targetIPduRef = self.getChildElementOptionalRefType(child_element, "TARGET-IPDU-REF")
+            mapping.setSourceIpduRef(self.getChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF")) \
+                   .setTargetIPdu(self.getTargetIPduRef(child_element, "TARGET-I-PDU"))
             mappings.append(mapping)
         return mappings
-    '''
 
     def readGateway(self, element: ET.Element, gateway: Gateway):
         self.logger.debug("Read Gateway <%s>" % gateway.getShortName())
         self.readIdentifiable(element, gateway)
         gateway.setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
+        for mapping in self.getIPduMappings(element):
+            gateway.addIPduMapping(mapping)
         for mapping in self.getISignalMappings(element):
             gateway.addSignalMapping(mapping)
 

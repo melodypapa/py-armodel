@@ -457,3 +457,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * AR-PACKAGE
    * LIN-TP-CONFIG
    * DIAGNOSTIC-SERVICE-TABLE
+3. Fix the following AR Element
+   * I-PDU-MAPPING
