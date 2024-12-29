@@ -22,10 +22,8 @@ class LinMaster(LinCommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # type: List[LinSlaveConfig]
-        self.linSlaves = []
-        # type: TimeValue
-        self.timeBase = None
+        self.linSlaves = []                                             # type: List[LinSlaveConfig]
+        self.timeBase = None                                            # type: TimeValue
         self.timeBaseJitter = None                                      # type: TimeValue
 
     def getLinSlaves(self):
