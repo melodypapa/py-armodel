@@ -451,6 +451,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 1. To support the following AR Element:
    * PROVIDED-SERVICE-INSTANCE
    * MAC-MULTICAST-GROUP
+   * ASSOCIATED-COM-I-PDU-GROUP-REF
 2. Improve the following AR Element
    * AR-PACKAGE
    * LIN-TP-CONFIG

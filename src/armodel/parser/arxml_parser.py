@@ -3147,11 +3147,16 @@ class ARXMLParser(AbstractARXMLParser):
                 connector = instance.createLinCommunicationConnector(self.getShortName(child_element))
                 self.readLinCommunicationConnector(child_element, connector)
             else:
-                self._raiseError("Unsupported Communication Connector <%s>" % tag_name)                
+                self._raiseError("Unsupported Communication Connector <%s>" % tag_name)
+
+    def readEcuInstanceAssociatedComIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
+        for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-COM-I-PDU-GROUP-REFS/ASSOCIATED-COM-I-PDU-GROUP-REF"):
+            instance.addAssociatedComIPduGroupRef(ref)
 
     def readEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("Read EcuInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
+        self.readEcuInstanceAssociatedComIPduGroupRefs(element, instance)
         instance.setComConfigurationGwTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-GW-TIME-BASE")) \
                 .setComConfigurationRxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-RX-TIME-BASE")) \
                 .setComConfigurationTxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-TX-TIME-BASE")) \
@@ -3539,13 +3544,16 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, prototype)
             prototype.setFlatMapRef(self.getChildElementOptionalRefType(child_element, "FLAT-MAP-REF")) \
                      .setSoftwareCompositionTRef(self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF"))
+            
+    def readSystemFibexElementRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
+            system.addFibexElementRef(ref)
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
         self.readIdentifiable(element, system)
         system.setEcuExtractVersion(self.getChildElementOptionalLiteral(element, "ECU-EXTRACT-VERSION"))
-        for child_element in self.findall(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL"):
-            system.addFibexElementRef(self.getChildElementOptionalRefType(child_element, "FIBEX-ELEMENT-REF"))
+        self.readSystemFibexElementRefs(element, system)
         self.readSystemMappings(element, system)
         self.readRootSwCompositionPrototype(element, system)
         system.setSystemVersion(self.getChildElementOptionalRevisionLabelString(element, "SYSTEM-VERSION"))
