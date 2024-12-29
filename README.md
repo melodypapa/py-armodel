@@ -453,6 +453,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * MAC-MULTICAST-GROUP
    * ASSOCIATED-COM-I-PDU-GROUP-REF
    * CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS
+   * CAN-CONTROLLER-FD-REQUIREMENTS
 2. Improve the following AR Element
    * AR-PACKAGE
    * LIN-TP-CONFIG

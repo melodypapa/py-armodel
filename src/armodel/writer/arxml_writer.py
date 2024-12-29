@@ -88,7 +88,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEnd
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, CanCommunicationConnector, CanCommunicationController, CanControllerConfigurationRequirements
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, AbstractCanCommunicationControllerAttributes, CanCommunicationConnector, CanCommunicationController, CanControllerConfigurationRequirements, CanControllerFdConfiguration, CanControllerFdConfigurationRequirements
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
@@ -3032,9 +3032,32 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCommunicationController(self, element: ET.Element, controller: CommunicationController):
         self.setChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED", controller.getWakeUpByControllerSupported())
 
+    def setCanControllerFdConfiguration(self, element: ET.Element, key: str, configuration: CanControllerFdConfiguration):
+        if configuration is not None:
+            child_element = ET.SubElement(element, key)
+            #TODO: need to implemented
+    
+    def setCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str, requirements: CanControllerFdConfigurationRequirements):
+        if requirements is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMaxNumberOfTimeQuantaPerBit())
+            self.setChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT", requirements.getMaxSamplePoint())
+            self.setChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH", requirements.getMaxSyncJumpWidth())
+            self.setChildElementOptionalTimeValue(child_element, "MAX-TRCV-DELAY-COMPENSATION-OFFSET", requirements.getMaxTrcvDelayCompensationOffset())
+            self.setChildElementOptionalIntegerValue(child_element, "MIN-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMinNumberOfTimeQuantaPerBit())
+            self.setChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT", requirements.getMinSamplePoint())
+            self.setChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH", requirements.getMinSyncJumpWidth())
+            self.setChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET", requirements.getMinTrcvDelayCompensationOffset())
+            self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", requirements.getTxBitRateSwitch())
+
+    def writeAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
+        self.setCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION", attributes.getCanControllerFdAttributes())
+        self.setCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS", attributes.getCanControllerFdRequirements())
+
     def writeCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):
         if requirements is not None:
             child_element = ET.SubElement(element, "CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS")
+            self.writeAbstractCanCommunicationControllerAttributes(child_element, requirements)
             self.setChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMaxNumberOfTimeQuantaPerBit())
             self.setChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT", requirements.getMaxSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH", requirements.getMaxSyncJumpWidth())
