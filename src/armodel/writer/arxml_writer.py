@@ -86,7 +86,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFr
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, ISignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, CanCommunicationConnector, CanCommunicationController, CanControllerConfigurationRequirements
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
@@ -3304,14 +3304,28 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_tag = ET.SubElement(element, "SIGNAL-MAPPINGS")
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tag, "I-SIGNAL-MAPPING")
-                self.setChildElementOptionalRefType(child_element, "SOURCE-SIGNAL-REF", mapping.sourceSignalRef)
-                self.setChildElementOptionalRefType(child_element, "TARGET-SIGNAL-REF", mapping.targetSignalRef)
+                self.setChildElementOptionalRefType(child_element, "SOURCE-SIGNAL-REF", mapping.getSourceSignalRef())
+                self.setChildElementOptionalRefType(child_element, "TARGET-SIGNAL-REF", mapping.getTargetSignalRef())
+
+    def setTargetIPduRef(self, element: ET.Element, key: str, i_pdu_ref: TargetIPduRef):
+        if i_pdu_ref is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPdu())
+
+    def setIPduMappings(self, element: ET.Element, mappings: List[IPduMapping]):
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "I-PDU-MAPPINGS")
+            for mapping in mappings:
+                child_element = ET.SubElement(mappings_tag, "I-PDU-MAPPING")
+                self.setChildElementOptionalRefType(child_element, "SOURCE-I-PDU-REF", mapping.getSourceIpduRef())
+                self.setTargetIPduRef(child_element, "TARGET-I-PDU", mapping.getTargetIPdu())
 
     def writeGateway(self, element: ET.Element, gateway: Gateway):
         self.logger.debug("Gateway %s" % gateway.getShortName())
         child_element = ET.SubElement(element, "GATEWAY")
         self.writeIdentifiable(child_element, gateway)
         self.setChildElementOptionalRefType(child_element, "ECU-REF", gateway.ecuRef)
+        self.setIPduMappings(child_element, gateway.getIPduMappings())
         self.setISignalMappings(child_element, gateway.getSignalMappings())
 
     def writeISignal(self, element: ET.Element, signal: ISignal):
