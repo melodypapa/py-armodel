@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance imp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo, CouplingPortScheduler, CouplingPortStructuralElement, EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, EthernetPriorityRegeneration, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig, VlanMembership
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
@@ -144,7 +144,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 limit_tag.attrib['INTERVAL-TYPE'] = limit.intervalType
             limit_tag.text = limit.value
     
-    def setReferable(self, element: ET.Element, referrable: Referrable):
+    def writeReferrable(self, element: ET.Element, referrable: Referrable):
         self.setARObjectAttributes(element, referrable)
         self.setShortName(element, referrable.getShortName())
 
@@ -175,8 +175,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for l2 in paragraph.getL2s():
                 self.setLOverviewParagraph(child_element, l2)
 
-    def setMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
-        self.setReferable(element, referrable)
+    def writeMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
+        self.writeReferrable(element, referrable)
         if referrable.longName is not None:
             self.setMultiLongName(element, "LONG-NAME", referrable.longName)
 
@@ -198,7 +198,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSdgs(child_element, admin_data)
 
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
-        self.setMultilanguageReferrable(element, identifiable)
+        self.writeMultilanguageReferrable(element, identifiable)
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
@@ -2683,7 +2683,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSocketConnectionBundle(self, element: ET.Element, bundle: SocketConnectionBundle):
         if bundle is not None:
             child_element = ET.SubElement(element, "SOCKET-CONNECTION-BUNDLE")
-            self.setReferable(child_element, bundle)
+            self.writeReferrable(child_element, bundle)
             self.writeSocketConnectionBundleConnections(child_element, bundle)
             self.setChildElementOptionalRefType(child_element, "SERVER-PORT-REF", bundle.getServerPortRef())
 
@@ -3098,10 +3098,97 @@ class ARXMLWriter(AbstractARXMLWriter):
         cond_tag = ET.SubElement(variants_tag, "CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
         self.writeAbstractCanCommunicationController(cond_tag, controller)
 
+    def writeCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
+        self.writeIdentifiable(element, item)
+
+    def writeCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
+        if fifo is not None:
+            child_element = ET.SubElement(element, "COUPLING-PORT-FIFO")
+            self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, fifo)
+
+    def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
+        if scheduler is not None:
+            child_element = ET.SubElement(element, "COUPLING-PORT-SCHEDULER")
+            self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, scheduler)
+            self.setChildElementOptionalLiteral(child_element, "PORT-SCHEDULER", scheduler.getPortScheduler())
+
+    def writeCouplingPortDetailsCouplingPortStructuralElements(self, element: ET.Element, details: CouplingPortDetails):
+        items = details.getCouplingPortStructuralElements()
+        if len(items) > 0:
+            child_element = ET.SubElement(element, "COUPLING-PORT-STRUCTURAL-ELEMENTS")
+            for item in items:
+                if isinstance(item, CouplingPortFifo):
+                    self.writeCouplingPortFifo(child_element, item)
+                elif isinstance(item, CouplingPortScheduler):
+                    self.writeCouplingPortScheduler(child_element, item)
+                else:
+                    self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % type(item))
+    
+    def writeEthernetPriorityRegeneration(self, element: ET.Element, regeneration: EthernetPriorityRegeneration):
+        if regeneration is not None:
+            child_element = ET.SubElement(element, "ETHERNET-PRIORITY-REGENERATION")
+            self.writeReferrable(child_element, regeneration)
+            self.setChildElementOptionalPositiveInteger(child_element, "INGRESS-PRIORITY", regeneration.getIngressPriority())
+            self.setChildElementOptionalPositiveInteger(child_element, "REGENERATED-PRIORITY", regeneration.getRegeneratedPriority())
+
+    def writeCouplingPortDetailsEthernetPriorityRegenerations(self, element: ET.Element, details: CouplingPortDetails):
+        regenerations = details.getEthernetPriorityRegenerations()
+        if len(regenerations) > 0:
+            child_element = ET.SubElement(element, "ETHERNET-PRIORITY-REGENERATIONS")
+            for regeneration in regenerations:
+                if isinstance(regeneration, EthernetPriorityRegeneration):
+                    self.writeEthernetPriorityRegeneration(child_element, regeneration)
+                else:
+                    self.notImplemented("Unsupported EthernetPriorityRegeneration <%s>" % type(regeneration))
+
+    def setCouplingPortDetails(self, element: ET.Element, key: str, details: CouplingPortDetails):
+        if details is not None:
+             child_element = ET.SubElement(element, key)
+             self.writeCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
+             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
+             self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
+
+    def writeVlanMembership(self, element: ET.Element, membership: VlanMembership):
+        if membership is not None:
+            child_element = ET.SubElement(element, "VLAN-MEMBERSHIP")
+            self.setChildElementOptionalLiteral(child_element, "SEND-ACTIVITY", membership.getSendActivity())
+            self.setChildElementOptionalRefType(child_element, "VLAN-REF", membership.getVlanRef())
+    
+    def writeCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
+        memberships = port.getVlanMemberships()
+        if len(memberships) > 0:
+            child_element = ET.SubElement(element, "VLAN-MEMBERSHIPS")
+            for membership in memberships:
+                if isinstance(membership, VlanMembership):
+                    self.writeVlanMembership(child_element, membership)
+                else:
+                    self.notImplemented("Unsupported VlanMembership <%s>" % type(membership))
+
+    def writeCouplingPort(self, element: ET.Element, port: CouplingPort):
+        child_element = ET.SubElement(element, "COUPLING-PORT")
+        self.writeIdentifiable(child_element, port)
+        self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
+        self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacAddressVlanAssignments())
+        self.writeCouplingPortVlanMemberships(child_element, port)
+
+    def writeEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
+        ports = controller.getCouplingPorts()
+        if len(ports) > 0:
+            child_element = ET.SubElement(element, "COUPLING-PORTS")
+            for port in ports:
+                if isinstance(port, CouplingPort):
+                    self.writeCouplingPort(child_element, port)
+                else:
+                    self.notImplemented("Unsupported Coupling Port <%s>" % type(port))
+
     def writeEthernetCommunicationController(self, element: ET.Element, controller: EthernetCommunicationController):
         child_element = ET.SubElement(element, "ETHERNET-COMMUNICATION-CONTROLLER")
         self.logger.debug("Write EthernetCommunicationController %s" % controller.getShortName())
         self.writeIdentifiable(child_element, controller)
+        variants_tag = ET.SubElement(child_element, "ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS")
+        cond_tag = ET.SubElement(variants_tag, "ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        self.writeCommunicationController(cond_tag, controller)
+        self.writeEthernetCommunicationControllerCouplingPorts(cond_tag, controller)
 
     def writeEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         controllers = instance.getCommControllers()
