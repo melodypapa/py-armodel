@@ -342,15 +342,15 @@ class CommConnectorPort(Identifiable, metaclass = ABCMeta):
             raise NotImplementedError("CommConnectorPort is an abstract class.")
         
         super().__init__(parent, short_name)
+        
+        self.communicationDirection = None                                                  # type: CommunicationDirectionType
 
-        # type: CommunicationDirectionType
-        self.communicationDirection = None
-
-    def getCommunicationDirection(self) -> CommunicationDirectionType:
+    def getCommunicationDirection(self):
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value: CommunicationDirectionType):
-        self.communicationDirection = value
+    def setCommunicationDirection(self, value):
+        if value is not None:
+            self.communicationDirection = value
         return self
 
 
@@ -365,9 +365,9 @@ class IPduSignalProcessingEnum(Enum):
 class IPduPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
-        # type: IPduSignalProcessingEnum
-        self.iPduSignalProcessing = None
+        
+        self.iPduSignalProcessing = None                                # type: IPduSignalProcessingEnum
+        self.keyId = None                                               # type: PositiveInteger
         self.rxSecurityVerification = None                              # type: Boolean
         self.timestampRxAcceptanceWindow = None                         # type: TimeValue
         self.useAuthDataFreshness = None                                # type: Boolean
@@ -376,68 +376,90 @@ class IPduPort(CommConnectorPort):
         return self.iPduSignalProcessing
 
     def setIPduSignalProcessing(self, value):
-        self.iPduSignalProcessing = value
+        if value is not None:
+            self.iPduSignalProcessing = value
+        return self
+
+    def getKeyId(self):
+        return self.keyId
+
+    def setKeyId(self, value):
+        if value is not None:
+            self.keyId = value
         return self
 
     def getRxSecurityVerification(self):
         return self.rxSecurityVerification
 
     def setRxSecurityVerification(self, value):
-        self.rxSecurityVerification = value
+        if value is not None:
+            self.rxSecurityVerification = value
         return self
 
     def getTimestampRxAcceptanceWindow(self):
         return self.timestampRxAcceptanceWindow
 
     def setTimestampRxAcceptanceWindow(self, value):
-        self.timestampRxAcceptanceWindow = value
+        if value is not None:
+            self.timestampRxAcceptanceWindow = value
         return self
 
     def getUseAuthDataFreshness(self):
         return self.useAuthDataFreshness
 
     def setUseAuthDataFreshness(self, value):
-        self.useAuthDataFreshness = value
+        if value is not None:
+            self.useAuthDataFreshness = value
         return self
 
 class ISignalPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        # type: DataFilter
-        self.dataFilter = None
+        self.dataFilter = None                                          # type: DataFilter
         self.ddsQosProfileRef = None                                    # type: RefType
-        # type: TimeValue
-        self.firstTimeout = None
-        # type: HandleInvalidEnum
-        self.handleInvalid = None
+        self.firstTimeout = None                                        # type: TimeValue
+        self.handleInvalid = None                                       # type: HandleInvalidEnum
+        self.timeout = None                                             # type: TimeValue
 
     def getDataFilter(self):
         return self.dataFilter
 
     def setDataFilter(self, value):
-        self.dataFilter = value
+        if value is not None:
+            self.dataFilter = value
         return self
 
     def getDdsQosProfileRef(self):
         return self.ddsQosProfileRef
 
     def setDdsQosProfileRef(self, value):
-        self.ddsQosProfileRef = value
+        if value is not None:
+            self.ddsQosProfileRef = value
         return self
 
     def getFirstTimeout(self):
         return self.firstTimeout
 
     def setFirstTimeout(self, value):
-        self.firstTimeout = value
+        if value is not None:
+            self.firstTimeout = value
         return self
 
     def getHandleInvalid(self):
         return self.handleInvalid
 
     def setHandleInvalid(self, value):
-        self.handleInvalid = value
+        if value is not None:
+            self.handleInvalid = value
+        return self
+
+    def getTimeout(self):
+        return self.timeout
+
+    def setTimeout(self, value):
+        if value is not None:
+            self.timeout = value
         return self
 
 class CommunicationConnector(Identifiable, metaclass = ABCMeta):

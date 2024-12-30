@@ -1990,6 +1990,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", type_element.getSwDataDefProps())
 
     def writeImplementationProps(self, element: ET.Element, props: ImplementationProps):
+        self.writeReferrable(element, props)
         self.setChildElementOptionalLiteral(element, "SYMBOL", props.getSymbol())
 
     def writeSymbolProps(self, element: ET.Element, props: SymbolProps):
@@ -2006,7 +2007,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAutosarDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
         self.writeImplementationDataTypeElements(child_element, data_type)
-        self.writeImplementationDataTypeSymbolProps(element, data_type)
+        self.writeImplementationDataTypeSymbolProps(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())
 
     def writeArgumentDataPrototypes(self, element: ET.Element, parent: ClientServerOperation):
@@ -3021,10 +3022,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIPduPort(self, element: ET.Element, port: IPduPort):
         child_element = ET.SubElement(element, "I-PDU-PORT")
         self.writeCommConnectorPort(child_element, port)
+        self.setChildElementOptionalPositiveInteger(child_element, "KEY-ID", port.getKeyId())
+        self.setChildElementOptionalBooleanValue(child_element, "RX-SECURITY-VERIFICATION", port.getRxSecurityVerification())
+        self.setChildElementOptionalBooleanValue(child_element, "USE-AUTH-DATA-FRESHNESS", port.getUseAuthDataFreshness())
 
     def writeISignalPort(self, element: ET.Element, port: ISignalPort):
         child_element = ET.SubElement(element, "I-SIGNAL-PORT")
         self.writeCommConnectorPort(child_element, port)
+        self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", port.getTimeout())
 
     def writeCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
         self.logger.debug("write EcuCommPortInstances of CommunicationConnector %s" % connector.getShortName())
@@ -3208,6 +3213,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, connector)
         self.setChildElementOptionalRefType(element, "COMM-CONTROLLER-REF", connector.getCommControllerRef())
         self.writeCommunicationConnectorEcuCommPortInstances(element, connector)
+        self.setChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE", connector.getPncGatewayType())
 
     def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.logger.debug("Write CanCommunicationConnector %s" % connector.getShortName())
@@ -3216,6 +3222,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
+        self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT", connector.getMaximumTransmissionUnit())
 
     def writeLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.logger.debug("Write LinCommunicationConnector %s" % connector.getShortName())
