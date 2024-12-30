@@ -3239,9 +3239,13 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIPduPort(self, element: ET.Element, port: IPduPort):
         self.readCommConnectorPort(element, port)
+        port.setKeyId(self.getChildElementOptionalPositiveInteger(element, "KEY-ID")) \
+            .setRxSecurityVerification(self.getChildElementOptionalBooleanValue(element, "RX-SECURITY-VERIFICATION")) \
+            .setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS")) \
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):
         self.readCommConnectorPort(element, port)
+        port.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
 
     def readCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
         self.logger.debug("read EcuCommPortInstances of CommunicationConnector %s" % connector.getShortName())
@@ -3263,12 +3267,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, connector)
         connector.setCommControllerRef(self.getChildElementOptionalRefType(element, "COMM-CONTROLLER-REF"))
         self.readCommunicationConnectorEcuCommPortInstances(element, connector)
+        connector.setPncGatewayType(self.getChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE"))
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setMaximumTransmissionUnit(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT"))
 
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)
