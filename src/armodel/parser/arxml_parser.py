@@ -353,7 +353,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "BSW-MODE-SENDER-POLICY":
                 parent.addModeSenderPolicy(self.getBswModeSenderPolicy(child_element))
             else:
-                self._raiseError("Unsupported ModeSenderPolicy type <%s>." % tag_name)
+                self.raiseError("Unsupported ModeSenderPolicy type <%s>." % tag_name)
 
     def readDataTypeMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
         child_element = self.find(element, "DATA-TYPE-MAPPING-REFS")
@@ -410,7 +410,7 @@ class ARXMLParser(AbstractARXMLParser):
             if (tag_name == "ROLE-BASED-DATA-ASSIGNMENT"):
                 dependency.AddAssignedData(self.getRoleBasedDataAssignment(child_element))
             else:
-                self._raiseError("Unsupported assigned data <%s>" % tag_name)
+                self.raiseError("Unsupported assigned data <%s>" % tag_name)
 
     def readSwcServiceDependencyAssignedPorts(self, element: ET.Element, dependency: SwcServiceDependency):
         for child_element in self.findall(element, "ASSIGNED-PORTS/*"):
@@ -418,7 +418,7 @@ class ARXMLParser(AbstractARXMLParser):
             if (tag_name == "ROLE-BASED-PORT-ASSIGNMENT"):
                 dependency.AddAssignedPort(self.getRoleBasedPortAssignment(child_element))
             else:
-                self._raiseError("Unsupported assigned ports <%s>" % tag_name)
+                self.raiseError("Unsupported assigned ports <%s>" % tag_name)
 
     def readNvBlockNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         short_name = self.getShortName(element)
@@ -725,7 +725,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "AUTOSAR-ENGINEERING-OBJECT":
                 code_desc.addArtifactDescriptor(self.getAutosarEngineeringObject(child_element))
             else:
-                self._raiseError("Unsupported Artifact Descriptor <%s>" % tag_name)
+                self.raiseError("Unsupported Artifact Descriptor <%s>" % tag_name)
             
     def readCodeDescriptor(self, element: ET.Element, impl: Implementation):
         for child_element in self.findall(element, "CODE-DESCRIPTORS/CODE"):
@@ -896,7 +896,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ASYNCHRONOUS-SERVER-CALL-POINT":
                 self.readAsynchronousServerCallPoint(child_element, parent)
             else:
-                self._raiseError("Unsupported server call point type <%s>" % tag_name)
+                self.raiseError("Unsupported server call point type <%s>" % tag_name)
 
     def readInternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/INTERNAL-TRIGGERING-POINT"):
@@ -1489,7 +1489,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PARAMETER-REQUIRE-COM-SPEC":
                 parent.addRequiredComSpec(self.getParameterRequireComSpec(child_element))
             else:
-                self._raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
+                self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
     def readAbstractRequiredPortPrototype(self, element: ET.Element, prototype: AbstractRequiredPortPrototype):
         self.readProvidedComSpec(element, prototype)
@@ -1532,7 +1532,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PR-PORT-PROTOTYPE":
                 self.readPRPortPrototype(child_element, sw_component)
             else:
-                self._raiseError("Unsupported Port Prototype <%s>" % tag_name)
+                self.raiseError("Unsupported Port Prototype <%s>" % tag_name)
 
     def readTransmissionAcknowledgementRequest(self, element: ET.Element) -> TransmissionAcknowledgementRequest:
         child_element = self.find(element, "TRANSMISSION-ACKNOWLEDGE")
@@ -1589,7 +1589,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MODE-SWITCH-SENDER-COM-SPEC":
                 parent.addProvidedComSpec(self.getModeSwitchSenderComSpec(child_element))
             else:
-                self._raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
+                self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
     def readPortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):
         for child_element in self.findall(element, "INNER-GROUP-IREFS/INNER-GROUP-IREF"):
@@ -1616,7 +1616,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "PORT-GROUP":
                 self.readPortGroup(child_element, parent)
             else:
-                self._raiseError("Unsupported Port Group type: %s" % tag_name)
+                self.raiseError("Unsupported Port Group type: %s" % tag_name)
 
     def readSwComponentType(self, element: ET.Element, parent: SwComponentType):
         self.readIdentifiable(element, parent)
@@ -1711,7 +1711,7 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.setInnerPortIRref(p_port_in_composition_instance_ref)
                 return
             
-            self._raiseError("Unsupported child element of INNER-PORT-IREF")
+            self.raiseError("Unsupported child element of INNER-PORT-IREF")
 
     def readDelegationSwConnectors(self, element, parent: CompositionSwComponentType):
         for child_element in self.findall(element, "CONNECTORS/DELEGATION-SW-CONNECTOR"):
@@ -1723,7 +1723,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDelegationSwConnectorInnerPortIRef(child_element, connector)
 
             if connector.getInnerPortIRref() == None and connector.getOuterPortRef() == None:
-                self._raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
+                self.raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
 
             connector.setOuterPortRef(self.getChildElementOptionalRefType(child_element, "OUTER-PORT-REF"))
             self.logger.debug("OUTER-PORT-REF DEST: %s, %s"
@@ -2133,7 +2133,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE":
                 parent.addEndToEndProtectionVariablePrototype(self.getEndToEndProtectionVariablePrototype(child_element))
             else:
-                self._raiseError("Unsupported End To End Protection Variable Prototype <%s>" % tag_name)
+                self.raiseError("Unsupported End To End Protection Variable Prototype <%s>" % tag_name)
 
     def readEndToEndProtection(self, element: ET.Element, parent: EndToEndProtectionSet):
         short_name = self.getShortName(element)
@@ -2296,7 +2296,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "EOC-EXECUTABLE-ENTITY-REF":
                 self.readEOCExecutableEntityRef(child_element, constrain)
             else:
-                self._raiseError("Unsupported order element <%s>." % tag_name)
+                self.raiseError("Unsupported order element <%s>." % tag_name)
 
     def readExecutionOrderConstraint(self, element: ET.Element, extension: TimingExtension):
         short_name = self.getShortName(element)
@@ -2311,7 +2311,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "EXECUTION-ORDER-CONSTRAINT":
                 self.readExecutionOrderConstraint(child_element, extension)
             else:
-                self._raiseError("Unsupported timing requirement <%s>" % tag_name)
+                self.raiseError("Unsupported timing requirement <%s>" % tag_name)
 
     def readSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("Read SwcTiming <%s>" % timing.getShortName())
@@ -2966,7 +2966,7 @@ class ARXMLParser(AbstractARXMLParser):
                 nm_node = parent.readUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
             else:
-                self._raiseError("Unsupported Nm Node <%s>" % tag_name)
+                self.raiseError("Unsupported Nm Node <%s>" % tag_name)
 
     def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
         coupling  = CanNmClusterCoupling()
@@ -3037,7 +3037,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UDP-NM-CLUSTER":
                 self.readUdpNmCluster(child_element, parent)
             else:
-                self._raiseError("Unsupported Nm Cluster <%s>" % tag_name)
+                self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
     
     def readNmConfig(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Read NmConfig <%s>" % config.getShortName())
@@ -3228,7 +3228,7 @@ class ARXMLParser(AbstractARXMLParser):
                 controller = instance.createLinMaster(self.getShortName(child_element))
                 self.readLinMaster(child_element, controller)
             else:
-                self._raiseError("Unsupported Communication Controller <%s>" % tag_name)
+                self.raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
     def readCommConnectorPort(self, element: ET.Element, port: CommConnectorPort):
         self.readIdentifiable(element, port)
@@ -3261,7 +3261,7 @@ class ARXMLParser(AbstractARXMLParser):
                 port = connector.createISignalPort(self.getShortName(child_element))
                 self.readISignalPort(child_element, port)
             else:
-                self._raiseError("Unsupported EcuCommPortInstances <%s>" % tag_name)       
+                self.raiseError("Unsupported EcuCommPortInstances <%s>" % tag_name)       
 
     def readCommunicationConnector(self, element: ET.Element, connector: CommunicationConnector):
         self.readIdentifiable(element, connector)
@@ -3293,7 +3293,7 @@ class ARXMLParser(AbstractARXMLParser):
                 connector = instance.createLinCommunicationConnector(self.getShortName(child_element))
                 self.readLinCommunicationConnector(child_element, connector)
             else:
-                self._raiseError("Unsupported Communication Connector <%s>" % tag_name)
+                self.notImplemented("Unsupported Communication Connector <%s>" % tag_name)
 
     def readEcuInstanceAssociatedComIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
         for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-COM-I-PDU-GROUP-REFS/ASSOCIATED-COM-I-PDU-GROUP-REF"):
@@ -4011,7 +4011,7 @@ class ARXMLParser(AbstractARXMLParser):
         tree = ET.parse(filename)
         root = tree.getroot()
         if (self.getPureTagName(root.tag) != "AUTOSAR"):
-            self._raiseError("Invalid ARXML file <%s>" % filename)
+            self.raiseError("Invalid ARXML file <%s>" % filename)
 
         self.getAUTOSARInfo(root, document)
         document.setAdminData(self.getAdminData(root, "ADMIN-DATA")) 

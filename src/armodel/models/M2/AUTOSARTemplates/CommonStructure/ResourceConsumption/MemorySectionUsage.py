@@ -56,6 +56,7 @@ class MemorySection(Identifiable):
 
     @alignment.setter
     def alignment(self, value: ARLiteral):
+        '''
         if value is not None and value.getValue() != "":
             match = False
             if value.getValue() in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
@@ -69,6 +70,9 @@ class MemorySection(Identifiable):
 
             if not match:
                 raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.getShortName()))
+        '''
+        if value is not None:
+            self._alignment = value
 
     def addOption(self, option: ARLiteral):
         self.options.append(option)

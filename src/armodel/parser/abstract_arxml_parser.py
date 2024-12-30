@@ -32,14 +32,14 @@ class AbstractARXMLParser:
             tag = tag.tag
         if isinstance(tag, str):
             return tag.replace("{%s}" % self.nsmap["xmlns"], "")
-        raise ValueError("Invalid Tag type <%s>" % type(tag))
+        self.raiseError("Invalid Tag type <%s>" % type(tag))
 
     def _processOptions(self, options):
         if options:
             if 'warning' in options:
                 self.options['warning'] = options['warning']
 
-    def _raiseError(self, error_msg):
+    def raiseError(self, error_msg):
         if (self.options['warning'] == True):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
@@ -51,7 +51,7 @@ class AbstractARXMLParser:
         else:
             raise NotImplementedError(error_msg)
         
-    def _raiseWarning(self, error_msg):
+    def raiseWarning(self, error_msg):
         self.logger.warning(error_msg)
         
     def getPureTagName(self, tag):
@@ -81,7 +81,7 @@ class AbstractARXMLParser:
             self.readARObjectAttributes(child_element, literal)
             literal._value = child_element.text
             return literal
-        self._raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
+        self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
         
     def getChildElementLiteralValueList(self, element: ET.Element, key: str) -> ARFloat:
         child_elements = self.findall(element, key)
@@ -244,7 +244,7 @@ class AbstractARXMLParser:
         child_element = self.find(element, key)
         if (child_element is not None):
             return self._getChildElementRefTypeDestAndValue(child_element)
-        self._raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
+        self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
 
     def getChildElementOptionalRefType(self, element:ET.Element, key: str) -> RefType:
         child_element = self.find(element, key)
