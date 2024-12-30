@@ -460,5 +460,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * DIAGNOSTIC-SERVICE-TABLE
    * LIN-MASTER
    * IMPLEMENTATION-DATA-TYPE
+   * ETHERNET-COMMUNICATION-CONTROLLER
 3. Fix the following AR Element
    * I-PDU-MAPPING

@@ -92,7 +92,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCo
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo, CouplingPortScheduler, CouplingPortStructuralElement, EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, EthernetPriorityRegeneration, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig, VlanMembership
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
@@ -3118,9 +3118,87 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readAbstractCanCommunicationController(child_element, controller)
 
+    def readCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
+        self.readIdentifiable(element, item)
+
+    def readCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
+        self.readCouplingPortSchedulerCouplingPortStructuralElement(element, fifo)
+
+    def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
+        self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)
+        scheduler.setPortScheduler(self.getChildElementOptionalLiteral(element, "PORT-SCHEDULER"))
+
+    def readCouplingPortDetailsCouplingPortStructuralElements(self, item: ET.Element, details: CouplingPortDetails):
+        for child_element in self.findall(item, "COUPLING-PORT-STRUCTURAL-ELEMENTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-FIFO":
+                item = details.createCouplingPortFifo(self.getShortName(child_element))
+                self.readCouplingPortFifo(child_element, item)
+            elif tag_name == "COUPLING-PORT-SCHEDULER":
+                item = details.createCouplingPortScheduler(self.getShortName(child_element))
+                self.readCouplingPortScheduler(child_element, item)
+            else:
+                self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % tag_name)
+
+    def readEthernetPriorityRegeneration(self, element: ET.Element, regeneration: EthernetPriorityRegeneration):
+        regeneration.setIngressPriority(self.getChildElementOptionalPositiveInteger(element, "INGRESS-PRIORITY")) \
+                    .setRegeneratedPriority(self.getChildElementOptionalPositiveInteger(element, "REGENERATED-PRIORITY"))
+
+    def readCouplingPortDetailsEthernetPriorityRegenerations(self, element: ET.Element, details: CouplingPortDetails):
+        for child_element in self.findall(element, "ETHERNET-PRIORITY-REGENERATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ETHERNET-PRIORITY-REGENERATION":
+                item = details.createEthernetPriorityRegeneration(self.getShortName(child_element))
+                self.readEthernetPriorityRegeneration(child_element, item)
+            else:
+                self.notImplemented("Unsupported EthernetPriorityRegeneration <%s>" % tag_name)
+
+    def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
+        details = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            details = CouplingPortDetails()
+            self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
+            self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
+            details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
+        return details
+    
+    def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
+        membership.setSendActivity(self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY")) \
+                  .setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
+    
+    def readCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
+        for child_element in self.findall(element, "VLAN-MEMBERSHIPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VLAN-MEMBERSHIP":
+                 membership = VlanMembership()
+                 self.readVlanMembership(child_element, membership)
+                 port.addVlanMembership(membership)
+            else:
+                self.notImplemented("Unsupported VlanMembership <%s>" % tag_name)
+
+    def readCouplingPort(self, element: ET.Element, port: CouplingPort):
+        self.readIdentifiable(element, port)
+        port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS")) \
+            .setMacAddressVlanAssignments(self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE"))
+        self.readCouplingPortVlanMemberships(element, port)
+
+    def readEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
+        for child_element in self.findall(element, "COUPLING-PORTS/*"):
+            tag_name = self.getTagName(child_element)
+            if (tag_name == "COUPLING-PORT"):
+                port = controller.createCouplingPort(self.getShortName(child_element))
+                self.readCouplingPort(child_element, port)
+            else:
+                self.notImplemented("Unsupported Coupling Port <%s>" % tag_name)
+
     def readEthernetCommunicationController(self, element: ET.Element, controller: EthernetCommunicationController):
         self.logger.debug("Read EthernetCommunicationController %s" % controller.getShortName())
         self.readIdentifiable(element, controller)
+        child_element = self.find(element, "ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS/ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        if child_element is not None:
+            self.readCommunicationController(child_element, controller)
+            self.readEthernetCommunicationControllerCouplingPorts(child_element, controller)
 
     def readLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.readCommunicationController(element, controller)
