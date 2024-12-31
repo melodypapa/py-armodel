@@ -3271,6 +3271,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION", instance.getComEnableMDTForCyclicTransmission())
         self.writeEcuInstanceCommControllers(child_element, instance)
         self.writeEcuInstanceConnectors(child_element, instance)
+        self.setChildElementOptionalIntegerValue(child_element, "DIAGNOSTIC-ADDRESS", instance.getDiagnosticAddress())
         self.setChildElementOptionalBooleanValue(child_element, "SLEEP-MODE-SUPPORTED", instance.getSleepModeSupported())
         self.setChildElementOptionalBooleanValue(child_element, "WAKE-UP-OVER-BUS-SUPPORTED", instance.getWakeUpOverBusSupported())
 
