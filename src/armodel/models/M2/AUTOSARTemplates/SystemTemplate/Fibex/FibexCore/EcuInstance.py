@@ -22,6 +22,7 @@ class EcuInstance(FibexElement):
         self.comEnableMDTForCyclicTransmission = None                       # type: Boolean
         self.commControllers = []                                           # type: List[CommunicationController]
         self.connectors = []                                                # type: List[CommunicationConnector]
+        self.diagnosticAddress = None                                       # type: Integer             ## Only AR 4.3.1
         self.dltConfig = None                                               # type: DltConfig
         self.doIpConfig = None                                              # type: DoIpConfig
         self.ecuTaskProxyRefs = []                                          # type: List[RefType]
@@ -142,6 +143,14 @@ class EcuInstance(FibexElement):
             connector = LinCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
+    
+    def getDiagnosticAddress(self):
+        return self.diagnosticAddress
+
+    def setDiagnosticAddress(self, value):
+        if value is not None:
+            self.diagnosticAddress = value
+        return self
 
     def getDltConfig(self):
         return self.dltConfig

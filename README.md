@@ -473,4 +473,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * 
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
+   * ECU-INSTANCE
 
