@@ -507,6 +507,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         self.ethIpPropsRef = None                               # type: RefType
         self.maximumTransmissionUnit = None                     # type: PositiveInteger
         self.neighborCacheSize = None                           # type: PositiveInteger
+        self.networkEndpointRefs = []                           # type: List[RefType]       ## 4.3.1 Version
         self.pathMtuEnabled = None                              # type: Boolean
         self.pathMtuTimeout = None                              # type: TimeValue
 
@@ -529,6 +530,14 @@ class EthernetCommunicationConnector(CommunicationConnector):
 
     def setNeighborCacheSize(self, value):
         self.neighborCacheSize = value
+        return self
+    
+    def getNetworkEndpointRefs(self):
+        return self.networkEndpointRefs
+
+    def addNetworkEndpointRef(self, value):
+        if value is not None:
+            self.networkEndpointRefs.append(value)
         return self
 
     def getPathMtuEnabled(self):

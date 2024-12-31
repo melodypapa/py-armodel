@@ -2144,7 +2144,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEndToEndProtectionVariablePrototypes(element, protection)
 
     def readEndToEndProtections(self, element: ET.Element, parent: EndToEndProtectionSet):
-        for child_element in self.findall(element, "END-TO-END-PROTECTIONS/*", self.nsmap):
+        for child_element in self.findall(element, "END-TO-END-PROTECTIONS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-PROTECTION":
                 self.readEndToEndProtection(child_element, parent)
@@ -3272,9 +3272,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
+    def readEthernetCommunicationConnectorNetworkEndpointRefs(self, element: ET.Element, connector: EthernetCommunicationConnector):
+        for ref in self.getChildElementRefTypeList(element, "NETWORK-ENDPOINT-REFS/NETWORK-ENDPOINT-REF"):
+            connector.addNetworkEndpointRef(ref)
+
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
         connector.setMaximumTransmissionUnit(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT"))
+        self.readEthernetCommunicationConnectorNetworkEndpointRefs(element, connector)
 
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)

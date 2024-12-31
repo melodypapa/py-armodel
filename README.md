@@ -466,3 +466,11 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * I-PDU-PORT
 3. Fix the following AR Element
    * I-PDU-MAPPING
+
+**Version 1.7.7**
+
+1. To support the following AR Element:
+   * 
+2. Improve the following AR Element
+   * ETHERNET-COMMUNICATION-CONNECTOR
+
