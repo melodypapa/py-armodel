@@ -3607,7 +3607,10 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             filter = DataFilter()
-            filter.setDataFilterType(self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE"))
+            filter.setDataFilterType(self.getChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE")) \
+                  .setMask(self.getChildElementOptionalIntegerValue(child_element, "MASK")) \
+                  .setX(self.getChildElementOptionalIntegerValue(child_element, "X")) 
+
         return filter
             
     def getTransmissionModeConditions(self, element: ET.Element, key: str) -> List[TransmissionModeCondition]:
@@ -3663,7 +3666,8 @@ class ARXMLParser(AbstractARXMLParser):
             decl = TransmissionModeDeclaration()
             for condition in self.getTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION"):
                 decl.addTransmissionModeCondition(condition)
-            decl.setTransmissionModeTrueTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING"))
+            decl.setTransmissionModeFalseTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING")) \
+                .setTransmissionModeTrueTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING"))
         return decl
 
     def getISignalIPduIPduTimingSpecification(self, element: ET.Element) -> IPduTiming:
