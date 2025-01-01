@@ -119,13 +119,24 @@ class ARXMLParser(AbstractARXMLParser):
             sd.setValue(child_element.text)
             sdg.addSd(sd)
 
+    def readSdgCaption(self, element: ET.Element, sdg:Sdg):
+        child_element = self.find(element, "SDG-CAPTION")
+        if child_element is not None:
+            sdg.createSdgCaption(self.getShortName(child_element))
+
+    def readSdgSdxRefs(self, element: ET.SubElement, sdg:Sdg):
+        for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
+            sdg.addSdxRef(ref)
+
     def getSdg(self, element: ET.Element) -> Sdg:
         sdg = Sdg()
         if 'GID' in element.attrib:
             sdg.setGID(element.attrib["GID"])
+        self.readSdgCaption(element, sdg)
         self.readSd(element, sdg)
         for child_element in self.findall(element, "SDG"):
             sdg.addSdgContentsType(self.getSdg(child_element))
+        self.readSdgSdxRefs(element, sdg)
         return sdg
     
     def readSdgs(self, element: ET.Element, admin_data: AdminData):
@@ -2934,19 +2945,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, nm_node)
 
         nm_node.setControllerRef(self.getChildElementOptionalRefType(element, "CONTROLLER-REF")) \
-            .setNmIfEcuRef(self.getChildElementOptionalRefType(element, "NM-IF-ECU-REF")) \
-            .setNmNodeId(self.getChildElementOptionalNumericalValue(element, "NM-NODE-ID"))
+               .setNmIfEcuRef(self.getChildElementOptionalRefType(element, "NM-IF-ECU-REF")) \
+               .setNmPassiveModeEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PASSIVE-MODE-ENABLED")) \
+               .setNmNodeId(self.getChildElementOptionalNumericalValue(element, "NM-NODE-ID"))
         for ref in self.getChildElementRefTypeList(element, "RX-NM-PDU-REFS/RX-NM-PDU-REF"):
             nm_node.addRxNmPduRef(ref)
         for ref in self.getChildElementRefTypeList(element, "TX-NM-PDU-REFS/TX-NM-PDU-REF"):
             nm_node.addTxNmPduRefs(ref)
+        
 
     def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
         self.logger.debug("Read CanNmNode %s" % nm_node.getShortName())
         
         self.readNmNode(element, nm_node)
 
-        nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET")) \
+        nm_node.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED")) \
+               .setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET")) \
                .setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME")) \
                .setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
         

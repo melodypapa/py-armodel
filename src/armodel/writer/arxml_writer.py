@@ -120,14 +120,26 @@ class ARXMLWriter(AbstractARXMLWriter):
                 sd_tag.attrib['GID'] = sd.gid
             sd_tag.text = sd.value
 
-    def setSdg(self, parent: ET.Element, sdg: Sdg):
+    def writeSdgCaption(self, element: ET.Element, sdg: Sdg):
+        caption = sdg.getSdgCaption()
+        if caption is not None:
+            child_element = ET.SubElement(element, "SDG-CAPTION")
+            self.writeMultilanguageReferrable(child_element, caption)
+
+    def writeSdgSdxRefs(self, element: ET.Element, sdg: Sdg):
+        for ref in sdg.getSdxRefs():
+            self.setChildElementOptionalRefType(element, "SDX-REF", ref)
+
+    def setSdg(self, element: ET.Element, sdg: Sdg):
         if sdg is not None:
-            sdg_tag = ET.SubElement(parent, "SDG")
+            child_element = ET.SubElement(element, "SDG")
             if sdg.gid is not None and sdg.gid != "":
-                sdg_tag.attrib['GID'] = sdg.gid
-            self.writeSds(sdg_tag, sdg)
+                child_element.attrib['GID'] = sdg.gid
+            self.writeSdgCaption(child_element, sdg)
+            self.writeSds(child_element, sdg)
             for sdg_item in sdg.getSdgContentsTypes():
-                self.setSdg(sdg_tag, sdg_item)
+                self.setSdg(child_element, sdg_item)
+            self.writeSdgSdxRefs(child_element, sdg)
             
     def writeSdgs(self, parent: ET.Element, admin_data: AdminData):
         sdgs = admin_data.getSdgs()
@@ -2283,8 +2295,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFrame(child_element, frame)
 
     def writeNmNode(self, element: ET.Element, nm_node: NmNode):
+        self.writeIdentifiable(element, nm_node)
         self.setChildElementOptionalRefType(element, "CONTROLLER-REF", nm_node.getControllerRef())
         self.setChildElementOptionalRefType(element, "NM-IF-ECU-REF", nm_node.getNmIfEcuRef())
+        self.setChildElementOptionalBooleanValue(element, "NM-PASSIVE-MODE-ENABLED", nm_node.getNmPassiveModeEnabled())
         self.setChildElementOptionalNumericalValue(element, "NM-NODE-ID", nm_node.getNmNodeId())
 
         refs = nm_node.getRxNmPduRefs()
@@ -2302,9 +2316,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
         self.logger.debug("write CanNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-NODE")
-        self.writeIdentifiable(child_element, nm_node)
         self.writeNmNode(child_element, nm_node)
 
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", nm_node.getNmCarWakeUpRxEnabled())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
         self.setChildElementRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
@@ -2312,7 +2326,6 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "UDP-NM-NODE")
-        self.writeIdentifiable(child_element, nm_node)
         self.writeNmNode(child_element, nm_node)
 
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
