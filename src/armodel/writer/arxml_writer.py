@@ -93,7 +93,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunicatio
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
 from .abstract_arxml_writer import AbstractARXMLWriter
@@ -2360,7 +2360,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
 
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
-        self.logger.debug("writeNmConfigNmClusterCouplings %s" % config.getShortName())
+        self.logger.debug("Write NmConfigNmClusterCouplings <%s>" % config.getShortName())
         couplings = config.getNmClusterCouplings()
         if len(couplings) > 0:
             child_element= ET.SubElement(element, "NM-CLUSTER-COUPLINGS")
@@ -2373,6 +2373,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Nm Cluster Coupling <%s>" % type(coupling))
 
     def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
+        self.logger.debug("Write NmCluster <%s>" % cluster.getShortName())
         self.writeIdentifiable(element, cluster)
         self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.communicationClusterRef)
         self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.nmChannelId)
@@ -2429,12 +2430,53 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Nm Cluster <%s>" % type(cluster))
 
+    def writeUdpNmEcu(self, element: ET.Element, ecu: UdpNmEcu):
+        if ecu is not None:
+            child_element = ET.SubElement(element, "UDP-NM-ECU")
+            self.setChildElementOptionalBooleanValue(child_element, "NM-SYNCHRONIZATION-POINT-ENABLED", ecu.getNmSynchronizationPointEnabled())
+
+    def writeBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
+        dependent_nm_ecus = nm_ecu.getBusDependentNmEcus()
+        if len(dependent_nm_ecus) > 0:
+            child_element = ET.SubElement(element, "BUS-DEPENDENT-NM-ECUS")
+            for dependent_nm_ecu in dependent_nm_ecus:
+                if isinstance(dependent_nm_ecu, UdpNmEcu):
+                    self.writeUdpNmEcu(child_element, dependent_nm_ecu)
+                else:
+                    self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
+
+    def writeNmEcu(self, element: ET.Element, nm_ecu: NmEcu):
+        child_element = ET.SubElement(element, "NM-ECU")
+        self.writeIdentifiable(child_element, nm_ecu)
+        self.writeBusDependentNmEcus(child_element, nm_ecu)
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", nm_ecu.getEcuInstanceRef())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-BUS-SYNCHRONIZATION-ENABLED", nm_ecu.getNmBusSynchronizationEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-COM-CONTROL-ENABLED", nm_ecu.getNmComControlEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-NODE-DETECTION-ENABLED", nm_ecu.getNmNodeDetectionEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-NODE-ID-ENABLED", nm_ecu.getNmNodeIdEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-PDU-RX-INDICATION-ENABLED", nm_ecu.getNmPduRxIndicationEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-REMOTE-SLEEP-IND-ENABLED", nm_ecu.getNmRemoteSleepIndEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-REPEAT-MSG-IND-ENABLED", nm_ecu.getNmRepeatMsgIndEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-STATE-CHANGE-IND-ENABLED", nm_ecu.getNmStateChangeIndEnabled())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-USER-DATA-ENABLED", nm_ecu.getNmUserDataEnabled())
+
+    def writeNmConfigNmIfEcus(self, element: ET.Element, nm_config: NmConfig):
+        ecus = nm_config.getNmIfEcus()
+        if len(ecus) > 0:
+            child_element = ET.SubElement(element, "NM-IF-ECUS")
+            for ecu in ecus:
+                if isinstance(ecu, NmEcu):
+                    self.writeNmEcu(child_element, ecu)
+                else:
+                    self.notImplemented("Unsupported NmIfEcus <%s>" % type(ecu))
+
     def writeNmConfig(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Write NmConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "NM-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.writeNmConfigNmClusters(child_element, config)
         self.writeNmConfigNmClusterCouplings(child_element, config)
+        self.writeNmConfigNmIfEcus(child_element, config)
 
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("Write NmPdu <%s>" % pdu.getShortName())

@@ -219,91 +219,157 @@ class UdpNmNode(NmNode):
             self.nmMsgCycleOffset = value
         return self
 
+class BusspecificNmEcu(ARObject, metaclass = ABCMeta):
+    def __init__(self):
+        super().__init__()
+
+class CanNmEcu(BusspecificNmEcu):
+    def __init__(self):
+        super().__init__()
+
+class FlexrayNmEcu(BusspecificNmEcu):
+    def __init__(self):
+        super().__init__()
+
+class J1939NmEcu(BusspecificNmEcu):
+    def __init__(self):
+        super().__init__()
+
+class UdpNmEcu(BusspecificNmEcu):
+    def __init__(self):
+        super().__init__()     
+
+        self.nmSynchronizationPointEnabled = None                       # type: Boolean         ## Only AR 4.3.1
+
+    def getNmSynchronizationPointEnabled(self):
+        return self.nmSynchronizationPointEnabled
+
+    def setNmSynchronizationPointEnabled(self, value):
+        if value is not None:
+            self.nmSynchronizationPointEnabled = value
+        return self
 
 
 class NmEcu(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.busDependentNmEcus = []
-        self.ecuInstance = None
-        self.nmBusSynchronizationEnabled = None
-        self.nmComControlEnabled = None
-        self.nmCoordinator = None
-        self.nmCycletimeMainFunction = None
-        self.nmPduRxIndicationEnabled = None
-        self.nmRemoteSleepIndEnabled = None
-        self.nmStateChangeIndEnabled = None
-        self.nmUserDataEnabled = None
+        self.busDependentNmEcus = []                                    # type: List[BusspecificNmEcu]
+        self.ecuInstanceRef = None                                      # type: RefType
+        self.nmBusSynchronizationEnabled = None                         # type: Boolean
+        self.nmComControlEnabled = None                                 # type: Boolean
+        self.nmCoordinator = None                                       # type: NmCoordinator
+        self.nmCycletimeMainFunction = None                             # type: TimeValue
+        self.nmNodeDetectionEnabled = None                              # type: Boolean
+        self.nmNodeIdEnabled = None                                     # type: Boolean
+        self.nmPduRxIndicationEnabled = None                            # type: Boolean
+        self.nmRemoteSleepIndEnabled = None                             # type: Boolean
+        self.nmRepeatMsgIndEnabled = None                               # type: Boolean
+        self.nmStateChangeIndEnabled = None                             # type: Boolean
+        self.nmUserDataEnabled = None                                   # type: Boolean
 
     def getBusDependentNmEcus(self):
         return self.busDependentNmEcus
 
     def addBusDependentNmEcu(self, value):
-        self.busDependentNmEcus.append(value)
+        if value is not None:
+            self.busDependentNmEcus.append(value)
         return self
 
-    def getEcuInstance(self):
-        return self.ecuInstance
+    def getEcuInstanceRef(self):
+        return self.ecuInstanceRef
 
-    def setEcuInstance(self, value):
-        self.ecuInstance = value
+    def setEcuInstanceRef(self, value):
+        if value is not None:
+            self.ecuInstanceRef = value
         return self
 
     def getNmBusSynchronizationEnabled(self):
         return self.nmBusSynchronizationEnabled
 
     def setNmBusSynchronizationEnabled(self, value):
-        self.nmBusSynchronizationEnabled = value
+        if value is not None:
+            self.nmBusSynchronizationEnabled = value
         return self
 
     def getNmComControlEnabled(self):
         return self.nmComControlEnabled
 
     def setNmComControlEnabled(self, value):
-        self.nmComControlEnabled = value
+        if value is not None:
+            self.nmComControlEnabled = value
         return self
 
     def getNmCoordinator(self):
         return self.nmCoordinator
 
     def setNmCoordinator(self, value):
-        self.nmCoordinator = value
+        if value is not None:
+            self.nmCoordinator = value
         return self
 
     def getNmCycletimeMainFunction(self):
         return self.nmCycletimeMainFunction
 
     def setNmCycletimeMainFunction(self, value):
-        self.nmCycletimeMainFunction = value
+        if value is not None:
+            self.nmCycletimeMainFunction = value
+        return self
+    
+    def getNmNodeDetectionEnabled(self):
+        return self.nmNodeDetectionEnabled
+
+    def setNmNodeDetectionEnabled(self, value):
+        if value is not None:
+            self.nmNodeDetectionEnabled = value
+        return self
+
+    def getNmNodeIdEnabled(self):
+        return self.nmNodeIdEnabled
+
+    def setNmNodeIdEnabled(self, value):
+        if value is not None:
+            self.nmNodeIdEnabled = value
         return self
 
     def getNmPduRxIndicationEnabled(self):
         return self.nmPduRxIndicationEnabled
 
     def setNmPduRxIndicationEnabled(self, value):
-        self.nmPduRxIndicationEnabled = value
+        if value is not None:
+            self.nmPduRxIndicationEnabled = value
         return self
 
     def getNmRemoteSleepIndEnabled(self):
         return self.nmRemoteSleepIndEnabled
 
     def setNmRemoteSleepIndEnabled(self, value):
-        self.nmRemoteSleepIndEnabled = value
+        if value is not None:
+            self.nmRemoteSleepIndEnabled = value
+        return self
+    
+    def getNmRepeatMsgIndEnabled(self):
+        return self.nmRepeatMsgIndEnabled
+
+    def setNmRepeatMsgIndEnabled(self, value):
+        if value is not None:
+            self.nmRepeatMsgIndEnabled = value
         return self
 
     def getNmStateChangeIndEnabled(self):
         return self.nmStateChangeIndEnabled
 
     def setNmStateChangeIndEnabled(self, value):
-        self.nmStateChangeIndEnabled = value
+        if value is not None:
+            self.nmStateChangeIndEnabled = value
         return self
 
     def getNmUserDataEnabled(self):
         return self.nmUserDataEnabled
 
     def setNmUserDataEnabled(self, value):
-        self.nmUserDataEnabled = value
+        if value is not None:
+            self.nmUserDataEnabled = value
         return self   
 
 class NmConfig(FibexElement):
@@ -344,9 +410,12 @@ class NmConfig(FibexElement):
     def getNmIfEcus(self):
         return self.nmIfEcus
 
-    def addNmIfEcus(self, value):
-        self.nmIfEcus.append(value)
-        return self
+    def createNmEcu(self, short_name: str) -> NmEcu:
+        if (short_name not in self.elements):
+            cluster = NmEcu(self, short_name)
+            self.addElement(cluster)
+            self.nmIfEcus.append(cluster)
+        return self.getElement(short_name)
     
 class NmCluster(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

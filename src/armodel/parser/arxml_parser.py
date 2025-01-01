@@ -78,7 +78,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
@@ -2967,15 +2967,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmNode(element, nm_node)
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
 
-    def readNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
-        self.logger.debug("readNmConfigNmNodes %s" % parent.getShortName())
+    def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):
+        self.logger.debug("readNmConfigNmNodes %s" % cluster.getShortName())
         for child_element in self.findall(element, "NM-NODES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-NODE":
-                nm_node = parent.createCanNmNode(self.getShortName(child_element))
+                nm_node = cluster.createCanNmNode(self.getShortName(child_element))
                 self.readCanNmNode(child_element, nm_node)
             elif tag_name == "UDP-NM-NODE":
-                nm_node = parent.readUdpNmNode(self.getShortName(child_element))
+                nm_node = cluster.readUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
             else:
                 self.raiseError("Unsupported Nm Node <%s>" % tag_name)
@@ -2996,7 +2996,6 @@ class ARXMLParser(AbstractARXMLParser):
         return coupling
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
-        self.logger.debug("readNmClusterNmClusterCouplings %s" % nm_config.getShortName())
         for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-CLUSTER-COUPLING":
@@ -3007,6 +3006,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
     def readNmCluster(self, element: ET.Element, cluster: NmCluster):
+        self.logger.debug("read NmCluster %s" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
         cluster.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF")) \
                .setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID")) \
@@ -3059,12 +3059,49 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readUdpNmCluster(child_element, cluster)
             else:
                 self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
+
+    def readUdpNmEcu(self, element: ET.Element, ecu: UdpNmEcu):
+        ecu.setNmSynchronizationPointEnabled(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZATION-POINT-ENABLED"))
+
+    def readBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
+        for child_element in self.findall(element, "BUS-DEPENDENT-NM-ECUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "UDP-NM-ECU":
+                udp_nm_ecu = UdpNmEcu()
+                self.readUdpNmEcu(child_element, udp_nm_ecu)
+                nm_ecu.addBusDependentNmEcu(udp_nm_ecu)
+            else:
+                self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
+
+    def readNmEcu(self, element: ET.Element, nm_ecu: NmEcu):
+        self.readIdentifiable(element, nm_ecu)
+        self.readBusDependentNmEcus(element, nm_ecu)
+        nm_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF")) \
+              .setNmBusSynchronizationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUS-SYNCHRONIZATION-ENABLED")) \
+              .setNmComControlEnabled(self.getChildElementOptionalBooleanValue(element, "NM-COM-CONTROL-ENABLED")) \
+              .setNmNodeDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED")) \
+              .setNmNodeIdEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-ID-ENABLED")) \
+              .setNmPduRxIndicationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PDU-RX-INDICATION-ENABLED")) \
+              .setNmRemoteSleepIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REMOTE-SLEEP-IND-ENABLED")) \
+              .setNmRepeatMsgIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REPEAT-MSG-IND-ENABLED")) \
+              .setNmStateChangeIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-STATE-CHANGE-IND-ENABLED")) \
+              .setNmUserDataEnabled(self.getChildElementOptionalBooleanValue(element, "NM-USER-DATA-ENABLED"))
+
+    def readNmConfigNmIfEcus(self, element: ET.Element, nm_config: NmConfig):
+        for child_element in self.findall(element, "NM-IF-ECUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "NM-ECU":
+                ecu = nm_config.createNmEcu(self.getShortName(child_element))
+                self.readNmEcu(child_element, ecu)
+            else:
+                self.notImplemented("Unsupported NmIfEcus <%s>" % tag_name)
     
     def readNmConfig(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Read NmConfig <%s>" % config.getShortName())
         self.readIdentifiable(element, config)
         self.readNmConfigNmClusters(element, config)
         self.readNmConfigNmClusterCouplings(element, config)
+        self.readNmConfigNmIfEcus(element, config)
 
     def readCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Read CanTpConfig <%s>" % config.getShortName())
