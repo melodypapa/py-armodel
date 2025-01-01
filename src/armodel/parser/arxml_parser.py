@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, NPdu, NmPdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -2871,23 +2871,25 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
         self.logger.debug("Read MultiplexedIPdu <%s>" % i_pdu.getShortName())
-        self.readIdentifiable(element, i_pdu)
+        self.readIPdu(element, i_pdu)
 
     def readUserDefinedIPdu(self, element: ET.Element, i_pdu: UserDefinedIPdu):
         self.logger.debug("Read UserDefinedIPdu <%s>" % i_pdu.getShortName())
-        self.readIdentifiable(element, i_pdu)
+        self.readIPdu(element, i_pdu)
+        i_pdu.setCddType(self.getChildElementOptionalLiteral(element, "CDD-TYPE"))
 
     def readUserDefinedPdu(self, element: ET.Element, pdu: UserDefinedPdu):
         self.logger.debug("Read UserDefinedPdu <%s>" % pdu.getShortName())
-        self.readIdentifiable(element, pdu)
+        self.readPdu(element, pdu)
+        pdu.setCddType(self.getChildElementOptionalLiteral(element, "CDD-TYPE"))
 
     def readGeneralPurposePdu(self, element: ET.Element, pdu: GeneralPurposePdu):
         self.logger.debug("Read GeneralPurposePdu <%s>" % pdu.getShortName())
-        self.readIdentifiable(element, pdu)
+        self.readPdu(element, pdu)
 
     def readGeneralPurposeIPdu(self, element: ET.Element, i_pdu: GeneralPurposeIPdu):
         self.logger.debug("Read GeneralPurposeIPdu <%s>" % i_pdu.getShortName())
-        self.readIdentifiable(element, i_pdu)
+        self.readIPdu(element, i_pdu)
 
     def readSecureCommunicationPropsSet(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
         self.logger.debug("Read SecureCommunicationPropsSet <%s>" % props_set.getShortName())
@@ -2920,18 +2922,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read LinUnconditionalFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def readPdu(self, element: ET.Element, pdu: Pdu):
+        self.readIdentifiable(element, pdu)
+        pdu.setHasDynamicLength(self.getChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH")) \
+           .setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
+
     def readNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("Read NmPdu <%s>" % pdu.getShortName())
-        self.readIPdu(element, pdu)
+        self.readPdu(element, pdu)
+
+    def readIPdu(self, element: ET.Element, pdu: IPdu):
+        self.readPdu(element, pdu)
 
     def readNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Read NPdu <%s>" % pdu.getShortName())
         self.readIPdu(element, pdu)
 
-    def readIPdu(self, element: ET.Element, pdu: IPdu):
-        self.readIdentifiable(element, pdu)
-        pdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
-        
     def readDcmIPdu(self, element: ET.Element, i_pdu: DcmIPdu):
         self.logger.debug("Read DcmIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
@@ -3577,9 +3583,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readPhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
         self.logger.debug("Read PhysicalDimension <%s>" % dimension.getShortName())
         self.readIdentifiable(element, dimension)
-        dimension.setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP")) \
-                 .setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP")) \
-                 .setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP"))
+        dimension.setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP")) \
+                 .setMassExp(self.getChildElementOptionalNumericalValue(element, "MASS-EXP")) \
+                 .setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP")) \
+                 .setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP")) \
 
     '''
     def getIPduMappings(self, element: ET.Element) -> List[IPduMapping]:

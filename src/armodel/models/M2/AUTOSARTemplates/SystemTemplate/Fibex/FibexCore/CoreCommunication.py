@@ -227,7 +227,17 @@ class Pdu(FibexElement, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.length = None                  # type: ARNumerical
+        self.hasDynamicLength = None                                    # type: Boolean
+        self.length = None                                              # type: UnlimitedInteger
+
+    def getHasDynamicLength(self):
+        return self.hasDynamicLength
+
+    def setHasDynamicLength(self, value):
+        if value is not None:
+            self.hasDynamicLength = value
+        return self
+
 
     def getLength(self):
         return self.length
@@ -243,15 +253,17 @@ class IPdu(Pdu, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.containedOpduProps = None       # type: ContainedIPduProps
+        # type: ContainedIPduProps
+        self.containedIPduProps = None
 
-    def getContainedOpduProps(self):
-        return self.containedOpduProps
+    def getContainedIPduProps(self):
+        return self.containedIPduProps
 
-    def setContainedOpduProps(self, value):
-        self.containedOpduProps = value
+    def setContainedIPduProps(self, value):
+        if value is not None:
+            self.containedIPduProps = value
         return self
-    
+
 class SecureCommunicationProps(ARObject):
     def __init__(self):
         super().__init__()
@@ -343,7 +355,6 @@ class SecureCommunicationProps(ARObject):
         if value is not None:
             self.freshnessValueTxLength = value
         return self
-
 
     def getMessageLinkLength(self):
         return self.messageLinkLength

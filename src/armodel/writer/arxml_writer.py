@@ -2478,9 +2478,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmConfigNmClusterCouplings(child_element, config)
         self.writeNmConfigNmIfEcus(child_element, config)
 
-    def writePdu(self, element: ET.Element, pdu: Pdu):
-        self.writeIdentifiable(element, pdu)
-
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("Write NmPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "NM-PDU")
@@ -2490,10 +2487,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write NPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "N-PDU")
         self.writePdu(child_element, pdu)
-
-    def writeIPdu(self, element: ET.Element, pdu: IPdu):
-        self.writeIdentifiable(element, pdu)
-        self.setChildElementOptionalLiteral(element, "LENGTH", pdu.getLength())
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
         self.logger.debug("Write DcmIPdu <%s>" % pdu.getShortName())
@@ -3467,9 +3460,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Set PhysicalDimension %s" % dimension.getShortName())
         child_element = ET.SubElement(element, "PHYSICAL-DIMENSION")
         self.writeARElement(child_element, dimension)
-        self.setChildElementOptionalNumericalValue(child_element, "CURRENT-EXP", dimension.getCurrentExp())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH-EXP", dimension.getLengthExp())
+        self.setChildElementOptionalNumericalValue(child_element, "MASS-EXP", dimension.getMassExp())
         self.setChildElementOptionalNumericalValue(child_element, "TIME-EXP", dimension.getTimeExp())
+        self.setChildElementOptionalNumericalValue(child_element, "CURRENT-EXP", dimension.getCurrentExp())
 
     def setFlatInstanceDescriptor(self, element: ET.Element, desc: FlatInstanceDescriptor):
         self.logger.debug("Set FlatInstanceDescriptor %s" % desc.getShortName())
@@ -3759,30 +3753,40 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticServiceTableDiagnosticConnectionRefs(child_element, table)
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", table.getEcuInstanceRef())
 
+    def writePdu(self, element: ET.Element, pdu: Pdu):
+        self.writeIdentifiable(element, pdu)
+        self.setChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH", pdu.getHasDynamicLength())
+        self.setChildElementOptionalNumericalValue(element, "LENGTH", pdu.getLength())
+
+    def writeIPdu(self, element: ET.Element, pdu: IPdu):
+        self.writePdu(element, pdu)
+
     def writeMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
-        self.logger.debug("Write MultiplexedIPdu %s" % i_pdu.getShortName())
+        self.logger.debug("Write MultiplexedIPdu <%s>" % i_pdu.getShortName())
         child_element = ET.SubElement(element, "MULTIPLEXED-I-PDU")
-        self.writeIdentifiable(child_element, i_pdu)
+        self.writeIPdu(child_element, i_pdu)
 
     def writeUserDefinedIPdu(self, element: ET.Element, i_pdu: UserDefinedIPdu):
-        self.logger.debug("Write UserDefinedIPdu %s" % i_pdu.getShortName())
+        self.logger.debug("Write UserDefinedIPdu <%s>" % i_pdu.getShortName())
         child_element = ET.SubElement(element, "USER-DEFINED-I-PDU")
-        self.writeIdentifiable(child_element, i_pdu)
+        self.writeIPdu(child_element, i_pdu)
+        self.setChildElementOptionalLiteral(child_element, "CDD-TYPE", i_pdu.getCddType())
 
     def writeUserDefinedPdu(self, element: ET.Element, pdu: UserDefinedPdu):
-        self.logger.debug("Write UserDefinedPdu %s" % pdu.getShortName())
+        self.logger.debug("Write UserDefinedPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "USER-DEFINED-PDU")
-        self.writeIdentifiable(child_element, pdu)
+        self.writePdu(child_element, pdu)
+        self.setChildElementOptionalLiteral(child_element, "CDD-TYPE", pdu.getCddType())
 
     def writeGeneralPurposePdu(self, element: ET.Element, pdu: GeneralPurposePdu):
-        self.logger.debug("Write GeneralPurposePdu %s" % pdu.getShortName())
+        self.logger.debug("Write GeneralPurposePdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "GENERAL-PURPOSE-PDU")
-        self.writeIdentifiable(child_element, pdu)
+        self.writePdu(child_element, pdu)
 
     def writeGeneralPurposeIPdu(self, element: ET.Element, i_pdu: GeneralPurposeIPdu):
-        self.logger.debug("Write GeneralPurposeIPdu %s" % i_pdu.getShortName())
+        self.logger.debug("Write GeneralPurposeIPdu <%s>" % i_pdu.getShortName())
         child_element = ET.SubElement(element, "GENERAL-PURPOSE-I-PDU")
-        self.writeIdentifiable(child_element, i_pdu)
+        self.writeIPdu(child_element, i_pdu)
 
     def writeSecureCommunicationPropsSet(self, element: ET.Element, set: SecureCommunicationPropsSet):
         self.logger.debug("Write SecureCommunicationPropsSet %s" % set.getShortName())
@@ -3790,12 +3794,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, set)
 
     def writeSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
-        self.logger.debug("Write SoAdRoutingGroup %s" % group.getShortName())
+        self.logger.debug("Write SoAdRoutingGroup <%s>" % group.getShortName())
         child_element = ET.SubElement(element, "SO-AD-ROUTING-GROUP")
         self.writeIdentifiable(child_element, group)
 
     def writeDoIpTpConfig(self, element: ET.Element, config: DoIpTpConfig):
-        self.logger.debug("Write DoIpTpConfig %s" % config.getShortName())
+        self.logger.debug("Write DoIpTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "DO-IP-TP-CONFIG")
         self.writeIdentifiable(child_element, config)
 
@@ -3804,7 +3808,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "PROTOCOL-VERSION", controller.getProtocolVersion())
 
     def writeLinMaster(self, element: ET.Element, controller: LinMaster):
-        self.logger.debug("Write LinMaster %s" % controller.getShortName())
+        self.logger.debug("Write LinMaster <%s>" % controller.getShortName())
         child_element = ET.SubElement(element, "LIN-MASTER")
         self.writeIdentifiable(child_element, controller)
         variants_tag = ET.SubElement(child_element, "LIN-MASTER-VARIANTS")
