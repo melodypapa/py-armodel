@@ -475,6 +475,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NM-IF-ECUS
    * UDP-NM-ECU
    * TRANSMISSION-MODE-FALSE-TIMING
+   * SECURED-I-PDU
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE
