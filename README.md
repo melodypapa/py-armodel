@@ -483,4 +483,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NM-NODE
    * SDG
    * DATA-FILTER
+   * USER-DEFINED-PDU
 
