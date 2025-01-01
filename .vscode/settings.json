@@ -14,6 +14,7 @@
         "Blueprintable",
         "BSWM",
         "bswmd",
+        "Busspecific",
         "Calprm",
         "Coeffs",
         "Compu",
