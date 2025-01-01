@@ -2347,12 +2347,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
-
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ENABLED", coupling.getNmBusloadReductionEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
 
     def writeUdpNmClusterCoupling(self, element: ET.Element, coupling: UdpNmClusterCoupling):
         child_element = ET.SubElement(element, "UDP-NM-CLUSTER-COUPLING")
+        refs = coupling.getCoupledClusterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
 
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
         self.logger.debug("writeNmConfigNmClusterCouplings %s" % config.getShortName())

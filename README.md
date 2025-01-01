@@ -471,6 +471,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. To support the following AR Element:
    * UDP-NM-CLUSTER
+   * UDP-NM-CLUSTER-COUPLING
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE
