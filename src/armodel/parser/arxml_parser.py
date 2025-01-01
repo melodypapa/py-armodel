@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, NPdu, NmPdu, PduTriggering, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, NPdu, NmPdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -2937,9 +2937,30 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIPdu(element, i_pdu)
         i_pdu.setDiagPduType(self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE"))
 
+    def getSecureCommunicationProps(self, element: ET.Element, key: str) -> SecureCommunicationProps:
+        props = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = SecureCommunicationProps()
+            props.setAuthDataFreshnessLength(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH")) \
+                 .setAuthDataFreshnessStartPosition(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION")) \
+                 .setAuthInfoTxLength(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-INFO-TX-LENGTH")) \
+                 .setAuthenticationBuildAttempts(self.getChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS")) \
+                 .setAuthenticationRetries(self.getChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-RETRIES")) \
+                 .setDataId(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID")) \
+                 .setFreshnessValueId(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-ID")) \
+                 .setFreshnessValueLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-LENGTH")) \
+                 .setFreshnessValueTxLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH"))
+        return props
+
     def readSecuredIPdu(self, element: ET.Element, i_pdu: SecuredIPdu):
         self.logger.debug("Read SecuredIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
+        i_pdu.setAuthenticationPropsRef(self.getChildElementOptionalRefType(element, "AUTHENTICATION-PROPS-REF")) \
+             .setFreshnessPropsRef(self.getChildElementOptionalRefType(element, "FRESHNESS-PROPS-REF")) \
+             .setPayloadRef(self.getChildElementOptionalRefType(element, "PAYLOAD-REF")) \
+             .setSecureCommunicationProps(self.getSecureCommunicationProps(element, "SECURE-COMMUNICATION-PROPS")) \
+             .setUseAsCryptographicIPdu(self.getChildElementOptionalBooleanValue(element, "USE-AS-CRYPTOGRAPHIC-I-PDU"))
 
     def readNmNode(self, element: ET.Element, nm_node: NmNode):
         self.readIdentifiable(element, nm_node)

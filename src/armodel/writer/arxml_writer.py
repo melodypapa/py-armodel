@@ -78,7 +78,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import S
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, PduTriggering, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
@@ -2478,33 +2478,51 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmConfigNmClusterCouplings(child_element, config)
         self.writeNmConfigNmIfEcus(child_element, config)
 
+    def writePdu(self, element: ET.Element, pdu: Pdu):
+        self.writeIdentifiable(element, pdu)
+
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("Write NmPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "NM-PDU")
-        self.writeIdentifiable(child_element, pdu)
-        self.writeIPdu(child_element, pdu)
+        self.writePdu(child_element, pdu)
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Write NPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "N-PDU")
-        self.writeIdentifiable(child_element, pdu)
-        self.writeIPdu(child_element, pdu)
+        self.writePdu(child_element, pdu)
 
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
+        self.writeIdentifiable(element, pdu)
         self.setChildElementOptionalLiteral(element, "LENGTH", pdu.getLength())
 
     def writeDcmIPdu(self, element: ET.Element, pdu: DcmIPdu):
         self.logger.debug("Write DcmIPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "DCM-I-PDU")
-        self.writeIdentifiable(child_element, pdu)
         self.writeIPdu(child_element, pdu)
         self.setChildElementOptionalLiteral(child_element, "DIAG-PDU-TYPE", pdu.getDiagPduType())
 
-    def writeSecuredIPdu(self, element: ET.Element, pdu: DcmIPdu):
-        self.logger.debug("Write SecuredIPdu <%s>" % pdu.getShortName())
+    def setSecureCommunicationProps(self, element: ET.Element, key: str, props: SecureCommunicationProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH", props.getAuthDataFreshnessLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION", props.getAuthDataFreshnessStartPosition())
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTH-INFO-TX-LENGTH", props.getAuthInfoTxLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS", props.getAuthenticationBuildAttempts())
+            self.setChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-RETRIES", props.getAuthenticationRetries())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", props.getDataId())
+            self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-ID", props.getFreshnessValueId())
+            self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-LENGTH", props.getFreshnessValueLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH", props.getFreshnessValueTxLength())
+
+    def writeSecuredIPdu(self, element: ET.Element, i_pdu: SecuredIPdu):
+        self.logger.debug("Write SecuredIPdu <%s>" % i_pdu.getShortName())
         child_element = ET.SubElement(element, "SECURED-I-PDU")
-        self.writeIdentifiable(child_element, pdu)
-        self.writeIPdu(child_element, pdu)
+        self.writeIPdu(child_element, i_pdu)
+        self.setChildElementOptionalRefType(child_element, "AUTHENTICATION-PROPS-REF", i_pdu.getAuthenticationPropsRef())
+        self.setChildElementOptionalRefType(child_element, "FRESHNESS-PROPS-REF", i_pdu.getFreshnessPropsRef())
+        self.setChildElementOptionalRefType(child_element, "PAYLOAD-REF", i_pdu.getPayloadRef())
+        self.setSecureCommunicationProps(child_element, "SECURE-COMMUNICATION-PROPS", i_pdu.getSecureCommunicationProps())
+        self.setChildElementOptionalBooleanValue(child_element, "USE-AS-CRYPTOGRAPHIC-I-PDU", i_pdu.getUseAsCryptographicIPdu())
 
     def writeCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Write CanTpConfig <%s>" % config.getShortName())

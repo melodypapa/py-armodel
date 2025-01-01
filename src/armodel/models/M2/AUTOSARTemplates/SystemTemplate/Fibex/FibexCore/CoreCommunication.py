@@ -2,7 +2,7 @@ from abc import ABCMeta
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, Integer, RefType, ARBoolean, String, TimeValue, UnlimitedInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, Integer, PositiveInteger, RefType, ARBoolean, String, TimeValue, UnlimitedInteger
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
 class FibexElement(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -252,10 +252,208 @@ class IPdu(Pdu, metaclass = ABCMeta):
         self.containedOpduProps = value
         return self
     
+class SecureCommunicationProps(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.authDataFreshnessLength = None                                 # type: PositiveInteger
+        self.authDataFreshnessStartPosition = None                          # type: PositiveInteger
+        self.authInfoTxLength = None                                        # type: PositiveInteger
+        self.authenticationBuildAttempts = None                             # type: PositiveInteger
+        self.authenticationRetries = None                                   # type: PositiveInteger
+        self.dataId = None                                                  # type: PositiveInteger
+        self.freshnessValueId = None                                        # type: PositiveInteger
+        self.freshnessValueLength = None                                    # type: PositiveInteger
+        self.freshnessValueTxLength = None                                  # type: PositiveInteger
+        self.messageLinkLength = None                                       # type: PositiveInteger
+        self.messageLinkPosition = None                                     # type: PositiveInteger
+        self.secondaryFreshnessValueId = None                               # type: PositiveInteger
+        self.securedAreaLength = None                                       # type: PositiveInteger
+        self.securedAreaOffset = None                                       # type: PositiveInteger
+
+    def getAuthDataFreshnessLength(self):
+        return self.authDataFreshnessLength
+
+    def setAuthDataFreshnessLength(self, value):
+        if value is not None:
+            self.authDataFreshnessLength = value
+        return self
+
+    def getAuthDataFreshnessStartPosition(self):
+        return self.authDataFreshnessStartPosition
+
+    def setAuthDataFreshnessStartPosition(self, value):
+        if value is not None:
+            self.authDataFreshnessStartPosition = value
+        return self
+
+    def getAuthInfoTxLength(self):
+        return self.authInfoTxLength
+
+    def setAuthInfoTxLength(self, value):
+        if value is not None:
+            self.authInfoTxLength = value
+        return self
+
+
+    def getAuthenticationBuildAttempts(self):
+        return self.authenticationBuildAttempts
+
+    def setAuthenticationBuildAttempts(self, value):
+        if value is not None:
+            self.authenticationBuildAttempts = value
+        return self
+
+    def getAuthenticationRetries(self):
+        return self.authenticationRetries
+
+    def setAuthenticationRetries(self, value):
+        if value is not None:
+            self.authenticationRetries = value
+        return self
+
+    def getDataId(self):
+        return self.dataId
+
+    def setDataId(self, value):
+        if value is not None:
+            self.dataId = value
+        return self
+
+    def getFreshnessValueId(self):
+        return self.freshnessValueId
+
+    def setFreshnessValueId(self, value):
+        if value is not None:
+            self.freshnessValueId = value
+        return self
+    
+    def getFreshnessValueLength(self):
+        return self.freshnessValueLength
+
+    def setFreshnessValueLength(self, value):
+        if value is not None:
+            self.freshnessValueLength = value
+        return self
+
+    def getFreshnessValueTxLength(self):
+        return self.freshnessValueTxLength
+
+    def setFreshnessValueTxLength(self, value):
+        if value is not None:
+            self.freshnessValueTxLength = value
+        return self
+
+
+    def getMessageLinkLength(self):
+        return self.messageLinkLength
+
+    def setMessageLinkLength(self, value):
+        if value is not None:
+            self.messageLinkLength = value
+        return self
+
+    def getMessageLinkPosition(self):
+        return self.messageLinkPosition
+
+    def setMessageLinkPosition(self, value):
+        if value is not None:
+            self.messageLinkPosition = value
+        return self
+
+    def getSecondaryFreshnessValueId(self):
+        return self.secondaryFreshnessValueId
+
+    def setSecondaryFreshnessValueId(self, value):
+        if value is not None:
+            self.secondaryFreshnessValueId = value
+        return self
+
+    def getSecuredAreaLength(self):
+        return self.securedAreaLength
+
+    def setSecuredAreaLength(self, value):
+        if value is not None:
+            self.securedAreaLength = value
+        return self
+
+    def getSecuredAreaOffset(self):
+        return self.securedAreaOffset
+
+    def setSecuredAreaOffset(self, value):
+        if value is not None:
+            self.securedAreaOffset = value
+        return self
+
+
 class SecuredIPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-    
+
+        self.authenticationPropsRef = None                                  # type: RefType
+        self.dynamicRuntimeLengthHandling = None                            # type: Boolean
+        self.freshnessPropsRef = None                                       # type: RefType
+        self.payloadRef = None                                              # type: RefType
+        self.secureCommunicationProps = None                                # type: SecureCommunicationProps
+        self.useAsCryptographicIPdu = None                                  # type: Boolean
+        self.useSecuredPduHeader = None                                     # type: SecuredPduHeaderEnum
+
+    def getAuthenticationPropsRef(self):
+        return self.authenticationPropsRef
+
+    def setAuthenticationPropsRef(self, value):
+        if value is not None:
+            self.authenticationPropsRef = value
+        return self
+
+    def getDynamicRuntimeLengthHandling(self):
+        return self.dynamicRuntimeLengthHandling
+
+    def setDynamicRuntimeLengthHandling(self, value):
+        if value is not None:
+            self.dynamicRuntimeLengthHandling = value
+        return self
+
+    def getFreshnessPropsRef(self):
+        return self.freshnessPropsRef
+
+    def setFreshnessPropsRef(self, value):
+        if value is not None:
+            self.freshnessPropsRef = value
+        return self
+
+    def getPayloadRef(self):
+        return self.payloadRef
+
+    def setPayloadRef(self, value):
+        if value is not None:
+            self.payloadRef = value
+        return self
+
+    def getSecureCommunicationProps(self):
+        return self.secureCommunicationProps
+
+    def setSecureCommunicationProps(self, value):
+        if value is not None:
+            self.secureCommunicationProps = value
+        return self
+
+    def getUseAsCryptographicIPdu(self):
+        return self.useAsCryptographicIPdu
+
+    def setUseAsCryptographicIPdu(self, value):
+        if value is not None:
+            self.useAsCryptographicIPdu = value
+        return self
+
+    def getUseSecuredPduHeader(self):
+        return self.useSecuredPduHeader
+
+    def setUseSecuredPduHeader(self, value):
+        if value is not None:
+            self.useSecuredPduHeader = value
+        return self
+
 class NmPdu(Pdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
