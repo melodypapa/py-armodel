@@ -2982,17 +2982,17 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
         coupling  = CanNmClusterCoupling()
-        
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
-
         coupling.setNmBusloadReductionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ENABLED")) \
                 .setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
-    
         return coupling
     
     def getUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:
         coupling = UdpNmClusterCoupling()
+        for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
+            coupling.addCoupledClusterRef(ref)
+        coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
         return coupling
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):

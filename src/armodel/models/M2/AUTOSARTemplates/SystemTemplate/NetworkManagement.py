@@ -586,6 +586,26 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def __init__(self):
         super().__init__()
 
+        self.coupledClusterRefs = []                        # type: List[RefType]
+        self.nmImmediateRestartEnabled = None               # type: Boolean
+
+    def getCoupledClusterRefs(self):
+        return self.coupledClusterRefs
+
+    def addCoupledClusterRef(self, value):
+        if value is not None:
+            self.coupledClusterRefs.append(value)
+        return self
+
+    def getNmImmediateRestartEnabled(self):
+        return self.nmImmediateRestartEnabled
+
+    def setNmImmediateRestartEnabled(self, value):
+        if value is not None:
+            self.nmImmediateRestartEnabled = value
+        return self
+
+
 class UdpNmCluster(NmCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
