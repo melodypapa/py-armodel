@@ -2955,19 +2955,17 @@ class ARXMLParser(AbstractARXMLParser):
         
 
     def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
-        self.logger.debug("Read CanNmNode %s" % nm_node.getShortName())
-        
+        self.logger.debug("Read CanNmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
-
         nm_node.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED")) \
                .setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET")) \
                .setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME")) \
                .setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
         
     def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
-        self.logger.debug("Read UdpNmNode %s" % nm_node.getShortName())
-        
+        self.logger.debug("Read UdpNmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
+        nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
 
     def readNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         self.logger.debug("readNmConfigNmNodes %s" % parent.getShortName())
@@ -3016,12 +3014,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmClusterNmNodes(element, cluster)
         cluster.setNmSynchronizingNetwork(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK"))
 
-    def readCanNmCluster(self, element: ET.Element, parent: NmConfig):
-        short_name = self.getShortName(element)
-        self.logger.debug("readCanNmCluster %s" % short_name)
-        cluster = parent.createCanNmCluster(short_name)         # type: CanNmCluster
+    def readCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
+        self.logger.debug("Read CanNmCluster <%s>" % cluster.getShortName())
         self.readNmCluster(element, cluster)
-
         cluster.setNmBusloadReductionActive(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ACTIVE")) \
                .setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED")) \
                .setNmCbvPosition(self.getChildElementOptionalNumericalValue(element, "NM-CBV-POSITION")) \
@@ -3037,19 +3032,31 @@ class ARXMLParser(AbstractARXMLParser):
                .setNmUserDataLength(self. getChildElementOptionalNumericalValue(element, "NM-USER-DATA-LENGTH")) \
                .setNmWaitBusSleepTime(self.getChildElementOptionalFloatValue(element, "NM-WAIT-BUS-SLEEP-TIME"))
         
-    def readUdpNmCluster(self, element: ET.Element, parent: NmConfig):
-        short_name = self.getShortName(element)
-        self.logger.debug("readCanNmCluster %s" % short_name)
-        cluster = parent.createUdpNmCluster(short_name)         # type: CanNmCluster
+    def readUdpNmCluster(self, element: ET.Element, cluster: UdpNmCluster):
+        self.logger.debug("Read UdpNmCluster %s" % cluster.getShortName())
         self.readNmCluster(element, cluster)
+        cluster.setNmCbvPosition(self.getChildElementOptionalIntegerValue(element, "NM-CBV-POSITION")) \
+               .setNmChannelActive(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-ACTIVE")) \
+               .setNmImmediateNmCycleTime(self.getChildElementOptionalTimeValue(element, "NM-IMMEDIATE-NM-CYCLE-TIME")) \
+               .setNmImmediateNmTransmissions(self.getChildElementOptionalPositiveInteger(element, "NM-IMMEDIATE-NM-TRANSMISSIONS")) \
+               .setNmMessageTimeoutTime(self.getChildElementOptionalTimeValue(element, "NM-MESSAGE-TIMEOUT-TIME")) \
+               .setNmMsgCycleTime(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-TIME")) \
+               .setNmNetworkTimeout(self.getChildElementOptionalTimeValue(element, "NM-NETWORK-TIMEOUT")) \
+               .setNmNidPosition(self.getChildElementOptionalIntegerValue(element, "NM-NID-POSITION")) \
+               .setNmRemoteSleepIndicationTime(self.getChildElementOptionalTimeValue(element, "NM-REMOTE-SLEEP-INDICATION-TIME")) \
+               .setNmRepeatMessageTime(self.getChildElementOptionalTimeValue(element, "NM-REPEAT-MESSAGE-TIME")) \
+               .setNmWaitBusSleepTime(self.getChildElementOptionalTimeValue(element, "NM-WAIT-BUS-SLEEP-TIME")) \
+               .setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
         
-    def readNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
+    def readNmConfigNmClusters(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-CLUSTER":
-                self.readCanNmCluster(child_element, parent)
+                cluster = nm_config.createCanNmCluster(self.getShortName(child_element))
+                self.readCanNmCluster(child_element, cluster)
             elif tag_name == "UDP-NM-CLUSTER":
-                self.readUdpNmCluster(child_element, parent)
+                cluster = nm_config.createUdpNmCluster(self.getShortName(child_element))
+                self.readUdpNmCluster(child_element, cluster)
             else:
                 self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
     
