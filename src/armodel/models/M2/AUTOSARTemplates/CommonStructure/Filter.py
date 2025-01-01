@@ -40,47 +40,57 @@ class DataFilter(ARObject):
         return self.dataFilterType
 
     def setDataFilterType(self, value):
-        self.dataFilterType = value
+        if value is not None:
+            self.dataFilterType = value
         return self
 
     def getMask(self):
         return self.mask
 
     def setMask(self, value):
-        self.mask = value
+        if value is not None:
+            self.mask = value
         return self
 
     def getMax(self):
         return self.max
 
     def setMax(self, value):
-        self.max = value
+        if value is not None:
+            self.max = value
         return self
 
     def getMin(self):
         return self.min
 
     def setMin(self, value):
-        self.min = value
+        if value is not None:
+            self.min = value
         return self
 
     def getOffset(self):
         return self.offset
 
     def setOffset(self, value):
-        self.offset = value
+        if value is not None:
+            self.offset = value
         return self
 
     def getPeriod(self):
         return self.period
 
     def setPeriod(self, value):
-        self.period = value
+        if value is not None:
+            self.period = value
         return self
 
     def getX(self):
         return self.x
 
     def setX(self, value):
-        self.x = value
+        if value is not None:
+            self.x = value
         return self
+
+
+    

@@ -3813,10 +3813,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if filter is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DATA-FILTER-TYPE", filter.getDataFilterType())
+            self.setChildElementOptionalIntegerValue(child_element, "MASK", filter.getMask())
+            self.setChildElementOptionalIntegerValue(child_element, "X", filter.getX())
 
-    def setTransmissionModeConditions(self, element: ET.Element, conditions: List[TransmissionModeCondition]):
+    def setTransmissionModeConditions(self, element: ET.Element, key: str, conditions: List[TransmissionModeCondition]):
         if len(conditions) > 0:
-            conditions_tag = ET.SubElement(element, "TRANSMISSION-MODE-CONDITIONS")
+            conditions_tag = ET.SubElement(element, key)
             for condition in conditions:
                 child_element = ET.SubElement(conditions_tag, "TRANSMISSION-MODE-CONDITION")
                 self.setDataFilter(child_element, "DATA-FILTER", condition.getDataFilter())
@@ -3854,7 +3856,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTransmissionModeDeclaration(self, element: ET.Element, key: str, decl : TransmissionModeDeclaration):
         if decl is not None:
             child_element = ET.SubElement(element, key)
-            self.setTransmissionModeConditions(child_element, decl.getTransmissionModeConditions())
+            self.setTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS", decl.getTransmissionModeConditions())
+            self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING", decl.getTransmissionModeFalseTiming())
             self.setTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING", decl.getTransmissionModeTrueTiming())
 
     def setISignalIPduIPduTimingSpecification(self, element: ET.Element, timing: IPduTiming):
