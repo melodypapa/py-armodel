@@ -3,7 +3,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class NmClusterCoupling(ARObject, metaclass = ABCMeta):
@@ -62,10 +62,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def setNmScheduleVariant(self, value):
         self.nmScheduleVariant = value
         return self
-
-class UdpNmClusterCoupling(NmClusterCoupling):
-    def __init__(self):
-        super().__init__()
+    
 
 class NmNode(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
@@ -203,6 +200,154 @@ class UdpNmNode(NmNode):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.allNmMessagesKeepAwake = None                                  # type: Boolean
+        self.nmMsgCycleOffset = None                                        # type: TimeValue
+
+    def getAllNmMessagesKeepAwake(self):
+        return self.allNmMessagesKeepAwake
+
+    def setAllNmMessagesKeepAwake(self, value):
+        if value is not None:
+            self.allNmMessagesKeepAwake = value
+        return self
+
+    def getNmMsgCycleOffset(self):
+        return self.nmMsgCycleOffset
+
+    def setNmMsgCycleOffset(self, value):
+        if value is not None:
+            self.nmMsgCycleOffset = value
+        return self
+
+
+
+class NmEcu(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.busDependentNmEcus = []
+        self.ecuInstance = None
+        self.nmBusSynchronizationEnabled = None
+        self.nmComControlEnabled = None
+        self.nmCoordinator = None
+        self.nmCycletimeMainFunction = None
+        self.nmPduRxIndicationEnabled = None
+        self.nmRemoteSleepIndEnabled = None
+        self.nmStateChangeIndEnabled = None
+        self.nmUserDataEnabled = None
+
+    def getBusDependentNmEcus(self):
+        return self.busDependentNmEcus
+
+    def addBusDependentNmEcu(self, value):
+        self.busDependentNmEcus.append(value)
+        return self
+
+    def getEcuInstance(self):
+        return self.ecuInstance
+
+    def setEcuInstance(self, value):
+        self.ecuInstance = value
+        return self
+
+    def getNmBusSynchronizationEnabled(self):
+        return self.nmBusSynchronizationEnabled
+
+    def setNmBusSynchronizationEnabled(self, value):
+        self.nmBusSynchronizationEnabled = value
+        return self
+
+    def getNmComControlEnabled(self):
+        return self.nmComControlEnabled
+
+    def setNmComControlEnabled(self, value):
+        self.nmComControlEnabled = value
+        return self
+
+    def getNmCoordinator(self):
+        return self.nmCoordinator
+
+    def setNmCoordinator(self, value):
+        self.nmCoordinator = value
+        return self
+
+    def getNmCycletimeMainFunction(self):
+        return self.nmCycletimeMainFunction
+
+    def setNmCycletimeMainFunction(self, value):
+        self.nmCycletimeMainFunction = value
+        return self
+
+    def getNmPduRxIndicationEnabled(self):
+        return self.nmPduRxIndicationEnabled
+
+    def setNmPduRxIndicationEnabled(self, value):
+        self.nmPduRxIndicationEnabled = value
+        return self
+
+    def getNmRemoteSleepIndEnabled(self):
+        return self.nmRemoteSleepIndEnabled
+
+    def setNmRemoteSleepIndEnabled(self, value):
+        self.nmRemoteSleepIndEnabled = value
+        return self
+
+    def getNmStateChangeIndEnabled(self):
+        return self.nmStateChangeIndEnabled
+
+    def setNmStateChangeIndEnabled(self, value):
+        self.nmStateChangeIndEnabled = value
+        return self
+
+    def getNmUserDataEnabled(self):
+        return self.nmUserDataEnabled
+
+    def setNmUserDataEnabled(self, value):
+        self.nmUserDataEnabled = value
+        return self   
+
+class NmConfig(FibexElement):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.nmClusterCouplings = []                # type: List[NmClusterCoupling]
+        self.nmIfEcus = []                          # type: List[NmEcu]
+
+    def createCanNmCluster(self, short_name: str):          # type: (str) -> CanNmCluster
+        if (short_name not in self.elements):
+            cluster = CanNmCluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+    
+    def createUdpNmCluster(self, short_name: str):          # type: (str) -> UdpNmCluster
+        if (short_name not in self.elements):
+            cluster = UdpNmCluster(self, short_name)
+            self.addElement(cluster)
+        return self.getElement(short_name)
+
+    def getCanNmClusters(self):                             # type: () -> List[CanNmCluster]
+        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements.values()), key= lambda o:o.short_name))
+    
+    def getUdpNmClusters(self):                             # type: () -> List[UdpNmCluster]
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements.values()), key= lambda o:o.short_name))
+    
+    def getNmClusters(self):                                # type: () -> List[NmCluster]
+        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements.values()), key= lambda o:o.short_name))
+    
+    def getNmClusterCouplings(self):
+        return self.nmClusterCouplings
+
+    def addNmClusterCouplings(self, value):
+        self.nmClusterCouplings.append(value)
+        return self
+
+    def getNmIfEcus(self):
+        return self.nmIfEcus
+
+    def addNmIfEcus(self, value):
+        self.nmIfEcus.append(value)
+        return self
+    
 class NmCluster(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -437,142 +582,16 @@ class J1939NmCluster(NmCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-class UdpNmCluster(NmCluster):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
+class UdpNmClusterCoupling(NmClusterCoupling):
+    def __init__(self):
+        super().__init__()
 
-class NmEcu(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.busDependentNmEcus = []
-        self.ecuInstance = None
-        self.nmBusSynchronizationEnabled = None
-        self.nmComControlEnabled = None
-        self.nmCoordinator = None
-        self.nmCycletimeMainFunction = None
-        self.nmPduRxIndicationEnabled = None
-        self.nmRemoteSleepIndEnabled = None
-        self.nmStateChangeIndEnabled = None
-        self.nmUserDataEnabled = None
-
-    def getBusDependentNmEcus(self):
-        return self.busDependentNmEcus
-
-    def addBusDependentNmEcu(self, value):
-        self.busDependentNmEcus.append(value)
-        return self
-
-    def getEcuInstance(self):
-        return self.ecuInstance
-
-    def setEcuInstance(self, value):
-        self.ecuInstance = value
-        return self
-
-    def getNmBusSynchronizationEnabled(self):
-        return self.nmBusSynchronizationEnabled
-
-    def setNmBusSynchronizationEnabled(self, value):
-        self.nmBusSynchronizationEnabled = value
-        return self
-
-    def getNmComControlEnabled(self):
-        return self.nmComControlEnabled
-
-    def setNmComControlEnabled(self, value):
-        self.nmComControlEnabled = value
-        return self
-
-    def getNmCoordinator(self):
-        return self.nmCoordinator
-
-    def setNmCoordinator(self, value):
-        self.nmCoordinator = value
-        return self
-
-    def getNmCycletimeMainFunction(self):
-        return self.nmCycletimeMainFunction
-
-    def setNmCycletimeMainFunction(self, value):
-        self.nmCycletimeMainFunction = value
-        return self
-
-    def getNmPduRxIndicationEnabled(self):
-        return self.nmPduRxIndicationEnabled
-
-    def setNmPduRxIndicationEnabled(self, value):
-        self.nmPduRxIndicationEnabled = value
-        return self
-
-    def getNmRemoteSleepIndEnabled(self):
-        return self.nmRemoteSleepIndEnabled
-
-    def setNmRemoteSleepIndEnabled(self, value):
-        self.nmRemoteSleepIndEnabled = value
-        return self
-
-    def getNmStateChangeIndEnabled(self):
-        return self.nmStateChangeIndEnabled
-
-    def setNmStateChangeIndEnabled(self, value):
-        self.nmStateChangeIndEnabled = value
-        return self
-
-    def getNmUserDataEnabled(self):
-        return self.nmUserDataEnabled
-
-    def setNmUserDataEnabled(self, value):
-        self.nmUserDataEnabled = value
-        return self   
-
-class NmConfig(FibexElement):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.nmClusterCouplings = []                # type: List[NmClusterCoupling]
-        self.nmIfEcus = []                          # type: List[NmEcu]
-
-    def createCanNmCluster(self, short_name: str) -> CanNmCluster:
-        if (short_name not in self.elements):
-            cluster = CanNmCluster(self, short_name)
-            self.addElement(cluster)
-        return self.getElement(short_name)
-    
-    def createUdpNmCluster(self, short_name: str) -> UdpNmCluster:
-        if (short_name not in self.elements):
-            cluster = UdpNmCluster(self, short_name)
-            self.addElement(cluster)
-        return self.getElement(short_name)
-
-    def getCanNmClusters(self) -> List[CanNmCluster]:
-        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements.values()), key= lambda o:o.short_name))
-    
-    def getUdpNmClusters(self) -> List[UdpNmCluster]:
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements.values()), key= lambda o:o.short_name))
-    
-    def getNmClusters(self) -> List[NmCluster]:
-        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements.values()), key= lambda o:o.short_name))
-    
-    def getNmClusterCouplings(self):
-        return self.nmClusterCouplings
-
-    def addNmClusterCouplings(self, value):
-        self.nmClusterCouplings.append(value)
-        return self
-
-    def getNmIfEcus(self):
-        return self.nmIfEcus
-
-    def addNmIfEcus(self, value):
-        self.nmIfEcus.append(value)
-        return self
-    
 class UdpNmCluster(NmCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.nmCbvPosition = None                           # type: Integer
+        self.nmChannelActive = None                         # type: Boolean
         self.nmImmediateNmCycleTime = None                  # type: TimeValue
         self.nmImmediateNmTransmissions = None              # type: PositiveInteger
         self.nmMessageTimeoutTime = None                    # type: TimeValue
@@ -591,6 +610,15 @@ class UdpNmCluster(NmCluster):
         if value is not None:
             self.nmCbvPosition = value
         return self
+    
+    def getNmChannelActive(self):
+        return self.nmChannelActive
+
+    def setNmChannelActive(self, value):
+        if value is not None:
+            self.nmChannelActive = value
+        return self
+
 
     def getNmImmediateNmCycleTime(self):
         return self.nmImmediateNmCycleTime
@@ -671,5 +699,3 @@ class UdpNmCluster(NmCluster):
         if value is not None:
             self.vlanRef = value
         return self
-
-        

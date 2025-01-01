@@ -2317,7 +2317,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write CanNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-NODE")
         self.writeNmNode(child_element, nm_node)
-
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", nm_node.getNmCarWakeUpRxEnabled())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
@@ -2327,6 +2326,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "UDP-NM-NODE")
         self.writeNmNode(child_element, nm_node)
+        self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
 
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
@@ -2376,7 +2376,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZING-NETWORK", cluster.getNmSynchronizingNetwork())
 
     def writeCanNmCluster(self, element: ET.Element, cluster: CanNmCluster):
-        self.logger.debug("WriteCanNmCluster %s" % cluster.getShortName())
+        self.logger.debug("Write CanNmCluster <%s>" % cluster.getShortName())
         child_element = ET.SubElement(element, "CAN-NM-CLUSTER")
         self.writeNmCluster(child_element, cluster)
 
@@ -2395,10 +2395,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(child_element, "NM-USER-DATA-LENGTH", cluster.getNmUserDataLength())
         self.setChildElementOptionalFloatValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
 
-    def writeUdpNmCluster(self, element: ET.Element, cluster: CanNmCluster):
-        self.logger.debug("Write UdpNmCluster %s" % cluster.getShortName())
+    def writeUdpNmCluster(self, element: ET.Element, cluster: UdpNmCluster):
+        self.logger.debug("Write UdpNmCluster <%s>" % cluster.getShortName())
         child_element = ET.SubElement(element, "UDP-NM-CLUSTER")
         self.writeNmCluster(child_element, cluster)
+        self.setChildElementOptionalIntegerValue(child_element, "NM-CBV-POSITION", cluster.getNmCbvPosition())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-CHANNEL-ACTIVE", cluster.getNmChannelActive())
+        self.setChildElementOptionalTimeValue(child_element, "NM-IMMEDIATE-NM-CYCLE-TIME", cluster.getNmImmediateNmCycleTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "NM-IMMEDIATE-NM-TRANSMISSIONS", cluster.getNmImmediateNmTransmissions())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MESSAGE-TIMEOUT-TIME", cluster.getNmMessageTimeoutTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-TIME", cluster.getNmMsgCycleTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-NETWORK-TIMEOUT", cluster.getNmNetworkTimeout())
+        self.setChildElementOptionalIntegerValue(child_element, "NM-NID-POSITION", cluster.getNmNidPosition())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
+        self.setChildElementOptionalTimeValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
+        self.setChildElementOptionalRefType(child_element, "VLAN-REF", cluster.getVlanRef())
 
     def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         clusters = parent.getNmClusters()
