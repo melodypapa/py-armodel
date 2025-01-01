@@ -1,7 +1,6 @@
 from ....M2.MSR.Documentation.TextModel.LanguageDataModel import LEnum
 from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguagePlainText
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.MSR.AsamHdo.SpecialData import Sdg
 from typing import List
 
 class AdminData(ARObject):
@@ -10,7 +9,7 @@ class AdminData(ARObject):
 
         self.DocRevisions = []                              # type: List[DocRevision]
         self.language = None                                # type: LEnum
-        self.sdgs = []                                      # type: List[Sdg]
+        self.sdgs = []                                      # type: List                       ## Sdg will cause the circular import
         self.usedLanguages = None                           # type: MultiLanguagePlainText
 
     def getDocRevisions(self):
