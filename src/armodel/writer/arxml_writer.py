@@ -78,7 +78,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import S
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DynamicPart, DynamicPartAlternative, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DynamicPart, DynamicPartAlternative, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
@@ -2478,10 +2478,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmConfigNmClusterCouplings(child_element, config)
         self.writeNmConfigNmIfEcus(child_element, config)
 
+    def writeISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "I-SIGNAL-TO-I-PDU-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+            self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+            self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
+            self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
+        
+    def writeNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
+        mappings = pdu.getISignalToIPduMappings()
+        if len(mappings) > 0:
+            child_element = ET.SubElement(element, "I-SIGNAL-TO-I-PDU-MAPPINGS")
+            for mapping in mappings:
+                if isinstance(mapping, ISignalToIPduMapping):
+                    self.writeISignalToIPduMapping(child_element, mapping)
+                else:
+                    self.notImplemented("Unsupported ISignalToIPduMapping <%s>" % type(mapping))
+
     def writeNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("Write NmPdu <%s>" % pdu.getShortName())
         child_element = ET.SubElement(element, "NM-PDU")
         self.writePdu(child_element, pdu)
+        self.writeNmPduISignalToIPduMappings(child_element, pdu)
+        self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", pdu.getUnusedBitPattern())
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Write NPdu <%s>" % pdu.getShortName())
@@ -3961,14 +3982,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(child_element, "MINIMUM-DELAY", timing.getMinimumDelay())
             self.setTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION", timing.getTransmissionModeDeclaration())
 
-    def writeISignalIPdu(self, element: ET.Element, i_pdu: ISignalIPdu):
-        self.logger.debug("ISignalIPdu %s" % i_pdu.getShortName())
+    def writeISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
+        self.logger.debug("ISignalIPdu %s" % ipdu.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-I-PDU")
-        self.writeIdentifiable(child_element, i_pdu)
-        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", i_pdu.getLength())
-        self.setISignalIPduIPduTimingSpecification(child_element, i_pdu.getIPduTimingSpecification())
-        self.writeISignalToPduMappings(child_element, i_pdu)
-        self.setChildElementOptionalLiteral(child_element, "UNUSED-BIT-PATTERN", i_pdu.getUnusedBitPattern())
+        self.writeIdentifiable(child_element, ipdu)
+        self.setChildElementOptionalNumericalValue(child_element, "LENGTH", ipdu.getLength())
+        self.setISignalIPduIPduTimingSpecification(child_element, ipdu.getIPduTimingSpecification())
+        self.writeISignalToPduMappings(child_element, ipdu)
+        self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", ipdu.getUnusedBitPattern())
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):

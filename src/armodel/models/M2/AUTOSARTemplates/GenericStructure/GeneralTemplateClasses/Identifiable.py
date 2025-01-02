@@ -84,6 +84,9 @@ class CollectableElement(ARObject, metaclass = ABCMeta):
         if (short_name not in self.elements):
             return None
         return self.elements[short_name]
+    
+    def IsElementExists(self, short_name: str) -> bool:
+        return short_name in self.elements
 
 class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):

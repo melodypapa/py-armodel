@@ -477,6 +477,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * TRANSMISSION-MODE-FALSE-TIMING
    * SECURED-I-PDU
    * MULTIPLEXED-I-PDU
+   * NM-PDU
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE

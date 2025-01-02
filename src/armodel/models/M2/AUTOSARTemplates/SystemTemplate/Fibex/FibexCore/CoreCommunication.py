@@ -464,49 +464,6 @@ class SecuredIPdu(IPdu):
         if value is not None:
             self.useSecuredPduHeader = value
         return self
-
-class NmPdu(Pdu):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-    
-
-class NPdu(IPdu):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-class DcmIPdu(IPdu):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.diagPduType = None                                 # type: ARLiteral
-
-    def getDiagPduType(self):
-        return self.diagPduType
-
-    def setDiagPduType(self, value):
-        self.diagPduType = value
-        return self
-
-class IPduTiming(Describable):
-    def __init__(self):
-        super().__init__()
-
-        self.minimumDelay = None                                # type: TimeValue
-        self.transmissionModeDeclaration = None                 # type: TransmissionModeDeclaration
-
-    def getMinimumDelay(self):
-        return self.minimumDelay
-
-    def setMinimumDelay(self, value):
-        self.minimumDelay = value
-        return self
-
-    def getTransmissionModeDeclaration(self):
-        return self.transmissionModeDeclaration
-
-    def setTransmissionModeDeclaration(self, value):
-        self.transmissionModeDeclaration = value
-        return self
     
 class ISignalToIPduMapping(Identifiable):
     def __init__(self, parent, short_name):
@@ -515,10 +472,9 @@ class ISignalToIPduMapping(Identifiable):
         self.iSignalRef = None                              # type: RefType
         self.iSignalGroupRef = None                         # type: RefType
         self.packingByteOrder = None                        # type: ByteOrderEnum
-        self.startPosition = None                           # type: ARNumerical
-        # type: TransferPropertyEnum
-        self.transferProperty = None
-        self.updateIndicationBitPosition = None             # type: ARNumerical
+        self.startPosition = None                           # type: UnlimitedInteger
+        self.transferProperty = None                        # type: TransferPropertyEnum
+        self.updateIndicationBitPosition = None             # type: UnlimitedInteger
 
     def getISignalRef(self):
         return self.iSignalRef
@@ -562,6 +518,87 @@ class ISignalToIPduMapping(Identifiable):
         self.updateIndicationBitPosition = value
         return self
 
+class NmPdu(Pdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.iSignalToIPduMappings = []                                     # type: List[ISignalToIPduMapping]
+        self.nmDataInformation = None                                       # type: Boolean
+        self.nmVoteInformation = None                                       # type: Boolean
+        self.unusedBitPattern = None                                        # type: Integer
+
+    def getISignalToIPduMappings(self):
+        return self.iSignalToIPduMappings
+
+    def createISignalToIPduMapping(self, short_name: str) -> ISignalToIPduMapping:
+        if (not self.IsElementExists(short_name)):
+            mapping = ISignalToIPduMapping(self, short_name)
+            self.addElement(mapping)
+            self.iSignalToIPduMappings.append(mapping)
+        return self.getElement(short_name)
+
+    def getNmDataInformation(self):
+        return self.nmDataInformation
+
+    def setNmDataInformation(self, value):
+        if value is not None:
+            self.nmDataInformation = value
+        return self
+
+    def getNmVoteInformation(self):
+        return self.nmVoteInformation
+
+    def setNmVoteInformation(self, value):
+        if value is not None:
+            self.nmVoteInformation = value
+        return self
+
+    def getUnusedBitPattern(self):
+        return self.unusedBitPattern
+
+    def setUnusedBitPattern(self, value):
+        if value is not None:
+            self.unusedBitPattern = value
+        return self
+
+
+class NPdu(IPdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+class DcmIPdu(IPdu):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.diagPduType = None                                 # type: ARLiteral
+
+    def getDiagPduType(self):
+        return self.diagPduType
+
+    def setDiagPduType(self, value):
+        self.diagPduType = value
+        return self
+
+class IPduTiming(Describable):
+    def __init__(self):
+        super().__init__()
+
+        self.minimumDelay = None                                # type: TimeValue
+        self.transmissionModeDeclaration = None                 # type: TransmissionModeDeclaration
+
+    def getMinimumDelay(self):
+        return self.minimumDelay
+
+    def setMinimumDelay(self, value):
+        self.minimumDelay = value
+        return self
+
+    def getTransmissionModeDeclaration(self):
+        return self.transmissionModeDeclaration
+
+    def setTransmissionModeDeclaration(self, value):
+        self.transmissionModeDeclaration = value
+        return self
     
 class ISignalIPdu(IPdu):
     def __init__(self, parent, short_name):
@@ -569,7 +606,7 @@ class ISignalIPdu(IPdu):
 
         self.iPduTimingSpecification = None                     # type: IPduTiming
         self.iSignalToPduMappings = []                          # type: List[ISignalToIPduMapping]
-        self.unusedBitPattern = None                            # type: ARNumerical
+        self.unusedBitPattern = None                            # type: Integer
 
     def getIPduTimingSpecification(self):
         return self.iPduTimingSpecification
