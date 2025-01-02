@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationAuthenticationProps, SecureCommunicationFreshnessProps, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -1942,6 +1942,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readARObjectAttributes(child_element, compu_scale)
                 compu_scale.setLowerLimit(self.getChildLimitElement(child_element, "LOWER-LIMIT")) \
                            .setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")) \
+                           .setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC")) \
                            .setSymbol(self.getChildElementOptionalLiteral(child_element, "SYMBOL")) \
                            .setUpperLimit(self.getChildLimitElement(child_element, "UPPER-LIMIT"))
                 self.readCompuScaleContents(child_element, compu_scale)
@@ -2959,10 +2960,40 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read GeneralPurposeIPdu <%s>" % i_pdu.getShortName())
         self.readIPdu(element, i_pdu)
 
+    def readSecureCommunicationAuthenticationProps(self, element: ET.Element, props: SecureCommunicationAuthenticationProps):
+        self.readIdentifiable(element, props)
+        props.setAuthAlgorithm(self.getChildElementOptionalLiteral(element, "AUTH-ALGORITHM")) \
+             .setAuthInfoTxLength(self.getChildElementOptionalPositiveInteger(element, "AUTH-INFO-TX-LENGTH"))
+
+    def readSecureCommunicationPropsSetAuthenticationProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
+        for child_element in self.findall(element, "AUTHENTICATION-PROPSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SECURE-COMMUNICATION-AUTHENTICATION-PROPS":
+                props = props_set.createSecureCommunicationAuthenticationProps(self.getShortName(child_element))
+                self.readSecureCommunicationAuthenticationProps(child_element, props)
+            else:
+                self.notImplemented("Unsupported AuthenticationProps <%s>" % tag_name)
+
+    def readSecureCommunicationFreshnessProps(self, element: ET.Element, props: SecureCommunicationFreshnessProps):
+        self.readIdentifiable(element, props)
+        props.setFreshnessValueLength(self.getChildElementOptionalLiteral(element, "FRESHNESS-VALUE-LENGTH")) \
+             .setFreshnessValueTxLength(self.getChildElementOptionalPositiveInteger(element, "FRESHNESS-VALUE-TX-LENGTH"))
+
+    def readSecureCommunicationPropsSetFreshnessProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
+        for child_element in self.findall(element, "FRESHNESS-PROPSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SECURE-COMMUNICATION-FRESHNESS-PROPS":
+                props = props_set.createSecureCommunicationFreshnessProps(self.getShortName(child_element))
+                self.readSecureCommunicationFreshnessProps(child_element, props)
+            else:
+                self.notImplemented("Unsupported FreshnessProps <%s>" % tag_name)
+
     def readSecureCommunicationPropsSet(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
         self.logger.debug("Read SecureCommunicationPropsSet <%s>" % props_set.getShortName())
         self.readIdentifiable(element, props_set)
-
+        self.readSecureCommunicationPropsSetAuthenticationProps(element, props_set)
+        self.readSecureCommunicationPropsSetFreshnessProps(element, props_set)
+    
     def readSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
         self.logger.debug("Read SoAdRoutingGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
@@ -3670,7 +3701,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read PhysicalDimension <%s>" % dimension.getShortName())
         self.readIdentifiable(element, dimension)
         dimension.setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP")) \
+                 .setLuminousIntensityExp(self.getChildElementOptionalNumericalValue(element, "LUMINOUS-INTENSITY-EXP")) \
                  .setMassExp(self.getChildElementOptionalNumericalValue(element, "MASS-EXP")) \
+                 .setTemperatureExp(self.getChildElementOptionalNumericalValue(element, "TEMPERATURE-EXP")) \
                  .setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP")) \
                  .setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP")) \
 
