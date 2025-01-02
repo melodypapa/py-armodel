@@ -829,6 +829,114 @@ class ISignalTriggering(Identifiable):
     def addISignalPortRef(self, value):
         self.iSignalPortRefs.append(value)
         return self
+    
+class SegmentPosition(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.segmentByteOrder = None                                # type: ByteOrderEnum
+        self.segmentLength = None                                   # type: Integer
+        self.segmentPosition = None                                 # type: Integer
+
+    def getSegmentByteOrder(self):
+        return self.segmentByteOrder
+
+    def setSegmentByteOrder(self, value):
+        if value is not None:
+            self.segmentByteOrder = value
+        return self
+
+    def getSegmentLength(self):
+        return self.segmentLength
+
+    def setSegmentLength(self, value):
+        if value is not None:
+            self.segmentLength = value
+        return self
+
+    def getSegmentPosition(self):
+        return self.segmentPosition
+
+    def setSegmentPosition(self, value):
+        if value is not None:
+            self.segmentPosition = value
+        return self
+
+class MultiplexedPart(ARObject, metaclass = ABCMeta):
+    def __init__(self):
+        if type(self) == MultiplexedPart:
+            raise NotImplementedError("MultiplexedPart is an abstract class.")
+        
+        super().__init__()
+
+        self.segmentPositions = []                                 # type: List[SegmentPosition]
+
+    def getSegmentPositions(self):
+        return self.segmentPositions
+
+    def addSegmentPosition(self, value):
+        if value is not None:
+            self.segmentPositions.append(value)
+        return self
+
+class StaticPart(MultiplexedPart):
+    def __init__(self):
+        super().__init__()
+
+        self.iPduRef = None                                         # type: RefType
+
+    def getIPduRef(self):
+        return self.iPduRef
+
+    def setIPduRef(self, value):
+        if value is not None:
+            self.iPduRef = value
+        return self
+class DynamicPartAlternative(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.initialDynamicPart = None                              # type: Boolean
+        self.iPduRef = None                                         # type: RefType
+        self.selectorFieldCode = None                               # type: Integer
+
+    def getInitialDynamicPart(self):
+        return self.initialDynamicPart
+
+    def setInitialDynamicPart(self, value):
+        if value is not None:
+            self.initialDynamicPart = value
+        return self
+
+    def getIPduRef(self):
+        return self.iPduRef
+
+    def setIPduRef(self, value):
+        if value is not None:
+            self.iPduRef = value
+        return self
+
+    def getSelectorFieldCode(self):
+        return self.selectorFieldCode
+
+    def setSelectorFieldCode(self, value):
+        if value is not None:
+            self.selectorFieldCode = value
+        return self
+
+class DynamicPart(MultiplexedPart):
+    def __init__(self):
+        super().__init__()
+
+        self.dynamicPartAlternatives = []                          # type: List[DynamicPartAlternative]
+
+    def getDynamicPartAlternatives(self):
+        return self.dynamicPartAlternatives
+
+    def addDynamicPartAlternative(self, value):
+        if value is not None:
+            self.dynamicPartAlternatives.append(value)
+        return self
 
 class MultiplexedIPdu(IPdu):
     def __init__(self, parent, short_name):

@@ -78,7 +78,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import S
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DynamicPart, DynamicPartAlternative, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
@@ -3761,16 +3761,88 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
         self.writePdu(element, pdu)
 
-    def writeMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
-        self.logger.debug("Write MultiplexedIPdu <%s>" % i_pdu.getShortName())
-        child_element = ET.SubElement(element, "MULTIPLEXED-I-PDU")
-        self.writeIPdu(child_element, i_pdu)
+    def writeSegmentPosition(self, element: ET.Element, position: SegmentPosition):
+        if position is not None:
+            child_element = ET.SubElement(element, "SEGMENT-POSITION")
+            self.setChildElementOptionalLiteral(child_element, "SEGMENT-BYTE-ORDER", position.getSegmentByteOrder())
+            self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-LENGTH", position.getSegmentLength())
+            self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-POSITION", position.getSegmentPosition())
 
-    def writeUserDefinedIPdu(self, element: ET.Element, i_pdu: UserDefinedIPdu):
-        self.logger.debug("Write UserDefinedIPdu <%s>" % i_pdu.getShortName())
+    def writeMultiplexedPartSegmentPositions(self, element: ET.Element, part: MultiplexedPart):
+        positions = part.getSegmentPositions()
+        if len(positions) > 0:
+            child_element = ET.SubElement(element, "SEGMENT-POSITIONS")
+            for position in positions:
+                if isinstance(position, SegmentPosition):
+                    self.writeSegmentPosition(child_element, position)
+                else:
+                    self.notImplemented("Unsupported DynamicPart <%s>" % type(position))
+
+    def writeMultiplexedPart(self, element: ET.Element, part: MultiplexedPart):
+        self.writeMultiplexedPartSegmentPositions(element, part)
+
+    def writeDynamicPartAlternative(self, element: ET.Element, alternative: DynamicPartAlternative):
+        if alternative is not None:
+            child_element = ET.SubElement(element, "DYNAMIC-PART-ALTERNATIVE")
+            self.setChildElementOptionalRefType(child_element, "I-PDU-REF", alternative.getIPduRef())
+            self.setChildElementOptionalBooleanValue(child_element, "INITIAL-DYNAMIC-PART", alternative.getInitialDynamicPart())
+            self.setChildElementOptionalIntegerValue(child_element, "SELECTOR-FIELD-CODE", alternative.getSelectorFieldCode())
+
+    def writeDynamicPartDynamicPartAlternatives(self, element: ET.Element, part: DynamicPart):
+        alternatives = part.getDynamicPartAlternatives()
+        if len(alternatives) > 0:
+            child_element = ET.SubElement(element, "DYNAMIC-PART-ALTERNATIVES")
+            for alternative in alternatives:
+                if isinstance(alternative, DynamicPartAlternative):
+                    self.writeDynamicPartAlternative(child_element, alternative)
+                else:
+                    self.notImplemented("Unsupported DynamicPartAlternative <%s>" % type(alternative))
+
+    def writeDynamicPart(self, element: ET.Element, part: DynamicPart):
+        child_element = ET.SubElement(element, "DYNAMIC-PART")
+        self.writeMultiplexedPart(child_element, part)
+        self.writeDynamicPartDynamicPartAlternatives(child_element, part)
+
+    def writeMultiplexedIPduDynamicParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
+        part = ipdu.getDynamicPart()
+        if part is not None:
+            child_element = ET.SubElement(element, "DYNAMIC-PARTS")
+            if isinstance(part, DynamicPart):
+                self.writeDynamicPart(child_element, part)
+            else:
+                self.notImplemented("Unsupported DynamicPart <%s>" % type(part))
+
+    def writeStaticPart(self, element: ET.Element, part: StaticPart):
+        child_element = ET.SubElement(element, "STATIC-PART")
+        self.writeMultiplexedPart(child_element, part)
+        self.setChildElementOptionalRefType(child_element, "I-PDU-REF", part.getIPduRef())
+
+    def writeMultiplexedIPduStaticParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
+        part = ipdu.getStaticPart()
+        if part is not None:
+            child_element = ET.SubElement(element, "STATIC-PARTS")
+            if isinstance(part, StaticPart):
+                self.writeStaticPart(child_element, part)
+            else:
+                self.notImplemented("Unsupported StaticPart <%s>" % type(part))
+
+    def writeMultiplexedIPdu(self, element: ET.Element, ipdu: MultiplexedIPdu):
+        self.logger.debug("Write MultiplexedIPdu <%s>" % ipdu.getShortName())
+        child_element = ET.SubElement(element, "MULTIPLEXED-I-PDU")
+        self.writeIPdu(child_element, ipdu)
+        self.writeMultiplexedIPduDynamicParts(child_element, ipdu)
+        self.setChildElementOptionalLiteral(child_element, "SELECTOR-FIELD-BYTE-ORDER", ipdu.getSelectorFieldByteOrder())
+        self.setChildElementOptionalIntegerValue(child_element, "SELECTOR-FIELD-LENGTH", ipdu.getSelectorFieldLength())
+        self.setChildElementOptionalIntegerValue(child_element, "SELECTOR-FIELD-START-POSITION", ipdu.getSelectorFieldStartPosition())
+        self.writeMultiplexedIPduStaticParts(child_element, ipdu)
+        self.setChildElementOptionalLiteral(child_element, "TRIGGER-MODE", ipdu.getTriggerMode())
+        self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", ipdu.getUnusedBitPattern())
+
+    def writeUserDefinedIPdu(self, element: ET.Element, ipdu: UserDefinedIPdu):
+        self.logger.debug("Write UserDefinedIPdu <%s>" % ipdu.getShortName())
         child_element = ET.SubElement(element, "USER-DEFINED-I-PDU")
-        self.writeIPdu(child_element, i_pdu)
-        self.setChildElementOptionalLiteral(child_element, "CDD-TYPE", i_pdu.getCddType())
+        self.writeIPdu(child_element, ipdu)
+        self.setChildElementOptionalLiteral(child_element, "CDD-TYPE", ipdu.getCddType())
 
     def writeUserDefinedPdu(self, element: ET.Element, pdu: UserDefinedPdu):
         self.logger.debug("Write UserDefinedPdu <%s>" % pdu.getShortName())
