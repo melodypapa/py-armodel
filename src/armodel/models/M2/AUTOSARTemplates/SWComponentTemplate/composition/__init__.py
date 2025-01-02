@@ -52,10 +52,10 @@ class AssemblySwConnector(SwConnector):
         self.providerIRef = value
         return self
 
-    def getRequesterIRef(self) -> PPortInCompositionInstanceRef:
+    def getRequesterIRef(self) -> RPortInCompositionInstanceRef:
         return self.requesterIRef
 
-    def setRequesterIRef(self, value: PPortInCompositionInstanceRef):
+    def setRequesterIRef(self, value: RPortInCompositionInstanceRef):
         self.requesterIRef = value
         return self
 

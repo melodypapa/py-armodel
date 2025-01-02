@@ -78,7 +78,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import S
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DynamicPart, DynamicPartAlternative, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DynamicPart, DynamicPartAlternative, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, Pdu, PduTriggering, SecureCommunicationAuthenticationProps, SecureCommunicationFreshnessProps, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu, NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
@@ -839,6 +839,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setARObjectAttributes(child_element, compu_scale)
                 self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
                 self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
+                self.setMultiLanguageOverviewParagraph(child_element, "DESC", compu_scale.getDesc())
                 self.setChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.getLowerLimit())
                 self.setChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.getUpperLimit())
                 self.writeCompuScaleContents(child_element, compu_scale)
@@ -3482,7 +3483,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PHYSICAL-DIMENSION")
         self.writeARElement(child_element, dimension)
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH-EXP", dimension.getLengthExp())
+        self.setChildElementOptionalNumericalValue(child_element, "LUMINOUS-INTENSITY-EXP", dimension.getLuminousIntensityExp())
         self.setChildElementOptionalNumericalValue(child_element, "MASS-EXP", dimension.getMassExp())
+        self.setChildElementOptionalNumericalValue(child_element, "TEMPERATURE-EXP", dimension.getTemperatureExp())
         self.setChildElementOptionalNumericalValue(child_element, "TIME-EXP", dimension.getTimeExp())
         self.setChildElementOptionalNumericalValue(child_element, "CURRENT-EXP", dimension.getCurrentExp())
 
@@ -3881,10 +3884,44 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "GENERAL-PURPOSE-I-PDU")
         self.writeIPdu(child_element, i_pdu)
 
+    def writeSecureCommunicationAuthenticationProps(self, element: ET.Element, props: SecureCommunicationAuthenticationProps):
+        chile_element = ET.SubElement(element, "SECURE-COMMUNICATION-AUTHENTICATION-PROPS")
+        self.writeIdentifiable(chile_element, props)
+        self.setChildElementOptionalLiteral(chile_element, "AUTH-ALGORITHM", props.getAuthAlgorithm())
+        self.setChildElementOptionalPositiveInteger(chile_element, "AUTH-INFO-TX-LENGTH", props.getAuthInfoTxLength())
+
+    def writeSecureCommunicationPropsSetAuthenticationProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
+        propses = props_set.getAuthenticationProps()
+        if len(propses) > 0:
+            child_element = ET.SubElement(element, "AUTHENTICATION-PROPSS")
+            for props in propses:
+                if isinstance(props, SecureCommunicationAuthenticationProps):
+                    self.writeSecureCommunicationAuthenticationProps(child_element, props)
+                else:
+                    self.notImplemented("Unsupported AuthenticationProps <%s>" % type(props))
+
+    def writeSecureCommunicationFreshnessProps(self, element: ET.Element, props: SecureCommunicationFreshnessProps):
+        child_element = ET.SubElement(element, "SECURE-COMMUNICATION-FRESHNESS-PROPS")
+        self.writeIdentifiable(child_element, props)
+        self.setChildElementOptionalLiteral(child_element, "FRESHNESS-VALUE-LENGTH", props.getFreshnessValueLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH", props.getFreshnessValueTxLength())
+
+    def writeSecureCommunicationPropsSetFreshnessProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
+        propses = props_set.getFreshnessProps()
+        if len(propses) > 0:
+            child_element = ET.SubElement(element, "FRESHNESS-PROPSS")
+            for props in propses:
+                if isinstance(props, SecureCommunicationFreshnessProps):
+                    self.writeSecureCommunicationFreshnessProps(child_element, props)
+                else:
+                    self.notImplemented("Unsupported FreshnessProps <%s>" % type(props))
+
     def writeSecureCommunicationPropsSet(self, element: ET.Element, set: SecureCommunicationPropsSet):
         self.logger.debug("Write SecureCommunicationPropsSet %s" % set.getShortName())
         child_element = ET.SubElement(element, "SECURE-COMMUNICATION-PROPS-SET")
         self.writeIdentifiable(child_element, set)
+        self.writeSecureCommunicationPropsSetAuthenticationProps(child_element, set)
+        self.writeSecureCommunicationPropsSetFreshnessProps(child_element, set)
 
     def writeSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
         self.logger.debug("Write SoAdRoutingGroup <%s>" % group.getShortName())

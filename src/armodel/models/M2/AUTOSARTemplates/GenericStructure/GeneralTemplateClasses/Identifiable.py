@@ -4,7 +4,7 @@ from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageL
 from .....M2.MSR.Documentation.Annotation import Annotation
 from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, CategoryString
 from abc import ABCMeta
 from typing import List
 
@@ -98,7 +98,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
 
         self.annotations = []                       # type: List[Annotation]
         self.adminData = None                       # type: AdminData
-        self.category = None                        # type: ARLiteral
+        self.category = None                        # type: CategoryString
         self.introduction = None                    # type: DocumentationBlock
         self.desc = None                            # type: MultiLanguageOverviewParagraph
 

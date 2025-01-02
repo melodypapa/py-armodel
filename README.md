@@ -478,6 +478,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SECURED-I-PDU
    * MULTIPLEXED-I-PDU
    * NM-PDU
+   * SECURE-COMMUNICATION-PROPS-SET
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE

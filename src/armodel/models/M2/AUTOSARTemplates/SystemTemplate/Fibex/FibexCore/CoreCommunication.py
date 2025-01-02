@@ -1097,28 +1097,103 @@ class GeneralPurposePdu(Pdu):
         if value is not None:
             self.length = value
         return self
+    
+class SecureCommunicationAuthenticationProps(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.authAlgorithm = None                                               # type: String
+        self.authInfoTxLength = None                                            # type: PositiveInteger
+
+    def getAuthAlgorithm(self):
+        return self.authAlgorithm
+
+    def setAuthAlgorithm(self, value):
+        if value is not None:
+            self.authAlgorithm = value
+        return self
+
+    def getAuthInfoTxLength(self):
+        return self.authInfoTxLength
+
+    def setAuthInfoTxLength(self, value):
+        if value is not None:
+            self.authInfoTxLength = value
+        return self
+    
+class SecureCommunicationFreshnessProps(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.freshnessCounterSyncAttempts = None                                # type: PositiveInteger
+        self.freshnessTimestampTimePeriodFactor = None                          # type: PositiveInteger
+        self.freshnessValueLength = None                                        # type: PositiveInteger
+        self.freshnessValueTxLength = None                                      # type: PositiveInteger
+        self.useFreshnessTimestamp = None                                       # type: Boolean
+
+    def getFreshnessCounterSyncAttempts(self):
+        return self.freshnessCounterSyncAttempts
+
+    def setFreshnessCounterSyncAttempts(self, value):
+        if value is not None:
+            self.freshnessCounterSyncAttempts = value
+        return self
+
+    def getFreshnessTimestampTimePeriodFactor(self):
+        return self.freshnessTimestampTimePeriodFactor
+
+    def setFreshnessTimestampTimePeriodFactor(self, value):
+        if value is not None:
+            self.freshnessTimestampTimePeriodFactor = value
+        return self
+
+    def getFreshnessValueLength(self):
+        return self.freshnessValueLength
+
+    def setFreshnessValueLength(self, value):
+        if value is not None:
+            self.freshnessValueLength = value
+        return self
+
+    def getFreshnessValueTxLength(self):
+        return self.freshnessValueTxLength
+
+    def setFreshnessValueTxLength(self, value):
+        if value is not None:
+            self.freshnessValueTxLength = value
+        return self
+
+    def getUseFreshnessTimestamp(self):
+        return self.useFreshnessTimestamp
+
+    def setUseFreshnessTimestamp(self, value):
+        if value is not None:
+            self.useFreshnessTimestamp = value
+        return self
 
 class SecureCommunicationPropsSet(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
-        # type: List[SecureCommunicationAuthenticationProps]
-        self.authenticationProps = []
-        # type: List[SecureCommunicationFreshnessProps]
-        self.freshnessProps = []
+        
+        self.authenticationProps = []                                           # type: List[SecureCommunicationAuthenticationProps]
+        self.freshnessProps = []                                                # type: List[SecureCommunicationFreshnessProps]
 
     def getAuthenticationProps(self):
         return self.authenticationProps
 
-    def addAuthenticationProp(self, value):
-        if value is not None:
-            self.authenticationProps.append(value)
-        return self
+    def createSecureCommunicationAuthenticationProps(self, short_name: str) -> SecureCommunicationAuthenticationProps:
+        if (not self.IsElementExists(short_name)):
+            props = SecureCommunicationAuthenticationProps(self, short_name)
+            self.addElement(props)
+            self.authenticationProps.append(props)
+        return self.getElement(short_name)
 
     def getFreshnessProps(self):
         return self.freshnessProps
 
-    def addFreshnessProp(self, value):
-        if value is not None:
-            self.freshnessProps.append(value)
-        return self
+    def createSecureCommunicationFreshnessProps(self, short_name: str) -> SecureCommunicationFreshnessProps:
+        if (not self.IsElementExists(short_name)):
+            props = SecureCommunicationFreshnessProps(self, short_name)
+            self.addElement(props)
+            self.freshnessProps.append(props)
+        return self.getElement(short_name)
