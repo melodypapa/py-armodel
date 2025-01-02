@@ -3927,6 +3927,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write SoAdRoutingGroup <%s>" % group.getShortName())
         child_element = ET.SubElement(element, "SO-AD-ROUTING-GROUP")
         self.writeIdentifiable(child_element, group)
+        self.setChildElementOptionalLiteral(child_element, "EVENT-GROUP-CONTROL-TYPE", group.getEventGroupControlType())
 
     def writeDoIpTpConfig(self, element: ET.Element, config: DoIpTpConfig):
         self.logger.debug("Write DoIpTpConfig <%s>" % config.getShortName())

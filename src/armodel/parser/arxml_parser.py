@@ -2997,6 +2997,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
         self.logger.debug("Read SoAdRoutingGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
+        group.setEventGroupControlType(self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE"))
 
     def readDoIpTpConfig(self, element: ET.Element, config: DoIpTpConfig):
         self.logger.debug("Read DoIpTpConfig <%s>" % config.getShortName())
