@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -2994,10 +2994,28 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, pdu)
         pdu.setHasDynamicLength(self.getChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH")) \
            .setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
+        
+    def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF")) \
+               .setPackingByteOrder(self.getChildElementOptionalLiteral(element, "PACKING-BYTE-ORDER")) \
+               .setStartPosition(self.getChildElementOptionalIntegerValue(element, "START-POSITION")) \
+               .setTransferProperty(self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY"))
+        
+    def readNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
+        for child_element in self.findall(element, "I-SIGNAL-TO-I-PDU-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "I-SIGNAL-TO-I-PDU-MAPPING":
+                mapping = pdu.createISignalToIPduMapping(self.getShortName(child_element))
+                self.readISignalToIPduMapping(child_element, mapping)
+            else:
+                self.notImplemented("Unsupported ISignalToIPduMapping <%s>" % tag_name)
 
     def readNmPdu(self, element: ET.Element, pdu: NmPdu):
         self.logger.debug("Read NmPdu <%s>" % pdu.getShortName())
         self.readPdu(element, pdu)
+        self.readNmPduISignalToIPduMappings(element, pdu)
+        pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def readIPdu(self, element: ET.Element, pdu: IPdu):
         self.readPdu(element, pdu)
@@ -3775,13 +3793,13 @@ class ARXMLParser(AbstractARXMLParser):
                   .setTransmissionModeDeclaration(self.getTransmissionModeDeclaration(child_element, "TRANSMISSION-MODE-DECLARATION"))
         return timing
 
-    def readISignalIPdu(self, element: ET.Element, i_pdu: ISignalIPdu):
-        self.logger.debug("Read ISignalIPdu <%s>" % i_pdu.getShortName())
-        self.readIdentifiable(element, i_pdu)
-        i_pdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH")) \
+    def readISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
+        self.logger.debug("Read ISignalIPdu <%s>" % ipdu.getShortName())
+        self.readIdentifiable(element, ipdu)
+        ipdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH")) \
             .setIPduTimingSpecification(self.getISignalIPduIPduTimingSpecification(element))
-        self.readISignalToPduMappings(element, i_pdu)
-        i_pdu.setUnusedBitPattern(self.getChildElementOptionalLiteral(element, "UNUSED-BIT-PATTERN"))
+        self.readISignalToPduMappings(element, ipdu)
+        ipdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def getISignalIPduRefs(self, element: ET.Element) -> List[RefType]:
         ref_types = [] 
