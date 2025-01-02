@@ -83,7 +83,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -2869,14 +2869,82 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticServiceTableDiagnosticConnectionRefs(element, table)
         table.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
 
-    def readMultiplexedIPdu(self, element: ET.Element, i_pdu: MultiplexedIPdu):
-        self.logger.debug("Read MultiplexedIPdu <%s>" % i_pdu.getShortName())
-        self.readIPdu(element, i_pdu)
+    def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
+        position.setSegmentByteOrder(self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER")) \
+                .setSegmentLength(self.getChildElementOptionalIntegerValue(element, "SEGMENT-LENGTH")) \
+                .setSegmentPosition(self.getChildElementOptionalIntegerValue(element, "SEGMENT-POSITION"))
 
-    def readUserDefinedIPdu(self, element: ET.Element, i_pdu: UserDefinedIPdu):
-        self.logger.debug("Read UserDefinedIPdu <%s>" % i_pdu.getShortName())
-        self.readIPdu(element, i_pdu)
-        i_pdu.setCddType(self.getChildElementOptionalLiteral(element, "CDD-TYPE"))
+    def readMultiplexedPartSegmentPositions(self, element: ET.Element, part: MultiplexedPart):
+        for child_element in self.findall(element, "SEGMENT-POSITIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SEGMENT-POSITION":
+                position = SegmentPosition()
+                self.readSegmentPosition(child_element, position)
+                part.addSegmentPosition(position)
+            else:
+                self.notImplemented("Unsupported DynamicPart <%s>" % tag_name)
+
+    def readMultiplexedPart(self, element: ET.Element, part: MultiplexedPart):
+        self.readMultiplexedPartSegmentPositions(element, part)
+
+    def readDynamicPartAlternative(self, element: ET.Element, alternative: DynamicPartAlternative):
+        alternative.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF")) \
+                   .setInitialDynamicPart(self.getChildElementOptionalBooleanValue(element, "INITIAL-DYNAMIC-PART")) \
+                   .setSelectorFieldCode(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-CODE"))
+
+    def readDynamicPartDynamicPartAlternatives(self, element: ET.Element, part: DynamicPart):
+        for child_element in self.findall(element, "DYNAMIC-PART-ALTERNATIVES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DYNAMIC-PART-ALTERNATIVE":
+                alternative = DynamicPartAlternative()
+                self.readDynamicPartAlternative(child_element, alternative)
+                part.addDynamicPartAlternative(alternative)
+            else:
+                self.notImplemented("Unsupported DynamicPartAlternative <%s>" % tag_name)
+
+    def readDynamicPart(self, element: ET.Element, part: DynamicPart):
+        self.readMultiplexedPart(element, part)
+        self.readDynamicPartDynamicPartAlternatives(element, part)
+
+    def readMultiplexedIPduDynamicParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
+        for child_element in self.findall(element, "DYNAMIC-PARTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DYNAMIC-PART":
+                part = DynamicPart()
+                self.readDynamicPart(child_element, part)
+                ipdu.setDynamicPart(part)
+            else:
+                self.notImplemented("Unsupported DynamicPart <%s>" % tag_name)
+
+    def readStaticPart(self, element: ET.Element, part: StaticPart):
+        self.readMultiplexedPart(element, part)
+        part.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
+
+    def readMultiplexedIPduStaticParts(self, element: ET.Element, ipdu: MultiplexedIPdu):
+        for child_element in self.findall(element, "STATIC-PARTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "STATIC-PART":
+                part = StaticPart()
+                self.readStaticPart(child_element, part)
+                ipdu.setStaticPart(part)
+            else:
+                self.notImplemented("Unsupported StaticPart <%s>" % tag_name)
+
+    def readMultiplexedIPdu(self, element: ET.Element, ipdu: MultiplexedIPdu):
+        self.logger.debug("Read MultiplexedIPdu <%s>" % ipdu.getShortName())
+        self.readIPdu(element, ipdu)
+        self.readMultiplexedIPduDynamicParts(element, ipdu)
+        ipdu.setSelectorFieldByteOrder(self.getChildElementOptionalLiteral(element, "SELECTOR-FIELD-BYTE-ORDER")) \
+            .setSelectorFieldLength(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-LENGTH")) \
+            .setSelectorFieldStartPosition(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-START-POSITION"))
+        self.readMultiplexedIPduStaticParts(element, ipdu)
+        ipdu.setTriggerMode(self.getChildElementOptionalLiteral(element, "TRIGGER-MODE")) \
+            .setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
+
+    def readUserDefinedIPdu(self, element: ET.Element, ipdu: UserDefinedIPdu):
+        self.logger.debug("Read UserDefinedIPdu <%s>" % ipdu.getShortName())
+        self.readIPdu(element, ipdu)
+        ipdu.setCddType(self.getChildElementOptionalLiteral(element, "CDD-TYPE"))
 
     def readUserDefinedPdu(self, element: ET.Element, pdu: UserDefinedPdu):
         self.logger.debug("Read UserDefinedPdu <%s>" % pdu.getShortName())
@@ -3005,7 +3073,7 @@ class ARXMLParser(AbstractARXMLParser):
                 nm_node = cluster.readUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
             else:
-                self.raiseError("Unsupported Nm Node <%s>" % tag_name)
+                self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
     def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
         coupling  = CanNmClusterCoupling()
