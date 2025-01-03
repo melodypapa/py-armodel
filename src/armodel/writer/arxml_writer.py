@@ -1,6 +1,9 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -3473,11 +3476,52 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(sw_mapping))
 
+    def writeEcuMapping(self, element: ET.Element, mapping: ECUMapping):
+        self.logger.debug("Write ECUMapping <%s>" % mapping.getShortName())
+        if mapping is not None:
+            child_element = ET.SubElement(element, "ECU-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", mapping.getEcuInstanceRef())
+            self.setChildElementOptionalRefType(child_element, "ECU-REF", mapping.getEcuRef())
+
+    def writeSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        ecu_resource_mappings = mapping.getEcuResourceMappings()
+        if len(ecu_resource_mappings) > 0:
+            child_element = ET.SubElement(element, "ECU-RESOURCE-MAPPINGS")
+            for ecu_resource_mapping in ecu_resource_mappings:
+                if isinstance(ecu_resource_mapping, ECUMapping):
+                    self.writeEcuMapping(child_element, ecu_resource_mapping)
+                else:
+                    self.notImplemented("Unsupported Sw Mapping %s" % type(ecu_resource_mapping))
+
+    def writeSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SWC-TO-IMPL-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.setChildElementOptionalRefType(child_element, "COMPONENT-IMPLEMENTATION-REF", mapping.getComponentImplementationRef())
+            irefs = mapping.getComponentIRefs()
+            if len(irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "COMPONENT-IREFS")
+                for iref in irefs:
+                    self.setComponentInSystemInstanceRef(irefs_tag, "COMPONENT-IREF", iref)
+
+    def writeSystemMappingSwImplMappings(self, element: ET.Element, mapping: SystemMapping):
+        sw_impl_mappings = mapping.getSwImplMappings()
+        if len(sw_impl_mappings) > 0:
+            child_element = ET.SubElement(element, "SW-IMPL-MAPPINGS")
+            for sw_impl_mapping in sw_impl_mappings:
+                if isinstance(sw_impl_mapping, SwcToImplMapping):
+                    self.writeSwcToImplMapping(child_element, sw_impl_mapping)
+                else:
+                    self.notImplemented("Unsupported SwImplMapping <%s>" % type(sw_impl_mapping))
+
     def writeSystemMapping(self, element: ET.Element, mapping: SystemMapping):
-        self.logger.debug("Write SystemMapping %s" % mapping.getShortName())
+        self.logger.debug("Write SystemMapping <%s>" % mapping.getShortName())
         child_element = ET.SubElement(element, "SYSTEM-MAPPING")
         self.writeIdentifiable(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
+        self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
 
     def writeSystemMappings(self, element: ET.Element, system: System):
