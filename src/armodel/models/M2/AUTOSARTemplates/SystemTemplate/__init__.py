@@ -1,5 +1,9 @@
 from typing import List
+
+
+from ....M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
+from ....M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType
@@ -51,7 +55,7 @@ class SystemMapping(Identifiable):
         self.cryptoServiceMappings = []
         self.dataMappings = []
         self.ddsISignalToTopicMappings = []
-        self.ecuResourceMappings = []
+        self.ecuResourceMappings = []                                                   # type: List[ECUMapping]
         self.j1939ControllerApplicationToJ1939NmNodeMappings = []
         self.mappingConstraints = []
         self.pncMappings = []
@@ -65,8 +69,8 @@ class SystemMapping(Identifiable):
         self.softwareClusterToResourceMappings = []
         self.swClusterMappings = []
         self.swcToApplicationPartitionMappings = []
-        self.swImplMappings = []
-        self.swMappings = []                                                        # type: List[SwcToEcuMapping]
+        self.swImplMappings = []                                                        # type: List[SwcToImplMapping]
+        self.swMappings = []                                                            # type: List[SwcToEcuMapping]
         self.systemSignalGroupToComResourceMappings = []
         self.systemSignalToComResourceMappings = []
 
@@ -115,9 +119,12 @@ class SystemMapping(Identifiable):
     def getEcuResourceMappings(self):
         return self.ecuResourceMappings
 
-    def addEcuResourceMapping(self, value):
-        self.ecuResourceMappings.append(value)
-        return self
+    def createECUMapping(self, short_name: str) -> ECUMapping:
+        if short_name not in self.elements:
+            mapping = ECUMapping(self, short_name)
+            self.addElement(mapping)
+            self.ecuResourceMappings.append(mapping)
+        return self.getElement(short_name)
 
     def getJ1939ControllerApplicationToJ1939NmNodeMappings(self):
         return self.j1939ControllerApplicationToJ1939NmNodeMappings
@@ -210,12 +217,15 @@ class SystemMapping(Identifiable):
         self.swcToApplicationPartitionMappings.append(value)
         return self
 
-    def getSwImplMapping(self):
+    def getSwImplMappings(self):
         return self.swImplMappings
 
-    def addSwImplMappings(self, value):
-        self.swImplMappings.append(value)
-        return self
+    def createSwcToImplMapping(self, short_name: str) -> SwcToImplMapping:
+        if short_name not in self.elements:
+            mapping = SwcToImplMapping(self, short_name)
+            self.addElement(mapping)
+            self.swImplMappings.append(mapping)
+        return self.getElement(short_name)
 
     def getSwMappings(self):
         return self.swMappings

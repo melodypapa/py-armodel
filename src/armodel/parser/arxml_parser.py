@@ -2,6 +2,10 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+
+
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -78,6 +82,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
@@ -3919,23 +3924,54 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "SW-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "SWC-TO-ECU-MAPPING":
-                self.readSwcToEcuMapping(child_element, mapping.createSwcToEcuMapping(self.getShortName(child_element)))
+                swc_to_ecu_mapping = mapping.createSwcToEcuMapping(self.getShortName(child_element))
+                self.readSwcToEcuMapping(child_element, swc_to_ecu_mapping)
             else:
                 self.notImplemented("Unsupported Sw Mapping %s" % tag_name)
 
-    def readSystemMapping(self, element: ET.Element, parent: System):
-        short_name = self.getShortName(element)
-        self.logger.debug("SystemMapping %s" % short_name)
-        mapping = parent.createSystemMapping(short_name)
+    def readEcuMapping(self, element: ET.Element, mapping: ECUMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF")) \
+               .setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF")) 
+
+    def readSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "ECU-RESOURCE-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECU-MAPPING":
+                ecu_mapping = mapping.createECUMapping(self.getShortName(child_element))
+                self.readEcuMapping(child_element, ecu_mapping)
+            else:
+                self.notImplemented("Unsupported EcuResourceMapping <%s>" % tag_name)
+
+    def readSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setComponentImplementationRef(self.getChildElementOptionalRefType(element, "COMPONENT-IMPLEMENTATION-REF"))
+        for child_element in self.findall(element, "COMPONENT-IREFS/COMPONENT-IREF"):
+            mapping.addComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+
+    def readSystemMappingSwImplMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SW-IMPL-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWC-TO-IMPL-MAPPING":
+                sw_impl_mapping = mapping.createSwcToImplMapping(self.getShortName(child_element))
+                self.readSwcToImplMapping(child_element, sw_impl_mapping)
+            else:
+                self.notImplemented("Unsupported SwImplMapping <%s>" % tag_name)
+
+    def readSystemMapping(self, element: ET.Element, mapping: SystemMapping):
+        self.logger.debug("SystemMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
+        self.readSystemMappingEcuResourceMappings(element, mapping)
+        self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
 
     def readSystemMappings(self, element: ET.Element, system: System):
         for child_element in self.findall(element, "MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "SYSTEM-MAPPING":
-                self.readSystemMapping(child_element, system)
+                mapping = system.createSystemMapping(self.getShortName(child_element))
+                self.readSystemMapping(child_element, mapping)
             else:
                 self.notImplemented("Unsupported Mapping %s" % tag_name)
             

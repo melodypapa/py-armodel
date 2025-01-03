@@ -54,9 +54,11 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *
 from .M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
+from .M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *
 from .M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import *
 from .M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import *
+from .M2.AUTOSARTemplates.SystemTemplate.SWmapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import *
