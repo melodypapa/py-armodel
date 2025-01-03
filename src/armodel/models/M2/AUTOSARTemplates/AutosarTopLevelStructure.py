@@ -1,14 +1,15 @@
 from typing import Dict, List
 
 from ...M2.MSR.AsamHdo.SpecialData import Sdg
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...M2.MSR.AsamHdo import AdminData
 from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from ..MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype
 
 class FileInfoComment(ARObject):
     def __init__(self):
@@ -32,6 +33,7 @@ class AbstractAUTOSAR(CollectableElement):
         self.schema_location = ""
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
+        self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
 
         self.adminData = None                               # type: AdminData
         self.arPackages = {}                                # type: Dict[str, ARPackage]
@@ -127,7 +129,17 @@ class AbstractAUTOSAR(CollectableElement):
             raise IndexError("Invalid Implementation data type <%s>" % impl_data_type)
         
         return self.find(self._impl_appl_type_maps[impl_data_type])
+    
+    def getRootSwCompositionPrototype(self):
+        return self.rootSwCompositionPrototype
 
+    def setRootSwCompositionPrototype(self, value):
+        if value is not None:
+            self.rootSwCompositionPrototype = value
+        return self
+
+
+        
     
 class AUTOSAR (AbstractAUTOSAR):        
     __instance = None

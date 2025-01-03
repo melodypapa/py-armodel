@@ -94,7 +94,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology im
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, DoIpTpConfig, LinTpConfig, TpConfig
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):
@@ -2539,10 +2539,50 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setSecureCommunicationProps(child_element, "SECURE-COMMUNICATION-PROPS", i_pdu.getSecureCommunicationProps())
         self.setChildElementOptionalBooleanValue(child_element, "USE-AS-CRYPTOGRAPHIC-I-PDU", i_pdu.getUseAsCryptographicIPdu())
 
+    def writeTpConfig(self, element: ET.Element, config: TpConfig):
+        self.writeIdentifiable(element, config)
+        self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", config.getCommunicationClusterRef())
+
+    def writeCanTpAddress(self, element: ET.Element, address: CanTpAddress):
+        if address is not None:
+            child_element = ET.SubElement(element, "CAN-TP-ADDRESS")
+            self.writeIdentifiable(child_element, address)
+            self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
+            self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS-EXTENSION-VALUE", address.getTpAddressExtensionValue())
+
+    def writeCanTpConfigTpAddresses(self, element: ET.Element, config: CanTpConfig):
+        addresses = config.getTpAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "TP-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, CanTpAddress):
+                    self.writeCanTpAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpAddress <%s>" % type(address))
+
+    def writeCanTpChannel(self, element: ET.Element, channel: CanTpChannel):
+        if channel is not None:
+            child_element = ET.SubElement(element, "CAN-TP-CHANNEL")
+            self.writeIdentifiable(child_element, channel)
+            self.setChildElementOptionalPositiveInteger(child_element, "CHANNEL-ID", channel.getChannelId())
+            self.setChildElementOptionalLiteral(child_element, "CHANNEL-MODE", channel.getChannelMode())
+
+    def writeCanTpConfigTpChannels(self, element: ET.Element, config: CanTpConfig):
+        channels = config.getTpChannels()
+        if len(channels) > 0:
+            child_element = ET.SubElement(element, "TP-CHANNELS")
+            for channel in channels:
+                if isinstance(channel, CanTpChannel):
+                    self.writeCanTpChannel(child_element, channel)
+                else:
+                    self.notImplemented("Unsupported TpChannel <%s>" % type(channel))
+
     def writeCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Write CanTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "CAN-TP-CONFIG")
-        self.writeIdentifiable(child_element, config)
+        self.writeTpConfig(child_element, config)
+        self.writeCanTpConfigTpAddresses(child_element, config)
+        self.writeCanTpConfigTpChannels(child_element, config)
 
     def writeLinTpConfig(self, element: ET.Element, config: LinTpConfig):
         self.logger.debug("Write LinTpConfig <%s>" % config.getShortName())

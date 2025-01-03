@@ -94,7 +94,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEnd
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo, CouplingPortScheduler, CouplingPortStructuralElement, EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, EthernetPriorityRegeneration, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig, VlanMembership
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, DoIpTpConfig, LinTpConfig, TpConfig
 
 from .abstract_arxml_parser import AbstractARXMLParser
 
@@ -3248,13 +3248,47 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmConfigNmClusterCouplings(element, config)
         self.readNmConfigNmIfEcus(element, config)
 
+    def readTpConfig(self, element: ET.Element, config: TpConfig):
+        self.readIdentifiable(element, config)
+        config.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF"))
+
+    def readCanTpAddress(self, element: ET.Element, address: CanTpAddress):
+        self.readIdentifiable(element, address)
+        address.setTpAddress(self.getChildElementOptionalIntegerValue(element, "TP-ADDRESS")) \
+               .setTpAddressExtensionValue(self.getChildElementOptionalIntegerValue(element, "TP-ADDRESS-EXTENSION-VALUE"))
+
+    def readCanTpConfigTpAddresses(self, element: ET.Element, config: CanTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-TP-ADDRESS":
+                address = config.createCanTpAddress(self.getShortName(child_element))
+                self.readCanTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readCanTpChannel(self, element: ET.Element, channel: CanTpChannel):
+        self.readIdentifiable(element, channel)
+        channel.setChannelId(self.getChildElementOptionalPositiveInteger(element, "CHANNEL-ID")) \
+               .setChannelMode(self.getChildElementOptionalLiteral(element, "CHANNEL-MODE"))
+
+    def readCanTpConfigTpChannels(self, element: ET.Element, config: CanTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-TP-CHANNEL":
+                channel = config.createCanTpChannel(self.getShortName(child_element))
+                self.readCanTpChannel(child_element, channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
     def readCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Read CanTpConfig <%s>" % config.getShortName())
-        self.readIdentifiable(element, config)
+        self.readTpConfig(element, config)
+        self.readCanTpConfigTpAddresses(element, config)
+        self.readCanTpConfigTpChannels(element, config)
 
     def readLinTpConfig(self, element: ET.Element, config: LinTpConfig):
         self.logger.debug("Read LinTpConfig <%s>" % config.getShortName())
-        self.readIdentifiable(element, config)
+        self.readTpConfig(element, config)
 
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
@@ -3914,6 +3948,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, prototype)
             prototype.setFlatMapRef(self.getChildElementOptionalRefType(child_element, "FLAT-MAP-REF")) \
                      .setSoftwareCompositionTRef(self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF"))
+            AUTOSAR.getInstance().setRootSwCompositionPrototype(prototype)
             
     def readSystemFibexElementRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
