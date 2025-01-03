@@ -488,4 +488,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SDG
    * DATA-FILTER
    * USER-DEFINED-PDU
-
+3. Access the RootSwCompositionPrototype directly from AUTOSAR instance 
