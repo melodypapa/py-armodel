@@ -236,7 +236,7 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name)
 
     def createCompuMethod(self, short_name: str) -> CompuMethod:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             compu_method = CompuMethod(self, short_name)
             self.addElement(compu_method)
         return self.getElement(short_name)
