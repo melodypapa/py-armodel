@@ -491,3 +491,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * DATA-FILTER
    * USER-DEFINED-PDU
 3. Access the RootSwCompositionPrototype directly from AUTOSAR instance 
+4. Create the mapping for Implementation and InternalBehavior
+   * AUTOSAR::getBehavior()
+   * AUTOSAR::getImplementation()
+5. Improve the Identifiable::setCategory with Raw String

@@ -1,5 +1,9 @@
 import filecmp
+from typing import List
 
+from ....models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
+from ....models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from .... import AUTOSAR
@@ -147,7 +151,7 @@ class TestBswMD:
         assert(len(code_desc.getArtifactDescriptors("SWHDR")) == 15)
         assert(len(code_desc.getArtifactDescriptors("SWMAKE")) == 2)
 
-        artifact_descs = sorted(code_desc.getArtifactDescriptors("SWMAKE"), key = lambda o: o.getShortLabel().getValue())
+        artifact_descs = sorted(code_desc.getArtifactDescriptors("SWMAKE"), key = lambda o: o.getShortLabel().getValue())       # type: List[AutosarEngineeringObject]
         assert(artifact_descs[0].getShortLabel().getValue() == "make::BswM_defs.mak")
         assert(artifact_descs[0].getCategory().getValue() == "SWMAKE")
         assert(artifact_descs[1].getShortLabel().getValue() == "make::BswM_rules.mak")
@@ -178,7 +182,19 @@ class TestBswMD:
         assert(impl.behaviorRef.getDest() == "BSW-INTERNAL-BEHAVIOR")
         assert(impl.behaviorRef.getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
 
-    
+    def test_get_implementation(self):
+        document = AUTOSAR.getInstance()
+        impl = document.getImplementation("/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        assert(impl.getFullName() == "/EB_BswM_TxDxM1I14R0/Implementations/BswImplementation_0")
+        assert(isinstance(impl, BswImplementation))
+
+    def test_get_behavior(self):
+        document = AUTOSAR.getInstance()
+        behavior = document.getBehavior("/EB_BswM_TxDxM1I14R0/Implementations/BswImplementation_0")
+        assert(behavior.getFullName() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0")
+        assert(isinstance(behavior, BswInternalBehavior))
+
+
     def test_load_save(self):
         document = AUTOSAR.getInstance()
         document.clear()

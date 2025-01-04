@@ -52,6 +52,7 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents impo
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *
+from .M2.AUTOSARTemplates.SystemTemplate import *
 from .M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
 from .M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *

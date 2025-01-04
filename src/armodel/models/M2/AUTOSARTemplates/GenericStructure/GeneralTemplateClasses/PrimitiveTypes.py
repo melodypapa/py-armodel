@@ -21,7 +21,9 @@ class ARType(metaclass = ABCMeta):
         return self.value
 
     def setValue(self, val):
-        self.value = val
+        if val is not None:
+            self.value = val
+        return self
 
     def getText(self) -> str:
         return str(self)

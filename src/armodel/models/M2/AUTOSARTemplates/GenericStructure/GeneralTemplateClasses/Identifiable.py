@@ -120,7 +120,10 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
         return self.category
 
     def setCategory(self, value):
-        self.category = value
+        if isinstance(value, str):
+            self.category = CategoryString().setValue(value)
+        else:
+            self.category = value
         return self
     
     def getIntroduction(self):

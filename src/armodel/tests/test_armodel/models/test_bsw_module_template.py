@@ -1,10 +1,9 @@
 import pytest
 
 from ....models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-
 from ....models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswModuleEntity
-
 from ....models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from .... import AUTOSAR
 
 class TestBswModuleDescription:
@@ -24,7 +23,10 @@ class TestBswModuleDescription:
         #assert(str(err.value) == "Invalid category <invalid> of BswModuleDescription <bsw_module>")
 
         bsw_module_description.setCategory("BSW_MODULE")
-        assert(bsw_module_description.getCategory() == "BSW_MODULE")
+        assert(bsw_module_description.getCategory().getValue() == "BSW_MODULE")
+
+        bsw_module_description.setCategory(CategoryString().setValue("BSW_MODULE"))
+        assert(bsw_module_description.getCategory().getValue() == "BSW_MODULE")
 
 class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswInterfaces:
     def test_BswModuleEntry(self):
