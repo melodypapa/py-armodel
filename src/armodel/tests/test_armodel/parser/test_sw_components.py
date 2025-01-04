@@ -1,5 +1,8 @@
 import filecmp
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
+
+from ....models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType
 from ....writer.arxml_writer import ARXMLWriter
 from ....parser.arxml_parser import ARXMLParser
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -17,6 +20,24 @@ class TestSWComponents:
 
         assert(len(root_pkgs) == 1)
         assert("DemoApplication" == root_pkgs[0].getShortName())
+
+    def test_sw_component(self):
+        document = AUTOSAR.getInstance()
+        sw_component = document.find("/DemoApplication/SwComponentTypes/SWC_CyclicCounter")
+        assert(sw_component.getShortName() == 'SWC_CyclicCounter')
+        assert(isinstance(sw_component, AtomicSwComponentType))
+
+    def test_get_implementation(self):
+        document = AUTOSAR.getInstance()
+        impl = document.getImplementation("/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter")
+        assert(impl.getFullName() == "/DemoApplication/SwcImplementations/Impl_SWC_CyclicCounter")
+        assert(isinstance(impl, SwcImplementation))
+
+    def test_get_behavior(self):
+        document = AUTOSAR.getInstance()
+        behavior = document.getBehavior("/DemoApplication/SwcImplementations/Impl_SWC_CyclicCounter")
+        assert(behavior.getFullName() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter")
+        assert(isinstance(behavior, InternalBehavior))
 
     def test_composition_sw_component_types(self):
         document = AUTOSAR.getInstance()

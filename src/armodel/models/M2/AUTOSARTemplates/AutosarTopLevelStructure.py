@@ -1,15 +1,18 @@
 from typing import Dict, List
 
+
 from ...M2.MSR.AsamHdo.SpecialData import Sdg
 from ...M2.MSR.AsamHdo import AdminData
 from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from ...M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from ...M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype
+from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
 
 class FileInfoComment(ARObject):
     def __init__(self):
@@ -33,6 +36,12 @@ class AbstractAUTOSAR(CollectableElement):
         self.schema_location = ""
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
+
+        self._behavior_impl_maps = {}                       # type: Dict[str, str]
+        self._impl_behavior_maps = {}                       # type: Dict[str, str]
+
+        self.systems = {}                                   # type: Dict[str, System]
+
         self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
 
         self.adminData = None                               # type: AdminData
@@ -138,9 +147,27 @@ class AbstractAUTOSAR(CollectableElement):
             self.rootSwCompositionPrototype = value
         return self
 
+    def addImplementationBehaviorMap(self, impl: str, behavior: str) -> Implementation:
+        self._behavior_impl_maps[behavior] = impl
+        self._impl_behavior_maps[impl] = behavior
 
-        
+    def getBehavior(self, impl_ref: str) -> InternalBehavior:
+        if impl_ref in self._impl_behavior_maps:
+            return self.find(self._impl_behavior_maps[impl_ref])
+        return None
+
+    def getImplementation(self, behavior_ref:str):
+        if behavior_ref in self._behavior_impl_maps:
+            return self.find(self._behavior_impl_maps[behavior_ref])
+        return None
     
+    def addSystem(self, system: System):
+        short_name = system.getShortName()
+        if  short_name not in self.systems:
+            self.systems[short_name] = system
+    
+    def getSystems(self) -> List[System]:
+        return list(sorted(self.systems.values(), key = lambda a: a.getShortName()))
 class AUTOSAR (AbstractAUTOSAR):        
     __instance = None
 

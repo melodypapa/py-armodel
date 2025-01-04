@@ -287,23 +287,49 @@ class AtomicSwComponentType(SwComponentType, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.internalBehavior = None                        # type: SwcInternalBehavior
+        self.symbolProps = None                             # type: SymbolProps
+
+    def getInternalBehavior(self):
+        return self.internalBehavior
+
     def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
         if (short_name not in self.elements):
             if (len(list(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))) >= 1):
                 raise ValueError("The internal behavior of <%s> can not more than 1" % self.short_name)
             behavior = SwcInternalBehavior(self, short_name)
             self.elements[short_name] = behavior
+            self.internalBehavior = behavior
         return self.elements[short_name]
 
+    def getSymbolProps(self):
+        return self.symbolProps
+
+    def setSymbolProps(self, value):
+        if value is not None:
+            self.symbolProps = value
+        return self
+
+    '''
     @property
     def internal_behavior(self) -> SwcInternalBehavior:
         return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))
+    '''
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.hardwareElementRefs = []                                   # List[RefType]
 
+    def getHardwareElementRefs(self):
+        return self.hardwareElementRefs
+
+    def addHardwareElementRefs(self, value):
+        if value is not None:
+            self.hardwareElementRefs.append(value)
+        return self
+    
 class ApplicationSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -313,12 +339,39 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.hardwareElementRefs = []                                   # List[RefType]
 
+    def getHardwareElementRefs(self):
+        return self.hardwareElementRefs
+
+    def addHardwareElementRefs(self, value):
+        if value is not None:
+            self.hardwareElementRefs.append(value)
+        return self
+    
 class NvBlockSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.bulkNvDataDescriptors = []                                 # type: List[BulkNvDataDescriptor]
+        self.nvBlockDescriptors = []                                    # type: List[NvBlockDescriptor]
 
+    def getBulkNvDataDescriptors(self):
+        return self.bulkNvDataDescriptors
+
+    def addBulkNvDataDescriptor(self, value):
+        if value is not None:
+            self.bulkNvDataDescriptors.append(value)
+        return self
+
+    def getNvBlockDescriptors(self):
+        return self.nvBlockDescriptors
+
+    def setNvBlockDescriptor(self, value):
+        if value is not None:
+            self.nvBlockDescriptors.append(value)
+        return self
+    
 class SensorActuatorSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

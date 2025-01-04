@@ -3,13 +3,11 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiabl
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 
-
 class SwcToImplMapping(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        # type: List[ComponentInSystemInstanceRef]
-        self.componentIRefs = []
+        self.componentIRefs = []                                    # type: List[ComponentInSystemInstanceRef]
         self.componentImplementationRef = None                      # type: RefType
 
     def getComponentIRefs(self):

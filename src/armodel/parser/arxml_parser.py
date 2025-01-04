@@ -816,11 +816,13 @@ class ARXMLParser(AbstractARXMLParser):
         impl.setArReleaseVersion(self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION")) \
             .setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
         self.readBswImplementationVendorSpecificModuleDefRefs(element, impl)
+        AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), impl.getBehaviorRef().getValue())
 
     def readSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("Read SwcImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+        AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), impl.getBehaviorRef().getValue())
 
     def readDataReceivePointByArguments(self, element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
@@ -3998,6 +4000,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappings(element, system)
         self.readRootSwCompositionPrototype(element, system)
         system.setSystemVersion(self.getChildElementOptionalRevisionLabelString(element, "SYSTEM-VERSION"))
+        AUTOSAR.getInstance().addSystem(system)
 
     def readGenericEthernetFrame(self, element: ET.Element, frame: GenericEthernetFrame):
         self.logger.debug("Read GenericEthernetFrame <%s>" % frame.getShortName())
