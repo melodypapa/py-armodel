@@ -482,6 +482,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SO-AD-ROUTING-GROUP
    * ECU-RESOURCE-MAPPINGS
    * SW-IMPL-MAPPINGS
+   * CAN-TP-CONFIG
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE

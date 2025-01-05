@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -69,7 +69,9 @@ class CanTpChannel(Identifiable):
             self.channelMode = value
         return self
 
-    
+class TpConnectionIdent(Referrable):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)    
 
 class TpConnection(ARObject, metaclass = ABCMeta):
     def __init__(self):
@@ -83,11 +85,10 @@ class TpConnection(ARObject, metaclass = ABCMeta):
     def getIdent(self):
         return self.ident
 
-    def setIdent(self, value):
-        if value is not None:
-            self.ident = value
-        return self
-
+    def createTpConnectionIdent(self, short_name: str):
+        ident = TpConnectionIdent(self, short_name)
+        self.ident = ident
+        return ident
 
 class CanTpConnection(TpConnection):
     def __init__(self):
@@ -101,7 +102,7 @@ class CanTpConnection(TpConnection):
         self.maxBlockSize = None                                        # type: Integer
         self.multicastRef = None                                        # type: RefType
         self.paddingActivation = None                                   # type: Boolean
-        self.receiverRef = None                                         # type: RefType
+        self.receiverRefs = []                                          # type: List[RefType]
         self.taType = None                                              # type: NetworkTargetAddressType
         self.timeoutBr = None                                           # type: TimeValue
         self.timeoutBs = None                                           # type: TimeValue
@@ -174,12 +175,12 @@ class CanTpConnection(TpConnection):
             self.paddingActivation = value
         return self
 
-    def getReceiverRef(self):
-        return self.receiverRef
+    def getReceiverRefs(self):
+        return self.receiverRefs
 
-    def setReceiverRef(self, value):
+    def addReceiverRef(self, value):
         if value is not None:
-            self.receiverRef = value
+            self.receiverRefs.append(value) 
         return self
 
     def getTaType(self):
@@ -238,6 +239,89 @@ class CanTpConnection(TpConnection):
             self.transmitterRef = value
         return self
 
+class CanTpEcu(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.cycleTimeMainFunction = None                               # type: TimeValue
+        self.ecuInstanceRef = None                                      # type: RefType
+
+    def getCycleTimeMainFunction(self):
+        return self.cycleTimeMainFunction
+
+    def setCycleTimeMainFunction(self, value):
+        if value is not None:
+            self.cycleTimeMainFunction = value
+        return self
+
+    def getEcuInstanceRef(self):
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value):
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+    
+class CanTpNode(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.connectorRef = None                                        # type: RefType
+        self.maxFcWait = None                                           # type: Integer
+        self.stMin = None                                               # type: TimeValue
+        self.timeoutAr = None                                           # type: TimeValue
+        self.timeoutAs = None                                           # type: TimeValue
+        self.tpAddressRef = None                                        # type: RefType
+
+    def getConnectorRef(self):
+        return self.connectorRef
+
+    def setConnectorRef(self, value):
+        if value is not None:
+            self.connectorRef = value
+        return self
+
+    def getMaxFcWait(self):
+        return self.maxFcWait
+
+    def setMaxFcWait(self, value):
+        if value is not None:
+            self.maxFcWait = value
+        return self
+
+    def getStMin(self):
+        return self.stMin
+
+    def setStMin(self, value):
+        if value is not None:
+            self.stMin = value
+        return self
+
+    def getTimeoutAr(self):
+        return self.timeoutAr
+
+    def setTimeoutAr(self, value):
+        if value is not None:
+            self.timeoutAr = value
+        return self
+    
+    def getTimeoutAs(self):
+        return self.timeoutAs
+
+    def setTimeoutAs(self, value):
+        if value is not None:
+            self.timeoutAs = value
+        return self
+    
+    def getTpAddressRef(self):
+        return self.tpAddressRef
+
+    def setTpAddressRef(self, value):
+        if value is not None:
+            self.tpAddressRef = value
+        return self
+
+
 
 class CanTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
@@ -271,32 +355,29 @@ class CanTpConfig(TpConfig):
 
     def getTpConnections(self):
         return self.tpConnections
-
-    def setTpConnections(self, value):
+    
+    def addTpConnection(self, value):
         if value is not None:
-            self.tpConnections = value
+            self.tpConnections.append(value)
         return self
 
     def getTpEcus(self):
         return self.tpEcus
 
-    def setTpEcus(self, value):
+    def addTpEcu(self, value):
         if value is not None:
-            self.tpEcus = value
+            self.tpEcus.append(value)
         return self
 
     def getTpNodes(self):
         return self.tpNodes
 
-    def setTpNodes(self, value):
-        if value is not None:
-            self.tpNodes = value
-        return self
-
-        
-
-    
-
+    def createCanTpNode(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            address = CanTpNode(self, short_name)
+            self.addElement(address)
+            self.tpNodes.append(address)
+        return self.getElement(short_name)
 
 class DoIpTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
