@@ -483,6 +483,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ECU-RESOURCE-MAPPINGS
    * SW-IMPL-MAPPINGS
    * CAN-TP-CONFIG
+   * DO-IP-TP-CONFIG
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE

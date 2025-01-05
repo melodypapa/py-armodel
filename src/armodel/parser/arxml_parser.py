@@ -99,7 +99,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEnd
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo, CouplingPortScheduler, CouplingPortStructuralElement, EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, EthernetPriorityRegeneration, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig, VlanMembership
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpTpConfig, LinTpConfig, TpConfig, TpConnection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig, TpConfig, TpConnection
 
 from .abstract_arxml_parser import AbstractARXMLParser
 
@@ -3009,9 +3009,40 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, group)
         group.setEventGroupControlType(self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE"))
 
+    def readDoIpLogicAddress(self, element: ET.Element, address: DoIpLogicAddress):
+        self.readIdentifiable(element, address)
+        address.setAddress(self.getChildElementOptionalIntegerValue(element, "ADDRESS"))
+
+    def readDoIpTpConfigDoIpLogicAddresses(self, element: ET.Element, config: DoIpTpConfig):
+        for child_element in self.findall(element, "DO-IP-LOGIC-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DO-IP-LOGIC-ADDRESS":
+                address = config.createDoIpLogicAddress(self.getShortName(child_element))
+                self.readDoIpLogicAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported DoIpLogicAddress <%s>" % tag_name)
+
+    def readDoIpTpConnection(self, element: ET.Element, connection: DoIpTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setDoIpSourceAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-SOURCE-ADDRESS-REF")) \
+                  .setDoIpTargetAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-TARGET-ADDRESS-REF")) \
+                  .setTpSduRef(self.getChildElementOptionalRefType(element, "TP-SDU-REF"))
+
+    def readDoIpTpConfigTpConnections(self, element: ET.Element, config: DoIpTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DO-IP-TP-CONNECTION":
+                connection = DoIpTpConnection()
+                self.readDoIpTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
     def readDoIpTpConfig(self, element: ET.Element, config: DoIpTpConfig):
         self.logger.debug("Read DoIpTpConfig <%s>" % config.getShortName())
-        self.readIdentifiable(element, config)
+        self.readTpConfig(element, config)
+        self.readDoIpTpConfigDoIpLogicAddresses(element, config)
+        self.readDoIpTpConfigTpConnections(element, config)
 
     def readPduToFrameMappings(self, element: ET.Element, parent: Frame):
         for child_element in self.findall(element, "PDU-TO-FRAME-MAPPINGS/PDU-TO-FRAME-MAPPING"):

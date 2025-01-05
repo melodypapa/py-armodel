@@ -97,7 +97,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology im
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpTpConfig, LinTpConfig, TpConfig, TpConnection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig, TpConfig, TpConnection
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):
@@ -2675,7 +2675,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeLinTpConfig(self, element: ET.Element, config: LinTpConfig):
         self.logger.debug("Write LinTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "LIN-TP-CONFIG")
-        self.writeIdentifiable(child_element, config)
+        self.writeTpConfig(child_element, config)
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         ref_list = triggering.getFramePortRefs()
@@ -4098,10 +4098,46 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, group)
         self.setChildElementOptionalLiteral(child_element, "EVENT-GROUP-CONTROL-TYPE", group.getEventGroupControlType())
 
+    def writeDoIpLogicAddress(self, element: ET.Element, address: DoIpLogicAddress):
+        if address is not None:
+            child_element = ET.SubElement(element, "DO-IP-LOGIC-ADDRESS")
+            self.writeIdentifiable(child_element, address)
+            self.setChildElementOptionalIntegerValue(child_element, "ADDRESS", address.getAddress())
+
+    def writeDoIpTpConfigDoIpLogicAddresses(self, element: ET.Element, config: DoIpTpConfig):
+        addresses = config.getDoIpLogicAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "DO-IP-LOGIC-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, DoIpLogicAddress):
+                    self.writeDoIpLogicAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported DoIpLogicAddress <%s>" % type(address))
+
+    def writeDoIpTpConnection(self, element: ET.Element, connection: DoIpTpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "DO-IP-TP-CONNECTION")
+            self.writeTpConnection(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "DO-IP-SOURCE-ADDRESS-REF", connection.getDoIpSourceAddressRef())
+            self.setChildElementOptionalRefType(child_element, "DO-IP-TARGET-ADDRESS-REF", connection.getDoIpTargetAddressRef())
+            self.setChildElementOptionalRefType(child_element, "TP-SDU-REF", connection.getTpSduRef())
+
+    def writeDoIpTpConfigTpConnections(self, element: ET.Element, config: DoIpTpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for address in connections:
+                if isinstance(address, DoIpTpConnection):
+                    self.writeDoIpTpConnection(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(address))
+
     def writeDoIpTpConfig(self, element: ET.Element, config: DoIpTpConfig):
         self.logger.debug("Write DoIpTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "DO-IP-TP-CONFIG")
-        self.writeIdentifiable(child_element, config)
+        self.writeTpConfig(child_element, config)
+        self.writeDoIpTpConfigDoIpLogicAddresses(child_element, config)
+        self.writeDoIpTpConfigTpConnections(child_element, config)
 
     def writeLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.writeCommunicationController(element, controller)
