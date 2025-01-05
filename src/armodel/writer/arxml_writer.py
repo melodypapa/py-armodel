@@ -97,7 +97,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology im
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig, TpConfig, TpConnection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig, LinTpConnection, LinTpNode, TpAddress, TpConfig, TpConnection
 
 from .abstract_arxml_writer import AbstractARXMLWriter
 class ARXMLWriter(AbstractARXMLWriter):
@@ -2587,7 +2587,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "IDENT")
             self.writeReferrable(child_element, ident)
 
-    def writeCanTpConnectionReceiverRefs(self, element: ET.Element, connection: CanTpConnection):
+    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: CanTpConnection):
         refs = connection.getReceiverRefs()
         if len(refs) > 0:
             child_element = ET.SubElement(element, "RECEIVER-REFS")
@@ -2606,7 +2606,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "MAX-BLOCK-SIZE", connection.getMaxBlockSize())
             self.setChildElementOptionalRefType(child_element, "MULTICAST-REF", connection.getMulticastRef())
             self.setChildElementOptionalBooleanValue(child_element, "PADDING-ACTIVATION", connection.getPaddingActivation())
-            self.writeCanTpConnectionReceiverRefs(child_element, connection)
+            self.writeTpConnectionReceiverRefs(child_element, connection)
             self.setChildElementOptionalLiteral(child_element, "TA-TYPE", connection.getTaType())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-BR", connection.getTimeoutBr())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-BS", connection.getTimeoutBs())
@@ -2662,6 +2662,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported TpNode <%s>" % type(tp_node))
 
+
     def writeCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Write CanTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "CAN-TP-CONFIG")
@@ -2672,10 +2673,72 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCanTpConfigTpEcus(child_element, config)
         self.writeCanTpConfigTpNodes(child_element, config)
 
+    def writeTpAddress(self, element: ET.Element, address: TpAddress):
+        if address is not None:
+            child_element = ET.SubElement(element, "TP-ADDRESS")
+            self.writeIdentifiable(child_element, address)
+            self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
+
+    def writeLinTpConfigTpAddresses(self, element: ET.Element, config: CanTpConfig):
+        addresses = config.getTpAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "TP-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, TpAddress):
+                    self.writeTpAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpAddress <%s>" % type(address))
+
+    def writeLinTpConnection(self, element: ET.Element, connection: LinTpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "LIN-TP-CONNECTION")
+            self.writeTpConnection(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "DATA-PDU-REF", connection.getDataPduRef())
+            self.setChildElementOptionalRefType(child_element, "FLOW-CONTROL-REF", connection.getFlowControlRef())
+            self.setChildElementOptionalRefType(child_element, "LIN-TP-N-SDU-REF", connection.getLinTpNSduRef())
+            self.writeTpConnectionReceiverRefs(child_element, connection)
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-AS", connection.getTimeoutAs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CR", connection.getTimeoutCr())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CS", connection.getTimeoutCs())
+            self.setChildElementOptionalRefType(child_element, "TRANSMITTER-REF", connection.getTransmitterRef())
+
+    def writeLinTpConfigTpConnections(self, element: ET.Element, config: LinTpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, LinTpConnection):
+                    self.writeLinTpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
+
+    def writeLinTpNode(self, element: ET.Element, tp_node: LinTpNode):
+        if tp_node is not None:
+            child_element = ET.SubElement(element, "LIN-TP-NODE")
+            self.writeIdentifiable(child_element, tp_node)
+            self.setChildElementOptionalRefType(child_element, "CONNECTOR-REF", tp_node.getConnectorRef())
+            self.setChildElementOptionalBooleanValue(element, "DROP-NOT-REQUESTED-NAD", tp_node.getDropNotRequestedNad())
+            self.setChildElementOptionalTimeValue(child_element, "P-2-MAX", tp_node.getP2Max())
+            self.setChildElementOptionalTimeValue(child_element, "P-2-TIMING", tp_node.getP2Timing())
+            self.setChildElementOptionalRefType(child_element, "TP-ADDRESS-REF", tp_node.getTpAddressRef())
+
+    def writeLinTpConfigTpNodes(self, element: ET.Element, config: LinTpConfig):
+        tp_nodes = config.getTpNodes()
+        if len(tp_nodes) > 0:
+            child_element = ET.SubElement(element, "TP-NODES")
+            for tp_node in tp_nodes:
+                if isinstance(tp_node, LinTpNode):
+                    self.writeLinTpNode(child_element, tp_node)
+                else:
+                    self.notImplemented("Unsupported TpNode <%s>" % type(tp_node))
+
     def writeLinTpConfig(self, element: ET.Element, config: LinTpConfig):
         self.logger.debug("Write LinTpConfig <%s>" % config.getShortName())
         child_element = ET.SubElement(element, "LIN-TP-CONFIG")
         self.writeTpConfig(child_element, config)
+        self.writeLinTpConfigTpAddresses(child_element, config)
+        self.writeLinTpConfigTpConnections(child_element, config)
+        self.writeLinTpConfigTpNodes(child_element, config)
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         ref_list = triggering.getFramePortRefs()
