@@ -53,6 +53,7 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall imp
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *
 from .M2.AUTOSARTemplates.SystemTemplate import *
+from .M2.AUTOSARTemplates.SystemTemplate.DoIp import *
 from .M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
 from .M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *

@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
+from ....M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
@@ -8,8 +9,8 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 
 class TpConfig(FibexElement, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ARObject:
-            raise NotImplementedError("ARObject is an abstract class.")
+        if type(self) == TpConfig:
+            raise NotImplementedError("TpConfig is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -378,21 +379,79 @@ class CanTpConfig(TpConfig):
             self.addElement(address)
             self.tpNodes.append(address)
         return self.getElement(short_name)
+    
+class DoIpLogicAddress(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.address = None                                         # type: Integer
+        self.doIpLogicAddressProps = None                           # type: AbstractDoIpLogicAddressProps
+
+    def getAddress(self):
+        return self.address
+
+    def setAddress(self, value):
+        if value is not None:
+            self.address = value
+        return self
+
+    def getDoIpLogicAddressProps(self):
+        return self.doIpLogicAddressProps
+
+    def setDoIpLogicAddressProps(self, value):
+        if value is not None:
+            self.doIpLogicAddressProps = value
+        return self
+
+class DoIpTpConnection(TpConnection):
+    def __init__(self):
+        super().__init__()
+
+        self.doIpSourceAddressRef = None                            # type: RefType
+        self.doIpTargetAddressRef = None                            # type: RefType
+        self.tpSduRef = None                                        # type: RefType
+
+    def getDoIpSourceAddressRef(self):
+        return self.doIpSourceAddressRef
+
+    def setDoIpSourceAddressRef(self, value):
+        if value is not None:
+            self.doIpSourceAddressRef = value
+        return self
+
+    def getDoIpTargetAddressRef(self):
+        return self.doIpTargetAddressRef
+
+    def setDoIpTargetAddressRef(self, value):
+        if value is not None:
+            self.doIpTargetAddressRef = value
+        return self
+
+    def getTpSduRef(self):
+        return self.tpSduRef
+
+    def setTpSduRef(self, value):
+        if value is not None:
+            self.tpSduRef = value
+        return self
+
 
 class DoIpTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.doIpLogicAddresses = []                                # type: List[DoIpLogicAddress]
-        self.tpConnections = []                                     # typeL List[DoIpTpConnection]
+        self.tpConnections = []                                     # type: List[DoIpTpConnection]
 
     def getDoIpLogicAddresses(self):
         return self.doIpLogicAddresses
 
-    def addDoIpLogicAddress(self, value):
-        if value is not None:
-            self.doIpLogicAddresses.append(value)
-        return self
+    def createDoIpLogicAddress(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            address = DoIpLogicAddress(self, short_name)
+            self.addElement(address)
+            self.doIpLogicAddresses.append(address)
+        return self.getElement(short_name)
 
     def getTpConnections(self):
         return self.tpConnections
