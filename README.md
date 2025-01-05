@@ -321,7 +321,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NM-CLUSTER
    * CAN-NM-MODE
    * NM-ECU
-   * LIN-TP-CONFIG
    * SECURED-I-PDU
    * MODE-SWITCH-POINTS
  4. Create the CLI (armodel-system-signal) to list all the system signals
@@ -431,7 +430,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * GENERAL-PURPOSE-PDU
    * SECURE-COMMUNICATION-PROPS-SET
    * SO-AD-ROUTING-GROUP
-   * DO-IP-TP-CONFIG
    * BUS-OFF-RECOVERY
    * SCHEDULE-TABLES
    * INFRASTRUCTURE-SERVICES
@@ -484,6 +482,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SW-IMPL-MAPPINGS
    * CAN-TP-CONFIG
    * DO-IP-TP-CONFIG
+   * LIN-TP-CONFIG
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE

@@ -460,7 +460,167 @@ class DoIpTpConfig(TpConfig):
         if value is not None:
             self.tpConnections.append(value)
         return self
+        
+class TpAddress(Identifiable):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
 
+        self.tpAddress = None                                       # type: Integer
+
+    def getTpAddress(self):
+        return self.tpAddress
+
+    def setTpAddress(self, value):
+        if value is not None:
+            self.tpAddress = value
+        return self
+    
+class LinTpConnection(TpConnection):
+    def __init__(self):
+        super().__init__()
+
+        self.dataPduRef = None                                      # type: RefType
+        self.flowControlRef = None                                  # type: RefType
+        self.linTpNSduRef = None                                    # type: RefType
+        self.multicastRef = None                                    # type: RefType
+        self.receiverRefs = []                                      # type: List[RefType]
+        self.timeoutAs = None                                       # type: TimeValue
+        self.timeoutCr = None                                       # type: TimeValue
+        self.timeoutCs = None                                       # type: TimeValue
+        self.transmitterRef = None                                  # type: RefType
+
+    def getDataPduRef(self):
+        return self.dataPduRef
+
+    def setDataPduRef(self, value):
+        if value is not None:
+            self.dataPduRef = value
+        return self
+
+    def getFlowControlRef(self):
+        return self.flowControlRef
+
+    def setFlowControlRef(self, value):
+        if value is not None:
+            self.flowControlRef = value
+        return self
+
+    def getLinTpNSduRef(self):
+        return self.linTpNSduRef
+
+    def setLinTpNSduRef(self, value):
+        if value is not None:
+            self.linTpNSduRef = value
+        return self
+
+    def getMulticastRef(self):
+        return self.multicastRef
+
+    def setMulticastRef(self, value):
+        if value is not None:
+            self.multicastRef = value
+        return self
+
+    def getReceiverRefs(self):
+        return self.receiverRefs
+
+    def addReceiverRef(self, value):
+        if value is not None:
+            self.receiverRefs.append(value)
+        return self
+
+    def getTimeoutAs(self):
+        return self.timeoutAs
+
+    def setTimeoutAs(self, value):
+        if value is not None:
+            self.timeoutAs = value
+        return self
+
+    def getTimeoutCr(self):
+        return self.timeoutCr
+
+    def setTimeoutCr(self, value):
+        if value is not None:
+            self.timeoutCr = value
+        return self
+
+    def getTimeoutCs(self):
+        return self.timeoutCs
+
+    def setTimeoutCs(self, value):
+        if value is not None:
+            self.timeoutCs = value
+        return self
+
+    def getTransmitterRef(self):
+        return self.transmitterRef
+
+    def setTransmitterRef(self, value):
+        if value is not None:
+            self.transmitterRef = value
+        return self
+
+class LinTpNode(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.connectorRef = None                                    # type: RefType
+        self.dropNotRequestedNad = None                             # type: Boolean
+        self.maxNumberOfRespPendingFrames = None                    # type: Integer
+        self.p2Max = None                                           # type: TimeValue
+        self.p2Timing = None                                        # type: TimeValue
+        self.tpAddressRef = None                                    # type: RefType
+
+    def getConnectorRef(self):
+        return self.connectorRef
+
+    def setConnectorRef(self, value):
+        if value is not None:
+            self.connectorRef = value
+        return self
+
+    def getDropNotRequestedNad(self):
+        return self.dropNotRequestedNad
+
+    def setDropNotRequestedNad(self, value):
+        if value is not None:
+            self.dropNotRequestedNad = value
+        return self
+
+    def getMaxNumberOfRespPendingFrames(self):
+        return self.maxNumberOfRespPendingFrames
+
+    def setMaxNumberOfRespPendingFrames(self, value):
+        if value is not None:
+            self.maxNumberOfRespPendingFrames = value
+        return self
+
+    def getP2Max(self):
+        return self.p2Max
+
+    def setP2Max(self, value):
+        if value is not None:
+            self.p2Max = value
+        return self
+
+    def getP2Timing(self):
+        return self.p2Timing
+
+    def setP2Timing(self, value):
+        if value is not None:
+            self.p2Timing = value
+        return self
+
+    def getTpAddressRef(self):
+        return self.tpAddressRef
+
+    def setTpAddressRef(self, value):
+        if value is not None:
+            self.tpAddressRef = value
+        return self
+
+ 
 class LinTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -472,10 +632,12 @@ class LinTpConfig(TpConfig):
     def getTpAddresses(self):
         return self.tpAddresses
 
-    def addTpAddress(self, value):
-        if value is not None:
-            self.tpAddresses.append(value)
-        return self
+    def createTpAddress(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            address = TpAddress(self, short_name)
+            self.addElement(address)
+            self.tpAddresses.append(address)
+        return self.getElement(short_name)
 
     def getTpConnections(self):
         return self.tpConnections
@@ -487,8 +649,10 @@ class LinTpConfig(TpConfig):
 
     def getTpNodes(self):
         return self.tpNodes
-
-    def setTpNode(self, value):
-        if value is not None:
-            self.tpNodes.append(value)
-        return self
+    
+    def createLinTpNode(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            address = LinTpNode(self, short_name)
+            self.addElement(address)
+            self.tpNodes.append(address)
+        return self.getElement(short_name)
