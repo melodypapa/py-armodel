@@ -45,7 +45,7 @@ class AbstractARXMLWriter:
         else:
             raise NotImplementedError(error_msg)
         
-    def setARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
+    def writeARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
         if ar_obj.timestamp is not None:
             self.logger.debug("Timestamp: %s" % ar_obj.timestamp)
             element.attrib['T'] = ar_obj.timestamp
@@ -70,7 +70,7 @@ class AbstractARXMLWriter:
     def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: ARNumerical):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
-            self.setARObjectAttributes(child_element, numerical)
+            self.writeARObjectAttributes(child_element, numerical)
             child_element.text = numerical._text
 
     def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Integer):
@@ -82,7 +82,7 @@ class AbstractARXMLWriter:
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, literal: ARLiteral):
         if literal is not None:
             child_element = ET.SubElement(element, key)
-            self.setARObjectAttributes(child_element, literal)
+            self.writeARObjectAttributes(child_element, literal)
             if literal._value is not None:
                 child_element.text = str(literal._value)
 
@@ -104,7 +104,7 @@ class AbstractARXMLWriter:
     def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: ARFloat):
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.setARObjectAttributes(child_element, value)
+            self.writeARObjectAttributes(child_element, value)
             child_element.text = value.getText()
 
     def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):
@@ -114,7 +114,7 @@ class AbstractARXMLWriter:
         child_element = None
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.setARObjectAttributes(child_element, value)
+            self.writeARObjectAttributes(child_element, value)
             child_element.text = value.getText()
         return element
 
@@ -122,13 +122,14 @@ class AbstractARXMLWriter:
         child_element = None
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.setARObjectAttributes(child_element, value)
+            self.writeARObjectAttributes(child_element, value)
             child_element.text = value.getText()
         return element      
         
     def patch_xml(self, xml: str) -> str:
         xml = re.sub(r"\<([\w-]+)\/\>",r"<\1></\1>", xml)
         xml = re.sub(r"<(([\w-]+)\s+\w+=\"[\w-]+\")\/>", r"<\1></\2>", xml)
+        #xml = re.sub(r"&quot;", '"', xml)
         return xml
 
     def saveToFile(self, filename, root: ET.Element):

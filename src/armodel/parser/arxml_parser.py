@@ -51,7 +51,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.Timing
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip6AddressString, RefType, ARLiteral
@@ -99,7 +99,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEnd
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo, CouplingPortScheduler, CouplingPortStructuralElement, EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, EthernetPriorityRegeneration, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig, VlanMembership
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, DoIpTpConfig, LinTpConfig, TpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpTpConfig, LinTpConfig, TpConfig, TpConnection
 
 from .abstract_arxml_parser import AbstractARXMLParser
 
@@ -159,9 +159,12 @@ class ARXMLParser(AbstractARXMLParser):
 
             self.readSdgs(child_element, admin_data)
         return admin_data
+    
+    def readReferrable(self, element: ET.Element, referrable: Referrable):
+        self.readARObjectAttributes(element, referrable)
 
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
-        self.readARObjectAttributes(element, referrable)
+        self.readReferrable(element, referrable)
         referrable.setLongName(self.getMultilanguageLongName(element, "LONG-NAME"))
     
     def readIdentifiable(self, element: ET.Element, identifiable: Identifiable):
@@ -3287,11 +3290,86 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
 
+    def readTpConnection(self, element: ET.Element, connection: TpConnection):
+        self.readARObjectAttributes(element, connection)
+        child_element = self.find(element, "IDENT")
+        if child_element is not None:
+            ident = connection.createTpConnectionIdent(self.getShortName(child_element))
+            self.readReferrable(child_element, ident)
+
+    def readCanTpConnectionReceiverRefs(self, element: ET.Element, connection: CanTpConnection):
+        for ref in self.getChildElementRefTypeList(element, "RECEIVER-REFS/RECEIVER-REF"):
+            connection.addReceiverRef(ref)
+
+    def readCanTpConnection(self, element: ET.Element, connection: CanTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setAddressingFormat(self.getChildElementOptionalLiteral(element, "ADDRESSING-FORMAT")) \
+                  .setCanTpChannelRef(self.getChildElementOptionalRefType(element, "CAN-TP-CHANNEL-REF")) \
+                  .setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION")) \
+                  .setDataPduRef(self.getChildElementOptionalRefType(element, "DATA-PDU-REF")) \
+                  .setFlowControlPduRef(self.getChildElementOptionalRefType(element, "FLOW-CONTROL-PDU-REF")) \
+                  .setMaxBlockSize(self.getChildElementOptionalIntegerValue(element, "MAX-BLOCK-SIZE")) \
+                  .setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF")) \
+                  .setPaddingActivation(self.getChildElementOptionalBooleanValue(element, "PADDING-ACTIVATION"))
+        self.readCanTpConnectionReceiverRefs(element, connection)
+        connection.setTaType(self.getChildElementOptionalLiteral(element, "TA-TYPE")) \
+                  .setTimeoutBr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BR")) \
+                  .setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS")) \
+                  .setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR")) \
+                  .setTimeoutCs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CS")) \
+                  .setTpSduRef(self.getChildElementOptionalRefType(element, "TP-SDU-REF")) \
+                  .setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+
+    def readCanTpConfigTpConnections(self, element: ET.Element, config: CanTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-TP-CONNECTION":
+                connection = CanTpConnection()
+                self.readCanTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readCanTpEcu(self, element: ET.Element, tp_ecu: CanTpEcu):
+        tp_ecu.setCycleTimeMainFunction(self.getChildElementOptionalTimeValue(element, "CYCLE-TIME-MAIN-FUNCTION")) \
+              .setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF")) 
+
+    def readCanTpConfigTpEcus(self, element: ET.Element, config: CanTpConfig):
+        for child_element in self.findall(element, "TP-ECUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-TP-ECU":
+                tp_ecu = CanTpEcu()
+                self.readCanTpEcu(child_element, tp_ecu)
+                config.addTpEcu(tp_ecu)
+            else:
+                self.notImplemented("Unsupported TpEcu <%s>" % tag_name)
+
+    def readCanTpNode(self, element: ET.Element, tp_node: CanTpNode):
+        self.readIdentifiable(element, tp_node)
+        tp_node.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF")) \
+               .setMaxFcWait(self.getChildElementOptionalIntegerValue(element, "MAX-FC-WAIT")) \
+               .setStMin(self.getChildElementOptionalTimeValue(element, "ST-MIN")) \
+               .setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR")) \
+               .setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS")) \
+               .setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+
+    def readCanTpConfigTpNodes(self, element: ET.Element, config: CanTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CAN-TP-NODE":
+                tp_node = config.createCanTpNode(self.getShortName(child_element))
+                self.readCanTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
     def readCanTpConfig(self, element: ET.Element, config: CanTpConfig):
         self.logger.debug("Read CanTpConfig <%s>" % config.getShortName())
         self.readTpConfig(element, config)
         self.readCanTpConfigTpAddresses(element, config)
         self.readCanTpConfigTpChannels(element, config)
+        self.readCanTpConfigTpConnections(element, config)
+        self.readCanTpConfigTpEcus(element, config)
+        self.readCanTpConfigTpNodes(element, config)
 
     def readLinTpConfig(self, element: ET.Element, config: LinTpConfig):
         self.logger.debug("Read LinTpConfig <%s>" % config.getShortName())
