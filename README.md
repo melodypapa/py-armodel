@@ -487,6 +487,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * BSW-DATA-RECEIVED-EVENT
    * BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT
    * MODE-SWITCHED-ACK-EVENT
+   * BACKGROUND-EVENT
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE
