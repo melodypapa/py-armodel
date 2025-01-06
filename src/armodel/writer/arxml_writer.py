@@ -28,7 +28,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -1826,19 +1826,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, event)
         self.setChildElementOptionalRefType(element, "STARTS-ON-EVENT-REF", event.startsOnEventRef)
 
-    def setBswScheduleEvent(self, element: ET.Element, event: BswScheduleEvent):
+    def writeBswScheduleEvent(self, element: ET.Element, event: BswScheduleEvent):
         self.setBswEvent(element, event)
 
     def writeBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
         self.logger.debug("Write BswTimingEvent <%s>" % event.getShortName())
         child_element = ET.SubElement(element, "BSW-TIMING-EVENT")
-        self.setBswScheduleEvent(child_element, event)
+        self.writeBswScheduleEvent(child_element, event)
         self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
 
     def writeBswBackgroundEvent(self, element: ET.Element, event: BswBackgroundEvent):
         self.logger.debug("Write BswTimingEvent <%s>" % event.getShortName())
         child_element = ET.SubElement(element, "BSW-BACKGROUND-EVENT")
-        self.setBswScheduleEvent(child_element, event)
+        self.writeBswScheduleEvent(child_element, event)
+
+    def writeBswExternalTriggerOccurredEvent(self, element: ET.Element, event: BswExternalTriggerOccurredEvent):
+        self.logger.debug("Write BswExternalTriggerOccurredEvent %s" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "TRIGGER-REF", event.getTriggerRef())
+
+    def writeBswDataReceivedEvent(self, element: ET.Element, event: BswDataReceivedEvent):
+        self.logger.debug("Write BswDataReceivedEvent %s" % event.getShortName())
+        # Read the Inherit BswScheduleEvent
+        child_element = ET.SubElement(element, "BSW-DATA-RECEIVED-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "DATA-REF", event.getDataRef())
 
     def writeBswInternalBehaviorBswEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
@@ -1849,6 +1862,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswTimingEvent(child_element, event)
                 elif isinstance(event, BswBackgroundEvent):
                     self.writeBswBackgroundEvent(child_element, event)
+                elif isinstance(event, BswExternalTriggerOccurredEvent):
+                    self.writeBswExternalTriggerOccurredEvent(child_element, event)
+                elif isinstance(event, BswDataReceivedEvent):
+                    self.writeBswDataReceivedEvent(child_element, event)
                 else:
                     self._raiseError("Unsupported BswModuleEntity <%s>" % type(event))
 
