@@ -72,9 +72,6 @@ class SwRecordLayoutV(ARObject):
         self.swRecordLayoutVProp = value
         return self
 
-
-    
-    
 class SwRecordLayoutGroupContent(ARObject):
     def __init__(self):
         super().__init__()

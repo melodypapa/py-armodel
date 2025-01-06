@@ -296,6 +296,9 @@ class AbstractARXMLParser:
                 keys[idx] = "xmlns:%s" % item
         return "/".join(keys)
     
+    def findChild(self, parent:ET.Element, key: str) -> ET.Element:
+        return parent.find("xmlns:./child::%s" % key, self.nsmap)
+    
     def find(self, parent:ET.Element, key: str) -> ET.Element:
         return parent.find(self.convert_find_key(key), self.nsmap)
     

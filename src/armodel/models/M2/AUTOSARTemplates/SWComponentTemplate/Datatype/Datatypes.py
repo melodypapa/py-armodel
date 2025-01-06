@@ -3,7 +3,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequest
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, String
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from abc import ABCMeta
@@ -50,8 +50,16 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamic_array_size_profile = None      # type: ARLiteral
+        self.dynamicArraySizeProfile = None         # type: String
         self.element = None                         # type: ApplicationArrayElement
+
+    def getDynamicArraySizeProfile(self):
+        return self.dynamicArraySizeProfile
+
+    def setDynamicArraySizeProfile(self, value):
+        if value is not None:
+            self.dynamicArraySizeProfile = value
+        return self
 
     def createApplicationArrayElement(self, short_name: str) -> ApplicationArrayElement:
         if (short_name not in self.elements):
@@ -59,7 +67,6 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
             self.elements[short_name] = array_element
             self.element = self.elements[short_name]
         return self.elements[short_name]
-
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):

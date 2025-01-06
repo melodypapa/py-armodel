@@ -129,7 +129,7 @@ class AbstractARXMLWriter:
     def patch_xml(self, xml: str) -> str:
         xml = re.sub(r"\<([\w-]+)\/\>",r"<\1></\1>", xml)
         xml = re.sub(r"<(([\w-]+)\s+\w+=\"[\w-]+\")\/>", r"<\1></\2>", xml)
-        #xml = re.sub(r"&quot;", '"', xml)
+        xml = re.sub(r"&quot;", '"', xml)
         return xml
 
     def saveToFile(self, filename, root: ET.Element):

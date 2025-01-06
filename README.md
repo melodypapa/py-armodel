@@ -491,6 +491,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SDG
    * DATA-FILTER
    * USER-DEFINED-PDU
+   * APPLICATION-ARRAY-DATA-TYPE
 3. Access the RootSwCompositionPrototype directly from AUTOSAR instance 
 4. Create the mapping for Implementation and InternalBehavior
    * AUTOSAR::getBehavior()
