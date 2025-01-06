@@ -28,7 +28,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -1829,11 +1829,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setBswScheduleEvent(self, element: ET.Element, event: BswScheduleEvent):
         self.setBswEvent(element, event)
 
-    def setBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
-        self.logger.debug("setBswTimingEvent %s" % event.getShortName())
+    def writeBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
+        self.logger.debug("Write BswTimingEvent <%s>" % event.getShortName())
         child_element = ET.SubElement(element, "BSW-TIMING-EVENT")
         self.setBswScheduleEvent(child_element, event)
         self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
+
+    def writeBswBackgroundEvent(self, element: ET.Element, event: BswBackgroundEvent):
+        self.logger.debug("Write BswTimingEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-BACKGROUND-EVENT")
+        self.setBswScheduleEvent(child_element, event)
 
     def writeBswInternalBehaviorBswEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
@@ -1841,7 +1846,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "EVENTS")
             for event in events:
                 if isinstance(event, BswTimingEvent):
-                    self.setBswTimingEvent(child_element, event)
+                    self.writeBswTimingEvent(child_element, event)
+                elif isinstance(event, BswBackgroundEvent):
+                    self.writeBswBackgroundEvent(child_element, event)
                 else:
                     self._raiseError("Unsupported BswModuleEntity <%s>" % type(event))
 

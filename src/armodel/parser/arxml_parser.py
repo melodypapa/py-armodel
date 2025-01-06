@@ -29,7 +29,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName,
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -658,6 +658,9 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
+    def readBswBackgroundEvent(self, element: ET.Element, event: BswBackgroundEvent):
+        self.readBswScheduleEvent(element, event)
+
     def readBswInternalBehaviorEvents(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -673,6 +676,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-INTERNAL-TRIGGER-OCCURRED-EVENT":
                 event = behavior.createBswInternalTriggerOccurredEvent(self.getShortName(child_element))
                 self.readBswInternalTriggerOccurredEvent(child_element, event)
+            elif tag_name == "BSW-BACKGROUND-EVENT":
+                event = behavior.createBswBackgroundEvent(self.getShortName(child_element))
+                self.readBswBackgroundEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 

@@ -287,17 +287,24 @@ class BswModeSenderPolicy(ARObject):
 
     def getQueueLength(self) -> ARNumerical:
         return self._queue_length
+    
+class BswBackgroundEvent(BswScheduleEvent):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
 
+class BswOsTaskExecutionEvent(BswScheduleEvent):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
 
 class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.entities = []                                  # type: List[BswModuleEntity]
-        self.events = []                                    # type: List[BswEvent]
-        self.mode_sender_policies = []                      # type: List[BswModeSenderPolicy]
-        self.included_mode_declaration_group_sets = []      # type: List[IncludedModeDeclarationGroupSet]
-        self.included_data_type_sets = []                       # type: List[IncludedDataTypeSet]
+        self.entities = []                                                      # type: List[BswModuleEntity]
+        self.events = []                                                        # type: List[BswEvent]
+        self.mode_sender_policies = []                                          # type: List[BswModeSenderPolicy]
+        self.included_mode_declaration_group_sets = []                          # type: List[IncludedModeDeclarationGroupSet]
+        self.included_data_type_sets = []                                       # type: List[IncludedDataTypeSet]
 
     def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
         self.mode_sender_policies.append(policy)
@@ -374,9 +381,19 @@ class BswInternalBehavior(InternalBehavior):
             self.elements[short_name] = event
             self.events.append(event)
         return self.elements[short_name]
-
+    
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements.values()))
+    
+    def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
+        if (short_name not in self.elements):
+            event = BswBackgroundEvent(self, short_name)
+            self.elements[short_name] = event
+            self.events.append(event)
+        return self.elements[short_name]
+    
+    def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
+        return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements.values()))
 
     def getBswEvents(self) -> List[BswEvent]:
         return list(filter(lambda a: isinstance(a, BswEvent), self.elements.values()))
