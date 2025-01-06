@@ -52,7 +52,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
@@ -969,20 +969,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setRModeInAtomicSwcInstanceRef(child_element, "DISABLED-MODE-IREF", iref)
         self.setChildElementOptionalRefType(element, "START-ON-EVENT-REF", event.startOnEventRef)
 
-    def setTimingEvent(self, element: ET.Element, event: TimingEvent):
+    def writeTimingEvent(self, element: ET.Element, event: TimingEvent):
         if event is not None:
             child_element = ET.SubElement(element, "TIMING-EVENT")
             self.setRTEEvent(child_element, event)
             self.setChildElementOptionalTimeValue(child_element, "OFFSET", event.getOffset())
             self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
 
-    def setOperationInvokedEvent(self, element: ET.Element, event: OperationInvokedEvent):
+    def writeOperationInvokedEvent(self, element: ET.Element, event: OperationInvokedEvent):
         if event is not None:
             child_element = ET.SubElement(element, "OPERATION-INVOKED-EVENT")
             self.setRTEEvent(child_element, event)
             self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.operationIRef)
 
-    def setSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
+    def writeSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         if event is not None:
             child_element = ET.SubElement(element, "SWC-MODE-SWITCH-EVENT")
             self.setRTEEvent(child_element, event)
@@ -999,25 +999,31 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF", iref.getContextRPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-ELEMENT-REF", iref.getTargetDataElementRef())
 
-    def setDataReceivedEvent(self, element: ET.Element, event: DataReceivedEvent):
+    def writeDataReceivedEvent(self, element: ET.Element, event: DataReceivedEvent):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-RECEIVED-EVENT")
             self.setRTEEvent(child_element, event)
             self.setRVariableInAtomicSwcInstanceRef(child_element, event.dataIRef)
 
-    def setInternalTriggerOccurredEvent(self, element: ET.Element, event: DataReceivedEvent):
+    def writeInternalTriggerOccurredEvent(self, element: ET.Element, event: DataReceivedEvent):
         pass
 
-    def setInitEvent(self, element: ET.Element, event: InitEvent):
+    def writeInitEvent(self, element: ET.Element, event: InitEvent):
         if event is not None:
             child_element = ET.SubElement(element, "INIT-EVENT")
             self.setRTEEvent(child_element, event)
 
-    def setAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: InitEvent):
+    def writeAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: InitEvent):
         if event is not None:
             child_element = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT")
             self.setRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getActivationReasonRepresentationRef())
+
+    def writeModeSwitchedAckEvent(self, element: ET.Element, event: ModeSwitchedAckEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "MODE-SWITCHED-ACK-EVENT")
+            self.setRTEEvent(child_element, event)
+            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeRTEEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
@@ -1026,19 +1032,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             
             for event in events:
                 if isinstance(event, TimingEvent):
-                    self.setTimingEvent(child_element, event)
+                    self.writeTimingEvent(child_element, event)
                 elif isinstance(event, OperationInvokedEvent):
-                    self.setOperationInvokedEvent(child_element, event)
+                    self.writeOperationInvokedEvent(child_element, event)
                 elif isinstance(event, SwcModeSwitchEvent):
-                    self.setSwcModeSwitchEvent(child_element, event)
+                    self.writeSwcModeSwitchEvent(child_element, event)
                 elif isinstance(event, DataReceivedEvent):
-                    self.setDataReceivedEvent(child_element, event)
+                    self.writeDataReceivedEvent(child_element, event)
                 elif isinstance(event, InternalTriggerOccurredEvent):
-                    self.setInternalTriggerOccurredEvent(child_element, event)
+                    self.writeInternalTriggerOccurredEvent(child_element, event)
                 elif isinstance(event, InitEvent):
-                    self.setInitEvent(child_element, event)
+                    self.writeInitEvent(child_element, event)
                 elif isinstance(event, AsynchronousServerCallReturnsEvent):
-                    self.setAsynchronousServerCallReturnsEvent(child_element, event)
+                    self.writeAsynchronousServerCallReturnsEvent(child_element, event)
+                elif isinstance(event, ModeSwitchedAckEvent):
+                    self.writeModeSwitchedAckEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
                 
