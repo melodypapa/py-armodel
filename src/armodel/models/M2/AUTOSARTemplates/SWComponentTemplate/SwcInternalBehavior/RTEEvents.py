@@ -105,7 +105,7 @@ class DataReceiveErrorEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef = None
+        self.dataIRef = None            
 
     def getDataIRef(self):
         return self.dataIRef
@@ -118,13 +118,14 @@ class OperationInvokedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.operationIRef = None      # type: POperationInAtomicSwcInstanceRef
+        self.operationIRef = None                                   # type: POperationInAtomicSwcInstanceRef
 
     def getOperationIRef(self):
         return self.operationIRef
 
     def setOperationIRef(self, value):
-        self.operationIRef = value
+        if value is not None:
+            self.operationIRef = value
         return self
 
 class InitEvent(RTEEvent):
@@ -150,29 +151,46 @@ class TimingEvent(RTEEvent):
         return self.offset
 
     def setOffset(self, value):
-        self.offset = value
+        if value is not None:
+            self.offset = value
         return self
 
     def getPeriod(self):
         return self.period
 
     def setPeriod(self, value):
-        self.period = value
+        if value is not None:
+            self.period = value
         return self
 
 class InternalTriggerOccurredEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None                      # type: RefType
+        self.eventSourceRef = None                                  # type: RefType
 
     def getEventSourceRef(self):
         return self.eventSourceRef
 
     def setEventSourceRef(self, value):
-        self.eventSourceRef = value
+        if value is not None:
+            self.eventSourceRef = value
         return self
 
 class BackgroundEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+class ModeSwitchedAckEvent(RTEEvent):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.eventSourceRef = None                                  # type: RefType
+
+    def getEventSourceRef(self):
+        return self.eventSourceRef
+
+    def setEventSourceRef(self, value):
+        if value is not None:
+            self.eventSourceRef = value
+        return self

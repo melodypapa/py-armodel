@@ -57,7 +57,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip6AddressString, RefType, ARLiteral
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet, EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
@@ -1042,9 +1042,8 @@ class ARXMLParser(AbstractARXMLParser):
                           .setTargetProvidedOperationRef(self.getChildElementRefType(parent.getShortName(), child_element, "TARGET-PROVIDED-OPERATION-REF"))
             parent.setOperationIRef(operation_iref)
 
-    def readOperationInvokedEvent(self, element: ET.Element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createOperationInvokedEvent(short_name)
+    def readOperationInvokedEvent(self, element: ET.Element, event: OperationInvokedEvent):
+        self.logger.debug("Read OperationInvokedEvent <%s>" % event.getShortName())
         self.readPOperationIRef(element, "OPERATION-IREF", event)
         self.readRTEEvent(element, event)
 
@@ -1102,60 +1101,69 @@ class ARXMLParser(AbstractARXMLParser):
                 option.addPortArgValue(self.readPortDefinedArgumentValue(argument_value_tag))
             behavior.addPortAPIOption(option)
             
-    def readTimingEvent(self, element: ET.Element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createTimingEvent(short_name)
+    def readTimingEvent(self, element: ET.Element, event: TimingEvent):
+        self.logger.debug("Read TimingEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
         event.setOffset(self.getChildElementOptionalTimeValue(element, "OFFSET")) \
              .setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
 
-    def readDataReceivedEvent(self, element: ET.Element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createDataReceivedEvent(short_name)
+    def readDataReceivedEvent(self, element: ET.Element, event: DataReceivedEvent):
+        self.logger.debug("Read DataReceivedEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
         self.readRVariableInAtomicSwcInstanceRef(element, event)
 
-    def readSwcModeSwitchEvent(self, element: ET.Element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createSwcModeSwitchEvent(short_name)
+    def readSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
+        self.logger.debug("Read SwcModeSwitchEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
         event.setActivation(self.getChildElementOptionalLiteral(element, "ACTIVATION"))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
-    def readInternalTriggerOccurredEvent(self, element: ET.Element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createInternalTriggerOccurredEvent(short_name)
+    def readInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
+        self.logger.debug("Read InternalTriggerOccurredEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
         event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
-    def readInitEvent(self, element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createInitEvent(short_name)
+    def readInitEvent(self, element, event: InitEvent):
+        self.logger.debug("Read InitEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
 
-    def readAsynchronousServerCallReturnsEvent(self, element, parent: SwcInternalBehavior):
-        short_name = self.getShortName(element)
-        event = parent.createAsynchronousServerCallReturnsEvent(short_name)
+    def readAsynchronousServerCallReturnsEvent(self, element, event: AsynchronousServerCallReturnsEvent):
+        self.logger.debug("Read AsynchronousServerCallReturnsEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
         event.setActivationReasonRepresentationRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
+
+    def readModeSwitchedAckEvent(self, element, event: ModeSwitchedAckEvent):
+        self.logger.debug("Read ModeSwitchedAckEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "TIMING-EVENT":
-                self.readTimingEvent(child_element, parent)
+                event = parent.createTimingEvent(self.getShortName(child_element))
+                self.readTimingEvent(child_element, event)
             elif tag_name == "SWC-MODE-SWITCH-EVENT":
-                self.readSwcModeSwitchEvent(child_element, parent)
+                event = parent.createSwcModeSwitchEvent(self.getShortName(child_element))
+                self.readSwcModeSwitchEvent(child_element, event)
             elif tag_name == "OPERATION-INVOKED-EVENT":
-                self.readOperationInvokedEvent(child_element, parent)
+                event = parent.createOperationInvokedEvent(self.getShortName(child_element))
+                self.readOperationInvokedEvent(child_element, event)
             elif tag_name == "DATA-RECEIVED-EVENT":
-                self.readDataReceivedEvent(child_element, parent)
+                event = parent.createDataReceivedEvent(self.getShortName(child_element))
+                self.readDataReceivedEvent(child_element, event)
             elif tag_name == "INTERNAL-TRIGGER-OCCURRED-EVENT":
-                self.readInternalTriggerOccurredEvent(child_element, parent)
+                event = parent.createInternalTriggerOccurredEvent(self.getShortName(child_element))
+                self.readInternalTriggerOccurredEvent(child_element, event)
             elif tag_name == "INIT-EVENT":
-                self.readInitEvent(child_element, parent)
+                event = parent.createInitEvent(self.getShortName(child_element))
+                self.readInitEvent(child_element, event)
             elif tag_name == "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT":
-                self.readAsynchronousServerCallReturnsEvent(child_element, parent)
+                event = parent.createAsynchronousServerCallReturnsEvent(self.getShortName(child_element))
+                self.readAsynchronousServerCallReturnsEvent(child_element, event)
+            elif tag_name == "MODE-SWITCHED-ACK-EVENT":
+                event = parent.createModeSwitchedAckEvent(self.getShortName(child_element))
+                self.readModeSwitchedAckEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 

@@ -6,7 +6,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBe
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
-from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, ARBoolean
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
@@ -338,6 +338,12 @@ class SwcInternalBehavior(InternalBehavior):
             event = SwcServiceDependency(self, short_name)
             self.elements[short_name] = event
         return self.elements[short_name]
+    
+    def createModeSwitchedAckEvent(self, short_name: str) -> ModeSwitchedAckEvent:
+        if (short_name not in self.elements):
+            event = ModeSwitchedAckEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def getRteEvents(self) -> List[RTEEvent]:
         return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements.values()), key=lambda e: e.short_name)
@@ -359,6 +365,9 @@ class SwcInternalBehavior(InternalBehavior):
 
     def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
         return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements.values()), key= lambda e: e.short_name)
+    
+    def getModeSwitchedAckEvents(self) -> List[ModeSwitchedAckEvent]:
+        return sorted(filter(lambda c: isinstance(c, ModeSwitchedAckEvent), self.elements.values()), key= lambda e: e.short_name)
 
     def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
         return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements.values()), key= lambda e: e.short_name)
