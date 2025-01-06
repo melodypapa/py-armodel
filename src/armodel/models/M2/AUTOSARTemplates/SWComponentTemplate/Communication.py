@@ -3,7 +3,7 @@ from typing import List
 from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger, Boolean
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger, Boolean, TimeValue
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
@@ -295,15 +295,29 @@ class ReceiverComSpec(RPortComSpec):
 
     def getCompositeNetworkRepresentations(self) -> List[CompositeNetworkRepresentation]:
         return self.compositeNetworkRepresentations
+    
+class ModeSwitchedAckRequest(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.timeout = None                                             # type: TimeValue
+
+    def getTimeout(self):
+        return self.timeout
+
+    def setTimeout(self, value):
+        if value is not None:
+            self.timeout = value
+        return self
 
 class ModeSwitchSenderComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.enhancedModeApi = None                     # type: ARBoolean
-        self.modeGroupRef = None                        # type: RefType
-        self.modeSwitchedAck = None                     # type: ModeSwitchedAckRequest
-        self.queueLength = None                         # type: ARPositiveInteger
+        self.enhancedModeApi = None                                     # type: ARBoolean
+        self.modeGroupRef = None                                        # type: RefType
+        self.modeSwitchedAck = None                                     # type: ModeSwitchedAckRequest
+        self.queueLength = None                                         # type: ARPositiveInteger
 
     def getEnhancedModeApi(self):
         return self.enhancedModeApi
