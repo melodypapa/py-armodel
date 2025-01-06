@@ -29,7 +29,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName,
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -334,12 +334,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswEvent(element, event)
 
     def readBswModeSwitchEvent(self, element: ET.Element, event: BswModeSwitchEvent):
-        self.logger.debug("read BswModeSwitchEvent %s" % event.getShortName())
+        self.logger.debug("Read BswModeSwitchEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
 
     def readBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
-        self.logger.debug("read BswTimingEvent %s" % event.getShortName())
+        self.logger.debug("Read BswTimingEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
         event.setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
@@ -349,13 +349,13 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug(" Period: <%f, %s>" % (event.getPeriod().getValue(), event.getPeriod().getText()))
 
     def readBswDataReceivedEvent(self, element: ET.Element, event: BswDataReceivedEvent):
-        self.logger.debug("read BswTimingEvent %s" % event.getShortName())
+        self.logger.debug("Read BswDataReceivedEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
         event.setDataRef(self.getChildElementOptionalRefType(element, "DATA-REF"))
 
     def readBswInternalTriggerOccurredEvent(self, element: ET.Element, event: BswInternalTriggerOccurredEvent):
-        self.logger.debug("read BswTimingEvent %s" % event.getShortName())
+        self.logger.debug("Read BswInternalTriggerOccurredEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
         event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
@@ -661,6 +661,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswBackgroundEvent(self, element: ET.Element, event: BswBackgroundEvent):
         self.readBswScheduleEvent(element, event)
 
+    def readBswExternalTriggerOccurredEvent(self, element: ET.Element, event: BswExternalTriggerOccurredEvent):
+        self.readBswScheduleEvent(element, event)
+        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
+
     def readBswInternalBehaviorEvents(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -679,6 +683,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-BACKGROUND-EVENT":
                 event = behavior.createBswBackgroundEvent(self.getShortName(child_element))
                 self.readBswBackgroundEvent(child_element, event)
+            elif tag_name == "BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT":
+                event = behavior.createBswExternalTriggerOccurredEvent(self.getShortName(child_element))
+                self.readBswExternalTriggerOccurredEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 

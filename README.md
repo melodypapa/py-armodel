@@ -484,6 +484,8 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * DO-IP-TP-CONFIG
    * LIN-TP-CONFIG
    * BSW-BACKGROUND-EVENT
+   * BSW-DATA-RECEIVED-EVENT
+   * BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT
 2. Improve the following AR Element
    * ETHERNET-COMMUNICATION-CONNECTOR
    * ECU-INSTANCE

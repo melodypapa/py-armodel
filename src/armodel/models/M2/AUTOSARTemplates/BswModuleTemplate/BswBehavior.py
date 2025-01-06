@@ -296,6 +296,20 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+class BswExternalTriggerOccurredEvent(BswScheduleEvent):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.triggerRef = None                                                  # type: RefType
+
+    def getTriggerRef(self):
+        return self.triggerRef
+
+    def setTriggerRef(self, value):
+        if value is not None:
+            self.triggerRef = value
+        return self
+
 class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -384,6 +398,16 @@ class BswInternalBehavior(InternalBehavior):
     
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements.values()))
+    
+    def createBswExternalTriggerOccurredEvent(self, short_name: str) -> BswExternalTriggerOccurredEvent:
+        if (short_name not in self.elements):
+            event = BswExternalTriggerOccurredEvent(self, short_name)
+            self.elements[short_name] = event
+            self.events.append(event)
+        return self.elements[short_name]
+    
+    def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
+        return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.elements.values()))
     
     def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
         if (short_name not in self.elements):
