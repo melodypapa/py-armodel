@@ -144,7 +144,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
 
         assert(data_type.parent == ar_root)
         assert(data_type.short_name == "ApplicationArrayDataType")
-        assert(data_type.dynamic_array_size_profile == None)
+        assert(data_type.dynamicArraySizeProfile == None)
         assert(data_type.element == None)
 
     def test_ApplicationRecordDataType(self):

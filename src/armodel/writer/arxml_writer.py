@@ -721,13 +721,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setAnnotations(conditional_tag, props.getAnnotations())
             self.setChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF", props.getBaseTypeRef())
             self.setChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF", props.getCompuMethodRef())
-            
             self.setValueSpecification(conditional_tag, "INVALID-VALUE", props.getInvalidValue())
-            self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
             self.setChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE", props.getStepSize())
             self.setChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF", props.getSwAddrMethodRef())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess())
             self.setChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF", props.getDataConstrRef())
+            self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
             self.setSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET", props.getSwCalprmAxisSet())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY", props.getSwImplPolicy())
             self.setChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION", props.getSwIntendedResolution())
@@ -2106,17 +2105,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ECU-ABSTRACTION-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
 
-    def setApplicationArrayElement(self, element: ET.Element, prototype: ApplicationArrayElement):
-        if prototype is not None:
+    def setApplicationArrayElement(self, element: ET.Element, array_element: ApplicationArrayElement):
+        if array_element is not None:
             child_element = ET.SubElement(element, "ELEMENT")
-            self.setApplicationCompositeElementDataPrototype(child_element, prototype)
-            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", prototype.arraySizeSemantics)
-            self.setChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS", prototype.maxNumberOfElements)
+            self.setApplicationCompositeElementDataPrototype(child_element, array_element)
+            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", array_element.getArraySizeHandling())
+            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", array_element.getArraySizeSemantics())
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS", array_element.getMaxNumberOfElements())
 
     def writeApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
         self.logger.debug("writeApplicationArrayDataType %s" % data_type.getShortName())
         child_element = ET.SubElement(element, "APPLICATION-ARRAY-DATA-TYPE")
         self.setApplicationCompositeDataType(child_element, data_type)
+        self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
         self.setApplicationArrayElement(child_element, data_type.element)
 
     def setSwRecordLayoutV(self, element: ET.Element, key: str, layout_v: SwRecordLayoutV):
@@ -2128,19 +2129,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP", layout_v.getSwRecordLayoutVProp())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX", layout_v.getSwRecordLayoutVIndex())
 
+    def writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
+        content = group.getSwRecordLayoutGroupContentType()
+        self.setSwRecordLayoutGroup(element, "SW-RECORD-LAYOUT-GROUP", content.getSwRecordLayoutGroup())
+        self.setSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V", content.getSwRecordLayoutV())
+
     def setSwRecordLayoutGroup(self, element: ET.Element, key: str, group: SwRecordLayoutGroup):
         if group is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", group.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", group.getCategory())
+            #self.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS", group.getSwRecordLayoutGroupAxis())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX", group.getSwRecordLayoutGroupIndex())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM", group.getSwRecordLayoutGroupFrom())
             self.setChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO", group.getSwRecordLayoutGroupTo())
             self.setChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP", group.getSwRecordLayoutGroupStep())
-            #self.setSwRecordLayoutV(child_element, "SW-RECORD-LAYOUT-V", group.swRecordLayoutGroupContentType.swRecordLayoutV)
-            #self.setSwRecordLayoutGroup(child_element, "SW-RECORD-LAYOUT-GROUP", group.swRecordLayoutGroupContentType.swRecordLayoutGroup)
-        return group
 
     def writeSwRecordLayout(self, element: ET.Element, layout: SwRecordLayout):
         self.logger.debug("writeSwRecordLayout %s" % layout.getShortName())
