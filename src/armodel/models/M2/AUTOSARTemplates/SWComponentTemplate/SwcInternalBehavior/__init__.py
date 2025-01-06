@@ -6,7 +6,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBe
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
-from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, ARBoolean
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
@@ -344,6 +344,12 @@ class SwcInternalBehavior(InternalBehavior):
             event = ModeSwitchedAckEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name)
+    
+    def createBackgroundEvent(self, short_name: str) -> BackgroundEvent:
+        if (short_name not in self.elements):
+            event = BackgroundEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name)
 
     def getRteEvents(self) -> List[RTEEvent]:
         return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements.values()), key=lambda e: e.short_name)
@@ -368,6 +374,9 @@ class SwcInternalBehavior(InternalBehavior):
     
     def getModeSwitchedAckEvents(self) -> List[ModeSwitchedAckEvent]:
         return sorted(filter(lambda c: isinstance(c, ModeSwitchedAckEvent), self.elements.values()), key= lambda e: e.short_name)
+    
+    def getBackgroundEvents(self) -> List[BackgroundEvent]:
+        return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.elements.values()), key= lambda e: e.short_name)
 
     def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
         return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements.values()), key= lambda e: e.short_name)
@@ -376,10 +385,6 @@ class SwcInternalBehavior(InternalBehavior):
         if (not isinstance(self.elements[short_name], RTEEvent)):
             raise ValueError("Invalid Event Type <%s> of <%s>" % type(self.elements[short_name]), short_name)
         return self.elements[short_name]
-    
-    
-
-    
 
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
         if (short_name not in self.elements):

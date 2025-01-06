@@ -57,7 +57,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip6AddressString, RefType, ARLiteral
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet, EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
@@ -1137,6 +1137,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
+    def readBackgroundEvent(self, element, event: BackgroundEvent):
+        self.logger.debug("Read BackgroundEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -1164,6 +1168,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MODE-SWITCHED-ACK-EVENT":
                 event = parent.createModeSwitchedAckEvent(self.getShortName(child_element))
                 self.readModeSwitchedAckEvent(child_element, event)
+            elif tag_name == "BACKGROUND-EVENT":
+                event = parent.createBackgroundEvent(self.getShortName(child_element))
+                self.readBackgroundEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 
@@ -4490,7 +4497,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readReferenceBases(child_element, ar_package)
 
     def load(self, filename, document: AUTOSAR):
-        self.logger.info("Load %s ..." % os.path.realpath(filename))
+        self.logger.info("Loading %s ..." % os.path.realpath(filename))
 
         tree = ET.parse(filename)
         root = tree.getroot()

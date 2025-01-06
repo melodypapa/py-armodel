@@ -52,7 +52,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
@@ -1032,6 +1032,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
+    def writeBackgroundEvent(self, element: ET.Element, event: BackgroundEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "BACKGROUND-EVENT")
+            self.setRTEEvent(child_element, event)
+
     def writeRTEEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
@@ -1054,6 +1059,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeAsynchronousServerCallReturnsEvent(child_element, event)
                 elif isinstance(event, ModeSwitchedAckEvent):
                     self.writeModeSwitchedAckEvent(child_element, event)
+                elif isinstance(event, BackgroundEvent):
+                    self.writeBackgroundEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
                 
@@ -4507,7 +4514,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 
 
     def save(self, filename, document: AUTOSAR):
-        self.logger.info("Save %s ..." % filename)
+        self.logger.info("Saving %s ..." % filename)
 
         root = ET.Element("AUTOSAR", self.nsmap)
         root.attrib["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance"
