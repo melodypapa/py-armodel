@@ -63,7 +63,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, VariableInAtomicSWCTypeInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, TransmissionAcknowledgementRequest
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, ApplicationSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PortGroup, SensorActuatorSwComponentType, ServiceSwComponentType, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
@@ -1595,27 +1595,36 @@ class ARXMLParser(AbstractARXMLParser):
                 .setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element)) \
                 .setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
-    def getNonqueuedSenderComSpec(self, element) -> NonqueuedSenderComSpec:
+    def getNonqueuedSenderComSpec(self, element:ET.Element) -> NonqueuedSenderComSpec:
         com_spec = NonqueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
         com_spec.setInitValue(self.getInitValue(element))
         return com_spec
     
-    def getServerComSpec(self, element) -> ServerComSpec:
+    def getServerComSpec(self, element:ET.Element) -> ServerComSpec:
         com_spec = ServerComSpec()
         self.readARObjectAttributes(element, com_spec)
         com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF")) \
                 .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         return com_spec
     
-    def getQueuedSenderComSpec(self, element) -> QueuedSenderComSpec:
+    def getQueuedSenderComSpec(self, element:ET.Element) -> QueuedSenderComSpec:
         com_spec = QueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
         return com_spec
     
+    def getModeSwitchedAckRequest(self, element: ET.Element, key: str) -> ModeSwitchedAckRequest:
+        request = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            request = ModeSwitchedAckRequest()
+            request.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
+        return request
+    
     def getModeSwitchSenderComSpec(self, element) -> ModeSwitchSenderComSpec:
         com_spec = ModeSwitchSenderComSpec()
         com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF")) \
+                .setModeSwitchedAck(self.getModeSwitchedAckRequest(element, "MODE-SWITCHED-ACK")) \
                 .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         return com_spec
 
