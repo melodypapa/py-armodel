@@ -4,7 +4,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
-from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype
+from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
 class ReentrancyLevelEnum(Enum):
     ENUM_MULTICORE_REENTRANT = "multicoreReentrant"
@@ -109,7 +109,16 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
 
     def getExclusiveAreas(self) -> List[ExclusiveArea]:
         return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements.values()))
+    
+    def getStaticMemories(self):
+        return self.staticMemories
 
+    def createStaticMemory(self, short_name: str) -> VariableDataPrototype:
+        if (short_name not in self.elements):
+            prototype = VariableDataPrototype(self, short_name)
+            self.addElement(prototype)
+            self.staticMemories.append(prototype)
+        return self.getElement(short_name)
 
 class AbstractEvent(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

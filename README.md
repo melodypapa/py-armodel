@@ -498,11 +498,18 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * USER-DEFINED-PDU
    * APPLICATION-ARRAY-DATA-TYPE
    * MODE-SWITCH-SENDER-COM-SPEC
-   * SW-DATA-DEF-PROPS
-   * SW-RECORD-LAYOUT-GROUP
+
 3. Access the RootSwCompositionPrototype directly from AUTOSAR instance 
 4. Create the mapping for Implementation and InternalBehavior
    * AUTOSAR::getBehavior()
    * AUTOSAR::getImplementation()
 5. Improve the Identifiable::setCategory with Raw String
+
+**Version 1.7.8**
+
+1. To support the following AR Element:
+   * STATIC-MEMORYS
+2. Improve the following AR Element
+   * SW-DATA-DEF-PROPS
+   * SW-RECORD-LAYOUT-GROUP
 
