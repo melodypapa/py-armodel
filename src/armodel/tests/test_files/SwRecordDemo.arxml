@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>demo</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>common</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE>
+              <SHORT-NAME>datatypes</SHORT-NAME>
+              <ELEMENTS>
+                <SW-RECORD-LAYOUT>
+                  <SHORT-NAME>RecordLayoutDescriptor</SHORT-NAME>
+                  <SW-RECORD-LAYOUT-GROUP>
+                    <SHORT-LABEL>RecordDescriptorGroup</SHORT-LABEL>
+                    <SW-RECORD-LAYOUT-GROUP>
+                      <SHORT-LABEL>Chars</SHORT-LABEL>
+                      <SW-RECORD-LAYOUT-GROUP-AXIS>STRING</SW-RECORD-LAYOUT-GROUP-AXIS>
+                      <SW-RECORD-LAYOUT-GROUP-FROM>0</SW-RECORD-LAYOUT-GROUP-FROM>
+                      <SW-RECORD-LAYOUT-GROUP-TO>-1</SW-RECORD-LAYOUT-GROUP-TO>
+                      <SW-RECORD-LAYOUT-V>
+                        <SHORT-LABEL>Char</SHORT-LABEL>
+                        <BASE-TYPE-REF DEST="SW-BASE-TYPE">/AUTOSAR_Platform/BaseTypes/sint8</BASE-TYPE-REF>
+                        <SW-RECORD-LAYOUT-V-PROP>VALUE</SW-RECORD-LAYOUT-V-PROP>
+                      </SW-RECORD-LAYOUT-V>
+                    </SW-RECORD-LAYOUT-GROUP>
+                    <SW-RECORD-LAYOUT-V>
+                      <SHORT-LABEL>Size</SHORT-LABEL>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/AUTOSAR_Platform/BaseTypes/uint16</BASE-TYPE-REF>
+                      <SW-RECORD-LAYOUT-V-AXIS>STRING</SW-RECORD-LAYOUT-V-AXIS>
+                      <SW-RECORD-LAYOUT-V-PROP>COUNT</SW-RECORD-LAYOUT-V-PROP>
+                    </SW-RECORD-LAYOUT-V>
+                  </SW-RECORD-LAYOUT-GROUP>
+                </SW-RECORD-LAYOUT>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

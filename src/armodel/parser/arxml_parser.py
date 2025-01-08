@@ -2263,7 +2263,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readApplicationArrayElement(element, data_type)
 
     def getSwRecordLayoutV(self, element: ET.Element, key: str) -> SwRecordLayoutV:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         layout_v = None
         if child_element is not None:
             layout_v = SwRecordLayoutV()
@@ -2272,7 +2272,6 @@ class ARXMLParser(AbstractARXMLParser):
                     .setSwRecordLayoutVAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-AXIS")) \
                     .setSwRecordLayoutVProp(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-PROP")) \
                     .setSwRecordLayoutVIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-V-INDEX"))
-            #print(layout_v.getShortLabel())
         return layout_v
     
     def readSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
@@ -2282,19 +2281,19 @@ class ARXMLParser(AbstractARXMLParser):
         group.setSwRecordLayoutGroupContentType(content)
 
     def getSwRecordLayoutGroup(self, element: ET.Element, key: str) -> SwRecordLayoutGroup:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         group = None
         if child_element is not None:
             group = SwRecordLayoutGroup()
             group.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")) \
-                 .setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY")) 
-            self.readSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
-            group.setSwRecordLayoutGroupAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS")) \
+                 .setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY")) \
+                 .setSwRecordLayoutGroupAxis(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-AXIS")) \
                  .setSwRecordLayoutGroupIndex(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-INDEX")) \
                  .setSwRecordLayoutGroupFrom(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-FROM")) \
                  .setSwRecordLayoutGroupStep(self.getChildElementOptionalIntegerValue(child_element, "SW-RECORD-LAYOUT-GROUP-STEP")) \
                  .setSwRecordLayoutGroupTo(self.getChildElementOptionalLiteral(child_element, "SW-RECORD-LAYOUT-GROUP-TO"))
-            #print(group.getShortLabel())
+            self.readSwRecordLayoutGroupSwRecordLayoutGroupContentType(child_element, group)
+            
         return group
 
     def readSwRecordLayout(self, element: ET.Element, layout: SwRecordLayout):
