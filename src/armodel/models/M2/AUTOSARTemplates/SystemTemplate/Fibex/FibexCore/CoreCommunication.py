@@ -743,7 +743,8 @@ class PduTriggering(Identifiable):
         return self
 
     def getISignalTriggeringRefs(self):
-        return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
+        #return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
+        return self.iSignalTriggeringRefs
 
     def addISignalTriggeringRef(self, value):
         self.iSignalTriggeringRefs.append(value)

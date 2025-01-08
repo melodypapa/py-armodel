@@ -512,4 +512,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
 2. Improve the following AR Element
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP
+   * BSW-MODULE-DESCRIPTION
 

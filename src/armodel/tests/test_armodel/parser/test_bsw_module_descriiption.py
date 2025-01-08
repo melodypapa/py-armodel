@@ -63,8 +63,8 @@ class TestBswMD:
         assert(bsw_module_desc.implementedEntryRefs[1].getDest() == "BSW-MODULE-ENTRY")
         assert(bsw_module_desc.implementedEntryRefs[1].getValue() == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction")
 
-        assert(len(bsw_module_desc.getBswInternalBehaviors()) == 1)
-        behavior = bsw_module_desc.getBswInternalBehaviors()[0]
+        assert(len(bsw_module_desc.getInternalBehaviors()) == 1)
+        behavior = bsw_module_desc.getInternalBehaviors()[0]
         assert(behavior.short_name == "InternalBehavior_0")
 
         assert(len(behavior.getDataTypeMappingRefs()) == 1)

@@ -2,10 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
-
-
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -48,6 +44,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implemen
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
+from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
@@ -77,6 +74,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import Clien
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface, VariableAndParameterInterfaceMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
@@ -284,31 +282,34 @@ class ARXMLParser(AbstractARXMLParser):
 
             self.readIdentifiable(child_element, variable_access)
 
-    def readBswModuleDescriptionImplementedEntry(self, element: ET.Element, parent: BswModuleDescription):
+    def readBswModuleDescriptionImplementedEntryRefs(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-ENTRYS/BSW-MODULE-ENTRY-REF-CONDITIONAL"):
             ref = self.getChildElementOptionalRefType(child_element, "BSW-MODULE-ENTRY-REF") 
             if (ref is not None):
-                parent.addImplementedEntry(ref)
+                parent.addImplementedEntryRef(ref)
             self.logger.debug("ImplementedEntry <%s> of BswModuleDescription <%s> has been added", ref.value, parent.getShortName())
 
     def readModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
         self.readIdentifiable(element, prototype)
-        prototype.type_tref = self.getChildElementOptionalRefType(element, "TYPE-TREF")
+        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
 
-    def readProvidedModeGroup(self, element: ET.Element, parent: BswModuleDescription):
-        for child_element in self.findall(element, "PROVIDED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE"):
-            short_name = self.getShortName(child_element)
-            self.logger.debug("readProvidedModeGroup %s" % short_name)
+    def readBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
+        for child_element in self.findall(element, "PROVIDED-MODE-GROUPS"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODE-DECLARATION-GROUP-PROTOTYPE":
+                mode_group = parent.createProvidedModeGroup(self.getShortName(child_element))
+                self.readModeDeclarationGroupPrototype(child_element, mode_group)
+            else:
+                self.notImplemented("Unsupported ProvidedModeGroup <%s>" % tag_name)
 
-            mode_group = parent.createProvidedModeGroup(short_name)
-            self.readModeDeclarationGroupPrototype(child_element, mode_group)
-
-    def readRequiredModeGroup(self, element: ET.Element, parent: BswModuleDescription):
-        for child_element in self.findall(element, "REQUIRED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE"):
-            short_name = self.getShortName(child_element)
-            self.logger.debug("readRequiredModeGroup %s" % short_name)
-            mode_group = parent.createProvidedModeGroup(short_name)
-            mode_group.type_tref = self.getChildElementRefType(parent.getShortName(), child_element, "TYPE-TREF")
+    def readBswModuleDescriptionRequiredModeGroups(self, element: ET.Element, parent: BswModuleDescription):
+        for child_element in self.findall(element, "REQUIRED-MODE-GROUPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODE-DECLARATION-GROUP-PROTOTYPE":
+                prototype = parent.createProvidedModeGroup(self.getShortName(child_element))
+                self.readModeDeclarationGroupPrototype(child_element, prototype)
+            else:
+                self.notImplemented("Unsupported RequiredModeGroup <%s>" % tag_name)
 
     def readCanEnterExclusiveAreaRefs(self, element: ET.Element, entity: ExecutableEntity):
         for ref in self.getChildElementRefTypeList(element, "CAN-ENTER-EXCLUSIVE-AREA-REFS/CAN-ENTER-EXCLUSIVE-AREA-REF"):
@@ -702,29 +703,79 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
-    def readBswInternalBehavior(self, element: ET.Element, parent: BswModuleDescription):
-        for child_element in self.findall(element, "INTERNAL-BEHAVIORS/BSW-INTERNAL-BEHAVIOR"):
-            short_name = self.getShortName(child_element)
-            behavior = parent.createBswInternalBehavior(short_name)
-            self.logger.debug("read BswInternalBehavior %s" % behavior.full_name)
+    def readBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
+        self.logger.debug("Read BswInternalBehavior <%s>" % behavior.full_name)
 
-            # read the internal behavior
-            self.readInternalBehavior(child_element, behavior)
-            self.readBswInternalBehaviorEntities(child_element, behavior)
-            self.readBswInternalBehaviorEvents(child_element, behavior)
-            self.readBswInternalBehaviorModeSenderPolicy(child_element, behavior)
-            for group_set in self.getIncludedModeDeclarationGroupSets(child_element):
-                behavior.addIncludedModeDeclarationGroupSet(group_set)
+        # read the internal behavior
+        self.readInternalBehavior(element, behavior)
+        self.readBswInternalBehaviorEntities(element, behavior)
+        self.readBswInternalBehaviorEvents(element, behavior)
+        self.readBswInternalBehaviorModeSenderPolicy(element, behavior)
+        for group_set in self.getIncludedModeDeclarationGroupSets(element):
+            behavior.addIncludedModeDeclarationGroupSet(group_set)
+
+    def readBswModuleDescriptionBswInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-INTERNAL-BEHAVIOR":
+                behavior = desc.createBswInternalBehavior(self.getShortName(child_element))
+                self.readBswInternalBehavior(child_element, behavior)
+            else:
+                self.notImplemented("Unsupported Internal Behavior <%s>" % tag_name)
+
+    def readTrigger(self, element: ET.Element, trigger: Trigger):
+        self.readIdentifiable(element, trigger)
+
+    def readBswModuleDescriptionReleasedTriggers(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "RELEASED-TRIGGERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TRIGGER":
+                trigger = desc.createReleasedTrigger(self.getShortName(child_element))
+                self.readTrigger(child_element, trigger)
+            else:
+                self.notImplemented("Unsupported Released Trigger <%s>" % tag_name)
+
+    def readBswModuleDescriptionRequiredTriggers(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "REQUIRED-TRIGGERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TRIGGER":
+                trigger = desc.createRequiredTrigger(self.getShortName(child_element))
+                self.readTrigger(child_element, trigger)
+            else:
+                self.notImplemented("Unsupported Required Trigger <%s>" % tag_name)
+
+    def readBswModuleDescriptionProvidedDatas(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "PROVIDED-DATAS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIABLE-DATA-PROTOTYPE":
+                data = desc.createProvidedData(self.getShortName(child_element))
+                self.readVariableDataPrototype(child_element, data)
+            else:
+                self.notImplemented("Unsupported Provided Data <%s>" % tag_name)
+
+    def readBswModuleDescriptionRequiredDatas(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "REQUIRED-DATAS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIABLE-DATA-PROTOTYPE":
+                data = desc.createRequiredData(self.getShortName(child_element))
+                self.readVariableDataPrototype(child_element, data)
+            else:
+                self.notImplemented("Unsupported Required Data <%s>" % tag_name)
+
 
     def readBswModuleDescription(self, element: ET.Element, desc: BswModuleDescription):
         self.logger.debug("Read BswModuleDescription <%s>" % desc.getShortName())
 
         self.readIdentifiable(element, desc)
         desc.setModuleId(self.getChildElementOptionalNumericalValue(element, "MODULE-ID"))
-        self.readBswModuleDescriptionImplementedEntry(element, desc)
-        self.readProvidedModeGroup(element, desc)
-        self.readRequiredModeGroup(element, desc)
-        self.readBswInternalBehavior(element, desc)
+        self.readBswModuleDescriptionImplementedEntryRefs(element, desc)
+        self.readBswModuleDescriptionProvidedModeGroups(element, desc)
+        self.readBswModuleDescriptionRequiredModeGroups(element, desc)
+        self.readBswModuleDescriptionReleasedTriggers(element, desc)
+        self.readBswModuleDescriptionRequiredTriggers(element, desc)
+        self.readBswModuleDescriptionProvidedDatas(element, desc)
+        self.readBswModuleDescriptionRequiredDatas(element, desc)
+        self.readBswModuleDescriptionBswInternalBehaviors(element, desc)
 
     def readSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.logger.debug("Read SwServiceArg <%s>" % arg.getShortName())
