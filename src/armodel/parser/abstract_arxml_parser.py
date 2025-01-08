@@ -96,7 +96,7 @@ class AbstractARXMLParser:
         child_element = self.find(element, key)
         literal = None
         if (child_element is not None):
-            self.logger.debug("getChildElementOptionalLiteral : %s" % child_element.text)
+            # self.logger.debug("getChildElementOptionalLiteral : %s" % child_element.text)
             literal = ARLiteral()
             self.readARObjectAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
@@ -110,7 +110,7 @@ class AbstractARXMLParser:
         child_element = self.find(element, key)
         literal = None
         if (child_element is not None) and (child_element.text is not None):
-            self.logger.debug("getChildElementOptionalRevisionLabelString : %s" % child_element.text)
+            # self.logger.debug("getChildElementOptionalRevisionLabelString : %s" % child_element.text)
             m = re.match(r'[0-9]+\.[0-9]+\.[0-9]+([\._;].*)?', child_element.text)
             if not m:
                 raise ValueError("Invalid RevisionLabelString <%s>" % child_element.text)
@@ -231,7 +231,7 @@ class AbstractARXMLParser:
             return limit
         return None
     
-    def _getChildElementRefTypeDestAndValue(self, element) -> RefType:
+    def _getChildElementRefTypeDestAndValue(self, element: ET.Element) -> RefType:
         ref = RefType()
         if 'BASE' in element.attrib:
             ref.setBase(element.attrib['BASE'])
@@ -295,11 +295,8 @@ class AbstractARXMLParser:
             if item != "*" and item != ".":
                 keys[idx] = "xmlns:%s" % item
         return "/".join(keys)
-    
-    def findChild(self, parent:ET.Element, key: str) -> ET.Element:
-        return parent.find("xmlns:./child::%s" % key, self.nsmap)
-    
-    def find(self, parent:ET.Element, key: str) -> ET.Element:
+       
+    def find(self, parent: ET.Element, key: str) -> ET.Element:
         return parent.find(self.convert_find_key(key), self.nsmap)
     
     def findall(self, parent: ET.Element, key: str) -> List[ET.Element]:

@@ -381,10 +381,22 @@ class ARXMLParser(AbstractARXMLParser):
                 behavior.addDataTypeMappingRef(ref)
 
     def readInternalBehaviorConstantMemories(self, element: ET.Element, behavior: InternalBehavior):
-        for child_element in self.findall(element, "CONSTANT-MEMORYS/PARAMETER-DATA-PROTOTYPE"):
-            short_name = self.getShortName(child_element)
-            prototype = behavior.createConstantMemory(short_name)
-            self.readParameterDataPrototype(child_element, prototype)
+        for child_element in self.findall(element, "CONSTANT-MEMORYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "PARAMETER-DATA-PROTOTYPE":
+                prototype = behavior.createConstantMemory(self.getShortName(child_element))
+                self.readParameterDataPrototype(child_element, prototype)
+            else:
+                self.notImplemented("Unsupported constant memories <%s>" % tag_name)
+
+    def readInternalBehaviorStaticMemories(self, element: ET.Element, behavior: InternalBehavior):
+        for child_element in self.findall(element, "STATIC-MEMORYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIABLE-DATA-PROTOTYPE":
+                prototype = behavior.createStaticMemory(self.getShortName(child_element))
+                self.readVariableDataPrototype(child_element, prototype)
+            else:
+                self.notImplemented("Unsupported static memories <%s>" % tag_name)
 
     def readInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
         self.readIdentifiable(element, behavior)
@@ -393,6 +405,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             behavior.createExclusiveArea(short_name)
         self.readDataTypeMappingRefs(element, behavior)
+        self.readInternalBehaviorStaticMemories(element, behavior)
 
     def getRoleBasedDataAssignment(self, element: ET.Element) -> RoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()

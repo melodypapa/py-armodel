@@ -1079,11 +1079,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "DATA-TYPE-MAPPING-REF", ref)
 
+    def writeInternalBehaviorStaticMemories(self, element: ET.Element, behavior: InternalBehavior):
+        memories = behavior.getStaticMemories()
+        if len(memories) > 0:
+            child_element = ET.SubElement(element, "STATIC-MEMORYS")
+            for memory in memories:
+                if isinstance(memory, VariableDataPrototype):
+                    self.writeVariableDataPrototype(child_element, memory)
+
     def writeInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
         self.writeIdentifiable(element, behavior)
-        self.setParameterDataPrototypes(element, "CONSTANT-MEMORYS", behavior.getConstantMemories())
+        self.writeParameterDataPrototypes(element, "CONSTANT-MEMORYS", behavior.getConstantMemories())
         self.writeDataTypeMappingRefs(element, behavior)
         self.writeExclusiveAreas(element, behavior)
+        self.writeInternalBehaviorStaticMemories(element, behavior)
 
     def setAutosarVariableRef(self, element: ET.Element, key: str, ref: AutosarVariableRef):
         if ref is not None:
@@ -1315,17 +1324,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalLiteral(child_element, "TYPE", memory.getType())
                 self.setChildElementOptionalLiteral (child_element, "TYPE-DEFINITION", memory.getTypeDefinition())
 
-    def setParameterDataPrototype(self, element: ET.Element, prototype: ParameterDataPrototype):
+    def writeParameterDataPrototype(self, element: ET.Element, prototype: ParameterDataPrototype):
         child_element = ET.SubElement(element, "PARAMETER-DATA-PROTOTYPE")
         self.writeIdentifiable(child_element, prototype)
         self.setAutosarDataPrototype(child_element, prototype)
         self.setValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
 
-    def setParameterDataPrototypes(self, element: ET.Element, key: str, parameters: List[ParameterDataPrototype]):
+    def writeParameterDataPrototypes(self, element: ET.Element, key: str, parameters: List[ParameterDataPrototype]):
         if len(parameters) > 0:
             child_element = ET.SubElement(element, key)
             for parameter in parameters:
-                self.setParameterDataPrototype(child_element, parameter)
+                self.writeParameterDataPrototype(child_element, parameter)
 
     def writePortDefinedArgumentValues(self, element: ET.Element, argument_values: List[PortDefinedArgumentValue]) :
         if len(argument_values) > 0:
@@ -1549,11 +1558,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.getHandleTerminationAndRestart())
         self.setIncludedDataTypeSets(child_element, behavior.getIncludedDataTypeSets())
         self.writePerInstanceMemories(child_element, behavior)
-        self.setParameterDataPrototypes(child_element, "PER-INSTANCE-PARAMETERS", behavior.getPerInstanceParameters())
+        self.writeParameterDataPrototypes(child_element, "PER-INSTANCE-PARAMETERS", behavior.getPerInstanceParameters())
         self.writePortAPIOptions(child_element, behavior)
         self.writeSwcInternalBehaviorRunnableEntities(child_element, behavior)
         self.writeSwcInternalBehaviorServiceDependencies(child_element, behavior)
-        self.setParameterDataPrototypes(child_element, "SHARED-PARAMETERS", behavior.getSharedParameters())
+        self.writeParameterDataPrototypes(child_element, "SHARED-PARAMETERS", behavior.getSharedParameters())
         self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-MULTIPLE-INSTANTIATION", behavior.getSupportsMultipleInstantiation())
 
     def writeAtomicSwComponentTypeInternalBehaviors(self, element: ET.Element, behavior: InternalBehavior):
@@ -2132,7 +2141,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write ParameterInterface %s" % param_interface.getShortName())
         child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
         self.setPortInterface(child_element, param_interface)
-        self.setParameterDataPrototypes(child_element, "PARAMETERS", param_interface.getParameters())
+        self.writeParameterDataPrototypes(child_element, "PARAMETERS", param_interface.getParameters())
 
     def writeClientServerInterface(self, element: ET.Element, cs_interface: ClientServerInterface):
         self.logger.debug("writeClientServerInterface %s" % cs_interface.getShortName())
