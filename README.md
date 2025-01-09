@@ -513,4 +513,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP
    * BSW-MODULE-DESCRIPTION
+   * BSW-CALLED-ENTITY
+   * BSW-SCHEDULABLE-ENTITY
 

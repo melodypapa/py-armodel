@@ -59,70 +59,82 @@ class BswModuleEntity(ExecutableEntity, metaclass = ABCMeta):
         self.issuedTriggerRefs = []                     # type: List[RefType]
         self.managedModeGroupRefs = []                  # type: List[RefType]
         self.schedulerNamePrefixRef = None              # type: List[RefType]
-    
+
     def getAccessedModeGroupRefs(self):
         return self.accessedModeGroupRefs
 
-    def addAccessedModeGroupRef(self, value):
-        self.accessedModeGroupRefs.append(value)
+    def setAccessedModeGroupRefs(self, value):
+        if value is not None:
+            self.accessedModeGroupRefs = value
         return self
 
     def getActivationPointRefs(self):
         return self.activationPointRefs
 
-    def addActivationPointRef(self, value):
-        self.activationPointRefs.append(value)
+    def setActivationPointRefs(self, value):
+        if value is not None:
+            self.activationPointRefs = value
         return self
 
     def getCallPoints(self):
         return self.callPoints
 
-    def addCallPoint(self, value):
-        self.callPoints.append(value)
+    def setCallPoints(self, value):
+        if value is not None:
+            self.callPoints = value
         return self
 
-    def getDataReceivePoint(self):
+    def getDataReceivePoints(self):
         return self.dataReceivePoints
 
-    def addDataReceivePoint(self, value):
-        self.dataReceivePoints.append(value)
-        return self
+    def createDataReceivePoint(self, short_name: str) -> BswVariableAccess:
+        if (not self.IsElementExists(short_name)):
+            access = BswVariableAccess(self, short_name)
+            self.addElement(access)
+            self.dataReceivePoints.append(access)
+        return self.getElement(short_name)
 
     def getDataSendPoints(self):
         return self.dataSendPoints
 
-    def addDataSendPoint(self, value):
-        self.dataSendPoints.append(value)
-        return self
+    def createDataSendPoint(self, short_name: str) -> BswVariableAccess:
+        if (not self.IsElementExists(short_name)):
+            access = BswVariableAccess(self, short_name)
+            self.addElement(access)
+            self.dataSendPoints.append(access)
+        return self.getElement(short_name)
 
     def getImplementedEntryRef(self):
         return self.implementedEntryRef
 
     def setImplementedEntryRef(self, value):
-        self.implementedEntryRef = value
+        if value is not None:
+            self.implementedEntryRef = value
         return self
 
     def getIssuedTriggerRefs(self):
         return self.issuedTriggerRefs
 
-    def addIssuedTriggerRefs(self, value):
-        self.issuedTriggerRefs(value)
+    def addIssuedTriggerRef(self, value):
+        if value is not None:
+            self.issuedTriggerRefs.append(value)
         return self
 
     def getManagedModeGroupRefs(self):
         return self.managedModeGroupRefs
 
-    def addManagedModeGroupRef(self, value):
-        self.managedModeGroupRefs = value
+    def setManagedModeGroupRefs(self, value):
+        if value is not None:
+            self.managedModeGroupRefs = value
         return self
 
     def getSchedulerNamePrefixRef(self):
         return self.schedulerNamePrefixRef
 
     def setSchedulerNamePrefixRef(self, value):
-        self.schedulerNamePrefixRef = value
+        if value is not None:
+            self.schedulerNamePrefixRef = value
         return self
-
 
 class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
