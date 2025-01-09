@@ -2160,6 +2160,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
+        self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeImplementationDataTypeElements(self, element: ET.Element, parent: ImplementationDataType):
