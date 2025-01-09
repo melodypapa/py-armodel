@@ -946,7 +946,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read BswImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setArReleaseVersion(self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION")) \
-            .setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+            .setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF")) \
+            .setVendorApiInfix(self.getChildElementOptionalLiteral(element, "VENDOR-API-INFIX"))
         self.readBswImplementationVendorSpecificModuleDefRefs(element, impl)
         AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), impl.getBehaviorRef().getValue())
 
