@@ -516,4 +516,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * BSW-MODULE-DESCRIPTION
    * BSW-CALLED-ENTITY
    * BSW-SCHEDULABLE-ENTITY
+   * SW-SERVICE-ARG
 
