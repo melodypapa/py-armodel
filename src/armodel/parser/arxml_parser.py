@@ -606,28 +606,47 @@ class ARXMLParser(AbstractARXMLParser):
             prototype = behavior.createSharedParameter(short_name)
             self.readParameterDataPrototype(child_element, prototype)
 
-    def readSwcInternalBehavior(self, element: ET.Element, parent: AtomicSwComponentType):
-        for child_element in self.findall(element, "INTERNAL-BEHAVIORS/SWC-INTERNAL-BEHAVIOR"):
-            short_name = self.getShortName(child_element)
-            behavior = parent.createSwcInternalBehavior(short_name)
-            self.logger.debug("readSwcInternalBehavior %s" % behavior.full_name)
+    def readIncludedModeDeclarationGroupSet(self, element: ET.Element, group_set: IncludedModeDeclarationGroupSet):
+        for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-GROUP-REFS/MODE-DECLARATION-GROUP-REF"):
+            group_set.addModeDeclarationGroupRef(ref)
+        group_set.setPrefix(self.getChildElementOptionalLiteral(element, "PREFIX"))
 
-            # read the internal behavior
-            self.readInternalBehavior(child_element, behavior)
-            
-            # read the extra SwcInternalBehavior
-            self.readSwcInternalBehaviorArTypedPerInstanceMemories(child_element, behavior)
-            self.readSwcInternalBehaviorRunnables(child_element, behavior)
-            self.readSwcInternalBehaviorEvents(child_element, behavior)
-            self.readSwcInternalBehaviorServiceDependencies(child_element, behavior)
-            self.readExplicitInterRunnableVariables(child_element, behavior)
-            
-            behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART"))
-            self.readPerInstanceMemories(child_element, behavior)
-            self.readPerInstanceParameters(child_element, behavior)
-            self.readPortAPIOptions(child_element, behavior)
-            self.readSwcInternalBehaviorSharedParameters(child_element, behavior)
-            behavior.setSupportsMultipleInstantiation(self.getChildElementOptionalBooleanValue(child_element, "SUPPORTS-MULTIPLE-INSTANTIATION"))
+    def readSwcInternalBehaviorIncludedModeDeclarationGroupSets(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for child_element in self.findall(element, "INCLUDED-MODE-DECLARATION-GROUP-SETS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "INCLUDED-MODE-DECLARATION-GROUP-SET":
+                group_set = IncludedModeDeclarationGroupSet()
+                self.readIncludedModeDeclarationGroupSet(child_element, group_set)
+                behavior.addIncludedModeDeclarationGroupSet(group_set)
+            else:
+                self.notImplemented("Unsupported IncludedModeDeclarationGroupSet <%s>" % tag_name)
+
+    def readSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
+         # read the internal behavior
+        self.readInternalBehavior(element, behavior)
+        
+        # read the extra SwcInternalBehavior
+        self.readSwcInternalBehaviorArTypedPerInstanceMemories(element, behavior)
+        self.readSwcInternalBehaviorEvents(element, behavior)
+        self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
+        behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
+        self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
+        self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
+        self.readSwcInternalBehaviorPerInstanceParameters(element, behavior)
+        self.readSwcInternalBehaviorPortAPIOptions(element, behavior)
+        self.readSwcInternalBehaviorRunnables(element, behavior)
+        self.readSwcInternalBehaviorServiceDependencies(element, behavior)
+        self.readSwcInternalBehaviorSharedParameters(element, behavior)
+        behavior.setSupportsMultipleInstantiation(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-INSTANTIATION"))
+
+    def readAtomicSwComponentTypeSwcInternalBehavior(self, element: ET.Element, parent: AtomicSwComponentType):
+        for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWC-INTERNAL-BEHAVIOR":
+                behavior = parent.createSwcInternalBehavior(self.getShortName(child_element))
+                self.readSwcInternalBehavior(child_element, behavior)
+            else:
+                self.notImplemented("Unsupported Internal Behaviors <%s>" % tag_name)
 
     def getIncludedModeDeclarationGroupSets(self, element: ET.Element) -> List[IncludedModeDeclarationGroupSet]:
         group_sets = []
@@ -1124,16 +1143,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readParameterAccesses(element, entity)
         self.readReadLocalVariables(element, entity)
         self.readWrittenLocalVariables(element, entity)
-
         entity.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
 
-    def readSwcInternalBehaviorRunnables(self, element: ET.Element, parent: SwcInternalBehavior):
-        for child_element in self.findall(element, "RUNNABLES/RUNNABLE-ENTITY"):
-            short_name = self.getShortName(child_element)
-            entity = parent.createRunnableEntity(short_name)
-            self.logger.debug("readRunnableEntities %s" % short_name)
-            
-            self.readRunnableEntity(child_element, entity)
+    def readSwcInternalBehaviorRunnables(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for child_element in self.findall(element, "RUNNABLES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "RUNNABLE-ENTITY":
+                entity = behavior.createRunnableEntity(self.getShortName(child_element))
+                self.readRunnableEntity(child_element, entity)
 
     def getRModeInAtomicSwcInstanceRef(self, element: ET.Element) -> RModeInAtomicSwcInstanceRef:
         iref = RModeInAtomicSwcInstanceRef()
@@ -1168,13 +1185,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataPrototype(element, prototype)
         prototype.setInitValue(self.getInitValue(element))
 
-    def readExplicitInterRunnableVariables(self, element: ET.Element, parent: SwcInternalBehavior):
+    def readSwcInternalBehaviorExplicitInterRunnableVariables(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EXPLICIT-INTER-RUNNABLE-VARIABLES/VARIABLE-DATA-PROTOTYPE"):
             short_name = self.getShortName(child_element)
             prototype = parent.createExplicitInterRunnableVariable(short_name)
             self.readVariableDataPrototype(child_element, prototype)
 
-    def readPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def readSwcInternalBehaviorPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "PER-INSTANCE-MEMORYS/PER-INSTANCE-MEMORY"):
             short_name = self.getShortName(child_element)
             memory = behavior.createPerInstanceMemory(short_name)
@@ -1193,7 +1210,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataPrototype(element, prototype)
         prototype.setInitValue(self.getInitValue(element))
 
-    def readPerInstanceParameters(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def readSwcInternalBehaviorPerInstanceParameters(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "PER-INSTANCE-PARAMETERS/PARAMETER-DATA-PROTOTYPE"):
             short_name = self.getShortName(child_element)
             prototype = behavior.createPerInstanceParameter(short_name)
@@ -1207,7 +1224,7 @@ class ARXMLParser(AbstractARXMLParser):
         argument_value.setValueTypeTRef(self.getChildElementOptionalRefType(element, "VALUE-TYPE-TREF"))
         return argument_value
 
-    def readPortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def readSwcInternalBehaviorPortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "PORT-API-OPTIONS/PORT-API-OPTION"):
             option = PortAPIOption()
             option.setEnableTakeAddress(self.getChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS")) \
@@ -1800,7 +1817,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAtomicSwComponentType(self, element, parent: AtomicSwComponentType):
         self.readSwComponentType(element, parent)
-        self.readSwcInternalBehavior(element, parent)
+        self.readAtomicSwComponentTypeSwcInternalBehavior(element, parent)
 
     def readEcuAbstractionSwComponentType(self, element, sw_component: EcuAbstractionSwComponentType):
         self.logger.debug("Read EcuAbstractionSwComponentType <%s>" % sw_component.getShortName())

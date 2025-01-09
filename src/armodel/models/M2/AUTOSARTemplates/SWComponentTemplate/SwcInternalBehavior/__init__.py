@@ -11,7 +11,7 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMap
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, ARBoolean
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
-from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
@@ -290,6 +290,14 @@ class SwcInternalBehavior(InternalBehavior):
 
     def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
         return self.includedDataTypeSets
+    
+    def getIncludedModeDeclarationGroupSets(self):
+        return self.includedModeDeclarationGroupSets
+
+    def addIncludedModeDeclarationGroupSet(self, value):
+        if value is not None:
+            self.includedModeDeclarationGroupSets.append(value)
+        return self
 
     def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
         if (short_name not in self.elements):
