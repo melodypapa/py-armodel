@@ -25,7 +25,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent, BswVariableAccess
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent, BswVariableAccess
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -1975,13 +1975,37 @@ class ARXMLWriter(AbstractARXMLWriter):
             for group_set in group_sets:
                 self.setIncludedModeDeclarationGroupSet(child_element, group_set)
 
-    def setBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
+    def writeBswApiOptions(self, element: ET.Element, options: BswApiOptions):
+        self.writeARObjectAttributes(element, options)
+        self.setChildElementOptionalBooleanValue(element, "ENABLE-TAKE-ADDRESS", options.getEnableTakeAddress())
+
+    def writeBswDataReceptionPolicy(self, element: ET.Element, policy: BswDataReceptionPolicy):
+        self.writeBswApiOptions(element, policy)
+        self.setChildElementOptionalRefType(element, "RECEIVED-DATA-REF", policy.getReceivedDataRef())
+
+    def writeBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
+        child_element = ET.SubElement(element, "BSW-QUEUED-DATA-RECEPTION-POLICY")
+        self.writeBswDataReceptionPolicy(child_element, policy)
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
+
+    def writeBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getReceptionPolicies()
+        if len(policies) > 0:
+            child_element = ET.SubElement(element, "RECEPTION-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswQueuedDataReceptionPolicy):
+                    self.writeBswQueuedDataReceptionPolicy(child_element, policy)
+                else:
+                    self.notImplemented("Unsupported Reception Policies <%s>" % type(policy))
+
+    def writeBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         child_element = ET.SubElement(element, "BSW-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
         self.writeBswInternalBehaviorBswModuleEntities(child_element, behavior)
         self.writeBswInternalBehaviorBswEvents(child_element, behavior)
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
+        self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
 
     def writeBswModuleDescriptionInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         behaviors = desc.getInternalBehaviors()
@@ -1989,7 +2013,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "INTERNAL-BEHAVIORS")
             for behavior in behaviors:
                 if isinstance(behavior, BswInternalBehavior):
-                    self.setBswInternalBehavior(child_element, behavior)
+                    self.writeBswInternalBehavior(child_element, behavior)
                 else:
                     self.notImplemented("Unsupported Internal Behavior <%s>" % type(behavior))
 

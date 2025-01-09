@@ -509,6 +509,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. To support the following AR Element:
    * STATIC-MEMORYS
+   * RECEPTION-POLICYS
 2. Improve the following AR Element
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP
