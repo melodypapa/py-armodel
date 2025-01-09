@@ -45,7 +45,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         super().__init__()
 
         self.mode_declaration_group_refs = []           # type: List[RefType]
-        self.prefix = None                              # type: ARLiteral
+        self.prefix = None                              # type: Identifier
 
     def addModeDeclarationGroupRef(self, ref: RefType):
         self.mode_declaration_group_refs.append(ref)

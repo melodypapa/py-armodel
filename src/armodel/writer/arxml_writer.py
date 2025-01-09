@@ -1037,7 +1037,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "BACKGROUND-EVENT")
             self.setRTEEvent(child_element, event)
 
-    def writeRTEEvents(self, element: ET.Element, parent: SwcInternalBehavior):
+    def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
             child_element = ET.SubElement(element, "EVENTS")
@@ -1282,7 +1282,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", entity.symbol)
             self.writeWrittenLocalVariable(child_element, entity)
 
-    def writeSwcInternalBehaviorRunnableEntities(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def writeSwcInternalBehaviorRunnables(self, element: ET.Element, behavior: SwcInternalBehavior):
         entities = behavior.getRunnableEntities()
         if len(entities) > 0:
             runnables_tag = ET.SubElement(element, "RUNNABLES")
@@ -1302,7 +1302,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ArTypedPerInstanceMemories <%s>" % type(prototype))
                 
-    def writeExplicitInterRunnableVariables(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def writeSwcInternalBehaviorExplicitInterRunnableVariables(self, element: ET.Element, behavior: SwcInternalBehavior):
         prototypes = behavior.getExplicitInterRunnableVariables()
         if len(prototypes) > 0:
             child_element = ET.SubElement(element, "EXPLICIT-INTER-RUNNABLE-VARIABLES")
@@ -1312,7 +1312,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ExplicitInterRunnableVariables <%s>" % type(prototype))
 
-    def writePerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def writeSwcInternalBehaviorPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
         memories = behavior.getPerInstanceMemories()
         if len(memories) > 0:
             memories_tag = ET.SubElement(element, "PER-INSTANCE-MEMORYS")
@@ -1345,7 +1345,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setValueSpecification(child_element, "VALUE", argument_value.getValue())
                 self.setChildElementOptionalRefType(child_element, "VALUE-TYPE-TREF", argument_value.getValueTypeTRef())
 
-    def writePortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
+    def writeSwcInternalBehaviorPortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
         options = behavior.getPortAPIOptions()
         if len(options) > 0:
             port_api_options_tag = ET.SubElement(element, "PORT-API-OPTIONS")
@@ -1546,21 +1546,41 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for type_ref in type_refs:
                         self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
 
+    def writeIncludedModeDeclarationGroupSet(self, element: ET.Element, set: IncludedModeDeclarationGroupSet):
+        if set is not None:
+            child_element = ET.SubElement(element, "INCLUDED-MODE-DECLARATION-GROUP-SET")
+            refs = set.getModeDeclarationGroupRefs()
+            if len(refs) > 0:
+                refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-GROUP-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-GROUP-REF", ref)
+            self.setChildElementOptionalLiteral(child_element, "PREFIX", set.getPrefix())
+
+    def writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(self, element: ET.Element, behavior: SwcInternalBehavior):
+        group_sets = behavior.getIncludedModeDeclarationGroupSets()
+        if len(group_sets) > 0:
+            child_element = ET.SubElement(element, "INCLUDED-MODE-DECLARATION-GROUP-SETS")
+            for group_set in group_sets:
+                if isinstance(group_set, IncludedModeDeclarationGroupSet):
+                    self.writeIncludedModeDeclarationGroupSet(child_element, group_set)
+                else:
+                    self.notImplemented("Unsupported IncludedModeDeclarationGroupSet <%s>" % type(group_set))
 
     def writeSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
         self.logger.debug("writeSwInternalBehavior %s" % behavior.getShortName())
-
         child_element = ET.SubElement(element, "SWC-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
+
         self.writeSwcInternalBehaviorArTypedPerInstanceMemories(child_element, behavior)
-        self.writeRTEEvents(child_element, behavior)
-        self.writeExplicitInterRunnableVariables(child_element, behavior)
+        self.writeSwcInternalBehaviorEvents(child_element, behavior)
+        self.writeSwcInternalBehaviorExplicitInterRunnableVariables(child_element, behavior)
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.getHandleTerminationAndRestart())
         self.setIncludedDataTypeSets(child_element, behavior.getIncludedDataTypeSets())
-        self.writePerInstanceMemories(child_element, behavior)
+        self.writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
+        self.writeSwcInternalBehaviorPerInstanceMemories(child_element, behavior)
         self.writeParameterDataPrototypes(child_element, "PER-INSTANCE-PARAMETERS", behavior.getPerInstanceParameters())
-        self.writePortAPIOptions(child_element, behavior)
-        self.writeSwcInternalBehaviorRunnableEntities(child_element, behavior)
+        self.writeSwcInternalBehaviorPortAPIOptions(child_element, behavior)
+        self.writeSwcInternalBehaviorRunnables(child_element, behavior)
         self.writeSwcInternalBehaviorServiceDependencies(child_element, behavior)
         self.writeParameterDataPrototypes(child_element, "SHARED-PARAMETERS", behavior.getSharedParameters())
         self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-MULTIPLE-INSTANTIATION", behavior.getSupportsMultipleInstantiation())
