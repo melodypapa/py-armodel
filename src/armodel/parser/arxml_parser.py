@@ -25,7 +25,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName,
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -732,6 +732,28 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
+    def readBswApiOptions(self, element: ET.Element, options: BswApiOptions):
+        self.readARObjectAttributes(element, options)
+        options.setEnableTakeAddress(self.getChildElementOptionalBooleanValue(element, "ENABLE-TAKE-ADDRESS"))
+
+    def readBswDataReceptionPolicy(self, element: ET.Element, policy: BswDataReceptionPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setReceivedDataRef(self.getChildElementOptionalRefType(element, "RECEIVED-DATA-REF"))
+
+    def readBswQueuedDataReceptionPolicy(self, element: ET.Element, policy: BswQueuedDataReceptionPolicy):
+        self.readBswDataReceptionPolicy(element, policy)
+        policy.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
+
+    def readBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "RECEPTION-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-QUEUED-DATA-RECEPTION-POLICY":
+                policy = BswQueuedDataReceptionPolicy()
+                self.readBswQueuedDataReceptionPolicy(child_element, policy)
+                behavior.addReceptionPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Reception Policies <%s>" % tag_name)
+
     def readBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         self.logger.debug("Read BswInternalBehavior <%s>" % behavior.full_name)
 
@@ -742,6 +764,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswInternalBehaviorModeSenderPolicy(element, behavior)
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
+        self.readBswInternalBehaviorReceptionPolicies(element, behavior)
 
     def readBswModuleDescriptionBswInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):
