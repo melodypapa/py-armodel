@@ -830,7 +830,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleDescriptionBswInternalBehaviors(element, desc)
 
     def readSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
-        self.logger.debug("Read SwServiceArg <%s>" % arg.getShortName())
+        self.readIdentifiable(element, arg)
         arg.setDirection(self.getChildElementOptionalLiteral(element, "DIRECTION")) \
            .setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
