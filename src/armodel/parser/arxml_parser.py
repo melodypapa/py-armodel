@@ -25,7 +25,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName,
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -322,7 +322,7 @@ class ARXMLParser(AbstractARXMLParser):
         entity.setMinimumStartInterval(self.getChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL")) \
               .setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
 
-    def readBswModuleEntityManagedModeGroup(self, element: ET.Element, entity: BswModuleEntity):
+    def readBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "sMANAGED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"):
             ref_type = self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF")
             if ref_type is not None:
@@ -638,10 +638,39 @@ class ARXMLParser(AbstractARXMLParser):
             group_sets.append(group_set)
         return group_sets
     
+    def readBswVariableAccess(self, element: ET.Element, access: BswVariableAccess):
+        self.readReferrable(element, access)
+        access.setAccessedVariableRef(self.getChildElementOptionalRefType(element, "ACCESSED-VARIABLE-REF"))
+    
+    def readBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
+        for child_element in self.findall(element, "DATA-SEND-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-VARIABLE-ACCESS":
+                point = entity.createDataSendPoint(self.getShortName(child_element))
+                self.readBswVariableAccess(child_element, point)
+            else:
+                self.notImplemented("Unsupported Data Send Point <%s>" % tag_name)
+
+    def readBswModuleEntityDataReceiverPoints(self, element: ET.Element, entity: BswModuleEntity):
+        for child_element in self.findall(element, "DATA-RECEIVE-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-VARIABLE-ACCESS":
+                point = entity.createDataReceivePoint(self.getShortName(child_element))
+                self.readBswVariableAccess(child_element, point)
+            else:
+                self.notImplemented("Unsupported Data Receive Point <%s>" % tag_name)
+
+    def readBswModuleEntityIssuedTriggerRefs(self, element: ET.Element, entity: BswModuleEntity):
+        for ref in self.getChildElementRefTypeList(element, "ISSUED-TRIGGERS/TRIGGER-REF-CONDITIONAL/TRIGGER-REF"):
+            entity.addIssuedTriggerRef(ref)
+    
     def readBswModuleEntity(self, element: ET.Element, entity: BswModuleEntity):
         self.readExecutableEntity(element, entity)
+        self.readBswModuleEntityDataReceiverPoints(element, entity)
+        self.readBswModuleEntityDataSendPoints(element, entity)
         entity.setImplementedEntryRef(self.getChildElementRefType(entity.getShortName(), element, "IMPLEMENTED-ENTRY-REF"))
-        self.readBswModuleEntityManagedModeGroup(element, entity)
+        self.readBswModuleEntityManagedModeGroups(element, entity)
+        self.readBswModuleEntityIssuedTriggerRefs(element, entity)
     
     def readBswCalledEntity(self, element: ET.Element, entity: BswCalledEntity):
         self.logger.debug("read BswCalledEntity %s" % entity.getShortName())

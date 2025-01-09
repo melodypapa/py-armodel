@@ -1,9 +1,6 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
-
-
-
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -28,7 +25,7 @@ from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswEvent, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity, BswSchedulableEntity, BswScheduleEvent, BswTimingEvent, BswVariableAccess
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -1825,7 +1822,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL", entity.getMinimumStartInterval())
         self.setChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF", entity.getSwAddrMethodRef())
 
-    def writeBswModuleEntityManagedModeGroup(self, element: ET.Element, entity: BswModuleEntity):
+    def writeBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
         mode_group_refs = entity.getManagedModeGroupRefs()
         if len(mode_group_refs) > 0:
             mode_groups_tag = ET.SubElement(element, "MANAGED-MODE-GROUPS")
@@ -1833,10 +1830,47 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(mode_groups_tag, "MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF", mode_group_ref)
 
+    def writeBswVariableAccess(self, element: ET.Element, access: BswVariableAccess):
+        if access is not None:
+            child_element = ET.SubElement(element, "BSW-VARIABLE-ACCESS")
+            self.writeReferrable(child_element, access)
+            self.setChildElementOptionalRefType(child_element, "ACCESSED-VARIABLE-REF", access.getAccessedVariableRef())
+    
+    def writeBswModuleEntityDataSendPoints(self, element: ET.Element, entity: BswModuleEntity):
+        points = entity.getDataSendPoints()
+        if len(points) > 0:
+            child_element = ET.SubElement(element, "DATA-SEND-POINTS")
+            for point in points:
+                if isinstance(point, BswVariableAccess):
+                    self.writeBswVariableAccess(child_element, point)
+                else:
+                    self.notImplemented("Unsupported Data Send Point <%s>" % type(point))
+
+    def writeBswModuleEntityDataReceivePoints(self, element: ET.Element, entity: BswModuleEntity):
+        points = entity.getDataReceivePoints()
+        if len(points) > 0:
+            child_element = ET.SubElement(element, "DATA-RECEIVE-POINTS")
+            for point in points:
+                if isinstance(point, BswVariableAccess):
+                    self.writeBswVariableAccess(child_element, point)
+                else:
+                    self.notImplemented("Unsupported Data Receive Point <%s>" % type(point))
+
+    def writeBswModuleEntityIssuedTriggerRefs(self, element: ET.Element, entity: BswModuleEntity):
+        refs = entity.getIssuedTriggerRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ISSUED-TRIGGERS")
+            for ref in refs:
+                cond_tag = ET.SubElement(child_element, "TRIGGER-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "TRIGGER-REF", ref)
+
     def writeBswModuleEntity(self, element: ET.Element, entity: BswModuleEntity):
         self.writeExecutableEntity(element, entity)
+        self.writeBswModuleEntityDataSendPoints(element, entity)
+        self.writeBswModuleEntityDataReceivePoints(element, entity)
         self.setChildElementOptionalRefType(element, "IMPLEMENTED-ENTRY-REF", entity.implementedEntryRef)
-        self.writeBswModuleEntityManagedModeGroup(element, entity)
+        self.writeBswModuleEntityManagedModeGroups(element, entity)
+        self.writeBswModuleEntityIssuedTriggerRefs(element, entity)
 
     def writeBswCalledEntity(self, element: ET.Element, entity: BswCalledEntity):
         self.logger.debug("Write BswCalledEntity <%s>" % entity.getShortName())
@@ -2017,14 +2051,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleDescriptionProvidedDatas(child_element, desc)
         self.writeBswModuleDescriptionRequiredDatas(child_element, desc)
         self.writeBswModuleDescriptionInternalBehaviors(child_element, desc)
-
-    def writeBswModuleEntityManagedModeGroup(self, element: ET.Element, entity: BswModuleEntity):
-        mode_group_refs = entity.getManagedModeGroupRefs()
-        if len(mode_group_refs) > 0:
-            mode_groups_tag = ET.SubElement(element, "MANAGED-MODE-GROUPS")
-            for mode_group_ref in mode_group_refs:
-                child_element = ET.SubElement(mode_groups_tag, "MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
-                self.setChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF", mode_group_ref)
 
     def setSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
