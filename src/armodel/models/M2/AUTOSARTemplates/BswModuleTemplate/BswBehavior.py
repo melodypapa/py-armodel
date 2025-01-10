@@ -125,9 +125,9 @@ class BswModuleEntity(ExecutableEntity, metaclass = ABCMeta):
     def getManagedModeGroupRefs(self):
         return self.managedModeGroupRefs
 
-    def setManagedModeGroupRefs(self, value):
+    def addManagedModeGroupRef(self, value):
         if value is not None:
-            self.managedModeGroupRefs = value
+            self.managedModeGroupRefs.append(value)
         return self
 
     def getSchedulerNamePrefixRef(self):

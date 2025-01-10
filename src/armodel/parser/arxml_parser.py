@@ -294,7 +294,7 @@ class ARXMLParser(AbstractARXMLParser):
         prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
 
     def readBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
-        for child_element in self.findall(element, "PROVIDED-MODE-GROUPS"):
+        for child_element in self.findall(element, "PROVIDED-MODE-GROUPS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "MODE-DECLARATION-GROUP-PROTOTYPE":
                 mode_group = parent.createProvidedModeGroup(self.getShortName(child_element))
@@ -323,7 +323,7 @@ class ARXMLParser(AbstractARXMLParser):
               .setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
 
     def readBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
-        for child_element in self.findall(element, "sMANAGED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"):
+        for child_element in self.findall(element, "MANAGED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"):
             ref_type = self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF")
             if ref_type is not None:
                 entity.addManagedModeGroupRef(ref_type)
