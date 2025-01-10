@@ -54,10 +54,10 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEve
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationRecordDataType, AutosarDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, ApplicationSwComponentType, AtomicSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PRPortPrototype, PortGroup, SwComponentType, PPortPrototype, PortPrototype, RPortPrototype, SymbolProps
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, ModeGroupInAtomicSwcInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AsynchronousServerCallPoint, RunnableEntity, RunnableEntityArgument, SwcInternalBehavior, SynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
@@ -1128,42 +1128,42 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, parameter_access)
         self.setAutosarParameterRef(child_element, "ACCESSED-PARAMETER", parameter_access.getAccessedParameter())
 
-    def writeParameterAccesses(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityParameterAccesses(self, element: ET.Element, entity: RunnableEntity):
         parameter_accesses = entity.getParameterAccesses()
         if len(parameter_accesses) > 0:
             child_element = ET.SubElement(element, "PARAMETER-ACCESSS")
             for parameter_access in parameter_accesses:
                 self.writeParameterAccess(child_element, parameter_access)
         
-    def writeDataReceivePointByArguments(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityDataReceivePointByArguments(self, element: ET.Element, entity: RunnableEntity):
         accesses = entity.getDataReceivePointByArguments()
         if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
             for access in accesses:
                 self.setVariableAccess(child_element, access)
 
-    def writeDataSendPoints(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityDataSendPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getDataSendPoints()
         if len(points) > 0:
             child_element = ET.SubElement(element, "DATA-SEND-POINTS")
             for point in points:
                 self.setVariableAccess(child_element, point)
 
-    def writeDataReadAccesses(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityDataReadAccesses(self, element: ET.Element, entity: RunnableEntity):
         accesses = entity.getDataReadAccesses()
         if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-READ-ACCESSS")
             for access in accesses:
                 self.setVariableAccess(child_element, access)
 
-    def writeDataWriteAccesses(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityDataWriteAccesses(self, element: ET.Element, entity: RunnableEntity):
         accesses = entity.getDataWriteAccesses()
         if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-WRITE-ACCESSS")
             for access in accesses:
                 self.setVariableAccess(child_element, access)
 
-    def writeReadLocalVariables(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityReadLocalVariables(self, element: ET.Element, entity: RunnableEntity):
         variables = entity.getReadLocalVariables()
         if len(variables) > 0:
             child_element = ET.SubElement(element, "READ-LOCAL-VARIABLES")
@@ -1191,7 +1191,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, call_point)
         self.setServerCallPoint(child_element, call_point)
 
-    def writeServerCallPoints(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityServerCallPoints(self, element: ET.Element, entity: RunnableEntity):
         call_points = entity.getServerCallPoints()
         if len(call_points) > 0:
             child_element = ET.SubElement(element, "SERVER-CALL-POINTS")
@@ -1203,42 +1203,79 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ServerCallPoint type <%s>" % type(call_point))
 
-    def writeWrittenLocalVariable(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityWrittenLocalVariable(self, element: ET.Element, entity: RunnableEntity):
         variables = entity.getWrittenLocalVariables()
         if len(variables) > 0:
             child_element = ET.SubElement(element, "WRITTEN-LOCAL-VARIABLES")
             for access in variables:
                 self.setVariableAccess(child_element, access)
 
-    def setRModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, tag: str, iref: RModeGroupInAtomicSWCInstanceRef):
-        if iref is not None:
-            child_element = ET.SubElement(element, tag)
-            instance_ref_tag = ET.SubElement(child_element, "R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
-            self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-R-PORT-REF", iref.getContextRPortRef())
-            self.setChildElementOptionalRefType(instance_ref_tag, "TARGET-MODE-GROUP-REF", iref.getTargetModeGroupRef())
+    def writeModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
+        self.setChildElementOptionalRefType(element, "BASE-REF", instance_ref.getBaseRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-REF", instance_ref.getContextPortRef())
 
-    def setPModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, tag: str, iref: PModeGroupInAtomicSwcInstanceRef):
-        if iref is not None:
-            child_element = ET.SubElement(element, tag)
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", iref.getContextPPortRef())
-            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", iref.getTargetModeGroupRef())
+    def writeRModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, instance_ref: RModeGroupInAtomicSWCInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, "R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
+            self.writeModeGroupInAtomicSwcInstanceRef(child_element, instance_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF", instance_ref.getContextRPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
 
-    def writeModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
+    def writePModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, instance_ref: PModeGroupInAtomicSwcInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, "P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
+            self.writeModeGroupInAtomicSwcInstanceRef(child_element, instance_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
+
+    def setModeGroupIRef(self, element: ET.Element, key: str, instance_ref: ModeGroupInAtomicSwcInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            if isinstance(instance_ref, PModeGroupInAtomicSwcInstanceRef):
+                self.writePModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            elif isinstance(instance_ref, RModeGroupInAtomicSWCInstanceRef):
+                self.writeRModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            else:
+                self.notImplemented("Unsupported Mode Group IRef <%s>" % type(instance_ref))
+        return instance_ref
+
+    def writeModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
+        if point is not None:
+            child_element = ET.SubElement(element, "MODE-ACCESS-POINT")
+            self.setModeGroupIRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
+
+    def writeRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getModeAccessPoints()
         if len(points) > 0:
-            mode_access_points_tag = ET.SubElement(element, "MODE-ACCESS-POINTS")
+            child_element = ET.SubElement(element, "MODE-ACCESS-POINTS")
             for point in points:
-                child_element = ET.SubElement(mode_access_points_tag, "MODE-ACCESS-POINT")
-                self.setRModeGroupInAtomicSWCInstanceRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
+                if isinstance(point, ModeAccessPoint):
+                    self.writeModeAccessPoint(child_element, point)
+                else:
+                    self.notImplemented("Unsupported Mode Access Points <%s>" % type(point))
 
-    def writeModeSwitchPoints(self, element: ET.Element, entity: RunnableEntity):
+    def writeModeSwitchPointModeGroupIRef(self, element: ET.Element, point: ModeSwitchPoint):
+        if point is not None:
+            child_element = ET.SubElement(element, "MODE-GROUP-IREF")
+            instance_ref = point.getModeGroupIRef()
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
+
+    def writeModeSwitchPoint(self, element: ET.Element, point: ModeSwitchPoint):
+        if point is not None:
+            child_element = ET.SubElement(element, "MODE-SWITCH-POINT")
+            self.writeIdentifiable(child_element, point)
+            self.writeModeSwitchPointModeGroupIRef(child_element, point)
+
+    def writeRunnableEntityModeSwitchPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getModeSwitchPoints()
         if len(points) > 0:
-            mode_access_points_tag = ET.SubElement(element, "MODE-SWITCH-POINTS")
+            child_element = ET.SubElement(element, "MODE-SWITCH-POINTS")
             for point in points:
-                child_element = ET.SubElement(mode_access_points_tag, "MODE-SWITCH-POINT")
-                self.writeIdentifiable(child_element, point)
-                self.setPModeGroupInAtomicSWCInstanceRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
+                if isinstance(point, ModeSwitchPoint):
+                    self.writeModeSwitchPoint(child_element, point)
+                else:
+                    self.notImplemented("unsupported Mode Switch Point <%s>" % type(point))
 
     def setRunnableEntityArgument(self, element: ET.Element, argument: RunnableEntityArgument):
         child_element = ET.SubElement(element, "RUNNABLE-ENTITY-ARGUMENT")
@@ -1254,7 +1291,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported argument of Runnable Entity <%s>" % type(argument))
 
-    def writeAsynchronousServerCallResultPoint(self, element: ET.Element, entity: RunnableEntity):
+    def writeRunnableEntityAsynchronousServerCallResultPoint(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getAsynchronousServerCallResultPoints()
         if len(points) > 0:
             points_tag = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS")
@@ -1268,19 +1305,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "RUNNABLE-ENTITY")
             self.writeExecutableEntity(child_element, entity)
             self.writeRunnableEntityArguments(child_element, entity)
-            self.writeAsynchronousServerCallResultPoint(child_element, entity)
+            self.writeRunnableEntityAsynchronousServerCallResultPoint(child_element, entity)
             self.setChildElementOptionalBooleanValue(child_element, "CAN-BE-INVOKED-CONCURRENTLY", entity.getCanBeInvokedConcurrently())
-            self.writeDataReadAccesses(child_element, entity)
-            self.writeDataReceivePointByArguments(child_element, entity)
-            self.writeDataSendPoints(child_element, entity)
-            self.writeDataWriteAccesses(child_element, entity)
-            self.writeModeAccessPoints(child_element, entity)
-            self.writeModeSwitchPoints(child_element, entity)
-            self.writeParameterAccesses(child_element, entity)
-            self.writeReadLocalVariables(child_element, entity)
-            self.writeServerCallPoints(child_element, entity)
+            self.writeRunnableEntityDataReadAccesses(child_element, entity)
+            self.writeRunnableEntityDataReceivePointByArguments(child_element, entity)
+            self.writeRunnableEntityDataSendPoints(child_element, entity)
+            self.writeRunnableEntityDataWriteAccesses(child_element, entity)
+            self.writeRunnableEntityModeAccessPoints(child_element, entity)
+            self.writeRunnableEntityModeSwitchPoints(child_element, entity)
+            self.writeRunnableEntityParameterAccesses(child_element, entity)
+            self.writeRunnableEntityReadLocalVariables(child_element, entity)
+            self.writeRunnableEntityServerCallPoints(child_element, entity)
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", entity.symbol)
-            self.writeWrittenLocalVariable(child_element, entity)
+            self.writeRunnableEntityWrittenLocalVariable(child_element, entity)
 
     def writeSwcInternalBehaviorRunnables(self, element: ET.Element, behavior: SwcInternalBehavior):
         entities = behavior.getRunnableEntities()

@@ -10,4 +10,12 @@ class AbstractAccessPoint(Identifiable, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.return_value_provision = None  
+        self.returnValueProvision = None                                    # type: RteApiReturnValueProvisionEnum
+
+    def getReturnValueProvision(self):
+        return self.returnValueProvision
+
+    def setReturnValueProvision(self, value):
+        if value is not None:
+            self.returnValueProvision = value
+        return self
