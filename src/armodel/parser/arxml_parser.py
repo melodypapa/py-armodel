@@ -63,12 +63,12 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Instan
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, ApplicationSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PortGroup, SensorActuatorSwComponentType, ServiceSwComponentType, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, ModeGroupInAtomicSwcInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcInternalBehavior
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface, VariableAndParameterInterfaceMapping
@@ -976,19 +976,19 @@ class ARXMLParser(AbstractARXMLParser):
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
         AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), impl.getBehaviorRef().getValue())
 
-    def readDataReceivePointByArguments(self, element, parent: RunnableEntity):
+    def readRunnableEntityDataReceivePointByArguments(self, element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
 
-    def readDataReceivePointByValues(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityDataReceivePointByValues(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-VALUES")
 
-    def readDataReadAccesses(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityDataReadAccesses(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-READ-ACCESSS")
 
-    def readDataWriteAccesses(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityDataWriteAccesses(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-WRITE-ACCESSS")
 
-    def readDataSendPoints(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityDataSendPoints(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-SEND-POINTS")
 
     def getRunnableEntityArgument(self, element: ET.Element) -> RunnableEntityArgument:
@@ -1004,17 +1004,17 @@ class ARXMLParser(AbstractARXMLParser):
             parameter.setLocalParameterRef(self.getChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF"))
         return parameter
 
-    def readParameterAccesses(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityParameterAccesses(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "PARAMETER-ACCESSS/PARAMETER-ACCESS"):
             short_name = self.getShortName(child_element)
             self.logger.debug("readParameterAccesses %s" % short_name)
             parameter_access = parent.createParameterAccess(short_name)
             parameter_access.setAccessedParameter(self.getAutosarParameterRef(child_element, "ACCESSED-PARAMETER"))
 
-    def readWrittenLocalVariables(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityWrittenLocalVariables(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "WRITTEN-LOCAL-VARIABLES")
 
-    def readReadLocalVariables(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityReadLocalVariables(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "READ-LOCAL-VARIABLES")
 
     def readROperationIRef(self, element: ET.Element, key: str, parent: ServerCallPoint):
@@ -1058,7 +1058,7 @@ class ARXMLParser(AbstractARXMLParser):
         server_call_point.setTimeout(self.getChildElementOptionalFloatValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
 
-    def readInternalBehaviorServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityInternalBehaviorServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "SERVER-CALL-POINTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "SYNCHRONOUS-SERVER-CALL-POINT":
@@ -1068,7 +1068,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported server call point type <%s>" % tag_name)
 
-    def readInternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
+    def readRunnableEntityInternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/INTERNAL-TRIGGERING-POINT"):
             short_name = self.getShortName(child_element)
             point = parent.createInternalTriggeringPoint(short_name)
@@ -1082,34 +1082,67 @@ class ARXMLParser(AbstractARXMLParser):
             .setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
         return iref
     
-    def getRModeGroupInAtomicSWCInstanceRef(self, element: ET.Element) -> RModeGroupInAtomicSWCInstanceRef:
-        child_element = self.find(element, "MODE-GROUP-IREF/R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF")
-        iref = None
-        if child_element is not None:
-            iref = RModeGroupInAtomicSWCInstanceRef()
-            iref.setContextRPortRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF")) \
-                .setTargetModeGroupRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF"))
-        return iref
+    def readModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
+        instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF")) \
+                    .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
     
-    def getPModeGroupInAtomicSWCInstanceRef(self, element: ET.Element) -> PModeGroupInAtomicSwcInstanceRef:
+    def readRModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, instance_ref: RModeGroupInAtomicSWCInstanceRef):
+        self.readModeGroupInAtomicSwcInstanceRef(element, instance_ref)
+        instance_ref.setContextRPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-R-PORT-REF")) \
+                    .setTargetModeGroupRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-GROUP-REF"))
+    
+    def readPModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, instance_ref: PModeGroupInAtomicSwcInstanceRef):
+        self.readModeGroupInAtomicSwcInstanceRef(element, instance_ref)
+        instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF")) \
+                    .setTargetModeGroupRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-GROUP-REF"))
+    
+    def getModeGroupIRef(self, element: ET.Element, key: str) -> ModeGroupInAtomicSwcInstanceRef:
+        instance_ref = None
+        for child_element in self.findall(element, "%s/*" % key):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF":
+                instance_ref = PModeGroupInAtomicSwcInstanceRef()
+                self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            elif tag_name == "R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF":
+                instance_ref = RModeGroupInAtomicSWCInstanceRef()
+                self.readRModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            else:
+                self.notImplemented("Unsupported Mode Group IRef <%s>" % tag_name)
+        return instance_ref
+    
+    def readModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
+        self.readARObjectAttributes(element, point)
+        point.setModeGroupIRef(self.getModeGroupIRef(element, "MODE-GROUP-IREF"))
+
+    def readRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
+        for child_element in self.findall(element, "MODE-ACCESS-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODE-ACCESS-POINT":
+                point = ModeAccessPoint()
+                self.readModeAccessPoint(child_element, point)
+                entity.addModeAccessPoint(point)
+            else:
+                self.notImplemented("Unsupported Mode Access Point <%s>" % tag_name)
+
+    def readModeSwitchPointModeGroupIRef(self, element: ET.Element, point: ModeSwitchPoint):
         child_element = self.find(element, "MODE-GROUP-IREF")
-        iref = None
         if child_element is not None:
-            iref = PModeGroupInAtomicSwcInstanceRef()
-            iref.setContextPPortRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF")) \
-                .setTargetModeGroupRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF"))
-        return iref
+            instance_ref = PModeGroupInAtomicSwcInstanceRef()
+            self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            point.setModeGroupIRef(instance_ref)
 
-    def readModeAccessPoints(self, element: ET.Element, parent: RunnableEntity):
-        for child_element in self.findall(element, "MODE-ACCESS-POINTS/MODE-ACCESS-POINT"):
-            point = ModeAccessPoint()
-            point.setModeGroupIRef(self.getRModeGroupInAtomicSWCInstanceRef(child_element))
-            parent.addModeAccessPoint(point)
-
-    def readModeSwitchPoints(self, element: ET.Element, parent: RunnableEntity):
-        for child_element in self.findall(element, "MODE-SWITCH-POINTS/MODE-SWITCH-POINT"):
-            point = parent.createModeSwitchPoint(self.getShortName(child_element))
-            point.setModeGroupIRef(self.getPModeGroupInAtomicSWCInstanceRef(child_element))
+    def readModeSwitchPoint(self, element: ET.Element, point: ModeSwitchPoint):
+        self.readARObjectAttributes(element, point)
+        self.readModeSwitchPointModeGroupIRef(element, point)
+    
+    def readRunnableEntityModeSwitchPoints(self, element: ET.Element, parent: RunnableEntity):
+        for child_element in self.findall(element, "MODE-SWITCH-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODE-SWITCH-POINT":
+                point = parent.createModeSwitchPoint(self.getShortName(child_element))
+                self.readModeSwitchPoint(child_element, point)
+            else:
+                self.notImplemented("Unsupported Mode Switch Point <%s>" % tag_name)
 
     def readRunnableEntityArguments(self, element: ET.Element, entity: RunnableEntity):
         for child_element in self.findall(element, "ARGUMENTS/*"):
@@ -1119,7 +1152,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Arguments of runnable entity <%s>" % tag_name)
 
-    def readAsynchronousServerCallResultPoint(self, element: ET.Element, entity: RunnableEntity):
+    def readRunnableEntityAsynchronousServerCallResultPoint(self, element: ET.Element, entity: RunnableEntity):
         for child_element in self.findall(element, "ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS/ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"):
             point = entity.createAsynchronousServerCallResultPoint(self.getShortName(child_element))
             self.readIdentifiable(child_element, point)
@@ -1129,28 +1162,28 @@ class ARXMLParser(AbstractARXMLParser):
         self.readExecutableEntity(element, entity)
         self.readRunnableEntityArguments(element, entity)
 
-        self.readAsynchronousServerCallResultPoint(element, entity)
+        self.readRunnableEntityAsynchronousServerCallResultPoint(element, entity)
         entity.setCanBeInvokedConcurrently(self.getChildElementOptionalBooleanValue(element, "CAN-BE-INVOKED-CONCURRENTLY"))
-        self.readDataReadAccesses(element, entity)
-        self.readDataReceivePointByArguments(element, entity)
-        self.readDataReceivePointByValues(element, entity)
-        self.readDataWriteAccesses(element, entity)
-        self.readDataSendPoints(element, entity)
-        self.readInternalBehaviorServerCallPoint(element, entity)
-        self.readInternalTriggeringPoints(element, entity)
-        self.readModeAccessPoints(element, entity)
-        self.readModeSwitchPoints(element, entity)
-        self.readParameterAccesses(element, entity)
-        self.readReadLocalVariables(element, entity)
-        self.readWrittenLocalVariables(element, entity)
+        self.readRunnableEntityDataReadAccesses(element, entity)
+        self.readRunnableEntityDataReceivePointByArguments(element, entity)
+        self.readRunnableEntityDataReceivePointByValues(element, entity)
+        self.readRunnableEntityDataWriteAccesses(element, entity)
+        self.readRunnableEntityDataSendPoints(element, entity)
+        self.readRunnableEntityInternalBehaviorServerCallPoint(element, entity)
+        self.readRunnableEntityInternalTriggeringPoints(element, entity)
+        self.readRunnableEntityModeAccessPoints(element, entity)
+        self.readRunnableEntityModeSwitchPoints(element, entity)
+        self.readRunnableEntityParameterAccesses(element, entity)
+        self.readRunnableEntityReadLocalVariables(element, entity)
+        self.readRunnableEntityWrittenLocalVariables(element, entity)
+
         entity.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
 
-    def readSwcInternalBehaviorRunnables(self, element: ET.Element, behavior: SwcInternalBehavior):
-        for child_element in self.findall(element, "RUNNABLES/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "RUNNABLE-ENTITY":
-                entity = behavior.createRunnableEntity(self.getShortName(child_element))
-                self.readRunnableEntity(child_element, entity)
+    def readSwcInternalBehaviorRunnables(self, element: ET.Element, parent: SwcInternalBehavior):
+        for child_element in self.findall(element, "RUNNABLES/RUNNABLE-ENTITY"):
+            short_name = self.getShortName(child_element)
+            entity = parent.createRunnableEntity(short_name)
+            self.readRunnableEntity(child_element, entity)
 
     def getRModeInAtomicSwcInstanceRef(self, element: ET.Element) -> RModeInAtomicSwcInstanceRef:
         iref = RModeInAtomicSwcInstanceRef()
