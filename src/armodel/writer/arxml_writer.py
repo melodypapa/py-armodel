@@ -1844,7 +1844,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
         child_element = ET.SubElement(element, "MODE-DECLARATION-GROUP-PROTOTYPE") 
         self.writeIdentifiable(child_element, prototype)
-        self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.type_tref)
+        self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.getTypeTRef())
 
     def writeBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
         mode_groups = parent.getProvidedModeGroups()

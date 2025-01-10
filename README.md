@@ -520,4 +520,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * BSW-SCHEDULABLE-ENTITY
    * SW-SERVICE-ARG
    * RUNNABLE-ENTITY
+3. Fix the following AR Element
+   * PROVIDED-MODE-GROUPS
+   * MANAGED-MODE-GROUPS 
 
