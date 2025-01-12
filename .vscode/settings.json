@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "ADDRESSS",
         "ADDRMETHOD",
         "Alives",
         "appl",
@@ -67,11 +68,16 @@
         "SWMAKE",
         "SWSRC",
         "topdown",
+        "TRCV",
         "Triggerings",
         "unnumber",
         "Uudt"
     ],
     "python.formatting.autopep8Args": [
         "--max-line-length=200"
+    ],
+    "flake8.args": [
+        "--max-line-length=150",
+        "--ignore=F401,W293"
     ]
 }

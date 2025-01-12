@@ -1,12 +1,12 @@
 from typing import List
 
-
-from ....M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
+from ....M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from ....M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, RevisionLabelString, TRefType
+
 
 class SwcToEcuMapping(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -44,6 +44,7 @@ class SwcToEcuMapping(Identifiable):
     def setProcessingUnitRef(self, value):
         self.processingUnitRef = value
         return self
+
 
 class SystemMapping(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -251,6 +252,7 @@ class SystemMapping(Identifiable):
         self.systemSignalToComResourceMappings.append(value)
         return self
 
+
 class RootSwCompositionPrototype(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -279,6 +281,7 @@ class RootSwCompositionPrototype(Identifiable):
     def setSoftwareCompositionTRef(self, value):
         self.softwareCompositionTRef = value
         return self
+
 
 class System(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -320,7 +323,7 @@ class System(ARElement):
         return self
 
     def getFibexElementRefs(self):
-        #return sorted(self.fibexElements, key= lambda i: i.getShortValue())
+        # return sorted(self.fibexElements, key= lambda i: i.getShortValue())
         return self.fibexElements
 
     def addFibexElementRef(self, value):
@@ -343,7 +346,7 @@ class System(ARElement):
         return self
 
     def getMappings(self) -> List[SystemMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements.values()), key=lambda o: o.short_name))
 
     def createSystemMapping(self, short_name) -> SystemMapping:
         if (short_name not in self.elements):
@@ -395,10 +398,3 @@ class System(ARElement):
     def setSystemVersion(self, value):
         self.systemVersion = value
         return self
-
-
-
-
-   
-
-

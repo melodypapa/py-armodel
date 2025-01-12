@@ -17,6 +17,8 @@ from .....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEn
 from .....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from .....M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
 from .....M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+from .....M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
+from .....M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Identifiable, Referrable
 from .....M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
@@ -32,6 +34,9 @@ from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
 from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
+from .....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationController
+from .....M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
 from .....M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from .....M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
@@ -483,8 +488,8 @@ class ARPackage(Identifiable, CollectableElement):
     
     def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
         if (not self.IsElementExists(short_name)):
-            map = PortInterfaceMappingSet(self, short_name)
-            self.addElement(map)
+            map_set = PortInterfaceMappingSet(self, short_name)
+            self.addElement(map_set)
         return self.getElement(short_name)
     
     def createEthernetCluster(self, short_name: str) -> EthernetCluster:
@@ -495,62 +500,92 @@ class ARPackage(Identifiable, CollectableElement):
     
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
         if (not self.IsElementExists(short_name)):
-            cluster = DiagnosticConnection(self, short_name)
-            self.addElement(cluster)
+            connection = DiagnosticConnection(self, short_name)
+            self.addElement(connection)
         return self.getElement(short_name)
     
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         if (not self.IsElementExists(short_name)):
-            cluster = DiagnosticServiceTable(self, short_name)
-            self.addElement(cluster)
+            table = DiagnosticServiceTable(self, short_name)
+            self.addElement(table)
         return self.getElement(short_name)
     
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
         if (not self.IsElementExists(short_name)):
-            cluster = MultiplexedIPdu(self, short_name)
-            self.addElement(cluster)
+            ipdu = MultiplexedIPdu(self, short_name)
+            self.addElement(ipdu)
         return self.getElement(short_name)
     
     def createUserDefinedIPdu(self, short_name: str) -> UserDefinedIPdu:
         if (not self.IsElementExists(short_name)):
-            cluster = UserDefinedIPdu(self, short_name)
-            self.addElement(cluster)
+            ipdu = UserDefinedIPdu(self, short_name)
+            self.addElement(ipdu)
         return self.getElement(short_name)
     
     def createUserDefinedPdu(self, short_name: str) -> UserDefinedPdu:
         if (not self.IsElementExists(short_name)):
-            cluster = UserDefinedPdu(self, short_name)
-            self.addElement(cluster)
+            pdu = UserDefinedPdu(self, short_name)
+            self.addElement(pdu)
         return self.getElement(short_name)
     
     def createGeneralPurposeIPdu(self, short_name: str) -> GeneralPurposeIPdu:
         if (not self.IsElementExists(short_name)):
-            cluster = GeneralPurposeIPdu(self, short_name)
-            self.addElement(cluster)
+            i_pdu = GeneralPurposeIPdu(self, short_name)
+            self.addElement(i_pdu)
         return self.getElement(short_name)
     
     def createGeneralPurposePdu(self, short_name: str) -> GeneralPurposePdu:
         if (not self.IsElementExists(short_name)):
-            cluster = GeneralPurposePdu(self, short_name)
-            self.addElement(cluster)
+            pdu = GeneralPurposePdu(self, short_name)
+            self.addElement(pdu)
         return self.getElement(short_name)
     
     def createSecureCommunicationPropsSet(self, short_name: str) -> SecureCommunicationPropsSet:
         if (not self.IsElementExists(short_name)):
-            cluster = SecureCommunicationPropsSet(self, short_name)
-            self.addElement(cluster)
+            props_set = SecureCommunicationPropsSet(self, short_name)
+            self.addElement(props_set)
         return self.getElement(short_name)
     
     def createSoAdRoutingGroup(self, short_name: str) -> SoAdRoutingGroup:
         if (not self.IsElementExists(short_name)):
-            cluster = SoAdRoutingGroup(self, short_name)
-            self.addElement(cluster)
+            group = SoAdRoutingGroup(self, short_name)
+            self.addElement(group)
         return self.getElement(short_name)
     
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
         if (not self.IsElementExists(short_name)):
-            cluster = DoIpTpConfig(self, short_name)
-            self.addElement(cluster)
+            tp_config = DoIpTpConfig(self, short_name)
+            self.addElement(tp_config)
+        return self.getElement(short_name)
+    
+    def createHwElement(self, short_name: str) -> HwElement:
+        if (not self.IsElementExists(short_name)):
+            hw_element = HwElement(self, short_name)
+            self.addElement(hw_element)
+        return self.getElement(short_name)
+    
+    def createHwCategory(self, short_name: str) -> HwCategory:
+        if (not self.IsElementExists(short_name)):
+            hw_category = HwCategory(self, short_name)
+            self.addElement(hw_category)
+        return self.getElement(short_name)
+    
+    def createFlexrayFrame(self, short_name: str) -> FlexrayFrame:
+        if (not self.IsElementExists(short_name)):
+            frame = FlexrayFrame(self, short_name)
+            self.addElement(frame)
+        return self.getElement(short_name)
+    
+    def createFlexrayCluster(self, short_name: str) -> FlexrayCluster:
+        if (not self.IsElementExists(short_name)):
+            frame = FlexrayCluster(self, short_name)
+            self.addElement(frame)
+        return self.getElement(short_name)
+    
+    def createDataTransformationSet(self, short_name: str) -> DataTransformationSet:
+        if (not self.IsElementExists(short_name)):
+            transform_set = DataTransformationSet(self, short_name)
+            self.addElement(transform_set)
         return self.getElement(short_name)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
@@ -705,6 +740,18 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getSystems(self) -> List[System]:
         return list(sorted(filter(lambda a : isinstance(a, System), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getHwElements(self) -> List[HwElement]:
+        return list(sorted(filter(lambda a : isinstance(a, HwElement), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getHwCategories(self) -> List[HwCategory]:
+        return list(sorted(filter(lambda a : isinstance(a, HwCategory), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getFlexrayFrames(self) -> List[FlexrayFrame]:
+        return list(sorted(filter(lambda a : isinstance(a, FlexrayFrame), self.elements.values()), key = lambda a: a.short_name))
+    
+    def getDataTransformationSets(self) -> List[DataTransformationSet]:
+        return list(sorted(filter(lambda a : isinstance(a, DataTransformationSet), self.elements.values()), key = lambda a: a.short_name))
     
     def getReferenceBases(self):
         return self.referenceBases

@@ -1,15 +1,19 @@
 from abc import ABCMeta
 from enum import Enum
 from typing import List
+
+from ......M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger, PositiveUnlimitedInteger, RefType, ARLiteral, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, ARLiteral, TimeValue
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 
-class PhysicalChannel (Identifiable, metaclass = ABCMeta):
+
+class PhysicalChannel (Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == PhysicalChannel:
             raise NotImplementedError("PhysicalChannel is an abstract class.")
@@ -212,7 +216,7 @@ class CommunicationCluster(FibexElement, metaclass = ABCMeta):
     def setProtocolVersion(self, value):
         self.protocolVersion = value
         return self
-    
+
 class CanClusterBusOffRecovery(ARObject):
     def __init__(self):
         super().__init__()
@@ -534,5 +538,3 @@ class CommunicationConnector(Identifiable, metaclass = ABCMeta):
     def setPncGatewayType(self, value):
         self.pncGatewayType = value
         return self
-
-        

@@ -7,6 +7,7 @@ from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject imp
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, ARBoolean
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
+
 class EcucValueCollection(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -27,26 +28,21 @@ class EcucValueCollection(ARElement):
     def setEcuExtractRef(self, value):
         self.ecuExtractRef = value
         return self
-    
-class EcucIndexableValue(ARObject, metaclass = ABCMeta):
+
+
+class EcucIndexableValue(ARObject, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == EcucIndexableValue:
+        if type(self) is EcucIndexableValue:
             raise NotImplementedError("EcucIndexableValue is an abstract class.")
-        
+
         super().__init__()
 
-class EcucAbstractReferenceValue(EcucIndexableValue, metaclass=ABCMeta):
-    def __init__(self):
-        if type(self) == EcucAbstractReferenceValue:
-            raise NotImplementedError("EcucAbstractReferenceValue is an abstract class.")
-        
-        super().__init__()
-    
+
 class EcucParameterValue(EcucIndexableValue, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == EcucParameterValue:
+        if type(self) is EcucParameterValue:
             raise NotImplementedError("EcucParameterValue is an abstract class.")
-        
+
         super().__init__()
 
         self.annotations = []                       # type: List[Annotation]
@@ -74,6 +70,7 @@ class EcucParameterValue(EcucIndexableValue, metaclass=ABCMeta):
         self.isAutoValue = value
         return self
 
+
 class EcucAddInfoParamValue(EcucParameterValue):
     def __init__(self):
         super().__init__()
@@ -86,6 +83,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def setValue(self, value: DocumentationBlock):
         self.value = value
 
+
 class EcucTextualParamValue(EcucParameterValue):
     def __init__(self):
         super().__init__()
@@ -95,7 +93,7 @@ class EcucTextualParamValue(EcucParameterValue):
     def getValue(self) -> ARLiteral:
         return self.value
 
-    def setValue(self, value:ARLiteral):
+    def setValue(self, value: ARLiteral):
         self.value = value
 
 
@@ -111,11 +109,12 @@ class EcucNumericalParamValue(EcucParameterValue):
     def setValue(self, value: ARNumerical):
         self.value = value
 
+
 class EcucAbstractReferenceValue(EcucIndexableValue, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == EcucAbstractReferenceValue:
+        if type(self) is EcucAbstractReferenceValue:
             raise NotImplementedError("EcucAbstractReferenceValue is an abstract class.")
-        
+
         super().__init__()
 
         self.annotations = []                       # type: List[Annotation]
@@ -143,6 +142,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, metaclass=ABCMeta):
         self.isAutoValue = value
         return self
 
+
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def __init__(self):
         super().__init__()
@@ -156,6 +156,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
         self.valueRef = value
         return self
 
+
 class EcucReferenceValue(EcucAbstractReferenceValue):
     def __init__(self):
         super().__init__()
@@ -168,6 +169,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def setValueRef(self, value: RefType):
         self.valueRef = value
         return self
+
 
 class EcucContainerValue(ARElement, EcucIndexableValue):
     def __init__(self, parent: ARObject, short_name: str):
@@ -185,7 +187,7 @@ class EcucContainerValue(ARElement, EcucIndexableValue):
         self.definitionRef = value
         return self
 
-    def getParameterValues(self)-> List[EcucParameterValue]:
+    def getParameterValues(self) -> List[EcucParameterValue]:
         return self.parameterValues
 
     def addParameterValue(self, value: EcucParameterValue):
@@ -229,7 +231,7 @@ class EcucModuleConfigurationValues(ARElement):
         return self.elements[short_name]
 
     def getContainers(self) -> List[EcucContainerValue]:
-        return list(sorted(filter(lambda a: isinstance(a, EcucContainerValue), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, EcucContainerValue), self.elements.values()), key=lambda o: o.short_name))
 
     def getDefinitionRef(self) -> RefType:
         return self.definitionRef
@@ -265,4 +267,3 @@ class EcucModuleConfigurationValues(ARElement):
     def setPostBuildVariantUsed(self, value: ARBoolean):
         self.postBuildVariantUsed = value
         return self
-

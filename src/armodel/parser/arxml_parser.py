@@ -5,7 +5,9 @@ import os
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
-from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent, CompuMethod, Compu, CompuConst, CompuConstTextContent, CompuNominatorDenominator, CompuRationalCoeffs, CompuScale, CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
+from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent, CompuMethod, Compu
+from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConst, CompuConstTextContent, CompuNominatorDenominator, CompuRationalCoeffs, CompuScale
+from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
 from ..models.M2.MSR.AsamHdo.SpecialData import Sdg, Sd
 from ..models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from ..models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
@@ -22,84 +24,169 @@ from ..models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotati
 from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ListElement
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LParagraph, LanguageSpecific
-from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultilanguageLongName
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
+from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior, BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent, BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference, ConstantSpecification, NumericalValueSpecification, RecordValueSpecification, TextValueSpecification, ValueSpecification
+from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
+from ..models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
+from ..models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code
+from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
 from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap, ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
-from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceAlgorithm, DiagEventDebounceMonitorInternal, DiagnosticEventNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue, EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue, EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement
+from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip6AddressString, RefType, ARLiteral
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent, DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent, ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent, SwcModeSwitchEvent, TimingEvent
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType, ApplicationArrayDataType, ApplicationCompositeDataType, ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet, EndToEndDescription, EndToEndProtection, EndToEndProtectionVariablePrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef, ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet, EndToEndDescription, EndToEndProtection
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, VariableInAtomicSWCTypeInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, TransmissionAcknowledgementRequest
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, ApplicationSwComponentType, ComplexDeviceDriverSwComponentType, CompositionSwComponentType, EcuAbstractionSwComponentType, PortGroup, SensorActuatorSwComponentType, ServiceSwComponentType, SwComponentType, SymbolProps, PPortPrototype, RPortPrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef, ModeGroupInAtomicSwcInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ServerComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, ComplexDeviceDriverSwComponentType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, EcuAbstractionSwComponentType, PortGroup
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType, ServiceSwComponentType, SwComponentType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps, PPortPrototype, RPortPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, PortInterfaceMappingSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface, TriggerInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import VariableAndParameterInterfaceMapping
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcInternalBehavior
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import VariableInAtomicSWCTypeInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface, ParameterInterface, PortInterface, PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface, VariableAndParameterInterfaceMapping
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype, AutosarDataPrototype, DataPrototype, ParameterDataPrototype, VariableDataPrototype
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 
-from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping , System, SystemMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu, NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
-from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel, CommConnectorPort, CommunicationCluster, CommunicationConnector, CommunicationController, EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort, LinCluster, LinPhysicalChannel, PhysicalChannel
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame, FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu, ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu, PduTriggering, SecureCommunicationAuthenticationProps, SecureCommunicationFreshnessProps, SecureCommunicationProps, SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition, StaticPart, SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType, TransmissionModeCondition, TransmissionModeDeclaration, TransmissionModeTiming
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
+from ..models.M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController, AbstractCanCommunicationControllerAttributes, CanCommunicationConnector, CanCommunicationController, CanControllerConfigurationRequirements, CanControllerFdConfiguration, CanControllerFdConfigurationRequirements
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationControllerAttributes
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfigurationRequirements
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerFdConfiguration
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerFdConfigurationRequirements
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionIpduIdentifier
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig, SoAdConfig, SocketAddress, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo, CouplingPortScheduler, CouplingPortStructuralElement, EthernetCluster, EthernetCommunicationConnector, EthernetCommunicationController, EthernetPriorityRegeneration, InitialSdDelayConfig, MacMulticastGroup, RequestResponseDelay, SdClientConfig, VlanMembership
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPortScheduler, CouplingPortStructuralElement
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPriorityRegeneration, InitialSdDelayConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import MacMulticastGroup, RequestResponseDelay, SdClientConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import VlanMembership
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, EventHandler, GenericTp
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance, SdServerConfig, SoAdConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SocketAddress, TcpTp, TpPort
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import TransportProtocolConfiguration, UdpTp
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame, ScheduleTableEntry
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
-from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu, CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig, LinTpConnection, LinTpNode, TpAddress, TpConfig, TpConnection
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, DynamicPart, DynamicPartAlternative, Frame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FrameTriggering, GeneralPurposeIPdu, GeneralPurposePdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import IPdu, IPduTiming, ISignal, ISignalGroup, ISignalIPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalIPduGroup, ISignalToIPduMapping, ISignalTriggering
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import MultiplexedIPdu, MultiplexedPart, NPdu, NmPdu, Pdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import PduTriggering, SecureCommunicationAuthenticationProps
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationFreshnessProps, SecureCommunicationProps
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import StaticPart, SystemSignal, SystemSignalGroup
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import UserDefinedIPdu, UserDefinedPdu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanPhysicalChannel, CommConnectorPort, CommunicationCluster
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import LinCluster, LinPhysicalChannel, PhysicalChannel
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeCondition, TransmissionModeDeclaration
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeTiming
+from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
+from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig
+from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTpConnection, LinTpNode, TpAddress, TpConfig, TpConnection
 
 from .abstract_arxml_parser import AbstractARXMLParser
+
 
 class ARXMLParser(AbstractARXMLParser):
     def __init__(self, options=None) -> None:
@@ -113,7 +200,7 @@ class ARXMLParser(AbstractARXMLParser):
             range.setLowerCanId(self.getChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID")) \
                  .setUpperCanId(self.getChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID"))
         return range
-        
+
     def readSd(self, element: ET.Element, sdg: Sdg):
         for child_element in self.findall(element, "./SD"):
             sd = Sd()
@@ -122,12 +209,12 @@ class ARXMLParser(AbstractARXMLParser):
             sd.setValue(child_element.text)
             sdg.addSd(sd)
 
-    def readSdgCaption(self, element: ET.Element, sdg:Sdg):
+    def readSdgCaption(self, element: ET.Element, sdg: Sdg):
         child_element = self.find(element, "SDG-CAPTION")
         if child_element is not None:
             sdg.createSdgCaption(self.getShortName(child_element))
 
-    def readSdgSdxRefs(self, element: ET.SubElement, sdg:Sdg):
+    def readSdgSdxRefs(self, element: ET.SubElement, sdg: Sdg):
         for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
             sdg.addSdxRef(ref)
 
@@ -141,7 +228,7 @@ class ARXMLParser(AbstractARXMLParser):
             sdg.addSdgContentsType(self.getSdg(child_element))
         self.readSdgSdxRefs(element, sdg)
         return sdg
-    
+
     def readSdgs(self, element: ET.Element, admin_data: AdminData):
         for child_element in self.findall(element, "SDGS/SDG"):
             admin_data.addSdg(self.getSdg(child_element))
@@ -174,8 +261,11 @@ class ARXMLParser(AbstractARXMLParser):
         identifiable.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY")) \
                     .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC")) \
                     .setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
-        
+
         identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
+
+    def readARElement(self, element: ET.Element, ar_element: ARElement):
+        self.readIdentifiable(element, ar_element)
     
     def readLLongName(self, element: ET.Element, long_name: MultilanguageLongName):
         for child_element in self.findall(element, "L-4"):
@@ -183,7 +273,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObjectAttributes(child_element, l4)
             l4.value = child_element.text
             if 'L' in child_element.attrib:
-                l4.l = child_element.attrib['L']
+                l4.l = child_element.attrib['L']            # noqa: E741
             long_name.addL4(l4)
     
     def getMultilanguageLongName(self, element: ET.Element, key: str) -> MultilanguageLongName:
@@ -201,7 +291,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObjectAttributes(child_element, l2)
             l2.value = child_element.text
             if 'L' in child_element.attrib:
-                l2.l = child_element.attrib['L']
+                l2.l = child_element.attrib['L']        # noqa: E741
             paragraph.addL2(l2)
     
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -214,37 +304,37 @@ class ARXMLParser(AbstractARXMLParser):
         return paragraph
     
     def getVariableInAtomicSWCTypeInstanceRef(self, element: ET.Element) -> VariableInAtomicSWCTypeInstanceRef:
-        iref  = None
+        instance_ref = None
         if element is not None:
-            iref = VariableInAtomicSWCTypeInstanceRef()
-            self.readARObjectAttributes(element, iref)
-            iref.setPortPrototypeRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF"))
-            iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
-        return iref
+            instance_ref = VariableInAtomicSWCTypeInstanceRef()
+            self.readARObjectAttributes(element, instance_ref)
+            instance_ref.setPortPrototypeRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF"))
+            instance_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+        return instance_ref
     
     def getComponentInSystemInstanceRef(self, element: ET.Element) -> ComponentInSystemInstanceRef:
-        iref  = None
+        instance_ref = None
         if element is not None:
-            iref = ComponentInSystemInstanceRef()
-            self.readARObjectAttributes(element, iref)
-            iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
-            iref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
-            iref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
-        return iref
+            instance_ref = ComponentInSystemInstanceRef()
+            self.readARObjectAttributes(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF"))
+            instance_ref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
+        return instance_ref
 
-    def getAutosarVariableRef(self, element: ET.Element, key: str) ->  AutosarVariableRef:
+    def getAutosarVariableRef(self, element: ET.Element, key: str) -> AutosarVariableRef:
         child_element = self.find(element, key)
-        ref  = None
+        instance_ref = None
         if (child_element is not None):
-            ref = AutosarVariableRef()
-            #self.readARObjectAttributes(child_element, ref)
-            ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF"))) \
-               .setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
-        return ref
+            instance_ref = AutosarVariableRef()
+            # self.readARObjectAttributes(child_element, ref)
+            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF"))) \
+                        .setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
+        return instance_ref
 
-    def getLocalVariableRef(self, element: ET.Element, key: str) ->  AutosarVariableRef:
+    def getLocalVariableRef(self, element: ET.Element, key: str) -> AutosarVariableRef:
         child_element = self.find(element, key)
-        ref  = None
+        ref = None
         if (child_element is not None):
             ref = AutosarVariableRef()
             ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
@@ -453,10 +543,8 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported assigned ports <%s>" % tag_name)
 
-    def readNvBlockNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createNvBlockNeeds(short_name)
-        self.logger.debug("read NvBlockNeeds %s" % short_name)
+    def readNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
+        self.logger.debug("Read NvBlockNeeds <%s>" % needs.getShortName())
         self.readIdentifiable(element, needs)
         needs.setCalcRamBlockCrc(self.getChildElementOptionalBooleanValue(element, "CALC-RAM-BLOCK-CRC")) \
              .setCheckStaticBlockId(self.getChildElementOptionalBooleanValue(element, "CHECK-STATIC-BLOCK-ID")) \
@@ -478,25 +566,19 @@ class ARXMLParser(AbstractARXMLParser):
              .setWritingFrequency(self.getChildElementOptionalPositiveInteger(element, "WRITING-FREQUENCY")) \
              .setWritingPriority(self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))
         
-    def reaDiagnosticCommunicationManagerNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createDiagnosticCommunicationManagerNeeds(short_name)
-        self.logger.debug("read DiagnosticCommunicationManagerNeeds %s" % short_name)
+    def reaDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
+        self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
         self.readIdentifiable(element, needs)
         needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
 
-    def readDiagnosticRoutineNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createDiagnosticRoutineNeeds(short_name)
-        self.logger.debug("read DiagnosticRoutineNeeds %s" % short_name)
+    def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
+        self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readIdentifiable(element, needs)
         needs.setDiagRoutineType(self.getChildElementOptionalLiteral(element, "DIAG-ROUTINE-TYPE")) \
              .setRidNumber(self.getChildElementOptionalIntegerValue(element, "RID-NUMBER"))
 
-    def readDiagnosticValueNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createDiagnosticValueNeeds(short_name)
-        self.logger.debug("read DiagnosticValueNeeds %s" % short_name)
+    def readDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
+        self.logger.debug("Read DiagnosticValueNeeds %s" % needs.getShortName())
         self.readIdentifiable(element, needs)
         needs.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH")) \
              .setDiagnosticValueAccess(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-VALUE-ACCESS")) \
@@ -516,54 +598,54 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % tag_name)
     
-    def readDiagnosticEventNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createDiagnosticEventNeeds(short_name)
-        self.logger.debug("Read DiagnosticEventNeeds %s" % short_name)
+    def readDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
+        self.logger.debug("Read DiagnosticEventNeeds <%s>" % needs.getShortName())
         self.readIdentifiable(element, needs)
         self.readDiagEventDebounceAlgorithm(element, needs)
         needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND")) \
              .setUdsDtcNumber(self.getChildElementOptionalIntegerValue(element, "UDS-DTC-NUMBER"))
         
-    def readDiagnosticEventInfoNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createDiagnosticEventInfoNeeds(short_name)
-        self.logger.debug("Read DiagnosticEventInfoNeeds %s" % short_name)
+    def readDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
+        self.logger.debug("Read DiagnosticEventInfoNeeds <%s>" % needs.getShortName())
         self.readIdentifiable(element, needs)
         needs.setUdsDtcNumber(self.getChildElementOptionalPositiveInteger(element, "UDS-DTC-NUMBER"))
 
-    def readCryptoServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createCryptoServiceNeeds(short_name)
-        self.logger.debug("Read DiagnosticValueNeeds %s" % short_name)
+    def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
+        self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
         self.readIdentifiable(element, needs)
         needs.setMaximumKeyLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-KEY-LENGTH"))
 
-    def readEcuStateMgrUserNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        short_name = self.getShortName(element)
-        needs = parent.createEcuStateMgrUserNeeds(short_name)
-        self.logger.debug("read DiagnosticValueNeeds %s" % short_name)
+    def readEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
+        self.logger.debug("read EcuStateMgrUserNeeds %s" % needs.getShortName())
         self.readIdentifiable(element, needs)
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "NV-BLOCK-NEEDS":
-                self.readNvBlockNeeds(child_element, parent)    
+                needs = parent.createNvBlockNeeds(self.getShortName(child_element))
+                self.readNvBlockNeeds(child_element, needs)    
             elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
-                self.reaDiagnosticCommunicationManagerNeeds(child_element, parent)
+                needs = parent.createDiagnosticCommunicationManagerNeeds(self.getShortName(child_element))
+                self.reaDiagnosticCommunicationManagerNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
-                self.readDiagnosticRoutineNeeds(child_element, parent)
+                needs = parent.createDiagnosticRoutineNeeds(self.getShortName(child_element))
+                self.readDiagnosticRoutineNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-VALUE-NEEDS":
-                self.readDiagnosticValueNeeds(child_element, parent)
+                needs = parent.createDiagnosticValueNeeds(self.getShortName(child_element))
+                self.readDiagnosticValueNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-EVENT-NEEDS":
-                self.readDiagnosticEventNeeds(child_element, parent)
+                needs = parent.createDiagnosticEventNeeds(self.getShortName(child_element))
+                self.readDiagnosticEventNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-EVENT-INFO-NEEDS":
-                self.readDiagnosticEventInfoNeeds(child_element, parent)
+                needs = parent.createDiagnosticEventInfoNeeds(self.getShortName(child_element))
+                self.readDiagnosticEventInfoNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
-                self.readCryptoServiceNeeds(child_element, parent)
+                needs = parent.createCryptoServiceNeeds(self.getShortName(child_element))
+                self.readCryptoServiceNeeds(child_element, needs)
             elif tag_name == "ECU-STATE-MGR-USER-NEEDS":
-                self.readEcuStateMgrUserNeeds(child_element, parent)
+                needs = parent.createEcuStateMgrUserNeeds(self.getShortName(child_element))
+                self.readEcuStateMgrUserNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 
@@ -622,7 +704,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported IncludedModeDeclarationGroupSet <%s>" % tag_name)
 
     def readSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
-         # read the internal behavior
+        # read the internal behavior
         self.readInternalBehavior(element, behavior)
         
         # read the extra SwcInternalBehavior
@@ -833,7 +915,6 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Required Data <%s>" % tag_name)
 
-
     def readBswModuleDescription(self, element: ET.Element, desc: BswModuleDescription):
         self.logger.debug("Read BswModuleDescription <%s>" % desc.getShortName())
 
@@ -1039,7 +1120,7 @@ class ARXMLParser(AbstractARXMLParser):
             mode_iref = RModeInAtomicSwcInstanceRef()
             mode_iref.setContextPortRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF")) \
                      .setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF")) \
-                     .setTargetModeDeclarationRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-REF"))
+                     .setTargetModeDeclarationRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-REF"))            # NOQA E501
             parent.addModeIRef(mode_iref)
 
     def readSynchronousServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
@@ -1074,28 +1155,20 @@ class ARXMLParser(AbstractARXMLParser):
             point = parent.createInternalTriggeringPoint(short_name)
             point.sw_impl_policy = self.getChildElementOptionalLiteral(child_element, "SW-IMPL-POLICY")
 
-    def getRModeInAtomicSwcInstanceRef(self, element: ET.Element) -> RModeInAtomicSwcInstanceRef:
-        iref = RModeInAtomicSwcInstanceRef()
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF")) \
-            .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
-            .setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF")) \
-            .setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
-        return iref
-    
     def readModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
         instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF")) \
                     .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
-    
+
     def readRModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, instance_ref: RModeGroupInAtomicSWCInstanceRef):
         self.readModeGroupInAtomicSwcInstanceRef(element, instance_ref)
         instance_ref.setContextRPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-R-PORT-REF")) \
                     .setTargetModeGroupRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-GROUP-REF"))
-    
+
     def readPModeGroupInAtomicSWCInstanceRef(self, element: ET.Element, instance_ref: PModeGroupInAtomicSwcInstanceRef):
         self.readModeGroupInAtomicSwcInstanceRef(element, instance_ref)
         instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF")) \
                     .setTargetModeGroupRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-GROUP-REF"))
-    
+
     def getModeGroupIRef(self, element: ET.Element, key: str) -> ModeGroupInAtomicSwcInstanceRef:
         instance_ref = None
         for child_element in self.findall(element, "%s/*" % key):
@@ -1109,7 +1182,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Mode Group IRef <%s>" % tag_name)
         return instance_ref
-    
+
     def readModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
         self.readARObjectAttributes(element, point)
         point.setModeGroupIRef(self.getModeGroupIRef(element, "MODE-GROUP-IREF"))
@@ -1186,12 +1259,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readRunnableEntity(child_element, entity)
 
     def getRModeInAtomicSwcInstanceRef(self, element: ET.Element) -> RModeInAtomicSwcInstanceRef:
-        iref = RModeInAtomicSwcInstanceRef()
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF")) \
+        instance_ref = RModeInAtomicSwcInstanceRef()
+        instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF")) \
             .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
             .setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF")) \
-            .setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
-        return iref
+            .setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))       # NOQA E501
+        return instance_ref
 
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.readIdentifiable(element, event)
@@ -1206,7 +1279,7 @@ class ARXMLParser(AbstractARXMLParser):
             operation_iref = POperationInAtomicSwcInstanceRef()
             self.readARObjectAttributes(child_element, operation_iref)
             operation_iref.setContextPPortRef(self.getChildElementRefType(parent.getShortName(), child_element, "CONTEXT-P-PORT-REF")) \
-                          .setTargetProvidedOperationRef(self.getChildElementRefType(parent.getShortName(), child_element, "TARGET-PROVIDED-OPERATION-REF"))
+                          .setTargetProvidedOperationRef(self.getChildElementRefType(parent.getShortName(), child_element, "TARGET-PROVIDED-OPERATION-REF"))    # NOQA E501
             parent.setOperationIRef(operation_iref)
 
     def readOperationInvokedEvent(self, element: ET.Element, event: OperationInvokedEvent):
@@ -1362,7 +1435,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObjectAttributes(element, specific)
         specific.value = element.text
         if 'L' in element.attrib:
-            specific.l = element.attrib['L']
+            specific.l = element.attrib['L']        # noqa E741
 
     def getLParagraphs(self, element: ET.Element, key: str) -> List[LParagraph]:
         results = []
@@ -1371,7 +1444,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readLanguageSpecific(child_element, l1)
             results.append(l1)
         return results
-    
+
     def getMultiLanguageParagraphs(self, element: ET.Element, key: str) -> List[MultiLanguageParagraph]:
         paragraphs = []
         for child_element in self.findall(element, key):
@@ -1518,10 +1591,10 @@ class ARXMLParser(AbstractARXMLParser):
                                  .setValueAxisDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF")) \
                                  .setUnitRef(self.getChildElementOptionalRefType(conditional_tag, "UNIT-REF")) 
                 self.readSwDataDefProsInvalidValue(conditional_tag, sw_data_def_props)
-                #self.readSwPointerTargetProps(conditional_tag, sw_data_def_props)
+                # self.readSwPointerTargetProps(conditional_tag, sw_data_def_props)
                 self.readARObjectAttributes(conditional_tag, sw_data_def_props.conditional)
         return sw_data_def_props
-    
+
     def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
         self.readIdentifiable(element, data_type)
         data_type.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
@@ -1529,9 +1602,6 @@ class ARXMLParser(AbstractARXMLParser):
     def readApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
         self.logger.debug("Read ApplicationPrimitiveDataType <%s>" % data_type.getShortName())
         self.readAutosarDataType(element, data_type)
-
-    def readApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
-        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
 
     def readApplicationRecordElements(self, element: ET.Element, parent: ApplicationRecordDataType):
         for child_element in self.findall(element, "ELEMENTS/APPLICATION-RECORD-ELEMENT"):
@@ -1577,7 +1647,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, data_type)
         self.readBaseTypeDirectDefinition(element, data_type.getBaseTypeDefinition())
 
-    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key:str) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) \
+            -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         child_element = self.find(element, key)
         iref = None
         if child_element is not None:
@@ -1759,7 +1830,7 @@ class ARXMLParser(AbstractARXMLParser):
             return acknowledge
         return None
 
-    def readSenderComSpec(self, element:ET.Element, com_spec: SenderComSpec):
+    def readSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
         self.readARObjectAttributes(element, com_spec)
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
@@ -1769,20 +1840,20 @@ class ARXMLParser(AbstractARXMLParser):
                 .setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element)) \
                 .setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
-    def getNonqueuedSenderComSpec(self, element:ET.Element) -> NonqueuedSenderComSpec:
+    def getNonqueuedSenderComSpec(self, element: ET.Element) -> NonqueuedSenderComSpec:
         com_spec = NonqueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
         com_spec.setInitValue(self.getInitValue(element))
         return com_spec
     
-    def getServerComSpec(self, element:ET.Element) -> ServerComSpec:
+    def getServerComSpec(self, element: ET.Element) -> ServerComSpec:
         com_spec = ServerComSpec()
         self.readARObjectAttributes(element, com_spec)
         com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF")) \
                 .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         return com_spec
     
-    def getQueuedSenderComSpec(self, element:ET.Element) -> QueuedSenderComSpec:
+    def getQueuedSenderComSpec(self, element: ET.Element) -> QueuedSenderComSpec:
         com_spec = QueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
         return com_spec
@@ -1819,7 +1890,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readPortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):
         for child_element in self.findall(element, "INNER-GROUP-IREFS/INNER-GROUP-IREF"):
             inner_group_iref = InnerPortGroupInCompositionInstanceRef()
-            #inner_group_iref.contextRef = self.getChildElementOptionalRefType(child_element, "CONTEXT-REF")
+            # inner_group_iref.contextRef = self.getChildElementOptionalRefType(child_element, "CONTEXT-REF")
             inner_group_iref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
             parent.addInnerGroupIRef(inner_group_iref)
 
@@ -1878,9 +1949,11 @@ class ARXMLParser(AbstractARXMLParser):
         
         self.logger.debug("PPortInCompositionInstanceRef")
         self.logger.debug("  CONTEXT-COMPONENT-REF DEST: %s, %s"
-                          % (p_port_in_composition_instance_ref.getContextComponentRef().getDest(), p_port_in_composition_instance_ref.getContextComponentRef().getValue()))
+                          % (p_port_in_composition_instance_ref.getContextComponentRef().getDest(),
+                             p_port_in_composition_instance_ref.getContextComponentRef().getValue()))
         self.logger.debug("  TARGET-P-PORT-REF DEST: %s, %s" 
-                          % (p_port_in_composition_instance_ref.getTargetPPortRef().getDest(), p_port_in_composition_instance_ref.getTargetPPortRef().getValue()))
+                          % (p_port_in_composition_instance_ref.getTargetPPortRef().getDest(),
+                             p_port_in_composition_instance_ref.getTargetPPortRef().getValue()))
 
     def readRPortInCompositionInstanceRef(self, element, r_port_in_composition_instance_ref: RPortInCompositionInstanceRef):
         r_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")) \
@@ -1888,9 +1961,11 @@ class ARXMLParser(AbstractARXMLParser):
 
         self.logger.debug("RPortInCompositionInstanceRef")
         self.logger.debug("  CONTEXT-COMPONENT-REF DEST: %s, %s"
-                          % (r_port_in_composition_instance_ref.getContextComponentRef().getDest(), r_port_in_composition_instance_ref.getContextComponentRef().getValue()))
+                          % (r_port_in_composition_instance_ref.getContextComponentRef().getDest(),
+                             r_port_in_composition_instance_ref.getContextComponentRef().getValue()))
         self.logger.debug("  TARGET-P-PORT-REF DEST: %s, %s" 
-                          % (r_port_in_composition_instance_ref.getTargetRPortRef().getDest(), r_port_in_composition_instance_ref.getTargetRPortRef().getValue()))
+                          % (r_port_in_composition_instance_ref.getTargetRPortRef().getDest(),
+                             r_port_in_composition_instance_ref.getTargetRPortRef().getValue()))
 
     def readAssemblySwConnectorProviderIRef(self, element: ET.Element, parent: AssemblySwConnector):
         child_element = self.find(element, "PROVIDER-IREF")
@@ -1947,12 +2022,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, connector)
             self.readDelegationSwConnectorInnerPortIRef(child_element, connector)
 
-            if connector.getInnerPortIRref() == None and connector.getOuterPortRef() == None:
+            if connector.getInnerPortIRref() is None and connector.getOuterPortRef() is None:
                 self.raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
 
             connector.setOuterPortRef(self.getChildElementOptionalRefType(child_element, "OUTER-PORT-REF"))
-            self.logger.debug("OUTER-PORT-REF DEST: %s, %s"
-                          % (connector.getOuterPortRef().getDest(), connector.getOuterPortRef().getValue()))
+            self.logger.debug("OUTER-PORT-REF DEST: %s, %s" % (connector.getOuterPortRef().getDest(), connector.getOuterPortRef().getValue()))
 
     def readSwComponentPrototypes(self, element: ET.Element, parent: CompositionSwComponentType):
         for child_element in element.findall("./xmlns:COMPONENTS/xmlns:SW-COMPONENT-PROTOTYPE", self.nsmap):
@@ -2062,7 +2136,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "POSSIBLE-ERRORS/APPLICATION-ERROR"):
             short_name = self.getShortName(child_element)
             error = parent.createApplicationError(short_name)
-            self.readIdentifiable(child_element, error) # some errors has its uuid
+            self.readIdentifiable(child_element, error)  # some errors has its uuid
             error.error_code = self.getChildElementOptionalNumericalValue(child_element, "ERROR-CODE")
 
     def readPortInterface(self, element: ET.Element, port_interface: PortInterface):
@@ -2335,14 +2409,14 @@ class ARXMLParser(AbstractARXMLParser):
         return desc
     
     def getVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element) -> VariableDataPrototypeInSystemInstanceRef:
-        iref = None
+        instance_ref = None
         if element is not None:
-            iref = VariableDataPrototypeInSystemInstanceRef()
-            #iref.addContextComponentRef() = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
-            iref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF")) \
+            instance_ref = VariableDataPrototypeInSystemInstanceRef()
+            # iref.addContextComponentRef() = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
+            instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF")) \
                 .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
                 .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
-        return iref
+        return instance_ref
     
     def getEndToEndProtectionVariablePrototype(self, element: ET.Element) -> EndToEndProtectionVariablePrototype:
         prototype = EndToEndProtectionVariablePrototype()
@@ -2381,10 +2455,6 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read EndToEndProtectionSet <%s>" % protection_set.getShortName())
         self.readIdentifiable(element, protection_set)
         self.readEndToEndProtections(element, protection_set)
-
-    def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
-        self.readIdentifiable(element, data_type)
-        data_type.swDataDefProps = self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
 
     def readImplementationProps(self, element: ET.Element, props: ImplementationProps):
         props.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
@@ -2562,7 +2632,6 @@ class ARXMLParser(AbstractARXMLParser):
                   .setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER")) \
                   .setRxIdentifierRange(self.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
 
-
     def readLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Read LinFrameTriggering %s" % triggering.getShortName())
         self.readIdentifiable(element, triggering)
@@ -2683,7 +2752,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
 
-    def getDoIpEntity(self, element: ET.Element, key:str) -> DoIpEntity:
+    def getDoIpEntity(self, element: ET.Element, key: str) -> DoIpEntity:
         entity = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -2691,7 +2760,7 @@ class ARXMLParser(AbstractARXMLParser):
             entity.setDoIpEntityRole(self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE"))
         return entity
 
-    def getInfrastructureServices(self, element: ET.Element, key:str) -> InfrastructureServices:
+    def getInfrastructureServices(self, element: ET.Element, key: str) -> InfrastructureServices:
         services = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -2737,7 +2806,7 @@ class ARXMLParser(AbstractARXMLParser):
             connection = SocketConnection()
             connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST")) \
                       .setClientPortFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-PORT-FROM-CONNECTION-REQUEST")) \
-                      .setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))
+                      .setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))            # NOQA E501
             for pdu in self.getSocketConnectionPdus(element):
                 connection.addPdu(pdu)
             connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE")) \
@@ -2782,12 +2851,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTcpTp(self, element: ET.Element, tp: TcpTp):
         tp.setKeepAliveInterval(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-INTERVAL")) \
-                     .setKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX")) \
-                     .setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME")) \
-                     .setKeepAlives(self.getChildElementOptionalBooleanValue(element, "KEEP-ALIVES")) \
-                     .setNaglesAlgorithm(self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM")) \
-                     .setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
-
+          .setKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX")) \
+          .setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME")) \
+          .setKeepAlives(self.getChildElementOptionalBooleanValue(element, "KEEP-ALIVES")) \
+          .setNaglesAlgorithm(self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM")) \
+          .setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
 
     def readGenericTp(self, element: ET.Element, tp: GenericTp):
         tp.setTpAddress(self.getChildElementOptionalLiteral(element, "TP-ADDRESS")) \
@@ -2823,17 +2891,6 @@ class ARXMLParser(AbstractARXMLParser):
             delay.setMaxValue(self.getChildElementOptionalTimeValue(child_element, "MAX-VALUE")) \
                  .setMinValue(self.getChildElementOptionalTimeValue(child_element, "MIN-VALUE"))
         return delay
-    
-    def getInitialSdDelayConfig(self, element: ET.Element, key: str) -> InitialSdDelayConfig:
-        config = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            config = InitialSdDelayConfig()
-            config.setInitialDelayMaxValue(self.getChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MAX-VALUE")) \
-                  .setInitialDelayMinValue(self.getChildElementOptionalTimeValue(child_element, "INITIAL-DELAY-MIN-VALUE")) \
-                  .setInitialRepetitionsBaseDelay(self.getChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY")) \
-                  .setInitialRepetitionsMax(self.getChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX"))
-        return config
 
     def getSdClientConfig(self, element: ET.Element, key: str) -> SdClientConfig:
         config = None
@@ -2888,7 +2945,7 @@ class ARXMLParser(AbstractARXMLParser):
                   .setInitialRepetitionsBaseDelay(self.getChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY")) \
                   .setInitialRepetitionsMax(self.getChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX"))
         return config
-
+    
     def getSdServerConfig(self, element: ET.Element, key: str) -> SdServerConfig:
         config = None
         child_element = self.find(element, key)
@@ -2910,7 +2967,7 @@ class ARXMLParser(AbstractARXMLParser):
         handler.setMulticastThreshold(self.getChildElementOptionalPositiveInteger(element, "MULTICAST-THRESHOLD"))
         for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
             handler.addRoutingGroupRef(ref)
-        handler.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG")) \
+        handler.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
 
     def readProvidedServiceInstanceEventHandlers(self, element: ET.Element, instance: ProvidedServiceInstance):
         for child_element in self.findall(element, "EVENT-HANDLERS/*"):
@@ -2950,7 +3007,6 @@ class ARXMLParser(AbstractARXMLParser):
     def readSocketAddressMulticastConnectorRefs(self, element: ET.Element, address: SocketAddress):
         for ref in self.getChildElementRefTypeList(element, "MULTICAST-CONNECTOR-REFS/MULTICAST-CONNECTOR-REF"):
             address.addMulticastConnectorRef(ref)
-
 
     def readSocketAddress(self, element: ET.Element, address: SocketAddress):
         self.readIdentifiable(element, address)
@@ -3004,7 +3060,6 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthernetPhysicalChannel(child_element, channel)
             else:
                 self.notImplemented("Unsupported Physical Channel <%s>" % tag_name)
-
 
     def readCommunicationCluster(self, element: ET.Element, cluster: CommunicationCluster):
         cluster.setBaudrate(self.getChildElementOptionalNumericalValue(element, "BAUDRATE")) 
@@ -3248,6 +3303,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDoIpTpConfigDoIpLogicAddresses(element, config)
         self.readDoIpTpConfigTpConnections(element, config)
 
+    def readHwDescriptionEntityHwCategoryRefs(self, element: ET.Element, entity: HwDescriptionEntity):
+        for ref in self.getChildElementRefTypeList(element, "HW-CATEGORY-REFS/HW-CATEGORY-REF"):
+            entity.addHwCategoryRef(ref)
+
+    def readHwDescriptionEntity(self, element: ET.Element, entity: HwDescriptionEntity):
+        self.readARElement(element, entity)
+        self.readHwDescriptionEntityHwCategoryRefs(element, entity)
+
+    def readHwElement(self, element: ET.Element, hw_element: HwElement):
+        self.logger.debug("Read HwElement <%s>" % hw_element.getShortName())
+        self.readHwDescriptionEntity(element, hw_element)
+
+    def readHwCategory(self, element: ET.Element, hw_category: HwCategory):
+        self.logger.debug("Read HwCategory <%s>" % hw_category.getShortName())
+        self.readARElement(element, hw_category)
+
     def readPduToFrameMappings(self, element: ET.Element, parent: Frame):
         for child_element in self.findall(element, "PDU-TO-FRAME-MAPPINGS/PDU-TO-FRAME-MAPPING"):
             short_name = self.getShortName(child_element)
@@ -3319,7 +3390,7 @@ class ARXMLParser(AbstractARXMLParser):
                  .setDataId(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID")) \
                  .setFreshnessValueId(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-ID")) \
                  .setFreshnessValueLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-LENGTH")) \
-                 .setFreshnessValueTxLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH"))
+                 .setFreshnessValueTxLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH"))            # NOQA E501
         return props
 
     def readSecuredIPdu(self, element: ET.Element, i_pdu: SecuredIPdu):
@@ -3342,7 +3413,6 @@ class ARXMLParser(AbstractARXMLParser):
             nm_node.addRxNmPduRef(ref)
         for ref in self.getChildElementRefTypeList(element, "TX-NM-PDU-REFS/TX-NM-PDU-REF"):
             nm_node.addTxNmPduRefs(ref)
-        
 
     def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
         self.logger.debug("Read CanNmNode <%s>" % nm_node.getShortName())
@@ -3371,7 +3441,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
     def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
-        coupling  = CanNmClusterCoupling()
+        coupling = CanNmClusterCoupling()
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmBusloadReductionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ENABLED")) \
@@ -3668,6 +3738,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def readFlexrayFrame(self, element: ET.Element, frame: FlexrayFrame):
+        self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
+        self.readFrame(element, frame)
+
+    def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
+        self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
+        self.readCommunicationCluster(element, cluster)
+
+    def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
+        self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
+        self.readCommunicationController(element, controller)
+
+    def readDataTransformationSet(self, element: ET.Element, dtf_set: DataTransformationSet):
+        self.logger.debug("Read DataTransformationSet <%s>" % dtf_set.getShortName())
+        self.readIdentifiable(element, dtf_set)
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -3676,7 +3762,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerFdConfiguration()
-            #TODO: need to implemented
+            # TODO: need to implemented
         return configuration
     
     def getCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerFdConfigurationRequirements:
@@ -3692,7 +3778,7 @@ class ARXMLParser(AbstractARXMLParser):
                         .setMinSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT")) \
                         .setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH")) \
                         .setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET")) \
-                        .setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))
+                        .setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))      # NOQA E501
         return requirements
 
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
@@ -3782,9 +3868,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "VLAN-MEMBERSHIPS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "VLAN-MEMBERSHIP":
-                 membership = VlanMembership()
-                 self.readVlanMembership(child_element, membership)
-                 port.addVlanMembership(membership)
+                membership = VlanMembership()
+                self.readVlanMembership(child_element, membership)
+                port.addVlanMembership(membership)
             else:
                 self.notImplemented("Unsupported VlanMembership <%s>" % tag_name)
 
@@ -3823,7 +3909,6 @@ class ARXMLParser(AbstractARXMLParser):
             self.readLinCommunicationController(child_element, controller)
             controller.setTimeBase(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE")) \
                       .setTimeBaseJitter(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE-JITTER"))
-            
 
     def readEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())
@@ -3838,6 +3923,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-MASTER":
                 controller = instance.createLinMaster(self.getShortName(child_element))
                 self.readLinMaster(child_element, controller)
+            elif tag_name == "FLEXRAY-COMMUNICATION-CONTROLLER":
+                controller = instance.createFlexrayCommunicationController(self.getShortName(child_element))
+                self.readFlexrayCommunicationController(child_element, controller)
             else:
                 self.raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
@@ -3852,7 +3940,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCommConnectorPort(element, port)
         port.setKeyId(self.getChildElementOptionalPositiveInteger(element, "KEY-ID")) \
             .setRxSecurityVerification(self.getChildElementOptionalBooleanValue(element, "RX-SECURITY-VERIFICATION")) \
-            .setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS")) \
+            .setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS"))
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):
         self.readCommConnectorPort(element, port)
@@ -3895,6 +3983,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
+    def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
+        self.readCommunicationConnector(element, connector)
+
     def readEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())
         for child_element in self.findall(element, "CONNECTORS/*"):
@@ -3908,6 +3999,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-COMMUNICATION-CONNECTOR":
                 connector = instance.createLinCommunicationConnector(self.getShortName(child_element))
                 self.readLinCommunicationConnector(child_element, connector)
+            elif tag_name == "FLEXRAY-COMMUNICATION-CONNECTOR":
+                connector = instance.createFlexrayCommunicationConnector(self.getShortName(child_element))
+                self.readFlexrayCommunicationConnector(child_element, connector)
             else:
                 self.notImplemented("Unsupported Communication Connector <%s>" % tag_name)
 
@@ -4178,7 +4272,7 @@ class ARXMLParser(AbstractARXMLParser):
                      .setISignalInIPduRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF"))
             result.append(condition)
         return result
-    
+
     def getTimeRangeType(self, element: ET.Element, key: str) -> TimeRangeType:
         time_range = None
         child_element = self.find(element, key)
@@ -4186,7 +4280,7 @@ class ARXMLParser(AbstractARXMLParser):
             time_range = TimeRangeType()
             time_range.setValue(self.getChildElementOptionalTimeValue(child_element, "VALUE"))
         return time_range
-    
+
     def getCyclicTiming(self, element: ET.Element, key: str) -> CyclicTiming:
         timing = None
         child_element = self.find(element, key)
@@ -4218,7 +4312,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getTransmissionModeDeclaration(self, element: ET.Element, key: str) -> TransmissionModeDeclaration:
         decl = None
         child_element = self.find(element, key)
-        if child_element != None:
+        if child_element is not None:
             decl = TransmissionModeDeclaration()
             for condition in self.getTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION"):
                 decl.addTransmissionModeCondition(condition)
@@ -4244,7 +4338,7 @@ class ARXMLParser(AbstractARXMLParser):
         ipdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def getISignalIPduRefs(self, element: ET.Element) -> List[RefType]:
-        ref_types = [] 
+        ref_types = []
         for child_element in self.findall(element, "I-SIGNAL-I-PDUS/I-SIGNAL-I-PDU-REF-CONDITIONAL"):
             ref_types.append(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-I-PDU-REF"))
         return ref_types
@@ -4265,13 +4359,13 @@ class ARXMLParser(AbstractARXMLParser):
                .setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF"))) \
                .setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
         return mapping
-    
+
     def getSenderReceiverToSignalGroupMapping(self, element: ET.Element) -> SenderReceiverToSignalGroupMapping:
         mapping = SenderReceiverToSignalGroupMapping()
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
         mapping.setSignalGroupRef(self.getChildElementOptionalRefType(element, "SIGNAL-GROUP-REF"))
         return mapping
-    
+
     def readSystemMappingDataMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "DATA-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -4288,7 +4382,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPONENT-IREFS/COMPONENT-IREF"):
             mapping.addComponentIRef(self.getComponentInSystemInstanceRef(child_element))
         mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
-            
+
     def readSystemMappingSwMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SW-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -4301,7 +4395,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcuMapping(self, element: ET.Element, mapping: ECUMapping):
         self.readIdentifiable(element, mapping)
         mapping.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF")) \
-               .setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF")) 
+               .setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
 
     def readSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "ECU-RESOURCE-MAPPINGS/*"):
@@ -4343,7 +4437,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSystemMapping(child_element, mapping)
             else:
                 self.notImplemented("Unsupported Mapping %s" % tag_name)
-            
+
     def readRootSwCompositionPrototype(self, element: ET.Element, system: System):
         child_element = self.find(element, "ROOT-SOFTWARE-COMPOSITIONS/ROOT-SW-COMPOSITION-PROTOTYPE")
         if child_element is not None:
@@ -4354,7 +4448,7 @@ class ARXMLParser(AbstractARXMLParser):
             prototype.setFlatMapRef(self.getChildElementOptionalRefType(child_element, "FLAT-MAP-REF")) \
                      .setSoftwareCompositionTRef(self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF"))
             AUTOSAR.getInstance().setRootSwCompositionPrototype(prototype)
-            
+
     def readSystemFibexElementRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
             system.addFibexElementRef(ref)
@@ -4436,7 +4530,7 @@ class ARXMLParser(AbstractARXMLParser):
                 type = parent.createComplexDeviceDriverSwComponentType(self.getShortName(child_element))
                 self.readComplexDeviceDriverSwComponentType(child_element, type)
             elif tag_name == "SWC-IMPLEMENTATION":
-                impl = parent.createSwcImplementation(self.getShortName(child_element))  
+                impl = parent.createSwcImplementation(self.getShortName(child_element))
                 self.readSwcImplementation(child_element, impl)
             elif tag_name == "APPLICATION-PRIMITIVE-DATA-TYPE":
                 data_type = parent.createApplicationPrimitiveDataType(self.getShortName(child_element))
@@ -4475,7 +4569,7 @@ class ARXMLParser(AbstractARXMLParser):
                 mapping = parent.createSwcBswMapping(self.getShortName(child_element))
                 self.readSwcBswMapping(child_element, mapping)
             elif tag_name == "BSW-IMPLEMENTATION":
-                impl = parent.createBswImplementation(self.getShortName(child_element))   
+                impl = parent.createBswImplementation(self.getShortName(child_element))
                 self.readBswImplementation(child_element, impl)
             elif tag_name == "IMPLEMENTATION-DATA-TYPE":
                 data_type = parent.createImplementationDataType(self.getShortName(child_element))
@@ -4636,6 +4730,21 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DO-IP-TP-CONFIG":
                 config = parent.createDoIpTpConfig(self.getShortName(child_element))
                 self.readDoIpTpConfig(child_element, config)
+            elif tag_name == "HW-ELEMENT":
+                hw_element = parent.createHwElement(self.getShortName(child_element))
+                self.readHwElement(child_element, hw_element)
+            elif tag_name == "HW-CATEGORY":
+                hw_category = parent.createHwCategory(self.getShortName(child_element))
+                self.readHwCategory(child_element, hw_category)
+            elif tag_name == "FLEXRAY-FRAME":
+                frame = parent.createFlexrayFrame(self.getShortName(child_element))
+                self.readFlexrayFrame(child_element, frame)
+            elif tag_name == "FLEXRAY-CLUSTER":
+                cluster = parent.createFlexrayCluster(self.getShortName(child_element))
+                self.readFlexrayCluster(child_element, cluster)
+            elif tag_name == "DATA-TRANSFORMATION-SET":
+                transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
+                self.readDataTransformationSet(child_element, transformation_set)
             else:
                 self.notImplemented("Unsupported element type of ARPackage <%s>" % tag_name)
 
@@ -4671,7 +4780,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.raiseError("Invalid ARXML file <%s>" % filename)
 
         self.getAUTOSARInfo(root, document)
-        document.setAdminData(self.getAdminData(root, "ADMIN-DATA")) 
+        document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
         self.readARPackages(root, document)
 
         document.reload()

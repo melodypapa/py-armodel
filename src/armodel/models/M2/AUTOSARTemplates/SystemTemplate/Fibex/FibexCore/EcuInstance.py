@@ -4,6 +4,7 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication i
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector, FlexrayCommunicationController
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from typing import List
 
@@ -106,20 +107,26 @@ class EcuInstance(FibexElement):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements.values()), key= lambda o:o.short_name))
 
     def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             controller = CanCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
     
     def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
     
     def createLinMaster(self, short_name: str) -> LinMaster:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             controller = LinMaster(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name)
+    
+    def createFlexrayCommunicationController(self, short_name: str) -> FlexrayCommunicationController:
+        if (not self.IsElementExists(short_name)):
+            controller = FlexrayCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
 
@@ -127,20 +134,26 @@ class EcuInstance(FibexElement):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements.values()), key= lambda o:o.short_name))
 
     def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             connector = CanCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
     
     def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             connector = EthernetCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
     
     def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             connector = LinCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name)
+    
+    def createFlexrayCommunicationConnector(self, short_name: str) -> FlexrayCommunicationConnector:
+        if (not self.IsElementExists(short_name)):
+            connector = FlexrayCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
     
