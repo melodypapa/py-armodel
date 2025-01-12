@@ -58,8 +58,8 @@ from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution impor
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
-from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
-from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory
+from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
+from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -4510,15 +4510,65 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDoIpTpConfigDoIpLogicAddresses(child_element, config)
         self.writeDoIpTpConfigTpConnections(child_element, config)
 
+    def writeHwDescriptionEntityHwCategoryRefs(self, element: ET.Element, entity: HwDescriptionEntity):
+        refs = entity.getHwCategoryRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "HW-CATEGORY-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "HW-CATEGORY-REF", ref)
+
+    def writeHwDescriptionEntity(self, element: ET.Element, entity: HwDescriptionEntity):
+        self.writeARElement(element, entity)
+        self.writeHwDescriptionEntityHwCategoryRefs(element, entity)
+
+    def writeHwPinGroup(self, element: ET.SubElement, pin_group: HwPinGroup):
+        if pin_group is not None:
+            child_element = ET.SubElement(element, "HW-PIN-GROUP")
+            self.writeHwDescriptionEntity(child_element, pin_group)
+
+    def writeHwElementHwPinGroups(self, element: ET.Element, hw_element: HwElement):
+        pin_groups = hw_element.getHwPinGroups()
+        if len(pin_groups) > 0:
+            child_element = ET.SubElement(element, "HW-PIN-GROUPS")
+            for pin_group in pin_groups:
+                if isinstance(pin_group, HwPinGroup):
+                    self.writeHwPinGroup(child_element, pin_group)
+                else:
+                    self.notImplemented("Unsupported Hw Pin Group <%s>" % type(pin_group))
+
     def writeHwElement(self, element: ET.Element, hw_element: HwElement):
-        self.logger.debug("Write HwElement <%s>" % hw_element.getShortName())
-        child_element = ET.SubElement(element, "HW-ELEMENT")
-        self.writeARElement(child_element, hw_element)
+        if hw_element is not None:
+            self.logger.debug("Write HwElement <%s>" % hw_element.getShortName())
+            child_element = ET.SubElement(element, "HW-ELEMENT")
+            self.writeHwDescriptionEntity(child_element, hw_element)
+            self.writeHwElementHwPinGroups(child_element, hw_element)
+
+    def writeHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
+        if attribute_def is not None:
+            child_element = ET.SubElement(element, "HW-ATTRIBUTE-DEF")
+            self.writeIdentifiable(child_element, attribute_def)
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", attribute_def.getUnitRef())
+
+    def writeHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
+        attribute_defs = hw_category.getHwAttributeDefs()
+        if len(attribute_defs) > 0:
+            child_element = ET.SubElement(element, "HW-ATTRIBUTE-DEFS")
+            for attribute_def in attribute_defs:
+                if isinstance(attribute_def, HwAttributeDef):
+                    self.writeHwAttributeDef(child_element, attribute_def)
+                else:
+                    self.notImplemented("Unsupported Hw Attribute Defs <%s>" % type(attribute_def))
 
     def writeHwCategory(self, element: ET.Element, hw_category: HwCategory):
         self.logger.debug("write HwCategory <%s>" % hw_category.getShortName())
         child_element = ET.SubElement(element, "HW-CATEGORY")
         self.writeARElement(child_element, hw_category)
+        self.writeHwCategoryHwAttributeDef(child_element, hw_category)
+
+    def writeHwType(self, element: ET.Element, type: HwType):
+        self.logger.debug("Write HwType <%s>" % type.getShortName())
+        child_element = ET.SubElement(element, "HW-TYPE")
+        self.writeARElement(child_element, type)
 
     def writeLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.writeCommunicationController(element, controller)
@@ -4759,6 +4809,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeHwElement(element, ar_element)
         elif isinstance(ar_element, HwCategory):
             self.writeHwCategory(element, ar_element)
+        elif isinstance(ar_element, HwType):
+            self.writeHwType(element, ar_element)
         elif isinstance(ar_element, DataTransformationSet):
             self.writeDataTransformationSet(element, ar_element)
         elif isinstance(ar_element, FlexrayFrame):
