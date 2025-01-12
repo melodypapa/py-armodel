@@ -513,6 +513,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * VENDOR-API-INFIX
    * INCLUDED-MODE-DECLARATION-GROUP-SET
    * HW-ELEMENT
+   * FLEXRAY-FRAME
 2. Improve the following AR Element
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP

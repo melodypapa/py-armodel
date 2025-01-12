@@ -2412,7 +2412,8 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref = None
         if element is not None:
             instance_ref = VariableDataPrototypeInSystemInstanceRef()
-            # iref.addContextComponentRef() = self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+                instance_ref.addContextComponentRef(ref)
             instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF")) \
                 .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
                 .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
@@ -2420,18 +2421,18 @@ class ARXMLParser(AbstractARXMLParser):
     
     def getEndToEndProtectionVariablePrototype(self, element: ET.Element) -> EndToEndProtectionVariablePrototype:
         prototype = EndToEndProtectionVariablePrototype()
-        for child_element in element.findall("./xmlns:RECEIVER-IREFS/xmlns:RECEIVER-IREF", self.nsmap):
+        for child_element in self.findall(element, "RECEIVER-IREFS/RECEIVER-IREF"):
             prototype.addReceiverIref(self.getVariableDataPrototypeInSystemInstanceRef(child_element))
-        child_element = element.find("./xmlns:SENDER-IREF", self.nsmap)
+        child_element = self.find(element, "SENDER-IREF")
         if child_element is not None:
             prototype.senderIRef = self.getVariableDataPrototypeInSystemInstanceRef(child_element)
         return prototype
     
-    def readEndToEndProtectionVariablePrototypes(self, element: ET.Element, parent: EndToEndProtection):
-        for child_element in element.findall("./xmlns:END-TO-END-PROTECTION-VARIABLE-PROTOTYPES/*", self.nsmap):
+    def readEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
+        for child_element in self.findall(element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE":
-                parent.addEndToEndProtectionVariablePrototype(self.getEndToEndProtectionVariablePrototype(child_element))
+                protection.addEndToEndProtectionVariablePrototype(self.getEndToEndProtectionVariablePrototype(child_element))
             else:
                 self.raiseError("Unsupported End To End Protection Variable Prototype <%s>" % tag_name)
 
@@ -4390,6 +4391,17 @@ class ARXMLParser(AbstractARXMLParser):
                .setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF"))) \
                .setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
         return mapping
+    
+    def readSenderReceiverToSignalGroupMappingTypeMappings(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+        child_element = self.find("TYPE-MAPPING")
+        if child_element is not None:
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
+                mapping.addDataMapping(self.getSenderReceiverToSignalMapping(child_element))
+            elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING":
+                mapping.addDataMapping(self.getSenderReceiverToSignalGroupMapping(child_element))
+            else:
+                self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
     def getSenderReceiverToSignalGroupMapping(self, element: ET.Element) -> SenderReceiverToSignalGroupMapping:
         mapping = SenderReceiverToSignalGroupMapping()

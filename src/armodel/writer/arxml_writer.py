@@ -1827,13 +1827,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalNumericalValue(child_element, "CRC-OFFSET", desc.getCrcOffset())
             self.setChildElementOptionalNumericalValue(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
 
-    def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, iref: VariableDataPrototypeInSystemInstanceRef):
-        if iref is not None:
+    def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
+        if instance_ref is not None:
             child_element = ET.SubElement(element, key)
-            # self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", iref.getContextComponentRefs())        # TODO
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", iref.getContextCompositionRef())
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", iref.getContextPortRef())
-            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
+            for ref in instance_ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", instance_ref.getContextCompositionRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", instance_ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", instance_ref.getTargetDataPrototypeRef())
 
     def setEndToEndProtectionVariablePrototype(self, element: ET.Element, key: str, prototype: EndToEndProtectionVariablePrototype):
         if prototype is not None:
@@ -4661,8 +4662,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", ipdu.getUnusedBitPattern())
 
     def writeFlexrayFrame(self, element: ET.Element, frame: FlexrayFrame):
-        self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
-        self.writeFrame(element, frame)
+        if frame is not None:
+            self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
+            child_element = ET.SubElement(element, "FLEXRAY-FRAME")
+            self.writeFrame(child_element, frame)
 
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
         self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())

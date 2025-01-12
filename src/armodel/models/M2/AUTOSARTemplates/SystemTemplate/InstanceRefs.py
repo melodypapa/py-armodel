@@ -2,6 +2,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
+
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
@@ -46,6 +47,7 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     def setTargetDataPrototypeRef(self, value):
         self.targetDataPrototypeRef = value
         return self
+
 
 class ComponentInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):
