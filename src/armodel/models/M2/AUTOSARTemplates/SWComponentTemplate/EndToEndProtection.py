@@ -41,7 +41,8 @@ class EndToEndDescription(ARObject):
         return self
 
     def getDataIds(self) -> List[PositiveInteger]:
-        return sorted(self.dataIds, key = lambda a: a)
+        #return sorted(self.dataIds, key = lambda a: a.getValue())
+        return self.dataIds
 
     def addDataId(self, id: PositiveInteger):
         self.dataIds.append(id)

@@ -4,6 +4,7 @@
     "scripts": {
         "pytest": "pytest",
         "pytest-cov": "pytest --cov=armodel --cov-report term-missing",
-        "bswm-test": "pip install . &arxml-format src/armodel/tests/test_files/BswM_Bswmd.arxml data/test.arxml"
+        "bswm-test": "pip install . &arxml-format src/armodel/tests/test_files/BswM_Bswmd.arxml data/test.arxml",
+        "flake8": "flake8 --select=E9,F63,F7,F82 ."
     }
 }

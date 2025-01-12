@@ -512,6 +512,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * RECEPTION-POLICYS
    * VENDOR-API-INFIX
    * INCLUDED-MODE-DECLARATION-GROUP-SET
+   * HW-ELEMENT
 2. Improve the following AR Element
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP
@@ -523,4 +524,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
 3. Fix the following AR Element
    * PROVIDED-MODE-GROUPS
    * MANAGED-MODE-GROUPS 
+4. Enable the Flake8 
+   * Fix the Flake8 issues
 

@@ -15,6 +15,9 @@ from .M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import *
 from .M2.MSR.Documentation.TextModel.LanguageDataModel import *
 from .M2.MSR.Documentation.TextModel.MultilanguageData import *
 from .M2.AUTOSARTemplates.AutosarTopLevelStructure import *
+from .M2.AUTOSARTemplates.ECUCDescriptionTemplate import *
+from .M2.AUTOSARTemplates.EcuResourceTemplate import *
+from .M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import *
 from .M2.AUTOSARTemplates.BswModuleTemplate import *
 from .M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import *
 from .M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import *
@@ -56,7 +59,7 @@ from .M2.AUTOSARTemplates.SystemTemplate import *
 from .M2.AUTOSARTemplates.SystemTemplate.DoIp import *
 from .M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
-from .M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *
+from .M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *
 from .M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import *
 from .M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import *
@@ -71,6 +74,7 @@ from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology i
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import *
+from .M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *
 from .M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import *
