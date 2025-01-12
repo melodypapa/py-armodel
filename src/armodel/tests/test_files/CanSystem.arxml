@@ -322,24 +322,12 @@
               <HW-CATEGORY-REFS>
                 <HW-CATEGORY-REF DEST="HW-CATEGORY">/CanSystem/HW/ADCPin</HW-CATEGORY-REF>
               </HW-CATEGORY-REFS>
-              <HW-ATTRIBUTE-VALUES>
-                <HW-ATTRIBUTE-VALUE>
-                  <HW-ATTRIBUTE-DEF-REF DEST="HW-ATTRIBUTE-DEF">/CanSystem/HW/ADCPin/ADCPinAttributes</HW-ATTRIBUTE-DEF-REF>
-                  <VT>?</VT>
-                </HW-ATTRIBUTE-VALUE>
-              </HW-ATTRIBUTE-VALUES>
             </HW-ELEMENT>
             <HW-ELEMENT UUID="66b2bdf3-1a8c-432c-80c4-d10d59483c0f">
               <SHORT-NAME>AI_KL30</SHORT-NAME>
               <HW-CATEGORY-REFS>
                 <HW-CATEGORY-REF DEST="HW-CATEGORY">/CanSystem/HW/ADCPin</HW-CATEGORY-REF>
               </HW-CATEGORY-REFS>
-              <HW-ATTRIBUTE-VALUES>
-                <HW-ATTRIBUTE-VALUE>
-                  <HW-ATTRIBUTE-DEF-REF DEST="HW-ATTRIBUTE-DEF">/CanSystem/HW/ADCPin/ADCPinAttributes</HW-ATTRIBUTE-DEF-REF>
-                  <VT>?</VT>
-                </HW-ATTRIBUTE-VALUE>
-              </HW-ATTRIBUTE-VALUES>
             </HW-ELEMENT>
             <HW-TYPE UUID="f73f677c-1389-4425-83f8-921d567b2ad4">
               <SHORT-NAME>AnalogInType</SHORT-NAME>
