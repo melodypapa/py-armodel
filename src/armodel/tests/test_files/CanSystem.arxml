@@ -304,6 +304,59 @@
             </CAN-FRAME>
           </ELEMENTS>
         </AR-PACKAGE>
+        <AR-PACKAGE UUID="bf497d35-ed43-4233-a36a-8963cae89b66">
+          <SHORT-NAME>HW</SHORT-NAME>
+          <ELEMENTS>
+            <HW-CATEGORY UUID="3b6906b4-5d4f-4c21-8b9b-2f76239cb1dc">
+              <SHORT-NAME>ADCPin</SHORT-NAME>
+              <HW-ATTRIBUTE-DEFS>
+                <HW-ATTRIBUTE-DEF UUID="d08cec3f-576d-42df-a43d-b5dd4d78c18b">
+                  <SHORT-NAME>ADCPinAttributes</SHORT-NAME>
+                  <CATEGORY>Integer</CATEGORY>
+                  <UNIT-REF DEST="UNIT">/AUTOSAR/AISpecification/Units_obsolete/Volt</UNIT-REF>
+                </HW-ATTRIBUTE-DEF>
+              </HW-ATTRIBUTE-DEFS>
+            </HW-CATEGORY>
+            <HW-ELEMENT UUID="cf988456-a9fc-466a-a5dc-7deb36873000">
+              <SHORT-NAME>AI_KL15</SHORT-NAME>
+              <HW-CATEGORY-REFS>
+                <HW-CATEGORY-REF DEST="HW-CATEGORY">/CanSystem/HW/ADCPin</HW-CATEGORY-REF>
+              </HW-CATEGORY-REFS>
+              <HW-ATTRIBUTE-VALUES>
+                <HW-ATTRIBUTE-VALUE>
+                  <HW-ATTRIBUTE-DEF-REF DEST="HW-ATTRIBUTE-DEF">/CanSystem/HW/ADCPin/ADCPinAttributes</HW-ATTRIBUTE-DEF-REF>
+                  <VT>?</VT>
+                </HW-ATTRIBUTE-VALUE>
+              </HW-ATTRIBUTE-VALUES>
+            </HW-ELEMENT>
+            <HW-ELEMENT UUID="66b2bdf3-1a8c-432c-80c4-d10d59483c0f">
+              <SHORT-NAME>AI_KL30</SHORT-NAME>
+              <HW-CATEGORY-REFS>
+                <HW-CATEGORY-REF DEST="HW-CATEGORY">/CanSystem/HW/ADCPin</HW-CATEGORY-REF>
+              </HW-CATEGORY-REFS>
+              <HW-ATTRIBUTE-VALUES>
+                <HW-ATTRIBUTE-VALUE>
+                  <HW-ATTRIBUTE-DEF-REF DEST="HW-ATTRIBUTE-DEF">/CanSystem/HW/ADCPin/ADCPinAttributes</HW-ATTRIBUTE-DEF-REF>
+                  <VT>?</VT>
+                </HW-ATTRIBUTE-VALUE>
+              </HW-ATTRIBUTE-VALUES>
+            </HW-ELEMENT>
+            <HW-TYPE UUID="f73f677c-1389-4425-83f8-921d567b2ad4">
+              <SHORT-NAME>AnalogInType</SHORT-NAME>
+            </HW-TYPE>
+            <HW-ELEMENT UUID="9cbf9b19-2b21-4e71-b42a-0050d0871226">
+              <SHORT-NAME>DemoECU</SHORT-NAME>
+              <HW-CATEGORY-REFS>
+                <HW-CATEGORY-REF DEST="HW-CATEGORY">/ARDesign/ECUDesign/Ecu</HW-CATEGORY-REF>
+              </HW-CATEGORY-REFS>
+              <HW-PIN-GROUPS>
+                <HW-PIN-GROUP UUID="470adf34-a7c8-470b-9d3b-b843e01fa9a9">
+                  <SHORT-NAME>CAN1</SHORT-NAME>
+                </HW-PIN-GROUP>
+              </HW-PIN-GROUPS>
+            </HW-ELEMENT>
+          </ELEMENTS>
+        </AR-PACKAGE>
         <AR-PACKAGE>
           <SHORT-NAME>ISIGNALS</SHORT-NAME>
           <ELEMENTS>

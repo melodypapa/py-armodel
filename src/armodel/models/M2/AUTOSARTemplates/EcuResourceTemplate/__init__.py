@@ -1,14 +1,14 @@
 from typing import List
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 
 class HwDescriptionEntity(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
-
+        
         self.hwAttributeValues = []                                 # type: List[HwAttributeValue]
         self.hwCategoryRefs = []                                    # type: List[RefType]
         self.hwTypeRef = None                                       # type: RefType
@@ -36,13 +36,31 @@ class HwDescriptionEntity(ARElement):
         if value is not None:
             self.hwTypeRef = value
         return self
-
+    
 
 class HwPin(HwDescriptionEntity):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+        self.functionName = None                                    # type: String
+        self.packagingPinName = None                                # type: String
         self.pinNumber = None                                       # type: Integer
+
+    def getFunctionName(self):
+        return self.functionName
+
+    def setFunctionName(self, value):
+        if value is not None:
+            self.functionName = value
+        return self
+
+    def getPackagingPinName(self):
+        return self.packagingPinName
+
+    def setPackagingPinName(self, value):
+        if value is not None:
+            self.packagingPinName = value
+        return self
 
     def getPinNumber(self):
         return self.pinNumber
@@ -59,6 +77,22 @@ class HwPinGroupContent(ARObject):
 
         self.hwPin = None                                           # type: HwPin
         self.hwPinGroup = None                                      # type: HwPinGroup
+
+    def getHwPin(self):
+        return self.hwPin
+
+    def createHwPin(self, short_name: str) -> HwPin:
+        pin = HwPin(self, short_name)
+        self.hwPin = pin
+        return pin
+
+    def getHwPinGroup(self):
+        return self.hwPinGroup
+
+    def setHwPinGroup(self, value):
+        if value is not None:
+            self.hwPinGroup = value
+        return self
 
 
 class HwPinGroup(HwDescriptionEntity):
@@ -95,10 +129,12 @@ class HwElement(HwDescriptionEntity):
     def getHwPinGroups(self):
         return self.hwPinGroups
 
-    def setHwPinGroups(self, value):
-        if value is not None:
-            self.hwPinGroups = value
-        return self
+    def createHwPinGroup(self, short_name: str) -> HwPinGroup:
+        if (not self.IsElementExists(short_name)):
+            pin_group = HwPinGroup(self, short_name)
+            self.addElement(pin_group)
+            self.hwPinGroups.append(pin_group)
+        return self.getElement(short_name)
 
     def getNestedElementRefs(self):
         return self.nestedElementRefs
