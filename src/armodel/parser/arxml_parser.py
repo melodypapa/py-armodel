@@ -122,6 +122,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Server
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecArrayTypeMapping, SenderRecCompositeTypeMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecRecordElementMapping, SenderRecRecordTypeMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from ..models.M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
@@ -4387,37 +4389,61 @@ class ARXMLParser(AbstractARXMLParser):
         for ref_type in self.getISignalIPduRefs(element):
             group.addISignalIPduRef(ref_type)
 
-    def getSenderReceiverToSignalMapping(self, element: ET.Element) -> SenderReceiverToSignalMapping:
-        mapping = SenderReceiverToSignalMapping()
+    def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")) \
                .setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF"))) \
                .setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
-        return mapping
     
-    def readSenderReceiverToSignalGroupMappingTypeMappings(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
-        child_element = self.find("TYPE-MAPPING")
+    def readSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
+        self.readARObjectAttributes(element, mapping)
+
+    def readSenderRecRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordElementMapping):
+        self.readARObjectAttributes(element, mapping)
+        mapping.setApplicationRecordElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-RECORD-ELEMENT-REF")) \
+               .setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF")) \
+               .setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+
+    def readSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
+        for child_element in self.findall(element, "RECORD-ELEMENT-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SENDER-REC-RECORD-ELEMENT-MAPPING":
+                record_element_mapping = SenderRecRecordElementMapping()
+                self.readSenderRecRecordElementMapping(child_element, record_element_mapping)
+                mapping.addRecordElementMapping(record_element_mapping)
+            else:
+                self.notImplemented("Unsupported RecordElementMapping %s" % tag_name)
+    
+    def readSenderRecRecordTypeMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
+        self.readSenderRecCompositeTypeMapping(element, mapping)
+        self.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
+    
+    def readSenderReceiverToSignalGroupMappingTypeMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+        child_element = self.find(element, "TYPE-MAPPING/*")
         if child_element is not None:
             tag_name = self.getTagName(child_element)
             if tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
-                mapping.addDataMapping(self.getSenderReceiverToSignalMapping(child_element))
-            elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING":
-                mapping.addDataMapping(self.getSenderReceiverToSignalGroupMapping(child_element))
+                type_mapping = SenderRecRecordTypeMapping()
+                self.readSenderRecRecordTypeMapping(child_element, type_mapping)
+                mapping.setTypeMapping(type_mapping)
             else:
-                self.notImplemented("Unsupported Data Mapping %s" % tag_name)
+                self.notImplemented("Unsupported Type Mapping %s" % tag_name)
 
-    def getSenderReceiverToSignalGroupMapping(self, element: ET.Element) -> SenderReceiverToSignalGroupMapping:
-        mapping = SenderReceiverToSignalGroupMapping()
+    def readSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
         mapping.setSignalGroupRef(self.getChildElementOptionalRefType(element, "SIGNAL-GROUP-REF"))
-        return mapping
+        self.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
     def readSystemMappingDataMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "DATA-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "SENDER-RECEIVER-TO-SIGNAL-MAPPING":
-                mapping.addDataMapping(self.getSenderReceiverToSignalMapping(child_element))
+                signal_mapping = SenderReceiverToSignalMapping()
+                self.readSenderReceiverToSignalMapping(child_element, signal_mapping)
+                mapping.addDataMapping(signal_mapping)
             elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING":
-                mapping.addDataMapping(self.getSenderReceiverToSignalGroupMapping(child_element))
+                signal_group_mapping = SenderReceiverToSignalGroupMapping()
+                self.readSenderReceiverToSignalGroupMapping(child_element, signal_group_mapping)
+                mapping.addDataMapping(signal_group_mapping)
             else:
                 self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
