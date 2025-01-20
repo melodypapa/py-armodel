@@ -4438,7 +4438,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "SENDER-RECEIVER-TO-SIGNAL-MAPPING":
                 signal_mapping = SenderReceiverToSignalMapping()
-                self.writeSenderReceiverToSignalMapping(child_element, signal_mapping)
+                self.readSenderReceiverToSignalMapping(child_element, signal_mapping)
                 mapping.addDataMapping(signal_mapping)
             elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING":
                 signal_group_mapping = SenderReceiverToSignalGroupMapping()
