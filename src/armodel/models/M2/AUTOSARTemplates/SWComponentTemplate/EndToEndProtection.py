@@ -4,6 +4,7 @@ from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, Na
 from ..SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from typing import List
 
+
 class EndToEndDescription(ARObject):
     def __init__(self):
         super().__init__()
@@ -41,7 +42,7 @@ class EndToEndDescription(ARObject):
         return self
 
     def getDataIds(self) -> List[PositiveInteger]:
-        #return sorted(self.dataIds, key = lambda a: a.getValue())
+        # return sorted(self.dataIds, key = lambda a: a.getValue())
         return self.dataIds
 
     def addDataId(self, id: PositiveInteger):
@@ -104,6 +105,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
 
     def getReceiverIrefs(self) -> List[VariableDataPrototypeInSystemInstanceRef]:
         return self._receiverIRefs
+
 
 class EndToEndProtectionISignalIPdu(ARObject):
     def __init__(self):
@@ -175,4 +177,4 @@ class EndToEndProtectionSet(Identifiable):
         return self.elements[short_name]
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
-        return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements.values()), key= lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements.values()), key=lambda e: e.short_name)

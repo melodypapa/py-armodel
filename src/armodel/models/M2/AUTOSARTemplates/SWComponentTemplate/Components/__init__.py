@@ -8,11 +8,16 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiab
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec, NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec, ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Communication import ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ServerComSpec
+
 
 class SymbolProps(ImplementationProps):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class PortPrototype(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -83,6 +88,7 @@ class PortPrototype(Identifiable):
         self.triggerPortAnnotations.append(value)
         return self
 
+
 class AbstractProvidedPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -91,7 +97,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
     def _validateRPortComSpec(self, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
-            if com_spec.dataElementRef == None:
+            if com_spec.dataElementRef is None:
                 raise ValueError(
                     "operation of NonqueuedSenderComSpec is invalid")
             if com_spec.dataElementRef.dest != "VARIABLE-DATA-PROTOTYPE":
@@ -170,6 +176,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
         self.providedInterfaceTRef = value
         return self
 
+
 class RPortPrototype(AbstractRequiredPortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -191,6 +198,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         self.requiredInterfaceTRef = value
         return self
     
+
 class PRPortPrototype(PortPrototype):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -220,6 +228,7 @@ class PRPortPrototype(PortPrototype):
         self.providedRequiredInterface = value
         return self
 
+
 class PortGroup(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -239,7 +248,8 @@ class PortGroup(Identifiable):
     def getOuterPortRefs(self) -> List[RefType]:
         return self._outer_port_ref
 
-class SwComponentType(ARElement, metaclass = ABCMeta):
+
+class SwComponentType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -268,22 +278,22 @@ class SwComponentType(ARElement, metaclass = ABCMeta):
         return self.elements[short_name]
 
     def getPPortPrototypes(self) -> List[PPortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.elements.values()), key=lambda o: o.short_name))
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.elements.values()), key=lambda o: o.short_name))
     
     def getPRPortPrototypes(self) -> List[PRPortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.elements.values()), key=lambda o: o.short_name))
     
     def getPortPrototypes(self) -> List[PortPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.elements.values()), key=lambda o: o.short_name))
     
     def getPortGroups(self) -> List[PortGroup]:
-        return list(sorted(filter(lambda c: isinstance(c, PortGroup), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, PortGroup), self.elements.values()), key=lambda o: o.short_name))
 
 
-class AtomicSwComponentType(SwComponentType, metaclass = ABCMeta):
+class AtomicSwComponentType(SwComponentType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -316,8 +326,9 @@ class AtomicSwComponentType(SwComponentType, metaclass = ABCMeta):
         return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))
     '''
 
+
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.hardwareElementRefs = []                                   # List[RefType]
@@ -329,7 +340,8 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
         if value is not None:
             self.hardwareElementRefs.append(value)
         return self
-    
+
+
 class ApplicationSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -348,7 +360,8 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
         if value is not None:
             self.hardwareElementRefs.append(value)
         return self
-    
+
+
 class NvBlockSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -371,7 +384,8 @@ class NvBlockSwComponentType(AtomicSwComponentType):
         if value is not None:
             self.nvBlockDescriptors.append(value)
         return self
-    
+
+
 class SensorActuatorSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -416,13 +430,13 @@ class CompositionSwComponentType(SwComponentType):
         return self.elements[short_name]
 
     def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key = lambda c: c.short_name))
+        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key=lambda c: c.short_name))
 
     def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key = lambda c: c.short_name))
+        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key=lambda c: c.short_name))
 
     def getSwConnectors(self) -> List[SwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key = lambda c: c.short_name))
+        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key=lambda c: c.short_name))
 
     def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
         if (short_name not in self.elements):
@@ -438,4 +452,3 @@ class CompositionSwComponentType(SwComponentType):
 
     def getDataTypeMappings(self) -> List[RefType]:
         return self.dataTypeMappingRefs
-

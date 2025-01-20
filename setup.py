@@ -3,7 +3,7 @@ import sys
 import os
 
 with open("README.md", "r") as fh:
-    long_description = fh.read() 
+    long_description = fh.read()
 
 setup(
     name='armodel',
@@ -23,15 +23,15 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-    keywords='AUTOSAR ARXML', 
+    keywords='AUTOSAR ARXML',
 
-    packages = find_packages(where='src'),
-    package_dir= {'': 'src'},
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
 
     python_requires=">=3.5",
 
     license='MIT',
-	install_requires=['colorama', 'openpyxl', "lxml"],
+    install_requires=['colorama', 'openpyxl', "lxml"],
     include_package_data=True,
     zip_safe=False,
 
