@@ -5,7 +5,8 @@ from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, PositiveInteger
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
@@ -13,9 +14,10 @@ from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
-class PortInterface(AtpType, metaclass = ABCMeta):
+
+class PortInterface(AtpType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == PortInterface:
+        if type(self) is PortInterface:
             raise NotImplementedError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
@@ -36,11 +38,13 @@ class PortInterface(AtpType, metaclass = ABCMeta):
         self.serviceKind = value
         return self
 
-class DataInterface(PortInterface, metaclass = ABCMeta):
+
+class DataInterface(PortInterface, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == DataInterface:
+        if type(self) is DataInterface:
             raise NotImplementedError("DataInterface is an abstract class.")
         super().__init__(parent, short_name)
+
 
 class NvDataInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
@@ -55,6 +59,7 @@ class NvDataInterface(DataInterface):
         self.nvDatas.append(value)
         return self
 
+
 class ParameterInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -62,7 +67,7 @@ class ParameterInterface(DataInterface):
         self.parameters = []                        # type: List[ParameterDataPrototype]
 
     def getParameters(self):
-        return list(sorted(filter(lambda a : isinstance(a, ParameterDataPrototype), self.elements.values()), key = lambda a: a.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, ParameterDataPrototype), self.elements.values()), key=lambda a: a.short_name))
 
     def createParameter(self, short_name: str) -> ParameterDataPrototype:
         if (short_name not in self.elements):
@@ -70,7 +75,8 @@ class ParameterInterface(DataInterface):
             self.elements[short_name] = parameter
             self.parameters.append(parameter)
         return self.elements[short_name]
-    
+
+
 class InvalidationPolicy(ARObject):
     def __init__(self):
         super().__init__()
@@ -91,7 +97,8 @@ class InvalidationPolicy(ARObject):
     def setHandleInvalid(self, value):
         self.handleInvalid = value
         return self
-    
+
+
 class MetaDataItem(ARObject):
     def __init__(self):
         super().__init__()
@@ -112,7 +119,8 @@ class MetaDataItem(ARObject):
     def setMetaDataItemType(self, value):
         self.metaDataItemType = value
         return self
-    
+
+
 class MetaDataItemSet(ARObject):
     def __init__(self):
         super().__init__()
@@ -133,6 +141,7 @@ class MetaDataItemSet(ARObject):
     def addMetaDataItem(self, value):
         self.metaDataItems.append(value)
         return self
+
 
 class SenderReceiverInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
@@ -167,7 +176,7 @@ class SenderReceiverInterface(DataInterface):
     def getDataElement(self, short_name) -> VariableDataPrototype:
         if (short_name in self.elements):
             data_element = self.elements[short_name]
-            #if (not isinstance(data_element, VariableDataPrototype)):
+            # if (not isinstance(data_element, VariableDataPrototype)):
             #    raise IndexError("%s is not data element." % short_name)
             return data_element
         raise IndexError("data element <%s> can not be found." % short_name)
@@ -179,6 +188,7 @@ class SenderReceiverInterface(DataInterface):
     
     def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
         return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
+
 
 class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
@@ -202,11 +212,13 @@ class ArgumentDataPrototype(AutosarDataPrototype):
         self.serverArgumentImplPolicy = value
         return self
 
+
 class ApplicationError(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.error_code = None                  # type: ARNumerical
+
 
 class ClientServerOperation(AtpFeature):
     """
@@ -253,7 +265,8 @@ class ClientServerInterface(PortInterface):
     """
         A client/server interface declares a number of operations that can be invoked on a server by a client.
         Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-        Base: ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier , AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable
+        Base: ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier , AtpType, CollectableElement, Identifiable, MultilanguageReferrable,
+              PackageableElement, PortInterface, Referrable
 
         Methods:
         --------
@@ -283,12 +296,14 @@ class ClientServerInterface(PortInterface):
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         return list(filter(lambda c: isinstance(c, ApplicationError), self.elements.values()))
-    
+
+
 class TriggerInterface(PortInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self._triggers = []             # type: Trigger
+
 
 class ModeSwitchInterface(PortInterface):
     def __init__(self, parent: ARObject, short_name: str):
@@ -303,13 +318,15 @@ class ModeSwitchInterface(PortInterface):
         return self.elements[short_name]
     
     def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements.values()), key= lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements.values()), key=lambda o: o.short_name))
 
-class PortInterfaceMapping(Identifiable, metaclass = ABCMeta):
+
+class PortInterfaceMapping(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == PortInterface:
+        if type(self) is PortInterfaceMapping:
             raise NotImplementedError("PortInterfaceMapping is an abstract class.")
         super().__init__(parent, short_name)
+
 
 class ClientServerApplicationErrorMapping(ARObject):
     def __init__(self):
@@ -331,11 +348,11 @@ class ClientServerApplicationErrorMapping(ARObject):
     def setSecondApplicationErrorRef(self, value):
         self.secondApplicationErrorRef = value
         return self
-    
+
+
 class ClientServerOperationMapping(ARObject):
     def __init__(self):
         super().__init__()
-
         
         self.argumentMappings = []                              # type: List[DataPrototypeMapping]
         self.firstOperationRef = None                           # type: RefType
@@ -425,7 +442,6 @@ class DataPrototypeMapping(ARObject):
         return self
 
 
-
 class ClientServerInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -479,3 +495,54 @@ class PortInterfaceMappingSet(ARElement):
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
+
+
+class TextTableMapping(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.bitfieldTextTableMaskFirst = None                  # type: PositiveInteger
+        self.bitfieldTextTableMaskSecond = None                 # type: PositiveInteger
+        self.identicalMapping = None                            # type: Boolean
+        self.mappingDirection = None                            # type: MappingDirectionEnum
+        self.valuePairs = []                                    # type: List[TextTableValuePair]
+
+    def getBitfieldTextTableMaskFirst(self):
+        return self.bitfieldTextTableMaskFirst
+
+    def setBitfieldTextTableMaskFirst(self, value):
+        if value is not None:
+            self.bitfieldTextTableMaskFirst = value
+        return self
+
+    def getBitfieldTextTableMaskSecond(self):
+        return self.bitfieldTextTableMaskSecond
+
+    def setBitfieldTextTableMaskSecond(self, value):
+        if value is not None:
+            self.bitfieldTextTableMaskSecond = value
+        return self
+
+    def getIdenticalMapping(self):
+        return self.identicalMapping
+
+    def setIdenticalMapping(self, value):
+        if value is not None:
+            self.identicalMapping = value
+        return self
+
+    def getMappingDirection(self):
+        return self.mappingDirection
+
+    def setMappingDirection(self, value):
+        if value is not None:
+            self.mappingDirection = value
+        return self
+
+    def getValuePairs(self):
+        return self.valuePairs
+
+    def setValuePairs(self, value):
+        if value is not None:
+            self.valuePairs = value
+        return self

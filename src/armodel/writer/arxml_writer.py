@@ -121,7 +121,9 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Servic
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecCompositeTypeMapping, SenderRecRecordElementMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecRecordTypeMapping, SenderReceiverToSignalGroupMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from ..models.M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
@@ -3893,16 +3895,53 @@ class ARXMLWriter(AbstractARXMLWriter):
             for signal_ref in signal_refs:
                 self.setChildElementOptionalRefType(signal_refs_tag, "SYSTEM-SIGNAL-REF", signal_ref)
 
-    def setSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
+    def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")
         self.setChildElementOptionalLiteral(child_element, "COMMUNICATION-DIRECTION", mapping.getCommunicationDirection())
         self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
-    def setSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+    def writeSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
+        self.writeARObjectAttributes(element, mapping)
+
+    def writeSenderRecRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordElementMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SENDER-REC-RECORD-ELEMENT-MAPPING")
+            self.writeARObjectAttributes(child_element, mapping)
+            self.setChildElementOptionalRefType(child_element, "APPLICATION-RECORD-ELEMENT-REF", mapping.getApplicationRecordElementRef())
+            self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-RECORD-ELEMENT-REF", mapping.getImplementationRecordElementRef())
+            self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
+        record_element_mappings = mapping.getRecordElementMappings()
+        if len(record_element_mappings) > 0:
+            child_element = ET.SubElement(element, "RECORD-ELEMENT-MAPPINGS")
+            for record_element_mapping in record_element_mappings:
+                if isinstance(record_element_mapping, SenderRecRecordElementMapping):
+                    self.writeSenderRecRecordElementMapping(child_element, record_element_mapping)
+                else:
+                    self.notImplemented("Unsupported RecordElementMapping %s" % type(record_element_mapping))
+    
+    def writeSenderRecRecordTypeMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
+        if mapping is not None:
+            child_element = ET.SubElement(element, "SENDER-REC-RECORD-TYPE-MAPPING")
+            self.writeSenderRecCompositeTypeMapping(child_element, mapping)
+            self.writeSenderRecArrayTypeMappingRecordElementMapping(child_element, mapping)
+
+    def writeSenderReceiverToSignalGroupMappingTypeMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+        type_mapping = mapping.getTypeMapping()
+        if type_mapping is not None:
+            child_element = ET.SubElement(element, "TYPE-MAPPING")
+            if isinstance(type_mapping, SenderRecRecordTypeMapping):
+                self.writeSenderRecRecordTypeMapping(child_element, type_mapping)
+            else:
+                self.notImplemented("Unsupported Type Mapping %s" % type(type_mapping))
+
+    def writeSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING")
         self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
         self.setChildElementOptionalRefType(child_element, "SIGNAL-GROUP-REF", mapping.getSignalGroupRef())
+        self.writeSenderReceiverToSignalGroupMappingTypeMapping(child_element, mapping)
     
     def writeSystemMappingDataMappings(self, element: ET.Element, system_mapping: SystemMapping):
         data_mappings = system_mapping.getDataMappings()
@@ -3910,9 +3949,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "DATA-MAPPINGS")
             for data_mapping in data_mappings:
                 if isinstance(data_mapping, SenderReceiverToSignalMapping):
-                    self.setSenderReceiverToSignalMapping(child_element, data_mapping)
+                    self.writeSenderReceiverToSignalMapping(child_element, data_mapping)
                 elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):
-                    self.setSenderReceiverToSignalGroupMapping(child_element, data_mapping)
+                    self.writeSenderReceiverToSignalGroupMapping(child_element, data_mapping)
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
                 
@@ -4666,21 +4705,26 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeFlexrayFrame(self, element: ET.Element, frame: FlexrayFrame):
         if frame is not None:
-            self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
+            self.logger.debug("Write FlexrayFrame <%s>" % frame.getShortName())
             child_element = ET.SubElement(element, "FLEXRAY-FRAME")
             self.writeFrame(child_element, frame)
 
     def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
-        self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
-        self.writeCommunicationCluster(element, cluster)
+        if cluster is not None:
+            self.logger.debug("Write FlexrayCluster <%s>" % cluster.getShortName())
+            child_element = ET.SubElement(element, "FLEXRAY-CLUSTER")
+            self.writeCommunicationCluster(child_element, cluster)
 
     def writeFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
-        self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
-        self.writeCommunicationController(element, controller)
+        if controller is not None:
+            self.logger.debug("Write FlexrayCommunicationController <%s>" % controller.getShortName())
+            child_element = ET.SubElement(element, "FLEXRAY-COMMUNICATION-CONTROLLER")
+            self.writeCommunicationController(child_element, controller)
 
     def writeDataTransformationSet(self, element: ET.Element, dtf_set: DataTransformationSet):
-        self.logger.debug("Read DataTransformationSet <%s>" % dtf_set.getShortName())
-        self.writeIdentifiable(element, dtf_set)
+        if dtf_set is not None:
+            child_element = ET.SubElement(element, "DATA-TRANSFORMATION-SET")
+            self.writeIdentifiable(child_element, dtf_set)
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):

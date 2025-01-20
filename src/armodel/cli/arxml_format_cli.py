@@ -59,7 +59,8 @@ def perform_format(args):
     except Exception as e:
         # print(e)
         logger.error(e)
-        # raise e
+        if args.verbose:
+            raise e
 
 
 def main():
