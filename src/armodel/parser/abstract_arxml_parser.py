@@ -6,18 +6,18 @@ import re
 import logging
 import xml.etree.ElementTree as ET
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, TimeValue
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, TimeValue
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit
+
 
 class AbstractARXMLParser:
     __metaclass__ = ABCMeta
      
-    def __init__(self, options = None) -> None:
-        if type(self) == AbstractARXMLParser:
+    def __init__(self, options=None) -> None:
+        if type(self) is AbstractARXMLParser:
             raise NotImplementedError("AbstractArxmlParser is an abstract class.")
         
         self.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
@@ -40,13 +40,13 @@ class AbstractARXMLParser:
                 self.options['warning'] = options['warning']
 
     def raiseError(self, error_msg):
-        if (self.options['warning'] == True):
+        if (self.options['warning'] is True):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise ValueError(error_msg)
         
     def notImplemented(self, error_msg):
-        if (self.options['warning'] == True):
+        if (self.options['warning'] is True):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise NotImplementedError(error_msg)
@@ -100,7 +100,7 @@ class AbstractARXMLParser:
             literal = ARLiteral()
             self.readARObjectAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
-            if child_element.text is None:      
+            if child_element.text is None:
                 literal.setValue("")
             else:
                 literal.setValue(child_element.text)
@@ -117,7 +117,7 @@ class AbstractARXMLParser:
             literal = ARLiteral()
             self.readARObjectAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
-            if child_element.text is None:      
+            if child_element.text is None:
                 literal.setValue("")
             else:
                 literal.setValue(child_element.text)
@@ -165,7 +165,7 @@ class AbstractARXMLParser:
 
     def getChildElementOptionalBooleanValue(self, element: ET.Element, key: str) -> Boolean:
         literal = self.getChildElementOptionalLiteral(element, key)
-        if literal == None:
+        if literal is None:
             return None
         if literal.getText() == "":
             return None
@@ -182,7 +182,7 @@ class AbstractARXMLParser:
 
     def getChildElementOptionalNumericalValue(self, element: ET.Element, key: str) -> ARNumerical:
         child_element = self.find(element, key)
-        if child_element == None:
+        if child_element is None:
             return None
         numerical = ARNumerical()
         self.readARObjectAttributes(child_element, numerical)
@@ -191,7 +191,7 @@ class AbstractARXMLParser:
     
     def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Integer:
         child_element = self.find(element, key)
-        if child_element == None:
+        if child_element is None:
             return None
         numerical = Integer()
         self.readARObjectAttributes(child_element, numerical)
@@ -200,7 +200,7 @@ class AbstractARXMLParser:
     
     def getChildElementOptionalPositiveInteger(self, element: ET.Element, key: str) -> PositiveInteger:
         child_element = self.find(element, key)
-        if child_element == None:
+        if child_element is None:
             return None
         numerical = PositiveInteger()
         self.readARObjectAttributes(child_element, numerical)
@@ -246,7 +246,7 @@ class AbstractARXMLParser:
             return self._getChildElementRefTypeDestAndValue(child_element)
         self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
 
-    def getChildElementOptionalRefType(self, element:ET.Element, key: str) -> RefType:
+    def getChildElementOptionalRefType(self, element: ET.Element, key: str) -> RefType:
         child_element = self.find(element, key)
         if (child_element is not None):
             return self._getChildElementRefTypeDestAndValue(child_element)
@@ -269,7 +269,7 @@ class AbstractARXMLParser:
     
     def readARObjectAttributes(self, element: ET.Element, ar_object: ARObject):
         ar_object.timestamp = self.readElementOptionalAttrib(element, "T")             # read the timestamp
-        ar_object.uuid      = self.readElementOptionalAttrib(element, "UUID")          # read the uuid
+        ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")          # read the uuid
 
         if ar_object.timestamp is not None:
             self.logger.debug("Timestamp: %s" % ar_object.timestamp)

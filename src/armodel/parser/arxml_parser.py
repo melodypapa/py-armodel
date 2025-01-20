@@ -2389,23 +2389,25 @@ class ARXMLParser(AbstractARXMLParser):
             .setOffsetSiToUnit(self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT")) \
             .setPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF"))
 
-    def readEndToEndDescriptionDataId(self, element: ET.Element, parent: EndToEndDescription):
-        child_element = element.find("./xmlns:DATA-IDS", self.nsmap)
+    def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
+        child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
             for value in self.getChildElementNumericalValueList(child_element, "DATA-ID"):
                 parent.addDataId(value)
 
     def getEndToEndDescription(self, element: ET.Element, key: str) -> EndToEndDescription:
-        child_element = element.find("./xmlns:%s" % key, self.nsmap)
+        child_element = self.find(element, key)
         desc = None
         if (child_element is not None):
             desc = EndToEndDescription()
-            desc.category = self.getChildElementOptionalLiteral(child_element, "CATEGORY")
-            self.readEndToEndDescriptionDataId(child_element, desc)
-            desc.dataIdMode = self.getChildElementOptionalNumericalValue(child_element, "DATA-ID-MODE")
-            desc.maxDeltaCounterInit = self.getChildElementOptionalNumericalValue(child_element, "MAX-DELTA-COUNTER-INIT")
-            desc.crcOffset = self.getChildElementOptionalNumericalValue(child_element, "CRC-OFFSET")
-            desc.counterOffset = self.getChildElementOptionalNumericalValue(child_element, "COUNTER-OFFSET")
+            self.readARObjectAttributes(child_element, desc)
+            desc.setCategory(self.getChildElementOptionalLiteral(child_element, "CATEGORY"))
+            self.readEndToEndDescriptionDataIds(child_element, desc)
+            desc.setDataIdMode(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE")) \
+                .setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH")) \
+                .setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT")) \
+                .setCrcOffset(self.getChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET")) \
+                .setCounterOffset(self.getChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET"))
         return desc
     
     def getVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element) -> VariableDataPrototypeInSystemInstanceRef:
@@ -2415,8 +2417,8 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
                 instance_ref.addContextComponentRef(ref)
             instance_ref.setContextCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPOSITION-REF")) \
-                .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
-                .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+                        .setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")) \
+                        .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
         return instance_ref
     
     def getEndToEndProtectionVariablePrototype(self, element: ET.Element) -> EndToEndProtectionVariablePrototype:

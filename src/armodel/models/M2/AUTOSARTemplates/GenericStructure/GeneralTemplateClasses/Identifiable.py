@@ -8,10 +8,11 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveT
 from abc import ABCMeta
 from typing import List
 
-class Referrable(ARObject, metaclass = ABCMeta):
+
+class Referrable(ARObject, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
 
-        if type(self) == Referrable:
+        if type(self) is Referrable:
             raise NotImplementedError("Referrable is an abstract class.")
         
         ARObject.__init__(self)
@@ -40,14 +41,15 @@ class Referrable(ARObject, metaclass = ABCMeta):
     def getFullName(self) -> str:
         return self.full_name
 
-class MultilanguageReferrable(Referrable, metaclass = ABCMeta):
+
+class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == MultilanguageReferrable:
+        if type(self) is MultilanguageReferrable:
             raise NotImplementedError("MultilanguageReferrable is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        #self._parent = parent
+        # self._parent = parent
         self.longName = None            # type: MultilanguageLongName
 
     def getLongName(self) -> MultilanguageLongName:
@@ -58,15 +60,15 @@ class MultilanguageReferrable(Referrable, metaclass = ABCMeta):
         return self
 
 
-class CollectableElement(ARObject, metaclass = ABCMeta):
+class CollectableElement(ARObject, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == CollectableElement:
+        if type(self) is CollectableElement:
             raise NotImplementedError("CollectableElement is an abstract class.")
         
         self.elements = {}              # type: dict[str, Referrable]
 
     def getTotalElement(self) -> int:
-        #return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
+        # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
         return len(self.elements.values())
 
     def removeElement(self, key):
@@ -88,9 +90,10 @@ class CollectableElement(ARObject, metaclass = ABCMeta):
     def IsElementExists(self, short_name: str) -> bool:
         return short_name in self.elements
 
-class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCMeta):
+
+class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == Identifiable:
+        if type(self) is Identifiable:
             raise NotImplementedError("Identifiable is an abstract class.")
         
         MultilanguageReferrable.__init__(self, parent, short_name)
@@ -106,8 +109,12 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
         return self.adminData
 
     def setAdminData(self, value):
-        self.adminData = value
+        if value is not None:
+            self.adminData = value
         return self
+    
+    def removeAdminData(self):
+        self.adminData = None
 
     def getDesc(self):
         return self.desc
@@ -133,7 +140,6 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
         self.introduction = value
         return self
 
-
     def addAnnotation(self, annotation: Annotation):
         self.annotations.append(annotation)
         return self
@@ -144,44 +150,64 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass = ABCM
 
 class PackageableElement(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == PackageableElement:
+        if type(self) is PackageableElement:
             raise NotImplementedError("PackageableElement is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class ARElement(PackageableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ARElement:
+        if type(self) is ARElement:
             raise NotImplementedError("ARElement is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class Describable(ARObject, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == Describable:
+        if type(self) is Describable:
             raise NotImplementedError("Describable is an abstract class.")
 
         super().__init__()
 
-        self._desc = None
-        self._category = None
-        self._adminData = None
-        self._introduction = None
+        self.desc = None
+        self.category = None
+        self.adminData = None
+        self.introduction = None
 
-    @property
-    def desc(self):
-        return self._desc
+    def getDesc(self):
+        return self.desc
 
-    @desc.setter
-    def desc(self, value):
-        self._desc = value
+    def setDesc(self, value):
+        if value is not None:
+            self.desc = value
+        return self
 
-    @property
-    def category(self):
-        return self._category
+    def getCategory(self):
+        return self.category
 
-    @category.setter
-    def category(self, value: ARLiteral):
-        self._category = value
+    def setCategory(self, value):
+        if value is not None:
+            self.category = value
+        return self
+
+    def getAdminData(self):
+        return self.adminData
+
+    def setAdminData(self, value):
+        if value is not None:
+            self.adminData = value
+        return self
+    
+    def removeAdminData(self):
+        self.adminData = None
+
+    def getIntroduction(self):
+        return self.introduction
+
+    def setIntroduction(self, value):
+        if value is not None:
+            self.introduction = value
+        return self
 
 
+    

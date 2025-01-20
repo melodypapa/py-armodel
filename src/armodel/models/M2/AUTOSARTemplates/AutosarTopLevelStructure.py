@@ -14,6 +14,7 @@ from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Applic
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
 
+
 class FileInfoComment(ARObject):
     def __init__(self):
         super().__init__()
@@ -27,34 +28,23 @@ class FileInfoComment(ARObject):
         self.sdgs = value
         return self
 
+
 class AbstractAUTOSAR(CollectableElement):
     def __init__(self):
         super().__init__()
 
-        CollectableElement.__init__(self)
-
-        self.schema_location = ""
-        self._appl_impl_type_maps = {}
-        self._impl_appl_type_maps = {}
-
-        self._behavior_impl_maps = {}                       # type: Dict[str, str]
-        self._impl_behavior_maps = {}                       # type: Dict[str, str]
-
-        self.systems = {}                                   # type: Dict[str, System]
-
-        self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
-
-        self.adminData = None                               # type: AdminData
-        self.arPackages = {}                                # type: Dict[str, ARPackage]
-        self.fileInfoComment = None                         # type: FileInfoComment
-        self.introduction = None                            # type: DocumentationBlock
+        self.clear()
 
     def getAdminData(self):
         return self.adminData
 
     def setAdminData(self, value):
-        self.adminData = value
+        if value is not None:
+            self.adminData = value
         return self
+    
+    def removeAdminData(self):
+        self.adminData = None
 
     def getFileInfoComment(self):
         return self.fileInfoComment
@@ -78,8 +68,23 @@ class AbstractAUTOSAR(CollectableElement):
         return ""
 
     def clear(self):
-        self.arPackages = {}
-        self.elements = {}
+        CollectableElement.__init__(self)
+
+        self.schema_location = ""
+        self._appl_impl_type_maps = {}
+        self._impl_appl_type_maps = {}
+
+        self._behavior_impl_maps = {}                       # type: Dict[str, str]
+        self._impl_behavior_maps = {}                       # type: Dict[str, str]
+
+        self.systems = {}                                   # type: Dict[str, System]
+
+        self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
+
+        self.adminData = None                               # type: AdminData
+        self.arPackages = {}                                # type: Dict[str, ARPackage]
+        self.fileInfoComment = None                         # type: FileInfoComment
+        self.introduction = None                            # type: DocumentationBlock
 
     def getElement(self, short_name: str) -> Referrable:
         if (short_name in self.arPackages):
@@ -87,8 +92,8 @@ class AbstractAUTOSAR(CollectableElement):
         return CollectableElement.getElement(self, short_name)
 
     def getARPackages(self) -> List[ARPackage]:
-        #return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
-        return list(sorted(self.arPackages.values(), key= lambda a: a.short_name))
+        # return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
+        return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
 
     def createARPackage(self, short_name: str) -> ARPackage:
         if (short_name not in self.arPackages):
@@ -103,7 +108,7 @@ class AbstractAUTOSAR(CollectableElement):
             if (short_name == ""):
                 continue
             element = element.getElement(short_name)
-            if (element == None):
+            if (element is None):
                 return element
             #    raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
         return element
@@ -156,24 +161,26 @@ class AbstractAUTOSAR(CollectableElement):
             return self.find(self._impl_behavior_maps[impl_ref])
         return None
 
-    def getImplementation(self, behavior_ref:str):
+    def getImplementation(self, behavior_ref: str):
         if behavior_ref in self._behavior_impl_maps:
             return self.find(self._behavior_impl_maps[behavior_ref])
         return None
     
     def addSystem(self, system: System):
         short_name = system.getShortName()
-        if  short_name not in self.systems:
+        if short_name not in self.systems:
             self.systems[short_name] = system
     
     def getSystems(self) -> List[System]:
-        return list(sorted(self.systems.values(), key = lambda a: a.getShortName()))
-class AUTOSAR (AbstractAUTOSAR):        
+        return list(sorted(self.systems.values(), key=lambda a: a.getShortName()))
+
+
+class AUTOSAR (AbstractAUTOSAR):
     __instance = None
 
     @staticmethod
     def getInstance():
-        if (AUTOSAR.__instance == None):
+        if (AUTOSAR.__instance is None):
             AUTOSAR()
         return AUTOSAR.__instance
     
@@ -181,12 +188,13 @@ class AUTOSAR (AbstractAUTOSAR):
         self.clear()
 
     def __init__(self):
-        if (AUTOSAR.__instance != None):
+        if (AUTOSAR.__instance is not None):
             raise Exception("The AUTOSAR is singleton!")
         
         AUTOSAR.__instance = self
 
         super().__init__()
+
 
 class AUTOSARDoc(AbstractAUTOSAR):
     def __init__(self):

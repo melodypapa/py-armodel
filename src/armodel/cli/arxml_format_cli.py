@@ -4,9 +4,11 @@ import logging
 import sys
 import os.path
 
+from ..transformer.admin_data import AdminDataTransformer
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..parser.arxml_parser import ARXMLParser
 from ..writer import ARXMLWriter
+
 
 def perform_format(args):
     logger = logging.getLogger()
@@ -22,20 +24,21 @@ def perform_format(args):
     if os.path.exists(log_file):
         os.remove(log_file)
 
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(formatter)
+    if args.verbose:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(formatter)
+        file_handler.setLevel(logging.DEBUG)
 
     logger.setLevel(logging.DEBUG)
-    file_handler.setLevel(logging.DEBUG)
 
     if args.verbose:
         stdout_handler.setLevel(logging.DEBUG)
-        
     else:
         stdout_handler.setLevel(logging.INFO)
 
-    logger.addHandler(file_handler)
-    logger.addHandler(stdout_handler)    
+    if args.verbose:
+        logger.addHandler(file_handler)
+    logger.addHandler(stdout_handler)
 
     try:
         options = {}
@@ -46,26 +49,34 @@ def perform_format(args):
         parser = ARXMLParser(options)
         parser.load(args.INPUT, document)
 
+        if args.remove_admin_data:
+            transform = AdminDataTransformer()
+            transform.remove(document)
+
         writer = ARXMLWriter()
         writer.save(args.OUTPUT, document)
         
     except Exception as e:
-        #print(e)
+        # print(e)
         logger.error(e)
-        raise e
+        # raise e
+
 
 def main():
     version = pkg_resources.require("armodel")[0].version
 
     ap = argparse.ArgumentParser()
-    ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
-    ap.add_argument("-w", "--warning", required= False, help= "Skip the error and report it as warning message", action= "store_true")
-    ap.add_argument("INPUT", help = "The path of AUTOSAR ARXML file")
-    ap.add_argument("OUTPUT", help = "The path of output ARXML file")
+    ap.description = "arxml-format ver: %s" % version
+    ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
+    ap.add_argument("-w", "--warning", required=False, help="Skip the error and report it as warning message", action="store_true")
+    ap.add_argument("--remove-admin-data", required=False, help="Remove all the AdminData", action="store_true")
+    ap.add_argument("INPUT", help="The path of AUTOSAR ARXML file")
+    ap.add_argument("OUTPUT", help="The path of output ARXML file")
 
     args = ap.parse_args()
 
     perform_format(args)
+
 
 if __name__ == "__main__":
     main()

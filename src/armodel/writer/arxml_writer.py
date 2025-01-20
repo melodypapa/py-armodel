@@ -1810,7 +1810,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeImplementation(child_element, impl)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
 
-    def writeEndToEndDescriptionDataId(self, element: ET.Element, parent: EndToEndDescription):
+    def writeEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         data_ids = parent.getDataIds()
         if len(data_ids) > 0:
             child_element = ET.SubElement(element, "DATA-IDS")
@@ -1820,12 +1820,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setEndToEndDescription(self, element: ET.Element, key: str, desc: EndToEndDescription):
         if desc is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", desc.category)
-            self.writeEndToEndDescriptionDataId(child_element, desc)
-            self.setChildElementOptionalNumericalValue(child_element, "DATA-ID-MODE", desc.getDataIdMode())
-            self.setChildElementOptionalNumericalValue(child_element, "MAX-DELTA-COUNTER-INIT", desc.getMaxDeltaCounterInit())
-            self.setChildElementOptionalNumericalValue(child_element, "CRC-OFFSET", desc.getCrcOffset())
-            self.setChildElementOptionalNumericalValue(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
+            self.writeARObjectAttributes(child_element, desc)
+            self.setChildElementOptionalLiteral(child_element, "CATEGORY", desc.getCategory())
+            self.writeEndToEndDescriptionDataIds(child_element, desc)
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-MODE", desc.getDataIdMode())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", desc.getDataLength())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER-INIT", desc.getMaxDeltaCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", desc.getCrcOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
 
     def setVariableDataPrototypeInSystemInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInSystemInstanceRef):
         if instance_ref is not None:
@@ -1839,6 +1841,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setEndToEndProtectionVariablePrototype(self, element: ET.Element, key: str, prototype: EndToEndProtectionVariablePrototype):
         if prototype is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, prototype)
             irefs = prototype.getReceiverIrefs()
             if len(irefs) > 0:
                 child_element = ET.SubElement(child_element, "RECEIVER-IREFS")
