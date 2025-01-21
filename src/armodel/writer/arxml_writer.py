@@ -3729,10 +3729,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CAN-COMMUNICATION-CONTROLLER")
         self.logger.debug("Write CanCommunicationController %s" % controller.getShortName())
         self.writeIdentifiable(child_element, controller)
-        if controller.getCanControllerAttributes() is not None:
-            variants_tag = ET.SubElement(child_element, "CAN-COMMUNICATION-CONTROLLER-VARIANTS")
-            cond_tag = ET.SubElement(variants_tag, "CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
-            self.writeAbstractCanCommunicationController(cond_tag, controller)
+        variants_tag = ET.SubElement(child_element, "CAN-COMMUNICATION-CONTROLLER-VARIANTS")
+        cond_tag = ET.SubElement(variants_tag, "CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        self.writeAbstractCanCommunicationController(cond_tag, controller)
 
     def writeCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.writeIdentifiable(element, item)
