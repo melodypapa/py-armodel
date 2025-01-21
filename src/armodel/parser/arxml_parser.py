@@ -183,6 +183,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmC
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties, DataTransformation, DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationISignalProps, TransformationISignalProps
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationDescription, TransformationDescription
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationTechnology
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu
@@ -4352,12 +4353,47 @@ class ARXMLParser(AbstractARXMLParser):
         return mappings
     '''
 
+    def readISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
+        for ref_type in self.getChildElementRefTypeList(element, "I-SIGNAL-REFS/I-SIGNAL-REF"):
+            group.addISignalRef(ref_type)
+
+    def readISignalGroupComBasedSignalGroupTransformation(self, element: ET.Element, group: ISignalGroup):
+        for ref in self.getChildElementRefTypeList(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"):      # noqa E501
+            group.addComBasedSignalGroupTransformationRef(ref)
+
+    def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
+        self.readDescribable(element, props)
+
+    def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
+        child_element = self.find(element, "DATA-IDS")
+        if child_element is not None:
+            props.addDataId(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID"))
+
+    def readEndToEndTransformationISignalProps(self, element: ET.Element, props: EndToEndTransformationISignalProps):
+        child_element = self.find(element, "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS/END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+        if child_element is not None:
+            self.readTransformationISignalProps(child_element, props)
+            props.setTransformerRef(self.getChildElementOptionalRefType(child_element, "TRANSFORMER-REF"))
+            self.readEndToEndTransformationISignalPropsDataIds(child_element, props)
+            props.setDataLength(self.getChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH"))
+
+    def readISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
+        for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = EndToEndTransformationISignalProps()
+                self.readEndToEndTransformationISignalProps(child_element, props)
+                group.setTransformationISignalProps(props)
+            else:
+                self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
+
     def readISignalGroup(self, element: ET.Element, group: ISignalGroup):
         self.logger.debug("Read ISignalGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
-        for ref_type in self.getChildElementRefTypeList(element, "I-SIGNAL-REFS/I-SIGNAL-REF"):
-            group.addISignalRef(ref_type)
-        group.systemSignalGroupRef = self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-GROUP-REF")
+        self.readISignalGroupComBasedSignalGroupTransformation(element, group)
+        self.readISignalGroupISignalRef(element, group)
+        group.setSystemSignalGroupRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-GROUP-REF"))
+        self.readISignalGroupTransformationISignalProps(element, group)
 
     def readSystemSignal(self, element: ET.Element, signal: SystemSignal):
         self.logger.debug("Read SystemSignal <%s>" % signal.getShortName())

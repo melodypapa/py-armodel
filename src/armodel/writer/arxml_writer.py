@@ -182,6 +182,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmC
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties, DataTransformation, DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationISignalProps, TransformationISignalProps
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationDescription, TransformationDescription
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationTechnology
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu
@@ -4290,16 +4291,58 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 
+    def writeISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
+        signal_refs = group.getISignalRefs()
+        if len(signal_refs) > 0:
+            child_element = ET.SubElement(element, "I-SIGNAL-REFS")
+            for signal_ref in signal_refs:
+                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", signal_ref)
+
+    def writeISignalGroupComBasedSignalGroupTransformation(self, element: ET.Element, group: ISignalGroup):
+        refs = group.getComBasedSignalGroupTransformationRefs()
+        if len(refs) > 0:
+            com_based_element = ET.SubElement(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS")
+            cond_element = ET.SubElement(com_based_element, "DATA-TRANSFORMATION-REF-CONDITIONAL")
+            for ref in refs:
+                self.setChildElementOptionalRefType(cond_element, "DATA-TRANSFORMATION-REF", ref)
+
+    def writeTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
+        self.writeDescribable(element, props)
+
+    def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
+        ids = props.getDataIds()
+        if len(ids) > 0:
+            child_element = ET.SubElement(element, "DATA-IDS")
+            for id in ids:
+                self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID", id)
+
+    def writeEndToEndTransformationISignalProps(self, element: ET.Element, props: EndToEndTransformationISignalProps):
+        if props is not None:
+            props_element = ET.SubElement(element, "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS")
+            variant_element = ET.SubElement(props_element, "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS")
+            child_element = ET.SubElement(variant_element, "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
+            self.writeTransformationISignalProps(child_element, props)
+            self.setChildElementOptionalRefType(child_element, "TRANSFORMER-REF", props.getTransformerRef())
+            self.writeEndToEndTransformationISignalPropsDataIds(child_element, props)
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
+
+    def writeISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
+        props = group.getTransformationISignalProps()
+        if props is not None:
+            child_element = ET.SubElement(element, "TRANSFORMATION-I-SIGNAL-PROPSS")
+            if isinstance(props, EndToEndTransformationISignalProps):
+                self.writeEndToEndTransformationISignalProps(child_element, props)
+            else:
+                self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
+
     def writeISignalGroup(self, element: ET.Element, group: ISignalGroup):
         self.logger.debug("ISignalGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL-GROUP")
         self.writeIdentifiable(child_element, group)
-        signal_refs = group.getISignalRefs()
-        if len(signal_refs) > 0:
-            signal_refs_tag = ET.SubElement(child_element, "I-SIGNAL-REFS")
-            for signal_ref in signal_refs:
-                self.setChildElementOptionalRefType(signal_refs_tag, "I-SIGNAL-REF", signal_ref)
+        self.writeISignalGroupComBasedSignalGroupTransformation(child_element, group)
+        self.writeISignalGroupISignalRef(child_element, group)
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-GROUP-REF", group.getSystemSignalGroupRef())
+        self.writeISignalGroupTransformationISignalProps(child_element, group)
 
     def writeISignalIPduGroup(self, element: ET.Element, group: ISignalIPduGroup):
         self.logger.debug("Set ISignalIPduGroup %s" % group.getShortName())

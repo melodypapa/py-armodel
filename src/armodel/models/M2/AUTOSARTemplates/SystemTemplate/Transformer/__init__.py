@@ -429,3 +429,96 @@ class DataTransformationSet(ARElement):
             self.addElement(tech)
             self.transformationTechnologies.append(tech)
         return self.getElement(short_name)
+
+
+class TransformationISignalProps(Describable, metaclass=ABCMeta):
+    def __init__(self):
+        super().__init__()
+
+        self.csErrorReaction = None                                 # type: CSTransformerErrorReactionEnum
+        self.dataPrototypeTransformationProps = []                  # type: List[DataPrototypeTransformationProps]
+        self.ident = None                                           # type: TransformationISignalPropsIdent
+        self.transformerRef = None                                  # type: RefType
+
+    def getCsErrorReaction(self):
+        return self.csErrorReaction
+
+    def setCsErrorReaction(self, value):
+        if value is not None:
+            self.csErrorReaction = value
+        return self
+
+    def getDataPrototypeTransformationProps(self):
+        return self.dataPrototypeTransformationProps
+
+    def setDataPrototypeTransformationProps(self, value):
+        if value is not None:
+            self.dataPrototypeTransformationProps = value
+        return self
+
+    def getIdent(self):
+        return self.ident
+
+    def setIdent(self, value):
+        if value is not None:
+            self.ident = value
+        return self
+
+    def getTransformerRef(self):
+        return self.transformerRef
+
+    def setTransformerRef(self, value):
+        if value is not None:
+            self.transformerRef = value
+        return self
+
+
+class EndToEndTransformationISignalProps(TransformationISignalProps):
+    def __init__(self):
+        super().__init__()
+
+        self.dataIds = []                                   # type: List[PositiveInteger]
+        self.dataLength = None                              # type: PositiveInteger
+        self.maxDataLength = None                           # type: PositiveInteger
+        self.minDataLength = None                           # type: PositiveInteger
+        self.sourceId = None                                # type: PositiveInteger
+
+    def getDataIds(self):
+        return self.dataIds
+
+    def addDataId(self, value):
+        if value is not None:
+            self.dataIds.append(value)
+        return self
+
+    def getDataLength(self):
+        return self.dataLength
+
+    def setDataLength(self, value):
+        if value is not None:
+            self.dataLength = value
+        return self
+
+    def getMaxDataLength(self):
+        return self.maxDataLength
+
+    def setMaxDataLength(self, value):
+        if value is not None:
+            self.maxDataLength = value
+        return self
+
+    def getMinDataLength(self):
+        return self.minDataLength
+
+    def setMinDataLength(self, value):
+        if value is not None:
+            self.minDataLength = value
+        return self
+
+    def getSourceId(self):
+        return self.sourceId
+
+    def setSourceId(self, value):
+        if value is not None:
+            self.sourceId = value
+        return self
