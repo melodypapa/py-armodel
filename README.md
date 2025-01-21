@@ -517,6 +517,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * TYPE-MAPPING
    * DATA-TRANSFORMATION-SET
    * FLEXRAY-COMMUNICATION-CONTROLLER
+   * FLEXRAY-COMMUNICATION-CONNECTOR
 2. Improve the following AR Element
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP

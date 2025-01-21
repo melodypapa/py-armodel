@@ -3729,9 +3729,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CAN-COMMUNICATION-CONTROLLER")
         self.logger.debug("Write CanCommunicationController %s" % controller.getShortName())
         self.writeIdentifiable(child_element, controller)
-        variants_tag = ET.SubElement(child_element, "CAN-COMMUNICATION-CONTROLLER-VARIANTS")
-        cond_tag = ET.SubElement(variants_tag, "CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
-        self.writeAbstractCanCommunicationController(cond_tag, controller)
+        if controller.getCanControllerAttributes() is not None:
+            variants_tag = ET.SubElement(child_element, "CAN-COMMUNICATION-CONTROLLER-VARIANTS")
+            cond_tag = ET.SubElement(variants_tag, "CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
+            self.writeAbstractCanCommunicationController(cond_tag, controller)
 
     def writeCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.writeIdentifiable(element, item)
@@ -3868,6 +3869,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write LinCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
 
+    def writeFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
+        self.logger.debug("Write FlexrayCommunicationConnector %s" % connector.getShortName())
+        self.writeCommunicationConnector(element, connector)
+
     def writeEcuInstanceConnectors(self, element: ET.Element, instance: EcuInstance):
         connectors = instance.getConnectors()
         if len(connectors) > 0:
@@ -3884,7 +3889,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeLinCommunicationConnector(child_element, connector)
                 elif isinstance(connector, FlexrayCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "FLEXRAY-COMMUNICATION-CONNECTOR")
-                    # self.writeFlexrayCommunicationConnector(child_element, connector) TODO
+                    self.writeFlexrayCommunicationConnector(child_element, connector)
                 else:
                     self.notImplemented("Unsupported Communication connector <%s>" % type(connector))
 
