@@ -65,8 +65,8 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceVa
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup, HwPinGroupContent
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
@@ -182,7 +182,9 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties, DataTransformation, DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationDescription, TransformationDescription
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationTechnology
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTpConnection, LinTpNode, TpAddress, TpConfig, TpConnection
@@ -2222,6 +2224,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCompuConst(element, parent)
         self.readCompuRationCoeffs(element, parent)
 
+    def readCompuScale(self, element: ET.Element, compu_scale: CompuScale):
+        self.readARObjectAttributes(element, compu_scale)
+        compu_scale.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT")) \
+                   .setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL")) \
+                   .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC")) \
+                   .setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL")) \
+                   .setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
+        self.readCompuScaleContents(element, compu_scale)
+
     def getCompuScales(self, element: ET.Element) -> CompuScales:
         compu_scales = None
         compu_scales_tag = self.find(element, "COMPU-SCALES")
@@ -2229,13 +2240,7 @@ class ARXMLParser(AbstractARXMLParser):
             compu_scales = CompuScales()
             for child_element in self.findall(compu_scales_tag, 'COMPU-SCALE'):
                 compu_scale = CompuScale()
-                self.readARObjectAttributes(child_element, compu_scale)
-                compu_scale.setLowerLimit(self.getChildLimitElement(child_element, "LOWER-LIMIT")) \
-                           .setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")) \
-                           .setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC")) \
-                           .setSymbol(self.getChildElementOptionalLiteral(child_element, "SYMBOL")) \
-                           .setUpperLimit(self.getChildLimitElement(child_element, "UPPER-LIMIT"))
-                self.readCompuScaleContents(child_element, compu_scale)
+                self.readCompuScale(child_element, compu_scale)
                 compu_scales.addCompuScale(compu_scale)
         return compu_scales
     
@@ -3786,9 +3791,99 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
         self.readCommunicationController(element, controller)
 
+    def readDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):
+        for ref in self.getChildElementRefTypeList(element, "TRANSFORMER-CHAIN-REFS/TRANSFORMER-CHAIN-REF"):
+            dtf.addTransformerChainRef(ref)
+
+    def readDataTransformation(self, element: ET.Element, dtf: DataTransformation):
+        self.readIdentifiable(element, dtf)
+        dtf.setExecuteDespiteDataUnavailability(self.getChildElementOptionalBooleanValue(element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY"))
+        self.readDataTransformationTransformerChainRefs(element, dtf)
+
+    def readDataTransformationSetDataTransformations(self, element: ET.Element, dtf_set: DataTransformationSet):
+        for child_element in self.findall(element, "DATA-TRANSFORMATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DATA-TRANSFORMATION":
+                dtf = dtf_set.createDataTransformation(self.getShortName(child_element))
+                self.readDataTransformation(child_element, dtf)
+            else:
+                self.notImplemented("Unsupported DataTransformation <%s>" % tag_name)
+
+    def readBufferPropertiesBufferComputation(self, element: ET.Element, properties: BufferProperties):
+        child_element = self.find(element, "BUFFER-COMPUTATION")
+        if child_element is not None:
+            scale = CompuScale()
+            self.readCompuScale(child_element, scale)
+            properties.setBufferComputation(scale)
+
+    def getBufferProperties(self, element: ET.Element, key: str) -> BufferProperties:
+        properties = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            properties = BufferProperties()
+            self.readBufferPropertiesBufferComputation(child_element, properties)
+            properties.setHeaderLength(self.getChildElementOptionalIntegerValue(child_element, "HEADER-LENGTH")) \
+                      .setInPlace(self.getChildElementOptionalBooleanValue(child_element, "IN-PLACE"))
+        return properties
+    
+    def readDescribable(self, element: ET.Element, desc: Describable):
+        self.readARObjectAttributes(element, desc)
+    
+    def readTransformationDescription(self, element: ET.Element, desc: TransformationDescription):
+        self.readDescribable(element, desc)
+    
+    def readEndToEndTransformationDescription(self, element: ET.Element, desc: EndToEndTransformationDescription):
+        self.readTransformationDescription(element, desc)
+        desc.setDataIdMode(self.getChildElementOptionalLiteral(element, "DATA-ID-MODE")) \
+            .setMaxDeltaCounter(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER")) \
+            .setMaxErrorStateInit(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INIT")) \
+            .setMaxErrorStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INVALID")) \
+            .setMaxErrorStateValid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-VALID")) \
+            .setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA")) \
+            .setMinOkStateInit(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INIT")) \
+            .setMinOkStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INVALID")) \
+            .setMinOkStateValid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-VALID")) \
+            .setProfileBehavior(self.getChildElementOptionalLiteral(element, "PROFILE-BEHAVIOR")) \
+            .setProfileName(self.getChildElementOptionalLiteral(element, "PROFILE-NAME")) \
+            .setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT")) \
+            .setUpperHeaderBitsToShift(self.getChildElementOptionalPositiveInteger(element, "UPPER-HEADER-BITS-TO-SHIFT")) \
+            .setWindowSizeInit(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INIT")) \
+            .setWindowSizeInvalid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INVALID")) \
+            .setWindowSizeValid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-VALID"))
+
+    def readTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
+        for child_element in self.findall(element, "TRANSFORMATION-DESCRIPTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "END-TO-END-TRANSFORMATION-DESCRIPTION":
+                desc = EndToEndTransformationDescription()
+                self.readEndToEndTransformationDescription(child_element, desc)
+                tech.setTransformationDescription(desc)
+            else:
+                self.notImplemented("Unsupported TransformationDescription <%s>" % tag_name)
+
+    def readTransformationTechnology(self, element: ET.Element, tech: TransformationTechnology):
+        self.readIdentifiable(element, tech)
+        tech.setBufferProperties(self.getBufferProperties(element, "BUFFER-PROPERTIES")) \
+            .setNeedsOriginalData(self.getChildElementOptionalBooleanValue(element, "NEEDS-ORIGINAL-DATA")) \
+            .setProtocol(self.getChildElementOptionalLiteral(element, "PROTOCOL"))
+        self.readTransformationTechnologyTransformationDescriptions(element, tech)
+        tech.setTransformerClass(self.getChildElementOptionalLiteral(element, "TRANSFORMER-CLASS")) \
+            .setVersion(self.getChildElementOptionalLiteral(element, "VERSION"))
+
+    def readDataTransformationSetTransformationTechnologies(self, element: ET.Element, dtf_set: DataTransformationSet):
+        for child_element in self.findall(element, "TRANSFORMATION-TECHNOLOGYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TRANSFORMATION-TECHNOLOGY":
+                tech = dtf_set.createTransformationTechnology(self.getShortName(child_element))
+                self.readTransformationTechnology(child_element, tech)
+            else:
+                self.notImplemented("Unsupported TransformationTechnology <%s>" % tag_name)
+
     def readDataTransformationSet(self, element: ET.Element, dtf_set: DataTransformationSet):
         self.logger.debug("Read DataTransformationSet <%s>" % dtf_set.getShortName())
         self.readIdentifiable(element, dtf_set)
+        self.readDataTransformationSetDataTransformations(element, dtf_set)
+        self.readDataTransformationSetTransformationTechnologies(element, dtf_set)
 
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
