@@ -8,13 +8,15 @@ import logging
 import xml.etree.cElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Integer, TimeValue, RefType, ARBoolean
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Integer, TimeValue
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARBoolean
+
 
 class AbstractARXMLWriter:
     __metaclass__ = ABCMeta
      
-    def __init__(self, options = None) -> None:
-        if type(self) == AbstractARXMLWriter:
+    def __init__(self, options=None) -> None:
+        if type(self) is AbstractARXMLWriter:
             raise NotImplementedError("AbstractARXMLWriter is an abstract class.")
         
         self.options = {}
@@ -25,7 +27,7 @@ class AbstractARXMLWriter:
         self._processOptions(options=options)
 
         self.nsmap = {
-            "xmlns": "http://autosar.org/schema/r4.0", 
+            "xmlns": "http://autosar.org/schema/r4.0",
         }
 
     def _processOptions(self, options):
@@ -34,23 +36,23 @@ class AbstractARXMLWriter:
                 self.options['warning'] = options['warning']
 
     def _raiseError(self, error_msg):
-        if (self.options['warning'] == True):
+        if (self.options['warning'] is True):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise ValueError(error_msg)
         
     def notImplemented(self, error_msg):
-        if (self.options['warning'] == True):
+        if (self.options['warning'] is True):
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise NotImplementedError(error_msg)
         
     def writeARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
         if ar_obj.timestamp is not None:
-            self.logger.debug("Timestamp: %s" % ar_obj.timestamp)
+            # self.logger.debug("Timestamp: %s" % ar_obj.timestamp)
             element.attrib['T'] = ar_obj.timestamp
         if ar_obj.uuid is not None:
-            self.logger.debug("UUID: %s" % ar_obj.uuid)
+            # self.logger.debug("UUID: %s" % ar_obj.uuid)
             element.attrib['UUID'] = ar_obj.uuid
 
     '''
@@ -78,14 +80,7 @@ class AbstractARXMLWriter:
 
     def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Integer):
         self.setChildElementOptionalNumericalValue(element, key, value)
-
-    def setChildElementOptionalLiteral(self, element: ET.Element, key: str, literal: ARLiteral):
-        if literal is not None:
-            child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, literal)
-            if literal._value is not None:
-                child_element.text = str(literal._value)
-
+    
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: ARLiteral):
         self.setChildElementOptionalLiteral(element, key, literal)
 
@@ -111,7 +106,6 @@ class AbstractARXMLWriter:
         self.setChildElementOptionalFloatValue(element, key, value)
 
     def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: ARBoolean) -> ET.Element:
-        child_element = None
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, value)
@@ -119,30 +113,29 @@ class AbstractARXMLWriter:
         return element
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: ARLiteral) -> ET.Element:
-        child_element = None
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, value)
             child_element.text = value.getText()
-        return element      
-        
+        return element
+    
     def patch_xml(self, xml: str) -> str:
-        xml = re.sub(r"\<([\w-]+)\/\>",r"<\1></\1>", xml)
-        #xml = re.sub(r"<([\w-]+)\s+(\w+)=(\"[\w-]+\")\/>", r"<\1 \2=\3></\1>", xml)
-        #xml = re.sub(r"&quot;", '"', xml)
+        xml = re.sub(r"\<([\w-]+)\/\>", r"<\1></\1>", xml)
+        # xml = re.sub(r"<([\w-]+)\s+(\w+)=(\"[\w-]+\")\/>", r"<\1 \2=\3></\1>", xml)
+        # xml = re.sub(r"&quot;", '"', xml)
         return xml
 
     def saveToFile(self, filename, root: ET.Element):
-        if sys.version_info <= (3,9):
-            xml = ET.tostring(root, encoding = "UTF-8", short_empty_elements = False)
+        if sys.version_info <= (3, 9):
+            xml = ET.tostring(root, encoding="UTF-8", short_empty_elements=False)
         else:
-            xml = ET.tostring(root, encoding = "UTF-8", xml_declaration = True, short_empty_elements = False)
+            xml = ET.tostring(root, encoding="UTF-8", xml_declaration=True, short_empty_elements=False)
         
         dom = minidom.parseString(xml.decode())
-        xml = dom.toprettyxml(indent = "  ", encoding = "UTF-8")
+        xml = dom.toprettyxml(indent="  ", encoding="UTF-8")
 
         text = self.patch_xml(xml.decode())
     
         with open(filename, "w", encoding="utf-8") as f_out:
-            #f_out.write(xml.decode())
+            # f_out.write(xml.decode())
             f_out.write(text)

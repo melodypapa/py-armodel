@@ -63,8 +63,8 @@ from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import H
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, MultilanguageReferrable
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest
@@ -181,7 +181,9 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentIn
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from ..models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties, DataTransformation, DataTransformationSet
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationDescription, TransformationDescription
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationTechnology
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTpConnection, LinTpNode, TpAddress, TpConfig, TpConnection
@@ -922,18 +924,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             else:
                 self.notImplemented("Unsupported CompuConstContent <%s>" % type(content))
 
+    def setCompuScale(self, element: ET.Element, key: str, compu_scale: CompuScale):
+        if compu_scale is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
+            self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", compu_scale.getDesc())
+            self.setChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.getLowerLimit())
+            self.setChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.getUpperLimit())
+            self.writeCompuScaleContents(child_element, compu_scale)
+
     def setCompuScales(self, element: ET.Element, compu_scales: CompuScales):
         if compu_scales is not None:
-            compu_scales_tag = ET.SubElement(element, "COMPU-SCALES")
+            child_element = ET.SubElement(element, "COMPU-SCALES")
             for compu_scale in compu_scales.getCompuScales():
-                child_element = ET.SubElement(compu_scales_tag, "COMPU-SCALE")
-                self.writeARObjectAttributes(child_element, compu_scale)
-                self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
-                self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
-                self.setMultiLanguageOverviewParagraph(child_element, "DESC", compu_scale.getDesc())
-                self.setChildLimitElement(child_element, "LOWER-LIMIT", compu_scale.getLowerLimit())
-                self.setChildLimitElement(child_element, "UPPER-LIMIT", compu_scale.getUpperLimit())
-                self.writeCompuScaleContents(child_element, compu_scale)
+                self.setCompuScale(child_element, "COMPU-SCALE", compu_scale)
 
     def setCompuConst(self, element: ET.Element, key: str, compu_const: CompuConst):
         if compu_const is not None:
@@ -4721,10 +4727,105 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "FLEXRAY-COMMUNICATION-CONTROLLER")
             self.writeCommunicationController(child_element, controller)
 
+    def writeDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):
+        refs = dtf.getTransformerChainRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "TRANSFORMER-CHAIN-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "TRANSFORMER-CHAIN-REF", ref)
+
+    def writeDataTransformation(self, element: ET.Element, dtf: DataTransformation):
+        if dtf is not None:
+            child_element = ET.SubElement(element, "DATA-TRANSFORMATION")
+            self.writeIdentifiable(child_element, dtf)
+            self.setChildElementOptionalBooleanValue(child_element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY", dtf.getExecuteDespiteDataUnavailability())
+            self.writeDataTransformationTransformerChainRefs(child_element, dtf)
+
+    def writeDataTransformationSetDataTransformations(self, element: ET.Element, dtf_set: DataTransformationSet):
+        dtfs = dtf_set.getDataTransformations()
+        if len(dtfs) > 0:
+            child_element = ET.SubElement(element, "DATA-TRANSFORMATIONS")
+            for dtf in dtfs:
+                if isinstance(dtf, DataTransformation):
+                    self.writeDataTransformation(child_element, dtf)
+                else:
+                    self.notImplemented("Unsupported DataTransformation <%s>" % type(dtf))
+
+    def writeDataTransformationSetTransformationTechnologies(self, element: ET.Element, dtf_set: DataTransformationSet):
+        techs = dtf_set.getTransformationTechnologies()
+        if len(techs) > 0:
+            child_element = ET.SubElement(element, "TRANSFORMATION-TECHNOLOGYS")
+            for tech in techs:
+                if isinstance(tech, TransformationTechnology):
+                    self.writeTransformationTechnology(child_element, tech)
+                else:
+                    self.notImplemented("Unsupported TransformationTechnology <%s>" % type(tech))
+
+    def writeBufferPropertiesBufferComputation(self, element: ET.Element, properties: BufferProperties):
+        computation = properties.getBufferComputation()
+        if computation is not None:
+            self.setCompuScale(element, "BUFFER-COMPUTATION", computation)
+
+    def setBufferProperties(self, element: ET.Element, key: str, properties: BufferProperties):
+        if properties is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeBufferPropertiesBufferComputation(child_element, properties)
+            self.setChildElementOptionalIntegerValue(child_element, "HEADER-LENGTH", properties.getHeaderLength())
+            self.setChildElementOptionalBooleanValue(child_element, "IN-PLACE", properties.getInPlace())
+
+    def writeDescribable(self, element: ET.Element, desc: Describable):
+        self.writeARObjectAttributes(element, desc)
+    
+    def writeTransformationDescription(self, element: ET.Element, desc: TransformationDescription):
+        self.writeDescribable(element, desc)
+    
+    def writeEndToEndTransformationDescription(self, element: ET.Element, desc: EndToEndTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "END-TO-END-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+            self.setChildElementOptionalLiteral(child_element, "DATA-ID-MODE", desc.getDataIdMode())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", desc.getMaxDeltaCounter())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", desc.getMaxErrorStateInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", desc.getMaxErrorStateInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-VALID", desc.getMaxErrorStateValid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NO-NEW-OR-REPEATED-DATA", desc.getMaxNoNewOrRepeatedData())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INIT", desc.getMinOkStateInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INVALID", desc.getMinOkStateInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-VALID", desc.getMinOkStateValid())
+            self.setChildElementOptionalLiteral(child_element, "PROFILE-BEHAVIOR", desc.getProfileBehavior())
+            self.setChildElementOptionalLiteral(child_element, "PROFILE-NAME", desc.getProfileName())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "UPPER-HEADER-BITS-TO-SHIFT", desc.getUpperHeaderBitsToShift())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INIT", desc.getWindowSizeInit())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", desc.getWindowSizeInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", desc.getWindowSizeValid())
+
+    def writeTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
+        desc = tech.getTransformationDescription()
+        if desc is not None:
+            child_element = ET.SubElement(element, "TRANSFORMATION-DESCRIPTIONS")
+            if isinstance(desc, EndToEndTransformationDescription):
+                self.writeEndToEndTransformationDescription(child_element, desc)
+            else:
+                self.notImplemented("Unsupported TransformationDescription <%s>" % type(desc))
+
+    def writeTransformationTechnology(self, element: ET.Element, tech: TransformationTechnology):
+        if tech is not None:
+            child_element = ET.SubElement(element, "TRANSFORMATION-TECHNOLOGY")
+            self.writeIdentifiable(child_element, tech)
+            self.setBufferProperties(child_element, "BUFFER-PROPERTIES", tech.getBufferProperties())
+            self.setChildElementOptionalBooleanValue(child_element, "NEEDS-ORIGINAL-DATA", tech.getNeedsOriginalData())
+            self.setChildElementOptionalLiteral(child_element, "PROTOCOL", tech.getProtocol())
+            self.writeTransformationTechnologyTransformationDescriptions(child_element, tech)
+            self.setChildElementOptionalLiteral(child_element, "TRANSFORMER-CLASS", tech.getTransformerClass())
+            self.setChildElementOptionalLiteral(child_element, "VERSION", tech.getVersion())
+
     def writeDataTransformationSet(self, element: ET.Element, dtf_set: DataTransformationSet):
         if dtf_set is not None:
             child_element = ET.SubElement(element, "DATA-TRANSFORMATION-SET")
             self.writeIdentifiable(child_element, dtf_set)
+            self.writeDataTransformationSetDataTransformations(child_element, dtf_set)
+            self.writeDataTransformationSetTransformationTechnologies(child_element, dtf_set)
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
