@@ -3809,9 +3809,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
-        self.readCommunicationController(element, controller)
+        self.readIdentifiable(element, controller)
         child_element = self.find(element, "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS/FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
+            self.readCommunicationController(element, controller)
             controller.setAcceptedStartupRange(self.getChildElementOptionalIntegerValue(child_element, "ACCEPTED-STARTUP-RANGE")) \
                       .setAllowHaltDueToClock(self.getChildElementOptionalBooleanValue(child_element, "ALLOW-HALT-DUE-TO-CLOCK")) \
                       .setAllowPassiveToActive(self.getChildElementOptionalIntegerValue(child_element, "ALLOW-PASSIVE-TO-ACTIVE")) \
@@ -3931,7 +3932,6 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDataTransformationSetTransformationTechnologies(element, dtf_set)
 
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
-        self.readIdentifiable(element, controller)
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
     def getCanControllerFdConfiguration(self, element: ET.Element, key: str) -> CanControllerFdConfiguration:
