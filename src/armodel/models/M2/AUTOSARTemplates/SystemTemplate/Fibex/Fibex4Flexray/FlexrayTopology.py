@@ -1,6 +1,10 @@
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger, PositiveUnlimitedInteger, TimeValue
+from typing import List
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+
 
 class FlexrayCommunicationController(CommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
@@ -22,7 +26,7 @@ class FlexrayCommunicationController(CommunicationController):
         self.keySlotOnlyEnabled = None                          # type: Boolean
         self.keySlotUsedForStartUp = None                       # type: Boolean
         self.keySlotUsedForSync = None                          # type: Boolean
-        self.latestTX = None                                    # type: Integer 
+        self.latestTX = None                                    # type: Integer
         self.listenTimeout = None                               # type: Integer
         self.macroInitialOffsetA = None                         # type: Integer
         self.macroInitialOffsetB = None                         # type: Integer
@@ -295,6 +299,7 @@ class FlexrayCommunicationController(CommunicationController):
             self.wakeUpPattern = value
         return self
 
+
 class FlexrayCommunicationConnector(CommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -326,6 +331,7 @@ class FlexrayCommunicationConnector(CommunicationConnector):
         if value is not None:
             self.wakeUpChannel = value
         return self
+
 
 class FlexrayCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str):

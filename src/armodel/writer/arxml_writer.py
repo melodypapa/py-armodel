@@ -3884,7 +3884,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeLinCommunicationConnector(child_element, connector)
                 elif isinstance(connector, FlexrayCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "FLEXRAY-COMMUNICATION-CONNECTOR")
-                    self.writeLinCommunicationConnector(child_element, connector)
+                    # self.writeFlexrayCommunicationConnector(child_element, connector) TODO
                 else:
                     self.notImplemented("Unsupported Communication connector <%s>" % type(connector))
 
@@ -4785,8 +4785,34 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         if controller is not None:
             self.logger.debug("Write FlexrayCommunicationController <%s>" % controller.getShortName())
-            child_element = ET.SubElement(element, "FLEXRAY-COMMUNICATION-CONTROLLER")
-            self.writeCommunicationController(child_element, controller)
+            controller_element = ET.SubElement(element, "FLEXRAY-COMMUNICATION-CONTROLLER")
+            self.writeIdentifiable(controller_element, controller)
+            variant_element = ET.SubElement(controller_element, "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS")
+            child_element = ET.SubElement(variant_element, "FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
+            self.writeCommunicationController(controller_element, controller)
+            self.setChildElementOptionalIntegerValue(child_element, "ACCEPTED-STARTUP-RANGE", controller.getAcceptedStartupRange())
+            self.setChildElementOptionalBooleanValue(child_element, "ALLOW-HALT-DUE-TO-CLOCK", controller.getAllowHaltDueToClock())
+            self.setChildElementOptionalIntegerValue(child_element, "ALLOW-PASSIVE-TO-ACTIVE", controller.getAllowPassiveToActive())
+            self.setChildElementOptionalIntegerValue(child_element, "CLUSTER-DRIFT-DAMPING", controller.getClusterDriftDamping())
+            self.setChildElementOptionalIntegerValue(child_element, "DECODING-CORRECTION", controller.getDecodingCorrection())
+            self.setChildElementOptionalIntegerValue(child_element, "DELAY-COMPENSATION-A", controller.getDelayCompensationA())
+            self.setChildElementOptionalIntegerValue(child_element, "DELAY-COMPENSATION-B", controller.getDelayCompensationB())
+            self.setChildElementOptionalBooleanValue(child_element, "KEY-SLOT-ONLY-ENABLED", controller.getKeySlotOnlyEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "KEY-SLOT-USED-FOR-START-UP", controller.getKeySlotUsedForStartUp())
+            self.setChildElementOptionalBooleanValue(child_element, "KEY-SLOT-USED-FOR-SYNC", controller.getKeySlotUsedForSync())
+            self.setChildElementOptionalIntegerValue(child_element, "LATEST-TX", controller.getLatestTX())
+            self.setChildElementOptionalIntegerValue(child_element, "LISTEN-TIMEOUT", controller.getListenTimeout())
+            self.setChildElementOptionalIntegerValue(child_element, "MACRO-INITIAL-OFFSET-A", controller.getMacroInitialOffsetA())
+            self.setChildElementOptionalIntegerValue(child_element, "MACRO-INITIAL-OFFSET-B", controller.getMacroInitialOffsetB())
+            self.setChildElementOptionalIntegerValue(child_element, "MAXIMUM-DYNAMIC-PAYLOAD-LENGTH", controller.getMaximumDynamicPayloadLength())
+            self.setChildElementOptionalIntegerValue(child_element, "MICRO-INITIAL-OFFSET-A", controller.getMicroInitialOffsetA())
+            self.setChildElementOptionalIntegerValue(child_element, "MICRO-INITIAL-OFFSET-B", controller.getMicroInitialOffsetB())
+            self.setChildElementOptionalIntegerValue(child_element, "MICRO-PER-CYCLE", controller.getMicroPerCycle())
+            self.setChildElementOptionalTimeValue(child_element, "MICROTICK-DURATION", controller.getMicrotickDuration())
+            self.setChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT", controller.getOffsetCorrectionOut())
+            self.setChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT", controller.getRateCorrectionOut())
+            self.setChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK", controller.getSamplesPerMicrotick())
+            self.setChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN", controller.getWakeUpPattern())
 
     def writeDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):
         refs = dtf.getTransformerChainRefs()
