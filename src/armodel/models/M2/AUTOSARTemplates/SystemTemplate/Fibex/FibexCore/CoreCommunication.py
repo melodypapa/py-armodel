@@ -2,11 +2,15 @@ from abc import ABCMeta
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, Integer, PositiveInteger, RefType, ARBoolean, String, TimeValue, UnlimitedInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean, String
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
-class FibexElement(Identifiable, metaclass = ABCMeta):
+
+
+class FibexElement(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == FibexElement:
+        if type(self) is FibexElement:
             raise NotImplementedError("FibexElement is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -49,9 +53,10 @@ class PduToFrameMapping(Identifiable):
         self.updateIndicationBitPosition = value
         return self
 
-class Frame(Identifiable, metaclass = ABCMeta):
+
+class Frame(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == Frame:
+        if type(self) is Frame:
             raise NotImplementedError("Frame is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -74,8 +79,9 @@ class Frame(Identifiable, metaclass = ABCMeta):
         return self.elements[short_name]
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements.values()), key= lambda o:o.short_name))
-    
+        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements.values()), key=lambda o: o.short_name))
+
+
 class ContainedIPduProps(ARObject):
     def __init__(self):
         super().__init__()
@@ -137,20 +143,22 @@ class ContainedIPduProps(ARObject):
         self.updateIndicationBitPosition = value
         return self
 
+
 class ISignalGroup(FibexElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.comBasedSignalGroupTransformationRef = None            # type: RefType
+        self.comBasedSignalGroupTransformationRefs = []             # type: List[RefType]
         self.iSignalRefs = []                                       # type: List[RefType]
         self.systemSignalGroupRef = None
         self.transformationISignalProps = None
 
-    def getComBasedSignalGroupTransformationRef(self):
-        return self.comBasedSignalGroupTransformationRef
+    def getComBasedSignalGroupTransformationRefs(self):
+        return self.comBasedSignalGroupTransformationRefs
 
-    def setComBasedSignalGroupTransformationRef(self, value):
-        self.comBasedSignalGroupTransformationRef = value
+    def addComBasedSignalGroupTransformationRef(self, value):
+        if value is not None:
+            self.comBasedSignalGroupTransformationRefs.append(value)
         return self
 
     def getISignalRefs(self):
@@ -219,10 +227,11 @@ class ISignalIPduGroup(FibexElement):
     def addNmPduRef(self, value):
         self.nmPduRefs.append(value)
         return self
-    
-class Pdu(FibexElement, metaclass = ABCMeta):
+
+
+class Pdu(FibexElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == Pdu:
+        if type(self) is Pdu:
             raise NotImplementedError("Pdu is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -238,7 +247,6 @@ class Pdu(FibexElement, metaclass = ABCMeta):
             self.hasDynamicLength = value
         return self
 
-
     def getLength(self):
         return self.length
 
@@ -246,9 +254,10 @@ class Pdu(FibexElement, metaclass = ABCMeta):
         self.length = value
         return self
     
-class IPdu(Pdu, metaclass = ABCMeta):
+
+class IPdu(Pdu, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == IPdu:
+        if type(self) is IPdu:
             raise NotImplementedError("IPdu is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -263,6 +272,7 @@ class IPdu(Pdu, metaclass = ABCMeta):
         if value is not None:
             self.containedIPduProps = value
         return self
+
 
 class SecureCommunicationProps(ARObject):
     def __init__(self):
@@ -306,7 +316,6 @@ class SecureCommunicationProps(ARObject):
         if value is not None:
             self.authInfoTxLength = value
         return self
-
 
     def getAuthenticationBuildAttempts(self):
         return self.authenticationBuildAttempts
@@ -464,7 +473,8 @@ class SecuredIPdu(IPdu):
         if value is not None:
             self.useSecuredPduHeader = value
         return self
-    
+
+
 class ISignalToIPduMapping(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -518,6 +528,7 @@ class ISignalToIPduMapping(Identifiable):
         self.updateIndicationBitPosition = value
         return self
 
+
 class NmPdu(Pdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -566,6 +577,7 @@ class NPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+
 class DcmIPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -578,6 +590,7 @@ class DcmIPdu(IPdu):
     def setDiagPduType(self, value):
         self.diagPduType = value
         return self
+
 
 class IPduTiming(Describable):
     def __init__(self):
@@ -599,7 +612,8 @@ class IPduTiming(Describable):
     def setTransmissionModeDeclaration(self, value):
         self.transmissionModeDeclaration = value
         return self
-    
+
+
 class ISignalIPdu(IPdu):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -717,7 +731,8 @@ class ISignal(FibexElement):
     def addTransformationISignalProps(self, value):
         self.transformationISignalProps.append(value)
         return self
-    
+
+
 class PduTriggering(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -743,7 +758,7 @@ class PduTriggering(Identifiable):
         return self
 
     def getISignalTriggeringRefs(self):
-        #return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
+        # return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
         return self.iSignalTriggeringRefs
 
     def addISignalTriggeringRef(self, value):
@@ -765,9 +780,9 @@ class PduTriggering(Identifiable):
         return self
 
 
-class FrameTriggering(Identifiable, metaclass = ABCMeta):
+class FrameTriggering(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent, short_name):
-        if type(self) == FrameTriggering:
+        if type(self) is FrameTriggering:
             raise NotImplementedError("FrameTriggering is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -797,6 +812,7 @@ class FrameTriggering(Identifiable, metaclass = ABCMeta):
         self.pduTriggeringRefs.append(value)
         return self
 
+
 class SystemSignal(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -818,6 +834,7 @@ class SystemSignal(ARElement):
         self.physicalProps = value
         return self
 
+
 class SystemSignalGroup(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -828,7 +845,7 @@ class SystemSignalGroup(ARElement):
     def getSystemSignalRefs(self):
         return self.systemSignalRefs
 
-    def addSystemSignalRefs(self, value:RefType):
+    def addSystemSignalRefs(self, value: RefType):
         self.systemSignalRefs.append(value)
         return self
 
@@ -838,6 +855,7 @@ class SystemSignalGroup(ARElement):
     def setTransformingSystemSignalRef(self, value):
         self.transformingSystemSignalRef = value
         return self
+
 
 class ISignalTriggering(Identifiable):
     def __init__(self, parent, short_name):
@@ -867,7 +885,8 @@ class ISignalTriggering(Identifiable):
     def addISignalPortRef(self, value):
         self.iSignalPortRefs.append(value)
         return self
-    
+
+
 class SegmentPosition(ARObject):
     def __init__(self):
         super().__init__()
@@ -900,9 +919,10 @@ class SegmentPosition(ARObject):
             self.segmentPosition = value
         return self
 
-class MultiplexedPart(ARObject, metaclass = ABCMeta):
+
+class MultiplexedPart(ARObject, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == MultiplexedPart:
+        if type(self) is MultiplexedPart:
             raise NotImplementedError("MultiplexedPart is an abstract class.")
         
         super().__init__()
@@ -917,6 +937,7 @@ class MultiplexedPart(ARObject, metaclass = ABCMeta):
             self.segmentPositions.append(value)
         return self
 
+
 class StaticPart(MultiplexedPart):
     def __init__(self):
         super().__init__()
@@ -930,6 +951,8 @@ class StaticPart(MultiplexedPart):
         if value is not None:
             self.iPduRef = value
         return self
+    
+
 class DynamicPartAlternative(ARObject):
     def __init__(self):
         super().__init__()
@@ -962,6 +985,7 @@ class DynamicPartAlternative(ARObject):
             self.selectorFieldCode = value
         return self
 
+
 class DynamicPart(MultiplexedPart):
     def __init__(self):
         super().__init__()
@@ -975,6 +999,7 @@ class DynamicPart(MultiplexedPart):
         if value is not None:
             self.dynamicPartAlternatives.append(value)
         return self
+
 
 class MultiplexedIPdu(IPdu):
     def __init__(self, parent, short_name):
@@ -1044,6 +1069,7 @@ class MultiplexedIPdu(IPdu):
             self.unusedBitPattern = value
         return self
 
+
 class UserDefinedIPdu(IPdu):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -1058,9 +1084,11 @@ class UserDefinedIPdu(IPdu):
             self.cddType = value
         return self
     
+
 class GeneralPurposeIPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class UserDefinedPdu(Pdu):
     def __init__(self, parent: ARObject, short_name: str):
@@ -1075,6 +1103,7 @@ class UserDefinedPdu(Pdu):
         if value is not None:
             self.cddType = value
         return self
+
 
 class GeneralPurposePdu(Pdu):
     def __init__(self, parent: ARObject, short_name: str):
@@ -1098,7 +1127,8 @@ class GeneralPurposePdu(Pdu):
         if value is not None:
             self.length = value
         return self
-    
+
+
 class SecureCommunicationAuthenticationProps(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1121,7 +1151,8 @@ class SecureCommunicationAuthenticationProps(Identifiable):
         if value is not None:
             self.authInfoTxLength = value
         return self
-    
+
+
 class SecureCommunicationFreshnessProps(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1171,6 +1202,7 @@ class SecureCommunicationFreshnessProps(Identifiable):
         if value is not None:
             self.useFreshnessTimestamp = value
         return self
+
 
 class SecureCommunicationPropsSet(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
