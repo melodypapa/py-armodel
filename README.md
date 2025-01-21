@@ -525,6 +525,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * SW-SERVICE-ARG
    * RUNNABLE-ENTITY
    * I-SIGNAL-GROUP
+   * END-TO-END-PROTECTION
 3. Fix the following AR Element
    * PROVIDED-MODE-GROUPS
    * MANAGED-MODE-GROUPS 

@@ -95,7 +95,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, ApplicationPrimitiveDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType, AutosarDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionISignalIPdu
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ClientServerInterface, ClientServerOperation
@@ -1847,9 +1847,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", instance_ref.getContextPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", instance_ref.getTargetDataPrototypeRef())
 
-    def setEndToEndProtectionVariablePrototype(self, element: ET.Element, key: str, prototype: EndToEndProtectionVariablePrototype):
+    def writeEndToEndProtectionVariablePrototype(self, element: ET.Element, prototype: EndToEndProtectionVariablePrototype):
         if prototype is not None:
-            child_element = ET.SubElement(element, key)
+            child_element = ET.SubElement(element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE")
             self.writeARObjectAttributes(child_element, prototype)
             irefs = prototype.getReceiverIrefs()
             if len(irefs) > 0:
@@ -1858,22 +1858,40 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setVariableDataPrototypeInSystemInstanceRef(child_element, "RECEIVER-IREF", iref)
             self.setVariableDataPrototypeInSystemInstanceRef(child_element, "SENDER-IREF", prototype.senderIRef)
 
-    def writeEndToEndProtectionVariablePrototypes(self, element: ET.Element, parent: EndToEndProtection):
-        prototypes = parent.getEndToEndProtectionVariablePrototypes()
+    def writeEndToEndProtectionEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
+        prototypes = protection.getEndToEndProtectionVariablePrototypes()
         if len(prototypes) > 0:
             child_element = ET.SubElement(element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPES")
             for prototype in prototypes:
                 if isinstance(prototype, EndToEndProtectionVariablePrototype):
-                    self.setEndToEndProtectionVariablePrototype(child_element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE", prototype)
+                    self.writeEndToEndProtectionVariablePrototype(child_element, prototype)
                 else:
                     self.notImplemented("Unsupported End To End Protection Variable Prototype <%s>" % type(prototype))
 
-    def setEndToEndProtection(self, element: ET.Element, protection: EndToEndProtection):
+    def writeEndToEndProtectionISignalIPdu(self, element: ET.Element, ipdu: EndToEndProtectionISignalIPdu):
+        if ipdu is not None:
+            child_element = ET.SubElement(element, "END-TO-END-PROTECTION-I-SIGNAL-I-PDU")
+            self.setChildElementOptionalIntegerValue(child_element, "DATA-OFFSET", ipdu.getDataOffset())
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", ipdu.getISignalGroupRef())
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-I-PDU-REF", ipdu.getISignalIPduRef())
+
+    def writeEndToEndProtectionEndToEndProtectionISignalIPdus(self, element: ET.Element, protection: EndToEndProtection):
+        ipdus = protection.getEndToEndProtectionISignalIPdus()
+        if len(ipdus) > 0:
+            child_element = ET.SubElement(element, "END-TO-END-PROTECTION-I-SIGNAL-I-PDUS")
+            for ipdu in ipdus:
+                if isinstance(ipdu, EndToEndProtectionISignalIPdu):
+                    self.writeEndToEndProtectionISignalIPdu(child_element, ipdu)
+                else:
+                    self.notImplemented("Unsupported EndToEndProtectionISignalIPdu <%s>" % type(ipdu))
+
+    def writeEndToEndProtection(self, element: ET.Element, protection: EndToEndProtection):
         if protection is not None:
             child_element = ET.SubElement(element, "END-TO-END-PROTECTION")
             self.writeIdentifiable(child_element, protection)
-            self.setEndToEndDescription(child_element, "END-TO-END-PROFILE", protection.endToEndProfile)
-            self.writeEndToEndProtectionVariablePrototypes(child_element, protection)
+            self.setEndToEndDescription(child_element, "END-TO-END-PROFILE", protection.getEndToEndProfile())
+            self.writeEndToEndProtectionEndToEndProtectionISignalIPdus(child_element, protection)
+            self.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(child_element, protection)
 
     def writeEndToEndProtections(self, element: ET.Element, protection_set: EndToEndProtectionSet):
         protections = protection_set.getEndToEndProtections()
@@ -1881,7 +1899,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "END-TO-END-PROTECTIONS")
             for protection in protections:
                 if isinstance(protection, EndToEndProtection):
-                    self.setEndToEndProtection(child_element, protection)
+                    self.writeEndToEndProtection(child_element, protection)
 
     def writeEndToEndProtectionSet(self, element: ET.Element, protection_set: EndToEndProtectionSet):
         self.logger.debug("writeEndToEndProtectionSet %s" % protection_set.getShortName())

@@ -74,7 +74,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleIn
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet, EndToEndDescription, EndToEndProtection
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu, EndToEndProtectionSet, EndToEndDescription, EndToEndProtection
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
@@ -2429,8 +2429,8 @@ class ARXMLParser(AbstractARXMLParser):
                         .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
         return instance_ref
     
-    def getEndToEndProtectionVariablePrototype(self, element: ET.Element) -> EndToEndProtectionVariablePrototype:
-        prototype = EndToEndProtectionVariablePrototype()
+    def readEndToEndProtectionVariablePrototype(self, element: ET.Element, prototype: EndToEndProtectionVariablePrototype):
+        self.readARObjectAttributes(element, prototype)
         for child_element in self.findall(element, "RECEIVER-IREFS/RECEIVER-IREF"):
             prototype.addReceiverIref(self.getVariableDataPrototypeInSystemInstanceRef(child_element))
         child_element = self.find(element, "SENDER-IREF")
@@ -2438,21 +2438,39 @@ class ARXMLParser(AbstractARXMLParser):
             prototype.senderIRef = self.getVariableDataPrototypeInSystemInstanceRef(child_element)
         return prototype
     
-    def readEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
+    def readEndToEndProtectionEndToEndProtectionVariablePrototypes(self, element: ET.Element, protection: EndToEndProtection):
         for child_element in self.findall(element, "END-TO-END-PROTECTION-VARIABLE-PROTOTYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-PROTECTION-VARIABLE-PROTOTYPE":
-                protection.addEndToEndProtectionVariablePrototype(self.getEndToEndProtectionVariablePrototype(child_element))
+                prototype = EndToEndProtectionVariablePrototype()
+                self.readEndToEndProtectionVariablePrototype(child_element, prototype)
+                protection.addEndToEndProtectionVariablePrototype(prototype)
             else:
                 self.raiseError("Unsupported End To End Protection Variable Prototype <%s>" % tag_name)
+
+    def readEndToEndProtectionISignalIPdu(self, element: ET.Element, ipdu: EndToEndProtectionISignalIPdu):
+        ipdu.setDataOffset(self.getChildElementOptionalIntegerValue(element, "DATA-OFFSET")) \
+            .setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF")) \
+            .setISignalIPduRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-I-PDU-REF"))
+
+    def readEndToEndProtectionEndToEndProtectionISignalIPdus(self, element: ET.Element, protection: EndToEndProtection):
+        for child_element in self.findall(element, "END-TO-END-PROTECTION-I-SIGNAL-I-PDUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "END-TO-END-PROTECTION-I-SIGNAL-I-PDU":
+                ipdu = EndToEndProtectionISignalIPdu()
+                self.readEndToEndProtectionISignalIPdu(child_element, ipdu)
+                protection.addEndToEndProtectionISignalIPdu(ipdu)
+            else:
+                self.notImplemented("Unsupported EndToEndProtectionISignalIPdu <%s>" % tag_name)
 
     def readEndToEndProtection(self, element: ET.Element, parent: EndToEndProtectionSet):
         short_name = self.getShortName(element)
         self.logger.debug("readEndToEndProtection %s" % short_name)
         protection = parent.createEndToEndProtection(short_name)
         self.readIdentifiable(element, protection)
-        protection.endToEndProfile = self.getEndToEndDescription(element, "END-TO-END-PROFILE")
-        self.readEndToEndProtectionVariablePrototypes(element, protection)
+        protection.setEndToEndProfile(self.getEndToEndDescription(element, "END-TO-END-PROFILE"))
+        self.readEndToEndProtectionEndToEndProtectionISignalIPdus(element, protection)
+        self.readEndToEndProtectionEndToEndProtectionVariablePrototypes(element, protection)
 
     def readEndToEndProtections(self, element: ET.Element, parent: EndToEndProtectionSet):
         for child_element in self.findall(element, "END-TO-END-PROTECTIONS/*"):

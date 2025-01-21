@@ -149,21 +149,25 @@ class EndToEndProtection(Identifiable):
         return self.endToEndProfile
 
     def setEndToEndProfile(self, value):
-        self.endToEndProfile = value
+        if value is not None:
+            self.endToEndProfile = value
         return self
 
     def getEndToEndProtectionISignalIPdus(self):
         return self.endToEndProtectionISignalIPdus
 
     def addEndToEndProtectionISignalIPdu(self, value):
-        self.endToEndProtectionISignalIPdus.append(value)
+        if value is not None:
+            self.endToEndProtectionISignalIPdus.append(value)
         return self
 
     def getEndToEndProtectionVariablePrototypes(self) -> List[EndToEndProtectionVariablePrototype]:
         return self.endToEndProtectionVariablePrototypes
     
-    def addEndToEndProtectionVariablePrototype(self, prototype: EndToEndProtectionVariablePrototype):
-        self.endToEndProtectionVariablePrototypes.append(prototype)
+    def addEndToEndProtectionVariablePrototype(self, value: EndToEndProtectionVariablePrototype):
+        if value is not None:
+            self.endToEndProtectionVariablePrototypes.append(value)
+        return self
 
 
 class EndToEndProtectionSet(Identifiable):
