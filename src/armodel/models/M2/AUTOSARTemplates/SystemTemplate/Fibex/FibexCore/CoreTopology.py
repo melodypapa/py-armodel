@@ -15,7 +15,7 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication 
 
 class PhysicalChannel (Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == PhysicalChannel:
+        if type(self) is PhysicalChannel:
             raise NotImplementedError("PhysicalChannel is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -31,7 +31,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self
 
     def getFrameTriggerings(self) -> List[FrameTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements.values()), key=lambda o: o.getShortName()))
 
     def createCanFrameTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -46,7 +46,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements.values()), key=lambda o: o.getShortName()))
 
     def createISignalTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -62,7 +62,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self
     
     def getPduTriggerings(self) -> List[PduTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements.values()), key=lambda o: o.getShortName()))
 
     def createPduTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -70,16 +70,19 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
             self.addElement(triggering)
         return self.getElement(short_name)
 
-class AbstractCanPhysicalChannel(PhysicalChannel, metaclass = ABCMeta):
+
+class AbstractCanPhysicalChannel(PhysicalChannel, metaclass=ABCMeta):
     def __init__(self, parent, short_name):
-        if type(self) == ARObject:
+        if type(self) is AbstractCanPhysicalChannel:
             raise NotImplementedError("AbstractCanPhysicalChannel is an abstract class.")
          
         super().__init__(parent, short_name)
 
+
 class CanPhysicalChannel(AbstractCanPhysicalChannel):
     def __init__(self, parent, short_name):
-        super().__init__(parent, short_name) 
+        super().__init__(parent, short_name)
+
 
 class LinPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
@@ -100,13 +103,14 @@ class LinPhysicalChannel(PhysicalChannel):
     def getScheduleTables(self):
         return self.scheduleTables
 
-    def createLinScheduleTable(self, short_name:str) -> LinScheduleTable:
+    def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
         if (short_name not in self.elements):
             end_point = LinScheduleTable(self, short_name)
             self.addElement(end_point)
             self.scheduleTables.append(end_point)
         return self.getElement(short_name)
-    
+
+
 class VlanConfig(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -120,6 +124,8 @@ class VlanConfig(Identifiable):
         if value is not None:
             self.vlanIdentifier = value
         return self
+
+
 class EthernetPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -131,7 +137,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getNetworkEndpoints(self):
         return self.networkEndpoints
 
-    def createNetworkEndPoint(self, short_name:str) -> NetworkEndpoint:
+    def createNetworkEndPoint(self, short_name: str) -> NetworkEndpoint:
         if (short_name not in self.elements):
             end_point = NetworkEndpoint(self, short_name)
             self.addElement(end_point)
@@ -153,11 +159,12 @@ class EthernetPhysicalChannel(PhysicalChannel):
             config = VlanConfig(self, short_name)
             self.vlan = config
             self.addElement(config)
-        return self.getElement(short_name)  
+        return self.getElement(short_name)
 
-class CommunicationCluster(FibexElement, metaclass = ABCMeta):
+
+class CommunicationCluster(FibexElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == CommunicationCluster:
+        if type(self) is CommunicationCluster:
             raise NotImplementedError("CommunicationCluster is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -174,16 +181,16 @@ class CommunicationCluster(FibexElement, metaclass = ABCMeta):
         return self
 
     def getPhysicalChannels(self) -> List[PhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
     
     def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
     
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
     
     def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
     
     def createCanPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
@@ -216,6 +223,7 @@ class CommunicationCluster(FibexElement, metaclass = ABCMeta):
     def setProtocolVersion(self, value):
         self.protocolVersion = value
         return self
+
 
 class CanClusterBusOffRecovery(ARObject):
     def __init__(self):
@@ -267,9 +275,10 @@ class CanClusterBusOffRecovery(ARObject):
             self.mainFunctionPeriod = value
         return self
 
-class AbstractCanCluster(CommunicationCluster, metaclass = ABCMeta):
+
+class AbstractCanCluster(CommunicationCluster, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractCanCluster:
+        if type(self) is AbstractCanCluster:
             raise NotImplementedError("AbstractCanCluster is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -307,17 +316,20 @@ class AbstractCanCluster(CommunicationCluster, metaclass = ABCMeta):
         self.speed = value
         return self
 
+
 class CanCluster(AbstractCanCluster):
     def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)         
+        super().__init__(parent, short_name)
+
 
 class LinCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-class CommunicationController(Identifiable, metaclass = ABCMeta):
+
+class CommunicationController(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == CommunicationController:
+        if type(self) is CommunicationController:
             raise NotImplementedError("CommunicationController is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -330,19 +342,22 @@ class CommunicationController(Identifiable, metaclass = ABCMeta):
     def setWakeUpByControllerSupported(self, value):
         self.wakeUpByControllerSupported = value
         return self
-    
+
+
 class PncGatewayTypeEnum(Enum):
     ENUM_ACTIVE = "active"
     ENUM_NONE = "none"
     ENUM_PASSIVE = "passive"
 
+
 class CommunicationDirectionType(Enum):
     ENUM_IN = "in"
     ENUM_OUT = "out"
 
-class CommConnectorPort(Identifiable, metaclass = ABCMeta):
+
+class CommConnectorPort(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == CommConnectorPort:
+        if type(self) is CommConnectorPort:
             raise NotImplementedError("CommConnectorPort is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -362,9 +377,11 @@ class FramePort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+
 class IPduSignalProcessingEnum(Enum):
     ENUM_DEFERRED = "deferred"
-    ENUM_IMMEDIATE = "immediate"        
+    ENUM_IMMEDIATE = "immediate"
+
 
 class IPduPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
@@ -416,6 +433,7 @@ class IPduPort(CommConnectorPort):
             self.useAuthDataFreshness = value
         return self
 
+
 class ISignalPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -466,9 +484,10 @@ class ISignalPort(CommConnectorPort):
             self.timeout = value
         return self
 
-class CommunicationConnector(Identifiable, metaclass = ABCMeta):
+
+class CommunicationConnector(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == CommunicationConnector:
+        if type(self) is CommunicationConnector:
             raise NotImplementedError("CommunicationConnector is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -502,7 +521,7 @@ class CommunicationConnector(Identifiable, metaclass = ABCMeta):
         return self
 
     def getEcuCommPortInstances(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements.values()), key= lambda o:o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements.values()), key=lambda o: o.getShortName()))
 
     def createFramePort(self, short_name) -> FramePort:
         if short_name not in self.elements:

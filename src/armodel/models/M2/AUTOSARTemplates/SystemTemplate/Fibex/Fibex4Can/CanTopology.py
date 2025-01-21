@@ -1,8 +1,10 @@
 from abc import ABCMeta
 
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger, PositiveUnlimitedInteger, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+
 
 class CanControllerFdConfiguration(ARObject):
     def __init__(self):
@@ -71,6 +73,7 @@ class CanControllerFdConfiguration(ARObject):
         if value is not None:
             self.txBitRateSwitch = value
         return self
+
 
 class CanControllerFdConfigurationRequirements(ARObject):
     def __init__(self):
@@ -167,7 +170,8 @@ class CanControllerFdConfigurationRequirements(ARObject):
             self.txBitRateSwitch = value
         return self
 
-class AbstractCanCommunicationControllerAttributes(ARObject, metaclass = ABCMeta):
+
+class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
     def __init__(self):
         super().__init__()
 
@@ -203,6 +207,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, metaclass = ABCMeta
     def setCanControllerXlRequirements(self, value):
         self.canControllerXlRequirements = value
         return self
+
 
 class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerAttributes):
     def __init__(self):
@@ -257,9 +262,10 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
         self.minSyncJumpWidth = value
         return self
 
-class AbstractCanCommunicationController(CommunicationController, metaclass = ABCMeta):
+
+class AbstractCanCommunicationController(CommunicationController, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractCanCommunicationController:
+        if type(self) is AbstractCanCommunicationController:
             raise NotImplementedError("AbstractCanCommunicationController is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -272,63 +278,67 @@ class AbstractCanCommunicationController(CommunicationController, metaclass = AB
     def setCanControllerAttributes(self, value):
         self.canControllerAttributes = value
         return self
-    
+
+
 class CanCommunicationController(AbstractCanCommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-class AbstractCanCommunicationConnector(CommunicationConnector, metaclass = ABCMeta):
+
+class AbstractCanCommunicationConnector(CommunicationConnector, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractCanCommunicationConnector:
+        if type(self) is AbstractCanCommunicationConnector:
             raise NotImplementedError("AbstractCanCommunicationConnector is an abstract class.")
         
         super().__init__(parent, short_name)
 
+
 class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)  
+        super().__init__(parent, short_name)
 
-        # type: PositiveInteger
-        self.pncWakeupCanId = None
+        self.pncWakeupCanId = None                                  # type: PositiveInteger
         self.pncWakeupCanIdExtended = None                          # type: Boolean
-        # type: PositiveInteger
-        self.pncWakeupCanIdMask = None
-        # type: PositiveUnlimitedInteger
-        self.pncWakeupDataMask = None
-        # type: PositiveInteger
-        self.pncWakeupDlc = None
+        self.pncWakeupCanIdMask = None                              # type: PositiveInteger
+        self.pncWakeupDataMask = None                               # type: PositiveUnlimitedInteger
+        self.pncWakeupDlc = None                                    # type: PositiveInteger
 
     def getPncWakeupCanId(self):
         return self.pncWakeupCanId
 
     def setPncWakeupCanId(self, value):
-        self.pncWakeupCanId = value
+        if value is not None:
+            self.pncWakeupCanId = value
         return self
 
     def getPncWakeupCanIdExtended(self):
         return self.pncWakeupCanIdExtended
 
     def setPncWakeupCanIdExtended(self, value):
-        self.pncWakeupCanIdExtended = value
+        if value is not None:
+            self.pncWakeupCanIdExtended = value
         return self
 
     def getPncWakeupCanIdMask(self):
         return self.pncWakeupCanIdMask
 
     def setPncWakeupCanIdMask(self, value):
-        self.pncWakeupCanIdMask = value
+        if value is not None:
+            self.pncWakeupCanIdMask = value
         return self
 
     def getPncWakeupDataMask(self):
         return self.pncWakeupDataMask
 
     def setPncWakeupDataMask(self, value):
-        self.pncWakeupDataMask = value
+        if value is not None:
+            self.pncWakeupDataMask = value
         return self
 
     def getPncWakeupDlc(self):
         return self.pncWakeupDlc
 
     def setPncWakeupDlc(self, value):
-        self.pncWakeupDlc = value
+        if value is not None:
+            self.pncWakeupDlc = value
         return self
