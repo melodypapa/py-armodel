@@ -2,15 +2,65 @@ from abc import ABCMeta
 from enum import Enum
 from typing import List
 
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from ......M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, Boolean, PositiveInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, Boolean, Integer, PositiveInteger
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, ARLiteral, TimeValue
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
+
+
+class CommunicationCycle(ARObject):
+    def __init__(self):
+        super().__init__()
+
+
+class CycleCounter(CommunicationCycle):
+    def __init__(self):
+        super().__init__()
+
+        self.CycleCounter = None                            # type: Integer
+
+    def getCycleCounter(self):
+        return self.CycleCounter
+
+    def setCycleCounter(self, value):
+        if value is not None:
+            self.CycleCounter = value
+        return self
+
+
+class CycleRepetitionType(AREnum):
+    def __init__(self):
+        super().__init__([])
+
+
+class CycleRepetition(CommunicationCycle):
+    def __init__(self):
+        super().__init__()
+
+        self.BaseCycle = None                               # type: Integer
+        self.CycleRepetition = None                         # type: CycleRepetitionType
+
+    def getBaseCycle(self):
+        return self.BaseCycle
+
+    def setBaseCycle(self, value):
+        if value is not None:
+            self.BaseCycle = value
+        return self
+
+    def getCycleRepetition(self):
+        return self.CycleRepetition
+
+    def setCycleRepetition(self, value):
+        if value is not None:
+            self.CycleRepetition = value
+        return self
 
 
 class PhysicalChannel (Identifiable, metaclass=ABCMeta):
@@ -21,6 +71,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
         self.commConnectorRefs = []                     # type: List[RefType]
+        self.frameTriggerings = []                      # type: List[FrameTriggering]
         self.managedPhysicalChannelRefs = []            # type: List[RefType]
 
     def getCommConnectorRefs(self):
@@ -33,16 +84,25 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
     def getFrameTriggerings(self) -> List[FrameTriggering]:
         return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements.values()), key=lambda o: o.getShortName()))
 
-    def createCanFrameTriggering(self, short_name: str):
+    def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
         if (short_name not in self.elements):
             triggering = CanFrameTriggering(self, short_name)
             self.addElement(triggering)
+            self.frameTriggerings.append(triggering)
         return self.getElement(short_name)
     
-    def createLinFrameTriggering(self, short_name: str):
+    def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
         if (short_name not in self.elements):
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
+            self.frameTriggerings.append(triggering)
+        return self.getElement(short_name)
+    
+    def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
+        if (short_name not in self.elements):
+            triggering = FlexrayFrameTriggering(self, short_name)
+            self.addElement(triggering)
+            self.frameTriggerings.append(triggering)
         return self.getElement(short_name)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
@@ -162,6 +222,32 @@ class EthernetPhysicalChannel(PhysicalChannel):
         return self.getElement(short_name)
 
 
+class FlexrayChannelName(AREnum):
+    CHANNEL_A = "channelA"
+    channel_B = "channelB"
+
+    def __init__(self):
+        super().__init__([
+            FlexrayChannelName.CHANNEL_A,
+            FlexrayChannelName.channel_B
+        ])
+
+
+class FlexrayPhysicalChannel(PhysicalChannel):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.channelName = None                                     # type: FlexrayChannelName
+
+    def getChannelName(self):
+        return self.channelName
+
+    def setChannelName(self, value):
+        if value is not None:
+            self.channelName = value
+        return self
+
+
 class CommunicationCluster(FibexElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
@@ -169,9 +255,10 @@ class CommunicationCluster(FibexElement, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.baudrate = None                # type: ARFloat
-        self.protocolName = None            # type: ARLiteral
-        self.protocolVersion = None         # type: ARLiteral
+        self.baudrate = None                    # type: ARFloat
+        self.physicalChannel = []               # type: List[PhysicalChannel]
+        self.protocolName = None                # type: ARLiteral
+        self.protocolVersion = None             # type: ARLiteral
 
     def getBaudrate(self):
         return self.baudrate
@@ -196,18 +283,28 @@ class CommunicationCluster(FibexElement, metaclass=ABCMeta):
         if (short_name not in self.elements):
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)
+            self.physicalChannel.append(channel)
         return self.getElement(short_name)
     
     def createLinPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = LinPhysicalChannel(self, short_name)
             self.addElement(channel)
+            self.physicalChannel.append(channel)
         return self.getElement(short_name)
     
     def createEthernetPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
             channel = EthernetPhysicalChannel(self, short_name)
             self.addElement(channel)
+            self.physicalChannel.append(channel)
+        return self.getElement(short_name)
+    
+    def createFlexrayPhysicalChannel(self, short_name: str):
+        if (short_name not in self.elements):
+            channel = FlexrayPhysicalChannel(self, short_name)
+            self.addElement(channel)
+            self.physicalChannel.append(channel)
         return self.getElement(short_name)
 
     def getProtocolName(self):
