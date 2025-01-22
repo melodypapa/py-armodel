@@ -151,7 +151,8 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceIns
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance, SdServerConfig, SoAdConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SocketAddress, TcpTp, TpPort
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import TransportProtocolConfiguration, UdpTp
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable
@@ -169,6 +170,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunicati
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import FlexrayPhysicalChannel, CommunicationCycle, CycleRepetition
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanPhysicalChannel, CommConnectorPort, CommunicationCluster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort
@@ -3082,6 +3084,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeLinTpConfigTpNodes(child_element, config)
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
+        self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
         if len(ref_list) > 0:
             frame_port_refs_tag = ET.SubElement(element, "FRAME-PORT-REFS")
@@ -3099,7 +3102,6 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCanFrameTriggering(self, element: ET.Element, triggering: CanFrameTriggering):
         self.logger.debug("WRite CanFrameTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "CAN-FRAME-TRIGGERING")
-        self.writeIdentifiable(child_element, triggering)
         self.writeFrameTriggering(child_element, triggering)
         self.setChildElementOptionalLiteral(child_element, "CAN-ADDRESSING-MODE", triggering.getCanAddressingMode())
         self.setChildElementOptionalBooleanValue(child_element, "CAN-FD-FRAME-SUPPORT", triggering.getCanFdFrameSupport())
@@ -3111,10 +3113,54 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Write LinFrameTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "LIN-FRAME-TRIGGERING")
-        self.writeIdentifiable(child_element, triggering)
         self.writeFrameTriggering(child_element, triggering)
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
         self.setChildElementOptionalLiteral(child_element, "LIN-CHECKSUM", triggering.getLinChecksum())
+
+    def writeCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
+        self.writeARObjectAttributes(element, cycle)
+
+    def writeCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
+        if cycle is not None:
+            child_element = ET.SubElement(element, "CYCLE-REPETITION")
+            self.writeCommunicationCycle(child_element, cycle)
+            self.setChildElementOptionalIntegerValue(child_element, "BASE-CYCLE", cycle.getBaseCycle())
+            self.setChildElementOptionalLiteral(child_element, "CYCLE-REPETITION", cycle.getCycleRepetition())
+        
+    def writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
+        cycle = timing.getCommunicationCycle()
+        if cycle is not None:
+            child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
+            if isinstance(cycle, CycleRepetition):
+                self.writeCycleRepetition(child_element, cycle)
+            else:
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(child_element))
+
+    def writeFlexrayAbsolutelyScheduledTiming(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
+        if timing is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING")
+            self.writeARObjectAttributes(child_element, timing)
+            self.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(child_element, timing)
+            self.setChildElementOptionalPositiveInteger(child_element, "SLOT-ID", timing.getSlotID())
+
+    def writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(self, element: ET.Element, triggering: FlexrayFrameTriggering):
+        timings = triggering.getAbsolutelyScheduledTimings()
+        if len(timings) > 0:
+            child_element = ET.SubElement(element, "ABSOLUTELY-SCHEDULED-TIMINGS")
+            for timing in timings:
+                if isinstance(timing, FlexrayAbsolutelyScheduledTiming):
+                    self.writeFlexrayAbsolutelyScheduledTiming(child_element, timing)
+                else:
+                    self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % type(timing))
+
+    def writeFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
+        self.logger.debug("Write FlexrayFrameTriggering %s" % triggering.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-FRAME-TRIGGERING")
+        self.writeFrameTriggering(child_element, triggering)
+        self.writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(child_element, triggering)
+        self.setChildElementOptionalBooleanValue(child_element, "ALLOW-DYNAMIC-L-SDU-LENGTH", triggering.getAllowDynamicLSduLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", triggering.getMessageId())
+        self.setChildElementOptionalBooleanValue(child_element, "PAYLOAD-PREAMBLE-INDICATOR", triggering.getPayloadPreambleIndicator())
 
     def writeISignalTriggering(self, element: ET.Element, triggering: ISignalTriggering):
         self.logger.debug("Write ISignalTriggering %s" % triggering.getShortName())
@@ -3146,7 +3192,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(triggerings_tag, 'I-SIGNAL-TRIGGERING-REF-CONDITIONAL')
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF", ref)
 
-    def writePhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
+    def writePhysicalChannelCommConnectorRefs(self, element, channel):
         connectors = channel.getCommConnectorRefs()
         if len(connectors) > 0:
             connectors_tag = ET.SubElement(element, "COMM-CONNECTORS")
@@ -3154,6 +3200,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(connectors_tag, 'COMMUNICATION-CONNECTOR-REF-CONDITIONAL')
                 self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF", connector)
 
+    def writePhysicalChannelFrameTriggerings(self, element, channel):
         triggerings = channel.getFrameTriggerings()
         if len(triggerings) > 0:
             triggerings_tag = ET.SubElement(element, "FRAME-TRIGGERINGS")
@@ -3162,9 +3209,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanFrameTriggering(triggerings_tag, triggering)
                 elif isinstance(triggering, LinFrameTriggering):
                     self.writeLinFrameTriggering(triggerings_tag, triggering)
+                elif isinstance(triggering, FlexrayFrameTriggering):
+                    self.writeFlexrayFrameTriggering(triggerings_tag, triggering)
                 else:
                     self.notImplemented("Unsupported Frame Triggering <%s>" % type(triggering))
-                
+
+    def writePhysicalChannelISignalTriggerings(self, element, channel):
         triggerings = channel.getISignalTriggerings()
         if len(triggerings) > 0:
             triggerings_tag = ET.SubElement(element, "I-SIGNAL-TRIGGERINGS")
@@ -3173,7 +3223,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeISignalTriggering(triggerings_tag, triggering)
                 else:
                     self.notImplemented("Unsupported ISignalTriggering <%s>" % type(triggering))
-                
+
+    def writePhysicalChannelPduTriggerings(self, element, channel):
         triggerings = channel.getPduTriggerings()
         if len(triggerings) > 0:
             triggerings_tag = ET.SubElement(element, "PDU-TRIGGERINGS")
@@ -3183,10 +3234,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported PduTriggering <%s>" % type(triggering))
 
+    def writePhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
+        self.writeIdentifiable(element, channel)
+
+        self.writePhysicalChannelCommConnectorRefs(element, channel)
+        self.writePhysicalChannelFrameTriggerings(element, channel)
+        self.writePhysicalChannelISignalTriggerings(element, channel)
+        self.writePhysicalChannelPduTriggerings(element, channel)
+
     def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.logger.debug("Set CanPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "CAN-PHYSICAL-CHANNEL")
-        self.writeIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
 
     def writeScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
@@ -3229,7 +3287,6 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
         self.logger.debug("Set LinPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "LIN-PHYSICAL-CHANNEL")
-        self.writeIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
         self.writeLinPhysicalChannelScheduleTables(child_element, channel)
 
@@ -3553,11 +3610,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
         self.logger.debug("Set EthernetPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-PHYSICAL-CHANNEL")
-        self.writeIdentifiable(child_element, channel)
         self.writePhysicalChannel(child_element, channel)
         self.writeEthernetPhysicalChannelNetworkEndPoints(child_element, channel.getNetworkEndpoints())
         self.writeSoAdConfig(child_element, "SO-AD-CONFIG", channel.getSoAdConfig())
         self.writeEthernetPhysicalChannelVlan(child_element, channel)
+
+    def writeFlexrayPhysicalChannel(self, element: ET.Element, channel: FlexrayPhysicalChannel):
+        self.logger.debug("Set FlexrayPhysicalChannel %s" % channel.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-PHYSICAL-CHANNEL")
+        self.writePhysicalChannel(child_element, channel)
+        self.setChildElementOptionalLiteral(child_element, "CHANNEL-NAME", channel.getChannelName())
 
     def writeCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         channels = cluster.getPhysicalChannels()
@@ -3570,6 +3632,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeLinPhysicalChannel(child_element, channel)
                 elif isinstance(channel, EthernetPhysicalChannel):
                     self.writeEthernetPhysicalChannel(child_element, channel)
+                elif isinstance(channel, FlexrayPhysicalChannel):
+                    self.writeFlexrayPhysicalChannel(child_element, channel)
                 else:
                     self.notImplemented("Unsupported Physical Channel <%s>" % type(channel))
 
@@ -3592,22 +3656,35 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(element, "SPEED", cluster.getSpeed())
 
     def writeLinCluster(self, element: ET.Element, cluster: LinCluster):
-        self.logger.debug("LinCluster %s" % cluster.getShortName())
-        child_element = ET.SubElement(element, "LIN-CLUSTER")
-        self.writeIdentifiable(child_element, cluster)
-        child_element = ET.SubElement(child_element, "LIN-CLUSTER-VARIANTS")
-        child_element = ET.SubElement(child_element, "LIN-CLUSTER-CONDITIONAL")
-        self.writeCommunicationCluster(child_element, cluster)
+        if cluster is not None:
+            self.logger.debug("LinCluster %s" % cluster.getShortName())
+            child_element = ET.SubElement(element, "LIN-CLUSTER")
+            self.writeIdentifiable(child_element, cluster)
+            
+            child_element = ET.SubElement(child_element, "LIN-CLUSTER-VARIANTS")
+            child_element = ET.SubElement(child_element, "LIN-CLUSTER-CONDITIONAL")
+            self.writeCommunicationCluster(child_element, cluster)
 
     def writeCanCluster(self, element: ET.Element, cluster: CanCluster):
-        self.logger.debug("CanCluster %s" % cluster.getShortName())
-        child_element = ET.SubElement(element, "CAN-CLUSTER")
-        self.writeIdentifiable(child_element, cluster)
+        if cluster is not None:
+            self.logger.debug("CanCluster %s" % cluster.getShortName())
+            child_element = ET.SubElement(element, "CAN-CLUSTER")
+            self.writeIdentifiable(child_element, cluster)
 
-        child_element = ET.SubElement(child_element, "CAN-CLUSTER-VARIANTS")
-        child_element = ET.SubElement(child_element, "CAN-CLUSTER-CONDITIONAL")
-        self.writeCommunicationCluster(child_element, cluster)
-        self.writeAbstractCanCluster(child_element, cluster)
+            child_element = ET.SubElement(child_element, "CAN-CLUSTER-VARIANTS")
+            child_element = ET.SubElement(child_element, "CAN-CLUSTER-CONDITIONAL")
+            self.writeCommunicationCluster(child_element, cluster)
+            self.writeAbstractCanCluster(child_element, cluster)
+
+    def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
+        if cluster is not None:
+            self.logger.debug("Write FlexrayCluster <%s>" % cluster.getShortName())
+            child_element = ET.SubElement(element, "FLEXRAY-CLUSTER")
+            self.writeIdentifiable(child_element, cluster)
+
+            child_element = ET.SubElement(child_element, "FLEXRAY-CLUSTER-VARIANTS")
+            child_element = ET.SubElement(child_element, "FLEXRAY-CLUSTER-CONDITIONAL")
+            self.writeCommunicationCluster(child_element, cluster)
 
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
@@ -4779,12 +4856,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write FlexrayFrame <%s>" % frame.getShortName())
             child_element = ET.SubElement(element, "FLEXRAY-FRAME")
             self.writeFrame(child_element, frame)
-
-    def writeFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
-        if cluster is not None:
-            self.logger.debug("Write FlexrayCluster <%s>" % cluster.getShortName())
-            child_element = ET.SubElement(element, "FLEXRAY-CLUSTER")
-            self.writeCommunicationCluster(child_element, cluster)
 
     def writeFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         if controller is not None:

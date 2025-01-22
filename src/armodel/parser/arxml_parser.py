@@ -62,7 +62,7 @@ from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution impor
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
-from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup, HwPinGroupContent
+from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
@@ -123,7 +123,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Server
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 
 from ..models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
-from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecArrayTypeMapping, SenderRecCompositeTypeMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecCompositeTypeMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecRecordElementMapping, SenderRecRecordTypeMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
@@ -153,7 +153,8 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceIns
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance, SdServerConfig, SoAdConfig
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SocketAddress, TcpTp, TpPort
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import TransportProtocolConfiguration, UdpTp
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable
@@ -170,7 +171,8 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunicati
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import StaticPart, SystemSignal, SystemSignalGroup
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import UserDefinedIPdu, UserDefinedPdu
-from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery, CommunicationCycle
+from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import FlexrayPhysicalChannel, CycleRepetition
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanPhysicalChannel, CommConnectorPort, CommunicationCluster
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort
@@ -2645,6 +2647,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTimingExtension(element, timing)
 
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
+        self.readIdentifiable(element, triggering)
         for ref in self.getChildElementRefTypeList(element, 'FRAME-PORT-REFS/FRAME-PORT-REF'):
             triggering.addFramePortRef(ref)
         triggering.setFrameRef(self.getChildElementOptionalRefType(element, "FRAME-REF"))
@@ -2653,7 +2656,6 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCanFrameTriggering(self, element: ET.Element, triggering: CanFrameTriggering):
         self.logger.debug("Read CanFrameTriggering %s" % triggering.getShortName())
-        self.readIdentifiable(element, triggering)
         self.readFrameTriggering(element, triggering)
         triggering.setCanAddressingMode(self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE")) \
                   .setCanFdFrameSupport(self.getChildElementOptionalBooleanValue(element, "CAN-FD-FRAME-SUPPORT")) \
@@ -2664,10 +2666,50 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Read LinFrameTriggering %s" % triggering.getShortName())
-        self.readIdentifiable(element, triggering)
         self.readFrameTriggering(element, triggering)
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER")) \
                   .setLinChecksum(self.getChildElementOptionalLiteral(element, "LIN-CHECKSUM"))
+        
+    def readCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
+        self.readARObjectAttributes(element, cycle)
+        
+    def readCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
+        self.readCommunicationCycle(element, cycle)
+        cycle.setBaseCycle(self.getChildElementOptionalIntegerValue(element, "BASE-CYCLE")) \
+             .setCycleRepetition(self.getChildElementOptionalLiteral(element, "CYCLE-REPETITION"))
+        
+    def readFlexrayAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
+        for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CYCLE-REPETITION":
+                repetition = CycleRepetition()
+                self.readCycleRepetition(child_element, repetition)
+                timing.setCommunicationCycle(repetition)
+            else:
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % tag_name)
+        
+    def readFlexrayAbsolutelyScheduledTiming(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
+        self.readARObjectAttributes(element, timing)
+        self.readFlexrayAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        timing.setSlotID(self.getChildElementOptionalPositiveInteger(element, "SLOT-ID"))
+        
+    def readFlexrayFrameTriggeringAbsolutelyScheduledTimings(self, element: ET.Element, triggering: FlexrayFrameTriggering):
+        for child_element in self.findall(element, "ABSOLUTELY-SCHEDULED-TIMINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-ABSOLUTELY-SCHEDULED-TIMING":
+                timing = FlexrayAbsolutelyScheduledTiming()
+                self.readFlexrayAbsolutelyScheduledTiming(child_element, timing)
+                triggering.addAbsolutelyScheduledTiming(timing)
+            else:
+                self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % tag_name)
+        
+    def readFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
+        self.logger.debug("Read FlexrayFrameTriggering %s" % triggering.getShortName())
+        self.readFrameTriggering(element, triggering)
+        self.readFlexrayFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
+        triggering.setAllowDynamicLSduLength(self.getChildElementOptionalBooleanValue(element, "ALLOW-DYNAMIC-L-SDU-LENGTH")) \
+                  .setMessageId(self.getChildElementOptionalPositiveInteger(element, "MESSAGE-ID")) \
+                  .setPayloadPreambleIndicator(self.getChildElementOptionalBooleanValue(element, "PAYLOAD-PREAMBLE-INDICATOR"))
 
     def readISignalTriggering(self, element: ET.Element, triggering: ISignalTriggering):
         self.logger.debug("Read ISignalTriggering %s" % triggering.getShortName())
@@ -2686,10 +2728,11 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, 'I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING-REF-CONDITIONAL'):
             triggering.addISignalTriggeringRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF"))
 
-    def readPhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
+    def readPhysicalChannelCommConnectorRefs(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, 'COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL'):
             channel.addCommConnectorRef(self.getChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF"))
-        
+
+    def readPhysicalChannelFrameTriggerings(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "FRAME-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-FRAME-TRIGGERING":
@@ -2698,9 +2741,13 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "LIN-FRAME-TRIGGERING":
                 triggering = channel.createLinFrameTriggering(self.getShortName(child_element))
                 self.readLinFrameTriggering(child_element, triggering)
+            elif tag_name == "FLEXRAY-FRAME-TRIGGERING":
+                triggering = channel.createFlexrayFrameTriggering(self.getShortName(child_element))
+                self.readFlexrayFrameTriggering(child_element, triggering)
             else:
                 self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
-            
+
+    def readPhysicalChannelISignalTriggerings(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "I-SIGNAL-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "I-SIGNAL-TRIGGERING":
@@ -2708,7 +2755,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readISignalTriggering(child_element, triggering)
             else:
                 self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
-            
+
+    def readPhysicalChannelPduTriggerings(self, element, channel):
         for child_element in self.findall(element, "PDU-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "PDU-TRIGGERING":
@@ -2717,8 +2765,15 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
 
-    def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
+    def readPhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
         self.readIdentifiable(element, channel)
+
+        self.readPhysicalChannelCommConnectorRefs(element, channel)
+        self.readPhysicalChannelFrameTriggerings(element, channel)
+        self.readPhysicalChannelISignalTriggerings(element, channel)
+        self.readPhysicalChannelPduTriggerings(element, channel)
+
+    def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readPhysicalChannel(element, channel)
 
     def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
@@ -2757,7 +2812,6 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Schedule Table <%s>" % tag_name)
 
     def readLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
-        self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
         self.readLinPhysicalChannelScheduleTables(element, channel)
 
@@ -3070,11 +3124,14 @@ class ARXMLParser(AbstractARXMLParser):
             vlan.setVlanIdentifier(self.getChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER"))
 
     def readEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
-        self.readIdentifiable(element, channel)
         self.readPhysicalChannel(element, channel)
         self.readEthernetPhysicalChannelNetworkEndPoints(element, channel)
         channel.setSoAdConfig(self.getSoAdConfig(element, "SO-AD-CONFIG"))
         self.readEthernetPhysicalChannelVlan(element, channel)
+
+    def readFlexrayPhysicalChannel(self, element: ET.Element, channel: FlexrayPhysicalChannel):
+        self.readPhysicalChannel(element, channel)
+        channel.setChannelName(self.getChildElementOptionalLiteral(element, "CHANNEL-NAME"))
 
     def readCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         for child_element in self.findall(element, "PHYSICAL-CHANNELS/*"):
@@ -3088,6 +3145,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETHERNET-PHYSICAL-CHANNEL":
                 channel = cluster.createEthernetPhysicalChannel(self.getShortName(child_element))
                 self.readEthernetPhysicalChannel(child_element, channel)
+            elif tag_name == "FLEXRAY-PHYSICAL-CHANNEL":
+                channel = cluster.createFlexrayPhysicalChannel(self.getShortName(child_element))
+                self.readFlexrayPhysicalChannel(child_element, channel)
             else:
                 self.notImplemented("Unsupported Physical Channel <%s>" % tag_name)
 
@@ -3108,6 +3168,7 @@ class ARXMLParser(AbstractARXMLParser):
         return recovery
         
     def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
+        self.readCommunicationCluster(element, cluster)
         cluster.setBusOffRecovery(self.getCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY")) \
                .setCanFdBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE")) \
                .setSpeed(self.getChildElementOptionalNumericalValue(element, "SPEED"))
@@ -3124,8 +3185,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, cluster)
         child_element = self.find(element, "CAN-CLUSTER-VARIANTS/CAN-CLUSTER-CONDITIONAL")
         if child_element is not None:
-            self.readCommunicationCluster(child_element, cluster)
             self.readAbstractCanCluster(child_element, cluster)
+
+    def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
+        self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
+        self.readIdentifiable(element, cluster)
+        child_element = self.find(element, "FLEXRAY-CLUSTER-VARIANTS/FLEXRAY-CLUSTER-CONDITIONAL")
+        if child_element is not None:
+            self.readCommunicationCluster(child_element, cluster)
 
     def readMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         self.readIdentifiable(element, group)
@@ -3802,11 +3869,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayFrame(self, element: ET.Element, frame: FlexrayFrame):
         self.logger.debug("Read FlexrayFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
-
-    def readFlexrayCluster(self, element: ET.Element, cluster: FlexrayCluster):
-        self.logger.debug("Read FlexrayCluster <%s>" % cluster.getShortName())
-        self.readCommunicationCluster(element, cluster)
-
+   
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
         self.readIdentifiable(element, controller)
