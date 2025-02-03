@@ -519,6 +519,8 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * FLEXRAY-COMMUNICATION-CONTROLLER
    * FLEXRAY-COMMUNICATION-CONNECTOR
    * FLEXRAY-PHYSICAL-CHANNEL
+   * FLEXRAY-CLUSTER
+   * BSW-OPERATION-INVOKED-EVENT
 2. Improve the following AR Element
    * SW-DATA-DEF-PROPS
    * SW-RECORD-LAYOUT-GROUP
@@ -529,9 +531,15 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * RUNNABLE-ENTITY
    * I-SIGNAL-GROUP
    * END-TO-END-PROTECTION
+   * BSW-INTERNAL-TRIGGER-OCCURRED-EVENT
 3. Fix the following AR Element
    * PROVIDED-MODE-GROUPS
    * MANAGED-MODE-GROUPS 
 4. Enable the Flake8 
    * Fix the Flake8 issues
+5. Add the CompositionSwComponentType in the AUTOSAR root model.
+   * AbstractAUTOSAR::getCompositionSwComponentTypes
+   * AbstractAUTOSAR::getCompositionSwComponentType
+   * AbstractAUTOSAR::addCompositionSwComponentType
+6. Add the duplicate UUID check
 

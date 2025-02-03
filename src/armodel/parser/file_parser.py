@@ -3,6 +3,8 @@ import os
 import re
 from typing import List
 
+from colorama import Fore
+
 
 class FileListParser:
     '''
@@ -22,8 +24,8 @@ class FileListParser:
                 for line in f_in:
                     if not line.startswith('#'):
                         self.file_list.append(line.strip())
-        except:
-            self.logger.error("No such file or directory: %s" % os.path.realpath(file))
+        except IOError:
+            self.logger.error(Fore.RED + "No such file or directory: %s" % os.path.realpath(file) + Fore.WHITE)
 
     def parse_dir_files(self, dir_name):
         for (root, _, files) in os.walk(dir_name, topdown=False):

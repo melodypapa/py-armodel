@@ -2,17 +2,11 @@
 import pytest
 
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
-
 from ....models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
 from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType, EcuAbstractionSwComponentType, SwComponentType
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -23,28 +17,29 @@ from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import Cli
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
 
+
 class TestAUTOSAR:
 
     def test_autosar_singleton_exception(self):
         AUTOSAR.getInstance()
         with pytest.raises(Exception) as err:
             AUTOSAR()
-        assert(str(err.value) == "The AUTOSAR is singleton!")
+        assert (str(err.value) == "The AUTOSAR is singleton!")
 
     def test_cannot_find_element(self):
         document = AUTOSAR.getInstance()
-        #with pytest.raises(Exception) as err:
+        # with pytest.raises(Exception) as err:
         #    document.find("/sw_package/not_found")
-        #assert(str(err.value) ==
+        # assert(str(err.value) ==
         #       "The sw_package of reference </sw_package/not_found> does not exist.")
-        assert(document.find("/sw_package/not_found") == None)
+        assert (document.find("/sw_package/not_found") is None)
 
     def test_autosar(self):
         document = AUTOSAR.getInstance()
         assert (isinstance(document, CollectableElement))
         assert (isinstance(document, AUTOSAR))
         assert (len(document.getARPackages()) == 0)
-        assert (document.schema_location == "")
+        assert (document.schema_location is None)
         assert (document.full_name == "")
 
     def test_create_autosar_package(self):
