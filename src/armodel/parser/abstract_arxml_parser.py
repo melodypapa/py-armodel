@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, TimeValue
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit
@@ -268,13 +269,19 @@ class AbstractARXMLParser:
         return None
     
     def readARObjectAttributes(self, element: ET.Element, ar_object: ARObject):
-        ar_object.timestamp = self.readElementOptionalAttrib(element, "T")             # read the timestamp
-        ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")          # read the uuid
+        ar_object.timestamp = self.readElementOptionalAttrib(element, "T")              # read the timestamp
+        ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")                # read the uuid
 
-        if ar_object.timestamp is not None:
-            self.logger.debug("Timestamp: %s" % ar_object.timestamp)
+        # if ar_object.timestamp is not None:
+        #    self.logger.debug("Timestamp: %s" % ar_object.timestamp)
         if ar_object.uuid is not None:
-            self.logger.debug("UUID: %s" % ar_object.uuid)
+            instance = AUTOSAR.getInstance()
+            old_ar_object = instance.getARObjectByUUID(ar_object.uuid)
+            if old_ar_object is not None:
+                self.logger.warning(Fore.YELLOW + "Duplicate UUID <%s> / type <%s>" % (ar_object.uuid, type(old_ar_object)) + Fore.WHITE)
+            else:
+                instance.addARObject(ar_object)
+            # self.logger.debug("UUID: %s" % ar_object.uuid)
     
     def getAUTOSARInfo(self, element: ET.Element, document: AUTOSAR):
         key = "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation"

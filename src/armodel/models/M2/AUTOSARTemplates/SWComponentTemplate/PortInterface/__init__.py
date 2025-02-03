@@ -67,14 +67,13 @@ class ParameterInterface(DataInterface):
         self.parameters = []                        # type: List[ParameterDataPrototype]
 
     def getParameters(self):
-        return list(sorted(filter(lambda a: isinstance(a, ParameterDataPrototype), self.elements.values()), key=lambda a: a.short_name))
+        return self.parameters
 
-    def createParameter(self, short_name: str) -> ParameterDataPrototype:
-        if (short_name not in self.elements):
-            parameter = ParameterDataPrototype(self, short_name)
-            self.elements[short_name] = parameter
-            self.parameters.append(parameter)
-        return self.elements[short_name]
+    def createParameterDataPrototype(self, short_name: str) -> ParameterDataPrototype:
+        prototype = ParameterDataPrototype(self, short_name)
+        self.addElement(prototype)
+        self.parameters.append(prototype)
+        return prototype
 
 
 class InvalidationPolicy(ARObject):
@@ -195,21 +194,22 @@ class ArgumentDataPrototype(AutosarDataPrototype):
         super().__init__(parent, short_name)
 
         self.direction = None                               # type: ArgumentDirectionEnum
-        # type: ServerArgumentImplPolicyEnum
-        self.serverArgumentImplPolicy = None
+        self.serverArgumentImplPolicy = None                # type: ServerArgumentImplPolicyEnum
 
     def getDirection(self):
         return self.direction
 
     def setDirection(self, value):
-        self.direction = value
+        if value is not None:
+            self.direction = value
         return self
 
     def getServerArgumentImplPolicy(self):
         return self.serverArgumentImplPolicy
 
     def setServerArgumentImplPolicy(self, value):
-        self.serverArgumentImplPolicy = value
+        if value is not None:
+            self.serverArgumentImplPolicy = value
         return self
 
 
@@ -245,20 +245,26 @@ class ClientServerOperation(AtpFeature):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._arguments = []
-        self._possible_error_refs = []  # type: List[RefType]
+        self.arguments = []                                                     # type: List[ArgumentDataPrototype]
+        self.possibleErrorRefs = []                                             # type: List[RefType]
 
-    def addArgumentDataPrototype(self, prototype: ArgumentDataPrototype):
-        self._arguments.append(prototype)
+    def getArguments(self):
+        return self.arguments
 
-    def getArgumentDataPrototypes(self) -> List[ArgumentDataPrototype]:
-        return self._arguments
+    def createArgumentDataPrototype(self, short_name):
+        if not self.IsElementExists(short_name):
+            prototype = ArgumentDataPrototype(self, short_name)
+            self.addElement(prototype)
+            self.arguments.append(prototype)
+        return self.getElement(short_name)
 
-    def addPossibleErrorRef(self, possible_error_ref: RefType):
-        self._possible_error_refs.append(possible_error_ref)
+    def getPossibleErrorRefs(self):
+        return self.possibleErrorRefs
 
-    def getPossbileErrorRefs(self) -> List[RefType]:
-        return self._possible_error_refs
+    def addPossibleErrorRef(self, value):
+        if value is not None:
+            self.possibleErrorRefs.append(value)
+        return self
 
 
 class ClientServerInterface(PortInterface):

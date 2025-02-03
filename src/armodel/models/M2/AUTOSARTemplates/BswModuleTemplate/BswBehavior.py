@@ -1,7 +1,11 @@
+from abc import ABCMeta
+from typing import List
+
 from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean, PositiveInteger, String, TimeValue
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
@@ -9,8 +13,6 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import 
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 
-from abc import ABCMeta
-from typing import List
 
 class BswModuleCallPoint(Referrable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -24,7 +26,8 @@ class BswModuleCallPoint(Referrable):
     def addContextLimitationRef(self, value):
         self.contextLimitationRefs.append(value)
         return self
-    
+
+
 class BswVariableAccess(Referrable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -46,9 +49,10 @@ class BswVariableAccess(Referrable):
         self.contextLimitationRefs.append(value)
         return self
 
-class BswModuleEntity(ExecutableEntity, metaclass = ABCMeta):
+
+class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == BswModuleEntity:
+        if type(self) is BswModuleEntity:
             raise NotImplementedError("BswModuleEntity is an abstract class.")
         super().__init__(parent, short_name)
 
@@ -138,13 +142,16 @@ class BswModuleEntity(ExecutableEntity, metaclass = ABCMeta):
             self.schedulerNamePrefixRef = value
         return self
 
+
 class BswCalledEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+
 class BswSchedulableEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class BswInterruptCategory(AREnum):
     CAT1 = "cat1"
@@ -154,7 +161,8 @@ class BswInterruptCategory(AREnum):
         super().__init__((
             BswInterruptCategory.CAT1,
             BswInterruptCategory.CAT2,
-        ))    
+        ))
+
 
 class BswInterruptEntity(BswModuleEntity):
     def __init__(self, parent: ARObject, short_name: str):
@@ -177,9 +185,10 @@ class BswInterruptEntity(BswModuleEntity):
         self.interruptSource = value
         return self
 
+
 class BswEvent(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == BswEvent:
+        if type(self) is BswEvent:
             raise NotImplementedError("BswEvent is an abstract class.")
         super().__init__(parent, short_name)
 
@@ -192,15 +201,28 @@ class BswEvent(Identifiable, metaclass=ABCMeta):
         self.startsOnEventRef = value
         return self
 
+
 class BswOperationInvokedEvent(BswEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.entryRef = None                            # type: RefType
+
+    def getEntryRef(self):
+        return self.entryRef
+
+    def setEntryRef(self, value):
+        if value is not None:
+            self.entryRef = value
+        return self
+
+
 class BswScheduleEvent(BswEvent, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == BswScheduleEvent:
+        if type(self) is BswScheduleEvent:
             raise NotImplementedError("BswScheduleEvent is an abstract class.")
         super().__init__(parent, short_name)
+
 
 class BswModeSwitchEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -214,6 +236,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
     def setActivation(self, value):
         self.activation = value
         return self
+
 
 class BswTimingEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -249,6 +272,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
         self.dataRef = value
         return self
 
+
 class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -261,6 +285,8 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     def setEventSourceRef(self, value):
         self.eventSourceRef = value
         return self
+    
+
 class BswModeSwitchAckRequest(ARObject):
     def __init__(self):
         super().__init__()
@@ -273,6 +299,7 @@ class BswModeSwitchAckRequest(ARObject):
     def setTimeout(self, value):
         self.timeout = value
         return self
+
 
 class BswModeSenderPolicy(ARObject):
     def __init__(self):
@@ -301,14 +328,17 @@ class BswModeSenderPolicy(ARObject):
 
     def getQueueLength(self) -> ARNumerical:
         return self._queue_length
-    
+
+
 class BswBackgroundEvent(BswScheduleEvent):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
+
 class BswOsTaskExecutionEvent(BswScheduleEvent):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
+
 
 class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     def __init__(self, parent, short_name):
@@ -323,10 +353,11 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
         if value is not None:
             self.triggerRef = value
         return self
+
     
-class BswApiOptions(ARObject, metaclass = ABCMeta):
+class BswApiOptions(ARObject, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == BswApiOptions:
+        if type(self) is BswApiOptions:
             raise NotImplementedError("BswApiOptions is an abstract class.")
 
         super().__init__()
@@ -340,10 +371,11 @@ class BswApiOptions(ARObject, metaclass = ABCMeta):
         if value is not None:
             self.enableTakeAddress = value
         return self
-    
-class BswDataReceptionPolicy(BswApiOptions, metaclass = ABCMeta):
+
+
+class BswDataReceptionPolicy(BswApiOptions, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == BswDataReceptionPolicy:
+        if type(self) is BswDataReceptionPolicy:
             raise NotImplementedError("BswDataReceptionPolicy is an abstract class.")
 
         super().__init__()
@@ -358,6 +390,7 @@ class BswDataReceptionPolicy(BswApiOptions, metaclass = ABCMeta):
             self.receivedDataRef = value
         return self
 
+
 class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     def __init__(self):
         super().__init__()
@@ -371,6 +404,7 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
         if value is not None:
             self.queueLength = value
         return self
+
 
 class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
@@ -389,7 +423,7 @@ class BswInternalBehavior(InternalBehavior):
         self.internalTriggeringPointPolicies = []                               # type: List[BswInternalTriggeringPointPolicy]
         self.modeReceiverPolicies = []                                          # type: List[BswModeReceiverPolicy]
         self.modeSenderPolicies = []                                            # type: List[BswModeSenderPolicy]
-        self.parameterPolicies =[]                                              # type: List[BswParameterPolicy]
+        self.parameterPolicies = []                                              # type: List[BswParameterPolicy]
         self.perInstanceParameters = []                                         # type: List[ParameterDataPrototype]
         self.receptionPolicies = []                                             # type: List[BswDataReceptionPolicy]
         self.releasedTriggerPolicies = []                                       # type: List[BswReleasedTriggerPolicy]
@@ -439,22 +473,6 @@ class BswInternalBehavior(InternalBehavior):
             self.exclusiveAreaPolicies = value
         return self
 
-    def getIncludedDataTypeSets(self):
-        return self.includedDataTypeSets
-
-    def setIncludedDataTypeSets(self, value):
-        if value is not None:
-            self.includedDataTypeSets = value
-        return self
-
-    def getIncludedModeDeclarationGroupSets(self):
-        return self.includedModeDeclarationGroupSets
-
-    def setIncludedModeDeclarationGroupSets(self, value):
-        if value is not None:
-            self.includedModeDeclarationGroupSets = value
-        return self
-
     def getInternalTriggeringPoints(self):
         return self.internalTriggeringPoints
 
@@ -473,14 +491,6 @@ class BswInternalBehavior(InternalBehavior):
 
     def getModeReceiverPolicies(self):
         return self.modeReceiverPolicies
-
-    def setModeReceiverPolicies(self, value):
-        if value is not None:
-            self.modeReceiverPolicies = value
-        return self
-
-    def getModeSenderPolicies(self):
-        return self.modeSenderPolicies
 
     def setModeSenderPolicies(self, value):
         if value is not None:
@@ -566,7 +576,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.modeReceiverPolicies
 
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             entity = BswCalledEntity(self, short_name)
             self.addElement(entity)
             self.entities.append(entity)
@@ -576,7 +586,7 @@ class BswInternalBehavior(InternalBehavior):
         return list(filter(lambda a: isinstance(a, BswCalledEntity), self.elements.values()))
 
     def createBswSchedulableEntity(self, short_name: str) -> BswSchedulableEntity:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             entity = BswSchedulableEntity(self, short_name)
             self.addElement(entity)
             self.entities.append(entity)
@@ -586,7 +596,7 @@ class BswInternalBehavior(InternalBehavior):
         return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements.values()))
     
     def createBswInterruptEntity(self, short_name: str) -> BswInterruptEntity:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             entity = BswInterruptEntity(self, short_name)
             self.addElement(entity)
             self.entities.append(entity)
@@ -599,61 +609,71 @@ class BswInternalBehavior(InternalBehavior):
         return list(filter(lambda a: isinstance(a, BswModuleEntity), self.elements.values()))
 
     def createBswModeSwitchEvent(self, short_name: str) -> BswModeSwitchEvent:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             event = BswModeSwitchEvent(self, short_name)
-            self.elements[short_name] = event
+            self.addElement(event)
             self.events.append(event)
-        return self.elements[short_name]
+        return self.getElement(short_name)
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
         return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.elements.values()))
 
     def createBswTimingEvent(self, short_name: str) -> BswTimingEvent:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             event = BswTimingEvent(self, short_name)
-            self.elements[short_name] = event
+            self.addElement(event)
             self.events.append(event)
-        return self.elements[short_name]
+        return self.getElement(short_name)
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
         return list(filter(lambda a: isinstance(a, BswTimingEvent), self.elements.values()))
 
     def createBswDataReceivedEvent(self, short_name: str) -> BswDataReceivedEvent:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             event = BswDataReceivedEvent(self, short_name)
-            self.elements[short_name] = event
+            self.addElement(event)
             self.events.append(event)
-        return self.elements[short_name]
+        return self.getElement(short_name)
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
         return list(filter(lambda a: isinstance(a, BswDataReceivedEvent), self.elements.values()))
 
     def createBswInternalTriggerOccurredEvent(self, short_name: str) -> BswInternalTriggerOccurredEvent:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             event = BswInternalTriggerOccurredEvent(self, short_name)
-            self.elements[short_name] = event
+            self.addElement(event)
             self.events.append(event)
-        return self.elements[short_name]
+        return self.getElement(short_name)
     
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements.values()))
     
     def createBswExternalTriggerOccurredEvent(self, short_name: str) -> BswExternalTriggerOccurredEvent:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             event = BswExternalTriggerOccurredEvent(self, short_name)
-            self.elements[short_name] = event
+            self.addElement(event)
             self.events.append(event)
-        return self.elements[short_name]
+        return self.getElement(short_name)
+    
+    def getBswOperationInvokedEvents(self) -> List[BswOperationInvokedEvent]:
+        return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.elements.values()))
+    
+    def createBswOperationInvokedEvent(self, short_name: str) -> BswOperationInvokedEvent:
+        if not self.IsElementExists(short_name):
+            event = BswOperationInvokedEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
     
     def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
         return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.elements.values()))
     
     def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             event = BswBackgroundEvent(self, short_name)
-            self.elements[short_name] = event
+            self.addElement(event)
             self.events.append(event)
-        return self.elements[short_name]
+        return self.getElement(short_name)
     
     def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
         return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements.values()))

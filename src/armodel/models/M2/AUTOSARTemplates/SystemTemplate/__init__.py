@@ -230,6 +230,9 @@ class SystemMapping(Identifiable):
 
     def getSwMappings(self):
         return self.swMappings
+    
+    def getSwcToEcuMappings(self) -> List[SwcToEcuMapping]:
+        return list(sorted(filter(lambda a: isinstance(a, SwcToEcuMapping), self.elements.values()), key=lambda o: o.short_name))
 
     def createSwcToEcuMapping(self, short_name: str) -> SwcToEcuMapping:
         if short_name not in self.elements:
@@ -347,13 +350,16 @@ class System(ARElement):
 
     def getMappings(self) -> List[SystemMapping]:
         return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements.values()), key=lambda o: o.short_name))
+    
+    def getSystemMappings(self) -> List[SystemMapping]:
+        return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements.values()), key=lambda o: o.short_name))
 
     def createSystemMapping(self, short_name) -> SystemMapping:
         if (short_name not in self.elements):
             mapping = SystemMapping(self, short_name)
             self.elements[short_name] = mapping
         return self.elements[short_name]
-
+    
     def getPncVectorLength(self):
         return self.pncVectorLength
 

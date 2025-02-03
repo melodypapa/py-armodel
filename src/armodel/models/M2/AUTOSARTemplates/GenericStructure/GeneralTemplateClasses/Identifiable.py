@@ -80,7 +80,9 @@ class CollectableElement(ARObject, metaclass=ABCMeta):
         return self.elements.values()
 
     def addElement(self, element: Referrable):
-        self.elements[element.getShortName()] = element
+        short_name = element.getShortName()
+        if not self.IsElementExists(short_name):
+            self.elements[short_name] = element
 
     def getElement(self, short_name: str) -> Referrable:
         if (short_name not in self.elements):

@@ -11,6 +11,7 @@ from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject imp
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
+from ...M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
 
@@ -70,14 +71,17 @@ class AbstractAUTOSAR(CollectableElement):
     def clear(self):
         CollectableElement.__init__(self)
 
-        self.schema_location = ""
+        self.schema_location = None
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
 
         self._behavior_impl_maps = {}                       # type: Dict[str, str]
         self._impl_behavior_maps = {}                       # type: Dict[str, str]
 
+        self.uuid_objects = {}                              # type: Dict[str, ARObject]
+
         self.systems = {}                                   # type: Dict[str, System]
+        self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
 
         self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
 
@@ -173,6 +177,29 @@ class AbstractAUTOSAR(CollectableElement):
     
     def getSystems(self) -> List[System]:
         return list(sorted(self.systems.values(), key=lambda a: a.getShortName()))
+    
+    def getCompositionSwComponentTypes(self):
+        return self.compositionSwComponentTypes
+    
+    def getCompositionSwComponentType(self, short_name: str):
+        return self.compositionSwComponentTypes[short_name]
+
+    def addCompositionSwComponentType(self, sw_component_type: CompositionSwComponentType):
+        if sw_component_type is not None:
+            short_name = sw_component_type.getShortName()
+            if short_name not in self.compositionSwComponentTypes:
+                self.compositionSwComponentTypes[short_name] = sw_component_type
+        return self
+    
+    def getARObjectByUUID(self, uuid: str):
+        if uuid in self.uuid_objects:
+            return self.uuid_objects[uuid]
+        return None
+
+    def addARObject(self, value: ARObject):
+        if value is not None:
+            self.uuid_objects[value.uuid] = value
+        return self
 
 
 class AUTOSAR (AbstractAUTOSAR):
