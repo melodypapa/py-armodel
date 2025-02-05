@@ -28,8 +28,8 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLangu
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswInternalTriggeringPoint
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswOperationInvokedEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggeringPoint, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity
@@ -780,12 +780,29 @@ class ARXMLParser(AbstractARXMLParser):
             entity.addIssuedTriggerRef(ref)
 
     def readBswModuleEntityActivationPointRefs(self, element: ET.Element, entity: BswModuleEntity):
-        for ref in self.getChildElementRefTypeList(element, "ACTIVATION-POINTS/BSW-INTERNAL-TRIGGERING-POINT-REF-CONDITIONAL/BSW-INTERNAL-TRIGGERING-POINT-REF"):
+        for ref in self.getChildElementRefTypeList(element, "ACTIVATION-POINTS/BSW-INTERNAL-TRIGGERING-POINT-REF-CONDITIONAL/BSW-INTERNAL-TRIGGERING-POINT-REF"):   # noqa E501
             entity.addActivationPointRef(ref)
+
+    def readBswModuleCallPoint(self, element: ET.Element, point: BswModuleCallPoint):
+        self.readReferrable(element, point)
+
+    def readBswAsynchronousServerCallPoint(self, element: ET.Element, point: BswAsynchronousServerCallPoint):
+        self.readBswModuleCallPoint(element, point)
+        point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
+
+    def readBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
+        for child_element in self.findall(element, "CALL-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT":
+                point = entity.createBswAsynchronousServerCallPoint(self.getShortName(child_element))
+                self.readBswAsynchronousServerCallPoint(child_element, point)
+            else:
+                self.notImplemented("Unsupported Call Point <%s>" % tag_name)
     
     def readBswModuleEntity(self, element: ET.Element, entity: BswModuleEntity):
         self.readExecutableEntity(element, entity)
         self.readBswModuleEntityActivationPointRefs(element, entity)
+        self.readBswModuleEntityCallPoints(element, entity)
         self.readBswModuleEntityDataReceiverPoints(element, entity)
         self.readBswModuleEntityDataSendPoints(element, entity)
         entity.setImplementedEntryRef(self.getChildElementRefType(entity.getShortName(), element, "IMPLEMENTED-ENTRY-REF"))
