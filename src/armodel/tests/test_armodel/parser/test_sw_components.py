@@ -132,3 +132,15 @@ class TestSWComponents:
 
         assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml",
                             "data/generated_AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_aispecification_collection_body_blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml", shallow=False) is True)

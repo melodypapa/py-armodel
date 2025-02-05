@@ -1,5 +1,7 @@
 from typing import Dict, List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, ServiceSwComponentType, SwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
@@ -599,6 +601,12 @@ class ARPackage(Identifiable, CollectableElement):
             transform_set = DataTransformationSet(self, short_name)
             self.addElement(transform_set)
         return self.getElement(short_name)
+    
+    def createCollection(self, short_name: str) -> Collection:
+        if (not self.IsElementExists(short_name)):
+            collection = Collection(self, short_name)
+            self.addElement(collection)
+        return self.getElement(short_name)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()), key=lambda o: o.short_name))
@@ -764,6 +772,9 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getDataTransformationSets(self) -> List[DataTransformationSet]:
         return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements.values()), key=lambda a: a.short_name))
+    
+    def getCollections(self) -> List[Collection]:
+        return list(sorted(filter(lambda a: isinstance(a, Collection), self.elements.values()), key=lambda a: a.short_name))
     
     def getReferenceBases(self):
         return self.referenceBases
