@@ -70,17 +70,17 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
     def getAccessedModeGroupRefs(self):
         return self.accessedModeGroupRefs
 
-    def setAccessedModeGroupRefs(self, value):
+    def addAccessedModeGroupRef(self, value):
         if value is not None:
-            self.accessedModeGroupRefs = value
+            self.accessedModeGroupRefs.append(value)
         return self
 
     def getActivationPointRefs(self):
         return self.activationPointRefs
 
-    def setActivationPointRefs(self, value):
+    def addActivationPointRef(self, value):
         if value is not None:
-            self.activationPointRefs = value
+            self.activationPointRefs.append(value)
         return self
 
     def getCallPoints(self):
