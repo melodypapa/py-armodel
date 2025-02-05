@@ -29,6 +29,76 @@ class BswModuleCallPoint(Referrable):
         return self
 
 
+class BswAsynchronousServerCallPoint(BswModuleCallPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.calledEntryRef = None                                          # type: RefType
+
+    def getCalledEntryRef(self):
+        return self.calledEntryRef
+
+    def setCalledEntryRef(self, value):
+        if value is not None:
+            self.calledEntryRef = value
+        return self
+
+
+class BswDirectCallPoint(BswModuleCallPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.calledEntryRef = None                                          # type: RefType
+        self.calledFromWithinExclusiveAreaRef = None                        # type: RefType
+
+    def getCalledEntryRef(self):
+        return self.calledEntryRef
+
+    def setCalledEntryRef(self, value):
+        if value is not None:
+            self.calledEntryRef = value
+        return self
+
+    def getCalledFromWithinExclusiveAreaRef(self):
+        return self.calledFromWithinExclusiveAreaRef
+
+    def setCalledFromWithinExclusiveAreaRef(self, value):
+        if value is not None:
+            self.calledFromWithinExclusiveAreaRef = value
+        return self
+    
+
+class BswSynchronousServerCallPoint(BswModuleCallPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.calledEntryRef = None                                          # type: RefType
+        self.calledFromWithinExclusiveAreaRef = None                        # type: RefType
+
+    def getCalledEntryRef(self):
+        return self.calledEntryRef
+
+    def setCalledEntryRef(self, value):
+        if value is not None:
+            self.calledEntryRef = value
+        return self
+
+    def getCalledFromWithinExclusiveAreaRef(self):
+        return self.calledFromWithinExclusiveAreaRef
+
+    def setCalledFromWithinExclusiveAreaRef(self, value):
+        if value is not None:
+            self.calledFromWithinExclusiveAreaRef = value
+        return self
+
+
+class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.asynchronousServerCallPointRef = None                          # type: RefType
+
+
 class BswVariableAccess(Referrable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -86,10 +156,12 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
     def getCallPoints(self):
         return self.callPoints
 
-    def setCallPoints(self, value):
-        if value is not None:
-            self.callPoints = value
-        return self
+    def createBswAsynchronousServerCallPoint(self, short_name):
+        if (not self.IsElementExists(short_name)):
+            access = BswAsynchronousServerCallPoint(self, short_name)
+            self.addElement(access)
+            self.callPoints.append(access)
+        return self.getElement(short_name)
 
     def getDataReceivePoints(self):
         return self.dataReceivePoints

@@ -550,3 +550,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * BSW-INTERNAL-BEHAVIOR
 2. To support the following AR Element:
    * ACTIVATION-POINTS
+   * CALL-POINTS
