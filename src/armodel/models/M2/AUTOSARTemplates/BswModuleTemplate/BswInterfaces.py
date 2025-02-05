@@ -1,9 +1,45 @@
 from typing import List
 
 from ....M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
+from ....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, Identifier, NameToken
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Referrable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Identifier, NameToken, RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+
+class BswModuleDependency(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.serviceItems = []                      # type: List[ServiceNeeds]
+        self.targetModuleId = None                  # type: PositiveInteger
+        self.targetModuleRef = None                 # type: RefType
+
+    def getServiceItems(self):
+        return self.serviceItems
+
+    def setServiceItems(self, value):
+        if value is not None:
+            self.serviceItems = value
+        return self
+
+    def getTargetModuleId(self):
+        return self.targetModuleId
+
+    def setTargetModuleId(self, value):
+        if value is not None:
+            self.targetModuleId = value
+        return self
+
+    def getTargetModuleRef(self):
+        return self.targetModuleRef
+
+    def setTargetModuleRef(self, value):
+        if value is not None:
+            self.targetModuleRef = value
+        return self
+
 
 class BswModuleEntry(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -109,18 +145,53 @@ class BswModuleEntry(ARElement):
         result = []
 
         result.append("short_name             : %s" % self.short_name)
-        if self.serviceId != None:
+        if self.serviceId is not None:
             result.append("service_id             : %d" % self.serviceId)
-        if self.isReentrant != None:
+        if self.isReentrant is not None:
             result.append("is_reentrant           : %s" % self.isReentrant)
-        if self.isSynchronous != None:
+        if self.isSynchronous is not None:
             result.append("is_synchronous         : %s" % self.isSynchronous)
-        if self.callType != None:
+        if self.callType is not None:
             result.append("call_type              : %s" % self.callType)
-        if self.execution_context != None:
+        if self.executionContext is not None:
             result.append("execution_context      : %s" % self.executionContext)
-        if self.sw_service_impl_policy != None:
+        if self.swServiceImplPolicy is not None:
             result.append("sw_service_impl_policy : %s" % self.swServiceImplPolicy)
 
         return "\n".join(result)
+
+
+class BswModuleClientServerEntry(Referrable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.encapsulatedEntryRef = None                        # type: RefType
+        self.isReentrant = None                                 # type: Boolean
+        self.isSynchronous = None                               # type: Boolean
+
+    def getEncapsulatedEntryRef(self):
+        return self.encapsulatedEntryRef
+
+    def setEncapsulatedEntryRef(self, value):
+        if value is not None:
+            self.encapsulatedEntryRef = value
+        return self
+
+    def getIsReentrant(self):
+        return self.isReentrant
+
+    def setIsReentrant(self, value):
+        if value is not None:
+            self.isReentrant = value
+        return self
+
+    def getIsSynchronous(self):
+        return self.isSynchronous
+
+    def setIsSynchronous(self, value):
+        if value is not None:
+            self.isSynchronous = value
+        return self
+
+
     

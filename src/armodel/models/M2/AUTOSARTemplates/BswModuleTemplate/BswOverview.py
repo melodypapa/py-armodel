@@ -1,11 +1,14 @@
-from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
+from ....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency
 from ....M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from typing import List
+
 
 class BswModuleDescription(ARElement):
     '''
@@ -28,7 +31,7 @@ class BswModuleDescription(ARElement):
         self.moduleId = None                                    # type: PositiveInteger
         self.providedClientServerEntries = []                   # type: List[BswModuleClientServerEntry]
         self.providedDatas = []                                 # type: List[VariableDataPrototype]
-        self.providedModeGroups   = []                          # type: List[ModeDeclarationGroupPrototype]
+        self.providedModeGroups = []                            # type: List[ModeDeclarationGroupPrototype]
         self.releasedTriggers = []                              # type: List[Trigger]
         self.requiredClientServerEntries = []                   # type: List[BswModuleClientServerEntry]
         self.requiredDatas = []                                 # type: List[VariableDataPrototype]
@@ -96,10 +99,12 @@ class BswModuleDescription(ARElement):
     def getProvidedClientServerEntries(self):
         return self.providedClientServerEntries
 
-    def setProvidedClientServerEntries(self, value):
-        if value is not None:
-            self.providedClientServerEntries = value
-        return self
+    def createProvidedClientServerEntry(self, short_name: str) -> BswModuleClientServerEntry:
+        if (not self.IsElementExists(short_name)):
+            entry = BswModuleClientServerEntry(self, short_name)
+            self.addElement(entry)
+            self.providedClientServerEntries.append(entry)
+        return self.getElement(short_name)
 
     def getProvidedDatas(self):
         return self.providedDatas
@@ -134,10 +139,12 @@ class BswModuleDescription(ARElement):
     def getRequiredClientServerEntries(self):
         return self.requiredClientServerEntries
 
-    def setRequiredClientServerEntries(self, value):
-        if value is not None:
-            self.requiredClientServerEntries = value
-        return self
+    def createRequiredClientServerEntry(self, short_name: str) -> BswModuleClientServerEntry:
+        if (not self.IsElementExists(short_name)):
+            entry = BswModuleClientServerEntry(self, short_name)
+            self.addElement(entry)
+            self.requiredClientServerEntries.append(entry)
+        return self.getElement(short_name)
 
     def getRequiredDatas(self):
         return self.requiredDatas

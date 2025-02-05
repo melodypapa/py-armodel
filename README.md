@@ -543,3 +543,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * AbstractAUTOSAR::addCompositionSwComponentType
 6. Add the duplicate UUID check
 
+**Version 1.7.9**
+
+1. Improve the following AR Element
+   * BSW-MODULE-DESCRIPTION
