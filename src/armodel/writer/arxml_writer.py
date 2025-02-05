@@ -2036,8 +2036,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 cond_tag = ET.SubElement(child_element, "TRIGGER-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(cond_tag, "TRIGGER-REF", ref)
 
+    def writeBswModuleEntityActivationPointRefs(self, element: ET.Element, entity: BswModuleEntity):
+        refs = entity.getActivationPointRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ACTIVATION-POINTS")
+            for ref in refs:
+                cond_tag = ET.SubElement(child_element, "BSW-INTERNAL-TRIGGERING-POINT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "BSW-INTERNAL-TRIGGERING-POINT-REF", ref)
+
     def writeBswModuleEntity(self, element: ET.Element, entity: BswModuleEntity):
         self.writeExecutableEntity(element, entity)
+        self.writeBswModuleEntityActivationPointRefs(element, entity)
         self.writeBswModuleEntityDataSendPoints(element, entity)
         self.writeBswModuleEntityDataReceivePoints(element, entity)
         self.setChildElementOptionalRefType(element, "IMPLEMENTED-ENTRY-REF", entity.implementedEntryRef)

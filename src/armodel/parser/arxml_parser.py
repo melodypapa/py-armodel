@@ -778,9 +778,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswModuleEntityIssuedTriggerRefs(self, element: ET.Element, entity: BswModuleEntity):
         for ref in self.getChildElementRefTypeList(element, "ISSUED-TRIGGERS/TRIGGER-REF-CONDITIONAL/TRIGGER-REF"):
             entity.addIssuedTriggerRef(ref)
+
+    def readBswModuleEntityActivationPointRefs(self, element: ET.Element, entity: BswModuleEntity):
+        for ref in self.getChildElementRefTypeList(element, "ACTIVATION-POINTS/BSW-INTERNAL-TRIGGERING-POINT-REF-CONDITIONAL/BSW-INTERNAL-TRIGGERING-POINT-REF"):
+            entity.addActivationPointRef(ref)
     
     def readBswModuleEntity(self, element: ET.Element, entity: BswModuleEntity):
         self.readExecutableEntity(element, entity)
+        self.readBswModuleEntityActivationPointRefs(element, entity)
         self.readBswModuleEntityDataReceiverPoints(element, entity)
         self.readBswModuleEntityDataSendPoints(element, entity)
         entity.setImplementedEntryRef(self.getChildElementRefType(entity.getShortName(), element, "IMPLEMENTED-ENTRY-REF"))
