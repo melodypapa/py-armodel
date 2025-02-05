@@ -120,7 +120,15 @@ class TestSWComponents:
 
         assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml",
                             "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_aispecification_basetypes_standard_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml", document)
 
-    
-        
-        
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml", shallow=False) is True)

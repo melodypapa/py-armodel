@@ -553,3 +553,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ACTIVATION-POINTS
    * CALL-POINTS
    * LIFE-CYCLE-INFO
+3. Add the test case for
+   * AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml
