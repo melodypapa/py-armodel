@@ -7,6 +7,7 @@ from ....writer.arxml_writer import ARXMLWriter
 from ....parser.arxml_parser import ARXMLParser
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
+
 class TestSWComponents:
     def setup_method(self):
         document = AUTOSAR.getInstance()
@@ -16,7 +17,7 @@ class TestSWComponents:
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
-        root_pkgs = sorted(document.getARPackages(), key = lambda pkg: pkg.getShortName())
+        root_pkgs = sorted(document.getARPackages(), key=lambda pkg: pkg.getShortName())
 
         assert (len(root_pkgs) == 1)
         assert ("DemoApplication" == root_pkgs[0].getShortName())
@@ -83,7 +84,7 @@ class TestSWComponents:
         writer = ARXMLWriter()
         writer.save("data/generated_AUTOSAR_Datatypes.arxml", document)
 
-        assert (filecmp.cmp("src/armodel/tests/test_files/BswMMode.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow = False) == True)
+        assert (filecmp.cmp("src/armodel/tests/test_files/BswMMode.arxml", "data/generated_AUTOSAR_Datatypes.arxml", shallow=False) is True)
 
     def test_sw_record_demo_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
@@ -94,7 +95,7 @@ class TestSWComponents:
         writer = ARXMLWriter()
         writer.save("data/generated_SwRecordDemo.arxml", document)
 
-        assert (filecmp.cmp("src/armodel/tests/test_files/SwRecordDemo.arxml", "data/generated_SwRecordDemo.arxml", shallow = False) == True)
+        assert (filecmp.cmp("src/armodel/tests/test_files/SwRecordDemo.arxml", "data/generated_SwRecordDemo.arxml", shallow=False) is True)
 
     def test_application_data_type_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
@@ -105,7 +106,20 @@ class TestSWComponents:
         writer = ARXMLWriter()
         writer.save("data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", document)
 
-        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", shallow = False) == True)
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", shallow=False) is True)
+
+    def test_application_data_type_life_cycle_standard_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml", shallow=False) is True)
 
     
         

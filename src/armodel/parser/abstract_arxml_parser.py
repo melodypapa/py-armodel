@@ -258,8 +258,11 @@ class AbstractARXMLParser:
         results = []
         for child_element in child_elements:
             ref = RefType()
-            ref.dest = child_element.attrib['DEST']
-            ref.value = child_element.text
+            if 'BASE' in child_element.attrib:
+                ref.setBase(child_element.attrib['BASE'])
+            if 'DEST' in child_element.attrib:
+                ref.setDest(child_element.attrib['DEST'])
+            ref.setValue(child_element.text)
             results.append(ref)
         return results
     
