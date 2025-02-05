@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -4134,6 +4136,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDataTransformationSetDataTransformations(element, dtf_set)
         self.readDataTransformationSetTransformationTechnologies(element, dtf_set)
 
+    def readCollectionElementRefs(self, element: ET.Element, collection: Collection):
+        for ref in self.getChildElementRefTypeList(element, "ELEMENT-REFS/ELEMENT-REF"):
+            collection.addElementRef(ref)
+
+    def readCollectionSourceElementRefs(self, element: ET.Element, collection: Collection):
+        for ref in self.getChildElementRefTypeList(element, "SOURCE-ELEMENT-REFS/SOURCE-ELEMENT-REF"):
+            collection.addSourceElementRef(ref)
+
+    def readCollection(self, element: ET.Element, collection: Collection):
+        self.logger.debug("Read Collection <%s>" % collection.getShortName())
+        self.readIdentifiable(element, collection)
+        collection.setAutoCollect(self.getChildElementOptionalLiteral(element, "AUTO-COLLECT")) \
+                  .setElementRole(self.getChildElementOptionalLiteral(element, "ELEMENT-ROLE"))
+        self.readCollectionElementRefs(element, collection)
+        self.readCollectionSourceElementRefs(element, collection)
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -5231,6 +5249,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-TRANSFORMATION-SET":
                 transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
                 self.readDataTransformationSet(child_element, transformation_set)
+            elif tag_name == "COLLECTION":
+                collection = parent.createCollection(self.getShortName(child_element))
+                self.readCollection(child_element, collection)
             else:
                 self.notImplemented("Unsupported element type of ARPackage <%s>" % tag_name)
 

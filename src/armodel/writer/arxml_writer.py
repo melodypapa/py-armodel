@@ -1,6 +1,8 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent
@@ -3817,6 +3819,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-TX-ACTIVE", cluster.getWakeupTxActive())
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-TX-IDLE", cluster.getWakeupTxIdle())
 
+    def writeCollectionElementRefs(self, element: ET.Element, collection: Collection):
+        refs = collection.getElementRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "ELEMENT-REF", ref)
+
+    def writeCollectionSourceElementRefs(self, element: ET.Element, collection: Collection):
+        refs = collection.getSourceElementRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "SOURCE-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "SOURCE-ELEMENT-REF", ref)
+
+    def writeCollection(self, element: ET.Element, collection: Collection):
+        if collection is not None:
+            child_element = ET.SubElement(element, "COLLECTION")
+            self.writeIdentifiable(child_element, collection)
+            self.setChildElementOptionalLiteral(child_element, "AUTO-COLLECT", collection.getAutoCollect())
+            self.setChildElementOptionalLiteral(child_element, "ELEMENT-ROLE", collection.getElementRole())
+            self.writeCollectionElementRefs(child_element, collection)
+            self.writeCollectionSourceElementRefs(child_element, collection)
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -5302,6 +5327,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystemSignalGroup(element, ar_element)
         elif isinstance(ar_element, FlexrayCluster):
             self.writeFlexrayCluster(element, ar_element)
+        elif isinstance(ar_element, Collection):
+            self.writeCollection(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
