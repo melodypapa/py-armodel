@@ -24,7 +24,7 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLangu
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswInternalTriggeringPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
@@ -2061,7 +2061,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "INTERRUPT-CATEGORY", entity.getInterruptCategory())
         self.setChildElementOptionalLiteral(child_element, "INTERRUPT-SOURCE", entity.getInterruptSource())
 
-    def writeBswInternalBehaviorBswModuleEntities(self, element: ET.Element, parent: BswInternalBehavior):
+    def writeBswInternalBehaviorEntities(self, element: ET.Element, parent: BswInternalBehavior):
         entities = parent.getBswModuleEntities()
         if len(entities) > 0:
             child_element = ET.SubElement(element, "ENTITYS")
@@ -2119,7 +2119,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswEvent(child_element, event)
         self.setChildElementOptionalRefType(child_element, "ENTRY-REF", event.getEntryRef())
 
-    def writeBswInternalBehaviorBswEvents(self, element: ET.Element, parent: BswInternalBehavior):
+    def writeBswInternalBehaviorEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
         if len(events) > 0:
             child_element = ET.SubElement(element, "EVENTS")
@@ -2184,11 +2184,26 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Reception Policies <%s>" % type(policy))
 
+    def writeBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
+        child_element = ET.SubElement(element, "BSW-INTERNAL-TRIGGERING-POINT")
+        self.writeIdentifiable(child_element, point)
+
+    def writeBswInternalBehaviorInternalTriggeringPoints(self, element: ET.Element, behavior: BswInternalBehavior):
+        points = behavior.getInternalTriggeringPoints()
+        if len(points) > 0:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGERING-POINTS")
+            for point in points:
+                if isinstance(point, BswInternalTriggeringPoint):
+                    self.writeBswInternalTriggeringPoint(child_element, point)
+                else:
+                    self.notImplemented("Unsupported Internal Triggering Points <%s>" % type(point))
+
     def writeBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         child_element = ET.SubElement(element, "BSW-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
-        self.writeBswInternalBehaviorBswModuleEntities(child_element, behavior)
-        self.writeBswInternalBehaviorBswEvents(child_element, behavior)
+        self.writeBswInternalBehaviorInternalTriggeringPoints(child_element, behavior)
+        self.writeBswInternalBehaviorEntities(child_element, behavior)
+        self.writeBswInternalBehaviorEvents(child_element, behavior)
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)

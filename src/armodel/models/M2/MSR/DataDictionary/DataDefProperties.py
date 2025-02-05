@@ -2,8 +2,9 @@ from typing import List
 from ....M2.MSR.Documentation.Annotation import Annotation
 from ....M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, RefType, ARLiteral
 from ....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+
 
 class SwDataDefPropsConditional(ARObject):
     '''
@@ -11,6 +12,14 @@ class SwDataDefPropsConditional(ARObject):
     '''
     def __init__(self):
         super().__init__()
+
+
+class SwImplPolicyEnum(AREnum):
+    def __init__(self, enum_values):
+        super().__init__([
+
+        ])
+
 
 class SwDataDefProps(ARObject):
     def __init__(self):
