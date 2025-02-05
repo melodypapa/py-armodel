@@ -34,7 +34,7 @@ from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataRe
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
@@ -936,6 +936,30 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Required Data <%s>" % tag_name)
 
+    def readBswModuleClientServerEntry(self, element: ET.Element, entry: BswModuleClientServerEntry):
+        self.readReferrable(element, entry)
+        entry.setEncapsulatedEntryRef(self.getChildElementOptionalRefType(element, "ENCAPSULATED-ENTRY-REF")) \
+             .setIsReentrant(self.getChildElementOptionalBooleanValue(element, "IS-REENTRANT")) \
+             .setIsSynchronous(self.getChildElementOptionalBooleanValue(element, "IS-SYNCHRONOUS"))
+
+    def readBswModuleDescriptionProvidedClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "PROVIDED-CLIENT-SERVER-ENTRYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-MODULE-CLIENT-SERVER-ENTRY":
+                entry = desc.createProvidedClientServerEntry(self.getShortName(child_element))
+                self.readBswModuleClientServerEntry(child_element, entry)
+            else:
+                self.notImplemented("Unsupported Provided Client Server Entry <%s>" % tag_name)
+
+    def readBswModuleDescriptionRequiredClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
+        for child_element in self.findall(element, "REQUIRED-CLIENT-SERVER-ENTRYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-MODULE-CLIENT-SERVER-ENTRY":
+                entry = desc.createRequiredClientServerEntry(self.getShortName(child_element))
+                self.readBswModuleClientServerEntry(child_element, entry)
+            else:
+                self.notImplemented("Unsupported Required Client Server Entry <%s>" % tag_name)
+
     def readBswModuleDescription(self, element: ET.Element, desc: BswModuleDescription):
         self.logger.debug("Read BswModuleDescription <%s>" % desc.getShortName())
 
@@ -944,11 +968,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleDescriptionImplementedEntryRefs(element, desc)
         self.readBswModuleDescriptionProvidedModeGroups(element, desc)
         self.readBswModuleDescriptionRequiredModeGroups(element, desc)
-        self.readBswModuleDescriptionReleasedTriggers(element, desc)
-        self.readBswModuleDescriptionRequiredTriggers(element, desc)
+        self.readBswModuleDescriptionProvidedClientServerEntries(element, desc)
+        self.readBswModuleDescriptionRequiredClientServerEntries(element, desc)
         self.readBswModuleDescriptionProvidedDatas(element, desc)
         self.readBswModuleDescriptionRequiredDatas(element, desc)
         self.readBswModuleDescriptionBswInternalBehaviors(element, desc)
+        self.readBswModuleDescriptionRequiredTriggers(element, desc)
 
     def readSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.readIdentifiable(element, arg)
@@ -994,7 +1019,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "AUTOSAR-ENGINEERING-OBJECT":
                 code_desc.addArtifactDescriptor(self.getAutosarEngineeringObject(child_element))
             else:
-                self.raiseError("Unsupported Artifact Descriptor <%s>" % tag_name)
+                self.notImplemented("Unsupported Artifact Descriptor <%s>" % tag_name)
             
     def readCodeDescriptor(self, element: ET.Element, impl: Implementation):
         for child_element in self.findall(element, "CODE-DESCRIPTORS/CODE"):

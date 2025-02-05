@@ -4,7 +4,10 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRef
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral, DiagRequirementIdString, Integer, PositiveInteger, RefType, String, TimeValue
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
+
 
 class RoleBasedDataAssignment(ARObject):
     def __init__(self):
@@ -44,13 +47,13 @@ class RoleBasedDataAssignment(ARObject):
         return self
 
 
-
-class ServiceNeeds(Identifiable, metaclass = ABCMeta):
+class ServiceNeeds(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ServiceNeeds:
+        if type(self) is ServiceNeeds:
             raise NotImplementedError("ServiceNeeds is an abstract class.")
 
         super().__init__(parent, short_name)
+
 
 class RamBlockStatusControlEnum(AREnum):
     API = "api"
@@ -61,6 +64,7 @@ class RamBlockStatusControlEnum(AREnum):
             RamBlockStatusControlEnum.API,
             RamBlockStatusControlEnum.NV_RAM_MANAGER,
         ))
+
 
 class NvBlockNeedsReliabilityEnum(AREnum):
     ERROR_CORRECTION = "errorCorrection"
@@ -87,6 +91,7 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
             NvBlockNeedsWritingPriorityEnum.MEDIUM,
         ))
 
+
 class NvBlockNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -96,11 +101,9 @@ class NvBlockNeeds(ServiceNeeds):
         self.cyclicWritingPeriod = None                 # type: TimeValue
         self.nDataSets = None                           # type: PositiveInteger
         self.nRomBlocks = None                          # type: PositiveInteger
-        # type: RamBlockStatusControlEnum
-        self.ramBlockStatusControl = None
+        self.ramBlockStatusControl = None               # type: RamBlockStatusControlEnum
         self.readonly = None                            # type: Boolean
-        # type: NvBlockNeedsReliabilityEnum
-        self.reliability = None
+        self.reliability = None                         # type: NvBlockNeedsReliabilityEnum
         self.resistantToChangedSw = None                # type: Boolean
         self.restoreAtStart = None                      # type: Boolean
         self.selectBlockForFirstInitAll = None          # type: Boolean
@@ -114,8 +117,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.writeOnlyOnce = None                       # type: Boolean
         self.writeVerification = None                   # type: Boolean
         self.writingFrequency = None                    # type: PositiveInteger
-        # type: NvBlockNeedsWritingPriorityEnum
-        self.writingPriority = None
+        self.writingPriority = None                     # type: NvBlockNeedsWritingPriorityEnum
 
     def getCalcRamBlockCrc(self):
         return self.calcRamBlockCrc
@@ -293,6 +295,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         self.usedImplementationDataTypeRef = value
         return self
 
+
 class ServiceDependency(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -322,6 +325,7 @@ class ServiceDependency(Identifiable):
         self.symbolicNameProps = value
         return self
 
+
 class DiagnosticAudienceEnum(AREnum):
     AFTER_MARKET = "aftermarket"
     AFTER_SALES = "afterSales"
@@ -338,6 +342,7 @@ class DiagnosticAudienceEnum(AREnum):
             DiagnosticAudienceEnum.SUPPLIER,
         ))
 
+
 class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
     REQUEST_CALLBACK_TYPE_MANUFACTURER = "requestCallbackTypeManufacturer"
     REQUEST_CALLBACK_TYPE_SUPPLIER = "requestCallbackTypeSupplier"
@@ -348,9 +353,10 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
             DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_SUPPLIER,
         ))
 
-class DiagnosticCapabilityElement(ServiceNeeds, metaclass = ABCMeta):
+
+class DiagnosticCapabilityElement(ServiceNeeds, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == DiagnosticCapabilityElement:
+        if type(self) is DiagnosticCapabilityElement:
             raise NotImplementedError("DiagnosticCapabilityElement is an abstract class.")
     
         super().__init__(parent, short_name)
@@ -380,6 +386,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, metaclass = ABCMeta):
         self.securityAccessLevel = value
         return self
 
+
 class DiagnosticRoutineTypeEnum(AREnum):
     ASYNCHRONOUS = "asynchronous"
     SYNCHRONOUS = "synchronous"
@@ -389,6 +396,7 @@ class DiagnosticRoutineTypeEnum(AREnum):
             DiagnosticRoutineTypeEnum.ASYNCHRONOUS,
             DiagnosticRoutineTypeEnum.SYNCHRONOUS,
         ))
+
 
 class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -402,6 +410,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def setServiceRequestCallbackType(self, value):
         self.serviceRequestCallbackType = value
         return self
+
 
 class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -437,6 +446,7 @@ class DiagnosticValueAccessEnum(AREnum):
             DiagnosticValueAccessEnum.WRITE_ONLY,
         ))
 
+
 class DiagnosticProcessingStyleEnum(AREnum):
     PROCESSING_STYLE_ASYNCHRONOUS = "processingStyleAsynchronous"
     PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR = "processingStyleAsynchronousWithError"
@@ -447,7 +457,8 @@ class DiagnosticProcessingStyleEnum(AREnum):
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR,
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS,
-        ))        
+        ))
+
 
 class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -493,13 +504,15 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def setProcessingStyle(self, value):
         self.processingStyle = value
         return self
-    
-class DiagEventDebounceAlgorithm(Identifiable, metaclass = ABCMeta):
+
+
+class DiagEventDebounceAlgorithm(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ServiceNeeds:
+        if type(self) is DiagEventDebounceAlgorithm:
             raise NotImplementedError("DiagEventDebounceAlgorithm is an abstract class.")
 
         super().__init__(parent, short_name)
+
 
 class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def __init__(self, parent: ARObject, short_name: str):
@@ -583,6 +596,7 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+
 class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -612,6 +626,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         self.timePassedThreshold = value
         return self
 
+
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -632,6 +647,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def setUdsDtcNumber(self, value):
         self.udsDtcNumber = value
         return self
+
 
 class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
@@ -719,6 +735,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         self.udsDtcNumber = value
         return self
 
+
 class CryptoServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -755,6 +772,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def setMaximumKeyLength(self, value):
         self.maximumKeyLength = value
         return self
+
 
 class EcuStateMgrUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):

@@ -24,14 +24,15 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLangu
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswInternalTriggerOccurredEvent, BswOperationInvokedEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTimingEvent, BswVariableAccess
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
 from ..models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from ..models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from ..models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
@@ -1743,8 +1744,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalLiteral(artifact_desc_tag, "SHORT-LABEL", artifact_desc.short_label)
                 self.setChildElementOptionalLiteral(artifact_desc_tag, "CATEGORY", artifact_desc.category)
 
-    def setCode(self, element: ET.SubElement, code_desc: Code):
-        self.logger.debug("setCode %s" % code_desc.getShortName())
+    def writeCode(self, element: ET.SubElement, code_desc: Code):
+        # self.logger.debug("Write Code %s" % code_desc.getShortName())
         child_element = ET.SubElement(element, "CODE")
         self.writeIdentifiable(child_element, code_desc)
         self.writeArtifactDescriptor(child_element, code_desc)
@@ -1755,7 +1756,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "CODE-DESCRIPTORS")
             for desc in descs:
                 if isinstance(desc, Code):
-                    self.setCode(child_element, desc)
+                    self.writeCode(child_element, desc)
                 else:
                     self.notImplemented("Unsupported Code Descriptor <%s>" % type(desc))
 
@@ -2245,7 +2246,35 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeVariableDataPrototype(child_element, data)
                 else:
                     self.notImplemented("Unsupported Required Data <%s>" % type(data))
-    
+
+    def writeBswModuleClientServerEntry(self, element: ET.Element, entry: BswModuleClientServerEntry):
+        if entry is not None:
+            child_element = ET.SubElement(element, "BSW-MODULE-CLIENT-SERVER-ENTRY")
+            self.writeReferrable(child_element, entry)
+            self.setChildElementOptionalRefType(child_element, "ENCAPSULATED-ENTRY-REF", entry.getEncapsulatedEntryRef())
+            self.setChildElementOptionalBooleanValue(child_element, "IS-REENTRANT", entry.getIsReentrant())
+            self.setChildElementOptionalBooleanValue(child_element, "IS-SYNCHRONOUS", entry.getIsSynchronous())
+
+    def writeBswModuleDescriptionProvidedClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
+        entries = desc.getProvidedClientServerEntries()
+        if len(entries) > 0:
+            child_element = ET.SubElement(element, "PROVIDED-CLIENT-SERVER-ENTRYS")
+            for entry in entries:
+                if isinstance(entry, BswModuleClientServerEntry):
+                    self.writeBswModuleClientServerEntry(child_element, entry)
+                else:
+                    self.notImplemented("Unsupported Provided Client Server Entry <%s>" % type(entry))
+
+    def writeBswModuleDescriptionRequiredClientServerEntries(self, element: ET.Element, desc: BswModuleDescription):
+        entries = desc.getRequiredClientServerEntries()
+        if len(entries) > 0:
+            child_element = ET.SubElement(element, "REQUIRED-CLIENT-SERVER-ENTRYS")
+            for entry in entries:
+                if isinstance(entry, BswModuleClientServerEntry):
+                    self.writeBswModuleClientServerEntry(child_element, entry)
+                else:
+                    self.notImplemented("Unsupported Provided Client Server Entry <%s>" % type(entry))
+
     def writeBswModuleDescription(self, element: ET.Element, desc: BswModuleDescription):
         self.logger.debug("writeBswModuleDescription %s" % desc.getShortName())
         child_element = ET.SubElement(element, "BSW-MODULE-DESCRIPTION")
@@ -2254,11 +2283,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleDescriptionImplementedEntryRefs(child_element, desc)
         self.writeBswModuleDescriptionProvidedModeGroups(child_element, desc)
         self.writeBswModuleDescriptionRequiredModeGroups(child_element, desc)
-        self.writeBswModuleDescriptionReleasedTriggers(child_element, desc)
-        self.writeBswModuleDescriptionRequiredTriggers(child_element, desc)
+        self.writeBswModuleDescriptionProvidedClientServerEntries(child_element, desc)
+        self.writeBswModuleDescriptionRequiredClientServerEntries(child_element, desc)
         self.writeBswModuleDescriptionProvidedDatas(child_element, desc)
         self.writeBswModuleDescriptionRequiredDatas(child_element, desc)
         self.writeBswModuleDescriptionInternalBehaviors(child_element, desc)
+        self.writeBswModuleDescriptionReleasedTriggers(child_element, desc)
 
     def setSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
@@ -2315,8 +2345,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.short_label)
         self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.category)
         
-    def setAutosarEngineeringObject(self, element: ET.Element, obj: AutosarEngineeringObject):
-        self.logger.debug("readArtifactDescriptor %s", obj.short_label)
+    def writeAutosarEngineeringObject(self, element: ET.Element, obj: AutosarEngineeringObject):
+        # self.logger.debug("write ArtifactDescriptor %s", obj.short_label)
         child_element = ET.SubElement(element, "AUTOSAR-ENGINEERING-OBJECT")
         self.writeEngineeringObject(child_element, obj)
 
@@ -2326,7 +2356,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ARTIFACT-DESCRIPTORS")
             for artifact_desc in artifact_descs:
                 if isinstance(artifact_desc, AutosarEngineeringObject):
-                    self.setAutosarEngineeringObject(child_element, artifact_desc)
+                    self.writeAutosarEngineeringObject(child_element, artifact_desc)
                 else:
                     self.notImplemented("Unsupported Artifact descriptor <%s>" % type(artifact_desc))
 
