@@ -547,3 +547,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. Improve the following AR Element
    * BSW-MODULE-DESCRIPTION
+   * BSW-INTERNAL-BEHAVIOR

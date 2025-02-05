@@ -6,10 +6,12 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiabl
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
+
 class ReentrancyLevelEnum(Enum):
     ENUM_MULTICORE_REENTRANT = "multicoreReentrant"
     ENUM_NON_REENTRANT = "nonReentrant"
     ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
+
 
 class ExclusiveArea(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -18,16 +20,15 @@ class ExclusiveArea(Identifiable):
 
 class ExecutableEntity(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ExecutableEntity:
+        if type(self) is ExecutableEntity:
             raise NotImplementedError("ExecutableEntity is an abstract class.")
 
         super().__init__(parent, short_name)
 
         self.activationReasons = []                 # type: List[ExecutableEntityActivationReason]
-        self.canEnterExclusiveAreaRefs = []         # type: List[RefType]  
+        self.canEnterExclusiveAreaRefs = []         # type: List[RefType]
         self.minimumStartInterval = None            # type: ARFloat
-        self.reentrancyLevel = None                 # 
-        
+        self.reentrancyLevel = None                 # type: ReentrancyLevelEnum
         self.swAddrMethodRef = None                 # type: RefType
 
     def getActivationReasons(self):
@@ -73,7 +74,7 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
 
 class InternalBehavior(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == InternalBehavior:
+        if type(self) is InternalBehavior:
             raise NotImplementedError("InternalBehavior is an abstract class.")
         super().__init__(parent, short_name)
 
@@ -119,6 +120,7 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
             self.addElement(prototype)
             self.staticMemories.append(prototype)
         return self.getElement(short_name)
+
 
 class AbstractEvent(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):

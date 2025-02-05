@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
+from ....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -406,6 +407,21 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
         return self
 
 
+class BswInternalTriggeringPoint(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.swImplPolicy = None                                                # type: SwImplPolicyEnum
+
+    def getSwImplPolicy(self):
+        return self.swImplPolicy
+
+    def setSwImplPolicy(self, value):
+        if value is not None:
+            self.swImplPolicy = value
+        return self
+
+
 class BswInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -476,10 +492,12 @@ class BswInternalBehavior(InternalBehavior):
     def getInternalTriggeringPoints(self):
         return self.internalTriggeringPoints
 
-    def setInternalTriggeringPoints(self, value):
-        if value is not None:
-            self.internalTriggeringPoints = value
-        return self
+    def createBswInternalTriggeringPoint(self, short_name: str) -> BswInternalTriggeringPoint:
+        if not self.IsElementExists(short_name):
+            entity = BswInternalTriggeringPoint(self, short_name)
+            self.addElement(entity)
+            self.internalTriggeringPoints.append(entity)
+        return self.getElement(short_name)
 
     def getInternalTriggeringPointPolicies(self):
         return self.internalTriggeringPointPolicies

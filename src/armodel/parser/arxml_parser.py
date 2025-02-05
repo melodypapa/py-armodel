@@ -28,7 +28,7 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLangu
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswInternalTriggeringPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
@@ -876,11 +876,24 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Reception Policies <%s>" % tag_name)
 
+    def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
+        self.readIdentifiable(element, point)
+
+    def readBswInternalBehaviorInternalTriggeringPoints(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-INTERNAL-TRIGGERING-POINT":
+                point = behavior.createBswInternalTriggeringPoint(self.getShortName(child_element))
+                self.readBswInternalTriggeringPoint(child_element, point)
+            else:
+                self.notImplemented("Unsupported Internal Triggering Points <%s>" % tag_name)
+
     def readBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         self.logger.debug("Read BswInternalBehavior <%s>" % behavior.full_name)
 
         # read the internal behavior
         self.readInternalBehavior(element, behavior)
+        self.readBswInternalBehaviorInternalTriggeringPoints(element, behavior)
         self.readBswInternalBehaviorEntities(element, behavior)
         self.readBswInternalBehaviorEvents(element, behavior)
         self.readBswInternalBehaviorModeSenderPolicy(element, behavior)
