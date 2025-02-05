@@ -28,7 +28,8 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLangu
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggeringPoint, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
@@ -71,7 +72,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identi
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
-from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
+from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, AutosarDataType, DataTypeMap, DataTypeMappingSet
@@ -4916,9 +4917,42 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read GenericEthernetFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
+    def getLifeCyclePeriod(self, element: ET.Element, key: str) -> LifeCyclePeriod:
+        child_element = self.find(element, key)
+        period = None
+        if child_element is not None:
+            period = LifeCyclePeriod()
+            period.setArReleaseVersion(self.getChildElementOptionalRevisionLabelString(child_element, "AR-RELEASE-VERSION"))
+        return period
+    
+    def readLifeCycleInfoUseInsteadRefs(self, element: ET.Element, info: LifeCycleInfo):
+        for ref in self.getChildElementRefTypeList(element, "USE-INSTEAD-REFS/USE-INSTEAD-REF"):
+            info.addUseInsteadRef(ref)
+
+    def readLifeCycleInfo(self, element: ET.Element, info: LifeCycleInfo):
+        self.readARObjectAttributes(element, info)
+        info.setLcObjectRef(self.getChildElementOptionalRefType(element, "LC-OBJECT-REF")) \
+            .setLcStateRef(self.getChildElementOptionalRefType(element, "LC-STATE-REF")) \
+            .setPeriodBegin(self.getLifeCyclePeriod(element, "PERIOD-BEGIN")) \
+            .setRemark(self.getDocumentationBlock(element, "REMARK"))
+        self.readLifeCycleInfoUseInsteadRefs(element, info)
+
+    def readLifeCycleInfoSetLifeCycleInfos(self, element: ET.Element, info_set: LifeCycleInfoSet):
+        for child_element in self.findall(element, "LIFE-CYCLE-INFOS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "LIFE-CYCLE-INFO":
+                info = LifeCycleInfo()
+                self.readLifeCycleInfo(child_element, info)
+                info_set.addLifeCycleInfo(info)
+            else:
+                self.notImplemented("Unsupported Life Cycle Info <%s>" % tag_name)
+
     def readLifeCycleInfoSet(self, element: ET.Element, info_set: LifeCycleInfoSet):
         self.logger.debug("Read LifeCycleInfoSet <%s>" % info_set.getShortName())
         self.readIdentifiable(element, info_set)
+        info_set.setDefaultLcStateRef(self.getChildElementOptionalRefType(element, "DEFAULT-LC-STATE-REF"))
+        self.readLifeCycleInfoSetLifeCycleInfos(element, info_set)
+        info_set.setUsedLifeCycleStateDefinitionGroupRef(self.getChildElementOptionalRefType(element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF"))
 
     def readFlatInstanceDescriptor(self, element: ET.Element, desc: FlatInstanceDescriptor):
         self.logger.debug("Read LifeCycleInfoSet %s" % desc.getShortName())

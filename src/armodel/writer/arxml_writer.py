@@ -24,7 +24,8 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLangu
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent, BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
@@ -67,7 +68,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Engine
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
-from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
+from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
@@ -4603,10 +4604,47 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ETHERNET-FRAME")
         self.writeFrame(child_element, frame)
 
-    def writeLifeCycleInfoSet(self, element: ET.Element, set: LifeCycleInfoSet):
-        self.logger.debug("Write LifeCycleInfoSet %s" % set.getShortName())
-        child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
-        self.writeIdentifiable(child_element, set)
+    def setLifeCyclePeriod(self, element: ET.Element, key: str, period: LifeCyclePeriod):
+        if period is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRevisionLabelString(child_element, "AR-RELEASE-VERSION", period.getArReleaseVersion())
+
+    def writeLifeCycleInfoUseInsteadRefs(self, element: ET.Element, info: LifeCycleInfo):
+        refs = info.getUseInsteadRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "USE-INSTEAD-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "USE-INSTEAD-REF", ref)
+
+    def writeLifeCycleInfo(self, element: ET.Element, info: LifeCycleInfo):
+        if info is not None:
+            child_element = ET.SubElement(element, "LIFE-CYCLE-INFO")
+            self.writeARObjectAttributes(child_element, info)
+            self.setChildElementOptionalRefType(child_element, "LC-OBJECT-REF", info.getLcObjectRef())
+            self.setChildElementOptionalRefType(child_element, "LC-STATE-REF", info.getLcStateRef())
+            self.setLifeCyclePeriod(child_element, "PERIOD-BEGIN", info.getPeriodBegin())
+            self.setDocumentationBlock(child_element, "REMARK", info.getRemark())
+            self.writeLifeCycleInfoUseInsteadRefs(child_element, info)
+
+    def writeLifeCycleInfoSetLifeCycleInfos(self, element: ET.Element, info_set: LifeCycleInfoSet):
+        infos = info_set.getLifeCycleInfos()
+        if len(infos) > 0:
+            child_element = ET.SubElement(element, "LIFE-CYCLE-INFOS")
+            for info in infos:
+                if isinstance(info, LifeCycleInfo):
+                    self.writeLifeCycleInfo(child_element, info)
+                else:
+                    self.notImplemented("Unsupported Life Cycle Info <%s>" % type(info))
+
+    def writeLifeCycleInfoSet(self, element: ET.Element, info_set: LifeCycleInfoSet):
+        if info_set is not None:
+            self.logger.debug("Write LifeCycleInfoSet %s" % info_set.getShortName())
+            child_element = ET.SubElement(element, "LIFE-CYCLE-INFO-SET")
+            self.writeIdentifiable(child_element, info_set)
+            self.setChildElementOptionalRefType(child_element, "DEFAULT-LC-STATE-REF", info_set.getDefaultLcStateRef())
+            self.writeLifeCycleInfoSetLifeCycleInfos(child_element, info_set)
+            self.setChildElementOptionalRefType(child_element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF",
+                                                info_set.getUsedLifeCycleStateDefinitionGroupRef())
 
     def writeDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         refs = connection.getFunctionalRequestRefs()
