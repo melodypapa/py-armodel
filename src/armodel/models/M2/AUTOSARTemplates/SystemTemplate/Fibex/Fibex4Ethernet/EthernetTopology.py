@@ -2,9 +2,12 @@ from abc import ABCMeta
 from typing import List
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, MacAddressString, PositiveInteger, RefType, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, MacAddressString, PositiveInteger
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+
 
 class MacMulticastGroup(Identifiable):
     def __init__(self, parent, short_name):
@@ -19,6 +22,8 @@ class MacMulticastGroup(Identifiable):
         if value is not None:
             self.macMulticastAddress = value
         return self
+
+
 class EthernetCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -62,13 +67,15 @@ class EthernetCluster(CommunicationCluster):
             self.macMulticastGroups.append(group)
         return self.getElement(short_name)
     
-class CouplingPortStructuralElement(Identifiable, metaclass = ABCMeta):
+
+class CouplingPortStructuralElement(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == CouplingPortStructuralElement:
+        if type(self) is CouplingPortStructuralElement:
             raise NotImplementedError("CouplingPortStructuralElement is an abstract class.")
         
         super().__init__(parent, short_name)
         
+
 class CouplingPortFifo(CouplingPortStructuralElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -109,7 +116,8 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         if value is not None:
             self.trafficClassPreemptionSupport = value
         return self
-        
+
+
 class CouplingPortScheduler(CouplingPortStructuralElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -132,6 +140,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
         if value is not None:
             self.predecessorRefs.append(value)
         return self
+
 
 class EthernetPriorityRegeneration(Referrable):
     def __init__(self, parent, short_name):
@@ -252,6 +261,7 @@ class CouplingPortDetails(ARObject):
         if value is not None:
             self.vlanTranslationTables = value
         return self
+
 
 class VlanMembership(ARObject):
     def __init__(self):
@@ -427,7 +437,6 @@ class CouplingPort(Identifiable):
         return self
 
 
-
 class EthernetCommunicationController(CommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -500,6 +509,7 @@ class EthernetCommunicationController(CommunicationController):
         self.slaveQualifiedUnexpectedLinkDownTime = value
         return self
 
+
 class EthernetCommunicationConnector(CommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -554,6 +564,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
         self.pathMtuTimeout = value
         return self
     
+
 class RequestResponseDelay(ARObject):
     def __init__(self):
         super().__init__()
@@ -576,6 +587,7 @@ class RequestResponseDelay(ARObject):
         if value is not None:
             self.minValue = value
         return self
+
 
 class InitialSdDelayConfig(ARObject):
     def __init__(self):

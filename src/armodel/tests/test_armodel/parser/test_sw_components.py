@@ -121,7 +121,7 @@ class TestSWComponents:
         assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml",
                             "data/generated_AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml", shallow=False) is True)
         
-    def test_autosar_mod_aispecification_basetypes_standard_arxml_loading_and_saving(self):
+    def test_autosar_mod_ai_specification_basetypes_standard_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
@@ -133,7 +133,7 @@ class TestSWComponents:
         assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml",
                             "data/generated_AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml", shallow=False) is True)
         
-    def test_autosar_mod_aispecification_collection_body_blueprint_arxml_loading_and_saving(self):
+    def test_autosar_mod_ai_specification_collection_body_blueprint_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
@@ -144,3 +144,111 @@ class TestSWComponents:
 
         assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml",
                             "data/generated_AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_ai_specification_collection_chassis_blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_ai_specification_collection_mmedtelmhmi_blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_ai_specification_collection_occptpedsfty_blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_ai_specification_collection_pt_blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml", shallow=False) is True)
+        
+    def test_autosar_mod_ai_specification_compumethod_blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml", shallow=False) is True)
+        
+    def test_AUTOSAR_MOD_AISpecification_DataConstr_Blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml", shallow=False) is True)
+    
+    def test_AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml", shallow=False) is True)
+        
+    def test_AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml", shallow=False) is True)
+        
+    def test_AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint_arxml_loading_and_saving(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        parser = ARXMLParser()
+        parser.load("test_files/AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint.arxml", document)
+
+        writer = ARXMLWriter()
+        writer.save("data/generated_AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint.arxml", document)
+
+        assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint.arxml",
+                            "data/generated_AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint.arxml", shallow=False) is True)

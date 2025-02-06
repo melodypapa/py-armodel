@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
     <USED-LANGUAGES>
-      <L-10 L="EN" xml:space="default">English</L-10>
+      <L-10 L="EN">English</L-10>
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
@@ -2464,7 +2464,7 @@
                 </DATA-CONSTR>
                 <DATA-CONSTR>
                   <SHORT-NAME>PtTqCluMaxFastIntvModTyp1</SHORT-NAME>
-                  <LONG-NAME/>
+                  <LONG-NAME></LONG-NAME>
                   <DATA-CONSTR-RULES>
                     <DATA-CONSTR-RULE>
                       <PHYS-CONSTRS>
@@ -3170,7 +3170,7 @@
                   </DATA-CONSTR-RULES>
                 </DATA-CONSTR>
                 <DATA-CONSTR>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmIntvModReqForTqCluReqForShiftIntvTyp1</SHORT-NAME>
+                  <SHORT-NAME>TrsmIntvModReqForTqCluReqForShiftIntvTyp1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission Torque Clutch Request for Fast Intervention Mode Type 1</L-4>
                   </LONG-NAME>
@@ -3206,7 +3206,7 @@
                   </DATA-CONSTR-RULES>
                 </DATA-CONSTR>
                 <DATA-CONSTR>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmPwrStCtrl1</SHORT-NAME>
+                  <SHORT-NAME>TrsmPwrStCtrl1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Control State of Power Transmission</L-4>
                   </LONG-NAME>

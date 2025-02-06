@@ -36,6 +36,7 @@ from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import 
 from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import *
 from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *
 from .M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *
+from .M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import *
 from .M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *
 from .M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import *
 from .M2.AUTOSARTemplates.SWComponentTemplate import *
