@@ -1,7 +1,8 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+
+
 
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -54,6 +55,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diagnostic
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet, Keyword
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
@@ -65,6 +67,7 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceVa
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
@@ -3836,11 +3839,43 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCollection(self, element: ET.Element, collection: Collection):
         if collection is not None:
             child_element = ET.SubElement(element, "COLLECTION")
-            self.writeIdentifiable(child_element, collection)
+            self.writeARElement(child_element, collection)
             self.setChildElementOptionalLiteral(child_element, "AUTO-COLLECT", collection.getAutoCollect())
             self.setChildElementOptionalLiteral(child_element, "ELEMENT-ROLE", collection.getElementRole())
             self.writeCollectionElementRefs(child_element, collection)
             self.writeCollectionSourceElementRefs(child_element, collection)
+
+    def writeKeywordClassifications(self, element: ET.Element, keyword: Keyword):
+        classifications = keyword.getClassifications()
+        if len(classifications) > 0:
+            child_element = ET.SubElement(element, "CLASSIFICATIONS")
+            for classification in classifications:
+                self.setChildElementOptionalLiteral(child_element, "CLASSIFICATION", classification)
+
+    def writeKeyword(self, element: ET.Element, keyword: Keyword):
+        if keyword is not None:
+            # self.logger.debug("Write Keyword <%s>" % keyword.getShortName())
+            child_element = ET.SubElement(element, "KEYWORD")
+            self.writeIdentifiable(child_element, keyword)
+            self.setChildElementOptionalLiteral(child_element, "ABBR-NAME", keyword.getAbbrName())
+            self.writeKeywordClassifications(child_element, keyword)
+
+    def writeKeywordSetKeywords(self, element: ET.Element, keyword_set: KeywordSet):
+        keywords = keyword_set.getKeywords()
+        if len(keywords) > 0:
+            child_element = ET.SubElement(element, "KEYWORDS")
+            for keyword in keywords:
+                if isinstance(keyword, Keyword):
+                    self.writeKeyword(child_element, keyword)
+                else:
+                    self.notImplemented("Unsupported Keyword <%s>" % type(keyword))
+
+    def writeKeywordSet(self, element: ET.Element, keyword_set: KeywordSet):
+        if keyword_set is not None:
+            self.logger.debug("Write KeywordSet <%s>" % keyword_set.getShortName())
+            child_element = ET.SubElement(element, "KEYWORD-SET")
+            self.writeARElement(child_element, keyword_set)
+            self.writeKeywordSetKeywords(child_element, keyword_set)
 
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
@@ -5329,6 +5364,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFlexrayCluster(element, ar_element)
         elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
+        elif isinstance(ar_element, KeywordSet):
+            self.writeKeywordSet(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 

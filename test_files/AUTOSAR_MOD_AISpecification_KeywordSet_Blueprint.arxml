@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
     <USED-LANGUAGES>
-      <L-10 L="EN" xml:space="default">English</L-10>
+      <L-10 L="EN">English</L-10>
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
@@ -282,7 +282,7 @@
                         <L-4 L="EN">Chemical</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Chemical in "chemical catalyst heating"</L-2>
+                        <L-2 L="EN">Chemical in &quot;chemical catalyst heating&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Chem</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -360,7 +360,7 @@
                         <L-4 L="EN">Flux</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Flux like e.g. in physical quantity "magnetic flux"</L-2>
+                        <L-2 L="EN">Flux like e.g. in physical quantity &quot;magnetic flux&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Flx</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -490,7 +490,7 @@
                         <L-4 L="EN">Shut</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">e.g. to shut down; do not introduce a special keyword for the noun "Shutdown" but the content can be expressed using the combination of "Sht" and "Dwn"</L-2>
+                        <L-2 L="EN">e.g. to shut down; do not introduce a special keyword for the noun &quot;Shutdown&quot; but the content can be expressed using the combination of &quot;Sht&quot; and &quot;Dwn&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Sht</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -1378,7 +1378,7 @@
                         <L-4 L="EN">Air</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Also used as definition of "fresh gas"</L-2>
+                        <L-2 L="EN">Also used as definition of &quot;fresh gas&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Air</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -4408,7 +4408,7 @@
                         <L-4 L="EN">Contact</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">used in the sense of contact or contactor e.g. in "close contact", "contactor open", "contact defect" or "high-voltage contactors"</L-2>
+                        <L-2 L="EN">used in the sense of contact or contactor e.g. in &quot;close contact&quot;, &quot;contactor open&quot;, &quot;contact defect&quot; or &quot;high-voltage contactors&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Cntct</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -5203,7 +5203,7 @@
                         <L-4 L="EN">Date</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">date, point of time. This keyword is used to refer to a precise moment or a specific date. This can be a "time stamp" or a calendar date as well.</L-2>
+                        <L-2 L="EN">date, point of time. This keyword is used to refer to a precise moment or a specific date. This can be a &quot;time stamp&quot; or a calendar date as well.</L-2>
                       </DESC>
                       <ABBR-NAME>Date</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -5918,7 +5918,7 @@
                         <L-4 L="EN">Disappear</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">disappear. used, in order to define a state of failure: "disappeared failure"</L-2>
+                        <L-2 L="EN">disappear. used, in order to define a state of failure: &quot;disappeared failure&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Disa</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -6575,7 +6575,7 @@
                         <L-4 L="EN">EMF</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Electromotive "force" is not a force (measured in newtons) but a potential, or energy per unit of charge, measured in volts.</L-2>
+                        <L-2 L="EN">Electromotive &quot;force&quot; is not a force (measured in newtons) but a potential, or energy per unit of charge, measured in volts.</L-2>
                       </DESC>
                       <ABBR-NAME>Emf</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -8082,7 +8082,7 @@
                         <L-4 L="EN">Gasoline</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">This keyword is used to express the fuel type "gasoline".</L-2>
+                        <L-2 L="EN">This keyword is used to express the fuel type &quot;gasoline&quot;.</L-2>
                       </DESC>
                       <ABBR-NAME>Gsl</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -11284,7 +11284,7 @@
                         <L-4 L="EN">MSR</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Engine drag torque control (also known in german language as "Motorschleppmomentregelung" from which the acronym is derived).</L-2>
+                        <L-2 L="EN">Engine drag torque control (also known in german language as &quot;Motorschleppmomentregelung&quot; from which the acronym is derived).</L-2>
                       </DESC>
                       <ABBR-NAME>Msr</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -11350,7 +11350,7 @@
                         <L-4 L="EN">Speed</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Rotatory speed, also referred to as speed of rotation measured in rad/s, rpm or equivalents.&#13;
+                        <L-2 L="EN">Rotatory speed, also referred to as speed of rotation measured in rad/s, rpm or equivalents.
 Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                       </DESC>
                       <ABBR-NAME>N</ABBR-NAME>
@@ -11490,7 +11490,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">No</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Opposite of "yes"</L-2>
+                        <L-2 L="EN">Opposite of &quot;yes&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>No</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -12217,7 +12217,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Parent</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">e.g. "Parent street segment" used in context of route guidance from navigation system</L-2>
+                        <L-2 L="EN">e.g. &quot;Parent street segment&quot; used in context of route guidance from navigation system</L-2>
                       </DESC>
                       <ABBR-NAME>Parent</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -12270,7 +12270,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Partial</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">this keyword expresses the characterization of "only partly, not completely"</L-2>
+                        <L-2 L="EN">this keyword expresses the characterization of &quot;only partly, not completely&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Ptl</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -12425,7 +12425,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Pending</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">This keyword is used to build the "pending" fault used in the error management aggregate defined by the ISO 15031-5.5 service $07.</L-2>
+                        <L-2 L="EN">This keyword is used to build the &quot;pending&quot; fault used in the error management aggregate defined by the ISO 15031-5.5 service $07.</L-2>
                       </DESC>
                       <ABBR-NAME>Pnd</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -12617,7 +12617,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">PID</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Proportional Integral Derivative, as widely used in "PID Controller".</L-2>
+                        <L-2 L="EN">Proportional Integral Derivative, as widely used in &quot;PID Controller&quot;.</L-2>
                       </DESC>
                       <ABBR-NAME>Pid</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -14808,7 +14808,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Second</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Used as "2nd"</L-2>
+                        <L-2 L="EN">Used as &quot;2nd&quot;</L-2>
                       </DESC>
                       <ABBR-NAME>Sec</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -15358,7 +15358,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Smart</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">more and more electronic components take over tasks that had been done before by a central processing unit. Such components are seen as "intelligent" or "smart", whereas the second expression is the one used more generally.</L-2>
+                        <L-2 L="EN">more and more electronic components take over tasks that had been done before by a central processing unit. Such components are seen as &quot;intelligent&quot; or &quot;smart&quot;, whereas the second expression is the one used more generally.</L-2>
                       </DESC>
                       <ABBR-NAME>Smt</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -15866,7 +15866,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">State</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Used for both, "state" and "status".</L-2>
+                        <L-2 L="EN">Used for both, &quot;state&quot; and &quot;status&quot;.</L-2>
                       </DESC>
                       <ABBR-NAME>St</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -16097,7 +16097,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Stuck</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">the keyword STUCK is used to express e.g. a "stuck reading" coolant temperature sensor. This is an official expression of the CARB (Californian Air Resources Board) and is used in term of OBD II requirements.</L-2>
+                        <L-2 L="EN">the keyword STUCK is used to express e.g. a &quot;stuck reading&quot; coolant temperature sensor. This is an official expression of the CARB (Californian Air Resources Board) and is used in term of OBD II requirements.</L-2>
                       </DESC>
                       <ABBR-NAME>Stuck</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -17537,7 +17537,7 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">VCV</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Volume Control Valve, e.g. used in "high pressure pump volume control valve".</L-2>
+                        <L-2 L="EN">Volume Control Valve, e.g. used in &quot;high pressure pump volume control valve&quot;.</L-2>
                       </DESC>
                       <ABBR-NAME>Vcv</ABBR-NAME>
                       <CLASSIFICATIONS>
@@ -17570,8 +17570,8 @@ Examples: EngN = Engine speed [rpm], WhlN = Wheel speed [rpm]</L-2>
                         <L-4 L="EN">Velocity</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">Translatory speed, also referred to as speed of translation or translational speed.&#13;
-Value at this instant of time, no direction, measured in m/s, km/h or equivalents.&#13;
+                        <L-2 L="EN">Translatory speed, also referred to as speed of translation or translational speed.
+Value at this instant of time, no direction, measured in m/s, km/h or equivalents.
 Examples: VehV = Vehicle speed [km/h], WhlV = Wheel speed [km/h]</L-2>
                       </DESC>
                       <ABBR-NAME>V</ABBR-NAME>
@@ -18389,7 +18389,7 @@ Examples: VehV = Vehicle speed [km/h], WhlV = Wheel speed [km/h]</L-2>
                       <LONG-NAME>
                         <L-4 L="EN">Accuracy</L-4>
                       </LONG-NAME>
-                      <DESC/>
+                      <DESC></DESC>
                       <ABBR-NAME>Acry</ABBR-NAME>
                       <CLASSIFICATIONS>
                         <CLASSIFICATION>Condition-Qualifier</CLASSIFICATION>
@@ -18414,7 +18414,7 @@ Examples: VehV = Vehicle speed [km/h], WhlV = Wheel speed [km/h]</L-2>
                         <L-4 L="EN">Accuracy</L-4>
                       </LONG-NAME>
                       <DESC>
-                        <L-2 L="EN">The accuracy of a measurement method respectively the quality of signals are defined in ISO 5725: The "accuracy" (Genauigkeit) is described by the two terms "trueness" (Richtigkeit) and "precision" (Präzision).With the condition, that the "Precision" is homogenously spread over it's whole range, the fomula "Accuracy = Trueness + 0,5 Precision" decribes the accuracy.&#13;
+                        <L-2 L="EN">The accuracy of a measurement method respectively the quality of signals are defined in ISO 5725: The &quot;accuracy&quot; (Genauigkeit) is described by the two terms &quot;trueness&quot; (Richtigkeit) and &quot;precision&quot; (Präzision).With the condition, that the &quot;Precision&quot; is homogenously spread over it's whole range, the fomula &quot;Accuracy = Trueness + 0,5 Precision&quot; decribes the accuracy.
 </L-2>
                       </DESC>
                       <ABBR-NAME>Accy</ABBR-NAME>
@@ -18522,7 +18522,7 @@ Examples: VehV = Vehicle speed [km/h], WhlV = Wheel speed [km/h]</L-2>
                       <LONG-NAME>
                         <L-4 L="EN">Current</L-4>
                       </LONG-NAME>
-                      <DESC/>
+                      <DESC></DESC>
                       <ABBR-NAME>Cur</ABBR-NAME>
                       <CLASSIFICATIONS>
                         <CLASSIFICATION>Condition-Qualifier</CLASSIFICATION>
@@ -18533,7 +18533,7 @@ Examples: VehV = Vehicle speed [km/h], WhlV = Wheel speed [km/h]</L-2>
                       <LONG-NAME>
                         <L-4 L="EN">Ancillary</L-4>
                       </LONG-NAME>
-                      <DESC/>
+                      <DESC></DESC>
                       <ABBR-NAME>Ancllry</ABBR-NAME>
                       <CLASSIFICATIONS>
                         <CLASSIFICATION>Mean-Environment-Device</CLASSIFICATION>

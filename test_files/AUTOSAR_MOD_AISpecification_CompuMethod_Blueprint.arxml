@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
     <USED-LANGUAGES>
-      <L-10 L="EN" xml:space="default">English</L-10>
+      <L-10 L="EN">English</L-10>
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
@@ -1352,7 +1352,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">1 = Up (Body movement "up".)</L-2>
+                          <L-2 L="EN">1 = Up (Body movement &quot;up&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
@@ -1362,7 +1362,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">2 = Dwn (Body movement "down".)</L-2>
+                          <L-2 L="EN">2 = Dwn (Body movement &quot;down&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
@@ -3646,7 +3646,7 @@
                     <COMPU-SCALES>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">0 = EngRunngDirUndefd (undefined running direction, no direction information accessible)&#13;
+                          <L-2 L="EN">0 = EngRunngDirUndefd (undefined running direction, no direction information accessible)
 </L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">0</LOWER-LIMIT>
@@ -4551,7 +4551,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">19 = Gear19 (discrete gear 19)&#13;
+                          <L-2 L="EN">19 = Gear19 (discrete gear 19)
 </L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">19</LOWER-LIMIT>
@@ -5450,7 +5450,7 @@
                   <LONG-NAME>
                     <L-4 L="EN">Kelvin Identical</L-4>
                   </LONG-NAME>
-                  <DESC/>
+                  <DESC></DESC>
                   <CATEGORY>IDENTICAL</CATEGORY>
                   <UNIT-REF BASE="Units" DEST="UNIT">KelvinAbslt</UNIT-REF>
                 </COMPU-METHOD>
@@ -8671,7 +8671,7 @@
                   <LONG-NAME>
                     <L-4 L="EN">Pascal Identical</L-4>
                   </LONG-NAME>
-                  <DESC/>
+                  <DESC></DESC>
                   <CATEGORY>IDENTICAL</CATEGORY>
                   <UNIT-REF BASE="Units" DEST="UNIT">Pa</UNIT-REF>
                 </COMPU-METHOD>
@@ -8909,7 +8909,7 @@
                   <LONG-NAME>
                     <L-4 L="EN">Percent Identical</L-4>
                   </LONG-NAME>
-                  <DESC/>
+                  <DESC></DESC>
                   <CATEGORY>IDENTICAL</CATEGORY>
                   <UNIT-REF BASE="Units" DEST="UNIT">Perc</UNIT-REF>
                 </COMPU-METHOD>
@@ -9478,7 +9478,7 @@
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain Torque Clutch Max Fast Intervention Mode Type 1</L-4>
                   </LONG-NAME>
-                  <DESC/>
+                  <DESC></DESC>
                   <CATEGORY>TEXTTABLE</CATEGORY>
                   <UNIT-REF BASE="Units" DEST="UNIT">NoUnit</UNIT-REF>
                   <COMPU-INTERNAL-TO-PHYS>
@@ -10773,7 +10773,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">1 = SuspModCmft (Suspension tuning mode "Comfort".)</L-2>
+                          <L-2 L="EN">1 = SuspModCmft (Suspension tuning mode &quot;Comfort&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
@@ -10783,7 +10783,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">2 = SuspModSpt (Suspension tuning mode "Sport".)</L-2>
+                          <L-2 L="EN">2 = SuspModSpt (Suspension tuning mode &quot;Sport&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
@@ -10793,7 +10793,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">3 = SuspModOffroad (Suspension tuning mode "Offroad".)</L-2>
+                          <L-2 L="EN">3 = SuspModOffroad (Suspension tuning mode &quot;Offroad&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">3</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">3</UPPER-LIMIT>
@@ -11821,7 +11821,7 @@
                   </COMPU-PHYS-TO-INTERNAL>
                 </COMPU-METHOD>
                 <COMPU-METHOD>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmIntvModReqForTqCluReqForShiftIntvTyp1</SHORT-NAME>
+                  <SHORT-NAME>TrsmIntvModReqForTqCluReqForShiftIntvTyp1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission Torque Clutch Request for Fast Intervention Mode Type 1</L-4>
                   </LONG-NAME>
@@ -12074,7 +12074,7 @@
                   </COMPU-INTERNAL-TO-PHYS>
                 </COMPU-METHOD>
                 <COMPU-METHOD>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmPwrStCtrl1</SHORT-NAME>
+                  <SHORT-NAME>TrsmPwrStCtrl1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Control State of Power Transmission</L-4>
                   </LONG-NAME>
@@ -12350,8 +12350,8 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">4 = Rel (relative)&#13;
-&#13;
+                          <L-2 L="EN">4 = Rel (relative)
+
 </L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">4</LOWER-LIMIT>
@@ -12670,7 +12670,7 @@
                     <COMPU-SCALES>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">0 = Undefd (Status of wheel rotation "undefined".)</L-2>
+                          <L-2 L="EN">0 = Undefd (Status of wheel rotation &quot;undefined&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">0</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">0</UPPER-LIMIT>
@@ -12680,7 +12680,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">1 = StandStill (Status of wheel rotation "stand still".)</L-2>
+                          <L-2 L="EN">1 = StandStill (Status of wheel rotation &quot;stand still&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
@@ -12690,7 +12690,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">2 = Fwd (Status of wheel rotation "forward".)</L-2>
+                          <L-2 L="EN">2 = Fwd (Status of wheel rotation &quot;forward&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
@@ -12700,7 +12700,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">3 = Backw (Status of wheel rotation "backward".)</L-2>
+                          <L-2 L="EN">3 = Backw (Status of wheel rotation &quot;backward&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">3</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">3</UPPER-LIMIT>
@@ -12722,7 +12722,7 @@
                     <COMPU-SCALES>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">0 = Undefd (Status of wheel rotation "undefined".)</L-2>
+                          <L-2 L="EN">0 = Undefd (Status of wheel rotation &quot;undefined&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">0</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">0</UPPER-LIMIT>
@@ -12732,7 +12732,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">1 = StandStill (Status of wheel rotation "stand still".)</L-2>
+                          <L-2 L="EN">1 = StandStill (Status of wheel rotation &quot;stand still&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
@@ -12742,7 +12742,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">2 = Fwd (Status of wheel rotation "forward".)</L-2>
+                          <L-2 L="EN">2 = Fwd (Status of wheel rotation &quot;forward&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
@@ -12752,7 +12752,7 @@
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <DESC>
-                          <L-2 L="EN">3 = Backw (Status of wheel rotation "backward".)</L-2>
+                          <L-2 L="EN">3 = Backw (Status of wheel rotation &quot;backward&quot;.)</L-2>
                         </DESC>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">3</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">3</UPPER-LIMIT>

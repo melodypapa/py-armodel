@@ -10,6 +10,7 @@
         "ASAM",
         "AUTOSAR",
         "Auxillary",
+        "basetypes",
         "Baudrate",
         "bdist",
         "bitfield",
@@ -20,6 +21,7 @@
         "Calprm",
         "Coeffs",
         "Compu",
+        "compumethod",
         "Constrs",
         "DATAS",
         "DEPENDENCYS",
@@ -44,6 +46,7 @@
         "Microtick",
         "Minislot",
         "Minislots",
+        "mmedtelmhmi",
         "multicore",
         "Multilanguage",
         "multiplatform",
@@ -51,6 +54,7 @@
         "NOINIT",
         "Nonqueued",
         "nsmap",
+        "occptpedsfty",
         "openpyxl",
         "Packageable",
         "Paginateable",
@@ -91,6 +95,6 @@
     ],
     "flake8.args": [
         "--max-line-length=150",
-        "--ignore=F401,W293"
+        "--ignore=F401,W293,F403"
     ]
 }

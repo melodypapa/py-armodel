@@ -2,8 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -57,6 +55,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diagnostic
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
@@ -69,6 +68,7 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceVa
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -4132,7 +4132,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataTransformationSet(self, element: ET.Element, dtf_set: DataTransformationSet):
         self.logger.debug("Read DataTransformationSet <%s>" % dtf_set.getShortName())
-        self.readIdentifiable(element, dtf_set)
+        self.readARElement(element, dtf_set)
         self.readDataTransformationSetDataTransformations(element, dtf_set)
         self.readDataTransformationSetTransformationTechnologies(element, dtf_set)
 
@@ -4146,11 +4146,35 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCollection(self, element: ET.Element, collection: Collection):
         self.logger.debug("Read Collection <%s>" % collection.getShortName())
-        self.readIdentifiable(element, collection)
+        self.readARElement(element, collection)
         collection.setAutoCollect(self.getChildElementOptionalLiteral(element, "AUTO-COLLECT")) \
                   .setElementRole(self.getChildElementOptionalLiteral(element, "ELEMENT-ROLE"))
         self.readCollectionElementRefs(element, collection)
         self.readCollectionSourceElementRefs(element, collection)
+
+    def readKeywordClassifications(self, element: ET.Element, keyword: Keyword):
+        for literal in self.getChildElementLiteralValueList(element, "CLASSIFICATIONS/CLASSIFICATION"):
+            keyword.addClassification(literal)
+
+    def readKeyword(self, element: ET.Element, keyword: Keyword):
+        # self.logger.debug("Read Keyword <%s>" % keyword.getShortName())
+        self.readIdentifiable(element, keyword)
+        keyword.setAbbrName(self.getChildElementOptionalLiteral(element, "ABBR-NAME"))
+        self.readKeywordClassifications(element, keyword)
+
+    def readKeywordSetKeywords(self, element: ET.Element, keyword_set: KeywordSet):
+        for child_element in self.findall(element, "KEYWORDS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "KEYWORD":
+                tech = keyword_set.createKeyword(self.getShortName(child_element))
+                self.readKeyword(child_element, tech)
+            else:
+                self.notImplemented("Unsupported Keyword <%s>" % tag_name)
+
+    def readKeywordSet(self, element: ET.Element, keyword_set: KeywordSet):
+        self.logger.debug("Read KeywordSet <%s>" % keyword_set.getShortName())
+        self.readARElement(element, keyword_set)
+        self.readKeywordSetKeywords(element, keyword_set)
 
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
@@ -5252,8 +5276,11 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
+            elif tag_name == "KEYWORD-SET":
+                keyword_set = parent.createKeywordSet(self.getShortName(child_element))
+                self.readKeywordSet(child_element, keyword_set)
             else:
-                self.notImplemented("Unsupported element type of ARPackage <%s>" % tag_name)
+                self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
     def readReferenceBases(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "REFERENCE-BASES/REFERENCE-BASE"):
