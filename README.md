@@ -549,6 +549,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * BSW-MODULE-DESCRIPTION
    * BSW-INTERNAL-BEHAVIOR
    * LIFE-CYCLE-INFO-SET
+   * PHYSICAL-DIMENSION
 2. To support the following AR Element:
    * ACTIVATION-POINTS
    * CALL-POINTS

@@ -4628,20 +4628,10 @@ class ARXMLParser(AbstractARXMLParser):
         dimension.setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP")) \
                  .setLuminousIntensityExp(self.getChildElementOptionalNumericalValue(element, "LUMINOUS-INTENSITY-EXP")) \
                  .setMassExp(self.getChildElementOptionalNumericalValue(element, "MASS-EXP")) \
+                 .setMolarAmountExp(self.getChildElementOptionalNumericalValue(element, "MOLAR-AMOUNT-EXP")) \
                  .setTemperatureExp(self.getChildElementOptionalNumericalValue(element, "TEMPERATURE-EXP")) \
                  .setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP")) \
-                 .setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP")) \
-
-    '''
-    def getIPduMappings(self, element: ET.Element) -> List[IPduMapping]:
-        mappings = []
-        for child_element in self.findall(element, tag_name):
-            mapping = IPduMapping()
-            mapping.sourceIPduRef = self.getChildElementOptionalRefType(child_element, "SOURCE-IPDU-REF")
-            mapping.targetIPduRef = self.getChildElementOptionalRefType(child_element, "TARGET-IPDU-REF")
-            mappings.append(mapping)
-        return mappings
-    '''
+                 .setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP"))
 
     def readISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
         for ref_type in self.getChildElementRefTypeList(element, "I-SIGNAL-REFS/I-SIGNAL-REF"):
