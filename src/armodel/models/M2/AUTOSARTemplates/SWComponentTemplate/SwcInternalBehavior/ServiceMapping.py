@@ -1,8 +1,12 @@
 from typing import List
-from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds, DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, ServiceNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, NvBlockNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
-from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
+
+
 class RoleBasedPortAssignment(ARObject):
     def __init__(self):
         super().__init__()
@@ -23,6 +27,7 @@ class RoleBasedPortAssignment(ARObject):
     def setRole(self, value):
         self.role = value
         return self
+
 
 class SwcServiceDependency(ServiceDependency):
     def __init__(self, parent: ARObject, short_name: str):
@@ -91,6 +96,12 @@ class SwcServiceDependency(ServiceDependency):
             self.addElement(needs)
         return self.getElement(short_name)
     
+    def createDtcStatusChangeNotificationNeeds(self, short_name: str) -> DtcStatusChangeNotificationNeeds:
+        if (short_name not in self.elements):
+            needs = DtcStatusChangeNotificationNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements.values()), key=lambda e: e.short_name)
     
@@ -108,6 +119,9 @@ class SwcServiceDependency(ServiceDependency):
     
     def getEcuStateMgrUserNeeds(self) -> List[EcuStateMgrUserNeeds]:
         return sorted(filter(lambda c: isinstance(c, EcuStateMgrUserNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getDtcStatusChangeNotificationNeeds(self) -> List[DtcStatusChangeNotificationNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements.values()), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements.values()), key=lambda e: e.short_name)

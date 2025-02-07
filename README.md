@@ -545,7 +545,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 **Version 1.7.9**
 
-1. Improve the following AR Element
+1. To improve the following AR Element
    * BSW-MODULE-DESCRIPTION
    * BSW-INTERNAL-BEHAVIOR
    * LIFE-CYCLE-INFO-SET
@@ -558,5 +558,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * KEYWORD-SET
    * FIGURE
    * CLIENT-SERVER-INTERFACE-MAPPING
+   * DTC-STATUS-CHANGE-NOTIFICATION-NEEDS
 3. Add the test case for
    * AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml

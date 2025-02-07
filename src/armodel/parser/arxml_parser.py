@@ -54,6 +54,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySect
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
@@ -588,20 +589,23 @@ class ARXMLParser(AbstractARXMLParser):
              .setWritingFrequency(self.getChildElementOptionalPositiveInteger(element, "WRITING-FREQUENCY")) \
              .setWritingPriority(self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))
         
-    def reaDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
-        self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
+    def readDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.readIdentifiable(element, needs)
+        
+    def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
+        self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
         needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
 
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readDiagnosticCapabilityElement(element, needs)
         needs.setDiagRoutineType(self.getChildElementOptionalLiteral(element, "DIAG-ROUTINE-TYPE")) \
              .setRidNumber(self.getChildElementOptionalIntegerValue(element, "RID-NUMBER"))
 
     def readDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         self.logger.debug("Read DiagnosticValueNeeds %s" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readDiagnosticCapabilityElement(element, needs)
         needs.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH")) \
              .setDiagnosticValueAccess(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-VALUE-ACCESS")) \
              .setDidNumber(self.getChildElementOptionalIntegerValue(element, "DID-NUMBER")) \
@@ -609,7 +613,7 @@ class ARXMLParser(AbstractARXMLParser):
              .setProcessingStyle(self.getChildElementOptionalLiteral(element, "PROCESSING-STYLE"))
         
     def readDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
-        self.readIdentifiable(element, algorithm)
+        self.readDiagnosticCapabilityElement(element, algorithm)
         
     def readDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         for child_element in self.findall(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM/*"):
@@ -622,14 +626,15 @@ class ARXMLParser(AbstractARXMLParser):
     
     def readDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
         self.logger.debug("Read DiagnosticEventNeeds <%s>" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readDiagnosticCapabilityElement(element, needs)
         self.readDiagEventDebounceAlgorithm(element, needs)
         needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND")) \
              .setUdsDtcNumber(self.getChildElementOptionalIntegerValue(element, "UDS-DTC-NUMBER"))
         
     def readDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
         self.logger.debug("Read DiagnosticEventInfoNeeds <%s>" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND"))
         needs.setUdsDtcNumber(self.getChildElementOptionalPositiveInteger(element, "UDS-DTC-NUMBER"))
 
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
@@ -638,8 +643,13 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setMaximumKeyLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-KEY-LENGTH"))
 
     def readEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
-        self.logger.debug("read EcuStateMgrUserNeeds %s" % needs.getShortName())
+        self.logger.debug("Read EcuStateMgrUserNeeds %s" % needs.getShortName())
         self.readIdentifiable(element, needs)
+
+    def readDtcStatusChangeNotificationNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
+        self.logger.debug("Read DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setDtcFormatType(self.getChildElementOptionalLiteral(element, "DTC-FORMAT-TYPE"))
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
@@ -649,7 +659,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readNvBlockNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
                 needs = parent.createDiagnosticCommunicationManagerNeeds(self.getShortName(child_element))
-                self.reaDiagnosticCommunicationManagerNeeds(child_element, needs)
+                self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 needs = parent.createDiagnosticRoutineNeeds(self.getShortName(child_element))
                 self.readDiagnosticRoutineNeeds(child_element, needs)
@@ -668,6 +678,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECU-STATE-MGR-USER-NEEDS":
                 needs = parent.createEcuStateMgrUserNeeds(self.getShortName(child_element))
                 self.readEcuStateMgrUserNeeds(child_element, needs)
+            elif tag_name == "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS":
+                needs = parent.createDtcStatusChangeNotificationNeeds(self.getShortName(child_element))
+                self.readDtcStatusChangeNotificationNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 
