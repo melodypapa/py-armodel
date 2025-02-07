@@ -556,5 +556,6 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * LIFE-CYCLE-INFO
    * COLLECTION
    * KEYWORD-SET
+   * FIGURE
 3. Add the test case for
    * AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
     <USED-LANGUAGES>
-      <L-10 L="EN" xml:space="default">English</L-10>
+      <L-10 L="EN">English</L-10>
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
@@ -166,7 +166,7 @@
                     <L-4 L="EN">Acceleration Longitudinal 2</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Control value for acceleration control. This value has to be calculated also when SW-C "Follow control and acceleration arbitration" is not in control, i.e. also in driver override situations.</L-2>
+                    <L-2 L="EN">Control value for acceleration control. This value has to be calculated also when SW-C &quot;Follow control and acceleration arbitration&quot; is not in control, i.e. also in driver override situations.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -372,12 +372,12 @@
                     <L-4 L="EN">Accelerator Pedal Measured Value</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Position of the accelerator pedal, not "estimated" value.&#13;
-Evaluated signal jitter free without time filtering, including plausibility check, monitoring and replacement value.&#13;
-0% is driver off the pedal, offsets are removed. 100% must be ensured at end point of the pedal.&#13;
-Shall cover the 100% as well.&#13;
-&#13;
-REMARK:&#13;
+                    <L-2 L="EN">Position of the accelerator pedal, not &quot;estimated&quot; value.
+Evaluated signal jitter free without time filtering, including plausibility check, monitoring and replacement value.
+0% is driver off the pedal, offsets are removed. 100% must be ensured at end point of the pedal.
+Shall cover the 100% as well.
+
+REMARK:
 signal is sent with initialisation</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
@@ -394,7 +394,7 @@ signal is sent with initialisation</L-2>
                     <L-4 L="EN">Accelerator Pedal Ratio</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Position of the accelerator pedal, not "simulated" value for e.g. Adaptive Cruise Control (ACC) driver. Evaluated signal jitter free without time filtering, including plausibility check, monitoring and replacement value. 0% is driver off the pedal, offsets are removed. 100% must be ensured at end point of the pedal. Shall cover the 100% as well</L-2>
+                    <L-2 L="EN">Position of the accelerator pedal, not &quot;simulated&quot; value for e.g. Adaptive Cruise Control (ACC) driver. Evaluated signal jitter free without time filtering, including plausibility check, monitoring and replacement value. 0% is driver off the pedal, offsets are removed. 100% must be ensured at end point of the pedal. Shall cover the 100% as well</L-2>
                   </DESC>
                   <INTRODUCTION>
                     <P>
@@ -1181,7 +1181,7 @@ signal is sent with initialisation</L-2>
                     <L-4 L="EN">Brake Pedal Override 1</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Information that driver overrides SW-C "Follow control and acceleration arbitration" with brake pedal as a result of brake torque arbitration</L-2>
+                    <L-2 L="EN">Information that driver overrides SW-C &quot;Follow control and acceleration arbitration&quot; with brake pedal as a result of brake torque arbitration</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -2225,7 +2225,7 @@ signal is sent with initialisation</L-2>
                     <L-4 L="EN">Diagnostic Toggle</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Diagnostic request to the sensor component to request a "Toggle-Function"</L-2>
+                    <L-2 L="EN">Diagnostic request to the sensor component to request a &quot;Toggle-Function&quot;</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -2624,9 +2624,9 @@ signal is sent with initialisation</L-2>
                     <L-4 L="EN">Electric Machine Dynamic Moment of Inertia</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Inertia torque of the electric machine at clutch level.&#13;
-&#13;
-Definition of the sign:&#13;
+                    <L-2 L="EN">Inertia torque of the electric machine at clutch level.
+
+Definition of the sign:
 Increasing speed creates a negative sign, decreasing speed creates a positive sign.</L-2>
                   </DESC>
                   <INTRODUCTION>
@@ -2807,7 +2807,7 @@ Increasing speed creates a negative sign, decreasing speed creates a positive si
 Used, for example, for engine stop/start systems.</L-1>
                       <L-1 L="EN">Sign of the engine running direction:
 If the vehicle is moving in the forward direction, and the drivetrain is closed, and a forward gear is engaged, then the engine running direction is positive.
-During initialization, the engine sends the value "0".</L-1>
+During initialization, the engine sends the value &quot;0&quot;.</L-1>
                       <L-1 L="EN">0 = undefined running direction, no direction information available
 1 = positive running direction
 2 = negative running direction
@@ -2897,7 +2897,7 @@ Usually this signal corresponds to the drag torque of the combustion engine at c
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">EngTqCluStrtPred1</SHORT-NAME>
+                  <SHORT-NAME>EngTqCluStrtPred1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Engine: Predicted Clutch Torque to Start the Engine</L-4>
                   </LONG-NAME>
@@ -3227,7 +3227,7 @@ Usually, this signal corresponds to the drag torque of the combustion engine at 
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">Signal is relevant for gasoline engines only.
-The latest possible ignition angle, also called "max. ignition retard", depends on exhaust temperature, catalyst protection, etc.
+The latest possible ignition angle, also called &quot;max. ignition retard&quot;, depends on exhaust temperature, catalyst protection, etc.
 A torque decrease request from the transmission down to this torque level should only be implemented by ignition retard and not by cylinder cut off.</L-1>
                       <L-1 L="EN">For diesel engines, this signal depends on the minimum fuel mass, which is usually zero.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, this is the minimum torque the combustion engine can implement.</L-1>
@@ -3738,7 +3738,7 @@ A torque decrease request from the transmission down to this torque level should
                     <L-4 L="EN">Exterior Light Display</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Provides the information whether a certain exterior light function is on or off. As long as the function is on (activated), the value "on" should be provided. This interface can be used e.g. to provide feedback to the driver via Man Machine Interface (MMI). This is considered as a status signal, which carries continuously a certain value as long as its semantic condition is present.</L-2>
+                    <L-2 L="EN">Provides the information whether a certain exterior light function is on or off. As long as the function is on (activated), the value &quot;on&quot; should be provided. This interface can be used e.g. to provide feedback to the driver via Man Machine Interface (MMI). This is considered as a status signal, which carries continuously a certain value as long as its semantic condition is present.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -4126,7 +4126,7 @@ A torque decrease request from the transmission down to this torque level should
                     <L-4 L="EN">Hotel Mode Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">User request to activate hotel mode of the central door locking system. This feature allows to keep just the driver door open, while the rest (including glove box to secure private goods) of the car is locked. "On" means hotel mode.</L-2>
+                    <L-2 L="EN">User request to activate hotel mode of the central door locking system. This feature allows to keep just the driver door open, while the rest (including glove box to secure private goods) of the car is locked. &quot;On&quot; means hotel mode.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -4142,7 +4142,7 @@ A torque decrease request from the transmission down to this torque level should
                     <L-4 L="EN">Hotel Mode Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Status if hotel mode is activated or not. "on" means hotel mode activated.</L-2>
+                    <L-2 L="EN">Status if hotel mode is activated or not. &quot;on&quot; means hotel mode activated.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -4158,7 +4158,7 @@ A torque decrease request from the transmission down to this torque level should
                     <L-4 L="EN">Hotel Mode Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Status if hotel mode is activated or not. "on" means hotel mode activated.</L-2>
+                    <L-2 L="EN">Status if hotel mode is activated or not. &quot;on&quot; means hotel mode activated.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -4601,7 +4601,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                     <L-4 L="EN">Light On Warning Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Request for acoustic signaling of "forgotten" lights turned on status.</L-2>
+                    <L-2 L="EN">Request for acoustic signaling of &quot;forgotten&quot; lights turned on status.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -4819,7 +4819,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                     <L-4 L="EN">Latch Release Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">User request to release/unlock the latch of rear lid or tank flap or backlite window. "On" means latch release to unlock or open a lid or backlite window</L-2>
+                    <L-2 L="EN">User request to release/unlock the latch of rear lid or tank flap or backlite window. &quot;On&quot; means latch release to unlock or open a lid or backlite window</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -5322,7 +5322,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                     <L-4 L="EN">Night Panel Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">This interface provides the information about the "Night-Panel-Switch" (e.g. switch for dimming down all interior lights except for speedometer)</L-2>
+                    <L-2 L="EN">This interface provides the information about the &quot;Night-Panel-Switch&quot; (e.g. switch for dimming down all interior lights except for speedometer)</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -5525,7 +5525,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                     <L-4 L="EN">Operation Mode Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">This interface provides the vehicle operation states. It can be seen as an abstraction and extension of the normal ignition switch position (also called "clamp position") which is traditionally used to guide functional operation of the vehicle. It also includes information about what state the engine is in, i.e. running or not. This interface should be used to control which functionalities / components are active in the vehicle. All states have to be implemented in all vehicles, but not necessarily used.</L-2>
+                    <L-2 L="EN">This interface provides the vehicle operation states. It can be seen as an abstraction and extension of the normal ignition switch position (also called &quot;clamp position&quot;) which is traditionally used to guide functional operation of the vehicle. It also includes information about what state the engine is in, i.e. running or not. This interface should be used to control which functionalities / components are active in the vehicle. All states have to be implemented in all vehicles, but not necessarily used.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -5541,7 +5541,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                     <L-4 L="EN">Operation Mode Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">This interface provides the vehicle operation states. It can be seen as an abstraction and extension of the normal ignition switch position (also called "clamp position") which is traditionally used to guide functional operation of the vehicle. It also includes information about what state the engine is in, i.e. running or not. This interface should be used to control which functionalities / components are active in the vehicle. All states have to be implemented in all vehicles, but not necessarily used.</L-2>
+                    <L-2 L="EN">This interface provides the vehicle operation states. It can be seen as an abstraction and extension of the normal ignition switch position (also called &quot;clamp position&quot;) which is traditionally used to guide functional operation of the vehicle. It also includes information about what state the engine is in, i.e. running or not. This interface should be used to control which functionalities / components are active in the vehicle. All states have to be implemented in all vehicles, but not necessarily used.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -6009,7 +6009,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                     <L-4 L="EN">Parking Light Indication</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">This interface represents the indication to switch on left, right, both or no parking lights. As long as parking lights are requested by Human Machine Interface (HMI) switch, the corresponding value has to be set. It's also used to provide indication to Human Machine Interface (HMI) (feedback for cluster) and other body domain functionalities whether the left parking lights, the right parking lights or the positioning lights are active. As long as this functionality is required the value has to be set to "on".</L-2>
+                    <L-2 L="EN">This interface represents the indication to switch on left, right, both or no parking lights. As long as parking lights are requested by Human Machine Interface (HMI) switch, the corresponding value has to be set. It's also used to provide indication to Human Machine Interface (HMI) (feedback for cluster) and other body domain functionalities whether the left parking lights, the right parking lights or the positioning lights are active. As long as this functionality is required the value has to be set to &quot;on&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -6073,8 +6073,8 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                       <LONG-NAME>
                         <L-4 L="EN">Powertrain: Accelerator Pedal Position</L-4>
                       </LONG-NAME>
-                      <DESC/>
-                      <INTRODUCTION/>
+                      <DESC></DESC>
+                      <INTRODUCTION></INTRODUCTION>
                       <TYPE-TREF BASE="ApplicationDataTypes" DEST="APPLICATION-PRIMITIVE-DATA-TYPE">Perc1</TYPE-TREF>
                     </VARIABLE-DATA-PROTOTYPE>
                   </DATA-ELEMENTS>
@@ -6089,7 +6089,7 @@ If the light source contains more than one e. g. bulb, it shall be defined how m
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">Example of implementation: Within Adaptive Cruise Control / Cruise Control, this is based on the total requested propulsion wheel torque from the driver or the Vehicle Longitudinal Control, otherwise, this is the "Accelerator Pedal Ratio" value.
+                      <L-1 L="EN">Example of implementation: Within Adaptive Cruise Control / Cruise Control, this is based on the total requested propulsion wheel torque from the driver or the Vehicle Longitudinal Control, otherwise, this is the &quot;Accelerator Pedal Ratio&quot; value.
 Evaluated signal, jitter free, including plausibility check, monitoring and substitute value but without filtering.
 0 %: (Virtual) driver is off the pedal, offsets are removed. 100 %: Must be ensured at end point of the pedal. Must cover the 100 % as well.</L-1>
                     </P>
@@ -6142,7 +6142,7 @@ Values 7… 13 are undefined.</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtCluEngStCtrl1</SHORT-NAME>
+                  <SHORT-NAME>PtCluEngStCtrl1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Control State of Engine Clutch</L-4>
                   </LONG-NAME>
@@ -6180,7 +6180,7 @@ Values 9… 13 are undefined.</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtCluEngStCtrlTar1</SHORT-NAME>
+                  <SHORT-NAME>PtCluEngStCtrlTar1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Target Control State of Engine Clutch</L-4>
                   </LONG-NAME>
@@ -6252,7 +6252,7 @@ Values 9… 13 are undefined.</L-1>
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">Speed of the shaft combining all driving machines in front of the gearbox. Driving machines are, e.g., electric machines and combustion engines.</L-1>
-                      <L-1 L="EN">For conventional drivetrains, the signal is identical to the signal "Powertrain: Engine Speed Including Start Stop".</L-1>
+                      <L-1 L="EN">For conventional drivetrains, the signal is identical to the signal &quot;Powertrain: Engine Speed Including Start Stop&quot;.</L-1>
                       <L-1 L="EN">For parallel hybrid projects the signal shall be provided based on the speed of the electric machine for accuracy reasons.
 The accuracy of the clutch speed based on the electric machine has to be defined in close cooperation between electric machine expert and transmission expert.</L-1>
                       <L-1 L="EN">The information about the direction of the clutch speed is also necessary for start-stop functionalities. Experience indicates that speeds of up to -500 rpm may occur.</L-1>
@@ -6272,7 +6272,7 @@ PtEngNInclgStrtStop</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtCluNLimnLoReq1</SHORT-NAME>
+                  <SHORT-NAME>PtCluNLimnLoReq1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Request by Powertrain for Lower Limitation of Clutch Speed</L-4>
                   </LONG-NAME>
@@ -6297,7 +6297,7 @@ PtEngNInclgStrtStop</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtCluNLimnUpReq1</SHORT-NAME>
+                  <SHORT-NAME>PtCluNLimnUpReq1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Request by Powertrain for Upper Limitation of Clutch Speed</L-4>
                   </LONG-NAME>
@@ -6322,7 +6322,7 @@ PtEngNInclgStrtStop</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtDrvrReqTqClu1</SHORT-NAME>
+                  <SHORT-NAME>PtDrvrReqTqClu1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Driver Request of Torque at Clutch</L-4>
                   </LONG-NAME>
@@ -6353,7 +6353,7 @@ Independent of whether the engine is running or not, this signal always delivers
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtDrvrReqTqCluPredEngN1</SHORT-NAME>
+                  <SHORT-NAME>PtDrvrReqTqCluPredEngN1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Predicted Driver Request of Torque at Clutch in Target Speed</L-4>
                   </LONG-NAME>
@@ -6381,7 +6381,7 @@ TrsmCluNPredGearTarTrsmCluNVirtGearTar</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtEmNIdle1</SHORT-NAME>
+                  <SHORT-NAME>PtEmNIdle1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Target Idle Speed of the Electric Machine</L-4>
                   </LONG-NAME>
@@ -6508,7 +6508,7 @@ E.g. necessary for the transition from electric mode to hybrid mode.</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtEmTqRelCluReq1</SHORT-NAME>
+                  <SHORT-NAME>PtEmTqRelCluReq1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Electric Machine Relative Torque at Clutch Requested by Powertrain</L-4>
                   </LONG-NAME>
@@ -6519,7 +6519,7 @@ E.g. necessary for the transition from electric mode to hybrid mode.</L-1>
                     <P>
                       <L-1 L="EN">Torque to be implemented by the electric machine additional to the driver requested torque.</L-1>
                       <L-1 L="EN">Typically used to create the electric machine torque which is necessary to start the combustion engine via the engine clutch without influencing the implementation of the driver requested torque.</L-1>
-                      <L-1 L="EN">As long as there is no torque request, the signal "Powertrain: Implementation Type of Electric Machine Relative Torque at Clutch Requested by Powertrain” is “0h = no request” and signal "Powertrain: Electric Machine Relative Torque at Clutch Requested by Powertrain” is “FFEh = Init”.</L-1>
+                      <L-1 L="EN">As long as there is no torque request, the signal &quot;Powertrain: Implementation Type of Electric Machine Relative Torque at Clutch Requested by Powertrain” is “0h = no request” and signal &quot;Powertrain: Electric Machine Relative Torque at Clutch Requested by Powertrain” is “FFEh = Init”.</L-1>
                       <L-1 L="EN">This signal is closely related to signal “Powertrain: Implementation Type of the Electric Machine Relative Torque at Clutch Requested by Powertrain”.</L-1>
                       <L-1 L="EN">References to other signals:
 PtNrTypEmTqRelCluReq</L-1>
@@ -6628,12 +6628,12 @@ EngTqCrksftRedByAncllryLossMin</L-1>
                     <P>
                       <L-1 L="EN">Engine crankshaft speed requested by powertrain, used, e.g., for slip start.</L-1>
                       <L-1 L="EN">This signal is closely related to the status signal: “Powertrain: Request to Enable Engine Speed Request”.</L-1>
-                      <L-1 L="EN">This signal is also closely related to the following signal: “Transmission: Clutch Speed Requested by Transmission".</L-1>
-                      <L-1 L="EN">For non-hybrid applications, this signal and signal "Transmission: Clutch Speed Requested by Transmission" are identical. Recommendation is to send only the signal set for "Transmission: Clutch Speed Requested by Transmission".</L-1>
-                      <L-1 L="EN">For hybrid applications, the signals are identical if the engine clutch is closed. Otherwise, the signals are usually different. So, for hybrid applications, both signal sets are necessary, signal sets for "Powertrain: Engine Speed Requested by Powertrain" and "Transmission: Clutch Speed Requested by Transmission".</L-1>
+                      <L-1 L="EN">This signal is also closely related to the following signal: “Transmission: Clutch Speed Requested by Transmission&quot;.</L-1>
+                      <L-1 L="EN">For non-hybrid applications, this signal and signal &quot;Transmission: Clutch Speed Requested by Transmission&quot; are identical. Recommendation is to send only the signal set for &quot;Transmission: Clutch Speed Requested by Transmission&quot;.</L-1>
+                      <L-1 L="EN">For hybrid applications, the signals are identical if the engine clutch is closed. Otherwise, the signals are usually different. So, for hybrid applications, both signal sets are necessary, signal sets for &quot;Powertrain: Engine Speed Requested by Powertrain&quot; and &quot;Transmission: Clutch Speed Requested by Transmission&quot;.</L-1>
                       <L-1 L="EN">As long as there is no speed request, the recommendation is to send the initialization value.
 If there is a valid speed request, then an implementation is expected as fast as possible.</L-1>
-                      <L-1 L="EN">Timing and accuracy requirements on the speed request in a typical series project are equivalent to the timing and accuracy requirements on signal "Transmission: Clutch Speed Requested by Transmission".</L-1>
+                      <L-1 L="EN">Timing and accuracy requirements on the speed request in a typical series project are equivalent to the timing and accuracy requirements on signal &quot;Transmission: Clutch Speed Requested by Transmission&quot;.</L-1>
                       <L-1 L="EN">References to other signals:
 PtEngNReqEnaReq
 TrsmCluNReq</L-1>
@@ -6660,8 +6660,8 @@ TrsmCluNReq</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">This signal is closely related to the signal "Powertrain: Engine Speed Requested by Powertrain".</L-1>
-                      <L-1 L="EN">0 = not enabled =&gt; the request sent by signal "Powertrain: Engine Speed Requested by Powertrain" is not permitted to be implemented.
+                      <L-1 L="EN">This signal is closely related to the signal &quot;Powertrain: Engine Speed Requested by Powertrain&quot;.</L-1>
+                      <L-1 L="EN">0 = not enabled =&gt; the request sent by signal &quot;Powertrain: Engine Speed Requested by Powertrain&quot; is not permitted to be implemented.
 1 = enabled =&gt; the request must be implemented.</L-1>
                       <L-1 L="EN">If the request must be implemented, then the signal must be “1” and the signal “Powertrain: Engine Speed Requested by Powertrain” must be a value in the physically used range, different from initialization and error values.</L-1>
                       <L-1 L="EN">The engine stall protection must have a higher priority than the engine speed request.</L-1>
@@ -6691,7 +6691,7 @@ PtEngNReq</L-1>
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">Used, for example, for comfortable gear engagement from neutral gear at vehicle standstill.</L-1>
-                      <L-1 L="EN">The idle speed setpoint is also known as "target idle speed".</L-1>
+                      <L-1 L="EN">The idle speed setpoint is also known as &quot;target idle speed&quot;.</L-1>
                       <L-1 L="EN">The signal is always calculated, even if the actual engine speed is outside of the activation range of the idle speed controller. This means it is also calculated if the real/physical engine speed is e.g. 0 rpm or 5000 rpm.</L-1>
                     </P>
                   </INTRODUCTION>
@@ -6973,7 +6973,7 @@ e.g. threshold could be given by loss torques or a calibration value</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtFuCutCoastActv1</SHORT-NAME>
+                  <SHORT-NAME>PtFuCutCoastActv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Fuel Cut-Off in Coast Active</L-4>
                   </LONG-NAME>
@@ -6984,7 +6984,7 @@ e.g. threshold could be given by loss torques or a calibration value</L-1>
                     <P>
                       <L-1 L="EN">Fuel cut-off is active for all cylinders of the combustion engine.
 Typically used for activating adaptation functions in the transmission controller.</L-1>
-                      <L-1 L="EN">At initialization, "fuel cut-off inactive" is sent.</L-1>
+                      <L-1 L="EN">At initialization, &quot;fuel cut-off inactive&quot; is sent.</L-1>
                       <L-1 L="EN">0 = Fuel cut-off is inactive
 1 = Fuel cut-off is active</L-1>
                     </P>
@@ -7011,7 +7011,7 @@ Typically used for activating adaptation functions in the transmission controlle
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">Locking the gear lever is requested by the powertrain. Typically used to lock the gear lever in the parking position until the driver presses the brake to prevent an unintended vehicle acceleration.
-The signal is also named "Shift Lock Request".</L-1>
+The signal is also named &quot;Shift Lock Request&quot;.</L-1>
                       <L-1 L="EN">0 = not requested
 1 = requested</L-1>
                     </P>
@@ -7063,7 +7063,7 @@ The signal is also named "Shift Lock Request".</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">Definition of "Clutch": </L-1>
+                      <L-1 L="EN">Definition of &quot;Clutch&quot;: </L-1>
                       <L-1 L="EN">Signal is sent with initialisation.</L-1>
                     </P>
                     <LIST TYPE="UNNUMBER">
@@ -7109,7 +7109,7 @@ The signal is also named "Shift Lock Request".</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtNrTypEmTqRelCluReq1</SHORT-NAME>
+                  <SHORT-NAME>PtNrTypEmTqRelCluReq1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Implementation Type of Electric Machine Relative Torque at Clutch Requested by Powertrain</L-4>
                   </LONG-NAME>
@@ -7123,9 +7123,9 @@ The signal is also named "Shift Lock Request".</L-1>
 1 = absolute maximum =&gt; the powertrain requests an absolute upper limit for the torque to be produced by the electric machine. The real electric machine torque is permitted to be lower. It may be lower due to driver request or due to interventions by other systems. This case is usually used for torque decrease requests.
 2 = absolute minimum =&gt; the powertrain requests an absolute lower limit for the torque to be produced by the electric machine. The real electric machine torque is permitted to be higher. It may be higher due to driver request or due to interventions by other systems. This case is usually used for torque increase requests.
 3 = absolute exact =&gt; the powertrain requests exactly the torque to be produced by the electric machine. The real electric machine torque must comply with the request. This case is usually used for exact torque requests independently of whether the request is an increase or a decrease.
-4 = relative =&gt; the powertrain requests a torque relative to the reference "Powertrain: Torque at Clutch without Transmission Intervention”. The torque request to be implemented is the sum of "Powertrain: Torque at Clutch without Transmission Intervention" and "Powertrain: Electric Machine Relative Torque at Clutch Requested by Powertrain”.</L-1>
-                      <L-1 L="EN">If the sign of the relative torque request is positive, then the sum is treated as in case "2 = absolute minimum".
-If the sign of the relative torque request is negative, then the sum is treated as in case "1 = absolute maximum".</L-1>
+4 = relative =&gt; the powertrain requests a torque relative to the reference &quot;Powertrain: Torque at Clutch without Transmission Intervention”. The torque request to be implemented is the sum of &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot; and &quot;Powertrain: Electric Machine Relative Torque at Clutch Requested by Powertrain”.</L-1>
+                      <L-1 L="EN">If the sign of the relative torque request is positive, then the sum is treated as in case &quot;2 = absolute minimum&quot;.
+If the sign of the relative torque request is negative, then the sum is treated as in case &quot;1 = absolute maximum&quot;.</L-1>
                       <L-1 L="EN">Advantage of the relative request: It immediately follows dynamic changes in the reference. It does not depend strongly on communication time delays.</L-1>
                       <L-1 L="EN">This signal does not define whether or not the intervention of stability control has priority over the intervention of the powertrain. The signal can be used in both cases.
 The priority of stability control versus powertrain intervention is not part of this definition.</L-1>
@@ -7234,7 +7234,7 @@ EngTqCrksft</L-1>
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">Example of usage: Used for Transmission to calculate a predictive slipping time of the clutch to prepare an ideal termination of shifting. 
-Note the definition of "dynamic torque correction": This signal has to consider all internal inertia torques of specific components. 
+Note the definition of &quot;dynamic torque correction&quot;: This signal has to consider all internal inertia torques of specific components. 
 Dynamic Torque at Clutch = Torque At Clutch + Engine dynamic moment of inertia. Default value after reset is zero.</L-1>
                     </P>
                   </INTRODUCTION>
@@ -7272,7 +7272,7 @@ The actual torque at engine clutch depends on the combustion engine torque, the 
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtTqCluMaxCluNCurLongTerm1</SHORT-NAME>
+                  <SHORT-NAME>PtTqCluMaxCluNCurLongTerm1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Maximum Torque at Clutch at Current Clutch Speed Long Term Attainable</L-4>
                   </LONG-NAME>
@@ -7302,7 +7302,7 @@ Permanent knock limitation is considered, knock control is not considered.</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtTqCluMaxCluNCurShoTerm1</SHORT-NAME>
+                  <SHORT-NAME>PtTqCluMaxCluNCurShoTerm1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Maximum Torque at Clutch at Current Clutch Speed Short Term Attainable</L-4>
                   </LONG-NAME>
@@ -7353,7 +7353,7 @@ Permanent knock limitation is considered, knock control is not considered.</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtTqCluMinByIgnRtd1</SHORT-NAME>
+                  <SHORT-NAME>PtTqCluMinByIgnRtd1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Minimum Torque at Clutch By Ignition Retard</L-4>
                   </LONG-NAME>
@@ -7404,7 +7404,7 @@ The signal is necessary for the shift strategy to guarantee a comfortable operat
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">PtTqCluMinFast1</SHORT-NAME>
+                  <SHORT-NAME>PtTqCluMinFast1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Powertrain: Minimum Torque at Clutch Fast Path</L-4>
                   </LONG-NAME>
@@ -7444,7 +7444,7 @@ The signal is necessary for the shift strategy to guarantee a comfortable operat
                     <P>
                       <L-1 L="EN">Limitations include environmental conditions such as altitude, temperature, etc. and engine limitations such as soot limitation, full load limit, etc.</L-1>
                       <L-1 L="EN">The goal is that the torque information is sent 50 – 80 ms ahead of the desired real/physical torque.</L-1>
-                      <L-1 L="EN">For further explanation see signal "Powertrain: Driver Request of Torque at Clutch".</L-1>
+                      <L-1 L="EN">For further explanation see signal &quot;Powertrain: Driver Request of Torque at Clutch&quot;.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, the signal is the sum of the torque request to the electric machine and that part of the torque request to the combustion engine, which is transferred by the engine clutch. The sum does not consider the transmission intervention.</L-1>
                       <L-1 L="EN">References to other signals:
 PtDrvrReqTqClu</L-1>
@@ -7492,7 +7492,7 @@ PtDrvrReqTqClu</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">Outside of a transmission intervention, the signal should show the same value as "Powertrain: Torque at Clutch”.</L-1>
+                      <L-1 L="EN">Outside of a transmission intervention, the signal should show the same value as &quot;Powertrain: Torque at Clutch”.</L-1>
                       <L-1 L="EN">Highly dynamic torque contributions by anti jerk are not visible, in contrary to signal “Powertrain: Torque at Clutch”.</L-1>
                       <L-1 L="EN">During interventions, the signal should show the desired torque without considering the intervention, independent of implementation by ignition, air, cylinder cutoff.
 The effects of the transmission request for shifts on the air path or cylinder cutoff are NOT considered, not even if the fast path request can only be implemented by affecting the air path or cylinder cutoff.</L-1>
@@ -7835,7 +7835,7 @@ PtTqClu</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">This interface contains a value that is computed from "Actual torque at clutch" and other torque losses with influence on wheel torque (e.g. converter, differential). It considers all torque interventions. It includes the actual torque ratio. 
+                      <L-1 L="EN">This interface contains a value that is computed from &quot;Actual torque at clutch&quot; and other torque losses with influence on wheel torque (e.g. converter, differential). It considers all torque interventions. It includes the actual torque ratio. 
 Negative values indicate drag torque, independently from driving direction.Default value after reset is zero.</L-1>
                     </P>
                   </INTRODUCTION>
@@ -7940,7 +7940,7 @@ Negative values indicate drag torque, independently from driving direction.Defau
                     <L-4 L="EN">Minimum Available Total Powertrain Torque at Wheels</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Minimum possible total powertrain torque at wheels "for unfired engine". Lowest possible value of the torque delivered to the wheels by the powertrain assuming that complete fuel cut off is enabled.</L-2>
+                    <L-2 L="EN">Minimum possible total powertrain torque at wheels &quot;for unfired engine&quot;. Lowest possible value of the torque delivered to the wheels by the powertrain assuming that complete fuel cut off is enabled.</L-2>
                   </DESC>
                   <INTRODUCTION>
                     <P>
@@ -8551,7 +8551,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">RSC Control Intervening per Wheel 1</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Confirmation that Roll Stability Control (RSC) is in control. Information of "ability type".</L-2>
+                    <L-2 L="EN">Confirmation that Roll Stability Control (RSC) is in control. Information of &quot;ability type&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -8567,7 +8567,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Seat Adjust Automatic</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Request to move the seat automatically to a stored position or to store the actual position to the memory position "profile".</L-2>
+                    <L-2 L="EN">Request to move the seat automatically to a stored position or to store the actual position to the memory position &quot;profile&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -8790,7 +8790,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Seat Move Automatic Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Request to move the seat automatically in a certain position. This position could be determined by a user request from the seat panel, an access from the remote key, a keyless access, driver easy entry request or if reverse gear was detected, to move the headrest in the "down position". If it is clear, that the driver is outside the car (e.g. easy entry) it may be necessary to move the seat very fast. In this case 'high speed' indicates this situation</L-2>
+                    <L-2 L="EN">Request to move the seat automatically in a certain position. This position could be determined by a user request from the seat panel, an access from the remote key, a keyless access, driver easy entry request or if reverse gear was detected, to move the headrest in the &quot;down position&quot;. If it is clear, that the driver is outside the car (e.g. easy entry) it may be necessary to move the seat very fast. In this case 'high speed' indicates this situation</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -8838,7 +8838,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Seat Store Position Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Request to store the position of a certain seat and a certain axis to the memory position "profile".</L-2>
+                    <L-2 L="EN">Request to store the position of a certain seat and a certain axis to the memory position &quot;profile&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -8854,7 +8854,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Seat Store Position Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Interface provides information about the position of a certain seat and a certain axis as previously stored in the memory position "profile".</L-2>
+                    <L-2 L="EN">Interface provides information about the position of a certain seat and a certain axis as previously stored in the memory position &quot;profile&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -8870,7 +8870,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Seat Store Position Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Interface provides information about the position of a certain seat and a certain axis as previously stored in the memory position "profile".</L-2>
+                    <L-2 L="EN">Interface provides information about the position of a certain seat and a certain axis as previously stored in the memory position &quot;profile&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -9926,7 +9926,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Store Position Command</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Request to store the position of a certain seat and a certain axis to the memory position "profile". This interface is mainly provided for centralized storage of memory positions (NV-RAM Manager supports only local NV-RAM)</L-2>
+                    <L-2 L="EN">Request to store the position of a certain seat and a certain axis to the memory position &quot;profile&quot;. This interface is mainly provided for centralized storage of memory positions (NV-RAM Manager supports only local NV-RAM)</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -10531,7 +10531,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                     <L-4 L="EN">Toggle Request</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">User request to lock / unlock e.g. the glove box ("Toggle-Function"). "on" means toggle.</L-2>
+                    <L-2 L="EN">User request to lock / unlock e.g. the glove box (&quot;Toggle-Function&quot;). &quot;on&quot; means toggle.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -10720,7 +10720,7 @@ Complete fuel cut off excluded, since these are just the complete losses. This i
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">The timing and accuracy requirements in a typical series project are the same as for signal "Transmission: Clutch Speed Requested by Transmission".</L-1>
+                      <L-1 L="EN">The timing and accuracy requirements in a typical series project are the same as for signal &quot;Transmission: Clutch Speed Requested by Transmission&quot;.</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmCluNReq</L-1>
                     </P>
@@ -10737,7 +10737,7 @@ TrsmCluNReq</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmCluNMinReq1</SHORT-NAME>
+                  <SHORT-NAME>TrsmCluNMinReq1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Minimum Clutch Speed Requested by Transmission</L-4>
                   </LONG-NAME>
@@ -10763,7 +10763,7 @@ Limitation typically implemented by the engine and/or the electric machine to e.
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmCluNPredGearTar1</SHORT-NAME>
+                  <SHORT-NAME>TrsmCluNPredGearTar1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Predicted Clutch Speed in Target Gear</L-4>
                   </LONG-NAME>
@@ -10842,7 +10842,7 @@ PtEngNReqEnaReq</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">0 = not enabled =&gt; the request sent by the signals "Transmission: Clutch Speed Requested by Transmission" and "Transmission: Target Time to Reach Clutch Speed Requested by Transmission" is not permitted to be implemented.
+                      <L-1 L="EN">0 = not enabled =&gt; the request sent by the signals &quot;Transmission: Clutch Speed Requested by Transmission&quot; and &quot;Transmission: Target Time to Reach Clutch Speed Requested by Transmission&quot; is not permitted to be implemented.
 1 = enabled =&gt; the request must be implemented.</L-1>
                       <L-1 L="EN">If the request must be implemented, then the signal must be “1” and the signal “Transmission: Clutch Speed Requested by Transmission” must be a value in the physically used range, different from initialization and error values.</L-1>
                       <L-1 L="EN">The engine stall protection must have a higher priority than the engine speed request.</L-1>
@@ -10896,7 +10896,7 @@ Default value after reset is open.</L-1>
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">There exist 4 principal states: open, intermediate, near closed, hard closed (Note: The definition of intermediate and near closed has to be made for each project separately) 
-Definition of "Clutch": </L-1>
+Definition of &quot;Clutch&quot;: </L-1>
                       <L-1 L="EN">Be aware that this information is not necessarily equal with the drivetrain open information. If a torque converter clutch is open, the drivetrain can still be closed. In contrary the drivetrain is open for Manual Transmission (MT) and Automatic Manual Transmission (AMT), if the clutch is open!Default value after reset is open.</L-1>
                     </P>
                     <LIST TYPE="UNNUMBER">
@@ -10952,7 +10952,7 @@ Definition of "Clutch": </L-1>
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">There exist 4 principal states: open, intermediate, near closed, hard closed (Note: The definition of intermediate and near closed has to be made for each project separately) 
-Definition of "Clutch": </L-1>
+Definition of &quot;Clutch&quot;: </L-1>
                       <L-1 L="EN">Be aware that this information is not necessarily equal with the drivetrain open information. If a torque converter clutch is open, the drivetrain can still be closed. In contrary the drivetrain is open for Manual Transmission (MT) and Automatic Manual Transmission (AMT), if the clutch is open!Default value after reset is open.</L-1>
                     </P>
                     <LIST TYPE="UNNUMBER">
@@ -10991,7 +10991,7 @@ The signal is independent of the position of the drive-off element in the power 
                       <L-1 L="EN">Drive-off elements are implemented, for example, as hydraulic torque converter or friction clutch.</L-1>
                       <L-1 L="EN">There are gearboxes where drive-off element and gearbox core are separate mechanical parts. There are also gearboxes where a clutch in the gearbox is used as both, drive-off element and shift clutch: 
 a) If the clutch is used as a drive-off element: The signal is defined by the state of this clutch. 
-b) If the clutch is used as a shift clutch: The state of the signal is "closed".</L-1>
+b) If the clutch is used as a shift clutch: The state of the signal is &quot;closed&quot;.</L-1>
                       <L-1 L="EN">States of power transmission:
 0 = open
 1 = open_touch
@@ -11031,7 +11031,7 @@ The signal is independent of the position of the drive-off element in the power 
                       <L-1 L="EN">Drive-off elements are implemented, for example, as a hydraulic torque converter or friction clutch.</L-1>
                       <L-1 L="EN">There are gearboxes with separate mechanical parts for the drive-off element and the gearbox core. There are also gearboxes where a clutch in the gearbox is used as both, drive-off element and shift clutch: 
 a) If the clutch is used as a drive-off element: The signal is defined by the state of this clutch.
-b) If the clutch is used as a shift clutch: The state of the signal is "closed".</L-1>
+b) If the clutch is used as a shift clutch: The state of the signal is &quot;closed&quot;.</L-1>
                       <L-1 L="EN">States of power transmission:
 0 = open
 1 = open_touch
@@ -11207,8 +11207,8 @@ Values 7… 13 are undefined.</L-1>
 The signal summarizes the state of power transmission of all gears and all gearbox internal clutches except for the drive-off element.</L-1>
                       <L-1 L="EN">The gearbox core is the part of the gearbox which is not used as drive-off element.</L-1>
                       <L-1 L="EN">There are gearboxes where drive-off element and gearbox core are separate mechanical parts. There are also gearboxes where a clutch in the gearbox is used as both, drive-off element and shift clutch.
-a) If the clutch is used as a drive-off element: The signal "Transmission: State of Drive-Off Element” is defined by the state of this clutch. The signal specified by this text is then defined by the state of the other parts of the gearbox. These other parts are the gearbox core. 
-b) If the clutch is used as a shift clutch: The state of the signal "Transmission: State of Drive-Off Element” is "closed". The signal specified by this text is then defined by the state of all parts of the gearbox. Then all parts of the gearbox are the gearbox core.</L-1>
+a) If the clutch is used as a drive-off element: The signal &quot;Transmission: State of Drive-Off Element” is defined by the state of this clutch. The signal specified by this text is then defined by the state of the other parts of the gearbox. These other parts are the gearbox core. 
+b) If the clutch is used as a shift clutch: The state of the signal &quot;Transmission: State of Drive-Off Element” is &quot;closed&quot;. The signal specified by this text is then defined by the state of all parts of the gearbox. Then all parts of the gearbox are the gearbox core.</L-1>
                       <L-1 L="EN">States of power transmission:
 0 = open
 1 = open_touch
@@ -11296,7 +11296,7 @@ The gear shift phase can be identified by the signal “Transmission: Gear Shift
 …
 28 = gear 26
 29 = no discrete gear</L-1>
-                      <L-1 L="EN">State “no discrete gear" is typically used by continuous variable transmissions (CVT).</L-1>
+                      <L-1 L="EN">State “no discrete gear&quot; is typically used by continuous variable transmissions (CVT).</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmFlgShiftProgs</L-1>
                     </P>
@@ -11355,7 +11355,7 @@ The signal is not defined for transmissions with a gearbox core with more than o
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmIntvModReqForTqCluMaxFastReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmIntvModReqForTqCluMaxFastReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Intervention Mode Request for Maximum Torque at Clutch for Shift Intervention on Fast Path</L-4>
                   </LONG-NAME>
@@ -11383,7 +11383,7 @@ If the distribution of the torque request to electric machine and combustion eng
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmIntvModReqForTqCluReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmIntvModReqForTqCluReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Intervention Mode Request for Torque at Clutch for Shift Intervention</L-4>
                   </LONG-NAME>
@@ -11399,7 +11399,7 @@ If the distribution of the torque request to electric machine and combustion eng
 4 = Air =&gt; ignition angle and cylinder cut-off not permitted
 5 = Cylinder cut-off =&gt; ignition angle and air mass modulation not permitted
 6 = Cylinder cut-off and air =&gt; ignition retard not permitted
-7 = Undefined =&gt; to be treated as "0 = no restrictions".</L-1>
+7 = Undefined =&gt; to be treated as &quot;0 = no restrictions&quot;.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, implementation of the torque request by the electric machine is permitted. If the distribution of the torque request to electric machine and combustion engine must be defined, then a separate signal is necessary.</L-1>
                     </P>
                   </INTRODUCTION>
@@ -11586,7 +11586,7 @@ The use of Continuously Variable Transmission (CVT) has to be handled by separat
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">Initialization possible by "End Of Line (EOL)" or "Key On". This information can come from compiler switch, calibration label, or as learned variant (SW identifies Gearbox type)Signal is sent with initialisation.</L-1>
+                      <L-1 L="EN">Initialization possible by &quot;End Of Line (EOL)&quot; or &quot;Key On&quot;. This information can come from compiler switch, calibration label, or as learned variant (SW identifies Gearbox type)Signal is sent with initialisation.</L-1>
                     </P>
                   </INTRODUCTION>
                   <IS-SERVICE>false</IS-SERVICE>
@@ -11598,7 +11598,7 @@ The use of Continuously Variable Transmission (CVT) has to be handled by separat
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmNrTypOfTqCluMaxMinFastSlowReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmNrTypOfTqCluMaxMinFastSlowReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Implementation Type of Request for Maximum and Minimum Torque at Clutch for Shift Intervention on Fast and Slow Path</L-4>
                   </LONG-NAME>
@@ -11613,7 +11613,7 @@ The use of Continuously Variable Transmission (CVT) has to be handled by separat
 “Transmission: Request for Maximum Torque at Clutch for Shift Intervention on Slow Path”,
 “Transmission: Request for Minimum Torque at Clutch for Shift Intervention on Slow Path”.</L-1>
                       <L-1 L="EN">0 = absolute =&gt; the transmission requests an absolute limit for the torque to be produced by the engine on the fast and / or slow path.
-1 = relative =&gt; the transmission requests a relative intervention for the torque to be produced by the engine on the fast and / or slow path. The reference signal is "Powertrain: Torque at Clutch without Transmission Intervention”.</L-1>
+1 = relative =&gt; the transmission requests a relative intervention for the torque to be produced by the engine on the fast and / or slow path. The reference signal is &quot;Powertrain: Torque at Clutch without Transmission Intervention”.</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmTqCluMaxFastReqForShiftIntv
 TrsmTqCluMinFastReqForShiftIntv
@@ -11634,7 +11634,7 @@ PtTqCluWoTrsmIntv</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmNrTypOfTqCluReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmNrTypOfTqCluReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Implementation Type of Request for Torque at Clutch for Shift Intervention</L-4>
                   </LONG-NAME>
@@ -11648,9 +11648,9 @@ PtTqCluWoTrsmIntv</L-1>
 1 = absolute maximum =&gt; the transmission requests an absolute upper limit for the torque to be produced by the engine. The real engine torque is permitted to be lower. It may be lower due to driver request or due to interventions by other systems. This case is usually used for torque decrease requests.
 2 = absolute minimum =&gt; the transmission requests an absolute lower limit for the torque to be produced by the engine. The real engine torque is permitted to be higher. It may be higher due to driver request or due to interventions by other systems. This case is usually used for torque increase requests.
 3 = absolute exact =&gt; the transmission requests exactly the torque to be produced by the engine. The real engine torque must comply with the request. This case is used for exact torque requests independently of whether the request is an increase or a decrease.
-4 = relative =&gt; the transmission requests a torque relative to the reference "Powertrain: Torque at Clutch without Transmission Intervention”. The torque request to be implemented is the sum of "Powertrain: Torque at Clutch without Transmission Intervention" and "Transmission: Request for Torque at Clutch for Shift Intervention”.</L-1>
-                      <L-1 L="EN">If the sign of the relative torque request is positive, then the sum is treated such as "2 = absolute minimum".
-If the sign of the relative torque request is negative, then the sum is treated such as "1 = absolute maximum".</L-1>
+4 = relative =&gt; the transmission requests a torque relative to the reference &quot;Powertrain: Torque at Clutch without Transmission Intervention”. The torque request to be implemented is the sum of &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot; and &quot;Transmission: Request for Torque at Clutch for Shift Intervention”.</L-1>
+                      <L-1 L="EN">If the sign of the relative torque request is positive, then the sum is treated such as &quot;2 = absolute minimum&quot;.
+If the sign of the relative torque request is negative, then the sum is treated such as &quot;1 = absolute maximum&quot;.</L-1>
                       <L-1 L="EN">Advantage of the relative request: It immediately follows dynamic changes in the reference. It does not depend strongly on communication time delays.
 Advantage of the absolute request: It is independent of the reference and its dynamic behavior, so it meets exact absolute requests from the transmission.</L-1>
                       <L-1 L="EN">This signal does not define whether or not the intervention of stability control has priority over the intervention of the transmission. The signal can be used in both cases.
@@ -11672,7 +11672,7 @@ TrsmTqCluReqForShiftIntv</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmNrTypOfTqCluResvReq1</SHORT-NAME>
+                  <SHORT-NAME>TrsmNrTypOfTqCluResvReq1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Implementation Type of Request for Torque Reserve at Clutch</L-4>
                   </LONG-NAME>
@@ -11683,8 +11683,8 @@ TrsmTqCluReqForShiftIntv</L-1>
                     <P>
                       <L-1 L="EN">0 = no request =&gt; the transmission does not send a request.
 1 = absolute minimum =&gt; the transmission requests an increase in the torque at clutch on slow path to the transmitted value, and compensation of the increased air mass by ignition retard and/or injection cutoff.
-2 = relative =&gt; the transmission requests an increase in the torque at clutch on slow path to the transmitted value relative to the signal "Powertrain: Torque at Clutch without Transmission Intervention", and compensation of the increased air mass by ignition retard and/or injection cutoff.</L-1>
-                      <L-1 L="EN">If the status is "relative", then only positive values are permitted for "Transmission: Request for Torque Reserve at Clutch".</L-1>
+2 = relative =&gt; the transmission requests an increase in the torque at clutch on slow path to the transmitted value relative to the signal &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot;, and compensation of the increased air mass by ignition retard and/or injection cutoff.</L-1>
+                      <L-1 L="EN">If the status is &quot;relative&quot;, then only positive values are permitted for &quot;Transmission: Request for Torque Reserve at Clutch&quot;.</L-1>
                       <L-1 L="EN">References to other signals:
 PtTqCluWoTrsmIntv
 TrsmTqCluResvReq</L-1>
@@ -11901,7 +11901,7 @@ At open drivetrain: </L-1>
                     <LIST TYPE="UNNUMBER">
                       <ITEM>
                         <P>
-                          <L-1 L="EN">Driver or strategy selects "N" or "P": Every transmission has an open drivetrain </L-1>
+                          <L-1 L="EN">Driver or strategy selects &quot;N&quot; or &quot;P&quot;: Every transmission has an open drivetrain </L-1>
                         </P>
                       </ITEM>
                       <ITEM>
@@ -11923,7 +11923,7 @@ At open drivetrain: </L-1>
                       </ITEM>
                       <ITEM>
                         <P>
-                          <L-1 L="EN">for Automatic Transmission (AT), Continuously Variable Transmission (CVT) and Dual Clutch Transmission (DCT): While the drivetrain is open the transmission prepares a theoretical gear position to engage immediately after the driver selects "D". This theoretical gear state information should be used.Default value after reset is 1.0.</L-1>
+                          <L-1 L="EN">for Automatic Transmission (AT), Continuously Variable Transmission (CVT) and Dual Clutch Transmission (DCT): While the drivetrain is open the transmission prepares a theoretical gear position to engage immediately after the driver selects &quot;D&quot;. This theoretical gear state information should be used.Default value after reset is 1.0.</L-1>
                         </P>
                       </ITEM>
                     </LIST>
@@ -11959,7 +11959,7 @@ At open drivetrain: </L-1>
                     <LIST TYPE="UNNUMBER">
                       <ITEM>
                         <P>
-                          <L-1 L="EN">Driver or strategy selects "N" or "P": every transmission has an open drivetrain </L-1>
+                          <L-1 L="EN">Driver or strategy selects &quot;N&quot; or &quot;P&quot;: every transmission has an open drivetrain </L-1>
                         </P>
                       </ITEM>
                       <ITEM>
@@ -11981,7 +11981,7 @@ At open drivetrain: </L-1>
                       </ITEM>
                       <ITEM>
                         <P>
-                          <L-1 L="EN">for Automatic Transmission (AT), Continuously Variable Transmission (CVT) and Dual Clutch Transmission (DCT): While the drivetrain is open the transmission prepares a theoretical gear position to engage immediately after the driver selects "D". This theoretical gear state information should be used.Default value after reset is 1.0.</L-1>
+                          <L-1 L="EN">for Automatic Transmission (AT), Continuously Variable Transmission (CVT) and Dual Clutch Transmission (DCT): While the drivetrain is open the transmission prepares a theoretical gear position to engage immediately after the driver selects &quot;D&quot;. This theoretical gear state information should be used.Default value after reset is 1.0.</L-1>
                         </P>
                       </ITEM>
                     </LIST>
@@ -12034,14 +12034,14 @@ For transmissions with a converter, the signal is the combination of the current
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">The ratio of "Torque at Transmission Output" by "Torque at Clutch", calculated at the current vehicle speed, is expected to be reached when the target gear is engaged.</L-1>
+                      <L-1 L="EN">The ratio of &quot;Torque at Transmission Output&quot; by &quot;Torque at Clutch&quot;, calculated at the current vehicle speed, is expected to be reached when the target gear is engaged.</L-1>
                       <L-1 L="EN">This ratio covers the ratio of the gearbox, but not the transfer case and the reduction gearbox, if present.</L-1>
                       <L-1 L="EN">For transmissions without a converter:
 The slip of the drive-off element is supposed to be zero for the calculation of this signal.</L-1>
                       <L-1 L="EN">For transmissions with a converter:
 The signal is calculated with the current converter torque ratio, because the converter torque ratio in the target gear is unknown. The converter torque ratio is continuously updated.
 For transmissions with a converter, the signal is the combination of the torque ratio of the gearbox core in target gear and the current torque ratio of the converter including the converter clutch, if present.</L-1>
-                      <L-1 L="EN">The signal changes synchronously with the change of the "Transmission: Transmission Gear State".</L-1>
+                      <L-1 L="EN">The signal changes synchronously with the change of the &quot;Transmission: Transmission Gear State&quot;.</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmGearSt</L-1>
                     </P>
@@ -12067,7 +12067,7 @@ TrsmGearSt</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">Current ratio of "Torque at Wheel" by "Torque at Clutch".
+                      <L-1 L="EN">Current ratio of &quot;Torque at Wheel&quot; by &quot;Torque at Clutch&quot;.
 This ratio covers the ratio of the gearbox, the transfer case and the reduction gearbox, if present.</L-1>
                       <L-1 L="EN">For transmissions without a converter:
 The slip of the drive-off element is supposed to be zero for the calculation of this signal.</L-1>
@@ -12097,14 +12097,14 @@ For transmissions with a converter, the signal is the combination of the current
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">The ratio of "Torque at Wheel" by "Torque at Clutch", calculated at the current vehicle speed, is expected to be reached when the target gear is engaged.</L-1>
+                      <L-1 L="EN">The ratio of &quot;Torque at Wheel&quot; by &quot;Torque at Clutch&quot;, calculated at the current vehicle speed, is expected to be reached when the target gear is engaged.</L-1>
                       <L-1 L="EN">This ratio covers the ratio of the gearbox, the transfer case and the reduction gearbox, if present.</L-1>
                       <L-1 L="EN">For transmissions without a converter:
 The slip of the drive-off element is supposed to be zero for the calculation of this signal.</L-1>
                       <L-1 L="EN">For transmissions with a converter:
 The signal is calculated with the current converter torque ratio, because the converter torque ratio in the target gear is unknown. The converter torque ratio is continuously updated.
 For transmissions with a converter, the signal is the combination of the torque ratio of the gearbox core in target gear and the current torque ratio of the converter including the converter clutch, if present.</L-1>
-                      <L-1 L="EN">The signal changes synchronously with the change of the "Transmission: Transmission Gear State".</L-1>
+                      <L-1 L="EN">The signal changes synchronously with the change of the &quot;Transmission: Transmission Gear State&quot;.</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmGearSt</L-1>
                     </P>
@@ -12223,7 +12223,7 @@ Correspondingly, reduction gearboxes with more than two states of power transmis
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTiCluNReqTar1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTiCluNReqTar1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Target Time to Reach Clutch Speed Requested by Transmission</L-4>
                   </LONG-NAME>
@@ -12232,7 +12232,7 @@ Correspondingly, reduction gearboxes with more than two states of power transmis
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">The speed at clutch requested by "Transmission: Clutch Speed Requested by Transmission" must be reached in the transmitted target time.</L-1>
+                      <L-1 L="EN">The speed at clutch requested by &quot;Transmission: Clutch Speed Requested by Transmission&quot; must be reached in the transmitted target time.</L-1>
                       <L-1 L="EN">As long as there is no speed request, the recommendation is to send the initialization value.</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmCluNReq</L-1>
@@ -12250,7 +12250,7 @@ TrsmCluNReq</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTqCluGbxCnsNIdleCtrlr1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTqCluGbxCnsNIdleCtrlr1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Gearbox Torque Consumption at Clutch for Idle Speed Controller</L-4>
                   </LONG-NAME>
@@ -12295,9 +12295,9 @@ In this case, this signal might even be greater than the torque value of a) beca
                       <L-1 L="EN">Transmission request to limit the clutch torque gradient if changes in the real and virtual driver requests could cause the clutch torque gradient to be greater than the specified limit. Other requests such as engine internal stall protection and idle speed control or other external interventions, are not permitted to be limited.</L-1>
                       <L-1 L="EN">This signal offers the following benefit in comparison to the transmission torque requests:</L-1>
                       <L-1 L="EN">The effect of the signal must be visible on signals
-"Powertrain: Torque at Clutch",
-"Powertrain: Torque at Clutch without Transmission Intervention",
-"Powertrain: Requested Torque at Clutch without Transmission Intervention",
+&quot;Powertrain: Torque at Clutch&quot;,
+&quot;Powertrain: Torque at Clutch without Transmission Intervention&quot;,
+&quot;Powertrain: Requested Torque at Clutch without Transmission Intervention&quot;,
 “Powertrain: Predicted Driver Request of Torque at Clutch in Target Speed”.</L-1>
                       <L-1 L="EN">As a default value, or if there is no request from the transmission, the passive value (FEh) is sent.</L-1>
                       <L-1 L="EN">The target is to implement this gradient limitation as fast as possible by fast and slow request.</L-1>
@@ -12368,7 +12368,7 @@ The value on the application level must consider the sign. The Application Data 
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTqCluMaxFastReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTqCluMaxFastReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Request for Maximum Torque at Clutch for Shift Intervention on Fast Path</L-4>
                   </LONG-NAME>
@@ -12380,7 +12380,7 @@ The value on the application level must consider the sign. The Application Data 
                       <L-1 L="EN">Usually used for shift intervention, but permitted for all purposes.</L-1>
                       <L-1 L="EN">As long as there is no torque request from the transmission, a constant substitute value (“no request”) or the maximum value is transmitted on the signal.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, the transmission transmits the summarized torque request of the combustion engine and the electric machine.</L-1>
-                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference "Powertrain: Torque at Clutch without Transmission Intervention" must be defined separately.</L-1>
+                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot; must be defined separately.</L-1>
                       <L-1 L="EN">References to other signals:
 PtTqCluWoTrsmIntv</L-1>
                     </P>
@@ -12407,11 +12407,11 @@ PtTqCluWoTrsmIntv</L-1>
                   <INTRODUCTION>
                     <P>
                       <L-1 L="EN">A torque decrease in the engine is performed via fast path and slow path.</L-1>
-                      <L-1 L="EN">The engine limits the value of the torque at clutch as defined in the signal "Powertrain: Torque at Clutch", so the effects of dynamic torque are not considered.
+                      <L-1 L="EN">The engine limits the value of the torque at clutch as defined in the signal &quot;Powertrain: Torque at Clutch&quot;, so the effects of dynamic torque are not considered.
 The lower limit to be considered by the engine depends on the torque necessary for the engine internal stall protection.
 The global target is to prevent damage to gearbox and drivetrain, e.g. caused by mechanical and thermal overload.</L-1>
                       <L-1 L="EN">The indicated torque must be calculated based on this signal, without consideration of the torque influence of inertia. </L-1>
-                      <L-1 L="EN">Although this signal is a transmission intervention, the effect must also be visible on all signals with the suffix "...without Intervention".</L-1>
+                      <L-1 L="EN">Although this signal is a transmission intervention, the effect must also be visible on all signals with the suffix &quot;...without Intervention&quot;.</L-1>
                       <L-1 L="EN">The calculation of this signal by the provider is not permitted to consider the inertia, which has an effect on the torque at clutch. This means that the signal must be calculated as if the inertia is 0 kg*(m^2).</L-1>
                       <L-1 L="EN">References to other signals:
 PtTqClu</L-1>
@@ -12429,7 +12429,7 @@ PtTqClu</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTqCluMaxSlowReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTqCluMaxSlowReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Request for Maximum Torque at Clutch for Shift Intervention on Slow Path</L-4>
                   </LONG-NAME>
@@ -12441,7 +12441,7 @@ PtTqClu</L-1>
                       <L-1 L="EN">Usually used for shift intervention, but permitted for all purposes.</L-1>
                       <L-1 L="EN">As long as there is no torque request from the transmission, a constant substitute value (“no request”) or the maximum value is transmitted on the signal.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, the transmission transmits the summarized torque request of the combustion engine and the electric machine.</L-1>
-                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference "Powertrain: Torque at Clutch without Transmission Intervention" must be defined separately.</L-1>
+                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot; must be defined separately.</L-1>
                       <L-1 L="EN">References to other signals:
 PtTqCluWoTrsmIntv</L-1>
                     </P>
@@ -12458,7 +12458,7 @@ PtTqCluWoTrsmIntv</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTqCluMinFastReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTqCluMinFastReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Request for Minimum Torque at Clutch for Shift Intervention on Fast Path</L-4>
                   </LONG-NAME>
@@ -12470,7 +12470,7 @@ PtTqCluWoTrsmIntv</L-1>
                       <L-1 L="EN">Usually used for shift intervention, but permitted for all purposes.</L-1>
                       <L-1 L="EN">As long as there is no torque request from the transmission, a constant substitute value (“no request”) or the minimum value is transmitted on the signal.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, the transmission transmits the summarized torque request of the combustion engine and the electric machine.</L-1>
-                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference "Powertrain: Torque at Clutch without Transmission Intervention" must be defined separately.</L-1>
+                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot; must be defined separately.</L-1>
                       <L-1 L="EN">References to other signals:
 PtTqCluWoTrsmIntv</L-1>
                     </P>
@@ -12502,7 +12502,7 @@ The implementation of the gearbox request is limited by the driving motors:
 For efficiency and safety reasons, the minimum torque for gearbox protection is not permitted to lead to a positive indicated or inner torque on any of the driving motors.
 The limitation must be implemented only by affecting the negative torque of the electric machine.</L-1>
                       <L-1 L="EN">The effects of dynamic torque are not considered.</L-1>
-                      <L-1 L="EN">Although this signal is a transmission intervention, the effect must also be visible on all signals with the suffix "...without Transmission Intervention".</L-1>
+                      <L-1 L="EN">Although this signal is a transmission intervention, the effect must also be visible on all signals with the suffix &quot;...without Transmission Intervention&quot;.</L-1>
                     </P>
                   </INTRODUCTION>
                   <IS-SERVICE>false</IS-SERVICE>
@@ -12517,7 +12517,7 @@ The limitation must be implemented only by affecting the negative torque of the 
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTqCluMinSlowReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTqCluMinSlowReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Request for Minimum Torque at Clutch for Shift Intervention on Slow Path</L-4>
                   </LONG-NAME>
@@ -12529,7 +12529,7 @@ The limitation must be implemented only by affecting the negative torque of the 
                       <L-1 L="EN">Usually used for shift intervention, but permitted for all purposes.</L-1>
                       <L-1 L="EN">As long as there is no torque request from the transmission, a constant substitute value (“no request”) or the minimum value is transmitted on the signal.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, the transmission transmits the summarized torque request of the combustion engine and the electric machine.</L-1>
-                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference "Powertrain: Torque at Clutch without Transmission Intervention" must be defined separately.</L-1>
+                      <L-1 L="EN">This signal is defined for an absolute intervention. The interface for relative interventions to the reference &quot;Powertrain: Torque at Clutch without Transmission Intervention&quot; must be defined separately.</L-1>
                       <L-1 L="EN">References to other signals:
 PtTqCluWoTrsmIntv</L-1>
                     </P>
@@ -12546,7 +12546,7 @@ PtTqCluWoTrsmIntv</L-1>
                   </DATA-ELEMENTS>
                 </SENDER-RECEIVER-INTERFACE>
                 <SENDER-RECEIVER-INTERFACE>
-                  <SHORT-NAME NAME-PATTERN="{anyName}">TrsmTqCluReqForShiftIntv1</SHORT-NAME>
+                  <SHORT-NAME>TrsmTqCluReqForShiftIntv1</SHORT-NAME>
                   <LONG-NAME>
                     <L-4 L="EN">Transmission: Request for Torque at Clutch for Shift Intervention</L-4>
                   </LONG-NAME>
@@ -12555,11 +12555,11 @@ PtTqCluWoTrsmIntv</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">This signal is closely related to the signals for "implementation type" and “intervention mode” of request:
+                      <L-1 L="EN">This signal is closely related to the signals for &quot;implementation type&quot; and “intervention mode” of request:
 “Transmission: Implementation Type of Request for Torque at Clutch for Shift Intervention”,
 “Transmission: Intervention Mode Request for Torque at Clutch for Shift Intervention”.</L-1>
                       <L-1 L="EN">Usually used for shift interventions, but permitted for all purposes.</L-1>
-                      <L-1 L="EN">As long as there is no torque request, the signal "Transmission: Implementation Type of Request for Torque at Clutch for Shift Intervention", is “0h = no request” and signal “Transmission: Request for Torque at Clutch for Shift Intervention” is “FFEh = Init”.</L-1>
+                      <L-1 L="EN">As long as there is no torque request, the signal &quot;Transmission: Implementation Type of Request for Torque at Clutch for Shift Intervention&quot;, is “0h = no request” and signal “Transmission: Request for Torque at Clutch for Shift Intervention” is “FFEh = Init”.</L-1>
                       <L-1 L="EN">In parallel hybrid projects, the transmission transmits the summarized torque request of the combustion engine and the electric machine.</L-1>
                       <L-1 L="EN">References to other signals:
 TrsmNrTypOfTqCluReqForShiftIntv
@@ -12587,7 +12587,7 @@ TrsmIntvModReqForTqCluReqForShiftIntv</L-1>
                   </DESC>
                   <INTRODUCTION>
                     <P>
-                      <L-1 L="EN">This signal is closely related to "Transmission: Implementation Type of Request for Torque Reserve at Clutch".
+                      <L-1 L="EN">This signal is closely related to &quot;Transmission: Implementation Type of Request for Torque Reserve at Clutch&quot;.
 The engine must compensate for the increased air mass by ignition retard and/or injection cutoff. The engine is not permitted to increase the air mass more than can be compensated for. This prevents unintended acceleration of the car.</L-1>
                       <L-1 L="EN">This torque reserve prepares the engine to implement torque increase requests as quickly as it is required.</L-1>
                       <L-1 L="EN">References to other signals:
@@ -13262,7 +13262,7 @@ In case of actor/sensor failures or if there is no possibility to determine the 
                     <L-4 L="EN">Safety Torque Limit Calculated from the Vehicle's Maximum Speed</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Torque limit calculated from the vehicle's maximum speed limit. This speed limit is not the "comfort" speed limit; it is the safety or vehicle protection limit, normally not selectable by the driver.</L-2>
+                    <L-2 L="EN">Torque limit calculated from the vehicle's maximum speed limit. This speed limit is not the &quot;comfort&quot; speed limit; it is the safety or vehicle protection limit, normally not selectable by the driver.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -13755,7 +13755,7 @@ In case of actor/sensor failures or if there is no possibility to determine the 
                     <L-4 L="EN">Washer Fluid Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Provides information if the low limit of washer fluid is reached (enough=above threshold; low level=below threshold). As long as the water level is under the low limit the status is "on".</L-2>
+                    <L-2 L="EN">Provides information if the low limit of washer fluid is reached (enough=above threshold; low level=below threshold). As long as the water level is under the low limit the status is &quot;on&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>
@@ -13771,7 +13771,7 @@ In case of actor/sensor failures or if there is no possibility to determine the 
                     <L-4 L="EN">Washer Fluid Status</L-4>
                   </LONG-NAME>
                   <DESC>
-                    <L-2 L="EN">Provides information if the low limit of washer fluid is reached (enough=above threshold; low level=below threshold). As long as the water level is under the low limit the status is "on".</L-2>
+                    <L-2 L="EN">Provides information if the low limit of washer fluid is reached (enough=above threshold; low level=below threshold). As long as the water level is under the low limit the status is &quot;on&quot;.</L-2>
                   </DESC>
                   <IS-SERVICE>false</IS-SERVICE>
                   <DATA-ELEMENTS>

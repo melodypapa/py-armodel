@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00050.xsd">
   <ADMIN-DATA>
     <LANGUAGE>EN</LANGUAGE>
     <USED-LANGUAGES>
-      <L-10 L="EN" xml:space="default">English</L-10>
+      <L-10 L="EN">English</L-10>
     </USED-LANGUAGES>
   </ADMIN-DATA>
   <AR-PACKAGES>
@@ -1362,7 +1362,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1376,7 +1376,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1390,7 +1390,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1404,7 +1404,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1432,7 +1432,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1446,7 +1446,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1460,7 +1460,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1474,7 +1474,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
@@ -1488,7 +1488,7 @@
                       </PERIOD-BEGIN>
                       <REMARK>
                         <P>
-                          <L-1 L="EN">Interface Name Harmonization (removal of "Estimd")</L-1>
+                          <L-1 L="EN">Interface Name Harmonization (removal of &quot;Estimd&quot;)</L-1>
                         </P>
                       </REMARK>
                       <USE-INSTEAD-REFS>
