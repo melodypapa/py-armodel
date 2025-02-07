@@ -1,8 +1,17 @@
 from typing import List
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
+
 from .....M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from .....M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, String
+
+
+class GraphicFitEnum(AREnum):
+    def __init__(self, enum_values):
+        super().__init__([
+
+        ])
 
 
 class Graphic(EngineeringObject):
@@ -65,11 +74,16 @@ class Graphic(EngineeringObject):
         return self
     
 
+class Map(ARObject):
+    def __init__(self):
+        super().__init__()
+    
+
 class LGraphic(LanguageSpecific):
     def __init__(self):
         super().__init__()
 
-        self.l = None                                           # type: str
+        self.l = None                                           # type: str                         # noqa E741
         self.graphic = None                                     # type: Graphic
         self.map = None                                         # type: Map
 
@@ -78,7 +92,7 @@ class LGraphic(LanguageSpecific):
 
     def setL(self, value):
         if value is not None:
-            self.l = value
+            self.l = value                                                                          # noqa E741
         return self
 
     def getGraphic(self):

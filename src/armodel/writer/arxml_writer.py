@@ -1,10 +1,6 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent
@@ -21,6 +17,8 @@ from ..models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwP
 from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from ..models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from ..models.M2.MSR.Documentation.Annotation import Annotation
+from ..models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
+from ..models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LanguageSpecific
@@ -57,6 +55,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diagnostic
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
 from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet, Keyword
+from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
