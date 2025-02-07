@@ -296,6 +296,11 @@ class RoleBasedDataTypeAssignment(ARObject):
         return self
 
 
+class ServiceDiagnosticRelevanceEnum(AREnum):
+    def __init__(self):
+        super().__init__([])
+    
+
 class ServiceDependency(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -627,25 +632,75 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         return self
 
 
+class DtcKindEnum(AREnum):
+    def __init__(self):
+        super().__init__([])
+
+
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        self.dtcKind = None                             # type: DtcKindEnum
         self.obdDtcNumber = None                        # type: PositiveInteger
         self.udsDtcNumber = None                        # type: PositiveInteger
+
+    def getDtcKind(self):
+        return self.dtcKind
+
+    def setDtcKind(self, value):
+        if value is not None:
+            self.dtcKind = value
+        return self
 
     def getObdDtcNumber(self):
         return self.obdDtcNumber
 
     def setObdDtcNumber(self, value):
-        self.obdDtcNumber = value
+        if value is not None:
+            self.obdDtcNumber = value
         return self
 
     def getUdsDtcNumber(self):
         return self.udsDtcNumber
 
     def setUdsDtcNumber(self, value):
-        self.udsDtcNumber = value
+        if value is not None:
+            self.udsDtcNumber = value
+        return self
+
+
+class DiagnosticClearDtcNotificationEnum(AREnum):
+    def __init__(self):
+        super().__init__([])
+
+
+class DtcFormatTypeEnum(AREnum):
+    def __init__(self):
+        super().__init__([])
+
+
+class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.dtcFormatType = None                                                   # type: DtcFormatTypeEnum   # AUTOSAR 4.3.1
+        self.notificationTime = None                                                # type: DiagnosticClearDtcNotificationEnum
+
+    def getDtcFormatType(self):
+        return self.dtcFormatType
+
+    def setDtcFormatType(self, value):
+        if value is not None:
+            self.dtcFormatType = value
+        return self
+
+    def getNotificationTime(self):
+        return self.notificationTime
+
+    def setNotificationTime(self, value):
+        if value is not None:
+            self.notificationTime = value
         return self
 
 

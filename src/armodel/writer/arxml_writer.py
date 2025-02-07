@@ -50,6 +50,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import Res
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
@@ -105,7 +106,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionISignalIPdu
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerInterfaceMapping, ClientServerOperationMapping
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterfaceMapping, ClientServerOperationMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, ModeSwitchInterface, ParameterInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface, PortInterfaceMappingSet, SenderReceiverInterface
@@ -850,11 +852,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObjectAttributes(conditional_tag, props.conditional)
             self.setAnnotations(conditional_tag, props.getAnnotations())
             self.setChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF", props.getBaseTypeRef())
+            self.setChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF", props.getSwAddrMethodRef())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess())
             self.setChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF", props.getCompuMethodRef())
             self.setValueSpecification(conditional_tag, "INVALID-VALUE", props.getInvalidValue())
             self.setChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE", props.getStepSize())
-            self.setChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF", props.getSwAddrMethodRef())
             self.setChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF", props.getDataConstrRef())
             self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
             self.setSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET", props.getSwCalprmAxisSet())
@@ -1575,7 +1577,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Assigned Data <%s>" % type(data))
 
-    def setNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
+    def writeNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         child_element = ET.SubElement(element, "NV-BLOCK-NEEDS")
         self.logger.debug("write NvBlockNeeds %s" % needs.getShortName())
         self.writeIdentifiable(child_element, needs)
@@ -1599,23 +1601,26 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "WRITING-FREQUENCY", needs.getWritingFrequency())
         self.setChildElementOptionalLiteral(child_element, "WRITING-PRIORITY", needs.getWritingPriority())
 
-    def setDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
+    def writeDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
+        self.writeIdentifiable(element, needs)
+
+    def writeDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
         self.logger.debug("write DiagnosticCommunicationManagerNeeds %s" % needs.getShortName())
-        self.writeIdentifiable(child_element, needs)
+        self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType())
 
-    def setDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
+    def writeDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-NEEDS")
         self.logger.debug("write DiagnosticRoutineNeeds %s" % needs.getShortName())
-        self.writeIdentifiable(child_element, needs)
+        self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DIAG-ROUTINE-TYPE", needs.getDiagRoutineType())
         self.setChildElementOptionalIntegerValue(child_element, "RID-NUMBER", needs.getRidNumber())
 
-    def setDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
+    def writeDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-VALUE-NEEDS")
         self.logger.debug("write DiagnosticValueNeeds %s" % needs.getShortName())
-        self.writeIdentifiable(child_element, needs)
+        self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", needs.getDataLength())
         self.setChildElementOptionalLiteral(child_element, "DIAGNOSTIC-VALUE-ACCESS", needs.getDiagnosticValueAccess())
         self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", needs.getDidNumber())
@@ -1624,7 +1629,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL")
-        self.writeIdentifiable(child_element, algorithm)
+        self.writeDiagnosticCapabilityElement(child_element, algorithm)
 
     def writeDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         algorithm = needs.getDiagEventDebounceAlgorithm()
@@ -1635,30 +1640,37 @@ class ARXMLWriter(AbstractARXMLWriter):
             else:
                 self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % type(algorithm))
 
-    def setDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
+    def writeDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
+        # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-NEEDS")
-        self.logger.debug("write DiagnosticEventNeeds %s" % needs.getShortName())
-        self.writeIdentifiable(child_element, needs)
+        self.writeDiagnosticCapabilityElement(child_element, needs)
         self.writeDiagEventDebounceAlgorithm(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
         self.setChildElementOptionalIntegerValue(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
 
-    def setDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
+    def writeDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
+        # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-INFO-NEEDS")
-        self.logger.debug("write DiagnosticEventNeeds %s" % needs.getShortName())
-        self.writeIdentifiable(child_element, needs)
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
         self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
 
-    def setCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
+    def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
+        # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
-        self.logger.debug("write CryptoServiceNeeds %s" % needs.getShortName())
         self.writeIdentifiable(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
 
-    def setEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
+    def writeEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
+        # self.logger.debug("write EcuStateMgrUserNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "ECU-STATE-MGR-USER-NEEDS")
-        self.logger.debug("write EcuStateMgrUserNeeds %s" % needs.getShortName())
         self.writeIdentifiable(child_element, needs)
+
+    def writeDtcStatusChangeNotificationNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
+        # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS")
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "DTC-FORMAT-TYPE", needs.getDtcFormatType())
 
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         needs = parent.getServiceNeeds()
@@ -1666,21 +1678,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SERVICE-NEEDS")
             for need in needs:
                 if isinstance(need, NvBlockNeeds):
-                    self.setNvBlockNeeds(child_element, need)
+                    self.writeNvBlockNeeds(child_element, need)
                 elif isinstance(need, DiagnosticCommunicationManagerNeeds):
-                    self.setDiagnosticCommunicationManagerNeeds(child_element, need)
+                    self.writeDiagnosticCommunicationManagerNeeds(child_element, need)
                 elif isinstance(need, DiagnosticRoutineNeeds):
-                    self.setDiagnosticRoutineNeeds(child_element, need)
+                    self.writeDiagnosticRoutineNeeds(child_element, need)
                 elif isinstance(need, DiagnosticValueNeeds):
-                    self.setDiagnosticValueNeeds(child_element, need)
+                    self.writeDiagnosticValueNeeds(child_element, need)
                 elif isinstance(need, DiagnosticEventNeeds):
-                    self.setDiagnosticEventNeeds(child_element, need)
+                    self.writeDiagnosticEventNeeds(child_element, need)
                 elif isinstance(need, DiagnosticEventInfoNeeds):
-                    self.setDiagnosticEventInfoNeeds(child_element, need)
+                    self.writeDiagnosticEventInfoNeeds(child_element, need)
                 elif isinstance(need, CryptoServiceNeeds):
-                    self.setCryptoServiceNeeds(child_element, need)
+                    self.writeCryptoServiceNeeds(child_element, need)
                 elif isinstance(need, EcuStateMgrUserNeeds):
-                    self.setEcuStateMgrUserNeeds(child_element, need)
+                    self.writeEcuStateMgrUserNeeds(child_element, need)
+                elif isinstance(need, DtcStatusChangeNotificationNeeds):
+                    self.writeDtcStatusChangeNotificationNeeds(child_element, need)
                 else:
                     self.notImplemented("Unsupported service needs <%s>" % type(need))
 
