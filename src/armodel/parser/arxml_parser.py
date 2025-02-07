@@ -110,7 +110,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import Assembl
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement, AutosarDataPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import DataPrototype, ParameterDataPrototype, VariableDataPrototype
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerOperation
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerInterfaceMapping
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, ClientServerOperationMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, PortInterfaceMappingSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface, TriggerInterface, DataInterface
@@ -5061,18 +5062,40 @@ class ARXMLParser(AbstractARXMLParser):
             mappings.append(mapping)
         return mappings
 
-    def getVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
-        self.logger.debug("get VariableAndParameterInterfaceMapping %s" % mapping.getShortName())
+    def readVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
+        # self.logger.debug("Read VariableAndParameterInterfaceMapping %s" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         for item in self.getDataPrototypeMappings(element, "DATA-MAPPINGS"):
             mapping.addDataMapping(item)
+
+    def readClientServerOperationMapping(self, element: ET.Element, mapping: ClientServerOperationMapping):
+        mapping.setFirstOperationRef(self.getChildElementOptionalRefType(element, "FIRST-OPERATION-REF")) \
+               .setSecondOperationRef(self.getChildElementOptionalRefType(element, "SECOND-OPERATION-REF"))
+
+    def readClientServerInterfaceMappingOperationMappings(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
+        for child_element in self.findall(element, "OPERATION-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CLIENT-SERVER-OPERATION-MAPPING":
+                operation_mapping = ClientServerOperationMapping()
+                self.readClientServerOperationMapping(child_element, operation_mapping)
+                mapping.addOperationMapping(operation_mapping)
+            else:
+                self.notImplemented("Unsupported Operation Mapping <%s>" % tag_name)
+
+    def readClientServerInterfaceMapping(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
+        # self.logger.debug("Read ClientServerInterfaceMapping %s" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        self.readClientServerInterfaceMappingOperationMappings(element, mapping)
 
     def readPortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         for child_element in self.findall(element, "PORT-INTERFACE-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "VARIABLE-AND-PARAMETER-INTERFACE-MAPPING":
                 mapping = mapping_set.createVariableAndParameterInterfaceMapping(self.getShortName(child_element))
-                self.getVariableAndParameterInterfaceMapping(child_element, mapping)
+                self.readVariableAndParameterInterfaceMapping(child_element, mapping)
+            elif tag_name == "CLIENT-SERVER-INTERFACE-MAPPING":
+                mapping = mapping_set.createClientServerInterfaceMapping(self.getShortName(child_element))
+                self.readClientServerInterfaceMapping(child_element, mapping)
             else:
                 self.notImplemented("Unsupported PortInterfaceMapping <%s>" % tag_name)
 

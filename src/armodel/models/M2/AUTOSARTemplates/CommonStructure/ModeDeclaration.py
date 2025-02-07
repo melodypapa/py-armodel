@@ -3,11 +3,45 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, RefType, TRefType
 
+
+class ModeDeclarationGroupPrototypeMapping(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.firstModeGroupRef = None                           # type: RefType
+        self.modeDeclarationMappingSetRef = None                # type: RefType
+        self.secondModeGroupRef = None                          # type: RefType
+
+    def getFirstModeGroupRef(self):
+        return self.firstModeGroupRef
+
+    def setFirstModeGroupRef(self, value):
+        if value is not None:
+            self.firstModeGroupRef = value
+        return self
+
+    def getModeDeclarationMappingSetRef(self):
+        return self.modeDeclarationMappingSetRef
+
+    def setModeDeclarationMappingSetRef(self, value):
+        if value is not None:
+            self.modeDeclarationMappingSetRef = value
+        return self
+
+    def getSecondModeGroupRef(self):
+        return self.secondModeGroupRef
+
+    def setSecondModeGroupRef(self, value):
+        if value is not None:
+            self.secondModeGroupRef = value
+        return self
+
+
 class ModeDeclaration(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.value = None                           # type: ARNumerical
+        self.value = None                                               # type: ARNumerical
 
     def setValue(self, value):
         self.value = value
@@ -38,6 +72,7 @@ class ModeRequestTypeMap(ARObject):
         self.modeGroupRef = value
         return self
 
+
 class ModeDeclarationGroup(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -56,7 +91,7 @@ class ModeDeclarationGroup(Identifiable):
         return self.elements[short_name]
 
     def getModeDeclarations(self) -> List[ModeDeclaration]:
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements.values()), key=lambda o: o.short_name))
 
     def setInitialModeRef(self, ref: RefType):
         self.initialModeRef = ref
