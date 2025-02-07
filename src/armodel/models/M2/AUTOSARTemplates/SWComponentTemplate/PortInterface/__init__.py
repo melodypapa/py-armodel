@@ -9,7 +9,7 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveT
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
+from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -452,23 +452,23 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # type: ClientServerApplicationErrorMapping
-        self.errorMappings = []
-        # type: ClientServerOperationMapping
-        self.operationMappings = []
+        self.errorMappings = []                                 # type: List[ClientServerApplicationErrorMapping]
+        self.operationMappings = []                             # type: List[ClientServerOperationMapping]
 
     def getErrorMappings(self):
         return self.errorMappings
 
-    def setErrorMappings(self, value):
-        self.errorMappings = value
+    def addErrorMapping(self, value):
+        if value is not None:
+            self.errorMappings.append(value)
         return self
 
     def getOperationMappings(self):
         return self.operationMappings
 
-    def setOperationMappings(self, value):
-        self.operationMappings = value
+    def addOperationMapping(self, value):
+        if value is not None:
+            self.operationMappings.append(value)
         return self
 
 
@@ -485,7 +485,29 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
         self.dataMappings.append(value)
         return self
 
-   
+
+class ModeInterfaceMapping(PortInterfaceMapping):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+        
+        self.modeMapping = None                         # type: ModeDeclarationGroupPrototypeMapping
+
+    def getModeMapping(self):
+        return self.modeMapping
+
+    def setModeMapping(self, value):
+        if value is not None:
+            self.modeMapping = value
+        return self
+
+
+class TriggerInterfaceMapping(PortInterfaceMapping):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.triggerMapping = []                            # type: List[TriggerMapping]
+
+ 
 class PortInterfaceMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -495,9 +517,30 @@ class PortInterfaceMappingSet(ARElement):
     def getPortInterfaceMappings(self):
         return self.portInterfaceMappings
 
-    def createVariableAndParameterInterfaceMapping(self, short_name):
-        if (short_name not in self.elements):
+    def createVariableAndParameterInterfaceMapping(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
+            self.addElement(mapping)
+            self.portInterfaceMappings.append(mapping)
+        return self.getElement(short_name)
+    
+    def createClientServerInterfaceMapping(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            mapping = ClientServerInterfaceMapping(self, short_name)
+            self.addElement(mapping)
+            self.portInterfaceMappings.append(mapping)
+        return self.getElement(short_name)
+    
+    def createModeInterfaceMapping(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            mapping = ModeInterfaceMapping(self, short_name)
+            self.addElement(mapping)
+            self.portInterfaceMappings.append(mapping)
+        return self.getElement(short_name)
+    
+    def createTriggerInterfaceMapping(self, short_name: str):
+        if (not self.IsElementExists(short_name)):
+            mapping = TriggerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)

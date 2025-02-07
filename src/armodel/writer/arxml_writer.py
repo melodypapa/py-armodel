@@ -105,7 +105,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionISignalIPdu
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerInterfaceMapping, ClientServerOperationMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, ModeSwitchInterface, ParameterInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface, PortInterfaceMappingSet, SenderReceiverInterface
@@ -4441,11 +4441,33 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mapping in mappings:
                 self.setDataPrototypeMapping(child_element, mapping)
 
-    def setVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
-        self.logger.debug("set VariableAndParameterInterfaceMapping %s" % mapping.getShortName())
+    def writeVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
+        # self.logger.debug("Write VariableAndParameterInterfaceMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "VARIABLE-AND-PARAMETER-INTERFACE-MAPPING")
         self.writeIdentifiable(child_element, mapping)
         self.setDataPrototypeMappings(child_element, "DATA-MAPPINGS", mapping.getDataMappings())
+
+    def writeClientServerOperationMapping(self, element: ET.Element, mapping: ClientServerOperationMapping):
+        child_element = ET.SubElement(element, "CLIENT-SERVER-OPERATION-MAPPING")
+        self.setChildElementOptionalRefType(child_element, "FIRST-OPERATION-REF", mapping.getFirstOperationRef())
+        self.setChildElementOptionalRefType(child_element, "SECOND-OPERATION-REF", mapping.getSecondOperationRef())
+
+    def writeClientServerInterfaceMappingOperationMappings(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
+        operation_mappings = mapping.getOperationMappings()
+        if len(operation_mappings) > 0:
+            child_element = ET.SubElement(element, "OPERATION-MAPPINGS")
+            for operation_mapping in operation_mappings:
+                if isinstance(operation_mapping, ClientServerOperationMapping):
+                    self.writeClientServerOperationMapping(child_element, operation_mapping)
+                else:
+                    self.notImplemented("Unsupported Operation Mapping <%s>" % type(operation_mapping))
+
+    def writeClientServerInterfaceMapping(self, element: ET.Element, mapping: ClientServerInterfaceMapping):
+        # self.logger.debug("Read ClientServerInterfaceMapping %s" % mapping.getShortName())
+        if mapping is not None:
+            child_element = ET.SubElement(element, "CLIENT-SERVER-INTERFACE-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeClientServerInterfaceMappingOperationMappings(child_element, mapping)
 
     def writePortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         mappings = mapping_set.getPortInterfaceMappings()
@@ -4453,7 +4475,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "PORT-INTERFACE-MAPPINGS")
             for mapping in mappings:
                 if isinstance(mapping, VariableAndParameterInterfaceMapping):
-                    self.setVariableAndParameterInterfaceMapping(child_element, mapping)
+                    self.writeVariableAndParameterInterfaceMapping(child_element, mapping)
+                elif isinstance(mapping, ClientServerInterfaceMapping):
+                    self.writeClientServerInterfaceMapping(child_element, mapping)
                 else:
                     self.notImplemented("Unsupported PortInterfaceMapping <%s>" % type(mapping))
 
