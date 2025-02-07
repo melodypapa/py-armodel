@@ -442,8 +442,11 @@ class CompositionSwComponentType(SwComponentType):
     def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
         return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key=lambda c: c.short_name))
 
+    # def getSwConnectors(self) -> List[SwConnector]:
+    #    return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key=lambda c: c.short_name))
+
     def getSwConnectors(self) -> List[SwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key=lambda c: c.short_name))
+        return list(filter(lambda e: isinstance(e, SwConnector), self.elements.values()))
 
     def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
         if (not self.IsElementExists(short_name)):
