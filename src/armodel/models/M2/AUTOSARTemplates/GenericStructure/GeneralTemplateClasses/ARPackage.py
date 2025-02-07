@@ -1,11 +1,6 @@
 from typing import Dict, List
 
-
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, ServiceSwComponentType, SwComponentType
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
-
 from .....M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from .....M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from .....M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
@@ -22,6 +17,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementati
 from .....M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
 from .....M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
+from .....M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from .....M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
 from .....M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -33,7 +29,9 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCol
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Identifiable, Referrable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
 from .....M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
-
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, ServiceSwComponentType, SwComponentType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
@@ -615,6 +613,12 @@ class ARPackage(Identifiable, CollectableElement):
             keyword_set = KeywordSet(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name)
+    
+    def createPortPrototypeBlueprint(self, short_name: str) -> PortPrototypeBlueprint:
+        if (not self.IsElementExists(short_name)):
+            keyword_set = PortPrototypeBlueprint(self, short_name)
+            self.addElement(keyword_set)
+        return self.getElement(short_name)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()), key=lambda o: o.short_name))
@@ -786,6 +790,9 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getKeywordSets(self) -> List[KeywordSet]:
         return list(sorted(filter(lambda a: isinstance(a, KeywordSet), self.elements.values()), key=lambda a: a.short_name))
+    
+    def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
+        return list(sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.elements.values()), key=lambda a: a.short_name))
     
     def getReferenceBases(self):
         return self.referenceBases

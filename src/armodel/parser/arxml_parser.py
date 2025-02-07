@@ -2,6 +2,8 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -21,8 +23,9 @@ from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
 from ..models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from ..models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from ..models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
+from ..models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
 from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ListElement
+from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LParagraph, LanguageSpecific
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
@@ -55,6 +58,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diagnostic
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
+from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
@@ -1549,18 +1553,53 @@ class ARXMLParser(AbstractARXMLParser):
             results.append(l1)
         return results
     
-    def getListElements(self, element: ET.Element, key: str) -> List[ListElement]:
+    def getListElements(self, element: ET.Element, key: str) -> List[ARList]:
         '''
             Read the DocumentationBlock List
         '''
         result = []
         for child_element in self.findall(element, key):
-            list = ListElement()
+            list = ARList()
             if 'TYPE' in child_element.attrib:
                 list.setType(child_element.attrib['TYPE'])
             for block in self.getDocumentationBlockList(child_element, "ITEM"):
                 list.addItem(block)
             result.append(list)
+        return result
+    
+    def getGraphic(self, element: ET.Element, key: str) -> Graphic:
+        graphic = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            graphic = Graphic()
+            if "FILENAME" in child_element.attrib:
+                graphic.setFilename(child_element.attrib["FILENAME"])
+        return graphic
+    
+    def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
+        for child_element in self.findall(element, "L-GRAPHIC"):
+            graphic = LGraphic()
+            if "L" in child_element.attrib:
+                graphic.setL(child_element.attrib["L"])
+            graphic.setGraphic(self.getGraphic(child_element, "GRAPHIC"))
+            figure.addLGraphics(graphic)
+
+    def readDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
+        self.readARObjectAttributes(element, selectable)
+
+    def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
+        self.readDocumentViewSelectable(element, paginateable)
+    
+    def readMlFigure(self, element: ET.Element, figure: MlFigure):
+        self.readPaginateable(element, figure)
+        self.readMlFigureLGraphics(element, figure)
+
+    def getMlFigures(self, element: ET.Element, key: str) -> List[MlFigure]:
+        result = []
+        for child_element in self.findall(element, key):
+            figure = MlFigure()
+            self.readMlFigure(child_element, figure)
+            result.append(figure)
         return result
     
     def getMultiLanguagePlainText(self, element: ET.Element, key: str) -> MultiLanguagePlainText:
@@ -1572,13 +1611,15 @@ class ARXMLParser(AbstractARXMLParser):
             for l10 in self.getLPlainTexts(child_element, "L-10"):
                 paragraph.addL10(l10)
         return paragraph
-    
+
     def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
         self.readARObjectAttributes(element, block)
         for paragraph in self.getMultiLanguageParagraphs(element, "P"):
             block.addP(paragraph)
         for list in self.getListElements(element, "LIST"):
             block.addList(list)
+        for figure in self.getMlFigures(element, "FIGURE"):
+            block.addFigure(figure)
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
         block = None
@@ -4176,6 +4217,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, keyword_set)
         self.readKeywordSetKeywords(element, keyword_set)
 
+    def readPortPrototypeBlueprint(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
+        self.logger.debug("Read PortPrototypeBlueprint <%s>" % blueprint.getShortName())
+        self.readARElement(element, blueprint)
+        blueprint.setInterfaceRef(self.getChildElementOptionalRefType(element, "INTERFACE-REF"))
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -5269,6 +5315,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "KEYWORD-SET":
                 keyword_set = parent.createKeywordSet(self.getShortName(child_element))
                 self.readKeywordSet(child_element, keyword_set)
+            elif tag_name == "PORT-PROTOTYPE-BLUEPRINT":
+                keyword_set = parent.createPortPrototypeBlueprint(self.getShortName(child_element))
+                self.readPortPrototypeBlueprint(child_element, keyword_set)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

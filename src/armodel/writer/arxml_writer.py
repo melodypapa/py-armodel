@@ -1,6 +1,10 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent
@@ -18,7 +22,7 @@ from ..models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecord
 from ..models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from ..models.M2.MSR.Documentation.Annotation import Annotation
 from ..models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ListElement
+from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LanguageSpecific
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
@@ -316,7 +320,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
-        self.setDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
+        self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
@@ -739,27 +743,57 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeLParagraphs(child_element, paragraph)
         return paragraphs
     
-    def setListElement(self, element: ET.Element, key: str, list: ListElement):
+    def setListElement(self, element: ET.Element, key: str, list: ARList):
         if list is not None:
             child_element = ET.SubElement(element, key)
             type = list.getType()
             if type is not None:
                 child_element.attrib['TYPE'] = type
             for item in list.getItems():
-                self.setDocumentationBlock(child_element, "ITEM", item)
+                self.writeDocumentationBlock(child_element, "ITEM", item)
 
-    def setDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
+    def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
+        if graphic is not None:
+            child_element = ET.SubElement(element, key)
+            if graphic.getFilename() is not None:
+                child_element.attrib["FILENAME"] = graphic.getFilename()
+    
+    def writeMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
+        graphics = figure.getLGraphics()
+        for graphic in graphics:
+            child_element = ET.SubElement(element, "L-GRAPHIC")
+            if graphic.getL() is not None:
+                child_element.attrib["L"] = graphic.getL()
+            self.setGraphic(child_element, "GRAPHIC", graphic.getGraphic())
+
+    def writeDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
+        self.writeARObjectAttributes(element, selectable)
+
+    def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
+        self.writeDocumentViewSelectable(element, paginateable)
+    
+    def writeMlFigure(self, element: ET.Element, figure: MlFigure):
+        self.writePaginateable(element, figure)
+        self.writeMlFigureLGraphics(element, figure)
+
+    def setMlFigures(self, element: ET.Element, key: str, figures: List[MlFigure]):
+        for figure in figures:
+            child_element = ET.SubElement(element, key)
+            self.writeMlFigure(child_element, figure)
+
+    def writeDocumentationBlock(self, element: ET.Element, key: str, block: DocumentationBlock):
         if block is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, block)
             self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
             for list in block.getLists():
                 self.setListElement(child_element, "LIST", list)
+            self.setMlFigures(child_element, "FIGURE", block.getFigures())
 
     def writeGeneralAnnotation(self, element: ET.Element, annotation: Annotation):
         self.setMultiLongName(element, "LABEL", annotation.getLabel())
         self.setChildElementOptionalLiteral(element, "ANNOTATION-ORIGIN", annotation.getAnnotationOrigin())
-        self.setDocumentationBlock(element, "ANNOTATION-TEXT", annotation.getAnnotationText())
+        self.writeDocumentationBlock(element, "ANNOTATION-TEXT", annotation.getAnnotationText())
 
     def setAnnotations(self, element: ET.Element, annotations: List[Annotation]):
         if len(annotations) > 0:
@@ -3874,6 +3908,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARElement(child_element, keyword_set)
             self.writeKeywordSetKeywords(child_element, keyword_set)
 
+    def writePortPrototypeBlueprint(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
+        if blueprint is not None:
+            self.logger.debug("Write PortPrototypeBlueprint <%s>" % blueprint.getShortName())
+            child_element = ET.SubElement(element, "PORT-PROTOTYPE-BLUEPRINT")
+            self.writeARElement(child_element, blueprint)
+            self.setChildElementOptionalRefType(child_element, "INTERFACE-REF", blueprint.getInterfaceRef())
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -4681,7 +4722,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "LC-OBJECT-REF", info.getLcObjectRef())
             self.setChildElementOptionalRefType(child_element, "LC-STATE-REF", info.getLcStateRef())
             self.setLifeCyclePeriod(child_element, "PERIOD-BEGIN", info.getPeriodBegin())
-            self.setDocumentationBlock(child_element, "REMARK", info.getRemark())
+            self.writeDocumentationBlock(child_element, "REMARK", info.getRemark())
             self.writeLifeCycleInfoUseInsteadRefs(child_element, info)
 
     def writeLifeCycleInfoSetLifeCycleInfos(self, element: ET.Element, info_set: LifeCycleInfoSet):
@@ -5364,6 +5405,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCollection(element, ar_element)
         elif isinstance(ar_element, KeywordSet):
             self.writeKeywordSet(element, ar_element)
+        elif isinstance(ar_element, PortPrototypeBlueprint):
+            self.writePortPrototypeBlueprint(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 

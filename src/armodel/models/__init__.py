@@ -37,6 +37,7 @@ from .M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage
 from .M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *
 from .M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *
 from .M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import *
+from .M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import *
 from .M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *
 from .M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import *
 from .M2.AUTOSARTemplates.SWComponentTemplate import *
