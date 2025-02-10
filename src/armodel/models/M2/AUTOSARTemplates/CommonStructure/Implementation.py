@@ -7,9 +7,9 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class ImplementationProps(Referrable, metaclass = ABCMeta):
+class ImplementationProps(Referrable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ImplementationProps:
+        if type(self) is ImplementationProps:
             raise NotImplementedError("ImplementationProps is an abstract class.")
         
         super().__init__(parent, short_name)
@@ -35,11 +35,12 @@ class Code(Identifiable):
         self.artifactDescriptors.append(desc)
         return self
 
-    def getArtifactDescriptors(self, category:str = "") -> List[AutosarEngineeringObject]:
+    def getArtifactDescriptors(self, category: str = "") -> List[AutosarEngineeringObject]:
         if (category == ""):
             return self.artifactDescriptors
         else:
             return list(filter(lambda a: a.getCategory().getText() == category, self.artifactDescriptors))
+
 
 class Compiler(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -77,7 +78,8 @@ class Compiler(Identifiable):
     def setVersion(self, value):
         self.version = value
         return self
-    
+
+
 class DependencyOnArtifact(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -101,9 +103,9 @@ class DependencyOnArtifact(Identifiable):
         return self
 
 
-class Implementation(PackageableElement, metaclass = ABCMeta):
+class Implementation(PackageableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == Implementation:
+        if type(self) is Implementation:
             raise NotImplementedError("Implementation is an abstract class.")
 
         super().__init__(parent, short_name)
@@ -131,8 +133,8 @@ class Implementation(PackageableElement, metaclass = ABCMeta):
         self.buildActionManifestRef = value
         return self
 
-    def getCodeDescriptors(self)-> List[Code]:
-        return list(filter(lambda a : isinstance(a, Code), self.elements.values()))
+    def getCodeDescriptors(self) -> List[Code]:
+        return list(filter(lambda a: isinstance(a, Code), self.elements.values()))
 
     def createCodeDescriptor(self, short_name: str) -> Code:
         if (short_name not in self.elements):
