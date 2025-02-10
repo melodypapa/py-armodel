@@ -5,6 +5,7 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject i
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from typing import List
 
+
 class RTEEvent(AbstractEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -25,6 +26,7 @@ class RTEEvent(AbstractEvent):
     def setStartOnEventRef(self, value):
         self.startOnEventRef = value
         return self
+
 
 class AsynchronousServerCallReturnsEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -53,6 +55,7 @@ class DataSendCompletedEvent(RTEEvent):
         self.eventSourceRef = value
         return self
 
+
 class DataWriteCompletedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -65,6 +68,7 @@ class DataWriteCompletedEvent(RTEEvent):
     def setEventSourceRef(self, value):
         self.eventSourceRef = value
         return self
+
 
 class DataReceivedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -101,11 +105,12 @@ class SwcModeSwitchEvent(RTEEvent):
         self.modeIRefs.append(value)
         return self
 
+
 class DataReceiveErrorEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef = None            
+        self.dataIRef = None
 
     def getDataIRef(self):
         return self.dataIRef
@@ -113,6 +118,7 @@ class DataReceiveErrorEvent(RTEEvent):
     def setDataIRef(self, value):
         self.dataIRef = value
         return self
+
 
 class OperationInvokedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -127,6 +133,7 @@ class OperationInvokedEvent(RTEEvent):
         if value is not None:
             self.operationIRef = value
         return self
+
 
 class InitEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
@@ -163,6 +170,7 @@ class TimingEvent(RTEEvent):
             self.period = value
         return self
 
+
 class InternalTriggerOccurredEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -177,9 +185,11 @@ class InternalTriggerOccurredEvent(RTEEvent):
             self.eventSourceRef = value
         return self
 
+
 class BackgroundEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class ModeSwitchedAckEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):

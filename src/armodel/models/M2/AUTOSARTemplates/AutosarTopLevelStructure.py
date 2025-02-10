@@ -34,6 +34,21 @@ class AbstractAUTOSAR(CollectableElement):
     def __init__(self):
         super().__init__()
 
+        self.release_xsd_mappings = {
+            "4.0.3": "AUTOSAR_4-0-3.xsd",
+            "4.1.0": "AUTOSAR_4-1-0.xsd",
+            "4.2.1": "AUTOSAR_4-2-1.xsd",
+            "4.3.0": "AUTOSAR_00043.xsd",
+            "4.3.1": "AUTOSAR_00045.xsd",
+            "4.4.0": "AUTOSAR_00047.xsd",
+            "R19-11": "AUTOSAR_00048.xsd",
+            "R20-11": "AUTOSAR_00049.xsd",
+            "R21-11": "AUTOSAR_00050.xsd",
+            "R22-11": "AUTOSAR_00051.xsd",
+            "R23-11": "AUTOSAR_00052.xsd",
+            "R24-11": "AUTOSAR_00053.xsd",
+        }
+
         self.clear()
 
     def getAdminData(self):
@@ -199,6 +214,12 @@ class AbstractAUTOSAR(CollectableElement):
     def addARObject(self, value: ARObject):
         if value is not None:
             self.uuid_objects[value.uuid] = value
+        return self
+    
+    def setARRelease(self, release: str):
+        if release not in self.release_xsd_mappings:
+            raise "invalid AUTOSAR Release <%s>" % release
+        self.schema_location = self.release_xsd_mappings[release]
         return self
 
 

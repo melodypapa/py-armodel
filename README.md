@@ -561,3 +561,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * DTC-STATUS-CHANGE-NOTIFICATION-NEEDS
 3. Add the test case for
    * AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml
+4. Add the API to set the autosar release version and correct schema will be set.
+   * AUTOSAR::setARRelease()
