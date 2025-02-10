@@ -563,3 +563,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml
 4. Add the API to set the autosar release version and correct schema will be set.
    * AUTOSAR::setARRelease()
+5. Fix the conversion for float number in scientific notation.
