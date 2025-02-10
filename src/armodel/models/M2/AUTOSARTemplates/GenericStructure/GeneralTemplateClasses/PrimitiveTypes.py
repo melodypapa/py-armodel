@@ -3,9 +3,10 @@ import re
 from typing import List
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-class ARType(metaclass = ABCMeta):
+
+class ARType(metaclass=ABCMeta):
     def __init__(self) -> None:
-        self.timestamp = None           # type: str   
+        self.timestamp = None           # type: str
         self.uuid = None                # type: str
         self._value = None
 
@@ -28,11 +29,12 @@ class ARType(metaclass = ABCMeta):
     def getText(self) -> str:
         return str(self)
 
+
 class ARNumerical(ARType):
     def __init__(self) -> None:
         super().__init__()
 
-        self._text = None                   # type: str
+        self._text = None                       # type: str
 
     def _convertStringToNumberValue(self, value: str) -> int:
         try:
@@ -47,11 +49,11 @@ class ARNumerical(ARType):
                 m = re.match(r'0b([\d]+)', value, re.I)
                 if m:
                     return int(m.group(1), 2)
-                m = re.match(r"-?\d+\.\d+", value)
+                m = re.match(r"^[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?$", value)
                 if m:
                     return float(value)
                 return int(value)
-        except:
+        except:         # noqa E722
             raise ValueError("Invalid Numerical Type <%s>" % value)
 
     @property
@@ -93,7 +95,6 @@ class ARFloat(ARNumerical):
             self._value = val * 1.0
         elif isinstance(val, str):
             self._text = val
-            #self._value = float(val)
             self._value = self._convertStringToNumberValue(val)
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
@@ -103,7 +104,8 @@ class ARFloat(ARNumerical):
             return self._text
         else:
             return str(self._value)
-        
+
+
 class Float(ARFloat):
     '''
         An instance of Float is an element from the set of real numbers.
@@ -113,7 +115,8 @@ class Float(ARFloat):
     '''
     def __init__(self):
         super().__init__()
-        
+
+
 class TimeValue(ARFloat):
     '''
         This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
@@ -150,6 +153,7 @@ class ARLiteral(ARType):
     def upper(self) -> str:
         return self.value.upper()
 
+
 class AREnum(ARLiteral):
     def __init__(self, enum_values: List[str]):
         super().__init__()
@@ -168,13 +172,16 @@ class AREnum(ARLiteral):
             return True
         return False
 
+
 class String(ARLiteral):
     def __init__(self):
         super().__init__()
 
+
 class ReferrableSubtypesEnum(ARLiteral):
     def __init__(self):
         super().__init__()
+
 
 class ARPositiveInteger(ARNumerical):
     def __init__(self) -> None:
@@ -243,6 +250,7 @@ class ARBoolean(ARType):
             else:
                 return "false"
 
+
 class NameToken(ARLiteral):
     '''
         This is an identifier as used in xml, e.g. xml-names. Typical usages are, for example, the names of type
@@ -259,6 +267,7 @@ class NameToken(ARLiteral):
     def __init__(self):
         super().__init__()
 
+
 class PositiveInteger(ARPositiveInteger):
     r'''\n
         This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is
@@ -273,6 +282,7 @@ class PositiveInteger(ARPositiveInteger):
     def __init__(self):
         super().__init__()
 
+
 class PositiveUnlimitedInteger(ARPositiveInteger):
     r'''
         This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal.
@@ -281,7 +291,8 @@ class PositiveUnlimitedInteger(ARPositiveInteger):
             * xml.xsd.customType=POSITIVE-UNLIMITED-INTEGER
             * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
-    '''        
+    '''
+
 
 class Integer(ARNumerical):
     r'''
@@ -298,6 +309,7 @@ class Integer(ARNumerical):
     def __init__(self):
         super().__init__()
 
+
 class UnlimitedInteger(Integer):
     r'''
         An instance of UnlimitedInteger is an element in the set of integer numbers ( ..., -2, -1, 0, 1, 2, ...).
@@ -313,6 +325,7 @@ class UnlimitedInteger(Integer):
     def __init__(self):
         super().__init__()
 
+
 class Boolean(ARBoolean):
     '''
         A Boolean value denotes a logical condition that is either 'true' or 'false'. It can be one of "0", "1", "true",
@@ -325,6 +338,7 @@ class Boolean(ARBoolean):
     '''
     def __init__(self):
         super().__init__()
+
 
 class Identifier(ARLiteral):
     '''
@@ -341,6 +355,7 @@ class Identifier(ARLiteral):
     '''
     def __init__(self):
         super().__init__()
+
 
 class CIdentifier(ARLiteral):
     '''
@@ -370,6 +385,7 @@ class CIdentifier(ARLiteral):
     def setNamePattern(self, value):
         self.namePattern = value
         return self
+
 
 class RevisionLabelString(ARLiteral):
     '''
@@ -405,6 +421,7 @@ class Limit(ARObject):
     def setValue(self, value):
         self.value = value
         return self
+
 
 class RefType(ARObject):
     def __init__(self):
@@ -446,13 +463,14 @@ class TRefType(RefType):
     def __init__(self):
         super().__init__()
 
+
 class DiagRequirementIdString(ARLiteral):
     '''
         This string denotes an Identifier for a requirement.
 
         Tags:
             * xml.xsd.customType=DIAG-REQUIREMENT-ID-STRING
-            * xml.xsd.pattern=[0-9a-zA-Z_\-]+
+            * xml.xsd.pattern=[0-9a-zA-Z_\-]+                           # noqa W605
             * xml.xsd.type=string
     '''
     def __init__(self):
@@ -460,7 +478,7 @@ class DiagRequirementIdString(ARLiteral):
 
 
 class ArgumentDirectionEnum(AREnum):
-    IN  = "in"
+    IN = "in"
     INOUT = "inout"
     OUT = "out"
 
@@ -468,7 +486,7 @@ class ArgumentDirectionEnum(AREnum):
         super().__init__((
             ArgumentDirectionEnum.IN,
             ArgumentDirectionEnum.INOUT,
-            ArgumentDirectionEnum.OUT  
+            ArgumentDirectionEnum.OUT
         ))
 
 
@@ -478,11 +496,12 @@ class Ip4AddressString(ARLiteral):
         
         Tags
             * xml.xsd.customType=IP4-ADDRESS-STRING
-            * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY
+            * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
             * xml.xsd.type=string
     '''
     def __init__(self):
         super().__init__()
+
 
 class Ip6AddressString(ARLiteral):
     '''
@@ -498,6 +517,7 @@ class Ip6AddressString(ARLiteral):
     def __init__(self):
         super().__init__()
 
+
 class MacAddressString(ARLiteral):
     '''
         This primitive specifies a Mac Address. Notation: FF:FF:FF:FF:FF:FF
@@ -510,6 +530,7 @@ class MacAddressString(ARLiteral):
     '''
     def __init__(self):
         super().__init__()
+
 
 class CategoryString(ARLiteral):
     '''
