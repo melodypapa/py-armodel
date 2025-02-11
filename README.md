@@ -564,3 +564,8 @@ Fix the attribute intervalType of **Limit** is empty issue.
 4. Add the API to set the autosar release version and correct schema will be set.
    * AUTOSAR::setARRelease()
 5. Fix the conversion for float number in scientific notation.
+
+**Version 1.8.0**
+
+1. To support the following AR Element:
+   * DLT-USER-NEEDS

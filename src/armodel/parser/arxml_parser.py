@@ -53,7 +53,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import Res
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
@@ -566,9 +566,12 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported assigned ports <%s>" % tag_name)
 
+    def readServiceNeeds(self, element: ET.Element, needs: ServiceNeeds):
+        self.readIdentifiable(element, needs)
+
     def readNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         self.logger.debug("Read NvBlockNeeds <%s>" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readServiceNeeds(element, needs)
         needs.setCalcRamBlockCrc(self.getChildElementOptionalBooleanValue(element, "CALC-RAM-BLOCK-CRC")) \
              .setCheckStaticBlockId(self.getChildElementOptionalBooleanValue(element, "CHECK-STATIC-BLOCK-ID")) \
              .setNDataSets(self.getChildElementOptionalNumericalValue(element, "N-DATA-SETS")) \
@@ -590,7 +593,7 @@ class ARXMLParser(AbstractARXMLParser):
              .setWritingPriority(self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))
         
     def readDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
-        self.readIdentifiable(element, needs)
+        self.readServiceNeeds(element, needs)
         
     def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
@@ -639,17 +642,21 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readServiceNeeds(element, needs)
         needs.setMaximumKeyLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-KEY-LENGTH"))
 
     def readEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
         self.logger.debug("Read EcuStateMgrUserNeeds %s" % needs.getShortName())
-        self.readIdentifiable(element, needs)
+        self.readServiceNeeds(element, needs)
 
     def readDtcStatusChangeNotificationNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
         self.logger.debug("Read DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setDtcFormatType(self.getChildElementOptionalLiteral(element, "DTC-FORMAT-TYPE"))
+
+    def readDltUserNeeds(self, element: ET.Element, needs: DltUserNeeds):
+        self.logger.debug("Read DltUserNeeds %s" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
@@ -681,6 +688,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS":
                 needs = parent.createDtcStatusChangeNotificationNeeds(self.getShortName(child_element))
                 self.readDtcStatusChangeNotificationNeeds(child_element, needs)
+            elif tag_name == "DLT-USER-NEEDS":
+                needs = parent.createDltUserNeeds(self.getShortName(child_element))
+                self.readDltUserNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 
