@@ -49,7 +49,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDec
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
 from ..models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
-from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal
+from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
@@ -1577,10 +1577,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Assigned Data <%s>" % type(data))
 
+    def writeServiceNeeds(self, element: ET.Element, needs: ServiceNeeds):
+        self.writeIdentifiable(element, needs)
+
     def writeNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         child_element = ET.SubElement(element, "NV-BLOCK-NEEDS")
         self.logger.debug("write NvBlockNeeds %s" % needs.getShortName())
-        self.writeIdentifiable(child_element, needs)
+        self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalBooleanValue(child_element, "CALC-RAM-BLOCK-CRC", needs.getCalcRamBlockCrc())
         self.setChildElementOptionalBooleanValue(child_element, "CHECK-STATIC-BLOCK-ID", needs.getCheckStaticBlockId())
         self.setChildElementOptionalNumericalValue(child_element, "N-DATA-SETS", needs.getNDataSets())
@@ -1602,7 +1605,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "WRITING-PRIORITY", needs.getWritingPriority())
 
     def writeDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
-        self.writeIdentifiable(element, needs)
+        self.writeServiceNeeds(element, needs)
 
     def writeDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
@@ -1658,13 +1661,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
-        self.writeIdentifiable(child_element, needs)
+        self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-KEY-LENGTH", needs.getMaximumKeyLength())
 
     def writeEcuStateMgrUserNeeds(self, element: ET.Element, needs: EcuStateMgrUserNeeds):
         # self.logger.debug("write EcuStateMgrUserNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "ECU-STATE-MGR-USER-NEEDS")
-        self.writeIdentifiable(child_element, needs)
+        self.writeServiceNeeds(child_element, needs)
 
     def writeDtcStatusChangeNotificationNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
         # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
@@ -1672,31 +1675,38 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DTC-FORMAT-TYPE", needs.getDtcFormatType())
 
+    def writeDltUserNeeds(self, element: ET.Element, needs: DtcStatusChangeNotificationNeeds):
+        # self.logger.debug("Write DtcStatusChangeNotificationNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DLT-USER-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        needs = parent.getServiceNeeds()
-        if len(needs) > 0:
+        needs_list = parent.getServiceNeeds()
+        if len(needs_list) > 0:
             child_element = ET.SubElement(element, "SERVICE-NEEDS")
-            for need in needs:
-                if isinstance(need, NvBlockNeeds):
-                    self.writeNvBlockNeeds(child_element, need)
-                elif isinstance(need, DiagnosticCommunicationManagerNeeds):
-                    self.writeDiagnosticCommunicationManagerNeeds(child_element, need)
-                elif isinstance(need, DiagnosticRoutineNeeds):
-                    self.writeDiagnosticRoutineNeeds(child_element, need)
-                elif isinstance(need, DiagnosticValueNeeds):
-                    self.writeDiagnosticValueNeeds(child_element, need)
-                elif isinstance(need, DiagnosticEventNeeds):
-                    self.writeDiagnosticEventNeeds(child_element, need)
-                elif isinstance(need, DiagnosticEventInfoNeeds):
-                    self.writeDiagnosticEventInfoNeeds(child_element, need)
-                elif isinstance(need, CryptoServiceNeeds):
-                    self.writeCryptoServiceNeeds(child_element, need)
-                elif isinstance(need, EcuStateMgrUserNeeds):
-                    self.writeEcuStateMgrUserNeeds(child_element, need)
-                elif isinstance(need, DtcStatusChangeNotificationNeeds):
-                    self.writeDtcStatusChangeNotificationNeeds(child_element, need)
+            for needs in needs_list:
+                if isinstance(needs, NvBlockNeeds):
+                    self.writeNvBlockNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
+                    self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticRoutineNeeds):
+                    self.writeDiagnosticRoutineNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticValueNeeds):
+                    self.writeDiagnosticValueNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticEventNeeds):
+                    self.writeDiagnosticEventNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticEventInfoNeeds):
+                    self.writeDiagnosticEventInfoNeeds(child_element, needs)
+                elif isinstance(needs, CryptoServiceNeeds):
+                    self.writeCryptoServiceNeeds(child_element, needs)
+                elif isinstance(needs, EcuStateMgrUserNeeds):
+                    self.writeEcuStateMgrUserNeeds(child_element, needs)
+                elif isinstance(needs, DtcStatusChangeNotificationNeeds):
+                    self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
+                elif isinstance(needs, DltUserNeeds):
+                    self.writeDltUserNeeds(child_element, needs)
                 else:
-                    self.notImplemented("Unsupported service needs <%s>" % type(need))
+                    self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
     def writeSwcServiceDependency(self, element: ET.Element, dependency: SwcServiceDependency):
         child_element = ET.SubElement(element, "SWC-SERVICE-DEPENDENCY")

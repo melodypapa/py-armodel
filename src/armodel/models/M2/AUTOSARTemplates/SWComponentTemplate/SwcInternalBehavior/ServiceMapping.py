@@ -1,5 +1,6 @@
 from typing import List
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, NvBlockNeeds
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
@@ -49,56 +50,62 @@ class SwcServiceDependency(ServiceDependency):
         return self._assigned_ports
 
     def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = NvBlockNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createDiagnosticCommunicationManagerNeeds(self, short_name: str) -> DiagnosticCommunicationManagerNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = DiagnosticCommunicationManagerNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = DiagnosticRoutineNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createDiagnosticValueNeeds(self, short_name: str) -> DiagnosticValueNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = DiagnosticValueNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = DiagnosticEventNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createDiagnosticEventInfoNeeds(self, short_name: str) -> DiagnosticEventInfoNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = DiagnosticEventInfoNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = CryptoServiceNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createEcuStateMgrUserNeeds(self, short_name: str) -> EcuStateMgrUserNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = EcuStateMgrUserNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
     def createDtcStatusChangeNotificationNeeds(self, short_name: str) -> DtcStatusChangeNotificationNeeds:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             needs = DtcStatusChangeNotificationNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+    
+    def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
+        if (not self.IsElementExists(short_name)):
+            needs = DltUserNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
     
@@ -122,6 +129,9 @@ class SwcServiceDependency(ServiceDependency):
     
     def getDtcStatusChangeNotificationNeeds(self) -> List[DtcStatusChangeNotificationNeeds]:
         return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements.values()), key=lambda e: e.short_name)
+    
+    def getDltUserNeeds(self) -> List[DltUserNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.elements.values()), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements.values()), key=lambda e: e.short_name)
