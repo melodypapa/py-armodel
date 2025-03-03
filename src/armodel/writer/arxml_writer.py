@@ -2481,7 +2481,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeImplementationDataTypeElements(self, element: ET.Element, parent: ImplementationDataType):
-        sub_elements = parent.getImplementationDataTypeElements()
+        sub_elements = parent.getSubElements()
         if len(sub_elements) > 0:
             sub_elements_tag = ET.SubElement(element, "SUB-ELEMENTS")
             for type_element in sub_elements:

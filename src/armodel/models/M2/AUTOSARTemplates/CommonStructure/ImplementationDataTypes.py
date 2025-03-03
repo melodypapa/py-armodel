@@ -8,9 +8,11 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
+
 class AbstractImplementationDataTypeElement(Identifiable):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
+
 
 class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
@@ -30,45 +32,51 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         return self.arrayImplPolicy
 
     def setArrayImplPolicy(self, value):
-        self.arrayImplPolicy = value
+        if value is not None:
+            self.arrayImplPolicy = value
         return self
 
     def getArraySize(self):
         return self.arraySize
 
     def setArraySize(self, value):
-        self.arraySize = value
+        if value is not None:
+            self.arraySize = value
         return self
 
     def getArraySizeHandling(self):
         return self.arraySizeHandling
 
     def setArraySizeHandling(self, value):
-        self.arraySizeHandling = value
+        if value is not None:
+            self.arraySizeHandling = value
         return self
 
     def getArraySizeSemantics(self):
         return self.arraySizeSemantics
 
     def setArraySizeSemantics(self, value):
-        self.arraySizeSemantics = value
+        if value is not None:
+            self.arraySizeSemantics = value
         return self
 
     def getIsOptional(self):
         return self.isOptional
 
     def setIsOptional(self, value):
-        self.isOptional = value
+        if value is not None:
+            self.isOptional = value
         return self
 
     def getSwDataDefProps(self):
         return self.swDataDefProps
 
     def setSwDataDefProps(self, value):
-        self.swDataDefProps = value
+        if value is not None:
+            self.swDataDefProps = value
         return self
-    
-    def createImplementationDataTypeElement(self, short_name: str): # type: (...) -> ImplementationDataTypeElement
+
+    def createImplementationDataTypeElement(self, short_name: str):  # type: (...) -> ImplementationDataTypeElement
         if (short_name not in self.elements):
             event = ImplementationDataTypeElement(self, short_name)
             self.elements[short_name] = event
@@ -78,12 +86,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values()))
 
 
-class AbstractImplementationDataType(AutosarDataType, metaclass = ABCMeta):
+class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractImplementationDataType:
+        if type(self) is AbstractImplementationDataType:
             raise NotImplementedError("AbstractImplementationDataType is an abstract class.")
 
         super().__init__(parent, short_name)
+
 
 class ImplementationDataType(AbstractImplementationDataType):
 
@@ -99,12 +108,9 @@ class ImplementationDataType(AbstractImplementationDataType):
         self.dynamicArraySizeProfile = None             # type: String
         self.isStructWithOptionalElement = None         # type: Boolean
         
-        self.subElements = []                           # type: List[str]
+        self.subElements = []                           # type: List[ImplementationDataTypeElement]
         self.symbolProps = None                         # type: SymbolProps
-        self.typeEmitter = None                       # type: ARLiteral
-
-        #self._array_type = None         # ImplementationDataType
-        #self._struct_type = None        # ImplementationDataType
+        self.typeEmitter = None                         # type: ARLiteral
 
     def getDynamicArraySizeProfile(self):
         return self.dynamicArraySizeProfile
@@ -120,19 +126,15 @@ class ImplementationDataType(AbstractImplementationDataType):
         self.isStructWithOptionalElement = value
         return self
 
-    def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:     
-        self.subElements.append(short_name)
-        if (short_name not in self.elements):
-            event = ImplementationDataTypeElement(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+    def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:
+        if not self.IsElementExists(short_name):
+            type_element = ImplementationDataTypeElement(self, short_name)
+            self.addElement(type_element)
+            self.subElements.append(type_element)
+        return self.getElement(short_name)
 
-    def getImplementationDataTypeElements(self) -> List[ImplementationDataTypeElement]:
-        elements = []
-        for sub_element in self.subElements:
-            elements.append(self.elements[sub_element])
-        return elements
-        # return filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values())
+    def getSubElements(self) -> List[ImplementationDataTypeElement]:
+        return self.subElements
 
     def getArrayElementType(self) -> str:
         return self._array_type

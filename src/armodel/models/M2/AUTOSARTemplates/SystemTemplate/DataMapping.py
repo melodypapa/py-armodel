@@ -1,6 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
+from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from ....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -29,43 +30,43 @@ class SenderReceiverToSignalMapping(DataMapping):
         super().__init__()
 
         self.communicationDirection = None                          # type: CommunicationDirectionType
-        self.dataElementIRef = None
-        self.senderToSignalTextTableMapping = None
-        self.signalToReceiverTextTableMapping = None
-        self.systemSignalRef = None
+        self.dataElementIRef = None                                 # type: VariableDataPrototypeInSystemInstanceRef
+        self.senderToSignalTextTableMapping = None                  # type: TextTableMapping
+        self.signalToReceiverTextTableMapping = None                # type: TextTableMapping
+        self.systemSignalRef = None                                 # type: RefType
 
     def getCommunicationDirection(self):
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value):
+    def setCommunicationDirection(self, value: CommunicationDirectionType):
         self.communicationDirection = value
         return self
 
     def getDataElementIRef(self):
         return self.dataElementIRef
 
-    def setDataElementIRef(self, value):
+    def setDataElementIRef(self, value: VariableDataPrototypeInSystemInstanceRef):
         self.dataElementIRef = value
         return self
 
     def getSenderToSignalTextTableMapping(self):
         return self.senderToSignalTextTableMapping
 
-    def setSenderToSignalTextTableMapping(self, value):
+    def setSenderToSignalTextTableMapping(self, value: TextTableMapping):
         self.senderToSignalTextTableMapping = value
         return self
 
     def getSignalToReceiverTextTableMapping(self):
         return self.signalToReceiverTextTableMapping
 
-    def setSignalToReceiverTextTableMapping(self, value):
+    def setSignalToReceiverTextTableMapping(self, value: TextTableMapping):
         self.signalToReceiverTextTableMapping = value
         return self
 
     def getSystemSignalRef(self):
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value):
+    def setSystemSignalRef(self, value: RefType):
         self.systemSignalRef = value
         return self
 
@@ -232,7 +233,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def __init__(self):
         super().__init__()
 
-        self.dataElementIRef = None                         # type: RefType
+        self.dataElementIRef = None                         # type: VariableDataPrototypeInSystemInstanceRef
         self.signalGroupRef = None                          # type: RefType
         self.typeMapping = None                             # type: SenderRecCompositeTypeMapping
 

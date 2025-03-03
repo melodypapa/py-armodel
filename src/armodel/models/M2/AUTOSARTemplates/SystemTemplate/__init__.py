@@ -1,11 +1,15 @@
 from typing import List
 
+from ....M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
+from ....M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
+from ....M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
-from ....M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
+from ....M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, RevisionLabelString, TRefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum, PositiveInteger, RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
 
 
 class SwcToEcuMapping(Identifiable):
@@ -46,34 +50,67 @@ class SwcToEcuMapping(Identifiable):
         return self
 
 
+class ComManagementMapping(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.comManagementGroupRefs = []            # type: List[RefType]
+        self.comManagementPortGroupRefs = []        # type: List[RefType]
+        self.physicalChannelRef = None              # type: RefType
+
+    def getComManagementGroupRefs(self):
+        return self.comManagementGroupRefs
+
+    def addComManagementGroupRef(self, value):
+        if value is not None:
+            self.comManagementGroupRefs.append(value)
+        return self
+
+    def getComManagementPortGroupRefs(self):
+        return self.comManagementPortGroupRefs
+
+    def addComManagementPortGroupRef(self, value):
+        if value is not None:
+            self.comManagementPortGroupRefs.append(value)
+        return self
+
+    def getPhysicalChannelRef(self):
+        return self.physicalChannelRef
+
+    def setPhysicalChannelRef(self, value):
+        if value is not None:
+            self.physicalChannelRef = value
+        return self
+
+
 class SystemMapping(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.applicationPartitionToEcuPartitionMappings = []
-        self.appOsTaskProxyToEcuTaskProxyMappings = []
-        self.comManagementMappings = []
-        self.cryptoServiceMappings = []
-        self.dataMappings = []
-        self.ddsISignalToTopicMappings = []
+        self.applicationPartitionToEcuPartitionMappings = []                            # type: List[ApplicationPartitionToEcuPartitionMapping]
+        self.appOsTaskProxyToEcuTaskProxyMappings = []                                  # type: List[AppOsTaskProxyToEcuTaskProxyMapping]
+        self.comManagementMappings = []                                                 # type: List[ComManagementMapping]
+        self.cryptoServiceMappings = []                                                 # type: List[CryptoServiceMapping]
+        self.dataMappings = []                                                          # type: List[DataMapping]
+        self.ddsISignalToTopicMappings = []                                             # type: List[DdsCpISignalToDdsTopicMapping]
         self.ecuResourceMappings = []                                                   # type: List[ECUMapping]
-        self.j1939ControllerApplicationToJ1939NmNodeMappings = []
-        self.mappingConstraints = []
-        self.pncMappings = []
-        self.portElementToComResourceMappings = []
-        self.resourceEstimations = []
-        self.resourceToApplicationPartitionMappings = []
-        self.rteEventSeparations = []
-        self.rteEventToOsTaskProxyMappings = []
-        self.signalPathConstraints = []
-        self.softwareClusterToApplicationPartitionMappings = []
-        self.softwareClusterToResourceMappings = []
-        self.swClusterMappings = []
-        self.swcToApplicationPartitionMappings = []
+        self.j1939ControllerApplicationToJ1939NmNodeMappings = []                       # type: List[J1939ControllerApplicationToJ1939NmNodeMapping]
+        self.mappingConstraints = []                                                    # type: List[MappingConstraint]
+        self.pncMappings = []                                                           # type: List[PncMapping]
+        self.portElementToComResourceMappings = []                                      # type: List[PortElementToCommunicationResourceMapping]
+        self.resourceEstimations = []                                                   # type: List[EcuResourceEstimation]
+        self.resourceToApplicationPartitionMappings = []                                # type: List[CpSoftwareClusterResourceToApplicationPartitionMapping]
+        self.rteEventSeparations = []                                                   # type: List[RteEventInSystemSeparation]
+        self.rteEventToOsTaskProxyMappings = []                                         # type: List[RteEventInSystemToOsTaskProxyMapping]
+        self.signalPathConstraints = []                                                 # type: List[SignalPathConstraint]
+        self.softwareClusterToApplicationPartitionMappings = []                         # type: List[CpSoftwareClusterToApplicationPartitionMapping]
+        self.softwareClusterToResourceMappings = []                                     # type: List[CpSoftwareClusterToResourceMapping]
+        self.swClusterMappings = []                                                     # type: List[CpSoftwareClusterToEcuInstanceMapping]
+        self.swcToApplicationPartitionMappings = []                                     # type: List[SwcToApplicationPartitionMapping]
         self.swImplMappings = []                                                        # type: List[SwcToImplMapping]
         self.swMappings = []                                                            # type: List[SwcToEcuMapping]
-        self.systemSignalGroupToComResourceMappings = []
-        self.systemSignalToComResourceMappings = []
+        self.systemSignalGroupToComResourceMappings = []                                # type: List[SystemSignalGroupToCommunicationResourceMapping]
+        self.systemSignalToComResourceMappings = []                                     # type: List[SystemSignalToCommunicationResourceMapping]
 
     def getApplicationPartitionToEcuPartitionMappings(self):
         return self.applicationPartitionToEcuPartitionMappings
@@ -286,22 +323,37 @@ class RootSwCompositionPrototype(Identifiable):
         return self
 
 
+class J1939SharedAddressCluster(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.participatingJ1939ClusterRefs = []             # type: List[RefType]
+
+    def getParticipatingJ1939ClusterRefs(self):
+        return self.participatingJ1939ClusterRefs
+
+    def addParticipatingJ1939ClusterRef(self, value):
+        if value is not None:
+            self.participatingJ1939ClusterRefs.append(value)
+        return self
+
+
 class System(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.clientIdDefinitionSetRefs = []                 # type: List[RefType]
-        self.containerIPduHeaderByteOrder = None
-        self.ecuExtractVersion = None
+        self.containerIPduHeaderByteOrder = None            # type: ByteOrderEnum
+        self.ecuExtractVersion = None                       # type: RevisionLabelString
         self.fibexElements = []                             # type: List[RefType]
         self.interpolationRoutineMappingSetRefs = []        # type: List[RefType]
-        self.j1939SharedAddressClusters = []
+        self.j1939SharedAddressClusters = []                # type: List[J1939SharedAddressCluster]
         self.mappings = []                                  # type: List[SystemMapping]
         self.pncVectorLength = None                         # type: PositiveInteger
         self.pncVectorOffset = None                         # type: PositiveInteger
         self.rootSoftwareComposition = None                 # type: RootSwCompositionPrototype
-        self.swClusters = []
-        self.systemDocumentation = []
+        self.swClusterRefs = []                             # type: List[RefType]
+        self.systemDocumentation = []                       # type: Chapter
         self.systemVersion = None                           # type: RevisionLabelString
 
     def getClientIdDefinitionSetRefs(self):
@@ -384,11 +436,11 @@ class System(ARElement):
             self.rootSoftwareComposition = prototype
         return self.getElement(short_name)
 
-    def getSwClusters(self):
-        return self.swClusters
+    def getSwClusterRefs(self):
+        return self.swClusterRefs
 
-    def addSwClusters(self, value):
-        self.swClusters.append(value)
+    def addSwClusterRef(self, value):
+        self.swClusterRefs.append(value)
         return self
 
     def getSystemDocumentation(self):

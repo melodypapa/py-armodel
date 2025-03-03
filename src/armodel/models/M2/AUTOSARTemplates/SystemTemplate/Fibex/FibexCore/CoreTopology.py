@@ -441,15 +441,21 @@ class CommunicationController(Identifiable, metaclass=ABCMeta):
         return self
 
 
-class PncGatewayTypeEnum(Enum):
+class PncGatewayTypeEnum(AREnum):
     ENUM_ACTIVE = "active"
     ENUM_NONE = "none"
     ENUM_PASSIVE = "passive"
 
+    def __init__(self):
+        super().__init__([])
 
-class CommunicationDirectionType(Enum):
+
+class CommunicationDirectionType(AREnum):
     ENUM_IN = "in"
     ENUM_OUT = "out"
+
+    def __init__(self):
+        super().__init__([])
 
 
 class CommConnectorPort(Identifiable, metaclass=ABCMeta):
