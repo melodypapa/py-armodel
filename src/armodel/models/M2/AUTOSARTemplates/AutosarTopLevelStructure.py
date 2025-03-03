@@ -1,19 +1,24 @@
 from typing import Dict, List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
+from ...utils.uuid_mgr import UUIDMgr
 from ...M2.MSR.AsamHdo.SpecialData import Sdg
 from ...M2.MSR.AsamHdo import AdminData
 from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
 from ...M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ...M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
-from ...M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
+from ...M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType, PortPrototype
+from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
+from ...M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
 
 
 class FileInfoComment(ARObject):
@@ -93,7 +98,7 @@ class AbstractAUTOSAR(CollectableElement):
         self._behavior_impl_maps = {}                       # type: Dict[str, str]
         self._impl_behavior_maps = {}                       # type: Dict[str, str]
 
-        self.uuid_objects = {}                              # type: Dict[str, ARObject]
+        self.uuid_mgr = UUIDMgr()
 
         self.systems = {}                                   # type: Dict[str, System]
         self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
@@ -120,7 +125,14 @@ class AbstractAUTOSAR(CollectableElement):
             self.arPackages[short_name] = ar_package
         return self.arPackages[short_name]
 
-    def find(self, referred_name: str) -> Referrable:
+    def find(self, referred) -> Referrable:
+        if isinstance(referred, RefType):
+            referred_name = referred.getValue()
+            referred_type = referred.getDest()
+        else:
+            referred_name = referred
+            referred_type = None
+
         short_name_list = referred_name.split("/")
         element = AUTOSAR.getInstance()
         for short_name in short_name_list:
@@ -129,8 +141,37 @@ class AbstractAUTOSAR(CollectableElement):
             element = element.getElement(short_name)
             if (element is None):
                 return element
-            #    raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
+        
+        # validate the dest
+        if referred_type is not None and referred_type != "":
+            base_type = self.getDestType(element)
+            if base_type != referred_type:
+                raise ValueError("The type does not matched of <%s> (Dest: %s, Actual: %s)" % (referred_name, referred_type, base_type))
+        
         return element
+    
+    def getDestType(self, type) -> str:
+        if isinstance(type, ImplementationDataType):
+            return "IMPLEMENTATION-DATA-TYPE"
+        return ""
+    
+    def findAtomicSwComponentType(self, referred) -> AtomicSwComponentType:
+        return self.find(referred)
+    
+    def findSystemSignal(self, referred) -> SystemSignal:
+        return self.find(referred)
+    
+    def findSystemSignalGroup(self, referred) -> SystemSignalGroup:
+        return self.find(referred)
+    
+    def findPort(self, referred: str) -> PortPrototype:
+        return self.find(referred)
+    
+    def findVariableDataPrototype(self, referred) -> VariableDataPrototype:
+        return self.find(referred)
+    
+    def findImplementationDataType(self, referred) -> ImplementationDataType:
+        return self.find(referred)
     
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):
@@ -138,8 +179,8 @@ class AbstractAUTOSAR(CollectableElement):
                 referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE):
-                if (data_type.swDataDefProps.swPointerTargetProps.target_category == "VALUE"):
-                    referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.sw_data_def_props.baseTypeRef.value)
+                if (data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE"):
+                    referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
                     return self.getDataType(referred_type)
             return data_type
         else:
@@ -206,14 +247,12 @@ class AbstractAUTOSAR(CollectableElement):
                 self.compositionSwComponentTypes[short_name] = sw_component_type
         return self
     
-    def getARObjectByUUID(self, uuid: str):
-        if uuid in self.uuid_objects:
-            return self.uuid_objects[uuid]
-        return None
+    def getARObjectByUUID(self, uuid: str) -> List[ARObject]:
+        return self.uuid_mgr.getObjects()
 
     def addARObject(self, value: ARObject):
         if value is not None:
-            self.uuid_objects[value.uuid] = value
+            self.uuid_mgr.addObject(value)
         return self
     
     def setARRelease(self, release: str):

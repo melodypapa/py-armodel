@@ -545,3 +545,8 @@ class CategoryString(ARLiteral):
         '''
     def __init__(self):
         super().__init__()
+
+
+class ByteOrderEnum(AREnum):
+    def __init__(self):
+        super().__init__([])

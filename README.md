@@ -569,3 +569,12 @@ Fix the attribute intervalType of **Limit** is empty issue.
 
 1. To support the following AR Element:
    * DLT-USER-NEEDS
+2. Improve the UUID check
+3. Improve the find method of class AbstractAUTOSAR to support the validation of dest
+4. Add the findXXX method of class AbstractAUTOSAR
+   * findAtomicSwComponentType
+   * findSystemSignal
+   * findSystemSignalGroup
+   * findPort
+   * findVariableDataPrototype
+   * findImplementationDataType

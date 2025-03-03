@@ -69,6 +69,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.description = "arxml-format ver: %s" % version
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
+    ap.add_argument("--log", required=False, help="Log all information to file")
     ap.add_argument("-w", "--warning", required=False, help="Skip the error and report it as warning message", action="store_true")
     ap.add_argument("--remove-admin-data", required=False, help="Remove all the AdminData", action="store_true")
     ap.add_argument("INPUT", help="The path of AUTOSAR ARXML file")
