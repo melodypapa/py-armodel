@@ -107,8 +107,9 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMapping, ModeDeclarationMappingSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterfaceMapping, ClientServerOperationMapping
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface, ModeInterfaceMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, ModeSwitchInterface, ParameterInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface, PortInterfaceMappingSet, SenderReceiverInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TriggerInterface, VariableAndParameterInterfaceMapping
@@ -3938,6 +3939,38 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARElement(child_element, blueprint)
             self.setChildElementOptionalRefType(child_element, "INTERFACE-REF", blueprint.getInterfaceRef())
 
+    def writeModeDeclarationMappingFirstModeRefs(self, element: ET.Element, mapping: ModeDeclarationMapping):
+        ref_links = mapping.getFirstModeRefs()
+        if len(ref_links) > 0:
+            child_element = ET.SubElement(element, "FIRST-MODE-REFS")
+            for ref_link in ref_links:
+                self.setChildElementOptionalRefType(child_element, "FIRST-MODE-REF", ref_link)
+
+    def writeModeDeclarationMapping(self, element: ET.Element, mapping: ModeDeclarationMapping):
+        # self.logger.debug("Read ModeDeclarationMapping <%s>" % mapping.getShortName())
+        if mapping is not None:
+            child_element = ET.SubElement(element, "MODE-DECLARATION-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeModeDeclarationMappingFirstModeRefs(child_element, mapping)
+            self.setChildElementOptionalRefType(child_element, "SECOND-MODE-REF", mapping.getSecondModeRef())
+
+    def writeModeDeclarationMappingSetModeDeclarationMappings(self, element: ET.Element, mapping_set: ModeDeclarationMappingSet):
+        mappings = mapping_set.getModeDeclarationMappings()
+        if len(mappings) > 0:
+            child_element = ET.SubElement(element, "MODE-DECLARATION-MAPPINGS")
+            for mapping in mappings:
+                if isinstance(mapping, ModeDeclarationMapping):
+                    self.writeModeDeclarationMapping(child_element, mapping)
+                else:
+                    self.notImplemented("Unsupported ModeDeclarationMapping <%s>" % type(mapping))
+
+    def writeModeDeclarationMappingSet(self, element: ET.Element, mapping_set: ModeDeclarationMappingSet):
+        if mapping_set is not None:
+            self.logger.debug("Write ModeDeclarationMappingSet <%s>" % mapping_set.getShortName())
+            child_element = ET.SubElement(element, "MODE-DECLARATION-MAPPING-SET")
+            self.writeARElement(child_element, mapping_set)
+            self.writeModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -4493,6 +4526,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, mapping)
             self.writeClientServerInterfaceMappingOperationMappings(child_element, mapping)
 
+    def writeModeInterfaceMappingModeMapping(self, element: ET.Element, mapping: ModeInterfaceMapping):
+        mode_mapping = mapping.getModeMapping()
+        if mode_mapping is not None:
+            child_element = ET.SubElement(element, "MODE-MAPPING")
+            self.setChildElementOptionalRefType(child_element, "FIRST-MODE-GROUP-REF", mode_mapping.getFirstModeGroupRef())
+            self.setChildElementOptionalRefType(child_element, "MODE-DECLARATION-MAPPING-SET-REF", mode_mapping.getModeDeclarationMappingSetRef())
+            self.setChildElementOptionalRefType(child_element, "SECOND-MODE-GROUP-REF", mode_mapping.getSecondModeGroupRef())
+
+    def writeModeInterfaceMapping(self, element: ET.Element, mapping: ModeInterfaceMapping):
+        # self.logger.debug("Read ClientServerInterfaceMapping %s" % mapping.getShortName())
+        if mapping is not None:
+            child_element = ET.SubElement(element, "MODE-INTERFACE-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeModeInterfaceMappingModeMapping(child_element, mapping)
+
     def writePortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         mappings = mapping_set.getPortInterfaceMappings()
         if len(mappings) > 0:
@@ -4502,6 +4550,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeVariableAndParameterInterfaceMapping(child_element, mapping)
                 elif isinstance(mapping, ClientServerInterfaceMapping):
                     self.writeClientServerInterfaceMapping(child_element, mapping)
+                elif isinstance(mapping, ModeInterfaceMapping):
+                    self.writeModeInterfaceMapping(child_element, mapping)
                 else:
                     self.notImplemented("Unsupported PortInterfaceMapping <%s>" % type(mapping))
 
@@ -5454,6 +5504,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeKeywordSet(element, ar_element)
         elif isinstance(ar_element, PortPrototypeBlueprint):
             self.writePortPrototypeBlueprint(element, ar_element)
+        elif isinstance(ar_element, ModeDeclarationMappingSet):
+            self.writeModeDeclarationMappingSet(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
