@@ -2,7 +2,7 @@ from abc import ABCMeta
 from typing import List
 
 from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
@@ -193,7 +193,7 @@ class ArgumentDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.direction = None                               # type: ArgumentDirectionEnum
+        self.direction: ArgumentDirectionEnum = None
         self.serverArgumentImplPolicy = None                # type: ServerArgumentImplPolicyEnum
 
     def getDirection(self):
@@ -505,9 +505,58 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.triggerMapping = []                            # type: List[TriggerMapping]
+        self.triggerMapping: List[TriggerMapping] = []
 
- 
+    def getTriggerMapping(self) -> List[TriggerMapping]:
+        return self.triggerMapping
+
+    def setTriggerMapping(self, value: List[TriggerMapping]):
+        if value is not None:
+            self.triggerMapping = value
+        return self
+
+
+class ModeDeclarationMapping(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.firstModeRefs: List[RefType] = []
+        self.secondModeRef: RefType = []
+
+    def getFirstModeRefs(self) -> List[RefType]:
+        return self.firstModeRefs
+
+    def addFirstModeRef(self, value: List[RefType]):
+        if value is not None:
+            self.firstModeRefs.append(value)
+        return self
+
+    def getSecondModeRef(self) -> RefType:
+        return self.secondModeRef
+
+    def setSecondModeRef(self, value: RefType):
+        if value is not None:
+            self.secondModeRef = value
+        return self
+
+
+class ModeDeclarationMappingSet(ARElement):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.modeDeclarationMappings: List[ModeDeclarationMapping] = []
+
+    def getModeDeclarationMappings(self) -> List[ModeDeclarationMapping]:
+        return self.modeDeclarationMappings
+
+    def createModeDeclarationMapping(self, short_name: str) -> ModeDeclarationMapping:
+        if (not self.IsElementExists(short_name)):
+            mapping = ModeDeclarationMapping(self, short_name)
+            self.addElement(mapping)
+            self.modeDeclarationMappings.append(mapping)
+        return self.getElement(short_name)
+
+
 class PortInterfaceMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

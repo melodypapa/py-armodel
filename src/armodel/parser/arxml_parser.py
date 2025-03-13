@@ -48,7 +48,8 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from ..models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code
 from ..models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
-from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeRequestTypeMap, ModeDeclarationGroupPrototype
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeDeclarationGroupPrototypeMapping
+from ..models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap, ModeDeclarationGroupPrototype
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
 from ..models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
@@ -112,6 +113,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes im
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement, AutosarDataPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import DataPrototype, ParameterDataPrototype, VariableDataPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ArgumentDataPrototype, ClientServerInterface, ClientServerInterfaceMapping
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMapping
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMappingSet, ModeInterfaceMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, ClientServerOperationMapping
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, PortInterfaceMappingSet
@@ -4247,6 +4250,30 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, blueprint)
         blueprint.setInterfaceRef(self.getChildElementOptionalRefType(element, "INTERFACE-REF"))
 
+    def readModeDeclarationMappingFirstModeRefs(self, element: ET.Element, mapping: ModeDeclarationMapping):
+        for ref_link in self.getChildElementRefTypeList(element, "FIRST-MODE-REFS/FIRST-MODE-REF"):
+            mapping.addFirstModeRef(ref_link)
+
+    def readModeDeclarationMapping(self, element: ET.Element, mapping: ModeDeclarationMapping):
+        # self.logger.debug("Read ModeDeclarationMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        self.readModeDeclarationMappingFirstModeRefs(element, mapping)
+        mapping.setSecondModeRef(self.getChildElementOptionalRefType(element, "SECOND-MODE-REF"))
+
+    def readModeDeclarationMappingSetModeDeclarationMappings(self, element: ET.Element, mapping_set: ModeDeclarationMappingSet):
+        for child_element in self.findall(element, "MODE-DECLARATION-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODE-DECLARATION-MAPPING":
+                mapping = mapping_set.createModeDeclarationMapping(self.getShortName(child_element))
+                self.readModeDeclarationMapping(child_element, mapping)
+            else:
+                self.notImplemented("Unsupported ModeDeclarationMapping <%s>" % tag_name)
+
+    def readModeDeclarationMappingSet(self, element: ET.Element, mapping_set: ModeDeclarationMappingSet):
+        self.logger.debug("Read ModeDeclarationMappingSet <%s>" % mapping_set.getShortName())
+        self.readARElement(element, mapping_set)
+        self.readModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -5111,6 +5138,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         self.readClientServerInterfaceMappingOperationMappings(element, mapping)
 
+    def readModeInterfaceMappingModeMapping(self, element: ET.Element, mapping: ModeInterfaceMapping):
+        child_element = self.find(element, "MODE-MAPPING")
+        if child_element is not None:
+            mode_mapping = ModeDeclarationGroupPrototypeMapping()
+            mode_mapping.setFirstModeGroupRef(self.getChildElementOptionalRefType(child_element, "FIRST-MODE-GROUP-REF")) \
+                        .setModeDeclarationMappingSetRef(self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-MAPPING-SET-REF")) \
+                        .setSecondModeGroupRef(self.getChildElementOptionalRefType(child_element, "SECOND-MODE-GROUP-REF"))
+            mapping.setModeMapping(mode_mapping)
+
+    def readModeInterfaceMapping(self, element: ET.Element, mapping: ModeInterfaceMapping):
+        # self.logger.debug("Read ModeInterfaceMapping %s" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        self.readModeInterfaceMappingModeMapping(element, mapping)
+
     def readPortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         for child_element in self.findall(element, "PORT-INTERFACE-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -5120,6 +5161,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CLIENT-SERVER-INTERFACE-MAPPING":
                 mapping = mapping_set.createClientServerInterfaceMapping(self.getShortName(child_element))
                 self.readClientServerInterfaceMapping(child_element, mapping)
+            elif tag_name == "MODE-INTERFACE-MAPPING":
+                mapping = mapping_set.createModeInterfaceMapping(self.getShortName(child_element))
+                self.readModeInterfaceMapping(child_element, mapping)
             else:
                 self.notImplemented("Unsupported PortInterfaceMapping <%s>" % tag_name)
 
@@ -5363,8 +5407,11 @@ class ARXMLParser(AbstractARXMLParser):
                 keyword_set = parent.createKeywordSet(self.getShortName(child_element))
                 self.readKeywordSet(child_element, keyword_set)
             elif tag_name == "PORT-PROTOTYPE-BLUEPRINT":
-                keyword_set = parent.createPortPrototypeBlueprint(self.getShortName(child_element))
-                self.readPortPrototypeBlueprint(child_element, keyword_set)
+                blueprint = parent.createPortPrototypeBlueprint(self.getShortName(child_element))
+                self.readPortPrototypeBlueprint(child_element, blueprint)
+            elif tag_name == "MODE-DECLARATION-MAPPING-SET":
+                mapping_set = parent.createModeDeclarationMappingSet(self.getShortName(child_element))
+                self.readModeDeclarationMappingSet(child_element, mapping_set)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

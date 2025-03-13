@@ -36,8 +36,9 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Appl
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeSwitchInterface, ParameterInterface
+from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeDeclarationMappingSet, ModeSwitchInterface
 from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
+from .....M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 
 from .....M2.AUTOSARTemplates.SystemTemplate import System
@@ -619,6 +620,12 @@ class ARPackage(Identifiable, CollectableElement):
             keyword_set = PortPrototypeBlueprint(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name)
+    
+    def createModeDeclarationMappingSet(self, short_name: str) -> ModeDeclarationMappingSet:
+        if (not self.IsElementExists(short_name)):
+            mapping_set = ModeDeclarationMappingSet(self, short_name)
+            self.addElement(mapping_set)
+        return self.getElement(short_name)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements.values()), key=lambda o: o.short_name))
@@ -793,6 +800,9 @@ class ARPackage(Identifiable, CollectableElement):
     
     def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
         return list(sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.elements.values()), key=lambda a: a.short_name))
+    
+    def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
+        return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements.values()), key=lambda a: a.short_name))
     
     def getReferenceBases(self):
         return self.referenceBases

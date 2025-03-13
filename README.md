@@ -578,3 +578,9 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * findPort
    * findVariableDataPrototype
    * findImplementationDataType
+
+**Version 1.8.1**
+
+1. To support the following AR Element:
+   * MODE-DECLARATION-MAPPING-SET
+   * MODE-INTERFACE-MAPPING
