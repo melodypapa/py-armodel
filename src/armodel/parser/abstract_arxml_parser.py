@@ -9,9 +9,9 @@ import xml.etree.ElementTree as ET
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, DateTime
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, TimeValue
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit, RevisionLabelString
 
 
 class AbstractARXMLParser:
@@ -107,7 +107,7 @@ class AbstractARXMLParser:
                 literal.setValue(child_element.text)
         return literal
     
-    def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> ARLiteral:
+    def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)
         literal = None
         if (child_element is not None) and (child_element.text is not None):
@@ -115,7 +115,7 @@ class AbstractARXMLParser:
             m = re.match(r'[0-9]+\.[0-9]+\.[0-9]+([\._;].*)?', child_element.text)
             if not m:
                 raise ValueError("Invalid RevisionLabelString <%s>" % child_element.text)
-            literal = ARLiteral()
+            literal = RevisionLabelString()
             self.readARObjectAttributes(child_element, literal)
             # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
             if child_element.text is None:
@@ -123,6 +123,9 @@ class AbstractARXMLParser:
             else:
                 literal.setValue(child_element.text)
         return literal
+    
+    def getChildElementOptionalDataTime(self, element: ET.Element, key: str) -> DateTime:
+        return self.getChildElementOptionalLiteral(element, key)
     
     def _convertStringToBooleanValue(self, value: str) -> bool:
         if (value == "true"):

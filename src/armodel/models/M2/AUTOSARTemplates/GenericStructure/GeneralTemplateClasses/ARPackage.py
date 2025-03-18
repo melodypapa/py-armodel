@@ -21,7 +21,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintD
 from .....M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
 from .....M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
 from .....M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
+from .....M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucModuleDef, EcucValueCollection
 from .....M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
 from .....M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory, HwType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -464,6 +464,12 @@ class ARPackage(Identifiable, CollectableElement):
             element = EcucModuleConfigurationValues(self, short_name)
             self.addElement(element)
         return self.getElement(short_name)
+    
+    def createEcucModuleDef(self, short_name: str) -> EcucModuleDef:
+        if (not self.IsElementExists(short_name)):
+            element = EcucModuleDef(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name)
 
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
         if (not self.IsElementExists(short_name)):
@@ -761,6 +767,9 @@ class ARPackage(Identifiable, CollectableElement):
 
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleConfigurationValues), self.elements.values()), key=lambda a: a.short_name))
+    
+    def getEcucModuleDefs(self) -> List[EcucModuleDef]:
+        return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements.values()), key=lambda a: a.short_name))
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
         return list(sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.elements.values()), key=lambda a: a.short_name))
