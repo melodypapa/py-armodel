@@ -8,7 +8,8 @@ import logging
 import xml.etree.cElementTree as ET
 
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Integer, TimeValue
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, DateTime, Integer
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TimeValue
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARBoolean
 
 
@@ -81,7 +82,10 @@ class AbstractARXMLWriter:
     def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Integer):
         self.setChildElementOptionalNumericalValue(element, key, value)
     
-    def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: ARLiteral):
+    def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: RevisionLabelString):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalDataTime(self, element: ET.Element, key: str, literal: DateTime):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: RefType):

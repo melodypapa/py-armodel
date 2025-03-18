@@ -584,3 +584,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
 1. To support the following AR Element:
    * MODE-DECLARATION-MAPPING-SET
    * MODE-INTERFACE-MAPPING
+   * ECUC-MODULE-DEF
+   * DOC-REVISION

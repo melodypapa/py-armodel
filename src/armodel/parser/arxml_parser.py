@@ -4,7 +4,7 @@ import os
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
-from ..models.M2.MSR.AsamHdo.AdminData import AdminData
+from ..models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent, CompuMethod, Compu
@@ -69,6 +69,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.Timing
 from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleDef
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
@@ -251,13 +252,45 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSdgSdxRefs(element, sdg)
         return sdg
 
-    def readSdgs(self, element: ET.Element, admin_data: AdminData):
+    def readAdminDataSdgs(self, element: ET.Element, admin_data: AdminData):
         for child_element in self.findall(element, "SDGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "SDG":
                 admin_data.addSdg(self.getSdg(child_element))
             else:
                 self.notImplemented("Unsupported SDG <%s>" % tag_name)
+
+    def readModification(self, element: ET.Element, modification: Modification):
+        modification.setChange(self.getMultiLanguageOverviewParagraph(element, "CHANGE")) \
+                    .setReason(self.getMultiLanguageOverviewParagraph(element, "REASON"))
+
+    def readDocRevisionModifications(self, element: ET.Element, revision: DocRevision):
+        for child_element in self.findall(element, "MODIFICATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODIFICATION":
+                modification = Modification()
+                self.readModification(child_element, modification)
+                revision.addModification(modification)
+            else:
+                self.notImplemented("Unsupported Modification <%s>" % tag_name)
+
+    def readDocRevision(self, element: ET.Element, revision: DocRevision):
+        revision.setDate(self.getChildElementOptionalDataTime(element, "DATE")) \
+                .setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY")) \
+                .setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL")) \
+                .setState(self.getChildElementOptionalLiteral(element, "STATE"))
+        
+        self.readDocRevisionModifications(element, revision)
+
+    def readAdminDataDocRevisions(self, element: ET.Element, admin_data: AdminData):
+        for child_element in self.findall(element, "DOC-REVISIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DOC-REVISION":
+                revision = DocRevision()
+                self.readDocRevision(child_element, revision)
+                admin_data.addDocRevision(revision)
+            else:
+                self.notImplemented("Unsupported DocRevision <%s>" % tag_name)
     
     def getAdminData(self, element: ET.Element, key: str) -> AdminData:
         admin_data = None
@@ -268,7 +301,8 @@ class ARXMLParser(AbstractARXMLParser):
             admin_data.setLanguage(self.getChildElementOptionalLiteral(child_element, "LANGUAGE")) \
                       .setUsedLanguages(self.getMultiLanguagePlainText(child_element, "USED-LANGUAGES"))
 
-            self.readSdgs(child_element, admin_data)
+            self.readAdminDataSdgs(child_element, admin_data)
+            self.readAdminDataDocRevisions(child_element, admin_data)
         return admin_data
     
     def readReferrable(self, element: ET.Element, referrable: Referrable):
@@ -4274,6 +4308,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, mapping_set)
         self.readModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
 
+    def readEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
+        self.logger.debug("Read EcucModuleDef <%s>" % module_def.getShortName())
+        self.readARElement(element, module_def)
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -5412,6 +5450,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MODE-DECLARATION-MAPPING-SET":
                 mapping_set = parent.createModeDeclarationMappingSet(self.getShortName(child_element))
                 self.readModeDeclarationMappingSet(child_element, mapping_set)
+            elif tag_name == "ECUC-MODULE-DEF":
+                module_def = parent.createEcucModuleDef(self.getShortName(child_element))
+                self.readEcucModuleDef(child_element, module_def)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

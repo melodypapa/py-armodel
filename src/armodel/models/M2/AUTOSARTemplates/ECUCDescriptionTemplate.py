@@ -4,8 +4,9 @@ from ..MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.MSR.Documentation.Annotation import Annotation
 from ...M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, ARBoolean
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, Boolean, CIdentifier
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, PositiveInteger, RefType
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
 
 class EcucValueCollection(ARElement):
@@ -267,3 +268,54 @@ class EcucModuleConfigurationValues(ARElement):
     def setPostBuildVariantUsed(self, value: ARBoolean):
         self.postBuildVariantUsed = value
         return self
+
+
+class EcucConditionSpecification(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        # self.conditionFormula: EcucConditionFormula = None     # 0..1 aggr Definition of the formula used to define existence dependencies.
+        # self.ecucQuerys: List[EcucQuery] = []                  # *    aggr Query to the ECU Configuration Description.
+        # self.informalFormula: MlFormula = None                 # 0..1 aggr Informal description of the condition used to to define existence dependencies. # noqa E501
+
+
+class EcucValidationCondition(Identifiable):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class EcucScopeEnum(AREnum):
+    def __init__(self):
+        super().__init__([])
+
+
+class EcucDefinitionElement(Identifiable, metaclass=ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.ecucCond: EcucConditionSpecification = None
+        self.ecucValidationConds: List[EcucValidationCondition] = []
+        self.lowerMultiplicity: PositiveInteger = None
+        self.relatedTraceItemRef: RefType = None
+        self.scope: EcucScopeEnum = None
+
+
+class EcucContainerDef(EcucDefinitionElement, metaclass=ABCMeta):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class EcucConfigurationVariantEnum(AREnum):
+    def __init__(self):
+        super().__init__([])
+
+
+class EcucModuleDef(EcucDefinitionElement):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.apiServicePrefix: CIdentifier = None
+        self.containers: List[EcucContainerDef] = []
+        self.postBuildVariantSupport: Boolean = None
+        self.refinedModuleDefRef: RefType = None
+        self.supportedConfigVariant: EcucConfigurationVariantEnum = None

@@ -1,7 +1,7 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
-from ..models.M2.MSR.AsamHdo.AdminData import AdminData
+from ..models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent
 from ..models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale
@@ -64,7 +64,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trig
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
-from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection, EcucModuleDef
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
@@ -249,7 +249,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setSdg(child_element, sdg_item)
             self.writeSdgSdxRefs(child_element, sdg)
             
-    def writeSdgs(self, parent: ET.Element, admin_data: AdminData):
+    def writeAdminDataSdgs(self, parent: ET.Element, admin_data: AdminData):
         sdgs = admin_data.getSdgs()
         if len(sdgs) > 0:
             sdgs_tag = ET.SubElement(parent, "SDGS")
@@ -310,12 +310,51 @@ class ARXMLWriter(AbstractARXMLWriter):
             for l10 in paragraph.getL10s():
                 self.setLPlainText(child_element, l10)
 
+    def writeModification(self, element: ET.Element, modification: Modification):
+        if modification is not None:
+            child_element = ET.SubElement(element, "MODIFICATION")
+            self.setMultiLanguageOverviewParagraph(child_element, "CHANGE", modification.getChange())
+            self.setMultiLanguageOverviewParagraph(child_element, "REASON", modification.getReason())
+
+    def writeDocRevisionModifications(self, element: ET.Element, revision: DocRevision):
+        modifications = revision.getModifications()
+        if len(modifications) > 0:
+            child_element = ET.SubElement(element, "MODIFICATIONS")
+            for modification in modifications:
+                if isinstance(modification, Modification):
+                    self.writeModification(child_element, modification)
+                else:
+                    self.notImplemented("Unsupported Modification <%s>" % type(modification))
+
+    def writeDocRevision(self, element: ET.Element, revision: DocRevision):
+        if revision is not None:
+            child_element = ET.SubElement(element, "DOC-REVISION")
+            # self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
+            # self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
+            self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL", revision.getRevisionLabel())
+            self.setChildElementOptionalLiteral(child_element, "STATE", revision.getState())
+            self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
+            self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
+            self.writeDocRevisionModifications(child_element, revision)
+
+    def writeAdminDataDocRevisions(self, element: ET.Element, admin_data: AdminData):
+        revisions = admin_data.getDocRevisions()
+        if len(revisions) > 0:
+            child_element = ET.SubElement(element, "DOC-REVISIONS")
+            for revision in revisions:
+                if isinstance(revision, DocRevision):
+                    self.writeDocRevision(child_element, revision)
+                else:
+                    self.notImplemented("Unsupported DocRevision <%s>" % type(revision))
+
     def setAdminData(self, element: ET.Element, admin_data: AdminData):
         if admin_data is not None:
+            self.logger.debug("Write AdminData")
             child_element = ET.SubElement(element, "ADMIN-DATA")
             self.setChildElementOptionalLiteral(child_element, "LANGUAGE", admin_data.getLanguage())
             self.setMultiLanguagePlainText(child_element, "USED-LANGUAGES", admin_data.getUsedLanguages())
-            self.writeSdgs(child_element, admin_data)
+            self.writeAdminDataSdgs(child_element, admin_data)
+            self.writeAdminDataDocRevisions(child_element, admin_data)
 
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.writeMultilanguageReferrable(element, identifiable)
@@ -328,41 +367,41 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
         self.writeIdentifiable(parent, ar_element)
 
-    def setTransmissionAcknowledgementRequest(self, element: ET.Element, acknowledge: TransmissionAcknowledgementRequest):
+    def writeTransmissionAcknowledgementRequest(self, element: ET.Element, acknowledge: TransmissionAcknowledgementRequest):
         if (acknowledge is not None):
             child_element = ET.SubElement(element, "TRANSMISSION-ACKNOWLEDGE")
             self.writeARObjectAttributes(child_element, acknowledge)
             if acknowledge.timeout is not None:
                 self.setChildElementOptionalFloatValue(child_element, "TIMEOUT", acknowledge.timeout)
 
-    def setSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
+    def writeSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
         representations = com_spec.getCompositeNetworkRepresentations()
         if len(representations) > 0:
             child_element = ET.SubElement(element, "COMPOSITE-NETWORK-REPRESENTATIONS")
             for representation in representations:
-                self.setCompositeNetworkRepresentation(child_element, representation)
+                self.writeCompositeNetworkRepresentation(child_element, representation)
         self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", com_spec.getDataElementRef())
         self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
-        self.setTransmissionAcknowledgementRequest(element, com_spec.getTransmissionAcknowledge())
+        self.writeTransmissionAcknowledgementRequest(element, com_spec.getTransmissionAcknowledge())
         self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.getUsesEndToEndProtection())
 
-    def setNonqueuedSenderComSpec(self, element: ET.Element, com_spec: NonqueuedSenderComSpec):
+    def writeNonqueuedSenderComSpec(self, element: ET.Element, com_spec: NonqueuedSenderComSpec):
         child_element = ET.SubElement(element, "NONQUEUED-SENDER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
-        self.setSenderComSpec(child_element, com_spec)
+        self.writeSenderComSpec(child_element, com_spec)
         self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
 
-    def setServerComSpec(self, element: ET.Element, com_spec: ServerComSpec):
+    def writeServerComSpec(self, element: ET.Element, com_spec: ServerComSpec):
         child_element = ET.SubElement(element, "SERVER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
         self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.getOperationRef())
         self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
 
-    def setQueuedSenderComSpec(self, element: ET.Element, com_spec: QueuedSenderComSpec):
+    def writeQueuedSenderComSpec(self, element: ET.Element, com_spec: QueuedSenderComSpec):
         child_element = ET.SubElement(element, "QUEUED-SENDER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
-        self.setSenderComSpec(child_element, com_spec)
+        self.writeSenderComSpec(child_element, com_spec)
 
     def setModeSwitchedAckRequest(self, element: ET.Element, key: str, request: ModeSwitchedAckRequest):
         if request is not None:
@@ -370,7 +409,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObjectAttributes(child_element, request)
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", request.getTimeout())
 
-    def setModeSwitchSenderComSpec(self, element: ET.Element, com_spec: ModeSwitchSenderComSpec):
+    def writeModeSwitchSenderComSpec(self, element: ET.Element, com_spec: ModeSwitchSenderComSpec):
         child_element = ET.SubElement(element, "MODE-SWITCH-SENDER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
         self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", com_spec.getModeGroupRef())
@@ -379,13 +418,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     
     def writePPortComSpec(self, com_specs_tag: ET.Element, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
-            self.setNonqueuedSenderComSpec(com_specs_tag, com_spec)
+            self.writeNonqueuedSenderComSpec(com_specs_tag, com_spec)
         elif isinstance(com_spec, ServerComSpec):
-            self.setServerComSpec(com_specs_tag, com_spec)
+            self.writeServerComSpec(com_specs_tag, com_spec)
         elif isinstance(com_spec, QueuedSenderComSpec):
-            self.setQueuedSenderComSpec(com_specs_tag, com_spec)
+            self.writeQueuedSenderComSpec(com_specs_tag, com_spec)
         elif isinstance(com_spec, ModeSwitchSenderComSpec):
-            self.setModeSwitchSenderComSpec(com_specs_tag, com_spec)
+            self.writeModeSwitchSenderComSpec(com_specs_tag, com_spec)
         else:
             self.notImplemented("Unsupported PPortComSpec %s" % type(com_spec))
 
@@ -396,7 +435,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.target_data_prototype_ref)
         return iref
 
-    def setCompositeNetworkRepresentation(self, element: ET.Element, representation: CompositeNetworkRepresentation):
+    def writeCompositeNetworkRepresentation(self, element: ET.Element, representation: CompositeNetworkRepresentation):
         if representation is not None:
             self.logger.debug("setCompositeNetworkRepresentation")
             child_element = ET.SubElement(element, "COMPOSITE-NETWORK-REPRESENTATION")
@@ -408,7 +447,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(representations) > 0:
             child_element = ET.SubElement(element, "COMPOSITE-NETWORK-REPRESENTATIONS")
             for representation in representations:
-                self.setCompositeNetworkRepresentation(child_element, representation)
+                self.writeCompositeNetworkRepresentation(child_element, representation)
         self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", com_spec.getDataElementRef())
         self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
@@ -3971,6 +4010,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARElement(child_element, mapping_set)
             self.writeModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
 
+    def writeEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
+        if module_def is not None:
+            self.logger.debug("Write EcucModuleDef <%s>" % module_def.getShortName())
+            child_element = ET.SubElement(element, "ECUC-MODULE-DEF")
+            self.writeARElement(child_element, module_def)
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -5506,6 +5551,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePortPrototypeBlueprint(element, ar_element)
         elif isinstance(ar_element, ModeDeclarationMappingSet):
             self.writeModeDeclarationMappingSet(element, ar_element)
+        elif isinstance(ar_element, EcucModuleDef):
+            self.writeEcucModuleDef(element, ar_element)
+        elif isinstance(ar_element, EcucModuleConfigurationValues):
+            self.writeEcucModuleConfigurationValues(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
