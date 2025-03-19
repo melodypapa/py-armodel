@@ -1,12 +1,14 @@
 from abc import ABCMeta
 from typing import List
-from ..MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+from ...M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucContainerDef, EcucDefinitionElement, EcucParamConfContainerDef
+from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.MSR.Documentation.Annotation import Annotation
 from ...M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, Boolean, CIdentifier
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, PositiveInteger, RefType
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, Boolean, CIdentifier, String
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 
 class EcucValueCollection(ARElement):
@@ -275,34 +277,20 @@ class EcucConditionSpecification(ARObject):
         super().__init__()
 
         # self.conditionFormula: EcucConditionFormula = None     # 0..1 aggr Definition of the formula used to define existence dependencies.
-        # self.ecucQuerys: List[EcucQuery] = []                  # *    aggr Query to the ECU Configuration Description.
+        # self.ecucQueries: List[EcucQuery] = []                  # *    aggr Query to the ECU Configuration Description.
         # self.informalFormula: MlFormula = None                 # 0..1 aggr Informal description of the condition used to to define existence dependencies. # noqa E501
 
 
-class EcucValidationCondition(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
+class EcucCommonAttributes(EcucDefinitionElement, metaclass=ABCMeta):
+    def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-
-class EcucScopeEnum(AREnum):
-    def __init__(self):
-        super().__init__([])
-
-
-class EcucDefinitionElement(Identifiable, metaclass=ABCMeta):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.ecucCond: EcucConditionSpecification = None
-        self.ecucValidationConds: List[EcucValidationCondition] = []
-        self.lowerMultiplicity: PositiveInteger = None
-        self.relatedTraceItemRef: RefType = None
-        self.scope: EcucScopeEnum = None
-
-
-class EcucContainerDef(EcucDefinitionElement, metaclass=ABCMeta):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
+        # self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
+        self.origin: String = None
+        self.postBuildVariantMultiplicity: Boolean = None
+        self.postBuildVariantValue: Boolean = None
+        self.requiresIndex: Boolean = None
+        # self.valueConfigClass: EcucValueConfigurationClass = None
 
 
 class EcucConfigurationVariantEnum(AREnum):
@@ -318,4 +306,53 @@ class EcucModuleDef(EcucDefinitionElement):
         self.containers: List[EcucContainerDef] = []
         self.postBuildVariantSupport: Boolean = None
         self.refinedModuleDefRef: RefType = None
-        self.supportedConfigVariant: EcucConfigurationVariantEnum = None
+        self.supportedConfigVariants: List[EcucConfigurationVariantEnum] = []
+
+    def getApiServicePrefix(self) -> CIdentifier:
+        return self.apiServicePrefix
+
+    def setApiServicePrefix(self, value: CIdentifier):
+        if value is not None:
+            self.apiServicePrefix = value
+        return self
+
+    def getContainers(self) -> List[EcucContainerDef]:
+        return self.containers
+
+    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
+        if (not self.IsElementExists(short_name)):
+            container_def = EcucParamConfContainerDef(self, short_name)
+            self.addElement(container_def)
+            self.containers.append(container_def)
+        return self.getElement(short_name)
+    
+    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+        if (not self.IsElementExists(short_name)):
+            container_def = EcucChoiceContainerDef(self, short_name)
+            self.addElement(container_def)
+            self.containers.append(container_def)
+        return self.getElement(short_name)
+
+    def getPostBuildVariantSupport(self) -> Boolean:
+        return self.postBuildVariantSupport
+
+    def setPostBuildVariantSupport(self, value: Boolean):
+        if value is not None:
+            self.postBuildVariantSupport = value
+        return self
+
+    def getRefinedModuleDefRef(self) -> RefType:
+        return self.refinedModuleDefRef
+
+    def setRefinedModuleDefRef(self, value: RefType):
+        if value is not None:
+            self.refinedModuleDefRef = value
+        return self
+
+    def getSupportedConfigVariants(self) -> List[EcucConfigurationVariantEnum]:
+        return self.supportedConfigVariants
+
+    def addSupportedConfigVariant(self, value: EcucConfigurationVariantEnum):
+        if value is not None:
+            self.supportedConfigVariants.append(value)
+        return self

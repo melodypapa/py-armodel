@@ -2,8 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -29,6 +27,7 @@ from ..models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import A
 from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LParagraph, LanguageSpecific
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from ..models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
@@ -68,12 +67,13 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.Execut
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
-from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleDef
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucDefinitionElement
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleDef, EcucInstanceReferenceValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucParamConfContainerDef
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
@@ -4308,9 +4308,39 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, mapping_set)
         self.readModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
 
+    def readEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
+        self.readARElement(element, def_element)
+        def_element.setLowerMultiplicity(self.getChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY")) \
+                   .setUpperMultiplicity(self.getChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY"))
+        
+    def readEcucModuleDefSupportedConfigVariants(self, element: ET.Element, module_def: EcucModuleDef):
+        for variant in self.getChildElementLiteralValueList(element, "SUPPORTED-CONFIG-VARIANTS/SUPPORTED-CONFIG-VARIANT"):
+            module_def.addSupportedConfigVariant(variant)
+
+    def readEcucParamConfContainerDef(self, element: ET.Element, container_def: EcucParamConfContainerDef):
+        self.readIdentifiable(element, container_def)
+
+    def readEcucChoiceContainerDef(self, element: ET.Element, container_def: EcucChoiceContainerDef):
+        self.readIdentifiable(element, container_def)
+
+    def readEcucModuleDefContainers(self, element: ET.Element, module_def: EcucModuleDef):
+        for child_element in self.findall(element, "CONTAINERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-PARAM-CONF-CONTAINER-DEF":
+                container_def = module_def.createEcucParamConfContainerDef(self.getShortName(child_element))
+                self.readEcucParamConfContainerDef(child_element, container_def)
+            elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
+                container_def = module_def.createEcucChoiceContainerDef(self.getShortName(child_element))
+                self.readEcucChoiceContainerDef(child_element, container_def)
+            else:
+                self.notImplemented("Unsupported Container <%s>" % tag_name)
+
     def readEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
         self.logger.debug("Read EcucModuleDef <%s>" % module_def.getShortName())
-        self.readARElement(element, module_def)
+        self.readEcucDefinitionElement(element, module_def)
+        module_def.setPostBuildVariantSupport(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-SUPPORT"))
+        self.readEcucModuleDefSupportedConfigVariants(element, module_def)
+        self.readEcucModuleDefContainers(element, module_def)
 
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
