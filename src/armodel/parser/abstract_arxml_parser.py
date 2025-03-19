@@ -84,7 +84,7 @@ class AbstractARXMLParser:
             return literal
         self.raiseError("The attribute %s of <%s> has not been defined" % (key, short_name))
         
-    def getChildElementLiteralValueList(self, element: ET.Element, key: str) -> ARFloat:
+    def getChildElementLiteralValueList(self, element: ET.Element, key: str) -> List[ARLiteral]:
         child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:

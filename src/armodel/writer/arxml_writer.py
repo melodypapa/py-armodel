@@ -62,9 +62,11 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.Execut
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from ..models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucInstanceReferenceValue
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue, EcucDefinitionElement
+from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucInstanceReferenceValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection, EcucModuleDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucParamConfContainerDef
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
@@ -4010,11 +4012,48 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARElement(child_element, mapping_set)
             self.writeModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
 
+    def writeEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
+        self.writeARElement(element, def_element)
+        self.setChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY", def_element.getLowerMultiplicity())
+        self.setChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY", def_element.getUpperMultiplicity())
+
+    def writeEcucModuleDefSupportedConfigVariants(self, element: ET.Element, module_def: EcucModuleDef):
+        variants = module_def.getSupportedConfigVariants()
+        if len(variants) > 0:
+            child_element = ET.SubElement(element, "SUPPORTED-CONFIG-VARIANTS")
+            for variant in variants:
+                self.setChildElementOptionalLiteral(child_element, "SUPPORTED-CONFIG-VARIANT", variant)
+
+    def writeEcucParamConfContainerDef(self, element: ET.Element, container_def: EcucParamConfContainerDef):
+        if container_def is not None:
+            child_element = ET.SubElement(element, "ECUC-PARAM-CONF-CONTAINER-DEF")
+            self.writeIdentifiable(child_element, container_def)
+
+    def writeEcucChoiceContainerDef(self, element: ET.Element, container_def: EcucChoiceContainerDef):
+        if container_def is not None:
+            child_element = ET.SubElement(element, "ECUC-CHOICE-CONTAINER-DEF")
+            self.writeIdentifiable(child_element, container_def)
+
+    def writeEcucModuleDefContainers(self, element: ET.Element, module_def: EcucModuleDef):
+        container_defs = module_def.getContainers()
+        if len(container_defs) > 0:
+            child_element = ET.SubElement(element, "CONTAINERS")
+            for container_def in container_defs:
+                if isinstance(container_def, EcucParamConfContainerDef):
+                    self.writeEcucParamConfContainerDef(child_element, container_def)
+                elif isinstance(container_def, EcucChoiceContainerDef):
+                    self.writeEcucChoiceContainerDef(child_element, container_def)
+                else:
+                    self.notImplemented("Unsupported Container <%s>" % type(container_def))
+
     def writeEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
         if module_def is not None:
             self.logger.debug("Write EcucModuleDef <%s>" % module_def.getShortName())
             child_element = ET.SubElement(element, "ECUC-MODULE-DEF")
-            self.writeARElement(child_element, module_def)
+            self.writeEcucDefinitionElement(child_element, module_def)
+            self.setChildElementOptionalBooleanValue(child_element, "POST-BUILD-VARIANT-SUPPORT", module_def.getPostBuildVariantSupport())
+            self.writeEcucModuleDefSupportedConfigVariants(child_element, module_def)
+            self.writeEcucModuleDefContainers(child_element, module_def)
 
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
