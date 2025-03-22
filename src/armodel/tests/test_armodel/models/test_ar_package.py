@@ -8,12 +8,14 @@ from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Iden
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType, EcuAbstractionSwComponentType, SwComponentType
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType, SwComponentType
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, DataInterface, PortInterface, SenderReceiverInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, DataInterface, PortInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
 
@@ -36,6 +38,7 @@ class TestAUTOSAR:
 
     def test_autosar(self):
         document = AUTOSAR.getInstance()
+        document.clear()
         assert (isinstance(document, CollectableElement))
         assert (isinstance(document, AUTOSAR))
         assert (len(document.getARPackages()) == 0)
@@ -52,10 +55,10 @@ class TestAUTOSAR:
         ar_package = document.find("/sw_package")
         assert ("sw_package" == ar_package.short_name)
 
-        assert(isinstance(ar_package, ARObject))
-        assert(isinstance(ar_package, Identifiable))
-        assert(isinstance(ar_package, Referrable))
-        assert(isinstance(ar_package, MultilanguageReferrable))
+        assert (isinstance(ar_package, ARObject))
+        assert (isinstance(ar_package, Identifiable))
+        assert (isinstance(ar_package, Referrable))
+        assert (isinstance(ar_package, MultilanguageReferrable))
 
 
 class TestARPackage:
@@ -73,8 +76,7 @@ class TestARPackage:
 
         ar_package_level2 = ar_package_level1.createARPackage("package_level2")
         assert (ar_package_level2.short_name == 'package_level2')
-        assert (ar_package_level2.full_name ==
-                "/package_level1/package_level2")
+        assert (ar_package_level2.full_name == "/package_level1/package_level2")
         assert (len(ar_package_level1.getARPackages()) == 1)
         assert (ar_package_level1.getARPackages()[0] == ar_package_level2)
 
@@ -87,8 +89,8 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         sw_component_type = ar_root.createEcuAbstractionSwComponentType(
             "ecu_abstract_sw_component")
-        assert(sw_component_type.short_name == "ecu_abstract_sw_component")
-        assert(isinstance(sw_component_type, EcuAbstractionSwComponentType))
+        assert (sw_component_type.short_name == "ecu_abstract_sw_component")
+        assert (isinstance(sw_component_type, EcuAbstractionSwComponentType))
 
         find_component_type = document.find(
             "/AUTOSAR/ecu_abstract_sw_component")
@@ -100,17 +102,17 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         sw_component_type = ar_root.createApplicationSwComponentType(
             "application_sw_component")
-        assert(sw_component_type.short_name == "application_sw_component")
+        assert (sw_component_type.short_name == "application_sw_component")
 
-        assert(isinstance(sw_component_type, ARElement))
-        assert(isinstance(sw_component_type, AtomicSwComponentType))
-        assert(isinstance(sw_component_type, CollectableElement))
-        assert(isinstance(sw_component_type, Identifiable))
-        assert(isinstance(sw_component_type, MultilanguageReferrable))
-        assert(isinstance(sw_component_type, PackageableElement))
-        assert(isinstance(sw_component_type, Referrable))
-        assert(isinstance(sw_component_type, SwComponentType))
-        assert(isinstance(sw_component_type, ApplicationSwComponentType))
+        assert (isinstance(sw_component_type, ARElement))
+        assert (isinstance(sw_component_type, AtomicSwComponentType))
+        assert (isinstance(sw_component_type, CollectableElement))
+        assert (isinstance(sw_component_type, Identifiable))
+        assert (isinstance(sw_component_type, MultilanguageReferrable))
+        assert (isinstance(sw_component_type, PackageableElement))
+        assert (isinstance(sw_component_type, Referrable))
+        assert (isinstance(sw_component_type, SwComponentType))
+        assert (isinstance(sw_component_type, ApplicationSwComponentType))
 
         find_component_type = document.find(
             "/AUTOSAR/application_sw_component")
@@ -122,17 +124,17 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         sw_component_type = ar_root.createServiceSwComponentType(
             "service_sw_component")
-        assert(sw_component_type.short_name == "service_sw_component")
+        assert (sw_component_type.short_name == "service_sw_component")
 
-        assert(isinstance(sw_component_type, ARElement))
-        assert(isinstance(sw_component_type, AtomicSwComponentType))
-        assert(isinstance(sw_component_type, CollectableElement))
-        assert(isinstance(sw_component_type, Identifiable))
-        assert(isinstance(sw_component_type, MultilanguageReferrable))
-        assert(isinstance(sw_component_type, PackageableElement))
-        assert(isinstance(sw_component_type, Referrable))
-        assert(isinstance(sw_component_type, SwComponentType))
-        assert(isinstance(sw_component_type, ServiceSwComponentType))
+        assert (isinstance(sw_component_type, ARElement))
+        assert (isinstance(sw_component_type, AtomicSwComponentType))
+        assert (isinstance(sw_component_type, CollectableElement))
+        assert (isinstance(sw_component_type, Identifiable))
+        assert (isinstance(sw_component_type, MultilanguageReferrable))
+        assert (isinstance(sw_component_type, PackageableElement))
+        assert (isinstance(sw_component_type, Referrable))
+        assert (isinstance(sw_component_type, SwComponentType))
+        assert (isinstance(sw_component_type, ServiceSwComponentType))
 
         find_component_type = document.find("/AUTOSAR/service_sw_component")
         assert (find_component_type == sw_component_type)
@@ -143,16 +145,16 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         sw_component_type = ar_root.createCompositionSwComponentType(
             "composition_sw_component")
-        assert(sw_component_type.short_name == "composition_sw_component")
+        assert (sw_component_type.short_name == "composition_sw_component")
 
-        assert(isinstance(sw_component_type, ARElement))
-        assert(isinstance(sw_component_type, CollectableElement))
-        assert(isinstance(sw_component_type, Identifiable))
-        assert(isinstance(sw_component_type, MultilanguageReferrable))
-        assert(isinstance(sw_component_type, PackageableElement))
-        assert(isinstance(sw_component_type, Referrable))
-        assert(isinstance(sw_component_type, SwComponentType))
-        assert(isinstance(sw_component_type, CompositionSwComponentType))
+        assert (isinstance(sw_component_type, ARElement))
+        assert (isinstance(sw_component_type, CollectableElement))
+        assert (isinstance(sw_component_type, Identifiable))
+        assert (isinstance(sw_component_type, MultilanguageReferrable))
+        assert (isinstance(sw_component_type, PackageableElement))
+        assert (isinstance(sw_component_type, Referrable))
+        assert (isinstance(sw_component_type, SwComponentType))
+        assert (isinstance(sw_component_type, CompositionSwComponentType))
 
         find_component_type = document.find(
             "/AUTOSAR/composition_sw_component")
@@ -164,17 +166,17 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         instance_if = ar_root.createSenderReceiverInterface(
             "sender_receiver_interface")
-        assert(instance_if.short_name == "sender_receiver_interface")
+        assert (instance_if.short_name == "sender_receiver_interface")
 
-        assert(isinstance(instance_if, ARElement))
-        assert(isinstance(instance_if, CollectableElement))
-        assert(isinstance(instance_if, DataInterface))
-        assert(isinstance(instance_if, Identifiable))
-        assert(isinstance(instance_if, MultilanguageReferrable))
-        assert(isinstance(instance_if, PackageableElement))
-        assert(isinstance(instance_if, PortInterface))
-        assert(isinstance(instance_if, Referrable))
-        assert(isinstance(instance_if, SenderReceiverInterface))
+        assert (isinstance(instance_if, ARElement))
+        assert (isinstance(instance_if, CollectableElement))
+        assert (isinstance(instance_if, DataInterface))
+        assert (isinstance(instance_if, Identifiable))
+        assert (isinstance(instance_if, MultilanguageReferrable))
+        assert (isinstance(instance_if, PackageableElement))
+        assert (isinstance(instance_if, PortInterface))
+        assert (isinstance(instance_if, Referrable))
+        assert (isinstance(instance_if, SenderReceiverInterface))
 
         find_component = document.find("/AUTOSAR/sender_receiver_interface")
         assert (find_component == instance_if)
@@ -190,8 +192,8 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         instance_if = ar_root.createClientServerInterface(
             "client_server_interface")
-        assert(instance_if.short_name == "client_server_interface")
-        assert(isinstance(instance_if, ClientServerInterface))
+        assert (instance_if.short_name == "client_server_interface")
+        assert (isinstance(instance_if, ClientServerInterface))
 
         find_component = document.find("/AUTOSAR/client_server_interface")
         assert (find_component == instance_if)
@@ -207,8 +209,8 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         data_type = ar_root.createApplicationPrimitiveDataType(
             "application_primitive_data_type")
-        assert(data_type.short_name == "application_primitive_data_type")
-        assert(isinstance(data_type, ApplicationPrimitiveDataType))
+        assert (data_type.short_name == "application_primitive_data_type")
+        assert (isinstance(data_type, ApplicationPrimitiveDataType))
 
         find_component = document.find(
             "/AUTOSAR/application_primitive_data_type")
@@ -225,8 +227,8 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         data_type = ar_root.createApplicationRecordDataType(
             "application_record_data_type")
-        assert(data_type.short_name == "application_record_data_type")
-        assert(isinstance(data_type, ApplicationRecordDataType))
+        assert (data_type.short_name == "application_record_data_type")
+        assert (isinstance(data_type, ApplicationRecordDataType))
 
         find_component = document.find("/AUTOSAR/application_record_data_type")
         assert (find_component == data_type)
@@ -237,8 +239,8 @@ class TestARPackage:
         ar_root = document.createARPackage("AUTOSAR")
         data_type = ar_root.createImplementationDataType(
             "implementation_data_type")
-        assert(data_type.short_name == "implementation_data_type")
-        assert(isinstance(data_type, ImplementationDataType))
+        assert (data_type.short_name == "implementation_data_type")
+        assert (isinstance(data_type, ImplementationDataType))
 
         find_component = document.find("/AUTOSAR/implementation_data_type")
         assert (find_component == data_type)
@@ -253,8 +255,8 @@ class TestARPackage:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         data_type = ar_root.createSwBaseType("sw_base_type")
-        assert(data_type.short_name == "sw_base_type")
-        assert(isinstance(data_type, SwBaseType))
+        assert (data_type.short_name == "sw_base_type")
+        assert (isinstance(data_type, SwBaseType))
 
         find_component = document.find("/AUTOSAR/sw_base_type")
         assert (find_component == data_type)
@@ -268,8 +270,8 @@ class TestARPackage:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         mapping_set = ar_root.createDataTypeMappingSet("data_type_mapping_set")
-        assert(mapping_set.short_name == "data_type_mapping_set")
-        assert(isinstance(mapping_set, DataTypeMappingSet))
+        assert (mapping_set.short_name == "data_type_mapping_set")
+        assert (isinstance(mapping_set, DataTypeMappingSet))
 
         find_component = document.find("/AUTOSAR/data_type_mapping_set")
         assert (find_component == mapping_set)
@@ -284,8 +286,8 @@ class TestARPackage:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         compu_method = ar_root.createCompuMethod("compu_method")
-        assert(compu_method.short_name == "compu_method")
-        assert(isinstance(compu_method, CompuMethod))
+        assert (compu_method.short_name == "compu_method")
+        assert (isinstance(compu_method, CompuMethod))
 
         find_component = document.find("/AUTOSAR/compu_method")
         assert (find_component == compu_method)
