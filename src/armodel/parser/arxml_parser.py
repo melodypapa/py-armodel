@@ -73,7 +73,16 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfi
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
-from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucParamConfContainerDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractConfigurationClass, EcucAbstractInternalReferenceDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucFunctionNameDef, EcucReferenceDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractReferenceDef, EcucSymbolicNameReferenceDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractStringParamDef, EcucBooleanParamDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucValueConfigurationClass
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucCommonAttributes, EcucEnumerationLiteralDef, EcucEnumerationParamDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucFloatParamDef, EcucIntegerParamDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucStringParamDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucContainerDef, EcucParameterDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucMultiplicityConfigurationClass, EcucParamConfContainerDef
 from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
@@ -4309,19 +4318,208 @@ class ARXMLParser(AbstractARXMLParser):
         self.readModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
 
     def readEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
-        self.readARElement(element, def_element)
-        def_element.setLowerMultiplicity(self.getChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY")) \
-                   .setUpperMultiplicity(self.getChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY"))
+        self.readIdentifiable(element, def_element)
+        def_element.setLowerMultiplicity(self.getChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY"))
+        def_element.setUpperMultiplicity(self.getChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY"))
+        def_element.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
         
     def readEcucModuleDefSupportedConfigVariants(self, element: ET.Element, module_def: EcucModuleDef):
         for variant in self.getChildElementLiteralValueList(element, "SUPPORTED-CONFIG-VARIANTS/SUPPORTED-CONFIG-VARIANT"):
             module_def.addSupportedConfigVariant(variant)
 
+    def readEcucAbstractConfigurationClass(self, element: ET.Element, cfg_class: EcucAbstractConfigurationClass):
+        self.readARObjectAttributes(element, cfg_class)
+        cfg_class.setConfigClass(self.getChildElementOptionalLiteral(element, "CONFIG-CLASS"))
+        cfg_class.setConfigVariant(self.getChildElementOptionalLiteral(element, "CONFIG-VARIANT"))
+
+    def readEcucMultiplicityConfigurationClass(self, element: ET.Element, cfg_class: EcucMultiplicityConfigurationClass):
+        self.readEcucAbstractConfigurationClass(element, cfg_class)
+
+    def getEcucMultiplicityConfigurationClasses(self, element: ET.Element) -> List[EcucMultiplicityConfigurationClass]:
+        cfg_classes = []
+        for child_element in self.findall(element, "MULTIPLICITY-CONFIG-CLASSES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-MULTIPLICITY-CONFIGURATION-CLASS":
+                cfg_class = EcucMultiplicityConfigurationClass()
+                self.readEcucMultiplicityConfigurationClass(child_element, cfg_class)
+                cfg_classes.append(cfg_class)
+            else:
+                self.notImplemented("Unsupported MultiplicityConfigClass <%s>" % tag_name)
+        return cfg_classes
+
+    def readEcucContainerDef(self, element: ET.Element, container_def: EcucContainerDef):
+        self.readEcucDefinitionElement(element, container_def)
+        for cfg_class in self.getEcucMultiplicityConfigurationClasses(element):
+            container_def.addMultiplicityConfigClass(cfg_class)
+        container_def.setPostBuildVariantMultiplicity(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY"))
+        container_def.setRequiresIndex(self.getChildElementOptionalBooleanValue(element, "REQUIRES-INDEX"))
+        container_def.setMultipleConfigurationContainer(self.getChildElementOptionalBooleanValue(element, "MULTIPLE-CONFIGURATION-CONTAINER"))
+
+    def readEcucValueConfigurationClass(self, element: ET.Element, cfg_class: EcucValueConfigurationClass):
+        self.readEcucAbstractConfigurationClass(element, cfg_class)
+
+    def getEcucValueConfigurationClasses(self, element: ET.Element) -> List[EcucValueConfigurationClass]:
+        cfg_classes = []
+        for child_element in self.findall(element, "VALUE-CONFIG-CLASSES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-VALUE-CONFIGURATION-CLASS":
+                cfg_class = EcucValueConfigurationClass()
+                self.readEcucValueConfigurationClass(child_element, cfg_class)
+                cfg_classes.append(cfg_class)
+            else:
+                self.notImplemented("Unsupported ValueConfigClass <%s>" % tag_name)
+        return cfg_classes
+        
+    def readEcucCommonAttributes(self, element: ET.Element, common_attrs: EcucCommonAttributes):
+        self.readEcucDefinitionElement(element, common_attrs)
+        for cfg_class in self.getEcucMultiplicityConfigurationClasses(element):
+            common_attrs.addMultiplicityConfigClass(cfg_class)
+        common_attrs.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
+        common_attrs.setPostBuildVariantMultiplicity(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY"))
+        common_attrs.setPostBuildVariantValue(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-VALUE"))
+        common_attrs.setRequiresIndex(self.getChildElementOptionalBooleanValue(element, "REQUIRES-INDEX"))
+        for cfg_class in self.getEcucValueConfigurationClasses(element):
+            common_attrs.addValueConfigClass(cfg_class)
+        
+    def readEcucParameterDef(self, element: ET.Element, param_def: EcucParameterDef):
+        self.readEcucCommonAttributes(element, param_def)
+        param_def.setDerivation(self.getChildElementOptionalLiteral(element, "DERIVATION"))
+        param_def.setSymbolicNameValue(self.getChildElementOptionalBooleanValue(element, "SYMBOLIC-NAME-VALUE"))
+        param_def.setWithAuto(self.getChildElementOptionalBooleanValue(element, "WITH-AUTO"))
+        
+    def readEcucBooleanParamDef(self, element: ET.Element, param_def: EcucBooleanParamDef):
+        self.readEcucParameterDef(element, param_def)
+        param_def.setDefaultValue(self.getChildElementOptionalBooleanValue(element, "DEFAULT-VALUE"))
+
+    def readEcucAbstractStringParamDef(self, element: ET.Element, param_def: EcucAbstractStringParamDef):
+        self.readEcucParameterDef(element, param_def)
+        param_def.setDefaultValue(self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE"))
+        param_def.setMaxLength(self.getChildElementOptionalIntegerValue(element, "MAX-LENGTH"))
+        param_def.setMinLength(self.getChildElementOptionalIntegerValue(element, "MIN-LENGTH"))
+        param_def.setRegularExpression(self.getChildElementOptionalLiteral(element, "REGULAR-EXPRESSION"))
+
+    def readEcucStringParamDef(self, element: ET.Element, param_def: EcucStringParamDef):
+        self.readEcucAbstractStringParamDef(element, param_def)
+
+    def readEcucIntegerParamDef(self, element: ET.Element, param_def: EcucIntegerParamDef):
+        self.readEcucParameterDef(element, param_def)
+        param_def.setDefaultValue(self.getChildElementOptionalIntegerValue(element, "DEFAULT-VALUE"))
+        param_def.setMax(self.getChildElementOptionalIntegerValue(element, "MAX"))
+        param_def.setMin(self.getChildElementOptionalIntegerValue(element, "MIN"))
+
+    def readEcucFloatParamDef(self, element: ET.Element, param_def: EcucFloatParamDef):
+        self.readEcucParameterDef(element, param_def)
+        param_def.setDefaultValue(self.getChildElementOptionalFloatValue(element, "DEFAULT-VALUE"))
+        param_def.setMax(self.getChildLimitElement(element, "MAX"))
+        param_def.setMin(self.getChildLimitElement(element, "MIN"))
+
+    def readEcucEnumerationLiteral(self, element: ET.Element, literal: EcucEnumerationLiteralDef):
+        self.readIdentifiable(element, literal)
+        literal.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
+
+    def readEcucEnumerationParamDefLiterals(self, element: ET.Element, literal_def: EcucEnumerationParamDef):
+        for child_element in self.findall(element, "LITERALS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-ENUMERATION-LITERAL-DEF":
+                literal = literal_def.createLiteral(self.getShortName(child_element))
+                self.readEcucEnumerationLiteral(child_element, literal)
+            else:
+                self.notImplemented("Unsupported EnumerationLiteral <%s>" % tag_name)
+
+    def readEcucEnumerationParamDef(self, element: ET.Element, param_def: EcucEnumerationParamDef):
+        self.readEcucParameterDef(element, param_def)
+        param_def.setDefaultValue(self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE"))
+        self.readEcucEnumerationParamDefLiterals(element, param_def)
+
+    def readEcucFunctionNameDef(self, element: ET.Element, ref_def: EcucFunctionNameDef):
+        self.readEcucAbstractStringParamDef(element, ref_def)
+        child_element = self.find(element, "ECUC-FUNCTION-NAME-DEF-VARIANTS/ECUC-FUNCTION-NAME-DEF-CONDITIONAL")
+        if child_element is not None:
+            ref_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
+            ref_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
+            ref_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
+
+    def readEcucContainerDefParameters(self, element: ET.Element, container_def: EcucParamConfContainerDef):
+        for child_element in self.findall(element, "PARAMETERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
+                param_def = container_def.createEcucBooleanParamDef(self.getShortName(child_element))
+                self.readEcucBooleanParamDef(child_element, param_def)
+            elif tag_name == "ECUC-STRING-PARAM-DEF":
+                param_def = container_def.createEcucStringParamDef(self.getShortName(child_element))
+                self.readEcucStringParamDef(child_element, param_def)
+            elif tag_name == "ECUC-INTEGER-PARAM-DEF":
+                param_def = container_def.createEcucIntegerParamDef(self.getShortName(child_element))
+                self.readEcucIntegerParamDef(child_element, param_def)
+            elif tag_name == "ECUC-FLOAT-PARAM-DEF":
+                param_def = container_def.createEcucFloatParamDef(self.getShortName(child_element))
+                self.readEcucFloatParamDef(child_element, param_def)
+            elif tag_name == "ECUC-ENUMERATION-PARAM-DEF":
+                param_def = container_def.createEcucEnumerationParamDef(self.getShortName(child_element))
+                self.readEcucEnumerationParamDef(child_element, param_def)
+            elif tag_name == "ECUC-FUNCTION-NAME-DEF":
+                param_def = container_def.createEcucFunctionNameDef(self.getShortName(child_element))
+                self.readEcucFunctionNameDef(child_element, param_def)
+            else:
+                self.notImplemented("Unsupported Parameter <%s>" % tag_name)
+
+    def readEcucAbstractReferenceDef(self, element: ET.Element, ref_def: EcucAbstractReferenceDef):
+        self.readEcucCommonAttributes(element, ref_def)
+        ref_def.setWithAuto(self.getChildElementOptionalBooleanValue(element, "WITH-AUTO"))
+
+    def readEcucAbstractInternalReferenceDef(self, element: ET.Element, ref_def: EcucAbstractInternalReferenceDef):
+        self.readEcucAbstractReferenceDef(element, ref_def)
+
+    def readEcucSymbolicNameReferenceDef(self, element: ET.Element, ref_def: EcucSymbolicNameReferenceDef):
+        self.readEcucAbstractInternalReferenceDef(element, ref_def)
+        ref_def.setDestinationRef(self.getChildElementOptionalRefType(element, "DESTINATION-REF"))
+
+    def readEcucReferenceDef(self, element: ET.Element, ref_def: EcucReferenceDef):
+        self.readEcucAbstractInternalReferenceDef(element, ref_def)
+        ref_def.setDestinationRef(self.getChildElementOptionalRefType(element, "DESTINATION-REF"))
+
+    def readEcucContainerDefReferences(self, element: ET.Element, container_def: EcucParamConfContainerDef):
+        for child_element in self.findall(element, "REFERENCES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-SYMBOLIC-NAME-REFERENCE-DEF":
+                ref_def = container_def.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
+                self.readEcucSymbolicNameReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-REFERENCE-DEF":
+                ref_def = container_def.createEcucReferenceDef(self.getShortName(child_element))
+                self.readEcucReferenceDef(child_element, ref_def)
+            else:
+                self.notImplemented("Unsupported EcucReferenceDef <%s>" % tag_name)
+
+    def readEcucContainerDefSubContainers(self, element: ET.Element, container_def: EcucParamConfContainerDef):
+        for child_element in self.findall(element, "SUB-CONTAINERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-PARAM-CONF-CONTAINER-DEF":
+                sub_container_def = container_def.createEcucParamConfContainerDef(self.getShortName(child_element))
+                self.readEcucParamConfContainerDef(child_element, sub_container_def)
+            elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
+                sub_container_def = container_def.createEcucChoiceContainerDef(self.getShortName(child_element))
+                self.readEcucChoiceContainerDef(child_element, sub_container_def)
+            else:
+                self.notImplemented("Unsupported SubContainer <%s>" % tag_name)
+
     def readEcucParamConfContainerDef(self, element: ET.Element, container_def: EcucParamConfContainerDef):
-        self.readIdentifiable(element, container_def)
+        self.readEcucContainerDef(element, container_def)
+        self.readEcucContainerDefParameters(element, container_def)
+        self.readEcucContainerDefReferences(element, container_def)
+        self.readEcucContainerDefSubContainers(element, container_def)
+
+    def readEcucChoiceContainerDefChoices(self, element: ET.Element, container_def: EcucChoiceContainerDef):
+        for child_element in self.findall(element, "CHOICES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECUC-PARAM-CONF-CONTAINER-DEF":
+                ref_def = container_def.createEcucParamConfContainerDef(self.getShortName(child_element))
+                self.readEcucParamConfContainerDef(child_element, ref_def)
+            else:
+                self.notImplemented("Unsupported Choice <%s>" % tag_name)
 
     def readEcucChoiceContainerDef(self, element: ET.Element, container_def: EcucChoiceContainerDef):
-        self.readIdentifiable(element, container_def)
+        self.readEcucContainerDef(element, container_def)
+        self.readEcucChoiceContainerDefChoices(element, container_def)
 
     def readEcucModuleDefContainers(self, element: ET.Element, module_def: EcucModuleDef):
         for child_element in self.findall(element, "CONTAINERS/*"):
@@ -4791,13 +4989,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readPhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
         self.logger.debug("Read PhysicalDimension <%s>" % dimension.getShortName())
         self.readIdentifiable(element, dimension)
-        dimension.setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP")) \
-                 .setLuminousIntensityExp(self.getChildElementOptionalNumericalValue(element, "LUMINOUS-INTENSITY-EXP")) \
-                 .setMassExp(self.getChildElementOptionalNumericalValue(element, "MASS-EXP")) \
-                 .setMolarAmountExp(self.getChildElementOptionalNumericalValue(element, "MOLAR-AMOUNT-EXP")) \
-                 .setTemperatureExp(self.getChildElementOptionalNumericalValue(element, "TEMPERATURE-EXP")) \
-                 .setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP")) \
-                 .setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP"))
+        dimension.setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP"))
+        dimension.setLuminousIntensityExp(self.getChildElementOptionalNumericalValue(element, "LUMINOUS-INTENSITY-EXP"))
+        dimension.setMassExp(self.getChildElementOptionalNumericalValue(element, "MASS-EXP"))
+        dimension.setMolarAmountExp(self.getChildElementOptionalNumericalValue(element, "MOLAR-AMOUNT-EXP"))
+        dimension.setTemperatureExp(self.getChildElementOptionalNumericalValue(element, "TEMPERATURE-EXP"))
+        dimension.setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP"))
+        dimension.setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP"))
 
     def readISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
         for ref_type in self.getChildElementRefTypeList(element, "I-SIGNAL-REFS/I-SIGNAL-REF"):

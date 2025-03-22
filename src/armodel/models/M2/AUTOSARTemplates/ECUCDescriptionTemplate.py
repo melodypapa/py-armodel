@@ -281,18 +281,6 @@ class EcucConditionSpecification(ARObject):
         # self.informalFormula: MlFormula = None                 # 0..1 aggr Informal description of the condition used to to define existence dependencies. # noqa E501
 
 
-class EcucCommonAttributes(EcucDefinitionElement, metaclass=ABCMeta):
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-        # self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
-        self.origin: String = None
-        self.postBuildVariantMultiplicity: Boolean = None
-        self.postBuildVariantValue: Boolean = None
-        self.requiresIndex: Boolean = None
-        # self.valueConfigClass: EcucValueConfigurationClass = None
-
-
 class EcucConfigurationVariantEnum(AREnum):
     def __init__(self):
         super().__init__([])

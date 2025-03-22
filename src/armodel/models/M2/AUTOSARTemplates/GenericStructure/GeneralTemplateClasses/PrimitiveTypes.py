@@ -465,7 +465,7 @@ class TRefType(RefType):
 
 
 class DiagRequirementIdString(ARLiteral):
-    '''
+    r'''
         This string denotes an Identifier for a requirement.
 
         Tags:
@@ -491,7 +491,7 @@ class ArgumentDirectionEnum(AREnum):
 
 
 class Ip4AddressString(ARLiteral):
-    '''
+    r'''
         This is used to specify an IP4 address. Notation: 255.255.255.255
         
         Tags
@@ -504,7 +504,7 @@ class Ip4AddressString(ARLiteral):
 
 
 class Ip6AddressString(ARLiteral):
-    '''
+    r'''
         This is used to specify an IP6 address. Notation: FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF
         Alternative notations, short-cuts with duplicate colons like ::, etc. or mixtures using colons and dots, are
         not allowed.
@@ -568,5 +568,15 @@ class DateTime(ARLiteral):
             xml.xsd.pattern=([0-9]{4}-[0-9]{2}-[0-9]{2})(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|([+\-][0-9]{2}:[0-9]{2})))?
             xml.xsd.type=string
     '''
+    def __init__(self):
+        super().__init__()
+
+
+class VerbatimString(ARLiteral):
+    def __init__(self):
+        super().__init__()
+
+
+class RegularExpression(ARLiteral):
     def __init__(self):
         super().__init__()
