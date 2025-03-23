@@ -208,11 +208,11 @@ class EcucContainerValue(ARElement, EcucIndexableValue):
         return self.subContainers
 
     def createSubContainer(self, short_name):
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             container_value = EcucContainerValue(self, short_name)
-            self.elements[short_name] = container_value
+            self.addElement(container_value)
             self.subContainers.append(container_value)
-        return self.elements[short_name]
+        return self.getElement(short_name, EcucContainerValue)
 
 
 class EcucModuleConfigurationValues(ARElement):
@@ -227,14 +227,14 @@ class EcucModuleConfigurationValues(ARElement):
         self.postBuildVariantUsed = None            # type: ARBoolean
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             container = EcucContainerValue(self, short_name)
-            self.elements[short_name] = container
+            self.addElement(container)
             self.containers.append(container)
-        return self.elements[short_name]
+        return self.getElement(short_name, EcucContainerValue)
 
     def getContainers(self) -> List[EcucContainerValue]:
-        return list(sorted(filter(lambda a: isinstance(a, EcucContainerValue), self.elements.values()), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, EcucContainerValue), self.elements), key=lambda o: o.short_name))
 
     def getDefinitionRef(self) -> RefType:
         return self.definitionRef

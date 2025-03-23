@@ -116,7 +116,6 @@ class AbstractAUTOSAR(CollectableElement):
         return CollectableElement.getElement(self, short_name)
 
     def getARPackages(self) -> List[ARPackage]:
-        # return list(filter(lambda e: isinstance(e, ARPackage), self.elements.values()))
         return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
 
     def createARPackage(self, short_name: str) -> ARPackage:

@@ -1297,7 +1297,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-COMPONENT-REF", ref.getTargetComponentRef())
 
-    def setVariableAccess(self, element: ET.Element, access: VariableAccess):
+    def writeVariableAccess(self, element: ET.Element, access: VariableAccess):
         child_element = ET.SubElement(element, "VARIABLE-ACCESS")
         self.writeIdentifiable(child_element, access)
         self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
@@ -1324,35 +1324,35 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
             for access in accesses:
-                self.setVariableAccess(child_element, access)
+                self.writeVariableAccess(child_element, access)
 
     def writeRunnableEntityDataSendPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getDataSendPoints()
         if len(points) > 0:
             child_element = ET.SubElement(element, "DATA-SEND-POINTS")
             for point in points:
-                self.setVariableAccess(child_element, point)
+                self.writeVariableAccess(child_element, point)
 
     def writeRunnableEntityDataReadAccesses(self, element: ET.Element, entity: RunnableEntity):
         accesses = entity.getDataReadAccesses()
         if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-READ-ACCESSS")
             for access in accesses:
-                self.setVariableAccess(child_element, access)
+                self.writeVariableAccess(child_element, access)
 
     def writeRunnableEntityDataWriteAccesses(self, element: ET.Element, entity: RunnableEntity):
         accesses = entity.getDataWriteAccesses()
         if len(accesses) > 0:
             child_element = ET.SubElement(element, "DATA-WRITE-ACCESSS")
             for access in accesses:
-                self.setVariableAccess(child_element, access)
+                self.writeVariableAccess(child_element, access)
 
     def writeRunnableEntityReadLocalVariables(self, element: ET.Element, entity: RunnableEntity):
         variables = entity.getReadLocalVariables()
         if len(variables) > 0:
             child_element = ET.SubElement(element, "READ-LOCAL-VARIABLES")
             for access in variables:
-                self.setVariableAccess(child_element, access)
+                self.writeVariableAccess(child_element, access)
 
     def setROperationInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: ROperationInAtomicSwcInstanceRef):
         if iref is not None:
@@ -1392,7 +1392,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(variables) > 0:
             child_element = ET.SubElement(element, "WRITTEN-LOCAL-VARIABLES")
             for access in variables:
-                self.setVariableAccess(child_element, access)
+                self.writeVariableAccess(child_element, access)
 
     def writeModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
         self.setChildElementOptionalRefType(element, "BASE-REF", instance_ref.getBaseRef())

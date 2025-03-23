@@ -171,7 +171,7 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
             access = BswVariableAccess(self, short_name)
             self.addElement(access)
             self.dataReceivePoints.append(access)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswVariableAccess)
 
     def getDataSendPoints(self):
         return self.dataSendPoints
@@ -181,7 +181,7 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
             access = BswVariableAccess(self, short_name)
             self.addElement(access)
             self.dataSendPoints.append(access)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswVariableAccess)
 
     def getImplementedEntryRef(self):
         return self.implementedEntryRef
@@ -673,7 +673,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
-        return list(filter(lambda a: isinstance(a, BswCalledEntity), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswCalledEntity), self.elements))
 
     def createBswSchedulableEntity(self, short_name: str) -> BswSchedulableEntity:
         if not self.IsElementExists(short_name):
@@ -683,7 +683,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
-        return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements))
     
     def createBswInterruptEntity(self, short_name: str) -> BswInterruptEntity:
         if not self.IsElementExists(short_name):
@@ -693,10 +693,10 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getBswInterruptEntities(self) -> List[BswInterruptEntity]:
-        return list(filter(lambda a: isinstance(a, BswInterruptEntity), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswInterruptEntity), self.elements))
 
     def getBswModuleEntities(self) -> List[BswModuleEntity]:
-        return list(filter(lambda a: isinstance(a, BswModuleEntity), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswModuleEntity), self.elements))
 
     def createBswModeSwitchEvent(self, short_name: str) -> BswModeSwitchEvent:
         if not self.IsElementExists(short_name):
@@ -706,7 +706,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
-        return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.elements))
 
     def createBswTimingEvent(self, short_name: str) -> BswTimingEvent:
         if not self.IsElementExists(short_name):
@@ -716,7 +716,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
-        return list(filter(lambda a: isinstance(a, BswTimingEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswTimingEvent), self.elements))
 
     def createBswDataReceivedEvent(self, short_name: str) -> BswDataReceivedEvent:
         if not self.IsElementExists(short_name):
@@ -726,7 +726,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
-        return list(filter(lambda a: isinstance(a, BswDataReceivedEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswDataReceivedEvent), self.elements))
 
     def createBswInternalTriggerOccurredEvent(self, short_name: str) -> BswInternalTriggerOccurredEvent:
         if not self.IsElementExists(short_name):
@@ -736,7 +736,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
     
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
-        return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements))
     
     def createBswExternalTriggerOccurredEvent(self, short_name: str) -> BswExternalTriggerOccurredEvent:
         if not self.IsElementExists(short_name):
@@ -746,7 +746,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
     
     def getBswOperationInvokedEvents(self) -> List[BswOperationInvokedEvent]:
-        return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.elements))
     
     def createBswOperationInvokedEvent(self, short_name: str) -> BswOperationInvokedEvent:
         if not self.IsElementExists(short_name):
@@ -756,7 +756,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
     
     def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
-        return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.elements))
     
     def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
         if not self.IsElementExists(short_name):
@@ -766,10 +766,10 @@ class BswInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
     
     def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
-        return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements))
 
     def getBswEvents(self) -> List[BswEvent]:
-        return list(filter(lambda a: isinstance(a, BswEvent), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, BswEvent), self.elements))
 
     def addIncludedModeDeclarationGroupSet(self, group_set: IncludedModeDeclarationGroupSet):
         self.includedModeDeclarationGroupSets.append(group_set)

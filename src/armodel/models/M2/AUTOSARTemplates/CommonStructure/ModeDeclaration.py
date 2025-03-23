@@ -85,13 +85,13 @@ class ModeDeclarationGroup(Identifiable):
         self.onTransitionValue = None                       # type: PositiveInteger
 
     def createModeDeclaration(self, short_name: str) -> ModeDeclaration:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             spec = ModeDeclaration(self, short_name)
-            self.elements[short_name] = spec
-        return self.elements[short_name]
+            self.addElement(spec)
+        return self.getElement(short_name, ModeDeclaration)
 
     def getModeDeclarations(self) -> List[ModeDeclaration]:
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements.values()), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name))
 
     def setInitialModeRef(self, ref: RefType):
         self.initialModeRef = ref

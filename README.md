@@ -592,3 +592,4 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ECUC-INTEGER-PARAM-DEF
    * ECUC-FLOAT-PARAM-DEF
    * ECUC-ENUMERATION-PARAM-DEF
+2. Same short name with different type can be added and located.

@@ -5,6 +5,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstan
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
+
 class FlatInstanceDescriptor(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -58,7 +59,7 @@ class FlatMap(ARElement):
         self.instances = []                                 # type: List[FlatInstanceDescriptor]
 
     def getInstances(self):
-        return list(sorted(filter(lambda a: isinstance(a, FlatInstanceDescriptor), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, FlatInstanceDescriptor), self.elements), key=lambda o: o.short_name))
 
     def createFlatInstanceDescriptor(self, short_name: str):
         if (short_name not in self.elements):
@@ -66,5 +67,3 @@ class FlatMap(ARElement):
             self.addElement(element)
             self.instances.append(element)
         return self.getElement(short_name)
-
-

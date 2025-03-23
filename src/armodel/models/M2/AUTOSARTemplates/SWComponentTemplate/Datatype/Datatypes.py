@@ -8,10 +8,11 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from abc import ABCMeta
 
-class AutosarDataType(AtpType, metaclass = ABCMeta):
+
+class AutosarDataType(AtpType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AutosarDataType:
-            raise NotImplementedError("AutosarDataType is an abstract class.")
+        if type(self) is AutosarDataType:
+            raise TypeError("AutosarDataType is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -25,10 +26,10 @@ class AutosarDataType(AtpType, metaclass = ABCMeta):
         return self
 
 
-class ApplicationDataType(AutosarDataType, metaclass = ABCMeta):
+class ApplicationDataType(AutosarDataType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ApplicationDataType:
-            raise NotImplementedError("ApplicationDataType is an abstract class.")
+        if type(self) is ApplicationDataType:
+            raise TypeError("ApplicationDataType is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -40,8 +41,8 @@ class ApplicationPrimitiveDataType(ApplicationDataType):
 
 class ApplicationCompositeDataType(ApplicationDataType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == ApplicationCompositeDataType:
-            raise NotImplementedError("ApplicationCompositeDataType is an abstract class.")
+        if type(self) is ApplicationCompositeDataType:
+            raise TypeError("ApplicationCompositeDataType is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -62,24 +63,25 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         return self
 
     def createApplicationArrayElement(self, short_name: str) -> ApplicationArrayElement:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             array_element = ApplicationArrayElement(self, short_name)
-            self.elements[short_name] = array_element
-            self.element = self.elements[short_name]
-        return self.elements[short_name]
+            self.addElement(array_element)
+            self.element = array_element
+        return self.getElement(short_name, ApplicationArrayElement)
+
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.record_elements = []
+        self.record_elements: List[ApplicationRecordElement] = []
 
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             record_element = ApplicationRecordElement(self, short_name)
-            self.elements[short_name] = record_element
-            self.record_elements.append(self.elements[short_name])
-        return self.elements[short_name]
+            self.addElement(record_element)
+            self.record_elements.append(record_element)
+        return self.getElement(short_name, ApplicationRecordElement)
 
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
         return self.record_elements
@@ -105,12 +107,14 @@ class DataTypeMap(ARObject):
         self.implementationDataTypeRef = value
         return self
 
+
 class DataTypeMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.dataTypeMaps = []                              # type: List[DataTypeMap]
-        self.modeRequestTypeMaps = []                       # type: List[ModeRequestTypeMap]
+        # type: List[ModeRequestTypeMap]
+        self.modeRequestTypeMaps = []
 
     def addDataTypeMap(self, type_map: DataTypeMap):
         self.dataTypeMaps.append(type_map)

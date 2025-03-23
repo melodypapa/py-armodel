@@ -72,14 +72,14 @@ class Frame(Identifiable, metaclass=ABCMeta):
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             mapping = PduToFrameMapping(self, short_name)
-            self.elements[short_name] = mapping
+            self.addElement(mapping)
             self.pduToFrameMappings.append(mapping)
-        return self.elements[short_name]
+        return self.getElement(short_name, PduToFrameMapping)
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements.values()), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
 
 
 class ContainedIPduProps(ARObject):
@@ -542,11 +542,11 @@ class NmPdu(Pdu):
         return self.iSignalToIPduMappings
 
     def createISignalToIPduMapping(self, short_name: str) -> ISignalToIPduMapping:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ISignalToIPduMapping)
 
     def getNmDataInformation(self):
         return self.nmDataInformation
@@ -633,11 +633,11 @@ class ISignalIPdu(IPdu):
         return self.iSignalToPduMappings
 
     def createISignalToPduMappings(self, short_name: str) -> ISignalToIPduMapping:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             mapping = ISignalToIPduMapping(self, short_name)
-            self.elements[short_name] = mapping
+            self.addElement(mapping)
             self.iSignalToPduMappings.append(mapping)
-        return self.elements[short_name]
+        return self.getElement(short_name, ISignalToIPduMapping)
 
     def getUnusedBitPattern(self):
         return self.unusedBitPattern
@@ -1219,7 +1219,7 @@ class SecureCommunicationPropsSet(Identifiable):
             props = SecureCommunicationAuthenticationProps(self, short_name)
             self.addElement(props)
             self.authenticationProps.append(props)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SecureCommunicationAuthenticationProps)
 
     def getFreshnessProps(self):
         return self.freshnessProps
@@ -1229,4 +1229,4 @@ class SecureCommunicationPropsSet(Identifiable):
             props = SecureCommunicationFreshnessProps(self, short_name)
             self.addElement(props)
             self.freshnessProps.append(props)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SecureCommunicationFreshnessProps)

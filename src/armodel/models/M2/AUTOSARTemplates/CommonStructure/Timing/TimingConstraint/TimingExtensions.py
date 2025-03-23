@@ -18,11 +18,11 @@ class TimingExtension(Identifiable):
         self.timing_requirements = []           # Type: List[TimingConstraint]
 
     def createExecutionOrderConstraint(self, short_name: str)-> ExecutionOrderConstraint:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name):
             constraint = ExecutionOrderConstraint(self, short_name)
-            self.elements[short_name] = constraint
+            self.addElement(constraint)
             self.timing_requirements.append(constraint)
-        return self.elements[short_name]
+        return self.getElement(short_name, ExecutionOrderConstraint)
 
     def getTimingRequirements(self) -> List[TimingConstraint]:
         return self.timing_requirements

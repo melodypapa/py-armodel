@@ -4,12 +4,14 @@ from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-class AtpInstanceRef(ARObject, metaclass = ABCMeta):
+
+
+class AtpInstanceRef(ARObject, metaclass=ABCMeta):
     def __init__(self):
 
         if type(self) == AtpInstanceRef:
             raise NotImplementedError("AtpInstanceRef is an abstract class.")
-        
+
         super().__init__()
 
         self.atpBaseRef = None                  # type: RefType
@@ -37,6 +39,7 @@ class AtpInstanceRef(ARObject, metaclass = ABCMeta):
         self.atpTargetRef = value
         return self
 
+
 class AnyInstanceRef(ARObject):
     def __init__(self):
         super().__init__()
@@ -62,28 +65,28 @@ class AnyInstanceRef(ARObject):
     def getTargetRef(self) -> RefType:
         return self.targetRef
 
-    def setTargetRef(self, value:RefType):
+    def setTargetRef(self, value: RefType):
         self.targetRef = value
         return self
 
 
-class AtpFeature(Identifiable, metaclass = ABCMeta):
+class AtpFeature(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AtpFeature:
-            raise NotImplementedError("AtpFeature is an abstract class.")
+        if type(self) is AtpFeature:
+            raise TypeError("AtpFeature is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AtpFeature:
-            raise NotImplementedError("AtpStructureElement is an abstract class.")
+        if type(self) is AtpFeature:
+            raise TypeError("AtpStructureElement is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class AtpType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AtpType:
-            raise NotImplementedError("AtpType is an abstract class.")
+        if type(self) is AtpType:
+            raise TypeError("AtpType is an abstract class.")
 
         super().__init__(parent, short_name)

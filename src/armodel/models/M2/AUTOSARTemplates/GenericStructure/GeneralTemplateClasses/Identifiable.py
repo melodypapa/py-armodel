@@ -6,14 +6,14 @@ from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageO
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, CategoryString
 from abc import ABCMeta
-from typing import List
+from typing import Dict, List
 
 
 class Referrable(ARObject, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
 
         if type(self) is Referrable:
-            raise NotImplementedError("Referrable is an abstract class.")
+            raise TypeError("Referrable is an abstract class.")
         
         ARObject.__init__(self)
 
@@ -45,7 +45,7 @@ class Referrable(ARObject, metaclass=ABCMeta):
 class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is MultilanguageReferrable:
-            raise NotImplementedError("MultilanguageReferrable is an abstract class.")
+            raise TypeError("MultilanguageReferrable is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -63,40 +63,61 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
 class CollectableElement(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) is CollectableElement:
-            raise NotImplementedError("CollectableElement is an abstract class.")
+            raise TypeError("CollectableElement is an abstract class.")
         
-        self.elements = {}              # type: dict[str, Referrable]
+        # super().__init__()
+        
+        self.elements: List[Referrable] = []
+        self.element_mappings: Dict[str, List[Referrable]] = {}
 
     def getTotalElement(self) -> int:
-        # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
-        return len(self.elements.values())
+        # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements)))
+        return len(self.elements)
 
-    def removeElement(self, key):
-        if key not in self.elements:
-            raise KeyError("Invalid key <%s> for removing element" % key)
-        self.elements.pop(key)
+    def removeElement(self, short_name: str, type=None):
+        if short_name not in self.element_mappings:
+            raise KeyError("Invalid key <%s> for removing element" % short_name)
+        if type is None:
+            item = self.element_mappings[short_name][0]
+        else:
+            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+        if item is not None:
+            self.elements.remove(item)
+            self.element_mappings[short_name].remove(item)
 
     def getElements(self):
-        return self.elements.values()
+        return self.elements
 
     def addElement(self, element: Referrable):
         short_name = element.getShortName()
-        if not self.IsElementExists(short_name):
-            self.elements[short_name] = element
+        if not self.IsElementExists(short_name, type(element)):
+            self.elements.append(element)
+            if short_name not in self.element_mappings:
+                self.element_mappings[short_name] = []
+            self.element_mappings[short_name].append(element)
 
-    def getElement(self, short_name: str) -> Referrable:
-        if (short_name not in self.elements):
+    def getElement(self, short_name: str, type=None) -> Referrable:
+        if (short_name not in self.element_mappings):
             return None
-        return self.elements[short_name]
+        if type is not None:
+            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            if len(result) == 0:
+                return None
+            return result[0]
+        return self.element_mappings[short_name][0]
     
-    def IsElementExists(self, short_name: str) -> bool:
-        return short_name in self.elements
+    def IsElementExists(self, short_name: str, type=None) -> bool:
+        if type is None:
+            return short_name in self.element_mappings
+        if short_name in self.element_mappings:
+            return any(isinstance(a, type) for a in self.element_mappings[short_name])
+        return False
 
 
 class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
-            raise NotImplementedError("Identifiable is an abstract class.")
+            raise TypeError("Identifiable is an abstract class.")
         
         MultilanguageReferrable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
@@ -153,21 +174,21 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
 class PackageableElement(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PackageableElement:
-            raise NotImplementedError("PackageableElement is an abstract class.")
+            raise TypeError("PackageableElement is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class ARElement(PackageableElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ARElement:
-            raise NotImplementedError("ARElement is an abstract class.")
+            raise TypeError("ARElement is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class Describable(ARObject, metaclass=ABCMeta):
     def __init__(self):
         if type(self) is Describable:
-            raise NotImplementedError("Describable is an abstract class.")
+            raise TypeError("Describable is an abstract class.")
 
         super().__init__()
 

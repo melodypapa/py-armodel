@@ -82,7 +82,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self
 
     def getFrameTriggerings(self) -> List[FrameTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements), key=lambda o: o.getShortName()))
 
     def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
         if (short_name not in self.elements):
@@ -106,7 +106,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements), key=lambda o: o.getShortName()))
 
     def createISignalTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -122,7 +122,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self
     
     def getPduTriggerings(self) -> List[PduTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements), key=lambda o: o.getShortName()))
 
     def createPduTriggering(self, short_name: str):
         if (short_name not in self.elements):
@@ -268,16 +268,16 @@ class CommunicationCluster(FibexElement, metaclass=ABCMeta):
         return self
 
     def getPhysicalChannels(self) -> List[PhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements), key=lambda o: o.getShortName()))
     
     def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
     
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
     
     def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
     
     def createCanPhysicalChannel(self, short_name: str):
         if (short_name not in self.elements):
@@ -624,7 +624,7 @@ class CommunicationConnector(Identifiable, metaclass=ABCMeta):
         return self
 
     def getEcuCommPortInstances(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements.values()), key=lambda o: o.getShortName()))
+        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements), key=lambda o: o.getShortName()))
 
     def createFramePort(self, short_name) -> FramePort:
         if short_name not in self.elements:

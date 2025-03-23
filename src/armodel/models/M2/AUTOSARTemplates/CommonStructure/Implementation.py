@@ -134,7 +134,7 @@ class Implementation(PackageableElement, metaclass=ABCMeta):
         return self
 
     def getCodeDescriptors(self) -> List[Code]:
-        return list(filter(lambda a: isinstance(a, Code), self.elements.values()))
+        return list(filter(lambda a: isinstance(a, Code), self.elements))
 
     def createCodeDescriptor(self, short_name: str) -> Code:
         if (short_name not in self.elements):

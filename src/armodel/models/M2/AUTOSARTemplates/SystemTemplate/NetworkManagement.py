@@ -392,13 +392,13 @@ class NmConfig(FibexElement):
         return self.getElement(short_name)
 
     def getCanNmClusters(self):                             # type: () -> List[CanNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key= lambda o:o.short_name))
     
     def getUdpNmClusters(self):                             # type: () -> List[UdpNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key= lambda o:o.short_name))
     
     def getNmClusters(self):                                # type: () -> List[NmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key= lambda o:o.short_name))
     
     def getNmClusterCouplings(self):
         return self.nmClusterCouplings
@@ -467,13 +467,13 @@ class NmCluster(Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
     
     def getCanNmNodes(self) -> List[CanNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key= lambda o:o.short_name))
     
     def getUdpNmNodes(self) -> List[UdpNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key= lambda o:o.short_name))
     
     def getNmNodes(self) -> List[NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key= lambda o:o.short_name))
 
     def getNmNodeDetectionEnabled(self):
         return self.nmNodeDetectionEnabled

@@ -104,7 +104,7 @@ class EcuInstance(FibexElement):
         return self
 
     def getCommControllers(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key= lambda o:o.short_name))
 
     def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
         if (not self.IsElementExists(short_name)):
@@ -131,7 +131,7 @@ class EcuInstance(FibexElement):
         return self.getElement(short_name)
 
     def getConnectors(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key= lambda o:o.short_name))
 
     def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
         if (not self.IsElementExists(short_name)):

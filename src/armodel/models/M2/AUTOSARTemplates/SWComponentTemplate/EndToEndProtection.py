@@ -175,10 +175,10 @@ class EndToEndProtectionSet(Identifiable):
         super().__init__(parent, short_name)
 
     def createEndToEndProtection(self, short_name: str) -> EndToEndProtection:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             protection = EndToEndProtection(self, short_name)
-            self.elements[short_name] = protection
-        return self.elements[short_name]
+            self.addElement(protection)
+        return self.getElement(short_name, EndToEndProtection)
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
-        return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements), key=lambda e: e.short_name)

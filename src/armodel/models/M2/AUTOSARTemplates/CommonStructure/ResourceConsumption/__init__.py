@@ -24,10 +24,10 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name)
 
     def getMemorySections(self) -> List[MemorySection]:
-        return list(sorted(filter(lambda a: isinstance(a, MemorySection), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, MemorySection), self.elements), key= lambda o:o.short_name))
 
     def getMemorySection(self, short_name: str) -> MemorySection:
-        return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements.values()), None)
+        return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements), None)
     
     def createMeasuredStackUsage(self, short_name: str) -> MeasuredStackUsage:
         if (short_name not in self.elements):
@@ -51,4 +51,4 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name)
     
     def getStackUsages(self) -> List[StackUsage]:
-        return list(sorted(filter(lambda a: isinstance(a, StackUsage), self.elements.values()), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, StackUsage), self.elements), key= lambda o:o.short_name))
