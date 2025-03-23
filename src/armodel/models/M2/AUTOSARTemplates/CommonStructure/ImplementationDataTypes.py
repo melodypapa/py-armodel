@@ -76,14 +76,14 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
             self.swDataDefProps = value
         return self
 
-    def createImplementationDataTypeElement(self, short_name: str):  # type: (...) -> ImplementationDataTypeElement
-        if (short_name not in self.elements):
-            event = ImplementationDataTypeElement(self, short_name)
-            self.elements[short_name] = event
-        return self.elements[short_name]
+    def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
+        if (not self.IsElementExists(short_name)):
+            type_element = ImplementationDataTypeElement(self, short_name)
+            self.addElement(type_element)
+        return self.getElement(short_name, ImplementationDataTypeElement)
     
-    def getImplementationDataTypeElements(self):                    # type：(...) -> List[ImplementationDataTypeElement]
-        return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements.values()))
+    def getImplementationDataTypeElements(self) -> List["ImplementationDataTypeElement"]:
+        return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements))
 
 
 class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):

@@ -310,13 +310,11 @@ class AtomicSwComponentType(SwComponentType, metaclass=ABCMeta):
         return self.internalBehavior
 
     def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
-        if (short_name not in self.elements):
-            if (len(list(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))) >= 1):
-                raise ValueError("The internal behavior of <%s> can not more than 1" % self.short_name)
+        if (not self.IsElementExists(short_name)):
             behavior = SwcInternalBehavior(self, short_name)
-            self.elements[short_name] = behavior
+            self.addElement(behavior)
             self.internalBehavior = behavior
-        return self.elements[short_name]
+        return self.getElement(short_name, SwcInternalBehavior)
 
     def getSymbolProps(self):
         return self.symbolProps
@@ -329,7 +327,7 @@ class AtomicSwComponentType(SwComponentType, metaclass=ABCMeta):
     '''
     @property
     def internal_behavior(self) -> SwcInternalBehavior:
-        return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements.values()))
+        return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements))
     '''
 
 
@@ -418,42 +416,42 @@ class CompositionSwComponentType(SwComponentType):
 
     def removeAllAssemblySwConnector(self):
         for sw_connector in self.getAssemblySwConnectors():
-            self.elements.pop(sw_connector.short_name)
+            self.elements.remove(sw_connector)
 
     def removeAllDelegationSwConnector(self):
         for sw_connector in self.getDelegationSwConnectors():
-            self.elements.pop(sw_connector.short_name)
+            self.elements.remove(sw_connector)
 
     def createAssemblySwConnector(self, short_name: str) -> AssemblySwConnector:
-        if (short_name not in self.elements):
+        if not self.IsElementExists(short_name):
             connector = AssemblySwConnector(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name]
+            self.addElement(connector)
+        return self.getElement(short_name, AssemblySwConnector)
 
     def createDelegationSwConnector(self, short_name: str) -> DelegationSwConnector:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name):
             connector = DelegationSwConnector(self, short_name)
-            self.elements[short_name] = connector
-        return self.elements[short_name]
+            self.addElement(connector)
+        return self.getElement(short_name, DelegationSwConnector)
 
     def getAssemblySwConnectors(self) -> List[AssemblySwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements.values()), key=lambda c: c.short_name))
+        return list(sorted(filter(lambda e: isinstance(e, AssemblySwConnector), self.elements), key=lambda c: c.short_name))
 
     def getDelegationSwConnectors(self) -> List[DelegationSwConnector]:
-        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements.values()), key=lambda c: c.short_name))
+        return list(sorted(filter(lambda e: isinstance(e, DelegationSwConnector), self.elements), key=lambda c: c.short_name))
 
     # def getSwConnectors(self) -> List[SwConnector]:
-    #    return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements.values()), key=lambda c: c.short_name))
+    #    return list(sorted(filter(lambda e: isinstance(e, SwConnector), self.elements), key=lambda c: c.short_name))
 
     def getSwConnectors(self) -> List[SwConnector]:
-        return list(filter(lambda e: isinstance(e, SwConnector), self.elements.values()))
+        return list(filter(lambda e: isinstance(e, SwConnector), self.elements))
 
     def createSwComponentPrototype(self, short_name: str) -> SwComponentPrototype:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             prototype = SwComponentPrototype(self, short_name)
             self.addElement(prototype)
             self.components.append(prototype)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SwComponentPrototype)
 
     def getComponents(self) -> List[SwComponentPrototype]:
         return self.components

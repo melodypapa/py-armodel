@@ -96,21 +96,17 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert (isinstance(sr_if, Referrable))
         assert (isinstance(sr_if, SenderReceiverInterface))
 
-        assert (sr_if.short_name == "sr_if")
+        assert (sr_if.getShortName() == "sr_if")
         assert (sr_if.parent == ar_root)
         assert (len(sr_if.getDataElements()) == 0)
 
         element = sr_if.createDataElement("element")
         assert (isinstance(element, VariableDataPrototype))
-        assert (element.short_name == "element")
+        assert (element.getShortName() == "element")
         assert (len(sr_if.getDataElements()) == 1)
 
         element2 = sr_if.getDataElement("element")
         assert (element == element2)
-
-        with pytest.raises(IndexError) as err:
-            sr_if.getDataElement("non_exist_element")
-        assert (str(err.value) == "data element <non_exist_element> can not be found.")
 
     def test_ArgumentDataPrototype(self):
         document = AUTOSAR.getInstance()

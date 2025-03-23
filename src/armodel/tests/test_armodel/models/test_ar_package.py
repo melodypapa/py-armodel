@@ -87,13 +87,11 @@ class TestARPackage:
     def test_createEcuAbstractionSwComponentType(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        sw_component_type = ar_root.createEcuAbstractionSwComponentType(
-            "ecu_abstract_sw_component")
+        sw_component_type = ar_root.createEcuAbstractionSwComponentType("ecu_abstract_sw_component")
         assert (sw_component_type.short_name == "ecu_abstract_sw_component")
         assert (isinstance(sw_component_type, EcuAbstractionSwComponentType))
 
-        find_component_type = document.find(
-            "/AUTOSAR/ecu_abstract_sw_component")
+        find_component_type = document.find("/AUTOSAR/ecu_abstract_sw_component")
         assert (find_component_type == sw_component_type)
         assert (find_component_type.short_name == "ecu_abstract_sw_component")
 

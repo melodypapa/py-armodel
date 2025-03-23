@@ -72,21 +72,21 @@ class Test_M2_MSR_AsamHdo_BaseTypes:
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
     def test_AtpType(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             document = AUTOSAR.getInstance()
             ar_root = document.createARPackage("AUTOSAR")
             AtpType(ar_root, "AtpType")
         assert (str(err.value) == "AtpType is an abstract class.")
 
     def test_AutosarDataType(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             document = AUTOSAR.getInstance()
             ar_root = document.createARPackage("AUTOSAR")
             AutosarDataType(ar_root, "AutosarDataType")
         assert (str(err.value) == "AutosarDataType is an abstract class.")
 
     def test_ApplicationDataType(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             document = AUTOSAR.getInstance()
             ar_root = document.createARPackage("AUTOSAR")
             ApplicationDataType(ar_root, "ApplicationDataType")
@@ -116,7 +116,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
         assert (data_type.swDataDefProps is None)
 
     def test_ApplicationCompositeDataType(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             document = AUTOSAR.getInstance()
             ar_root = document.createARPackage("AUTOSAR")
             ApplicationCompositeDataType(ar_root, "ApplicationCompositeDataType")

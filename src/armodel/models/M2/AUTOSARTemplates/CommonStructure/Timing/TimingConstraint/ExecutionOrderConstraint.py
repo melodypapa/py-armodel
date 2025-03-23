@@ -35,11 +35,11 @@ class ExecutionOrderConstraint(TimingConstraint):
         self.ordered_elements = []                      # type: List[EOCExecutableEntityRefAbstract]
 
     def createEOCExecutableEntityRef(self, short_name: str)-> EOCExecutableEntityRef:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name):
             entity_ref = EOCExecutableEntityRef(self, short_name)
-            self.elements[short_name] = entity_ref
+            self.addElement(entity_ref)
             self.ordered_elements.append(entity_ref)
-        return self.elements[short_name]
+        return self.getElement(short_name, EOCExecutableEntityRef)
 
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
         return self.ordered_elements

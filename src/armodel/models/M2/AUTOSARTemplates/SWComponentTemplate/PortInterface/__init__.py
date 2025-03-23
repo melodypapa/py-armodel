@@ -164,21 +164,16 @@ class SenderReceiverInterface(DataInterface):
         return self
 
     def createDataElement(self, short_name) -> VariableDataPrototype:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             data_element = VariableDataPrototype(self, short_name)
-            self.elements[short_name] = data_element
-        return self.elements[short_name]
+            self.addElement(data_element)
+        return self.getElement(short_name, VariableDataPrototype)
 
     def getDataElements(self) -> List[VariableDataPrototype]:
-        return list(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements.values()))
+        return list(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements))
 
     def getDataElement(self, short_name) -> VariableDataPrototype:
-        if (short_name in self.elements):
-            data_element = self.elements[short_name]
-            # if (not isinstance(data_element, VariableDataPrototype)):
-            #    raise IndexError("%s is not data element." % short_name)
-            return data_element
-        raise IndexError("data element <%s> can not be found." % short_name)
+        return self.getElement(short_name, VariableDataPrototype)
     
     def createInvalidationPolicy(self) -> InvalidationPolicy:
         policy = InvalidationPolicy(self)
@@ -286,22 +281,22 @@ class ClientServerInterface(PortInterface):
         super().__init__(parent, short_name)
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             operation = ClientServerOperation(self, short_name)
-            self.elements[short_name] = operation
-        return self.elements[short_name]
+            self.addElement(operation)
+        return self.getElement(short_name, ClientServerOperation)
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
-        if (short_name not in self.elements):
+        if (not self.IsElementExists(short_name)):
             error = ApplicationError(self, short_name)
-            self.elements[short_name] = error
-        return self.elements[short_name]
+            self.addElement(error)
+        return self.getElement(short_name, ApplicationError)
 
     def getOperations(self) -> List[ClientServerOperation]:
-        return list(filter(lambda c: isinstance(c, ClientServerOperation), self.elements.values()))
+        return list(filter(lambda c: isinstance(c, ClientServerOperation), self.elements))
 
     def getPossibleErrors(self) -> List[ApplicationError]:
-        return list(filter(lambda c: isinstance(c, ApplicationError), self.elements.values()))
+        return list(filter(lambda c: isinstance(c, ApplicationError), self.elements))
 
 
 class TriggerInterface(PortInterface):
@@ -318,13 +313,13 @@ class ModeSwitchInterface(PortInterface):
         self._modeGroup = []            # type: List[ModeDeclarationGroupPrototype]
 
     def createModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
-        prototype = ModeDeclarationGroupPrototype(self, short_name)
-        if (short_name not in self.elements):
-            self.elements[short_name] = prototype
-        return self.elements[short_name]
+        if not self.IsElementExists(short_name):
+            prototype = ModeDeclarationGroupPrototype(self, short_name)
+            self.addElement(prototype)
+        return self.getElement(short_name, ModeDeclarationGroupPrototype)
     
     def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements.values()), key=lambda o: o.short_name))
+        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name))
 
 
 class PortInterfaceMapping(Identifiable, metaclass=ABCMeta):

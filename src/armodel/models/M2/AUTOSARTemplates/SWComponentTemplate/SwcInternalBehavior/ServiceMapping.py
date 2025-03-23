@@ -110,28 +110,28 @@ class SwcServiceDependency(ServiceDependency):
         return self.getElement(short_name)
     
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
-        return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, NvBlockNeeds), self.elements), key=lambda e: e.short_name)
     
     def getDiagnosticCommunicationManagerNeeds(self) -> List[DiagnosticCommunicationManagerNeeds]:
-        return sorted(filter(lambda c: isinstance(c, DiagnosticCommunicationManagerNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticCommunicationManagerNeeds), self.elements), key=lambda e: e.short_name)
     
     def getDiagnosticRoutineNeeds(self) -> List[DiagnosticRoutineNeeds]:
-        return sorted(filter(lambda c: isinstance(c, DiagnosticRoutineNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticRoutineNeeds), self.elements), key=lambda e: e.short_name)
     
     def getDiagnosticEventNeeds(self) -> List[DiagnosticEventNeeds]:
-        return sorted(filter(lambda c: isinstance(c, DiagnosticEventNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DiagnosticEventNeeds), self.elements), key=lambda e: e.short_name)
     
     def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
-        return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.elements), key=lambda e: e.short_name)
     
     def getEcuStateMgrUserNeeds(self) -> List[EcuStateMgrUserNeeds]:
-        return sorted(filter(lambda c: isinstance(c, EcuStateMgrUserNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, EcuStateMgrUserNeeds), self.elements), key=lambda e: e.short_name)
     
     def getDtcStatusChangeNotificationNeeds(self) -> List[DtcStatusChangeNotificationNeeds]:
-        return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements), key=lambda e: e.short_name)
     
     def getDltUserNeeds(self) -> List[DltUserNeeds]:
-        return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.elements), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
-        return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements.values()), key=lambda e: e.short_name)
+        return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements), key=lambda e: e.short_name)

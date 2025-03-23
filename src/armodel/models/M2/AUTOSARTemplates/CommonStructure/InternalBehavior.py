@@ -109,7 +109,7 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
 
     def getExclusiveAreas(self) -> List[ExclusiveArea]:
-        return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements.values()))
+        return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements))
     
     def getStaticMemories(self):
         return self.staticMemories
