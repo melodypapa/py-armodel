@@ -593,3 +593,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * ECUC-FLOAT-PARAM-DEF
    * ECUC-ENUMERATION-PARAM-DEF
 2. Same short name with different type can be added and located.
+
+**Version 1.8.2**
+
+1. Fix the AUTOSAR XML schema issue
