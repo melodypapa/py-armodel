@@ -5848,7 +5848,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         root = ET.Element("AUTOSAR", self.nsmap)
         root.attrib["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance"
         if document.schema_location is not None:
-            root.attrib["xsi:schemaLocation"] = "http://autosar.org/schema/r4.0 %s" % document.schema_location
+            root.attrib["xsi:schemaLocation"] = document.schema_location
         else:
             root.attrib["xsi:schemaLocation"] = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
         
