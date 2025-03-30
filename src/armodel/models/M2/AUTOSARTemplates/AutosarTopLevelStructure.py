@@ -257,7 +257,7 @@ class AbstractAUTOSAR(CollectableElement):
     def setARRelease(self, release: str):
         if release not in self.release_xsd_mappings:
             raise "invalid AUTOSAR Release <%s>" % release
-        self.schema_location = self.release_xsd_mappings[release]
+        self.schema_location = "http://autosar.org/schema/r4.0 %s" % self.release_xsd_mappings[release]
         return self
 
 
