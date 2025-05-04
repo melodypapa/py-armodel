@@ -77,6 +77,6 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         assert (sub_type.getShortName() == "sub_type")
         assert (isinstance(sub_type, ImplementationDataTypeElement))
 
-        assert (len(data_type.getImplementationDataTypeElements()) == 1)
-        sub_type2 = data_type.getImplementationDataTypeElements()[0]
+        assert (len(data_type.getSubElements()) == 1)
+        sub_type2 = data_type.getSubElements()[0]
         assert (sub_type == sub_type2)

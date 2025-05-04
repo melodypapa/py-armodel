@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='armodel',
-    version='1.8.2',
+    version='1.8.3',
     description='the python arxml parser',
 
     url='http://github.com/melodypapa/py-armodel',
@@ -39,6 +39,7 @@ setup(
 
     entry_points={
         'console_scripts': [
+            'format-xml                 = armodel.cli.format_xml_cli:main',
             'arxml-dump                 = armodel.cli.arxml_dump_cli:cli_main',
             'arxml-format               = armodel.cli.arxml_format_cli:main',
             'connector2xlsx             = armodel.cli.connector2xlsx_cli:main',

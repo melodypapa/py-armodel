@@ -597,3 +597,12 @@ Fix the attribute intervalType of **Limit** is empty issue.
 **Version 1.8.2**
 
 1. Fix the AUTOSAR XML schema issue
+
+**Version 1.8.3**
+
+1. To support the SHORT-LABEL for VALUE
+2. To Support the following AR Element:
+   * MAX-DELTA-COUNTER-INIT
+   * MAX-NO-NEW-OR-REPEATED-DATA
+   * USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS
+   * MASK

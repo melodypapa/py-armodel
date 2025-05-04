@@ -190,6 +190,8 @@ class AbstractARXMLParser:
             return None
         numerical = ARNumerical()
         self.readARObjectAttributes(child_element, numerical)
+        if "SHORT-LABEL" in child_element.attrib:
+            numerical.setShortLabel(child_element.attrib["SHORT-LABEL"])
         numerical.setValue(child_element.text)
         return numerical
     
@@ -205,6 +207,8 @@ class AbstractARXMLParser:
     def getChildElementOptionalPositiveInteger(self, element: ET.Element, key: str) -> PositiveInteger:
         child_element = self.find(element, key)
         if child_element is None:
+            return None
+        if child_element.text is None:
             return None
         numerical = PositiveInteger()
         self.readARObjectAttributes(child_element, numerical)

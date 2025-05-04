@@ -27,18 +27,20 @@ class ParameterAccess(AbstractAccessPoint):
         self.swDataDefProps = value
         return self
 
+
 class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)
 
-        self.accessedVariableRef = None                             # type: AutosarVariableRef
-        self.scope = None                                           # type: ARLiteral
+        self.accessedVariableRef: AutosarVariableRef = None
+        self.scope: ARLiteral = None
 
-    def getAccessedVariableRef(self):
+    def getAccessedVariableRef(self) -> AutosarVariableRef:
         return self.accessedVariableRef
 
-    def setAccessedVariableRef(self, value):
-        self.accessedVariableRef = value
+    def setAccessedVariableRef(self, value: AutosarVariableRef):
+        if value is not None:
+            self.accessedVariableRef = value
         return self
 
     def getScope(self):

@@ -62,7 +62,7 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedD
 from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from ..models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from ..models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
-from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ..models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from ..models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
@@ -101,6 +101,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs i
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, ParameterRequireComSpec
@@ -140,6 +141,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDe
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataSendCompletedEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent
@@ -236,6 +238,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSd(self, element: ET.Element, sdg: Sdg):
         for child_element in self.findall(element, "./SD"):
             sd = Sd()
+            self.readARObjectAttributes(child_element, sd)
             if 'GID' in child_element.attrib:
                 sd.setGID(child_element.attrib['GID'])
             sd.setValue(child_element.text)
@@ -252,6 +255,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getSdg(self, element: ET.Element) -> Sdg:
         sdg = Sdg()
+        self.readARObjectAttributes(element, sdg)
         if 'GID' in element.attrib:
             sdg.setGID(element.attrib["GID"])
         self.readSdgCaption(element, sdg)
@@ -307,8 +311,9 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             # self.logger.debug("Read AdminData")
             admin_data = AdminData()
-            admin_data.setLanguage(self.getChildElementOptionalLiteral(child_element, "LANGUAGE")) \
-                      .setUsedLanguages(self.getMultiLanguagePlainText(child_element, "USED-LANGUAGES"))
+            self.readARObjectAttributes(child_element, admin_data)
+            admin_data.setLanguage(self.getChildElementOptionalLiteral(child_element, "LANGUAGE"))
+            admin_data.setUsedLanguages(self.getMultiLanguagePlainText(child_element, "USED-LANGUAGES"))
 
             self.readAdminDataSdgs(child_element, admin_data)
             self.readAdminDataDocRevisions(child_element, admin_data)
@@ -396,18 +401,10 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref = None
         if (child_element is not None):
             instance_ref = AutosarVariableRef()
-            # self.readARObjectAttributes(child_element, ref)
-            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF"))) \
-                        .setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
+            self.readARObjectAttributes(child_element, instance_ref)
+            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
+            instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
-
-    def getLocalVariableRef(self, element: ET.Element, key: str) -> AutosarVariableRef:
-        child_element = self.find(element, key)
-        ref = None
-        if (child_element is not None):
-            ref = AutosarVariableRef()
-            ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
-        return ref
 
     def _readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
         for child_element in self.findall(element, "%s/VARIABLE-ACCESS" % key):
@@ -432,10 +429,10 @@ class ARXMLParser(AbstractARXMLParser):
                 variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif (key == "WRITTEN-LOCAL-VARIABLES"):
                 variable_access = parent.createWrittenLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getLocalVariableRef(child_element, "ACCESSED-VARIABLE"))
+                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             elif (key == "READ-LOCAL-VARIABLES"):
                 variable_access = parent.createReadLocalVariable(short_name)
-                variable_access.setAccessedVariableRef(self.getLocalVariableRef(child_element, "ACCESSED-VARIABLE"))
+                variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             else:
                 self.notImplemented("Unsupported Variable Accesss <%s>" % key)
 
@@ -577,6 +574,7 @@ class ARXMLParser(AbstractARXMLParser):
     
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
         assignment = RoleBasedPortAssignment()
+        self.readARObjectAttributes(element, assignment)
         assignment.portPrototypeRef = self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-REF")
         assignment.role = self.getChildElementOptionalLiteral(element, "ROLE")
         return assignment
@@ -1539,6 +1537,11 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read BackgroundEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
 
+    def readDataSendCompletedEvent(self, element, event: DataSendCompletedEvent):
+        # self.logger.debug("Read DataSendCompletedEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -1569,6 +1572,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BACKGROUND-EVENT":
                 event = parent.createBackgroundEvent(self.getShortName(child_element))
                 self.readBackgroundEvent(child_element, event)
+            elif tag_name == "DATA-SEND-COMPLETED-EVENT":
+                event = parent.createDataSendCompletedEvent(self.getShortName(child_element))
+                self.readDataSendCompletedEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 
@@ -1821,21 +1827,27 @@ class ARXMLParser(AbstractARXMLParser):
         data_type.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
         self.readApplicationRecordDataTypeElements(element, data_type)
 
-    def readImplementationDataTypeElements(self, element: ET.Element, parent: ImplementationDataType):
-        for child_element in self.findall(element, "SUB-ELEMENTS/IMPLEMENTATION-DATA-TYPE-ELEMENT"):
-            type_element = parent.createImplementationDataTypeElement(self.getShortName(child_element))
-            self.readIdentifiable(child_element, type_element)
-            type_element.setArraySize(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE")) \
-                        .setArraySizeHandling(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING")) \
-                        .setArraySizeSemantics(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS"))
-            self.readImplementationDataTypeElements(child_element, type_element)
-            type_element.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+    def readImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: ImplementationDataTypeElement):
+        self.readAutosarDataType(element, impl_data_type_element)
+        impl_data_type_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
+        impl_data_type_element.setArraySizeHandling(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING"))
+        impl_data_type_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS"))
+        self.readImplementationDataTypeSubElements(element, impl_data_type_element)
+    
+    def readImplementationDataTypeSubElements(self, element: ET.Element, parent: ImplementationDataType):
+        for child_element in self.findall(element, "SUB-ELEMENTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "IMPLEMENTATION-DATA-TYPE-ELEMENT":
+                impl_data_type_element = parent.createImplementationDataTypeElement(self.getShortName(child_element))
+                self.readImplementationDataTypeElement(child_element, impl_data_type_element)
+            else:
+                self.notImplemented("Unsupported ImplementationDataType SubElement <%s>" % tag_name)
 
     def readImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("Read ImplementationDataType <%s>" % data_type.getShortName())
         self.readAutosarDataType(element, data_type)
         data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
-        self.readImplementationDataTypeElements(element, data_type)
+        self.readImplementationDataTypeSubElements(element, data_type)
         self.readImplementationDataTypeSymbolProps(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
 
@@ -1872,11 +1884,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObjectAttributes(element, com_spec)
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
-        com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")) \
-                .setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")) \
-                .setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")) \
-                .setHandleOutOfRangeStatus(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS")) \
-                .setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
+        com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
+        com_spec.setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE"))
+        com_spec.setHandleOutOfRangeStatus(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS"))
+        com_spec.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT"))
+        com_spec.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
+        com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
     def getSwValues(self, element: ET.Element, key: str) -> SwValues:
         child_element = self.find(element, key)
@@ -1948,21 +1962,21 @@ class ARXMLParser(AbstractARXMLParser):
     def getModeSwitchReceiverComSpec(self, element: ET.Element) -> ModeSwitchReceiverComSpec:
         com_spec = ModeSwitchReceiverComSpec()
         self.readARObjectAttributes(element, com_spec)
-        com_spec.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API")) \
-                .setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF")) \
-                .setSupportsAsynchronousModeSwitch(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH"))
+        com_spec.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
+        com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
+        com_spec.setSupportsAsynchronousModeSwitch(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH"))
         return com_spec
 
     def getNonqueuedReceiverComSpec(self, element: ET.Element) -> NonqueuedReceiverComSpec:
         com_spec = NonqueuedReceiverComSpec()
         self.readARObjectAttributes(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
-        com_spec.setAliveTimeout(self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT")) \
-                .setEnableUpdated(self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE")) \
-                .setHandleNeverReceived(self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED")) \
-                .setFilter(self.getDataFilter(element, "FILTER")) \
-                .setHandleTimeoutType(self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE")) \
-                .setInitValue(self.getInitValue(element))
+        com_spec.setAliveTimeout(self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT"))
+        com_spec.setEnableUpdated(self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE"))
+        com_spec.setHandleNeverReceived(self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED"))
+        com_spec.setFilter(self.getDataFilter(element, "FILTER"))
+        com_spec.setHandleTimeoutType(self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE"))
+        com_spec.setInitValue(self.getInitValue(element))
         return com_spec
 
     def readRequiredComSpec(self, element: ET.Element, parent: RPortPrototype):
@@ -2034,23 +2048,40 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObjectAttributes(element, com_spec)
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
-        com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF")) \
-                .setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION")) \
-                .setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")) \
-                .setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element)) \
-                .setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
+        com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
+        com_spec.setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE"))
+        com_spec.setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element))
+        com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
     def getNonqueuedSenderComSpec(self, element: ET.Element) -> NonqueuedSenderComSpec:
         com_spec = NonqueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
         com_spec.setInitValue(self.getInitValue(element))
         return com_spec
+
+    def readTransformationComSpecProps(self, element: ET.Element, props: TransformationComSpecProps):
+        self.readARObjectAttributes(element, props)
+
+    def readUserDefinedTransformationComSpecProps(self, element: ET.Element, props: UserDefinedTransformationComSpecProps):
+        self.readTransformationComSpecProps(element, props)
+
+    def readServerComSpecTransformationComSpecProps(self, element: ET.Element, com_spec: ServerComSpec):
+        for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
+                props = UserDefinedTransformationComSpecProps()
+                self.readUserDefinedTransformationComSpecProps(child_element, props)
+                com_spec.addTransformationComSpecProps(props)
+            else:
+                self.notImplemented("Unsupported TransformationComSpecProps <%s>" % tag_name)
     
     def getServerComSpec(self, element: ET.Element) -> ServerComSpec:
         com_spec = ServerComSpec()
         self.readARObjectAttributes(element, com_spec)
-        com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF")) \
-                .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF"))
+        com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        self.readServerComSpecTransformationComSpecProps(element, com_spec)
         return com_spec
     
     def getQueuedSenderComSpec(self, element: ET.Element) -> QueuedSenderComSpec:
@@ -2068,9 +2099,9 @@ class ARXMLParser(AbstractARXMLParser):
     
     def getModeSwitchSenderComSpec(self, element) -> ModeSwitchSenderComSpec:
         com_spec = ModeSwitchSenderComSpec()
-        com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF")) \
-                .setModeSwitchedAck(self.getModeSwitchedAckRequest(element, "MODE-SWITCHED-ACK")) \
-                .setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
+        com_spec.setModeSwitchedAck(self.getModeSwitchedAckRequest(element, "MODE-SWITCHED-ACK"))
+        com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         return com_spec
 
     def readProvidedComSpec(self, element: ET.Element, parent: PPortPrototype):
@@ -2454,11 +2485,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCompuScale(self, element: ET.Element, compu_scale: CompuScale):
         self.readARObjectAttributes(element, compu_scale)
-        compu_scale.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT")) \
-                   .setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL")) \
-                   .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC")) \
-                   .setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL")) \
-                   .setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
+        compu_scale.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        compu_scale.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        compu_scale.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
+        compu_scale.setMask(self.getChildElementOptionalPositiveInteger(element, "MASK"))
+        compu_scale.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
+        compu_scale.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
         self.readCompuScaleContents(element, compu_scale)
 
     def getCompuScales(self, element: ET.Element) -> CompuScales:
@@ -2520,7 +2552,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec = NumericalValueSpecification()
         self.readValueSpecification(element, value_spec)
         value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL")) \
-                  .setValue(self.getChildElementOptionalFloatValue(element, "VALUE"))
+                  .setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
         return value_spec
     
     def getTextValueSpecification(self, element: ET.Element) -> TextValueSpecification:

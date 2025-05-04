@@ -88,8 +88,8 @@ class SwcModeSwitchEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.activation = None              # type: ModeActivationKind
-        self.modeIRefs = []                 # type: List[RModeInAtomicSwcInstanceRef]
+        self.activation = None                                  # type: ModeActivationKind
+        self.modeIRefs: List[RModeInAtomicSwcInstanceRef] = []
 
     def getActivation(self):
         return self.activation
@@ -195,7 +195,7 @@ class ModeSwitchedAckEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None                                  # type: RefType
+        self.eventSourceRef: RefType = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef

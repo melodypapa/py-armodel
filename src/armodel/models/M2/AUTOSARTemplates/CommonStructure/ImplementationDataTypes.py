@@ -21,33 +21,34 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arrayImplPolicy = None             # type: ARLiteral
-        self.arraySize = None                   # type: ARNumerical
-        self.arraySizeHandling = None           # type: ARLiteral
-        self.arraySizeSemantics = None          # type: ARLiteral
-        self.isOptional = None                  # type: ARBoolean
-        self.swDataDefProps = None              # type: SwDataDefProps
+        self.arrayImplPolicy: ARLiteral = None
+        self.arraySize: ARNumerical = None
+        self.arraySizeHandling: ARLiteral = None
+        self.arraySizeSemantics: ARLiteral = None
+        self.isOptional: ARBoolean = None
+        self.subElements: List[ImplementationDataTypeElement] = []
+        self.swDataDefProps: SwDataDefProps = None
 
-    def getArrayImplPolicy(self):
+    def getArrayImplPolicy(self) -> ARLiteral:
         return self.arrayImplPolicy
 
-    def setArrayImplPolicy(self, value):
+    def setArrayImplPolicy(self, value: ARLiteral):
         if value is not None:
             self.arrayImplPolicy = value
         return self
 
-    def getArraySize(self):
+    def getArraySize(self) -> ARNumerical:
         return self.arraySize
 
-    def setArraySize(self, value):
+    def setArraySize(self, value: ARNumerical):
         if value is not None:
             self.arraySize = value
         return self
 
-    def getArraySizeHandling(self):
+    def getArraySizeHandling(self) -> ARLiteral:
         return self.arraySizeHandling
 
-    def setArraySizeHandling(self, value):
+    def setArraySizeHandling(self, value: ARLiteral):
         if value is not None:
             self.arraySizeHandling = value
         return self
@@ -80,10 +81,11 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         if (not self.IsElementExists(short_name)):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addElement(type_element)
+            self.subElements.append(type_element)
         return self.getElement(short_name, ImplementationDataTypeElement)
     
-    def getImplementationDataTypeElements(self) -> List["ImplementationDataTypeElement"]:
-        return list(filter(lambda c: isinstance(c, ImplementationDataTypeElement), self.elements))
+    def getSubElements(self) -> List["ImplementationDataTypeElement"]:
+        return self.subElements
 
 
 class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):

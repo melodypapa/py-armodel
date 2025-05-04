@@ -122,11 +122,11 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         MultilanguageReferrable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
-        self.annotations = []                       # type: List[Annotation]
-        self.adminData = None                       # type: AdminData
-        self.category = None                        # type: CategoryString
-        self.introduction = None                    # type: DocumentationBlock
-        self.desc = None                            # type: MultiLanguageOverviewParagraph
+        self.annotations: List[Annotation] = []
+        self.adminData: AdminData = None
+        self.category: CategoryString = None
+        self.introduction: DocumentationBlock = None
+        self.desc: MultiLanguageOverviewParagraph = None
 
     def getAdminData(self):
         return self.adminData
