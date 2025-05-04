@@ -34,7 +34,8 @@ class ARNumerical(ARType):
     def __init__(self) -> None:
         super().__init__()
 
-        self._text = None                       # type: str
+        self.shortLabel: str = None
+        self._text: str = None
 
     def _convertStringToNumberValue(self, value: str) -> int:
         try:
@@ -75,7 +76,18 @@ class ARNumerical(ARType):
             return self._text
         else:
             return str(self._value)
+        
+    def getValue(self):
+        return self.value
 
+    def setShortLabel(self, val: str):
+        if val is not None:
+            self.shortLabel = val
+        return self
+    
+    def getShortLabel(self) -> str:
+        return self.shortLabel
+    
 
 class ARFloat(ARNumerical):
     def __init__(self) -> None:

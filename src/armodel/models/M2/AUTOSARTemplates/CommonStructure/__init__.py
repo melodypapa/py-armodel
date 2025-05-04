@@ -1,23 +1,26 @@
 from abc import ABCMeta
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
-class ValueSpecification(ARObject, metaclass = ABCMeta):
+
+class ValueSpecification(ARObject, metaclass=ABCMeta):
     '''
     Base class for expressions leading to a value which can be used to initialize a data object.
-    
+
     Base        : ARObject
     Subclasses  : AbstractRuleBasedValueSpecification, ApplicationValueSpecification, CompositeValueSpecification,
-                  ConstantReference, NotAvailableValueSpecification, NumericalValueSpecification, ReferenceValueSpecification, 
+                  ConstantReference, NotAvailableValueSpecification, NumericalValueSpecification, ReferenceValueSpecification,
                   TextValueSpecification
     '''
+
     def __init__(self):
-        if type(self) == ValueSpecification:
-            raise NotImplementedError("ValueSpecification is an abstract class.")
-        
+        if type(self) is ValueSpecification:
+            raise NotImplementedError(
+                "ValueSpecification is an abstract class.")
+
         super().__init__()
 
         self.shortLabel = None
@@ -28,21 +31,25 @@ class ValueSpecification(ARObject, metaclass = ABCMeta):
     def setShortLabel(self, value):
         self.shortLabel = value
         return self
-    
-class CompositeValueSpecification(ValueSpecification, metaclass = ABCMeta):
+
+
+class CompositeValueSpecification(ValueSpecification, metaclass=ABCMeta):
     '''
     This abstract meta-class acts a base class for ValueSpecifications that have a composite form.
 
     Base        : ARObject, ValueSpecification
     Subclasses  : ArrayValueSpecification, RecordValueSpecification
-    '''            
-    def __init__(self):
-        if type(self) == CompositeValueSpecification:
-            raise NotImplementedError("CompositeValueSpecification is an abstract class.")
-        
-        super().__init__()    
+    '''
 
-class CompositeRuleBasedValueArgument(ARObject, metaclass = ABCMeta):
+    def __init__(self):
+        if type(self) is CompositeValueSpecification:
+            raise NotImplementedError(
+                "CompositeValueSpecification is an abstract class.")
+
+        super().__init__()
+
+
+class CompositeRuleBasedValueArgument(ARObject, metaclass=ABCMeta):
     '''
     This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be
     used for compound primitive data types.
@@ -50,11 +57,14 @@ class CompositeRuleBasedValueArgument(ARObject, metaclass = ABCMeta):
     Base        : ARObject
     Subclasses  : ApplicationRuleBasedValueSpecification, ApplicationValueSpecification
     '''
+
     def __init__(self):
-        if type(self) == CompositeRuleBasedValueArgument:
-            raise NotImplementedError("CompositeRuleBasedValueArgument is an abstract class.")
-        
+        if type(self) is CompositeRuleBasedValueArgument:
+            raise NotImplementedError(
+                "CompositeRuleBasedValueArgument is an abstract class.")
+
         super().__init__()
+
 
 class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     '''
@@ -63,10 +73,11 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
     For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with
     SW-INSTANCE in ASAM CDF 2.0.
 
-    Base ARObject, CompositeRuleBasedValueArgument, ValueSpecification    
+    Base ARObject, CompositeRuleBasedValueArgument, ValueSpecification
     '''
+
     def __init__(self):
-        
+
         CompositeRuleBasedValueArgument.__init__(self)
         ValueSpecification.__init__(self)
 
@@ -99,9 +110,10 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
 class RecordValueSpecification(CompositeValueSpecification):
     '''
     Specifies the values for a record.
-    
+
     Base : ARObject, CompositeValueSpecification, ValueSpecification
     '''
+
     def __init__(self):
         super().__init__()
 
@@ -112,7 +124,8 @@ class RecordValueSpecification(CompositeValueSpecification):
 
     def getFields(self) -> List[ValueSpecification]:
         return self.fields
-    
+
+
 class TextValueSpecification(ValueSpecification):
     def __init__(self):
         super().__init__()
@@ -131,13 +144,14 @@ class NumericalValueSpecification(ValueSpecification):
     def __init__(self):
         super().__init__()
 
-        self.value = None               # type: ARNumerical  
+        self.value: ARNumerical = None
 
-    def getValue(self):
+    def getValue(self) -> ARNumerical:
         return self.value
 
-    def setValue(self, value):
-        self.value = value
+    def setValue(self, value: ARNumerical):
+        if value is not None:
+            self.value = value
         return self
 
 
@@ -145,7 +159,8 @@ class ArrayValueSpecification(ValueSpecification):
     def __init__(self):
         super().__init__()
 
-        self.element = []                                   # type: List[ValueSpecification]
+        # type: List[ValueSpecification]
+        self.element = []
         self.intendedPartialInitializationCount = None
 
     def getIntendedPartialInitializationCount(self):
@@ -160,6 +175,7 @@ class ArrayValueSpecification(ValueSpecification):
 
     def getElements(self) -> List[ValueSpecification]:
         return self.element
+
 
 class ConstantSpecification(ARElement):
     def __init__(self, parent, short_name):
@@ -179,7 +195,7 @@ class ConstantReference(ValueSpecification):
     def __init__(self):
         super().__init__()
 
-        self.constantRef = None                 # type: RefType
+        self.constantRef: RefType = None
 
     def getConstantRef(self):
         return self.constantRef

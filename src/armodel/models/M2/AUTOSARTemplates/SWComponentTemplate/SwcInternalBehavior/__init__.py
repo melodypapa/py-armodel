@@ -7,6 +7,7 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataSendCompletedEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent
@@ -16,7 +17,7 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElemen
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeSwitchPoint
-from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint
+from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, InternalTriggeringPoint
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 
@@ -72,44 +73,32 @@ class RunnableEntity(ExecutableEntity):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # type: List[RunnableEntityArgument]
-        self.arguments = []
-        # type: List[AsynchronousServerCallResultPoint]
-        self.asynchronousServerCallResultPoints = []
-        self.canBeInvokedConcurrently = None            # type: ARBoolean
-        # type: Dict[str, VariableAccess]
-        self.dataReadAccesses = {}
-        # type: Dict[str, VariableAccess]
-        self.dataReceivePointByArguments = {}
-        # type: Dict[str, VariableAccess]
-        self.dataReceivePointByValues = {}
-        # type: Dict[str, VariableAccess]
-        self.dataSendPoints = {}
-        # type: Dict[str, VariableAccess]
-        self.dataWriteAccesses = {}
-        # type: Dict[str, ExternalTriggeringPoint]
-        self.externalTriggeringPoints = {}
-        # type: Dict[str, InternalTriggeringPoint]
-        self.internalTriggeringPoints = {}
-        self.modeAccessPoints = []                      # type: List[ModeAccessPoint]
-        self.modeSwitchPoints = []                      # type: List[ModeSwitchPoint]
-        # type: Dict[str, ParameterAccess]
-        self.parameterAccesses = {}
-        # type: Dict[str, VariableAccess]
-        self.readLocalVariables = {}
-        # type: Dict[str, ServerCallPoint]
-        self.serverCallPoints = {}
-        self.symbol = None                              # type: ARLiteral
+        self.arguments: List[RunnableEntityArgument] = []
+        self.asynchronousServerCallResultPoints: List[AsynchronousServerCallResultPoint] = []
+        self.canBeInvokedConcurrently: ARBoolean = None
+        self.dataReadAccesses: List[VariableAccess] = []
+        self.dataReceivePointByArguments: List[VariableAccess] = []
+        self.dataReceivePointByValues: List[VariableAccess] = []
+        self.dataSendPoints: List[VariableAccess] = []
+        self.dataWriteAccesses: List[VariableAccess] = []
+        self.externalTriggeringPoints: List[ExternalTriggeringPoint] = []
+        self.internalTriggeringPoints: List[InternalTriggeringPoint] = []
+        self.modeAccessPoints: List[ModeAccessPoint] = []
+        self.modeSwitchPoints: List[ModeSwitchPoint] = []
+        self.parameterAccesses: List[ParameterAccess] = []
+        self.readLocalVariables: List[VariableAccess] = []
+        self.serverCallPoints: List[ServerCallPoint] = []
+        self.symbol: ARLiteral = None
         # type: Dict[str, WaitPoint]
         self.waitPoints = {}
-        # type: Dict[str, VariableAccess]
-        self.writtenLocalVariables = {}
+        self.writtenLocalVariables: List[VariableAccess] = []
 
-    def _createVariableAccess(self, short_name, variable_accesses: Dict[str, VariableAccess]):
+    def _createVariableAccess(self, short_name, variable_accesses: List[VariableAccess]):
         if not self.IsElementExists(short_name):
             variable_access = VariableAccess(self, short_name)
-            variable_accesses[short_name] = variable_access
-        return variable_accesses[short_name]
+            self.addElement(variable_access)
+            variable_accesses.append(variable_access)
+        return self.getElement(short_name, VariableAccess)
 
     def getArguments(self):
         return self.arguments
@@ -129,46 +118,45 @@ class RunnableEntity(ExecutableEntity):
         return self._createVariableAccess(short_name, self.dataReadAccesses)
 
     def getDataReadAccesses(self) -> List[VariableAccess]:
-        return sorted(self.dataReadAccesses.values(), key=lambda v: v.short_name)
+        return sorted(self.dataReadAccesses, key=lambda v: v.short_name)
 
     def createDataWriteAccess(self, short_name: str) -> VariableAccess:
         return self._createVariableAccess(short_name, self.dataWriteAccesses)
 
     def getDataWriteAccesses(self) -> List[VariableAccess]:
-        return sorted(self.dataWriteAccesses.values(), key=lambda v: v.short_name)
+        return sorted(self.dataWriteAccesses, key=lambda v: v.short_name)
 
     def createDataReceivePointByArgument(self, short_name: str) -> VariableAccess:
         return self._createVariableAccess(short_name, self.dataReceivePointByArguments)
 
     def getDataReceivePointByArguments(self) -> List[VariableAccess]:
-        return sorted(self.dataReceivePointByArguments.values(), key=lambda v: v.short_name)
+        return sorted(self.dataReceivePointByArguments, key=lambda v: v.short_name)
 
     def createDataReceivePointByValue(self, short_name: str) -> VariableAccess:
         return self._createVariableAccess(short_name, self.dataReceivePointByValues)
 
     def getDataReceivePointByValues(self) -> List[VariableAccess]:
-        return sorted(self.dataReceivePointByValues.values(), key=lambda v: v.short_name)
+        return sorted(self.dataReceivePointByValues, key=lambda v: v.short_name)
 
     def createDataSendPoint(self, short_name: str) -> VariableAccess:
         return self._createVariableAccess(short_name, self.dataSendPoints)
 
     def getDataSendPoints(self) -> List[VariableAccess]:
         # return sorted(self.dataSendPoints.values(), key=lambda v: v.short_name)
-        return self.dataSendPoints.values()
+        return self.dataSendPoints
 
     def createReadLocalVariable(self, short_name: str) -> VariableAccess:
         return self._createVariableAccess(short_name, self.readLocalVariables)
 
     def getReadLocalVariables(self) -> List[VariableAccess]:
         # return sorted(self.readLocalVariables.values(), key=lambda v: v.short_name)
-        return self.readLocalVariables.values()
+        return self.readLocalVariables
 
     def createWrittenLocalVariable(self, short_name: str) -> VariableAccess:
         return self._createVariableAccess(short_name, self.writtenLocalVariables)
 
     def getWrittenLocalVariables(self) -> List[VariableAccess]:
-        # return sorted(self.writtenLocalVariables.values(), key=lambda v: v.short_name)
-        return self.writtenLocalVariables.values()
+        return self.writtenLocalVariables
 
     def getParameterAccesses(self) -> List[ParameterAccess]:
         return list(sorted(filter(lambda a: isinstance(a, ParameterAccess), self.elements), key=lambda o: o.short_name))
@@ -191,7 +179,7 @@ class RunnableEntity(ExecutableEntity):
         if (short_name not in self.serverCallPoints):
             point = AsynchronousServerCallPoint(self, short_name)
             self.addElement(point)
-        return self.getElement(short_name)
+        return self.getElement(short_name, AsynchronousServerCallPoint)
         # self.serverCallPoints[short_name] = server_call_point
         # return self.serverCallPoints[short_name]
 
@@ -398,6 +386,12 @@ class SwcInternalBehavior(InternalBehavior):
             event = BackgroundEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, BackgroundEvent)
+    
+    def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
+        if not self.IsElementExists(short_name):
+            event = DataSendCompletedEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, DataSendCompletedEvent)
 
     def getRteEvents(self) -> List[RTEEvent]:
         return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements), key=lambda e: e.short_name)
@@ -425,6 +419,9 @@ class SwcInternalBehavior(InternalBehavior):
 
     def getBackgroundEvents(self) -> List[BackgroundEvent]:
         return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.elements), key=lambda e: e.short_name)
+    
+    def getDataSendCompletedEvents(self) -> List[DataSendCompletedEvent]:
+        return sorted(filter(lambda c: isinstance(c, DataSendCompletedEvent), self.elements), key=lambda e: e.short_name)
 
     def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
         return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements), key=lambda e: e.short_name)

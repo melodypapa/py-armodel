@@ -202,15 +202,15 @@ class CompuScale(Compu):
     def __init__(self):
         super().__init__()
 
-        self.a2lDisplayText = None                              # type: String
-        self.compuInverseValue = None                           # type: CompuConst
-        self.compuScaleContents = None                          # type: CompuScaleContents
-        self.desc = None                                        # type: MultiLanguageOverviewParagraph
-        self.lowerLimit = None                                  # type: Limit
-        self.mask = None                                        # type: PositiveUnlimitedInteger
-        self.shortLabel = None                                  # type: Identifier
-        self.symbol = None                                      # type: CIdentifier
-        self.upperLimit = None                                  # type: Limit
+        self.a2lDisplayText: String = None
+        self.compuInverseValue: CompuConst = None
+        self.compuScaleContents: CompuScaleContents = None
+        self.desc: MultiLanguageOverviewParagraph = None
+        self.lowerLimit: Limit = None
+        self.mask: PositiveUnlimitedInteger = None
+        self.shortLabel: Identifier = None
+        self.symbol: CIdentifier = None
+        self.upperLimit: Limit = None
 
     def getA2lDisplayText(self):
         return self.a2lDisplayText
@@ -247,11 +247,12 @@ class CompuScale(Compu):
         self.lowerLimit = value
         return self
 
-    def getMask(self):
+    def getMask(self) -> PositiveUnlimitedInteger:
         return self.mask
 
-    def setMask(self, value):
-        self.mask = value
+    def setMask(self, value: PositiveUnlimitedInteger):
+        if value is not None:
+            self.mask = value
         return self
 
     def getShortLabel(self):
