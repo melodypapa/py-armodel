@@ -45,7 +45,7 @@ class BswModuleEntry(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arguments = []                         # type: List[SwServiceArg]
+        self.arguments = []                         # type
         self.bswEntryKind = None                    # type: BswEntryKindEnum
         self.callType = None                        # type: BswCallType
         self.executionContext = None                # type: BswExecutionContext
@@ -114,9 +114,12 @@ class BswModuleEntry(ARElement):
     def getReturnType(self):
         return self.returnType
 
-    def setReturnType(self, value):
-        self.returnType = value
-        return self
+    def createReturnType(self, short_name: str) -> SwServiceArg:
+        if (short_name not in self.elements):
+            arg = SwServiceArg(self, short_name)
+            self.addElement(arg)
+            self.returnType = arg
+        return self.getElement(short_name)
 
     def getRole(self):
         return self.role

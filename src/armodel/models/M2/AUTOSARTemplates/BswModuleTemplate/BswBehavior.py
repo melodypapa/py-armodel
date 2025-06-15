@@ -162,6 +162,13 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
             self.addElement(access)
             self.callPoints.append(access)
         return self.getElement(short_name)
+    
+    def createBswSynchronousServerCallPoint(self, short_name):
+        if (not self.IsElementExists(short_name)):
+            access = BswSynchronousServerCallPoint(self, short_name)
+            self.addElement(access)
+            self.callPoints.append(access)
+        return self.getElement(short_name)
 
     def getDataReceivePoints(self):
         return self.dataReceivePoints

@@ -175,7 +175,7 @@ class AbstractARXMLParser:
             return None
         bool_value = Boolean()
         bool_value.timestamp = literal.timestamp
-        bool_value.setValue(literal.getValue())
+        bool_value.setValue(literal.getText())
         return bool_value
 
     def _convertStringToNumberValue(self, value) -> int:

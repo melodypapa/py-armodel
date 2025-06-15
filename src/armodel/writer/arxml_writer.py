@@ -27,6 +27,7 @@ from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import Multilangu
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
@@ -2207,6 +2208,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleCallPoint(child_element, point)
         self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
 
+    def writeBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
+        child_element = ET.SubElement(element, "BSW-SYNCHRONOUS-SERVER-CALL-POINT")
+        self.writeBswModuleCallPoint(child_element, point)
+        self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
+
     def writeBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
         points = entity.getCallPoints()
         if len(points) > 0:
@@ -2214,6 +2220,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for point in points:
                 if isinstance(point, BswAsynchronousServerCallPoint):
                     self.writeBswAsynchronousServerCallPoint(child_element, point)
+                elif isinstance(point, BswModuleCallPoint):
+                    self.writeBswSynchronousServerCallPoint(child_element, point)
                 else:
                     self.notImplemented("Unsupported Call Point <%s>" % type(point))
 
@@ -2488,10 +2496,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleDescriptionInternalBehaviors(child_element, desc)
         self.writeBswModuleDescriptionReleasedTriggers(child_element, desc)
 
-    def setSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
+    def setSwServiceArg(self, element: ET.Element, key: str, arg: SwServiceArg):
         self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
         if arg is not None:
-            child_element = ET.SubElement(element, "SW-SERVICE-ARG")
+            child_element = ET.SubElement(element, key)
             self.writeIdentifiable(child_element, arg)
             self.setChildElementOptionalLiteral(child_element, "DIRECTION", arg.getDirection())
             self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", arg.getSwDataDefProps())
@@ -2501,7 +2509,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(arguments) > 0:
             child_element = ET.SubElement(element, "ARGUMENTS")
             for argument in arguments:
-                self.setSwServiceArg(child_element, argument)
+                self.setSwServiceArg(child_element, "SW-SERVICE-ARG", argument)
+
+    def writeBswModuleEntryReturnType(self, element: ET.Element, entry: BswModuleEntry):
+        if entry.getReturnType() is not None:
+            self.setSwServiceArg(element, "RETURN-TYPE", entry.getReturnType())
 
     def writeBswModuleEntry(self, element: ET.Element, entry: BswModuleEntry):
         self.logger.debug("writeBswModuleDescription %s" % entry.getShortName())
@@ -2513,6 +2525,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "CALL-TYPE", entry.getCallType())
         self.setChildElementOptionalLiteral(child_element, "EXECUTION-CONTEXT", entry.getExecutionContext())
         self.setChildElementOptionalLiteral(child_element, "SW-SERVICE-IMPL-POLICY", entry.getSwServiceImplPolicy())
+        self.setChildElementOptionalLiteral(child_element, "BSW-ENTRY-KIND", entry.getBswEntryKind())
+        self.writeBswModuleEntryReturnType(child_element, entry)
         self.writeBswModuleEntryArguments(child_element, entry)
 
     def setSwcBswRunnableMapping(self, element: ET.SubElement, mapping: SwcBswRunnableMapping):

@@ -31,6 +31,7 @@ from ..models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView imp
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggeringPoint, BswOperationInvokedEvent
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
@@ -865,12 +866,19 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
 
+    def readBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
+        self.readBswModuleCallPoint(element, point)
+        point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
+
     def readBswModuleEntityCallPoints(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "CALL-POINTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswAsynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswAsynchronousServerCallPoint(child_element, point)
+            elif tag_name == "BSW-SYNCHRONOUS-SERVER-CALL-POINT":
+                point = entity.createBswSynchronousServerCallPoint(self.getShortName(child_element))
+                self.readBswSynchronousServerCallPoint(child_element, point)
             else:
                 self.notImplemented("Unsupported Call Point <%s>" % tag_name)
     
@@ -1099,16 +1107,25 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Argument <%s>" % tag_name)
 
+    def readBswModuleEntryReturnType(self, element: ET.Element, entry: BswModuleEntry):
+        child_element = self.find(element, "RETURN-TYPE")
+        if child_element is not None:
+            self.logger.debug("Read ReturnType of BswModuleEntry <%s>" % entry.getShortName())
+            return_type = entry.createReturnType(self.getShortName(child_element))
+            self.readSwServiceArg(child_element, return_type)
+
     def readBswModuleEntry(self, element: ET.Element, entry: BswModuleEntry):
         self.logger.debug("Read BswModuleEntry <%s>" % entry.getShortName())
         self.readIdentifiable(element, entry)
         self.readBswModuleEntryArguments(element, entry)
-        entry.setIsReentrant(self.getChildElementOptionalBooleanValue(element, "IS-REENTRANT")) \
-             .setIsSynchronous(self.getChildElementOptionalBooleanValue(element, "IS-SYNCHRONOUS")) \
-             .setServiceId(self.getChildElementOptionalNumericalValue(element, "SERVICE-ID")) \
-             .setCallType(self.getChildElementOptionalLiteral(element, "CALL-TYPE")) \
-             .setExecutionContext(self.getChildElementOptionalLiteral(element, "EXECUTION-CONTEXT")) \
-             .setSwServiceImplPolicy(self.getChildElementOptionalLiteral(element, "SW-SERVICE-IMPL-POLICY"))
+        entry.setIsReentrant(self.getChildElementOptionalBooleanValue(element, "IS-REENTRANT"))
+        entry.setIsSynchronous(self.getChildElementOptionalBooleanValue(element, "IS-SYNCHRONOUS"))
+        entry.setServiceId(self.getChildElementOptionalNumericalValue(element, "SERVICE-ID"))
+        entry.setCallType(self.getChildElementOptionalLiteral(element, "CALL-TYPE"))
+        entry.setExecutionContext(self.getChildElementOptionalLiteral(element, "EXECUTION-CONTEXT"))
+        entry.setSwServiceImplPolicy(self.getChildElementOptionalLiteral(element, "SW-SERVICE-IMPL-POLICY"))
+        entry.setBswEntryKind(self.getChildElementOptionalLiteral(element, "BSW-ENTRY-KIND"))
+        self.readBswModuleEntryReturnType(element, entry)
 
     def readEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
         self.readARObjectAttributes(element, engineering_obj)
