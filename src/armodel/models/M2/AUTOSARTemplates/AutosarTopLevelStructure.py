@@ -247,12 +247,15 @@ class AbstractAUTOSAR(CollectableElement):
         return self
     
     def getARObjectByUUID(self, uuid: str) -> List[ARObject]:
-        return self.uuid_mgr.getObjects()
+        return self.uuid_mgr.getObjects(uuid)
 
     def addARObject(self, value: ARObject):
         if value is not None:
             self.uuid_mgr.addObject(value)
         return self
+    
+    def getDuplicateUUIDs(self) -> List[str]:
+        return self.uuid_mgr.getDuplicateUUIDs()
     
     def setARRelease(self, release: str):
         if release not in self.release_xsd_mappings:

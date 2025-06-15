@@ -21,3 +21,9 @@ class UUIDMgr:
         if uuid in self.uuid_object_mappings:
             result = self.uuid_object_mappings[uuid]
         return result
+    
+    def getDuplicateUUIDs(self):
+        if len(self.uuid_object_mappings) > 0:
+            return self.uuid_object_mappings.keys()
+        else:
+            return []

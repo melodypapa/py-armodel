@@ -248,8 +248,8 @@ class ARBoolean(ARType):
             self._value = self._convertNumberToBoolean(val)
             self._text = str(val)
         elif isinstance(val, str):
-            self._text = val
-            self._value = self._convertStringToBoolean(val)
+            self._value = self._convertStringToBoolean(val.strip())
+            self._text = val.strip()
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
 

@@ -606,3 +606,11 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * MAX-NO-NEW-OR-REPEATED-DATA
    * USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS
    * MASK
+
+**Version 1.8.4**
+
+1. To Support the following AR Element:
+   * BSW-SYNCHRONOUS-SERVER-CALL-POINT
+   * RETURN-TYPE
+2. Add the armodel-uuid-checker cli.
+3. Remove the space in the boolean type.
