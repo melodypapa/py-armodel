@@ -101,7 +101,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvRequireComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
@@ -1968,6 +1968,9 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec.setInitValue(self.getInitValue(element)) \
                 .setParameterRef(self.getChildElementOptionalRefType(element, "PARAMETER-REF"))
         return com_spec
+
+    def getNvProvideComSpec(self, element: ET.Element) -> NvRequireComSpec:
+        pass
     
     def getQueuedReceiverComSpec(self, element: ET.Element) -> QueuedReceiverComSpec:
         com_spec = QueuedReceiverComSpec()
@@ -2009,6 +2012,8 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addRequiredComSpec(self.getModeSwitchReceiverComSpec(child_element))
             elif tag_name == "PARAMETER-REQUIRE-COM-SPEC":
                 parent.addRequiredComSpec(self.getParameterRequireComSpec(child_element))
+            elif tag_name == "NV-PROVIDE-COM-SPEC":
+                parent.addRequiredComSpec(self.getNvProvideComSpec(child_element))
             else:
                 self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
@@ -5214,18 +5219,19 @@ class ARXMLParser(AbstractARXMLParser):
             group.addISignalIPduRef(ref_type)
 
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
-        mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")) \
-               .setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF"))) \
-               .setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+        mapping.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
+        mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
+        mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+        self.logger.debug("Read SenderReceiverToSignalMapping <%s>" % mapping.getSystemSignalRef().getValue())
     
     def readSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
         self.readARObjectAttributes(element, mapping)
 
     def readSenderRecRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordElementMapping):
         self.readARObjectAttributes(element, mapping)
-        mapping.setApplicationRecordElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-RECORD-ELEMENT-REF")) \
-               .setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF")) \
-               .setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+        mapping.setApplicationRecordElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-RECORD-ELEMENT-REF"))
+        mapping.setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF"))
+        mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
     def readSenderRecArrayTypeMappingRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
         for child_element in self.findall(element, "RECORD-ELEMENT-MAPPINGS/*"):
@@ -5342,7 +5348,10 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, prototype)
             prototype.setFlatMapRef(self.getChildElementOptionalRefType(child_element, "FLAT-MAP-REF")) \
                      .setSoftwareCompositionTRef(self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF"))
-            AUTOSAR.getInstance().setRootSwCompositionPrototype(prototype)
+            try:
+                AUTOSAR.getInstance().setRootSwCompositionPrototype(prototype)
+            except ValueError as e:
+                self.raiseWarning("%s" % e)
 
     def readSystemFibexElementRefs(self, element: ET.Element, system: System):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):

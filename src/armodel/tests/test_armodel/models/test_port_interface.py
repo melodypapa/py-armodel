@@ -1,21 +1,19 @@
 import pytest
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
 from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface, ClientServerOperation, DataInterface, NvDataInterface, ParameterInterface, PortInterface, SenderReceiverInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface, NvDataInterface
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, SenderReceiverInterface
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
@@ -125,8 +123,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         assert (prototype.getParent() == ar_root)
         assert (prototype.getShortName() == "ArgumentDataPrototype")
-        assert (prototype.getDirection() == None)
-        assert (prototype.getServerArgumentImplPolicy() == None)
+        assert (prototype.getDirection() is None)
+        assert (prototype.getServerArgumentImplPolicy() is None)
 
     def test_ApplicationError(self):
         document = AUTOSAR.getInstance()
@@ -155,7 +153,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert (isinstance(operation, ClientServerOperation))
         assert (operation.short_name == "client_server_operation")
 
-        prototype = operation.createArgumentDataPrototype("argument_data_prototype1")
+        prototype = operation.createArgumentDataPrototype(
+            "argument_data_prototype1")
         assert (prototype.short_name == "argument_data_prototype1")
 
         assert (len(operation.getArguments()) == 1)

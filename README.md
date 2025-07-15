@@ -614,3 +614,11 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * RETURN-TYPE
 2. Add the armodel-uuid-checker cli.
 3. Remove the space in the boolean type.
+
+**Version 1.8.5**
+
+1. Reorganize the SwConnector class.
+2. Raise the error if the short name of rootSwCompositionPrototype.
+3. To support the following AR Element:
+   * NvProvideComSpec
+4. Fix the duplicate short name of ARPackage and Other ARElements. 

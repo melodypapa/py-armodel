@@ -11,7 +11,7 @@ from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ...M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, CollectableElement, Referrable
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType, PortPrototype
@@ -206,9 +206,14 @@ class AbstractAUTOSAR(CollectableElement):
     def getRootSwCompositionPrototype(self):
         return self.rootSwCompositionPrototype
 
-    def setRootSwCompositionPrototype(self, value):
+    def setRootSwCompositionPrototype(self, value: ARElement):
         if value is not None:
-            self.rootSwCompositionPrototype = value
+            if self.rootSwCompositionPrototype is not None:
+                if value.getShortName() != self.rootSwCompositionPrototype.getShortName():
+                    raise ValueError("RootSwCompositionPrototype already set to <%s>, cannot set to <%s>."
+                                     % (self.rootSwCompositionPrototype.getShortName(), value.getShortName()))
+            else:
+                self.rootSwCompositionPrototype = value
         return self
 
     def addImplementationBehaviorMap(self, impl: str, behavior: str) -> Implementation:

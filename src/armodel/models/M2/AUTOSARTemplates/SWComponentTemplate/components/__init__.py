@@ -303,14 +303,14 @@ class AtomicSwComponentType(SwComponentType, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.internalBehavior = None                        # type: SwcInternalBehavior
-        self.symbolProps = None                             # type: SymbolProps
+        self.internalBehavior: SwcInternalBehavior = None
+        self.symbolProps: SymbolProps = None
 
     def getInternalBehavior(self):
         return self.internalBehavior
 
     def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
-        if (not self.IsElementExists(short_name)):
+        if (not self.IsElementExists(short_name, SwcInternalBehavior)):
             behavior = SwcInternalBehavior(self, short_name)
             self.addElement(behavior)
             self.internalBehavior = behavior
