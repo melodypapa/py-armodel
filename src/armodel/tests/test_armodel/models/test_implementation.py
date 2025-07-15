@@ -9,7 +9,7 @@ class TestImplementation:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         code = Code(ar_root, "code")
-        assert(code.short_name == "code")
+        assert (code.short_name == "code")
 
         data = [
             ["Autosar::include::BswM.h", "SWHDR"],
@@ -22,6 +22,6 @@ class TestImplementation:
                            .setCategory(item[1])
             code.addArtifactDescriptor(engineering_obj)
 
-        assert(len(code.getArtifactDescriptors()) == 2)
-        assert(len(code.getArtifactDescriptors("SWHDR")) == 1)
-        assert(len(code.getArtifactDescriptors("SWSRC")) == 1)
+        assert (len(code.getArtifactDescriptors()) == 2)
+        assert (len(code.getArtifactDescriptors("SWHDR")) == 1)
+        assert (len(code.getArtifactDescriptors("SWSRC")) == 1)

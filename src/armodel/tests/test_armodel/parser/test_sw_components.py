@@ -1,11 +1,13 @@
 import filecmp
+import xml.etree.ElementTree as ET
 
+from ....models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from ....models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType
 from ....writer.arxml_writer import ARXMLWriter
 from ....parser.arxml_parser import ARXMLParser
-from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, AUTOSARDoc
 
 
 class TestSWComponents:
@@ -372,3 +374,111 @@ class TestSWComponents:
 
         assert (filecmp.cmp("test_files/AUTOSAR_MOD_AISpecification_DataConstr_LifeCycle_Standard.arxml",
                             "data/generated_AUTOSAR_MOD_AISpecification_DataConstr_LifeCycle_Standard.arxml", shallow=False) is True)
+
+
+class TestSwComponentsWithSameName:
+    def test_read_same_package_and_sw_component_name(self):
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
+        xml_content = """
+            <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00049.xsd" T="2025-05-08T10:56:35+03:00">
+                <AR-PACKAGES>
+                    <AR-PACKAGE>
+                        <SHORT-NAME>Components</SHORT-NAME>
+                        <ELEMENTS>
+                            <APPLICATION-SW-COMPONENT-TYPE T="2025-05-08T21:49:46+03:00">
+                            <SHORT-NAME>DUPLICATE_NAME</SHORT-NAME>
+                            <INTERNAL-BEHAVIORS>
+                                <SWC-INTERNAL-BEHAVIOR T="2025-06-13T08:49:08+03:00">
+                                <SHORT-NAME>DUPLICATE_NAME</SHORT-NAME>
+                                <RUNNABLES>
+                                    <RUNNABLE-ENTITY T="2025-06-13T08:49:24+03:00">
+                                    <SHORT-NAME>RunnableInit</SHORT-NAME>
+                                    <MINIMUM-START-INTERVAL>0.0</MINIMUM-START-INTERVAL>
+                                    <CAN-BE-INVOKED-CONCURRENTLY>false</CAN-BE-INVOKED-CONCURRENTLY>
+                                    <SYMBOL>RunnableInit</SYMBOL>
+                                    </RUNNABLE-ENTITY>
+                                </RUNNABLES>
+                                </SWC-INTERNAL-BEHAVIOR>
+                            </INTERNAL-BEHAVIORS>
+                            </APPLICATION-SW-COMPONENT-TYPE>
+                        </ELEMENTS>
+                        <AR-PACKAGES>
+                            <AR-PACKAGE>
+                                <SHORT-NAME>DUPLICATE_NAME</SHORT-NAME>
+                            </AR-PACKAGE>
+                            <AR-PACKAGE>
+                                <SHORT-NAME>NewPackage</SHORT-NAME>
+                            </AR-PACKAGE>
+                        </AR-PACKAGES>
+                    </AR-PACKAGE>
+                    <AR-PACKAGE>
+                        <SHORT-NAME>Implementation</SHORT-NAME>
+                        <ELEMENTS>
+                        <SW-ADDR-METHOD>
+                        <SHORT-NAME>CODE</SHORT-NAME>
+                        <MEMORY-ALLOCATION-KEYWORD-POLICY>ADDR-METHOD-SHORT-NAME</MEMORY-ALLOCATION-KEYWORD-POLICY>
+                        <SECTION-TYPE>CODE</SECTION-TYPE>
+                        </SW-ADDR-METHOD>
+                        <SWC-IMPLEMENTATION>
+                        <SHORT-NAME>DUPLICATE_NAME</SHORT-NAME>
+                        <CODE-DESCRIPTORS>
+                            <CODE>
+                            <SHORT-NAME>CODE</SHORT-NAME>
+                            <ARTIFACT-DESCRIPTORS>
+                                <AUTOSAR-ENGINEERING-OBJECT>
+                                <SHORT-LABEL>CODE</SHORT-LABEL>
+                                <CATEGORY>SWSRC</CATEGORY>
+                                </AUTOSAR-ENGINEERING-OBJECT>
+                            </ARTIFACT-DESCRIPTORS>
+                            </CODE>
+                        </CODE-DESCRIPTORS>
+                        <PROGRAMMING-LANGUAGE>C</PROGRAMMING-LANGUAGE>
+                        <RESOURCE-CONSUMPTION>
+                            <SHORT-NAME>ResourceConsumption</SHORT-NAME>
+                            <MEMORY-SECTIONS>
+                                <MEMORY-SECTION>
+                                    <SHORT-NAME>CODE</SHORT-NAME>
+                                    <SIZE>0</SIZE>
+                                    <SW-ADDRMETHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR_MemMap/SwAddrMethods/CODE</SW-ADDRMETHOD-REF>
+                                </MEMORY-SECTION>
+                            </MEMORY-SECTIONS>
+                        </RESOURCE-CONSUMPTION>
+                        <SW-VERSION>1.0.0</SW-VERSION>
+                        <VENDOR-ID>0</VENDOR-ID>
+                        <BEHAVIOR-REF DEST="SWC-INTERNAL-BEHAVIOR">/Components/DUPLICATE_NAME/DUPLICATE_NAME</BEHAVIOR-REF>
+                        </SWC-IMPLEMENTATION>
+                    </ELEMENTS>
+                    </AR-PACKAGE>
+                </AR-PACKAGES>
+            </AUTOSAR>
+        """ # noqa E501
+
+        # prepare the XML content
+        element = ET.fromstring(xml_content)
+
+        document = AUTOSARDoc()
+        parser.readARPackages(element, document)
+        assert len(document.getARPackages()) == 2
+        assert document.getARPackages()[0].getShortName() == "Components"
+        assert document.getARPackages()[1].getShortName() == "Implementation"
+        assert len(document.getARPackages()[0].getElements()) == 1
+        
+        sw_component: AtomicSwComponentType = document.getARPackages()[0].getElement("DUPLICATE_NAME", AtomicSwComponentType)
+        assert sw_component is not None
+        assert sw_component.getShortName() == "DUPLICATE_NAME"
+        
+        internal_behavior: SwcInternalBehavior = sw_component.getInternalBehavior()
+        # Check if the internal behavior is present
+        assert internal_behavior is not None
+        assert internal_behavior.getShortName() == "DUPLICATE_NAME"
+        
+        # Check if the runnable is present
+        assert len(internal_behavior.getRunnableEntities()) == 1
+        runnables = internal_behavior.getRunnableEntities()
+
+        # Check the first runnable
+        runnable = runnables[0]
+        assert runnable is not None
+        assert runnable.getShortName() == "RunnableInit"
+        

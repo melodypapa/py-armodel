@@ -57,6 +57,7 @@ def perform_uuid_duplicate_check(args):
             parser.load(filename, document)
 
         with open(args.OUTPUT, 'w') as f_out:
+            logger.info("Writing the duplicate UUIDs to <%s>", args.OUTPUT)
             for uuid in document.getDuplicateUUIDs():
                 ar_objects = document.getARObjectByUUID(uuid)
                 if len(ar_objects) > 1:
