@@ -88,7 +88,7 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identi
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 from ..models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvProvideComSpec, NvRequireComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
@@ -132,7 +132,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior, SynchronousServerCallPoint
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortDefinedArgumentValue
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
@@ -409,7 +409,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NONQUEUED-SENDER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
         self.writeSenderComSpec(child_element, com_spec)
-        self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
+        self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
 
     def writeTransformationComSpecProps(self, element: ET.Element, prop: TransformationComSpecProps):
         if prop is not None:
@@ -454,7 +454,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", com_spec.getModeGroupRef())
         self.setModeSwitchedAckRequest(child_element, "MODE-SWITCHED-ACK", com_spec.getModeSwitchedAck())
         self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
-    
+
+    def writeNvProvideComSpec(self, com_specs_tag: ET.Element, com_spec: NvProvideComSpec):
+        if com_spec is not None:
+            child_element = ET.SubElement(com_specs_tag, "NV-PROVIDE-COM-SPEC")
+            self.writeARObjectAttributes(child_element, com_spec)
+            self.setChildValueSpecification(child_element, "RAM-BLOCK-INIT-VALUE", com_spec.getRamBlockInitValue())
+            self.setChildValueSpecification(child_element, "ROM-BLOCK-INIT-VALUE", com_spec.getRomBlockInitValue())
+            self.setChildElementOptionalRefType(child_element, "VARIABLE-REF", com_spec.getVariableRef())
+
     def writePPortComSpec(self, com_specs_tag: ET.Element, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
             self.writeNonqueuedSenderComSpec(com_specs_tag, com_spec)
@@ -464,6 +472,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeQueuedSenderComSpec(com_specs_tag, com_spec)
         elif isinstance(com_spec, ModeSwitchSenderComSpec):
             self.writeModeSwitchSenderComSpec(com_specs_tag, com_spec)
+        elif isinstance(com_spec, NvProvideComSpec):
+            self.writeNvProvideComSpec(com_specs_tag, com_spec)
         else:
             self.notImplemented("Unsupported PPortComSpec %s" % type(com_spec))
 
@@ -559,7 +569,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeValueSpecification(value_spec_tag, value_spec)
         self.setChildElementOptionalRefType(value_spec_tag, "CONSTANT-REF", value_spec.getConstantRef())
 
-    def setValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
+    def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
         if value_spec is not None:
             child_element = ET.SubElement(element, key)
             if isinstance(value_spec, ApplicationValueSpecification):
@@ -587,7 +597,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "HANDLE-NEVER-RECEIVED", com_spec.getHandleNeverReceived())
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TIMEOUT-TYPE", com_spec.getHandleTimeoutType())
         
-        self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
+        self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
 
     def writeQueuedReceiverComSpec(self, element: ET.Element, com_spec: QueuedReceiverComSpec):
         child_element = ET.SubElement(element, "QUEUED-RECEIVER-COM-SPEC")
@@ -605,8 +615,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeParameterRequireComSpec")
         child_element = ET.SubElement(element, "PARAMETER-REQUIRE-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
+        self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
         self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.getParameterRef())
-        self.setValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
+
+    def writeNvRequireComSpec(self, element: ET.Element, com_spec: NvRequireComSpec):
+        self.logger.debug("writeNvRequireComSpec")
+        child_element = ET.SubElement(element, "NV-REQUIRE-COM-SPEC")
+        self.writeARObjectAttributes(child_element, com_spec)
+        self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
+        self.setChildElementOptionalRefType(child_element, "VARIABLE-REF", com_spec.getVariableRef())
 
     def setModeSwitchReceiverComSpec(self, element: ET.Element, com_spec: ModeSwitchReceiverComSpec):
         self.logger.debug("writeModeSwitchReceiverComSpec")
@@ -627,6 +644,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setModeSwitchReceiverComSpec(element, com_spec)
         elif isinstance(com_spec, ParameterRequireComSpec):
             self.writeParameterRequireComSpec(element, com_spec)
+        elif isinstance(com_spec, NvRequireComSpec):
+            self.writeNvRequireComSpec(element, com_spec)
         else:
             raise ValueError("Unsupported RPortComSpec %s" % type(com_spec))
         
@@ -937,7 +956,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF", props.getSwAddrMethodRef())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess())
             self.setChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF", props.getCompuMethodRef())
-            self.setValueSpecification(conditional_tag, "INVALID-VALUE", props.getInvalidValue())
+            self.setChildValueSpecification(conditional_tag, "INVALID-VALUE", props.getInvalidValue())
             self.setChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE", props.getStepSize())
             self.setChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF", props.getDataConstrRef())
             self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
@@ -1122,7 +1141,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(spec_tag, spec)
 
         if spec.getValueSpec() is not None:
-            self.setValueSpecification(spec_tag, "VALUE-SPEC", spec.getValueSpec())
+            self.setChildValueSpecification(spec_tag, "VALUE-SPEC", spec.getValueSpec())
                 
     def setInternalConstrs(self, element: ET.Element, constrs: InternalConstrs):
         if constrs is not None:
@@ -1345,9 +1364,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, access)
         self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
 
+    def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: ParameterInAtomicSWCTypeInstanceRef):
+        if parameter_iref is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", parameter_iref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", parameter_iref.getContextDataPrototypeRef())
+            self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", parameter_iref.getPortPrototypeRef())
+            self.setChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF", parameter_iref.getRootParameterDataPrototypeRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", parameter_iref.getTargetDataPrototypeRef())
+
     def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: AutosarParameterRef):
         if parameter_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.setParameterInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-PARAMETER-IREF", parameter_ref.getAutosarParameterIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF", parameter_ref.getLocalParameterRef())
 
     def writeParameterAccess(self, element: ET.Element, parameter_access: ParameterAccess):
@@ -1592,7 +1621,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeParameterDataPrototype(self, element: ET.Element, prototype: ParameterDataPrototype):
         child_element = ET.SubElement(element, "PARAMETER-DATA-PROTOTYPE")
         self.writeAutosarDataPrototype(child_element, prototype)
-        self.setValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
+        self.setChildValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
 
     def writeSwcInternalBehaviorParameterDataPrototypes(self, element: ET.Element, key: str, parameters: List[ParameterDataPrototype]):
         if len(parameters) > 0:
@@ -1606,7 +1635,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for argument_value in argument_values:
                 child_element = ET.SubElement(child_element, "PORT-DEFINED-ARGUMENT-VALUE")
                 if argument_value.getValue() is not None:
-                    self.setValueSpecification(child_element, "VALUE", argument_value.getValue())
+                    self.setChildValueSpecification(child_element, "VALUE", argument_value.getValue())
                 self.setChildElementOptionalRefType(child_element, "VALUE-TYPE-TREF", argument_value.getValueTypeTRef())
 
     def writeSwcInternalBehaviorPortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
@@ -2075,7 +2104,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeVariableDataPrototype %s" % prototype.getShortName())
         child_element = ET.SubElement(element, "VARIABLE-DATA-PROTOTYPE")
         self.writeAutosarDataPrototype(child_element, prototype)
-        self.setValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
+        self.setChildValueSpecification(child_element, "INIT-VALUE", prototype.getInitValue())
 
     def writeSenderReceiverInterfaceDataElements(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         data_elements = sr_interface.getDataElements()
@@ -4965,7 +4994,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, signal)
         self.setChildElementOptionalLiteral(child_element, "DATA-TYPE-POLICY", signal.getDataTypePolicy())
         self.setChildElementOptionalLiteral(child_element, "I-SIGNAL-TYPE", signal.getISignalType())
-        self.setValueSpecification(child_element, "INIT-VALUE", signal.getInitValue())
+        self.setChildValueSpecification(child_element, "INIT-VALUE", signal.getInitValue())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH", signal.getLength())
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.getSystemSignalRef())

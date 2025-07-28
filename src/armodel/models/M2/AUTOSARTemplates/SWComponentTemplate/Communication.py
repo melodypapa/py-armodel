@@ -216,6 +216,25 @@ class NvRequireComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
+        self.initValue: ValueSpecification = None
+        self.variableRef: RefType = None
+
+    def getInitValue(self):
+        return self.initValue
+    
+    def setInitValue(self, value: ValueSpecification):
+        if value is not None:
+            self.initValue = value
+        return self
+    
+    def getVariableRef(self):
+        return self.variableRef
+    
+    def setVariableRef(self, value: RefType):
+        if value is not None:
+            self.variableRef = value
+        return self
+
 
 class ParameterRequireComSpec(RPortComSpec):
     def __init__(self):
@@ -573,6 +592,39 @@ class ServerComSpec(PPortComSpec):
     def addTransformationComSpecProps(self, transformationComSpecProps: TransformationComSpecProps):
         if transformationComSpecProps is not None:
             self.transformationComSpecProps.append(transformationComSpecProps)
+        return self
+
+
+class NvProvideComSpec(PPortComSpec):
+    def __init__(self):
+        super().__init__()
+
+        self.ramBlockInitValue: ValueSpecification = None
+        self.romBlockInitValue: ValueSpecification = None
+        self.variableRef: RefType = None
+
+    def getRamBlockInitValue(self):
+        return self.ramBlockInitValue
+    
+    def setRamBlockInitValue(self, value: ValueSpecification):
+        if value is not None:
+            self.ramBlockInitValue = value
+        return self
+    
+    def getRomBlockInitValue(self):
+        return self.romBlockInitValue
+    
+    def setRomBlockInitValue(self, value: ValueSpecification):
+        if value is not None:
+            self.romBlockInitValue = value
+        return self
+    
+    def getVariableRef(self):
+        return self.variableRef
+    
+    def setVariableRef(self, value: RefType):
+        if value is not None:
+            self.variableRef = value
         return self
     
 

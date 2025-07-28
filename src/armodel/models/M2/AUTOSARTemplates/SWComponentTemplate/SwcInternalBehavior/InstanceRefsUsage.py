@@ -86,6 +86,7 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         self.targetDataPrototypeRef = value
         return self
     
+
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
@@ -131,13 +132,13 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         self.targetDataPrototypeRef = value
         return self
 
+
 class AutosarParameterRef(ARObject):
     def __init__(self):
         super().__init__()
-
-        # type: ParameterInAtomicSWCTypeInstanceRef
-        self.autosarParameterIRef = None
-        self.localParameterRef = None               # type: RefType
+        
+        self.autosarParameterIRef: ParameterInAtomicSWCTypeInstanceRef = None
+        self.localParameterRef: RefType = None               # type: RefType
 
     def getAutosarParameterIRef(self):
         return self.autosarParameterIRef
