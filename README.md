@@ -622,3 +622,11 @@ Fix the attribute intervalType of **Limit** is empty issue.
 3. To support the following AR Element:
    * NvProvideComSpec
 4. Fix the duplicate short name of ARPackage and Other ARElements. 
+
+**Version 1.8.6**
+
+1. To support the following AR Element:
+   * NvProvideComSpec
+   * NvRequireComSpec
+2. To improve the following AR Element:
+   * ParameterAccess

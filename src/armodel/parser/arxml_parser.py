@@ -2,6 +2,9 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
+
+
+
 from ..models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from ..models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from ..models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -28,6 +31,7 @@ from ..models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName,
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
 from ..models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from ..models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
 
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
@@ -101,7 +105,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import 
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvRequireComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvProvideComSpec
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NvRequireComSpec, PPortComSpec, RPortComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
@@ -135,8 +140,9 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import Varia
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcInternalBehavior
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import VariableInAtomicSWCTypeInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
@@ -1247,21 +1253,38 @@ class ARXMLParser(AbstractARXMLParser):
         argument = RunnableEntityArgument()
         argument.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
         return argument
+
+    def getParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str) -> ParameterInAtomicSWCTypeInstanceRef:
+        parameter_iref = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            parameter_iref = ParameterInAtomicSWCTypeInstanceRef()
+            parameter_iref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
+            parameter_iref.setContextDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF"))
+            parameter_iref.setPortPrototypeRef(self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF"))
+            parameter_iref.setRootParameterDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF"))
+            parameter_iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
+        return parameter_iref
     
     def getAutosarParameterRef(self, element: ET.Element, key: str) -> AutosarParameterRef:
         parameter = None
         child_element = self.find(element, key)
         if child_element is not None:
             parameter = AutosarParameterRef()
+            parameter.setAutosarParameterIRef(self.getParameterInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-PARAMETER-IREF"))
             parameter.setLocalParameterRef(self.getChildElementOptionalRefType(child_element, "LOCAL-PARAMETER-REF"))
         return parameter
+
+    def readParameterAccess(self, element: ET.Element, access: ParameterAccess):
+        self.readIdentifiable(element, access)
+        access.setAccessedParameter(self.getAutosarParameterRef(element, "ACCESSED-PARAMETER"))
 
     def readRunnableEntityParameterAccesses(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "PARAMETER-ACCESSS/PARAMETER-ACCESS"):
             short_name = self.getShortName(child_element)
             self.logger.debug("readParameterAccesses %s" % short_name)
             parameter_access = parent.createParameterAccess(short_name)
-            parameter_access.setAccessedParameter(self.getAutosarParameterRef(child_element, "ACCESSED-PARAMETER"))
+            self.readParameterAccess(child_element, parameter_access)
 
     def readRunnableEntityWrittenLocalVariables(self, element: ET.Element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "WRITTEN-LOCAL-VARIABLES")
@@ -1886,8 +1909,8 @@ class ARXMLParser(AbstractARXMLParser):
         iref = None
         if child_element is not None:
             iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-            iref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF"))\
-                .setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
+            iref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF"))
+            iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
 
     def getCompositeNetworkRepresentation(self, element: ET.Element) -> CompositeNetworkRepresentation:
@@ -1898,7 +1921,7 @@ class ARXMLParser(AbstractARXMLParser):
         return representation
 
     def readReceiverComSpec(self, element: ET.Element, com_spec: ReceiverComSpec):
-        self.readARObjectAttributes(element, com_spec)
+        self.readRPortComSpec(element, com_spec)
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
@@ -1949,29 +1972,39 @@ class ARXMLParser(AbstractARXMLParser):
 
         self.logger.debug("readApplicationValueSpecification Category %s" % value_spec.category)
 
-    def getInitValue(self, element: ET.Element) -> ValueSpecification:
+    def getChildValueSpecification(self, element: ET.Element, key: str) -> ValueSpecification:
         value_spec = None
-        child_element = self.find(element, "INIT-VALUE/*")
+        child_element = self.find(element, key + "/*")
         if child_element is not None:
             value_spec = self.getValueSpecification(child_element, self.getTagName(child_element))
         return value_spec
-    
+
+    def getInitValue(self, element: ET.Element) -> ValueSpecification:
+        return self.getChildValueSpecification(element, "INIT-VALUE")
+
+    def readRPortComSpec(self, element: ET.Element, com_spec: RPortComSpec):
+        self.readARObjectAttributes(element, com_spec)
+
     def getClientComSpec(self, element: ET.Element) -> ClientComSpec:
         com_spec = ClientComSpec()
-        self.readARObjectAttributes(element, com_spec)
+        self.readRPortComSpec(element, com_spec)
         com_spec.operationRef = self.getChildElementOptionalRefType(element, "OPERATION-REF")
         return com_spec
     
     def getParameterRequireComSpec(self, element: ET.Element) -> ParameterRequireComSpec:
         com_spec = ParameterRequireComSpec()
-        self.readARObjectAttributes(element, com_spec)
-        com_spec.setInitValue(self.getInitValue(element)) \
-                .setParameterRef(self.getChildElementOptionalRefType(element, "PARAMETER-REF"))
+        self.readRPortComSpec(element, com_spec)
+        com_spec.setInitValue(self.getChildValueSpecification(element, "INIT-VALUE"))
+        com_spec.setParameterRef(self.getChildElementOptionalRefType(element, "PARAMETER-REF"))
         return com_spec
 
-    def getNvProvideComSpec(self, element: ET.Element) -> NvRequireComSpec:
-        pass
-    
+    def getNvRequireComSpec(self, element: ET.Element) -> NvRequireComSpec:
+        com_spec = NvRequireComSpec()
+        self.readRPortComSpec(element, com_spec)
+        com_spec.setInitValue(self.getChildValueSpecification(element, "INIT-VALUE"))
+        com_spec.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
+        return com_spec
+
     def getQueuedReceiverComSpec(self, element: ET.Element) -> QueuedReceiverComSpec:
         com_spec = QueuedReceiverComSpec()
         self.readARObjectAttributes(element, com_spec)
@@ -1981,7 +2014,7 @@ class ARXMLParser(AbstractARXMLParser):
     
     def getModeSwitchReceiverComSpec(self, element: ET.Element) -> ModeSwitchReceiverComSpec:
         com_spec = ModeSwitchReceiverComSpec()
-        self.readARObjectAttributes(element, com_spec)
+        self.readRPortComSpec(element, com_spec)
         com_spec.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
         com_spec.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
         com_spec.setSupportsAsynchronousModeSwitch(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH"))
@@ -2012,8 +2045,8 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addRequiredComSpec(self.getModeSwitchReceiverComSpec(child_element))
             elif tag_name == "PARAMETER-REQUIRE-COM-SPEC":
                 parent.addRequiredComSpec(self.getParameterRequireComSpec(child_element))
-            elif tag_name == "NV-PROVIDE-COM-SPEC":
-                parent.addRequiredComSpec(self.getNvProvideComSpec(child_element))
+            elif tag_name == "NV-REQUIRE-COM-SPEC":
+                parent.addRequiredComSpec(self.getNvRequireComSpec(child_element))
             else:
                 self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
@@ -2098,9 +2131,12 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported TransformationComSpecProps <%s>" % tag_name)
     
+    def readPPortComSpec(self, element: ET.Element, com_spec: PPortComSpec):
+        self.readARObjectAttributes(element, com_spec)
+
     def getServerComSpec(self, element: ET.Element) -> ServerComSpec:
         com_spec = ServerComSpec()
-        self.readARObjectAttributes(element, com_spec)
+        self.readPPortComSpec(element, com_spec)
         com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF"))
         com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         self.readServerComSpecTransformationComSpecProps(element, com_spec)
@@ -2126,6 +2162,14 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
         return com_spec
 
+    def getNvProvideComSpec(self, element: ET.Element) -> NvProvideComSpec:
+        com_spec = NvProvideComSpec()
+        self.readPPortComSpec(element, com_spec)
+        com_spec.setRamBlockInitValue(self.getChildValueSpecification(element, "RAM-BLOCK-INIT-VALUE"))
+        com_spec.setRomBlockInitValue(self.getChildValueSpecification(element, "ROM-BLOCK-INIT-VALUE"))
+        com_spec.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
+        return com_spec
+
     def readProvidedComSpec(self, element: ET.Element, parent: PPortPrototype):
         for child_element in self.findall(element, "PROVIDED-COM-SPECS/*"):
             tag_name = self.getTagName(child_element)
@@ -2137,6 +2181,8 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addProvidedComSpec(self.getQueuedSenderComSpec(child_element))
             elif tag_name == "MODE-SWITCH-SENDER-COM-SPEC":
                 parent.addProvidedComSpec(self.getModeSwitchSenderComSpec(child_element))
+            elif tag_name == "NV-PROVIDE-COM-SPEC":
+                parent.addProvidedComSpec(self.getNvProvideComSpec(child_element))
             else:
                 self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
