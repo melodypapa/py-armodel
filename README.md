@@ -634,3 +634,5 @@ Fix the attribute intervalType of **Limit** is empty issue.
 **Version 1.8.7**
 
 1. Correct the base class of the BswEvent.
+2. Export the RunnableEntity class.
+3. Add the more class support for getDestType
