@@ -20,6 +20,8 @@ from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import Imple
 from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
 from ...M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
 from ...M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
+from ...M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulableEntity, BswCalledEntity
+from ...M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 
 
 class FileInfoComment(ARObject):
@@ -165,6 +167,12 @@ class AbstractAUTOSAR(CollectableElement):
             return "SYSTEM-SIGNAL-GROUP"
         elif isinstance(type, RunnableEntity):
             return "RUNNABLE-ENTITY"
+        elif isinstance(type, BswSchedulableEntity):
+            return "BSW-SCHEDULABLE-ENTITY"
+        elif isinstance(type, BswModuleEntry):
+            return "BSW-MODULE-ENTRY"
+        elif isinstance(type, BswCalledEntity):
+            return "BSW-CALLED-ENTITY"
 
         raise NotImplementedError("The type <%s> is not implemented for getDestType method" % type.__class__.__name__)
     
