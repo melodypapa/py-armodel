@@ -18,6 +18,7 @@ from ...M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwCompon
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
+from ...M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
 from ...M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
 
 
@@ -152,7 +153,20 @@ class AbstractAUTOSAR(CollectableElement):
     def getDestType(self, type) -> str:
         if isinstance(type, ImplementationDataType):
             return "IMPLEMENTATION-DATA-TYPE"
-        return ""
+        elif isinstance(type, ApplicationDataType):
+            return "APPLICATION-DATA-TYPE"
+        elif isinstance(type, AtomicSwComponentType):
+            return "ATOMIC-SW-COMPONENT-TYPE"
+        elif isinstance(type, CompositionSwComponentType):
+            return "COMPOSITION-SW-COMPONENT-TYPE"
+        elif isinstance(type, SystemSignal):
+            return "SYSTEM-SIGNAL"
+        elif isinstance(type, SystemSignalGroup):
+            return "SYSTEM-SIGNAL-GROUP"
+        elif isinstance(type, RunnableEntity):
+            return "RUNNABLE-ENTITY"
+
+        raise NotImplementedError("The type <%s> is not implemented for getDestType method" % type.__class__.__name__)
     
     def findAtomicSwComponentType(self, referred) -> AtomicSwComponentType:
         return self.find(referred)

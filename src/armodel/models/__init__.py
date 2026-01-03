@@ -47,6 +47,7 @@ from .M2.AUTOSARTemplates.SWComponentTemplate.Composition import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import *
+from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import *
 from .M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import *
