@@ -630,3 +630,7 @@ Fix the attribute intervalType of **Limit** is empty issue.
    * NvRequireComSpec
 2. To improve the following AR Element:
    * ParameterAccess
+
+**Version 1.8.7**
+
+1. Correct the base class of the BswEvent.
