@@ -2,8 +2,7 @@ from abc import ABCMeta
 from typing import List
 
 from ....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
-from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ExecutableEntity, InternalBehavior
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue
@@ -266,7 +265,7 @@ class BswInterruptEntity(BswModuleEntity):
         return self
 
 
-class BswEvent(Identifiable, metaclass=ABCMeta):
+class BswEvent(AbstractEvent, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BswEvent:
             raise NotImplementedError("BswEvent is an abstract class.")
