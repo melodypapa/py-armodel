@@ -1,8 +1,8 @@
 import xml.etree.ElementTree as ET
 
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, SwcInternalBehavior
-from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
-from ....parser.arxml_parser import ARXMLParser
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
+from armodel.parser.arxml_parser import ARXMLParser
 
 
 class TestRunnableEntity:

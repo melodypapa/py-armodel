@@ -2,10 +2,10 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
 
-from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
-from ....writer.arxml_writer import ARXMLWriter
-from ....parser.arxml_parser import ARXMLParser
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
+from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.parser.arxml_parser import ARXMLParser
 
 
 class TestRteEVent:
