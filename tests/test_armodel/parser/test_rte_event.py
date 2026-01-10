@@ -1,14 +1,14 @@
 import xml.etree.ElementTree as ET
 
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
 
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
 
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 
-from src.armodel.writer.arxml_writer import ARXMLWriter
+from armodel.writer.arxml_writer import ARXMLWriter
 
-from src.armodel.parser.arxml_parser import ARXMLParser
+from armodel.parser.arxml_parser import ARXMLParser
 
 
 class TestRteEVent:
