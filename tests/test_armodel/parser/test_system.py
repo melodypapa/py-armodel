@@ -1,7 +1,7 @@
 import filecmp
-from armodel.writer.arxml_writer import ARXMLWriter
-from armodel.parser.arxml_parser import ARXMLParser
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from src.armodel.writer.arxml_writer import ARXMLWriter
+from src.armodel.parser.arxml_parser import ARXMLParser
+from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestSystemTemplate:
