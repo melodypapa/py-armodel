@@ -1,6 +1,6 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
+from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Referrable
 
 
 class MockReferrable1(Referrable):
