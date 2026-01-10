@@ -1,12 +1,12 @@
 import pytest
 
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, PackageableElement
-from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, PackageableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
 
 class TestGeneralStructure:

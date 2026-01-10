@@ -1,23 +1,23 @@
 import pytest
 
-from ....models.M2.MSR.AsamHdo.BaseTypes import BaseType, BaseTypeDirectDefinition
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, ApplicationPrimitiveDataType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType, AutosarDataType, DataTypeMap
-from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType, ImplementationDataType
-from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
-from ....models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from ....models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from .... import AUTOSAR
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseType, BaseTypeDirectDefinition
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, ApplicationPrimitiveDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType, AutosarDataType, DataTypeMap
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType, ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel import AUTOSAR
 
 
 class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:

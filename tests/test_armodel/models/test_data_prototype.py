@@ -1,14 +1,14 @@
 import pytest
 
-from .... import AUTOSAR
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import DataPrototype, VariableDataPrototype
-from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
+from armodel import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import DataPrototype, VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_DataPrototypes:

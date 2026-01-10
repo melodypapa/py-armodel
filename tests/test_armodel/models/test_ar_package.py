@@ -1,23 +1,23 @@
 """ Test AR Package """
 import pytest
 
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
-from ....models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType, SwComponentType
-from ....models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from ....models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, DataInterface, PortInterface
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
-from ....models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType, SwComponentType
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, DataInterface, PortInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
 
 
 class TestAUTOSAR:
