@@ -1,8 +1,8 @@
 import pytest
 
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from src.armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucFloatParamDef, EcucParamConfContainerDef
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucFloatParamDef, EcucParamConfContainerDef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 # filepath: src/armodel/models/M2/AUTOSARTemplates/test_ECUCParameterDefTemplate.py
 

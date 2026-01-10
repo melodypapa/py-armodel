@@ -1,13 +1,13 @@
 import filecmp
 import xml.etree.ElementTree as ET
 
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
-from src.armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType
-from src.armodel.writer.arxml_writer import ARXMLWriter
-from src.armodel.parser.arxml_parser import ARXMLParser
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, AUTOSARDoc
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType
+from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, AUTOSARDoc
 
 
 class TestSWComponents:

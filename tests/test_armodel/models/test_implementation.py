@@ -1,7 +1,7 @@
 
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from src.armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestImplementation:
