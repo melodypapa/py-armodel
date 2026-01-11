@@ -21,7 +21,7 @@ The project is organized into the following key modules:
     - AutosarTopLevelStructure: AUTOSAR singleton and root model
     - ECUCDescriptionTemplate: ECUC configuration models
     - ECUCParameterDefTemplate: ECUC parameter definitions
-    - CommonStructure: Common AUTOSAR elements (ARObject, Referrable, Identifiable)
+    - CommonStructure: Common AUTOSAR elements (ARObject, Referrable, Identifiable, ServiceNeeds)
     - SWComponentTemplate: Software component models (AtomicSwComponentType, CompositionSwComponentType, etc.)
     - SystemTemplate: System-level models (SystemSignal, ECU-INSTANCE, etc.)
     - BswModuleTemplate: Basic Software module models (BswModuleDescription, BswBehavior, BswImplementation, BswInterfaces, BswOverview)
@@ -143,6 +143,8 @@ All CLI tools are registered as console_scripts in setup.py:
 
 ## Supported AUTOSAR Elements
 
+
+
 ### Component Types
 - ApplicationSwComponentType
 - CompositionSwComponentType
@@ -181,6 +183,17 @@ All CLI tools are registered as console_scripts in setup.py:
 - InternalBehavior: SwcInternalBehavior, BswInternalBehavior
 - Implementation: SwcImplementation, BswImplementation
 - Events: InitEvent, DataReceiveEvent, SwcModeSwitchEvent, BswBackgroundEvent, BswDataReceivedEvent
+
+### CommonStructure
+- ServiceNeeds: Support for various AUTOSAR service needs (Diagnostic, Communication, etc.)
+- ARObject: Base object for all AUTOSAR objects
+- Referrable: Elements that can have unique short names
+- Identifiable: Elements with unique identifiers and categories
+- Implementation: Implementation-related elements
+- InternalBehavior: Internal behavior specifications for components
+- ResourceConsumption: Resource usage specifications (memory, stack, heap)
+- ModeDeclaration: Mode declaration and switch specifications
+- SwcBswMapping: Software component and BSW mapping elements
 
 ### Diagnostics
 - DiagnosticConnection
@@ -349,6 +362,10 @@ Key updates in recent versions:
 - Improved findXXX methods for element lookup
 - Added duplicate UUID checking
 - Enhanced BSW module template functionality with comprehensive type hints and documentation
+- Enhanced ServiceNeeds support with increased test coverage
+- Improved DiagnosticContribution functionality
+- Extended HwElementCategory for ECU resource template
+- Enhanced GenericStructure with improved abstract structure and lifecycle support
 
 ## References
 

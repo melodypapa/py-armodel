@@ -1,4 +1,12 @@
-from typing import Dict, List
+"""
+This module contains the ARPackage class and related classes for AUTOSAR models
+in the GenericStructure module. ARPackage represents a hierarchical container for
+organizing AUTOSAR elements according to the AUTOSAR standard. It serves as the
+primary organizational unit for grouping related AUTOSAR model elements such as
+components, interfaces, data types, and other packages.
+"""
+
+from typing import Dict, List, Optional  # Added Optional import which is used but not imported
 
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
 from .....M2.MSR.AsamHdo.BaseTypes import SwBaseType
@@ -63,86 +71,255 @@ from .....M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConf
 
 
 class ReferenceBase(ARObject):
+    """
+    Represents a reference base in AUTOSAR models. Reference bases define 
+    how elements in one package can reference elements in other packages.
+    They are used to establish relationships between different AUTOSAR packages.
+    """
+    
     def __init__(self):
+        """
+        Initializes a ReferenceBase instance with default values for 
+        package reference properties.
+        """
         super().__init__()
 
-        self.globalElements = []                                    # type: List[ReferrableSubtypesEnum]
-        self.globalInPackageRefs = []                               # type: List[RefType]
-        self.isDefault = None                                       # type: Boolean
-        self.isGlobal = None                                        # type: Boolean
-        self.BaseIsThisPackage = None                               # type: Boolean
-        self.packageRef = None                                      # type: List[RefType]
-        self.shortLabel = None                                      # type: Identifier
+        # List of global elements that can be referenced
+        self.globalElements: List[ReferrableSubtypesEnum] = []
+        # List of global references within the package
+        self.globalInPackageRefs: List[RefType] = []
+        # Flag indicating if this reference base is the default
+        self.isDefault: Optional[Boolean] = None
+        # Flag indicating if this reference base is global
+        self.isGlobal: Optional[Boolean] = None
+        # Flag indicating if this reference base belongs to the current package
+        self.BaseIsThisPackage: Optional[Boolean] = None
+        # List of package references
+        self.packageRef: Optional[List[RefType]] = None
+        # Short label for this reference base
+        self.shortLabel: Optional[Identifier] = None
 
-    def getGlobalElements(self):
+    def getGlobalElements(self) -> List[ReferrableSubtypesEnum]:
+        """
+        Returns the list of global elements that can be referenced.
+        
+        Returns:
+            List of global elements that can be referenced
+        """
         return self.globalElements
 
-    def addGlobalElement(self, value):
+    def addGlobalElement(self, value: ReferrableSubtypesEnum) -> 'ReferenceBase':
+        """
+        Adds a global element to the list of referenceable elements.
+        
+        Args:
+            value: The element to add to the list of global elements
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.globalElements.append(value)
         return self
 
-    def getGlobalInPackageRefs(self):
+    def getGlobalInPackageRefs(self) -> List[RefType]:
+        """
+        Returns the list of global references within the package.
+        
+        Returns:
+            List of global references within the package
+        """
         return self.globalInPackageRefs
 
-    def addGlobalInPackageRef(self, value):
+    def addGlobalInPackageRef(self, value: RefType) -> 'ReferenceBase':
+        """
+        Adds a global reference to the package.
+        
+        Args:
+            value: The reference to add to the list of global in-package references
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.globalInPackageRefs.append(value)
         return self
 
-    def getIsDefault(self):
+    def getIsDefault(self) -> Optional[Boolean]:
+        """
+        Returns whether this reference base is the default.
+        
+        Returns:
+            Boolean indicating if this is the default reference base (or None)
+        """
         return self.isDefault
 
-    def setIsDefault(self, value):
+    def setIsDefault(self, value: Boolean) -> 'ReferenceBase':
+        """
+        Sets whether this reference base is the default.
+        
+        Args:
+            value: Boolean indicating if this should be the default reference base
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.isDefault = value
         return self
     
-    def getIsGlobal(self):
+    def getIsGlobal(self) -> Optional[Boolean]:
+        """
+        Returns whether this reference base is global.
+        
+        Returns:
+            Boolean indicating if this is a global reference base (or None)
+        """
         return self.isGlobal
 
-    def setIsGlobal(self, value):
+    def setIsGlobal(self, value: Boolean) -> 'ReferenceBase':
+        """
+        Sets whether this reference base is global.
+        
+        Args:
+            value: Boolean indicating if this should be a global reference base
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.isGlobal = value
         return self
     
-    def getBaseIsThisPackage(self):
+    def getBaseIsThisPackage(self) -> Optional[Boolean]:
+        """
+        Returns whether this reference base belongs to the current package.
+        
+        Returns:
+            Boolean indicating if this reference base belongs to the current package (or None)
+        """
         return self.BaseIsThisPackage
 
-    def setBaseIsThisPackage(self, value):
+    def setBaseIsThisPackage(self, value: Boolean) -> 'ReferenceBase':
+        """
+        Sets whether this reference base belongs to the current package.
+        
+        Args:
+            value: Boolean indicating if this reference base belongs to the current package
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.BaseIsThisPackage = value
         return self
 
-    def getPackageRef(self):
+    def getPackageRef(self) -> Optional[List[RefType]]:
+        """
+        Returns the list of package references.
+        
+        Returns:
+            List of package references (or None)
+        """
         return self.packageRef
 
-    def setPackageRef(self, value):
+    def setPackageRef(self, value: List[RefType]) -> 'ReferenceBase':
+        """
+        Sets the list of package references.
+        
+        Args:
+            value: List of package references to set
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.packageRef = value
         return self
 
-    def getShortLabel(self):
+    def getShortLabel(self) -> Optional[Identifier]:
+        """
+        Returns the short label for this reference base.
+        
+        Returns:
+            Short label identifier (or None)
+        """
         return self.shortLabel
 
-    def setShortLabel(self, value):
+    def setShortLabel(self, value: Identifier) -> 'ReferenceBase':
+        """
+        Sets the short label for this reference base.
+        
+        Args:
+            value: The identifier to use as the short label
+            
+        Returns:
+            Reference to this ReferenceBase instance (for method chaining)
+        """
         self.shortLabel = value
         return self
 
 
 class ARPackage(Identifiable, CollectableElement):
+    """
+    Represents an AUTOSAR package, which is a container for organizing 
+    AUTOSAR model elements hierarchically. ARPackage serves as the primary 
+    organizational unit in AUTOSAR models, allowing for grouping of related
+    elements such as software components, interfaces, data types, and other packages.
+    
+    ARPackages form a tree-like structure where each package can contain
+    sub-packages as well as various AUTOSAR elements.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes an ARPackage instance with the specified parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this package
+            short_name: The unique identifier for this package within its parent
+        """
         Identifiable.__init__(self, parent, short_name)
         CollectableElement.__init__(self)
 
-        self.arPackages = {}                                        # type: Dict[str, ARPackage]
-        self.referenceBases = []                                     # type: List[ReferenceBase]
+        # Dictionary mapping short names to sub-packages
+        self.arPackages: Dict[str, 'ARPackage'] = {}
+        # List of reference bases for this package
+        self.referenceBases: List[ReferenceBase] = []
 
-    def getARPackages(self):    # type: (...) -> List[ARPackage]
+    def getARPackages(self) -> List['ARPackage']:
+        """
+        Returns a list of all sub-packages contained in this ARPackage,
+        sorted by their short names.
+        
+        Returns:
+            List of ARPackage instances sorted by short name
+        """
         return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
         # return list(filter(lambda e: isinstance(e, ARPackage), self.elements))
 
-    def createARPackage(self, short_name: str):
+    def createARPackage(self, short_name: str) -> 'ARPackage':
+        """
+        Creates a new sub-package with the given short name, or returns 
+        an existing package if one with the same name already exists.
+        
+        Args:
+            short_name: The short name for the new sub-package
+            
+        Returns:
+            The newly created or existing ARPackage instance
+        """
         if short_name not in self.arPackages:
             ar_package = ARPackage(self, short_name)
             self.arPackages[short_name] = ar_package
         return self.arPackages[short_name]
 
     def getElement(self, short_name: str, type=None) -> Referrable:
+        """
+        Retrieves an element by its short name, optionally filtered by type.
+        This method searches for both sub-packages and other elements in this package.
+        
+        Args:
+            short_name: The short name of the element to retrieve
+            type: Optional type filter for the element to retrieve
+            
+        Returns:
+            The element with the specified name and type, or None if not found
+        """
         if type is ARPackage or type is None:
             if short_name in self.arPackages:
                 return self.arPackages[short_name]
@@ -155,6 +332,20 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, EcuAbstractionSwComponentType)
 
     def createApplicationSwComponentType(self, short_name: str) -> ApplicationSwComponentType:
+        """
+        Creates a new Application Software Component Type with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        ApplicationSwComponentType represents a software component that implements
+        application-specific functionality, typically containing runnables and
+        communication interfaces.
+        
+        Args:
+            short_name: The short name for the new ApplicationSwComponentType
+            
+        Returns:
+            The newly created or existing ApplicationSwComponentType instance
+        """
         if not self.IsElementExists(short_name, ApplicationSwComponentType):
             sw_component = ApplicationSwComponentType(self, short_name)
             self.addElement(sw_component)
@@ -185,6 +376,20 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, CompositionSwComponentType)
 
     def createSenderReceiverInterface(self, short_name: str) -> SenderReceiverInterface:
+        """
+        Creates a new Sender-Receiver Interface with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        SenderReceiverInterface is a communication interface type in AUTOSAR
+        that enables data exchange between software components through
+        sender and receiver ports.
+        
+        Args:
+            short_name: The short name for the new SenderReceiverInterface
+            
+        Returns:
+            The newly created or existing SenderReceiverInterface instance
+        """
         if not self.IsElementExists(short_name, SenderReceiverInterface):
             sr_interface = SenderReceiverInterface(self, short_name)
             self.addElement(sr_interface)
@@ -227,6 +432,20 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, ApplicationRecordDataType)
 
     def createImplementationDataType(self, short_name: str) -> ImplementationDataType:
+        """
+        Creates a new Implementation Data Type with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        ImplementationDataType represents data types used in the implementation
+        layer of AUTOSAR, typically describing how application data types
+        are mapped to implementation-specific types.
+        
+        Args:
+            short_name: The short name for the new ImplementationDataType
+            
+        Returns:
+            The newly created or existing ImplementationDataType instance
+        """
         if not self.IsElementExists(short_name, ImplementationDataType):
             data_type = ImplementationDataType(self, short_name)
             self.addElement(data_type)
@@ -251,6 +470,20 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, CompuMethod)
 
     def createBswModuleDescription(self, short_name: str) -> BswModuleDescription:
+        """
+        Creates a new Basic Software Module Description with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        BswModuleDescription represents the description of a basic software
+        module in AUTOSAR, containing information about its functionality,
+        interfaces, and configuration.
+        
+        Args:
+            short_name: The short name for the new BswModuleDescription
+            
+        Returns:
+            The newly created or existing BswModuleDescription instance
+        """
         if not self.IsElementExists(short_name, BswModuleDescription):
             desc = BswModuleDescription(self, short_name)
             self.addElement(desc)
@@ -407,12 +640,39 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, LinTpConfig)
 
     def createCanFrame(self, short_name: str) -> CanFrame:
+        """
+        Creates a new CAN Frame with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        CanFrame represents a CAN communication frame in AUTOSAR's 
+        communication modeling, used for defining CAN-based communication.
+        
+        Args:
+            short_name: The short name for the new CanFrame
+            
+        Returns:
+            The newly created or existing CanFrame instance
+        """
         if not self.IsElementExists(short_name, CanFrame):
             element = CanFrame(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, CanFrame)
 
     def createEcuInstance(self, short_name: str) -> EcuInstance:
+        """
+        Creates a new ECU Instance with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        EcuInstance represents an Electronic Control Unit in AUTOSAR's
+        system modeling, containing information about the hardware and
+        software configuration of the ECU.
+        
+        Args:
+            short_name: The short name for the new EcuInstance
+            
+        Returns:
+            The newly created or existing EcuInstance instance
+        """
         if not self.IsElementExists(short_name, EcuInstance):
             element = EcuInstance(self, short_name)
             self.addElement(element)
@@ -431,6 +691,20 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, ISignal)
 
     def createSystemSignal(self, short_name: str) -> SystemSignal:
+        """
+        Creates a new System Signal with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        SystemSignal represents signals at the system level in AUTOSAR,
+        typically used for communication between ECUs or for external
+        interfaces.
+        
+        Args:
+            short_name: The short name for the new SystemSignal
+            
+        Returns:
+            The newly created or existing SystemSignal instance
+        """
         if not self.IsElementExists(short_name, SystemSignal):
             element = SystemSignal(self, short_name)
             self.addElement(element)
@@ -515,6 +789,20 @@ class ARPackage(Identifiable, CollectableElement):
         return self.getElement(short_name, DiagnosticConnection)
     
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
+        """
+        Creates a new Diagnostic Service Table with the given short name,
+        or returns an existing one if it already exists in this package.
+        
+        DiagnosticServiceTable represents a collection of diagnostic services
+        defined in the diagnostic extract template of AUTOSAR, used for
+        specifying diagnostic functionality.
+        
+        Args:
+            short_name: The short name for the new DiagnosticServiceTable
+            
+        Returns:
+            The newly created or existing DiagnosticServiceTable instance
+        """
         if not self.IsElementExists(short_name, DiagnosticServiceTable):
             table = DiagnosticServiceTable(self, short_name)
             self.addElement(table)
