@@ -3,6 +3,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Hard
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.SoftwareContext import SoftwareContext
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import StackUsage, MeasuredStackUsage, RoughEstimateStackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, ARLiteral, PositiveInteger, RefType
 import pytest
@@ -13,7 +14,20 @@ class TestHeapUsage:
         """Test that HeapUsage abstract class cannot be instantiated directly"""
         with pytest.raises(NotImplementedError, match="HeapUsage is an abstract class."):
             HeapUsage(None, "TestHeap")
+    
+    def test_concrete_subclass_can_be_instantiated(self):
+        """Test that a concrete subclass of HeapUsage can be instantiated and the condition evaluates to False"""
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
+        # Create a concrete implementation to test the successful path
+        class ConcreteHeapUsage(HeapUsage):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+        
+        parent = AUTOSAR.getInstance()
+        # This should work because type(self) != HeapUsage for the subclass
+        heap_usage = ConcreteHeapUsage(parent, "TestHeap")
+        assert heap_usage is not None
 
 class TestHardwareConfiguration:
     def test_initialization(self):
@@ -303,3 +317,147 @@ class TestMemorySection:
         assert mem_section.getSymbol().getValue() == "_code_section"
         assert len(mem_section.getOptions()) == 1
         assert mem_section.getOptions()[0].getValue() == "READONLY"
+
+
+class TestResourceConsumption:
+    def test_initialization(self):
+        """Test ResourceConsumption initialization"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        assert resource is not None
+        assert resource.getShortName() == "TestResource"
+        assert resource.accessCountSets == []
+        assert resource.executionTimes == []
+        assert resource.heapUsages == []
+        assert resource.memorySections == []
+        assert resource.sectionNamePrefixs == []
+        assert resource.stackUsages == []
+
+    def test_create_memory_section(self):
+        """Test creating a memory section"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        section = resource.createMemorySection("TestSection")
+        assert isinstance(section, MemorySection)
+        assert section.getShortName() == "TestSection"
+        assert len(resource.memorySections) == 1
+        assert resource.memorySections[0] == section
+
+    def test_create_memory_section_duplicate(self):
+        """Test creating a memory section with duplicate name"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        section1 = resource.createMemorySection("TestSection")
+        section2 = resource.createMemorySection("TestSection")  # Should return the same instance
+        assert section1 is section2
+
+    def test_get_memory_sections(self):
+        """Test getting all memory sections"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        resource.createMemorySection("Section2")
+        resource.createMemorySection("Section1")  # Note: different name to test sorting
+        sections = resource.getMemorySections()
+        assert len(sections) == 2
+        assert sections[0].getShortName() == "Section1"
+        assert sections[1].getShortName() == "Section2"
+
+    def test_get_memory_section(self):
+        """Test getting a specific memory section by name"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        created_section = resource.createMemorySection("TestSection")
+        found_section = resource.getMemorySection("TestSection")
+        assert found_section is created_section
+
+    def test_get_memory_section_not_found(self):
+        """Test getting a memory section that doesn't exist"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        found_section = resource.getMemorySection("NonExistentSection")
+        assert found_section is None
+
+    def test_create_measured_stack_usage(self):
+        """Test creating a measured stack usage"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        stack_usage = resource.createMeasuredStackUsage("TestStack")
+        assert isinstance(stack_usage, MeasuredStackUsage)
+        assert stack_usage.getShortName() == "TestStack"
+        assert len(resource.stackUsages) == 1
+        assert resource.stackUsages[0] == stack_usage
+
+    def test_create_measured_stack_usage_duplicate(self):
+        """Test creating a measured stack usage with duplicate name"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        stack1 = resource.createMeasuredStackUsage("TestStack")
+        stack2 = resource.createMeasuredStackUsage("TestStack")  # Should return the same instance
+        assert stack1 is stack2
+
+    def test_create_rough_estimate_stack_usage(self):
+        """Test creating a rough estimate stack usage"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        stack_usage = resource.createRoughEstimateStackUsage("TestStack")
+        assert isinstance(stack_usage, RoughEstimateStackUsage)
+        assert stack_usage.getShortName() == "TestStack"
+        assert len(resource.stackUsages) == 1
+        assert resource.stackUsages[0] == stack_usage
+
+    def test_create_rough_estimate_stack_usage_duplicate(self):
+        """Test creating a rough estimate stack usage with duplicate name"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        stack1 = resource.createRoughEstimateStackUsage("TestStack")
+        stack2 = resource.createRoughEstimateStackUsage("TestStack")  # Should return the same instance
+        assert stack1 is stack2
+
+    def test_create_worst_case_stack_usage(self):
+        """Test creating a worst case stack usage"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        stack_usage = resource.createWorstCaseStackUsage("TestStack")
+        assert isinstance(stack_usage, WorstCaseStackUsage)
+        assert stack_usage.getShortName() == "TestStack"
+        assert len(resource.stackUsages) == 1
+        assert resource.stackUsages[0] == stack_usage
+
+    def test_create_worst_case_stack_usage_duplicate(self):
+        """Test creating a worst case stack usage with duplicate name"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        stack1 = resource.createWorstCaseStackUsage("TestStack")
+        stack2 = resource.createWorstCaseStackUsage("TestStack")  # Should return the same instance
+        assert stack1 is stack2
+
+    def test_get_stack_usages(self):
+        """Test getting all stack usages"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        resource.createMeasuredStackUsage("Stack2")
+        resource.createWorstCaseStackUsage("Stack1")  # Note: different name to test sorting
+        usages = resource.getStackUsages()
+        assert len(usages) == 2
+        assert usages[0].getShortName() == "Stack1"
+        assert usages[1].getShortName() == "Stack2"
+
+    def test_all_stack_usages_functionality(self):
+        """Test full functionality with all stack usage types"""
+        parent = AUTOSAR.getInstance()
+        resource = ResourceConsumption(parent, "TestResource")
+        
+        # Create different types of stack usages
+        measured = resource.createMeasuredStackUsage("MeasuredStack")
+        rough = resource.createRoughEstimateStackUsage("RoughStack")
+        worst = resource.createWorstCaseStackUsage("WorstStack")
+        
+        # Verify they were created correctly
+        assert isinstance(measured, MeasuredStackUsage)
+        assert isinstance(rough, RoughEstimateStackUsage)
+        assert isinstance(worst, WorstCaseStackUsage)
+        assert len(resource.stackUsages) == 3
+
+        # Test that getStackUsages returns all of them
+        all_usages = resource.getStackUsages()
+        assert len(all_usages) == 3

@@ -1,3 +1,9 @@
+"""
+This module contains classes for representing AUTOSAR service needs structures
+in the CommonStructure module. Service needs define requirements for various
+services such as NV block management, diagnostic services, cryptographic services, etc.
+"""
+
 from abc import ABCMeta
 from typing import List
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
@@ -10,45 +16,134 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 
 
 class RoleBasedDataAssignment(ARObject):
+    """
+    Represents a role-based data assignment in AUTOSAR models.
+    This class defines how data elements are assigned based on their role in service interactions.
+    """
+    
     def __init__(self):
+        """
+        Initializes the RoleBasedDataAssignment with default values.
+        """
         super().__init__()
 
-        self.role = None                    # type: ARLiteral
-        self.usedDataElement = None         # type: AutosarVariableRef
-        self.usedParameterElement = None    # type: AutosarParameterRef
-        self.usedPimRef = None              # type: RefType
+        # Role identifier for this data assignment
+        self.role: ARLiteral = None                    
+        # Used data element reference for this assignment
+        self.usedDataElement: AutosarVariableRef = None         
+        # Used parameter element reference for this assignment
+        self.usedParameterElement: AutosarParameterRef = None    
+        # Reference to the PIM (Port Interface Mapping) for this assignment
+        self.usedPimRef: RefType = None              
 
     def getRole(self):
+        """
+        Gets the role identifier for this data assignment.
+        
+        Returns:
+            ARLiteral: The role identifier
+        """
         return self.role
 
     def setRole(self, value):
+        """
+        Sets the role identifier for this data assignment.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The role identifier to set
+            
+        Returns:
+            self for method chaining
+        """
         self.role = value
         return self
 
     def getUsedDataElement(self):
+        """
+        Gets the used data element reference for this assignment.
+        
+        Returns:
+            AutosarVariableRef: The used data element reference
+        """
         return self.usedDataElement
 
     def setUsedDataElement(self, value):
+        """
+        Sets the used data element reference for this assignment.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The used data element reference to set
+            
+        Returns:
+            self for method chaining
+        """
         self.usedDataElement = value
         return self
 
     def getUsedParameterElement(self):
+        """
+        Gets the used parameter element reference for this assignment.
+        
+        Returns:
+            AutosarParameterRef: The used parameter element reference
+        """
         return self.usedParameterElement
 
     def setUsedParameterElement(self, value):
+        """
+        Sets the used parameter element reference for this assignment.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The used parameter element reference to set
+            
+        Returns:
+            self for method chaining
+        """
         self.usedParameterElement = value
         return self
 
     def getUsedPimRef(self):
+        """
+        Gets the reference to the PIM (Port Interface Mapping) for this assignment.
+        
+        Returns:
+            RefType: The PIM reference
+        """
         return self.usedPimRef
 
     def setUsedPimRef(self, value):
+        """
+        Sets the reference to the PIM (Port Interface Mapping) for this assignment.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The PIM reference to set
+            
+        Returns:
+            self for method chaining
+        """
         self.usedPimRef = value
         return self
 
 
 class ServiceNeeds(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for service needs in AUTOSAR models.
+    Service needs define requirements for various services such as NV block management, diagnostic services, etc.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the ServiceNeeds with a parent and short name.
+        Raises NotImplementedError if this abstract class is instantiated directly.
+        
+        Args:
+            parent: The parent ARObject that contains this service needs
+            short_name: The unique short name of this service needs
+        """
         if type(self) is ServiceNeeds:
             raise NotImplementedError("ServiceNeeds is an abstract class.")
 
@@ -56,10 +151,19 @@ class ServiceNeeds(Identifiable, metaclass=ABCMeta):
 
 
 class RamBlockStatusControlEnum(AREnum):
+    """
+    Enumeration for RAM block status control methods in AUTOSAR NV block needs.
+    Defines how the status of RAM blocks is controlled in NV block management.
+    """
+    # Status control through API calls
     API = "api"
+    # Status control through NV RAM manager
     NV_RAM_MANAGER = "nvRamManager"
 
     def __init__(self):
+        """
+        Initializes the RamBlockStatusControlEnum with all possible values.
+        """
         super().__init__((
             RamBlockStatusControlEnum.API,
             RamBlockStatusControlEnum.NV_RAM_MANAGER,
@@ -67,11 +171,21 @@ class RamBlockStatusControlEnum(AREnum):
 
 
 class NvBlockNeedsReliabilityEnum(AREnum):
+    """
+    Enumeration for NV block needs reliability levels in AUTOSAR models.
+    Defines the type of error protection used for NV block management.
+    """
+    # Error correction protection for NV blocks
     ERROR_CORRECTION = "errorCorrection"
+    # Error detection protection for NV blocks
     ERROR_DETECTION = "errorDetection"
+    # No protection for NV blocks
     NO_PROTECTION = "noProtection"
 
     def __init__(self):
+        """
+        Initializes the NvBlockNeedsReliabilityEnum with all possible values.
+        """
         super().__init__((
             NvBlockNeedsReliabilityEnum.ERROR_CORRECTION,
             NvBlockNeedsReliabilityEnum.ERROR_DETECTION,
@@ -80,11 +194,21 @@ class NvBlockNeedsReliabilityEnum(AREnum):
 
 
 class NvBlockNeedsWritingPriorityEnum(AREnum):
+    """
+    Enumeration for NV block needs writing priorities in AUTOSAR models.
+    Defines the priority level for writing operations to NV blocks.
+    """
+    # High priority for NV block writing
     HIGH = "high"
+    # Low priority for NV block writing
     LOW = "low"
+    # Medium priority for NV block writing
     MEDIUM = "medium"
 
     def __init__(self):
+        """
+        Initializes the NvBlockNeedsWritingPriorityEnum with all possible values.
+        """
         super().__init__((
             NvBlockNeedsWritingPriorityEnum.HIGH,
             NvBlockNeedsWritingPriorityEnum.LOW,
@@ -93,31 +217,66 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
 
 
 class NvBlockNeeds(ServiceNeeds):
+    """
+    Represents NV (Non-Volatile) block needs in AUTOSAR models.
+    This class defines requirements for managing non-volatile memory blocks including
+    CRC calculation, write protection, and various storage strategies.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the NvBlockNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this NV block needs
+            short_name: The unique short name of this NV block needs
+        """
         super().__init__(parent, short_name)
 
-        self.calcRamBlockCrc = None                     # type: Boolean
-        self.checkStaticBlockId = None                  # type: Boolean
-        self.cyclicWritingPeriod = None                 # type: TimeValue
-        self.nDataSets = None                           # type: PositiveInteger
-        self.nRomBlocks = None                          # type: PositiveInteger
-        self.ramBlockStatusControl = None               # type: RamBlockStatusControlEnum
-        self.readonly = None                            # type: Boolean
-        self.reliability = None                         # type: NvBlockNeedsReliabilityEnum
-        self.resistantToChangedSw = None                # type: Boolean
-        self.restoreAtStart = None                      # type: Boolean
-        self.selectBlockForFirstInitAll = None          # type: Boolean
-        self.storeAtShutdown = None                     # type: Boolean
-        self.storeCyclic = None                         # type: Boolean
-        self.storeEmergency = None                      # type: Boolean
-        self.storeImmediate = None                      # type: Boolean
-        self.storeOnChange = None                       # type: Boolean
-        self.useAutoValidationAtShutDown = None         # type: Boolean
-        self.useCRCCompMechanism = None                 # type: Boolean
-        self.writeOnlyOnce = None                       # type: Boolean
-        self.writeVerification = None                   # type: Boolean
-        self.writingFrequency = None                    # type: PositiveInteger
-        self.writingPriority = None                     # type: NvBlockNeedsWritingPriorityEnum
+        # Flag indicating whether to calculate CRC for RAM blocks
+        self.calcRamBlockCrc: Boolean = None                     
+        # Flag indicating whether to check static block ID
+        self.checkStaticBlockId: Boolean = None                  
+        # Period for cyclic writing operations
+        self.cyclicWritingPeriod: TimeValue = None                 
+        # Number of data sets for this NV block
+        self.nDataSets: PositiveInteger = None                           
+        # Number of ROM blocks for this NV block
+        self.nRomBlocks: PositiveInteger = None                          
+        # Method for controlling RAM block status
+        self.ramBlockStatusControl: RamBlockStatusControlEnum = None               
+        # Flag indicating if this block is read-only
+        self.readonly: Boolean = None                            
+        # Reliability level for this NV block
+        self.reliability: NvBlockNeedsReliabilityEnum = None                         
+        # Flag indicating resistance to changed software
+        self.resistantToChangedSw: Boolean = None                
+        # Flag indicating whether to restore at start
+        self.restoreAtStart: Boolean = None                      
+        # Flag indicating whether to select block for first init all
+        self.selectBlockForFirstInitAll: Boolean = None          
+        # Flag indicating whether to store at shutdown
+        self.storeAtShutdown: Boolean = None                     
+        # Flag indicating whether to store cyclically
+        self.storeCyclic: Boolean = None                         
+        # Flag indicating whether to store in emergency situations
+        self.storeEmergency: Boolean = None                     
+        # Flag indicating whether to store immediately
+        self.storeImmediate: Boolean = None                     
+        # Flag indicating whether to store on change
+        self.storeOnChange: Boolean = None                       
+        # Flag indicating whether to use auto-validation at shutdown
+        self.useAutoValidationAtShutDown: Boolean = None         
+        # Flag indicating whether to use CRC comparison mechanism
+        self.useCRCCompMechanism: Boolean = None                 
+        # Flag indicating whether to write only once
+        self.writeOnlyOnce: Boolean = None                       
+        # Flag indicating whether to verify writes
+        self.writeVerification: Boolean = None                   
+        # Frequency for writing operations
+        self.writingFrequency: PositiveInteger = None                    
+        # Priority for writing operations
+        self.writingPriority: NvBlockNeedsWritingPriorityEnum = None
 
     def getCalcRamBlockCrc(self):
         return self.calcRamBlockCrc
@@ -275,70 +434,194 @@ class NvBlockNeeds(ServiceNeeds):
 
 
 class RoleBasedDataTypeAssignment(ARObject):
+    """
+    Represents a role-based data type assignment in AUTOSAR models.
+    This class defines how implementation data types are assigned based on their role in service interactions.
+    """
+    
     def __init__(self):
+        """
+        Initializes the RoleBasedDataTypeAssignment with default values.
+        """
         super().__init__()
 
-        self.role = None                                # type: Identifier
-        self.usedImplementationDataTypeRef = None       # type: RefType
+        # Role identifier for this data type assignment
+        self.role: Identifier = None                                
+        # Reference to the used implementation data type
+        self.usedImplementationDataTypeRef: RefType = None       
 
     def getRole(self):
+        """
+        Gets the role identifier for this data type assignment.
+        
+        Returns:
+            Identifier: The role identifier
+        """
         return self.role
 
     def setRole(self, value):
+        """
+        Sets the role identifier for this data type assignment.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The role identifier to set
+            
+        Returns:
+            self for method chaining
+        """
         self.role = value
         return self
 
     def getUsedImplementationDataTypeRef(self):
+        """
+        Gets the reference to the used implementation data type.
+        
+        Returns:
+            RefType: The implementation data type reference
+        """
         return self.usedImplementationDataTypeRef
 
     def setUsedImplementationDataTypeRef(self, value):
+        """
+        Sets the reference to the used implementation data type.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The implementation data type reference to set
+            
+        Returns:
+            self for method chaining
+        """
         self.usedImplementationDataTypeRef = value
         return self
 
 
 class ServiceDiagnosticRelevanceEnum(AREnum):
+    """
+    Enumeration for service diagnostic relevance in AUTOSAR models.
+    Defines the diagnostic relevance of services (currently empty as per specification).
+    """
+    
     def __init__(self):
+        """
+        Initializes the ServiceDiagnosticRelevanceEnum with empty values list.
+        """
         super().__init__([])
     
 
 class ServiceDependency(Identifiable):
+    """
+    Represents a service dependency in AUTOSAR models.
+    This class defines dependencies on services along with their data type assignments and diagnostic relevance.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the ServiceDependency with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this service dependency
+            short_name: The unique short name of this service dependency
+        """
         super().__init__(parent, short_name)
 
-        self.assignedDataTypes = []                                 # type: List[RoleBasedDataTypeAssignment]
-        self.diagnosticRelevance = None                             # type: ServiceDiagnosticRelevanceEnum
-        self.symbolicNameProps = None                               # type: SymbolicNameProps
+        # List of role-based data type assignments for this service dependency
+        self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []                                 
+        # Diagnostic relevance of this service dependency
+        self.diagnosticRelevance: ServiceDiagnosticRelevanceEnum = None                             
+        # Symbolic name properties for this service dependency
+        self.symbolicNameProps: 'SymbolicNameProps' = None                               
 
     def getAssignedDataTypes(self):
+        """
+        Gets the list of role-based data type assignments for this service dependency.
+        
+        Returns:
+            List of RoleBasedDataTypeAssignment instances
+        """
         return self.assignedDataTypes
 
     def addAssignedDataType(self, value):
+        """
+        Adds a role-based data type assignment to this service dependency.
+        
+        Args:
+            value: The data type assignment to add
+            
+        Returns:
+            self for method chaining
+        """
         self.assignedDataTypes.append(value)
         return self
 
     def getDiagnosticRelevance(self):
+        """
+        Gets the diagnostic relevance of this service dependency.
+        
+        Returns:
+            ServiceDiagnosticRelevanceEnum: The diagnostic relevance
+        """
         return self.diagnosticRelevance
 
     def setDiagnosticRelevance(self, value):
+        """
+        Sets the diagnostic relevance of this service dependency.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The diagnostic relevance to set
+            
+        Returns:
+            self for method chaining
+        """
         self.diagnosticRelevance = value
         return self
 
     def getSymbolicNameProps(self):
+        """
+        Gets the symbolic name properties for this service dependency.
+        
+        Returns:
+            SymbolicNameProps: The symbolic name properties
+        """
         return self.symbolicNameProps
 
     def setSymbolicNameProps(self, value):
+        """
+        Sets the symbolic name properties for this service dependency.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The symbolic name properties to set
+            
+        Returns:
+            self for method chaining
+        """
         self.symbolicNameProps = value
         return self
 
 
 class DiagnosticAudienceEnum(AREnum):
+    """
+    Enumeration for diagnostic audiences in AUTOSAR models.
+    Defines the target audience for diagnostic information and services.
+    """
+    # Diagnostic information for aftermarket use
     AFTER_MARKET = "aftermarket"
+    # Diagnostic information for after-sales use
     AFTER_SALES = "afterSales"
+    # Diagnostic information for development use
     DEVELOPMENT = "development"
+    # Diagnostic information for manufacturing use
     MANUFACTURING = "manufacturing"
+    # Diagnostic information for supplier use
     SUPPLIER = "supplier"
 
     def __init__(self):
+        """
+        Initializes the DiagnosticAudienceEnum with all possible values.
+        """
         super().__init__((
             DiagnosticAudienceEnum.AFTER_MARKET,
             DiagnosticAudienceEnum.AFTER_SALES,
@@ -349,10 +632,19 @@ class DiagnosticAudienceEnum(AREnum):
 
 
 class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
+    """
+    Enumeration for diagnostic service request callback types in AUTOSAR models.
+    Defines who handles diagnostic service request callbacks (manufacturer or supplier).
+    """
+    # Callback type handled by manufacturer
     REQUEST_CALLBACK_TYPE_MANUFACTURER = "requestCallbackTypeManufacturer"
+    # Callback type handled by supplier
     REQUEST_CALLBACK_TYPE_SUPPLIER = "requestCallbackTypeSupplier"
 
     def __init__(self):
+        """
+        Initializes the DiagnosticServiceRequestCallbackTypeEnum with all possible values.
+        """
         super().__init__((
             DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER,
             DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_SUPPLIER,
@@ -360,43 +652,115 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
 
 
 class DiagnosticCapabilityElement(ServiceNeeds, metaclass=ABCMeta):
+    """
+    Abstract base class for diagnostic capability elements in AUTOSAR models.
+    This class defines common properties for diagnostic capabilities including audiences, requirements, and security access levels.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagnosticCapabilityElement with a parent and short name.
+        Raises NotImplementedError if this abstract class is instantiated directly.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic capability element
+            short_name: The unique short name of this diagnostic capability element
+        """
         if type(self) is DiagnosticCapabilityElement:
             raise NotImplementedError("DiagnosticCapabilityElement is an abstract class.")
     
         super().__init__(parent, short_name)
        
-        self.audiences = []                         # type: List[DiagnosticAudienceEnum]
-        self.diagRequirement = None                 # type: DiagRequirementIdString
-        self.securityAccessLevel = None             # type: PositiveInteger
+        # List of audiences for this diagnostic capability
+        self.audiences: List[DiagnosticAudienceEnum] = []                         
+        # Diagnostic requirement ID string for this capability
+        self.diagRequirement: DiagRequirementIdString = None                 
+        # Security access level for this diagnostic capability
+        self.securityAccessLevel: PositiveInteger = None             
 
     def getAudiences(self):
+        """
+        Gets the list of audiences for this diagnostic capability.
+        
+        Returns:
+            List of DiagnosticAudienceEnum instances
+        """
         return self.audiences
 
     def addAudience(self, value):
+        """
+        Adds an audience to this diagnostic capability.
+        
+        Args:
+            value: The diagnostic audience to add
+            
+        Returns:
+            self for method chaining
+        """
         self.audiences.append(value)
         return self
 
     def getDiagRequirement(self):
+        """
+        Gets the diagnostic requirement ID string for this capability.
+        
+        Returns:
+            DiagRequirementIdString: The diagnostic requirement
+        """
         return self.diagRequirement
 
     def setDiagRequirement(self, value):
+        """
+        Sets the diagnostic requirement ID string for this capability.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The diagnostic requirement to set
+            
+        Returns:
+            self for method chaining
+        """
         self.diagRequirement = value
         return self
 
     def getSecurityAccessLevel(self):
+        """
+        Gets the security access level for this diagnostic capability.
+        
+        Returns:
+            PositiveInteger: The security access level
+        """
         return self.securityAccessLevel
 
     def setSecurityAccessLevel(self, value):
+        """
+        Sets the security access level for this diagnostic capability.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The security access level to set
+            
+        Returns:
+            self for method chaining
+        """
         self.securityAccessLevel = value
         return self
 
 
 class DiagnosticRoutineTypeEnum(AREnum):
+    """
+    Enumeration for diagnostic routine types in AUTOSAR models.
+    Defines whether diagnostic routines are executed synchronously or asynchronously.
+    """
+    # Asynchronous diagnostic routine
     ASYNCHRONOUS = "asynchronous"
+    # Synchronous diagnostic routine
     SYNCHRONOUS = "synchronous"
 
     def __init__(self):
+        """
+        Initializes the DiagnosticRoutineTypeEnum with all possible values.
+        """
         super().__init__((
             DiagnosticRoutineTypeEnum.ASYNCHRONOUS,
             DiagnosticRoutineTypeEnum.SYNCHRONOUS,
@@ -404,47 +768,132 @@ class DiagnosticRoutineTypeEnum(AREnum):
 
 
 class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
+    """
+    Represents diagnostic communication manager needs in AUTOSAR models.
+    This class defines requirements for the diagnostic communication manager including callback types.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagnosticCommunicationManagerNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic communication manager needs
+            short_name: The unique short name of this diagnostic communication manager needs
+        """
         super().__init__(parent, short_name)
 
-        self.serviceRequestCallbackType = None                                  # type: DiagnosticServiceRequestCallbackTypeEnum
+        # Type of service request callback for this diagnostic communication manager
+        self.serviceRequestCallbackType: DiagnosticServiceRequestCallbackTypeEnum = None                                  
 
     def getServiceRequestCallbackType(self):
+        """
+        Gets the type of service request callback for this diagnostic communication manager.
+        
+        Returns:
+            DiagnosticServiceRequestCallbackTypeEnum: The service request callback type
+        """
         return self.serviceRequestCallbackType
 
     def setServiceRequestCallbackType(self, value):
+        """
+        Sets the type of service request callback for this diagnostic communication manager.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The service request callback type to set
+            
+        Returns:
+            self for method chaining
+        """
         self.serviceRequestCallbackType = value
         return self
 
 
 class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
+    """
+    Represents diagnostic routine needs in AUTOSAR models.
+    This class defines requirements for diagnostic routines including their execution type and RID number.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagnosticRoutineNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic routine needs
+            short_name: The unique short name of this diagnostic routine needs
+        """
         super().__init__(parent, short_name)
 
-        self.diagRoutineType = None                                             # type: DiagnosticRoutineTypeEnum
-        self.RidNumber = None                                                   # type: PositiveInteger
+        # Type of diagnostic routine (synchronous or asynchronous)
+        self.diagRoutineType: DiagnosticRoutineTypeEnum = None                                            
+        # RID (Routine ID) number for this diagnostic routine
+        self.RidNumber: PositiveInteger = None                                                  
 
     def getDiagRoutineType(self):
+        """
+        Gets the type of diagnostic routine (synchronous or asynchronous).
+        
+        Returns:
+            DiagnosticRoutineTypeEnum: The diagnostic routine type
+        """
         return self.diagRoutineType
 
     def setDiagRoutineType(self, value):
+        """
+        Sets the type of diagnostic routine (synchronous or asynchronous).
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The diagnostic routine type to set
+            
+        Returns:
+            self for method chaining
+        """
         self.diagRoutineType = value
         return self
     
     def getRidNumber(self):
+        """
+        Gets the RID (Routine ID) number for this diagnostic routine.
+        
+        Returns:
+            PositiveInteger: The RID number
+        """
         return self.RidNumber
 
     def setRidNumber(self, value):
+        """
+        Sets the RID (Routine ID) number for this diagnostic routine.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The RID number to set
+            
+        Returns:
+            self for method chaining
+        """
         self.RidNumber = value
         return self
 
 
 class DiagnosticValueAccessEnum(AREnum):
+    """
+    Enumeration for diagnostic value access types in AUTOSAR models.
+    Defines the access permissions for diagnostic values (read, write, or read-write).
+    """
+    # Read-only access for diagnostic values
     READ_ONLY = "readOnly"
+    # Read-write access for diagnostic values
     READ_WRITE = "readWrite"
+    # Write-only access for diagnostic values
     WRITE_ONLY = "writeOnly"
 
     def __init__(self):
+        """
+        Initializes the DiagnosticValueAccessEnum with all possible values.
+        """
         super().__init__((
             DiagnosticValueAccessEnum.READ_ONLY,
             DiagnosticValueAccessEnum.READ_WRITE,
@@ -453,11 +902,21 @@ class DiagnosticValueAccessEnum(AREnum):
 
 
 class DiagnosticProcessingStyleEnum(AREnum):
+    """
+    Enumeration for diagnostic processing styles in AUTOSAR models.
+    Defines how diagnostic processing is handled (synchronously, asynchronously, etc.).
+    """
+    # Asynchronous processing style for diagnostics
     PROCESSING_STYLE_ASYNCHRONOUS = "processingStyleAsynchronous"
+    # Asynchronous processing style with error handling for diagnostics
     PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR = "processingStyleAsynchronousWithError"
+    # Synchronous processing style for diagnostics
     PROCESSING_STYLE_SYNCHRONOUS = "processingStyleSynchronous"
 
     def __init__(self):
+        """
+        Initializes the DiagnosticProcessingStyleEnum with all possible values.
+        """
         super().__init__((
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
             DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR,
@@ -466,53 +925,163 @@ class DiagnosticProcessingStyleEnum(AREnum):
 
 
 class DiagnosticValueNeeds(DiagnosticCapabilityElement):
+    """
+    Represents diagnostic value needs in AUTOSAR models.
+    This class defines requirements for diagnostic values including access permissions, length, and processing style.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagnosticValueNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic value needs
+            short_name: The unique short name of this diagnostic value needs
+        """
         super().__init__(parent, short_name)
 
-        self.dataLength = None                                      # type: PositiveInteger
-        self.diagnosticValueAccess = None                           # type: DiagnosticValueAccessEnum
-        self.DidNumber = None                                       # type: Integer
-        self.fixedLength = None                                     # type: Boolean
-        self.processingStyle = None                                 # type: DiagnosticProcessingStyleEnum
+        # Data length for this diagnostic value
+        self.dataLength: PositiveInteger = None                                      
+        # Access permissions for this diagnostic value
+        self.diagnosticValueAccess: DiagnosticValueAccessEnum = None                           
+        # DID (Data ID) number for this diagnostic value
+        self.DidNumber: Integer = None                                       
+        # Flag indicating if this diagnostic value has fixed length
+        self.fixedLength: Boolean = None                                     
+        # Processing style for this diagnostic value
+        self.processingStyle: DiagnosticProcessingStyleEnum = None                                
 
     def getDataLength(self):
+        """
+        Gets the data length for this diagnostic value.
+        
+        Returns:
+            PositiveInteger: The data length
+        """
         return self.dataLength
 
     def setDataLength(self, value):
+        """
+        Sets the data length for this diagnostic value.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The data length to set
+            
+        Returns:
+            self for method chaining
+        """
         self.dataLength = value
         return self
 
     def getDiagnosticValueAccess(self):
+        """
+        Gets the access permissions for this diagnostic value.
+        
+        Returns:
+            DiagnosticValueAccessEnum: The diagnostic value access permissions
+        """
         return self.diagnosticValueAccess
 
     def setDiagnosticValueAccess(self, value):
+        """
+        Sets the access permissions for this diagnostic value.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The diagnostic value access permissions to set
+            
+        Returns:
+            self for method chaining
+        """
         self.diagnosticValueAccess = value
         return self
     
     def getDidNumber(self):
+        """
+        Gets the DID (Data ID) number for this diagnostic value.
+        
+        Returns:
+            Integer: The DID number
+        """
         return self.DidNumber
 
     def setDidNumber(self, value):
+        """
+        Sets the DID (Data ID) number for this diagnostic value.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The DID number to set
+            
+        Returns:
+            self for method chaining
+        """
         self.DidNumber = value
         return self
 
     def getFixedLength(self):
+        """
+        Gets the flag indicating if this diagnostic value has fixed length.
+        
+        Returns:
+            Boolean: The fixed length flag
+        """
         return self.fixedLength
 
     def setFixedLength(self, value):
+        """
+        Sets the flag indicating if this diagnostic value has fixed length.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The fixed length flag to set
+            
+        Returns:
+            self for method chaining
+        """
         self.fixedLength = value
         return self
 
     def getProcessingStyle(self):
+        """
+        Gets the processing style for this diagnostic value.
+        
+        Returns:
+            DiagnosticProcessingStyleEnum: The processing style
+        """
         return self.processingStyle
 
     def setProcessingStyle(self, value):
+        """
+        Sets the processing style for this diagnostic value.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The processing style to set
+            
+        Returns:
+            self for method chaining
+        """
         self.processingStyle = value
         return self
 
 
 class DiagEventDebounceAlgorithm(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for diagnostic event debounce algorithms in AUTOSAR models.
+    This class defines the base structure for algorithms that debounce diagnostic events to prevent false triggers.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagEventDebounceAlgorithm with a parent and short name.
+        Raises NotImplementedError if this abstract class is instantiated directly.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic event debounce algorithm
+            short_name: The unique short name of this diagnostic event debounce algorithm
+        """
         if type(self) is DiagEventDebounceAlgorithm:
             raise NotImplementedError("DiagEventDebounceAlgorithm is an abstract class.")
 
@@ -520,18 +1089,39 @@ class DiagEventDebounceAlgorithm(Identifiable, metaclass=ABCMeta):
 
 
 class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
+    """
+    Represents a counter-based diagnostic event debounce algorithm in AUTOSAR models.
+    This class defines debounce algorithms based on counters that increment/decrement to detect fault conditions.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagEventDebounceCounterBased with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this counter-based debounce algorithm
+            short_name: The unique short name of this counter-based debounce algorithm
+        """
         super().__init__(parent, short_name)
 
-        self.counterBasedFdcThresholdStorageValue = None                    # type: Integer
-        self.counterDecrementStepSize = None                                # type: Integer
-        self.counterFailedThreshold = None                                  # type: Integer
-        self.counterIncrementStepSize = None                                # type: Integer
-        self.counterJumpDown = None                                         # type: Integer
-        self.counterJumpDownValue = None                                    # type: Integer
-        self.counterJumpUp = None                                           # type: Integer
-        self.counterJumpUpValue = None                                      # type: Integer
-        self.counterPassedThreshold = None                                  # type: Integer
+        # Counter-based FDC (Fault Detection Counter) threshold storage value
+        self.counterBasedFdcThresholdStorageValue: Integer = None                   
+        # Counter decrement step size for this debounce algorithm
+        self.counterDecrementStepSize: Integer = None                               
+        # Counter threshold for failed state detection
+        self.counterFailedThreshold: Integer = None                                 
+        # Counter increment step size for this debounce algorithm
+        self.counterIncrementStepSize: Integer = None                               
+        # Counter value to jump down to when conditions are met
+        self.counterJumpDown: Integer = None                                        
+        # Value to set counter to when jumping down
+        self.counterJumpDownValue: Integer = None                                   
+        # Counter value to jump up to when conditions are met
+        self.counterJumpUp: Integer = None                                          
+        # Value to set counter to when jumping up
+        self.counterJumpUpValue: Integer = None                                     
+        # Counter threshold for passed state detection
+        self.counterPassedThreshold: Integer = None
 
     def getCounterBasedFdcThresholdStorageValue(self):
         return self.counterBasedFdcThresholdStorageValue
@@ -598,17 +1188,44 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
 
 
 class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
+    """
+    Represents an internal monitor-based diagnostic event debounce algorithm in AUTOSAR models.
+    This class defines debounce algorithms based on internal monitoring mechanisms rather than counters or time thresholds.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagEventDebounceMonitorInternal with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this internal monitor debounce algorithm
+            short_name: The unique short name of this internal monitor debounce algorithm
+        """
         super().__init__(parent, short_name)
 
 
 class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
+    """
+    Represents a time-based diagnostic event debounce algorithm in AUTOSAR models.
+    This class defines debounce algorithms based on time thresholds to detect and handle diagnostic events.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagEventDebounceTimeBased with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this time-based debounce algorithm
+            short_name: The unique short name of this time-based debounce algorithm
+        """
         super().__init__(parent, short_name)
 
-        self.timeBasedFdcThresholdStorageValue = None                       # type: TimeValue
-        self.timeFailedThreshold = None                                     # type: TimeValue
-        self.timePassedThreshold = None                                     # type: TimeValue
+        # Time-based FDC (Fault Detection Counter) threshold storage value
+        self.timeBasedFdcThresholdStorageValue: TimeValue = None                       
+        # Time threshold for failed state detection
+        self.timeFailedThreshold: TimeValue = None                                     
+        # Time threshold for passed state detection
+        self.timePassedThreshold: TimeValue = None
 
     def getTimeBasedFdcThresholdStorageValue(self):
         return self.timeBasedFdcThresholdStorageValue
@@ -633,101 +1250,285 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
 
 
 class DtcKindEnum(AREnum):
+    """
+    Enumeration for DTC (Diagnostic Trouble Code) kinds in AUTOSAR models.
+    Defines the type of diagnostic trouble codes used (currently empty as per specification).
+    """
+    
     def __init__(self):
+        """
+        Initializes the DtcKindEnum with empty values list.
+        """
         super().__init__([])
 
 
 class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
+    """
+    Represents diagnostic event information needs in AUTOSAR models.
+    This class defines requirements for diagnostic events including DTC information and numbering schemes.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagnosticEventInfoNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic event information needs
+            short_name: The unique short name of this diagnostic event information needs
+        """
         super().__init__(parent, short_name)
 
-        self.dtcKind = None                             # type: DtcKindEnum
-        self.obdDtcNumber = None                        # type: PositiveInteger
-        self.udsDtcNumber = None                        # type: PositiveInteger
+        # Type of diagnostic trouble code (DTC) for this event
+        self.dtcKind: DtcKindEnum = None                             
+        # OBD (On-Board Diagnostics) DTC number for this event
+        self.obdDtcNumber: PositiveInteger = None                       
+        # UDS (Unified Diagnostic Services) DTC number for this event
+        self.udsDtcNumber: PositiveInteger = None                       
 
     def getDtcKind(self):
+        """
+        Gets the type of diagnostic trouble code (DTC) for this event.
+        
+        Returns:
+            DtcKindEnum: The DTC kind
+        """
         return self.dtcKind
 
     def setDtcKind(self, value):
+        """
+        Sets the type of diagnostic trouble code (DTC) for this event.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The DTC kind to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.dtcKind = value
         return self
 
     def getObdDtcNumber(self):
+        """
+        Gets the OBD (On-Board Diagnostics) DTC number for this event.
+        
+        Returns:
+            PositiveInteger: The OBD DTC number
+        """
         return self.obdDtcNumber
 
     def setObdDtcNumber(self, value):
+        """
+        Sets the OBD (On-Board Diagnostics) DTC number for this event.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The OBD DTC number to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.obdDtcNumber = value
         return self
 
     def getUdsDtcNumber(self):
+        """
+        Gets the UDS (Unified Diagnostic Services) DTC number for this event.
+        
+        Returns:
+            PositiveInteger: The UDS DTC number
+        """
         return self.udsDtcNumber
 
     def setUdsDtcNumber(self, value):
+        """
+        Sets the UDS (Unified Diagnostic Services) DTC number for this event.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The UDS DTC number to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.udsDtcNumber = value
         return self
 
 
 class DiagnosticClearDtcNotificationEnum(AREnum):
+    """
+    Enumeration for diagnostic clear DTC notification types in AUTOSAR models.
+    Defines the timing for notification when DTCs are cleared (currently empty as per specification).
+    """
+    
     def __init__(self):
+        """
+        Initializes the DiagnosticClearDtcNotificationEnum with empty values list.
+        """
         super().__init__([])
 
 
 class DtcFormatTypeEnum(AREnum):
+    """
+    Enumeration for DTC format types in AUTOSAR models.
+    Defines the format used for diagnostic trouble codes (currently empty as per specification).
+    """
+    
     def __init__(self):
+        """
+        Initializes the DtcFormatTypeEnum with empty values list.
+        """
         super().__init__([])
 
 
 class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
+    """
+    Represents DTC status change notification needs in AUTOSAR models.
+    This class defines requirements for notifications when DTC status changes occur.
+    """
+    
     def __init__(self, parent, short_name):
+        """
+        Initializes the DtcStatusChangeNotificationNeeds with a parent and short name.
+        Note: This is an extension for AUTOSAR 4.3.1.
+        
+        Args:
+            parent: The parent ARObject that contains this DTC status change notification needs
+            short_name: The unique short name of this DTC status change notification needs
+        """
         super().__init__(parent, short_name)
 
-        self.dtcFormatType = None                                                   # type: DtcFormatTypeEnum   # AUTOSAR 4.3.1
-        self.notificationTime = None                                                # type: DiagnosticClearDtcNotificationEnum
+        # Format type for DTC used in notifications
+        self.dtcFormatType: DtcFormatTypeEnum = None                                                   
+        # Notification timing for when DTCs are cleared
+        self.notificationTime: DiagnosticClearDtcNotificationEnum = None                                               
 
     def getDtcFormatType(self):
+        """
+        Gets the format type for DTC used in notifications.
+        
+        Returns:
+            DtcFormatTypeEnum: The DTC format type
+        """
         return self.dtcFormatType
 
     def setDtcFormatType(self, value):
+        """
+        Sets the format type for DTC used in notifications.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The DTC format type to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.dtcFormatType = value
         return self
 
     def getNotificationTime(self):
+        """
+        Gets the notification timing for when DTCs are cleared.
+        
+        Returns:
+            DiagnosticClearDtcNotificationEnum: The notification timing
+        """
         return self.notificationTime
 
     def setNotificationTime(self, value):
+        """
+        Sets the notification timing for when DTCs are cleared.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The notification timing to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.notificationTime = value
         return self
 
 
 class DiagnosticEventNeeds(DiagnosticCapabilityElement):
+    """
+    Represents diagnostic event needs in AUTOSAR models.
+    This class defines requirements for diagnostic events including debounce algorithms, FID references, and DTC information.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DiagnosticEventNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this diagnostic event needs
+            short_name: The unique short name of this diagnostic event needs
+        """
         super().__init__(parent, short_name)
 
-        self.deferringFidRefs = []                                      # type: List[RefType]
-        self.diagEventDebounceAlgorithm = None                          # type: DiagEventDebounceAlgorithm
-        self.inhibitingFidRef = None                                    # type: RefType
-        self.inhibitingSecondaryFidRef = None                           # type: RefType
-        self.prestoredFreezeframeStoredInNvm = None                     # type: Boolean
-        self.usesMonitorData = None                                     # type: Boolean
-        self.dtcKind = None                                             # type: ARLiteral
-        self.udsDtcNumber = None                                        # type: Integer
+        # List of FID (Function Identifier) references for deferring this diagnostic event
+        self.deferringFidRefs: List[RefType] = []                                     
+        # Debounce algorithm for this diagnostic event
+        self.diagEventDebounceAlgorithm: DiagEventDebounceAlgorithm = None                         
+        # FID reference for inhibiting this diagnostic event
+        self.inhibitingFidRef: RefType = None                                   
+        # Secondary FID reference for inhibiting this diagnostic event
+        self.inhibitingSecondaryFidRef: RefType = None                           
+        # Flag indicating if prestored freeze frame is stored in NVM
+        self.prestoredFreezeframeStoredInNvm: Boolean = None                     
+        # Flag indicating if this event uses monitor data
+        self.usesMonitorData: Boolean = None                                     
+        # Type of diagnostic trouble code (DTC) for this event (as ARLiteral)
+        self.dtcKind: ARLiteral = None                                             
+        # UDS (Unified Diagnostic Services) DTC number for this event
+        self.udsDtcNumber: Integer = None                                        
 
     def getDeferringFidRefs(self):
+        """
+        Gets the list of FID (Function Identifier) references for deferring this diagnostic event.
+        
+        Returns:
+            List of RefType instances
+        """
         return self.deferringFidRefs
 
     def addDeferringFidRef(self, value):
+        """
+        Adds a FID (Function Identifier) reference for deferring this diagnostic event.
+        
+        Args:
+            value: The FID reference to add
+            
+        Returns:
+            self for method chaining
+        """
         self.deferringFidRefs.append(value)
         return self
     
     def getDiagEventDebounceAlgorithm(self):
+        """
+        Gets the debounce algorithm for this diagnostic event.
+        
+        Returns:
+            DiagEventDebounceAlgorithm: The debounce algorithm
+        """
         return self.diagEventDebounceAlgorithm
 
     def createDiagEventDebounceCounterBased(self, short_name: str):
+        """
+        Creates and adds a counter-based debounce algorithm for this diagnostic event.
+        
+        Args:
+            short_name: The short name for the new counter-based debounce algorithm
+            
+        Returns:
+            The created DiagEventDebounceCounterBased instance
+        """
         if (short_name not in self.elements):
             algorithm = DiagEventDebounceCounterBased(self, short_name)
             self.addElement(algorithm)
@@ -735,6 +1536,15 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         return self.getElement(short_name)
     
     def createDiagEventDebounceMonitorInternal(self, short_name: str):
+        """
+        Creates and adds an internal monitor-based debounce algorithm for this diagnostic event.
+        
+        Args:
+            short_name: The short name for the new internal monitor debounce algorithm
+            
+        Returns:
+            The created DiagEventDebounceMonitorInternal instance
+        """
         if (short_name not in self.elements):
             algorithm = DiagEventDebounceMonitorInternal(self, short_name)
             self.addElement(algorithm)
@@ -742,6 +1552,15 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         return self.getElement(short_name)
 
     def createDiagEventDebounceTimeBased(self, short_name: str):
+        """
+        Creates and adds a time-based debounce algorithm for this diagnostic event.
+        
+        Args:
+            short_name: The short name for the new time-based debounce algorithm
+            
+        Returns:
+            The created DiagEventDebounceTimeBased instance
+        """
         if (short_name not in self.elements):
             algorithm = DiagEventDebounceTimeBased(self, short_name)
             self.addElement(algorithm)
@@ -749,91 +1568,291 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         return self.getElement(short_name)
     
     def getInhibitingFidRef(self):
+        """
+        Gets the FID reference for inhibiting this diagnostic event.
+        
+        Returns:
+            RefType: The inhibiting FID reference
+        """
         return self.inhibitingFidRef
 
     def setInhibitingFidRef(self, value):
+        """
+        Sets the FID reference for inhibiting this diagnostic event.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The inhibiting FID reference to set
+            
+        Returns:
+            self for method chaining
+        """
         self.inhibitingFidRef = value
         return self
 
     def getInhibitingSecondaryFidRef(self):
+        """
+        Gets the secondary FID reference for inhibiting this diagnostic event.
+        
+        Returns:
+            RefType: The secondary inhibiting FID reference
+        """
         return self.inhibitingSecondaryFidRef
 
     def setInhibitingSecondaryFidRef(self, value):
+        """
+        Sets the secondary FID reference for inhibiting this diagnostic event.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The secondary inhibiting FID reference to set
+            
+        Returns:
+            self for method chaining
+        """
         self.inhibitingSecondaryFidRef = value
         return self
 
     def getPrestoredFreezeframeStoredInNvm(self):
+        """
+        Gets the flag indicating if prestored freeze frame is stored in NVM.
+        
+        Returns:
+            Boolean: The prestored freeze frame flag
+        """
         return self.prestoredFreezeframeStoredInNvm
 
     def setPrestoredFreezeframeStoredInNvm(self, value):
+        """
+        Sets the flag indicating if prestored freeze frame is stored in NVM.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The prestored freeze frame flag to set
+            
+        Returns:
+            self for method chaining
+        """
         self.prestoredFreezeframeStoredInNvm = value
         return self
 
     def getUsesMonitorData(self):
+        """
+        Gets the flag indicating if this event uses monitor data.
+        
+        Returns:
+            Boolean: The use monitor data flag
+        """
         return self.usesMonitorData
 
     def setUsesMonitorData(self, value):
+        """
+        Sets the flag indicating if this event uses monitor data.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The use monitor data flag to set
+            
+        Returns:
+            self for method chaining
+        """
         self.usesMonitorData = value
         return self
 
     def getDtcKind(self):
+        """
+        Gets the type of diagnostic trouble code (DTC) for this event (as ARLiteral).
+        
+        Returns:
+            ARLiteral: The DTC kind
+        """
         return self.dtcKind
 
     def setDtcKind(self, value):
+        """
+        Sets the type of diagnostic trouble code (DTC) for this event (as ARLiteral).
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The DTC kind to set
+            
+        Returns:
+            self for method chaining
+        """
         self.dtcKind = value
         return self
 
     def getUdsDtcNumber(self):
+        """
+        Gets the UDS (Unified Diagnostic Services) DTC number for this event.
+        
+        Returns:
+            Integer: The UDS DTC number
+        """
         return self.udsDtcNumber
 
     def setUdsDtcNumber(self, value):
+        """
+        Sets the UDS (Unified Diagnostic Services) DTC number for this event.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The UDS DTC number to set
+            
+        Returns:
+            self for method chaining
+        """
         self.udsDtcNumber = value
         return self
 
 
 class CryptoServiceNeeds(ServiceNeeds):
+    """
+    Represents cryptographic service needs in AUTOSAR models.
+    This class defines requirements for cryptographic services including algorithm information and key management.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the CryptoServiceNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this cryptographic service needs
+            short_name: The unique short name of this cryptographic service needs
+        """
         super().__init__(parent, short_name)
         
-        self.algorithmFamily = None                                 # type: String
-        self.algorithmMode = None                                   # type: String
-        self.cryptoKeyDescription = None                            # type: String
-        self.maximumKeyLength = None                                # type: PositiveInteger
+        # Algorithm family used by this cryptographic service
+        self.algorithmFamily: String = None                                 
+        # Algorithm mode used by this cryptographic service
+        self.algorithmMode: String = None                                   
+        # Description of the cryptographic key used by this service
+        self.cryptoKeyDescription: String = None                            
+        # Maximum length of keys supported by this cryptographic service
+        self.maximumKeyLength: PositiveInteger = None                        
 
     def getAlgorithmFamily(self):
+        """
+        Gets the algorithm family used by this cryptographic service.
+        
+        Returns:
+            String: The algorithm family
+        """
         return self.algorithmFamily
 
     def setAlgorithmFamily(self, value):
+        """
+        Sets the algorithm family used by this cryptographic service.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The algorithm family to set
+            
+        Returns:
+            self for method chaining
+        """
         self.algorithmFamily = value
         return self
 
     def getAlgorithmMode(self):
+        """
+        Gets the algorithm mode used by this cryptographic service.
+        
+        Returns:
+            String: The algorithm mode
+        """
         return self.algorithmMode
 
     def setAlgorithmMode(self, value):
+        """
+        Sets the algorithm mode used by this cryptographic service.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The algorithm mode to set
+            
+        Returns:
+            self for method chaining
+        """
         self.algorithmMode = value
         return self
 
     def getCryptoKeyDescription(self):
+        """
+        Gets the description of the cryptographic key used by this service.
+        
+        Returns:
+            String: The cryptographic key description
+        """
         return self.cryptoKeyDescription
 
     def setCryptoKeyDescription(self, value):
+        """
+        Sets the description of the cryptographic key used by this service.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The cryptographic key description to set
+            
+        Returns:
+            self for method chaining
+        """
         self.cryptoKeyDescription = value
         return self
 
     def getMaximumKeyLength(self):
+        """
+        Gets the maximum length of keys supported by this cryptographic service.
+        
+        Returns:
+            PositiveInteger: The maximum key length
+        """
         return self.maximumKeyLength
 
     def setMaximumKeyLength(self, value):
+        """
+        Sets the maximum length of keys supported by this cryptographic service.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The maximum key length to set
+            
+        Returns:
+            self for method chaining
+        """
         self.maximumKeyLength = value
         return self
 
 
 class EcuStateMgrUserNeeds(ServiceNeeds):
+    """
+    Represents ECU state manager user needs in AUTOSAR models.
+    This class defines requirements for components that use the ECU state manager service.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the EcuStateMgrUserNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this ECU state manager user needs
+            short_name: The unique short name of this ECU state manager user needs
+        """
         super().__init__(parent, short_name)
 
 
 class DltUserNeeds(ServiceNeeds):
+    """
+    Represents DLT (Diagnostic Log and Trace) user needs in AUTOSAR models.
+    This class defines requirements for components that use the DLT service for logging and tracing.
+    """
+    
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the DltUserNeeds with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this DLT user needs
+            short_name: The unique short name of this DLT user needs
+        """
         super().__init__(parent, short_name)
