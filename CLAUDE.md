@@ -24,7 +24,7 @@ The project is organized into the following key modules:
     - CommonStructure: Common AUTOSAR elements (ARObject, Referrable, Identifiable)
     - SWComponentTemplate: Software component models (AtomicSwComponentType, CompositionSwComponentType, etc.)
     - SystemTemplate: System-level models (SystemSignal, ECU-INSTANCE, etc.)
-    - BswModuleTemplate: Basic Software module models (BswModuleDescription, BswBehavior, etc.)
+    - BswModuleTemplate: Basic Software module models (BswModuleDescription, BswBehavior, BswImplementation, BswInterfaces, BswOverview)
     - EcuResourceTemplate: ECU resource models
     - GenericStructure: Generic structure elements
     - DiagnosticExtract: Diagnostic models
@@ -85,6 +85,8 @@ Test files are located in `tests/test_armodel/` and `src/armodel/tests/` directo
 Using package.json scripts:
 - `npm run pytest` - Run all tests
 - `npm run pytest-cov` - Run tests with coverage
+- `npm run flake8` - Run linting with flake8
+- `npm run bswm-test` - Run BSW module test
 
 ### Linting
 
@@ -195,8 +197,13 @@ All CLI tools are registered as console_scripts in setup.py:
 ### BSW Modules
 - BswModuleDescription
 - BswBehavior
+- BswImplementation
+- BswInterfaces
 - BswSchedulableEntity
 - BswCalledEntity
+- BswModuleClientServerEntry
+- BswModuleEntry
+- BswModuleDependency
 
 ### ECUC Configuration
 - EcucValueCollection
@@ -217,7 +224,11 @@ tests/test_armodel/
 │   ├── test_ar_object.py
 │   ├── test_ar_package.py
 │   ├── test_ar_ref.py
+│   ├── test_bsw_behavior.py
+│   ├── test_bsw_implementation.py
+│   ├── test_bsw_interfaces.py
 │   ├── test_bsw_module_template.py
+│   ├── test_bsw_overview.py
 │   ├── test_common_structure.py
 │   ├── test_data_dictionary.py
 │   ├── test_data_prototype.py
@@ -228,15 +239,20 @@ tests/test_armodel/
 │   ├── test_implementation.py
 │   ├── test_m2_msr.py
 │   ├── test_port_interface.py
-│   └── test_port_prototype.py
-└── parser/                 # Parser tests
-    ├── test_arxml_parser.py
-    ├── test_bsw_module_descriiption.py
-    ├── test_implementation_data_type.py
-    ├── test_rte_event.py
-    ├── test_runnable_entity.py
-    ├── test_sw_components.py
-    └── test_system.py
+│   ├── test_port_prototype.py
+│   └── test_resource_consumption.py
+├── parser/                 # Parser tests
+│   ├── test_arxml_parser.py
+│   ├── test_bsw_module_descriiption.py
+│   ├── test_implementation_data_type.py
+│   ├── test_rte_event.py
+│   ├── test_runnable_entity.py
+│   ├── test_sw_components.py
+│   └── test_system.py
+├── writer/                 # Writer tests
+│   ├── test_abstract_arxml_writer.py
+│   └── test_arxml_writer.py
+└── requirements.txt        # Test dependencies
 ```
 
 Test files in `test_files/` directory contain sample ARXML files for validation.
@@ -332,6 +348,7 @@ Key updates in recent versions:
 - Fixed various XML schema issues
 - Improved findXXX methods for element lookup
 - Added duplicate UUID checking
+- Enhanced BSW module template functionality with comprehensive type hints and documentation
 
 ## References
 
