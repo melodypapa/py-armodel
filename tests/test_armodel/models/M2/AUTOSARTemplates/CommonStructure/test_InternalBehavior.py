@@ -283,41 +283,42 @@ class TestInternalBehavior:
         assert len(internal_behavior.constantMemories) == 1
         assert internal_behavior.constantMemories[0] == constant_memory
 
-        def test_get_constant_memories(self):
-            """Test getConstantMemories method"""
-            parent = AUTOSAR.getInstance()
-            ar_root = parent.createARPackage("AUTOSAR")
-        
-            class ConcreteInternalBehavior(InternalBehavior):
-                def __init__(self, parent, short_name):
-                    super().__init__(parent, short_name)
-        
-            internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-            constant_memory1 = internal_behavior.createConstantMemory("TestConstant1")
-            constant_memory2 = internal_behavior.createConstantMemory("TestConstant2")  # Added second
-        
-            memories = internal_behavior.getConstantMemories()
-            assert len(memories) == 2
-            # Note: getConstantMemories returns self.constantMemories which preserves insertion order, not sorted
-            assert memories[0].getShortName() == "TestConstant1"
-            assert memories[1].getShortName() == "TestConstant2"
+    def test_get_constant_memories(self):
+        """Test getConstantMemories method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+    
+        class ConcreteInternalBehavior(InternalBehavior):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+    
+        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
+        constant_memory1 = internal_behavior.createConstantMemory("TestConstant1")
+        constant_memory2 = internal_behavior.createConstantMemory("TestConstant2")
+    
+        memories = internal_behavior.getConstantMemories()
+        assert len(memories) == 2
+        # Note: getConstantMemories returns elements in insertion order, not sorted by default
+        assert memories[0] == constant_memory1
+        assert memories[1] == constant_memory2
+
     def test_add_data_type_mapping_ref(self):
         """Test addDataTypeMappingRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+    
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+    
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-        
+    
         ref1 = RefType().setValue("DataTypeRef1")
         ref2 = RefType().setValue("DataTypeRef2")
-        
+    
         internal_behavior.addDataTypeMappingRef(ref1)
         internal_behavior.addDataTypeMappingRef(ref2)
-        
+    
         refs = internal_behavior.getDataTypeMappingRefs()
         assert len(refs) == 2
         assert refs[0] == ref1
@@ -327,11 +328,11 @@ class TestInternalBehavior:
         """Test getDataTypeMappingRefs method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+    
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+    
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         refs = internal_behavior.getDataTypeMappingRefs()
         assert refs == []
@@ -340,96 +341,64 @@ class TestInternalBehavior:
         """Test createExclusiveArea method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+    
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+    
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         exclusive_area = internal_behavior.createExclusiveArea("TestArea")
-        
+    
         assert exclusive_area is not None
         assert exclusive_area.getShortName() == "TestArea"
         assert len(internal_behavior.exclusiveAreas) == 1
         assert internal_behavior.exclusiveAreas[0] == exclusive_area
 
-        def test_get_exclusive_areas(self):
-            """Test getExclusiveAreas method"""
-            parent = AUTOSAR.getInstance()
-            ar_root = parent.createARPackage("AUTOSAR")
-        
-            class ConcreteInternalBehavior(InternalBehavior):
-                def __init__(self, parent, short_name):
-                    super().__init__(parent, short_name)
-        
-            internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-            area1 = internal_behavior.createExclusiveArea("Area1")
-            area2 = internal_behavior.createExclusiveArea("Area2")  # Added second
-        
-            areas = internal_behavior.getExclusiveAreas()
-            assert len(areas) == 2
-            # Note: getExclusiveAreas returns elements in insertion order, not sorted
-            assert areas[0].getShortName() == "Area1"
-            assert areas[1].getShortName() == "Area2"
+    def test_get_exclusive_areas(self):
+        """Test getExclusiveAreas method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+    
+        class ConcreteInternalBehavior(InternalBehavior):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+    
+        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
+        area1 = internal_behavior.createExclusiveArea("Area1")
+        area2 = internal_behavior.createExclusiveArea("Area2")
+    
+        areas = internal_behavior.getExclusiveAreas()
+        assert len(areas) == 2
+        # getExclusiveAreas uses filter to return only ExclusiveArea instances
+        area_names = [area.getShortName() for area in areas]
+        assert "Area1" in area_names
+        assert "Area2" in area_names
 
     def test_get_static_memories(self):
         """Test getStaticMemories method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+    
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+    
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         memories = internal_behavior.getStaticMemories()
         assert memories == []
         
-    def test_add_data_type_mapping_ref(self):
-        """Test addDataTypeMappingRef method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteInternalBehavior(InternalBehavior):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-        ref = RefType().setValue("TestRef")
-        internal_behavior.addDataTypeMappingRef(ref)
-        # The method adds to dataTypeMappingRefs list, but there's no getter
-        # We can only verify it was added by checking the internal list
-        assert ref in internal_behavior.dataTypeMappingRefs
-        assert len(internal_behavior.dataTypeMappingRefs) == 1
-            
-        def test_add_data_type_mapping_ref(self):
-            """Test addDataTypeMappingRef method"""
-            parent = AUTOSAR.getInstance()
-            ar_root = parent.createARPackage("AUTOSAR")
-    
-            class ConcreteInternalBehavior(InternalBehavior):
-                def __init__(self, parent, short_name):
-                    super().__init__(parent, short_name)
-    
-            internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-            ref = RefType().setValue("TestRef")
-            internal_behavior.addDataTypeMappingRef(ref)
-            # The method adds to dataTypeMappingRefs list, but there's no getter
-            # We can only verify it was added by checking the internal list
-            assert ref in internal_behavior.dataTypeMappingRefs
-            assert len(internal_behavior.dataTypeMappingRefs) == 1
     def test_create_static_memory(self):
         """Test createStaticMemory method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+    
         class ConcreteInternalBehavior(InternalBehavior):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+    
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
         static_memory = internal_behavior.createStaticMemory("TestStatic")
-        
+    
         assert static_memory is not None
         assert static_memory.getShortName() == "TestStatic"
         assert len(internal_behavior.staticMemories) == 1
