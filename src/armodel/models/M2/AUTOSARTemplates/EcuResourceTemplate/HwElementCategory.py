@@ -1,57 +1,162 @@
-from typing import List
+"""
+This module contains classes for representing AUTOSAR hardware element categories
+in the EcuResourceTemplate module.
+"""
+
+from typing import List, Optional
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
 
 
 class HwType(ARElement):
-    def __init__(self, parent, short_name):
+    """
+    Represents a hardware type in AUTOSAR hardware descriptions.
+    This class defines the basic structure for hardware types.
+    """
+    
+    def __init__(self, parent, short_name: str):
+        """
+        Initializes the HwType with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this hardware type
+            short_name: The unique short name of this hardware type
+        """
         super().__init__(parent, short_name)
 
 
 class HwAttributeDef(Identifiable):
-    def __init__(self, parent, short_name):
+    """
+    Represents a hardware attribute definition in AUTOSAR hardware descriptions.
+    This class defines the attributes that can be assigned to hardware elements.
+    """
+    
+    def __init__(self, parent, short_name: str):
+        """
+        Initializes the HwAttributeDef with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this hardware attribute definition
+            short_name: The unique short name of this hardware attribute definition
+        """
         super().__init__(parent, short_name)
 
-        self.hwAttributeLiterals = []                       # type: List[HwAttributeLiteralDef]
-        self.isRequired = None                              # type: Boolean
-        self.unitRef = None                                 # type: RefType
+        self.hwAttributeLiterals: List[HwAttributeLiteralDef] = []
+        self.isRequired: Optional[Boolean] = None
+        self.unitRef: Optional[RefType] = None
 
-    def getHwAttributeLiterals(self):
+    def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
+        """
+        Gets the list of hardware attribute literals for this definition.
+        
+        Returns:
+            List of HwAttributeLiteralDef instances
+        """
         return self.hwAttributeLiterals
 
-    def setHwAttributeLiterals(self, value):
+    def setHwAttributeLiterals(self, value: List[HwAttributeLiteralDef]):
+        """
+        Sets the list of hardware attribute literals for this definition.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The list of hardware attribute literals to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.hwAttributeLiterals = value
         return self
 
-    def getIsRequired(self):
+    def getIsRequired(self) -> Optional[Boolean]:
+        """
+        Gets the required flag for this attribute definition.
+        
+        Returns:
+            Boolean indicating if this attribute is required, or None if not set
+        """
         return self.isRequired
 
-    def setIsRequired(self, value):
+    def setIsRequired(self, value: Boolean):
+        """
+        Sets the required flag for this attribute definition.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The required flag to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.isRequired = value
         return self
 
-    def getUnitRef(self):
+    def getUnitRef(self) -> Optional[RefType]:
+        """
+        Gets the unit reference for this attribute definition.
+        
+        Returns:
+            RefType representing the unit reference, or None if not set
+        """
         return self.unitRef
 
-    def setUnitRef(self, value):
+    def setUnitRef(self, value: RefType):
+        """
+        Sets the unit reference for this attribute definition.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The unit reference to set
+            
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.unitRef = value
         return self
 
 
 class HwCategory(ARElement):
-    def __init__(self, parent, short_name):
+    """
+    Represents a hardware category in AUTOSAR hardware descriptions.
+    This class defines categories of hardware with associated attribute definitions.
+    """
+    
+    def __init__(self, parent, short_name: str):
+        """
+        Initializes the HwCategory with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this hardware category
+            short_name: The unique short name of this hardware category
+        """
         super().__init__(parent, short_name)
 
-        self.hwAttributeDefs = []                           # type: List[HwAttributeDef]
+        self.hwAttributeDefs: List['HwAttributeDef'] = []
 
-    def getHwAttributeDefs(self):
+    def getHwAttributeDefs(self) -> List['HwAttributeDef']:
+        """
+        Gets the list of hardware attribute definitions for this category.
+        
+        Returns:
+            List of HwAttributeDef instances
+        """
         return self.hwAttributeDefs
 
-    def createHwAttributeDef(self, short_name: str) -> HwAttributeDef:
+    def createHwAttributeDef(self, short_name: str) -> 'HwAttributeDef':
+        """
+        Creates and adds a new hardware attribute definition to this category.
+        
+        Args:
+            short_name: The short name for the new hardware attribute definition
+            
+        Returns:
+            The created HwAttributeDef instance
+        """
         if (not self.IsElementExists(short_name)):
             pin_group = HwAttributeDef(self, short_name)
             self.addElement(pin_group)

@@ -1,43 +1,93 @@
+"""
+This module contains primitive type classes for AUTOSAR models
+in the GenericStructure module.
+"""
+
 from abc import ABCMeta
 import re
-from typing import List
+from typing import List, Optional, Union, Any
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class ARType(metaclass=ABCMeta):
+    """
+    Abstract base class for all AUTOSAR types.
+    This class provides the basic structure for all AUTOSAR type definitions.
+    """
+    
     def __init__(self) -> None:
-        self.timestamp = None           # type: str
-        self.uuid = None                # type: str
-        self._value = None
+        self.timestamp: Optional[str] = None
+        self.uuid: Optional[str] = None
+        self._value: Optional[Any] = None
 
     @property
-    def value(self):
+    def value(self) -> Optional[Any]:
+        """Optional[Any]: The current value of this AUTOSAR type."""
         return self._value
 
     @value.setter
-    def value(self, val):
+    def value(self, val: Optional[Any]):
         self._value = val
 
-    def getValue(self):
+    def getValue(self) -> Optional[Any]:
+        """
+        Gets the current value of this AUTOSAR type.
+        
+        Returns:
+            The current value, or None if not set
+        """
         return self.value
 
-    def setValue(self, val):
+    def setValue(self, val: Optional[Any]):
+        """
+        Sets the value of this AUTOSAR type.
+        Only sets the value if it is not None.
+        
+        Args:
+            val: The value to set
+            
+        Returns:
+            self for method chaining
+        """
         if val is not None:
             self.value = val
         return self
 
     def getText(self) -> str:
+        """
+        Gets the text representation of this type.
+        
+        Returns:
+            String representation of this type
+        """
         return str(self)
 
 
 class ARNumerical(ARType):
+    """
+    Base class for numerical AUTOSAR types.
+    This class provides functionality for numerical values in AUTOSAR models.
+    """
+    
     def __init__(self) -> None:
         super().__init__()
 
-        self.shortLabel: str = None
-        self._text: str = None
+        self.shortLabel: Optional[str] = None
+        self._text: Optional[str] = None
 
-    def _convertStringToNumberValue(self, value: str) -> int:
+    def _convertStringToNumberValue(self, value: str) -> Union[int, float]:
+        """
+        Converts a string value to a numerical value.
+        
+        Args:
+            value: The string value to convert
+            
+        Returns:
+            The converted numerical value
+            
+        Raises:
+            ValueError: If the value cannot be converted to a numerical type
+        """
         try:
             if value == 'true':
                 return 1
@@ -58,11 +108,12 @@ class ARNumerical(ARType):
             raise ValueError("Invalid Numerical Type <%s>" % value)
 
     @property
-    def value(self) -> int:
+    def value(self) -> Optional[Union[int, float]]:
+        """Optional[Union[int, float]]: The numerical value."""
         return self._value
 
     @value.setter
-    def value(self, val: any):
+    def value(self, val: Optional[Union[int, float, str]]):
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
@@ -77,30 +128,58 @@ class ARNumerical(ARType):
         else:
             return str(self._value)
         
-    def getValue(self):
+    def getValue(self) -> Optional[Union[int, float]]:
+        """
+        Gets the numerical value of this type.
+        
+        Returns:
+            The numerical value, or None if not set
+        """
         return self.value
 
-    def setShortLabel(self, val: str):
+    def setShortLabel(self, val: Optional[str]):
+        """
+        Sets the short label for this numerical type.
+        Only sets the value if it is not None.
+        
+        Args:
+            val: The short label to set
+            
+        Returns:
+            self for method chaining
+        """
         if val is not None:
             self.shortLabel = val
         return self
     
-    def getShortLabel(self) -> str:
+    def getShortLabel(self) -> Optional[str]:
+        """
+        Gets the short label of this numerical type.
+        
+        Returns:
+            The short label, or None if not set
+        """
         return self.shortLabel
     
 
 class ARFloat(ARNumerical):
+    """
+    Base class for floating-point AUTOSAR types.
+    This class provides functionality for floating-point values in AUTOSAR models.
+    """
+    
     def __init__(self) -> None:
         super().__init__()
 
-        self._text = None                   # type: str
+        self._text: Optional[str] = None
 
     @property
-    def value(self) -> float:
+    def value(self) -> Optional[float]:
+        """Optional[float]: The floating-point value."""
         return self._value
 
     @value.setter
-    def value(self, val: any):
+    def value(self, val: Optional[Union[float, int, str]]):
         if isinstance(val, float):
             self._value = val
         elif isinstance(val, int):
@@ -143,17 +222,23 @@ class TimeValue(ARFloat):
 
 
 class ARLiteral(ARType):
+    """
+    Base class for literal AUTOSAR types.
+    This class provides functionality for literal values in AUTOSAR models.
+    """
+    
     def __init__(self) -> None:
         super().__init__()
 
     @property
     def value(self) -> str:
+        """str: The literal value."""
         if self._value is None:
             return ""
         return self._value
 
     @value.setter
-    def value(self, val: any):
+    def value(self, val: Any):
         if isinstance(val, str):
             self._value = val
         else:
@@ -163,48 +248,98 @@ class ARLiteral(ARType):
         return self.value
 
     def upper(self) -> str:
+        """
+        Gets the uppercase representation of this literal.
+        
+        Returns:
+            Uppercase string representation
+        """
         return self.value.upper()
 
 
 class AREnum(ARLiteral):
+    """
+    Base class for enumeration AUTOSAR types.
+    This class provides functionality for enumeration values in AUTOSAR models.
+    """
+    
     def __init__(self, enum_values: List[str]):
         super().__init__()
         
-        self.enumValues = enum_values                # List[str]
+        self.enumValues: List[str] = enum_values
 
-    def getEnumValues(self):
+    def getEnumValues(self) -> List[str]:
+        """
+        Gets the list of possible enum values.
+        
+        Returns:
+            List of possible enum values
+        """
         return self.enumValues
 
     def setEnumValues(self, values: List[str]):
+        """
+        Sets the list of possible enum values.
+        
+        Args:
+            values: The list of possible enum values to set
+            
+        Returns:
+            self for method chaining
+        """
         self.enumValues = values
         return self
 
-    def validateEnumValue(self, value: str):
+    def validateEnumValue(self, value: str) -> bool:
+        """
+        Validates if the provided value is one of the allowed enum values.
+        
+        Args:
+            value: The value to validate
+            
+        Returns:
+            True if the value is valid, False otherwise
+        """
         if value in self.enumValues:
             return True
         return False
 
 
 class String(ARLiteral):
+    """
+    Represents a string AUTOSAR type.
+    This class provides functionality for string values in AUTOSAR models.
+    """
+    
     def __init__(self):
         super().__init__()
 
 
 class ReferrableSubtypesEnum(ARLiteral):
+    """
+    Represents an enum for referrable subtypes in AUTOSAR models.
+    """
+    
     def __init__(self):
         super().__init__()
 
 
 class ARPositiveInteger(ARNumerical):
+    """
+    Base class for positive integer AUTOSAR types.
+    This class provides functionality for positive integer values in AUTOSAR models.
+    """
+    
     def __init__(self) -> None:
         super().__init__()
 
     @property
-    def value(self) -> int:
+    def value(self) -> Optional[int]:
+        """Optional[int]: The positive integer value."""
         return self._value
 
     @value.setter
-    def value(self, val: any):
+    def value(self, val: Optional[Union[int, str]]):
         if isinstance(val, int):
             if val < 0:
                 raise ValueError("Invalid Positive Integer <%s>" % val)
@@ -217,17 +352,40 @@ class ARPositiveInteger(ARNumerical):
 
 
 class ARBoolean(ARType):
+    """
+    Base class for boolean AUTOSAR types.
+    This class provides functionality for boolean values in AUTOSAR models.
+    """
+    
     def __init__(self) -> None:
         super().__init__()
 
-        self._text = None
+        self._text: Optional[str] = None
 
     def _convertNumberToBoolean(self, value: int) -> bool:
+        """
+        Converts a numerical value to a boolean value.
+        
+        Args:
+            value: The numerical value to convert
+            
+        Returns:
+            Boolean representation of the value
+        """
         if value == 0:
             return False
         return True
 
     def _convertStringToBoolean(self, value: str) -> bool:
+        """
+        Converts a string value to a boolean value.
+        
+        Args:
+            value: The string value to convert
+            
+        Returns:
+            Boolean representation of the value
+        """
         value = value.lower()
         if value == "true" or value == "1":
             return True
@@ -237,11 +395,12 @@ class ARBoolean(ARType):
             return self._convertNumberToBoolean(int(value))
 
     @property
-    def value(self) -> int:
+    def value(self) -> Optional[bool]:
+        """Optional[bool]: The boolean value."""
         return self._value
 
     @value.setter
-    def value(self, val: any):
+    def value(self, val: Optional[Union[bool, int, str]]):
         if isinstance(val, bool):
             self._value = val
         elif isinstance(val, int):
@@ -381,20 +540,50 @@ class CIdentifier(ARLiteral):
     def __init__(self):
         super().__init__()
 
-        self.blueprintValue = None
-        self.namePattern = None
+        self.blueprintValue: Optional[str] = None
+        self.namePattern: Optional[str] = None
 
-    def getBlueprintValue(self):
+    def getBlueprintValue(self) -> Optional[str]:
+        """
+        Gets the blueprint value of this C identifier.
+        
+        Returns:
+            The blueprint value, or None if not set
+        """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value):
+    def setBlueprintValue(self, value: str):
+        """
+        Sets the blueprint value of this C identifier.
+        
+        Args:
+            value: The blueprint value to set
+            
+        Returns:
+            self for method chaining
+        """
         self.blueprintValue = value
         return self
 
-    def getNamePattern(self):
+    def getNamePattern(self) -> Optional[str]:
+        """
+        Gets the name pattern of this C identifier.
+        
+        Returns:
+            The name pattern, or None if not set
+        """
         return self.namePattern
 
-    def setNamePattern(self, value):
+    def setNamePattern(self, value: str):
+        """
+        Sets the name pattern of this C identifier.
+        
+        Args:
+            value: The name pattern to set
+            
+        Returns:
+            self for method chaining
+        """
         self.namePattern = value
         return self
 
@@ -414,55 +603,151 @@ class RevisionLabelString(ARLiteral):
 
     
 class Limit(ARObject):
+    """
+    Represents a limit in AUTOSAR models.
+    This class defines limits with interval type and value.
+    """
+    
     def __init__(self):
         super().__init__()
 
-        self.intervalType = None                # type: str
-        self.value = None                       # type: str
+        self.intervalType: Optional[str] = None
+        self.value: Optional[str] = None
 
-    def getIntervalType(self):
+    def getIntervalType(self) -> Optional[str]:
+        """
+        Gets the interval type of this limit.
+        
+        Returns:
+            The interval type, or None if not set
+        """
         return self.intervalType
 
-    def setIntervalType(self, value):
+    def setIntervalType(self, value: str):
+        """
+        Sets the interval type of this limit.
+        
+        Args:
+            value: The interval type to set
+            
+        Returns:
+            self for method chaining
+        """
         self.intervalType = value
         return self
 
-    def getValue(self):
+    def getValue(self) -> Optional[str]:
+        """
+        Gets the value of this limit.
+        
+        Returns:
+            The limit value, or None if not set
+        """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: str):
+        """
+        Sets the value of this limit.
+        
+        Args:
+            value: The limit value to set
+            
+        Returns:
+            self for method chaining
+        """
         self.value = value
         return self
 
 
 class RefType(ARObject):
+    """
+    Represents a reference type in AUTOSAR models.
+    This class defines references with base, destination and value properties.
+    """
+    
     def __init__(self):
-        self.base = None                        # type: str
-        self.dest = None                        # type: str
-        self.value = None                       # type: str
+        super().__init__()
 
-    def getBase(self):
+        self.base: Optional[str] = None
+        self.dest: Optional[str] = None
+        self.value: Optional[str] = None
+
+    def getBase(self) -> Optional[str]:
+        """
+        Gets the base of this reference type.
+        
+        Returns:
+            The base string, or None if not set
+        """
         return self.base
 
-    def setBase(self, value):
+    def setBase(self, value: str):
+        """
+        Sets the base of this reference type.
+        
+        Args:
+            value: The base to set
+            
+        Returns:
+            self for method chaining
+        """
         self.base = value
         return self
 
-    def getDest(self):
+    def getDest(self) -> Optional[str]:
+        """
+        Gets the destination of this reference type.
+        
+        Returns:
+            The destination string, or None if not set
+        """
         return self.dest
 
-    def setDest(self, value):
+    def setDest(self, value: str):
+        """
+        Sets the destination of this reference type.
+        
+        Args:
+            value: The destination to set
+            
+        Returns:
+            self for method chaining
+        """
         self.dest = value
         return self
 
-    def getValue(self):
+    def getValue(self) -> Optional[str]:
+        """
+        Gets the value of this reference type.
+        
+        Returns:
+            The reference value, or None if not set
+        """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: str):
+        """
+        Sets the value of this reference type.
+        
+        Args:
+            value: The reference value to set
+            
+        Returns:
+            self for method chaining
+        """
         self.value = value
         return self
 
-    def getShortValue(self):
+    def getShortValue(self) -> str:
+        """
+        Gets the short value of this reference type.
+        
+        Returns:
+            The short value as a string
+            
+        Raises:
+            ValueError: If the value is None
+        """
         if self.value is None:
             raise ValueError("Invalid value of RefType")
         m = re.match(r'\/[\w\/]+\/(\w+)', self.value)
@@ -472,6 +757,11 @@ class RefType(ARObject):
 
 
 class TRefType(RefType):
+    """
+    Represents a typed reference type in AUTOSAR models.
+    This class extends RefType with additional type-specific functionality.
+    """
+    
     def __init__(self):
         super().__init__()
 
@@ -490,6 +780,10 @@ class DiagRequirementIdString(ARLiteral):
 
 
 class ArgumentDirectionEnum(AREnum):
+    """
+    Enumeration for argument direction in AUTOSAR models.
+    Defines the direction of arguments in function interfaces.
+    """
     IN = "in"
     INOUT = "inout"
     OUT = "out"
@@ -560,6 +854,10 @@ class CategoryString(ARLiteral):
 
 
 class ByteOrderEnum(AREnum):
+    """
+    Enumeration for byte order in AUTOSAR models.
+    """
+    
     def __init__(self):
         super().__init__([])
 
@@ -585,10 +883,20 @@ class DateTime(ARLiteral):
 
 
 class VerbatimString(ARLiteral):
+    """
+    Represents a verbatim string in AUTOSAR models.
+    This class is used for strings that should be preserved exactly as written.
+    """
+    
     def __init__(self):
         super().__init__()
 
 
 class RegularExpression(ARLiteral):
+    """
+    Represents a regular expression in AUTOSAR models.
+    This class is used for storing and handling regular expression patterns.
+    """
+    
     def __init__(self):
         super().__init__()
