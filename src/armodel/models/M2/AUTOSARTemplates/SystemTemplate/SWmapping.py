@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for software component mapping
+# It defines mappings between software components and their implementations or partitions
+
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -8,8 +11,8 @@ class SwcToImplMapping(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.componentIRefs = []                                    # type: List[ComponentInSystemInstanceRef]
-        self.componentImplementationRef = None                      # type: RefType
+        self.componentIRefs: List[ComponentInSystemInstanceRef] = []
+        self.componentImplementationRef: RefType = None
 
     def getComponentIRefs(self):
         return self.componentIRefs
@@ -32,8 +35,8 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.applicationPartitionRefs = []                      # type: List[RefType]
-        self.ecuPartitionRef = None                             # type: RefType
+        self.applicationPartitionRefs: List[RefType] = []
+        self.ecuPartitionRef: RefType = None
 
     def getApplicationPartitionRefs(self):
         return self.applicationPartitionRefs

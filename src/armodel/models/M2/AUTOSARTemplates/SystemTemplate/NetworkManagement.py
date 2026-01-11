@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for network management
+# It defines CAN, FlexRay, J1939, and UDP network management configurations
+
 from abc import ABCMeta
 from typing import List
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
@@ -71,14 +74,14 @@ class NmNode(Identifiable, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.controllerRef = None
-        self.nmCoordCluster = None
-        self.nmCoordinatorRole = None
-        self.nmIfEcuRef = None
-        self.nmNodeId = None
-        self.nmPassiveModeEnabled = None
-        self.rxNmPduRefs = []
-        self.TxNmPduRefs = []
+        self.controllerRef: RefType = None
+        self.nmCoordCluster: ARNumerical = None
+        self.nmCoordinatorRole: ARLiteral = None
+        self.nmIfEcuRef: RefType = None
+        self.nmNodeId: ARNumerical = None
+        self.nmPassiveModeEnabled: ARBoolean = None
+        self.rxNmPduRefs: List[RefType] = []
+        self.TxNmPduRefs: List[RefType] = []
 
     def getControllerRef(self) -> RefType:
         return self.controllerRef
@@ -145,7 +148,7 @@ class CanNmNode(NmNode):
         self.nmCarWakeUpRxEnabled = None
         self.nmMsgCycleOffset = None
         self.nmMsgReducedTime = None
-        self.nmRangeConfig = None
+        self.nmRangeConfig: RxIdentifierRange = None
 
     def getAllNmMessagesKeepAwake(self):
         return self.allNmMessagesKeepAwake
@@ -200,8 +203,8 @@ class UdpNmNode(NmNode):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.allNmMessagesKeepAwake = None                                  # type: Boolean
-        self.nmMsgCycleOffset = None                                        # type: TimeValue
+        self.allNmMessagesKeepAwake: Boolean = None
+        self.nmMsgCycleOffset: TimeValue = None
 
     def getAllNmMessagesKeepAwake(self):
         return self.allNmMessagesKeepAwake
@@ -239,7 +242,7 @@ class UdpNmEcu(BusspecificNmEcu):
     def __init__(self):
         super().__init__()     
 
-        self.nmSynchronizationPointEnabled = None                       # type: Boolean         ## Only AR 4.3.1
+        self.nmSynchronizationPointEnabled: Boolean = None
 
     def getNmSynchronizationPointEnabled(self):
         return self.nmSynchronizationPointEnabled
@@ -254,19 +257,19 @@ class NmEcu(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.busDependentNmEcus = []                                    # type: List[BusspecificNmEcu]
-        self.ecuInstanceRef = None                                      # type: RefType
-        self.nmBusSynchronizationEnabled = None                         # type: Boolean
-        self.nmComControlEnabled = None                                 # type: Boolean
-        self.nmCoordinator = None                                       # type: NmCoordinator
-        self.nmCycletimeMainFunction = None                             # type: TimeValue
-        self.nmNodeDetectionEnabled = None                              # type: Boolean
-        self.nmNodeIdEnabled = None                                     # type: Boolean
-        self.nmPduRxIndicationEnabled = None                            # type: Boolean
-        self.nmRemoteSleepIndEnabled = None                             # type: Boolean
-        self.nmRepeatMsgIndEnabled = None                               # type: Boolean
-        self.nmStateChangeIndEnabled = None                             # type: Boolean
-        self.nmUserDataEnabled = None                                   # type: Boolean
+        self.busDependentNmEcus: List[BusspecificNmEcu] = []
+        self.ecuInstanceRef: RefType = None
+        self.nmBusSynchronizationEnabled: Boolean = None
+        self.nmComControlEnabled: Boolean = None
+        self.nmCoordinator = None
+        self.nmCycletimeMainFunction: TimeValue = None
+        self.nmNodeDetectionEnabled: Boolean = None
+        self.nmNodeIdEnabled: Boolean = None
+        self.nmPduRxIndicationEnabled: Boolean = None
+        self.nmRemoteSleepIndEnabled: Boolean = None
+        self.nmRepeatMsgIndEnabled: Boolean = None
+        self.nmStateChangeIndEnabled: Boolean = None
+        self.nmUserDataEnabled: Boolean = None
 
     def getBusDependentNmEcus(self):
         return self.busDependentNmEcus
@@ -376,8 +379,8 @@ class NmConfig(FibexElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nmClusterCouplings = []                # type: List[NmClusterCoupling]
-        self.nmIfEcus = []                          # type: List[NmEcu]
+        self.nmClusterCouplings: List[NmClusterCoupling] = []
+        self.nmIfEcus: List[NmEcu] = []
 
     def createCanNmCluster(self, short_name: str):          # type: (str) -> CanNmCluster
         if (short_name not in self.elements):
@@ -421,10 +424,10 @@ class NmCluster(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef = None
+        self.communicationClusterRef: RefType = None
         self.nmChannelId = None
         self.nmChannelSleepMaster = None
-        self.nmNodes = []                       # type: List[NmNode]
+        self.nmNodes: List[NmNode] = []                       # type: List[NmNode]
         self.nmNodeDetectionEnabled = None
         self.nmNodeIdEnabled = None
         self.nmPncParticipation = None
@@ -655,8 +658,8 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     def __init__(self):
         super().__init__()
 
-        self.coupledClusterRefs = []                        # type: List[RefType]
-        self.nmImmediateRestartEnabled = None               # type: Boolean
+        self.coupledClusterRefs: List[RefType] = []
+        self.nmImmediateRestartEnabled: Boolean = None
 
     def getCoupledClusterRefs(self):
         return self.coupledClusterRefs
@@ -679,18 +682,18 @@ class UdpNmCluster(NmCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nmCbvPosition = None                           # type: Integer
-        self.nmChannelActive = None                         # type: Boolean
-        self.nmImmediateNmCycleTime = None                  # type: TimeValue
-        self.nmImmediateNmTransmissions = None              # type: PositiveInteger
-        self.nmMessageTimeoutTime = None                    # type: TimeValue
-        self.nmMsgCycleTime = None                          # type: TimeValue
-        self.nmNetworkTimeout = None                        # type: TimeValue
-        self.nmNidPosition = None                           # type: Integer
-        self.nmRemoteSleepIndicationTime = None             # type: TimeValue
-        self.nmRepeatMessageTime = None                     # type: TimeValue
-        self.nmWaitBusSleepTime = None                      # type: TimeValue
-        self.vlanRef = None                                 # type: RefType
+        self.nmCbvPosition: Integer = None
+        self.nmChannelActive: Boolean = None
+        self.nmImmediateNmCycleTime: TimeValue = None
+        self.nmImmediateNmTransmissions: PositiveInteger = None
+        self.nmMessageTimeoutTime: TimeValue = None
+        self.nmMsgCycleTime: TimeValue = None
+        self.nmNetworkTimeout: TimeValue = None
+        self.nmNidPosition: Integer = None
+        self.nmRemoteSleepIndicationTime: TimeValue = None
+        self.nmRepeatMessageTime: TimeValue = None
+        self.nmWaitBusSleepTime: TimeValue = None
+        self.vlanRef: RefType = None
 
     def getNmCbvPosition(self):
         return self.nmCbvPosition

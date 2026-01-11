@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for CAN topology
+# It defines CAN controllers, connectors, and their configuration attributes
+
 from abc import ABCMeta
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
@@ -10,13 +13,13 @@ class CanControllerFdConfiguration(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.paddingValue = None                                        # type: PositiveInteger
-        self.propSeg = None                                             # type: PositiveInteger
-        self.sspOffset = None                                           # type: PositiveInteger
-        self.syncJumpWidth = None                                       # type: PositiveInteger
-        self.timeSeg1 = None                                            # type: PositiveInteger
-        self.timeSeg2 = None                                            # type: PositiveInteger
-        self.txBitRateSwitch = None                                     # type: Boolean
+        self.paddingValue: PositiveInteger = None
+        self.propSeg: PositiveInteger = None
+        self.sspOffset: PositiveInteger = None
+        self.syncJumpWidth: PositiveInteger = None
+        self.timeSeg1: PositiveInteger = None
+        self.timeSeg2: PositiveInteger = None
+        self.txBitRateSwitch: Boolean = None
 
     def getPaddingValue(self):
         return self.paddingValue
@@ -79,16 +82,16 @@ class CanControllerFdConfigurationRequirements(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit = None                         # type: Integer
-        self.maxSamplePoint = None                                      # type: Float
-        self.maxSyncJumpWidth = None                                    # type: Float
-        self.maxTrcvDelayCompensationOffset = None                      # type: TimeValue
-        self.minNumberOfTimeQuantaPerBit = None                         # type: Integer
-        self.minSamplePoint = None                                      # type: Float
-        self.minSyncJumpWidth = None                                    # type: Float
-        self.minTrcvDelayCompensationOffset = None                      # type: TimeValue
-        self.paddingValue = None                                        # type: PositiveInteger
-        self.txBitRateSwitch = None                                     # type: Boolean
+        self.maxNumberOfTimeQuantaPerBit: Integer = None
+        self.maxSamplePoint: Float = None
+        self.maxSyncJumpWidth: Float = None
+        self.maxTrcvDelayCompensationOffset: TimeValue = None
+        self.minNumberOfTimeQuantaPerBit: Integer = None
+        self.minSamplePoint: Float = None
+        self.minSyncJumpWidth: Float = None
+        self.minTrcvDelayCompensationOffset: TimeValue = None
+        self.paddingValue: PositiveInteger = None
+        self.txBitRateSwitch: Boolean = None
 
     def getMaxNumberOfTimeQuantaPerBit(self):
         return self.maxNumberOfTimeQuantaPerBit
@@ -175,10 +178,10 @@ class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
     def __init__(self):
         super().__init__()
 
-        self.canControllerFdAttributes = None                           # type: CanControllerFdConfiguration
-        self.canControllerFdRequirements = None                         # type: CanControllerFdConfigurationRequirements
-        self.canControllerXlAttributes = None                           # type: CanControllerXlConfiguration
-        self.canControllerXlRequirements = None                         # type: CanControllerXlConfigurationRequirements
+        self.canControllerFdAttributes: CanControllerFdConfiguration = None
+        self.canControllerFdRequirements: CanControllerFdConfigurationRequirements = None
+        self.canControllerXlAttributes: CanControllerXlConfiguration = None
+        self.canControllerXlRequirements: CanControllerXlConfigurationRequirements = None
 
     def getCanControllerFdAttributes(self):
         return self.canControllerFdAttributes
@@ -213,12 +216,12 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
     def __init__(self):
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit = None                         # type: Integer
-        self.maxSamplePoint = None                                      # type: Float
-        self.maxSyncJumpWidth = None                                    # type: Float
-        self.minNumberOfTimeQuantaPerBit = None                         # type: Integer
-        self.minSamplePoint = None                                      # type: Float
-        self.minSyncJumpWidth = None                                    # type: Float
+        self.maxNumberOfTimeQuantaPerBit: Integer = None
+        self.maxSamplePoint: Float = None
+        self.maxSyncJumpWidth: Float = None
+        self.minNumberOfTimeQuantaPerBit: Integer = None
+        self.minSamplePoint: Float = None
+        self.minSyncJumpWidth: Float = None
 
     def getMaxNumberOfTimeQuantaPerBit(self):
         return self.maxNumberOfTimeQuantaPerBit
@@ -270,7 +273,7 @@ class AbstractCanCommunicationController(CommunicationController, metaclass=ABCM
         
         super().__init__(parent, short_name)
 
-        self.canControllerAttributes = None                             # type: AbstractCanCommunicationControllerAttributes
+        self.canControllerAttributes: AbstractCanCommunicationControllerAttributes = None
 
     def getCanControllerAttributes(self):
         return self.canControllerAttributes
@@ -297,11 +300,11 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.pncWakeupCanId = None                                  # type: PositiveInteger
-        self.pncWakeupCanIdExtended = None                          # type: Boolean
-        self.pncWakeupCanIdMask = None                              # type: PositiveInteger
-        self.pncWakeupDataMask = None                               # type: PositiveUnlimitedInteger
-        self.pncWakeupDlc = None                                    # type: PositiveInteger
+        self.pncWakeupCanId: PositiveInteger = None
+        self.pncWakeupCanIdExtended: Boolean = None
+        self.pncWakeupCanIdMask: PositiveInteger = None
+        self.pncWakeupDataMask: PositiveUnlimitedInteger = None
+        self.pncWakeupDlc: PositiveInteger = None
 
     def getPncWakeupCanId(self):
         return self.pncWakeupCanId

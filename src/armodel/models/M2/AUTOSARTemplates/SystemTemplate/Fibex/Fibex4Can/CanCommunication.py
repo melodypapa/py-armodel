@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for CAN communication
+# It defines CAN frames, frame triggering, and related communication elements for CAN networks
+
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
@@ -6,8 +9,8 @@ class RxIdentifierRange(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.lowerCanId = None      # type: ARPositiveInteger
-        self.upperCanId = None      # type: ARPositiveInteger
+        self.lowerCanId: ARPositiveInteger = None
+        self.upperCanId: ARPositiveInteger = None
 
     def getLowerCanId(self) -> ARPositiveInteger:
         return self.lowerCanId
@@ -39,7 +42,7 @@ class CanFrameTriggering(FrameTriggering):
         self.canXlFrameTriggeringProps = None
         self.identifier = None
         self.j1939requestable = None
-        self.rxIdentifierRange = None                           # type: RxIdentifierRange
+        self.rxIdentifierRange: RxIdentifierRange = None
         self.rxMask = None
         self.txMask = None
 
@@ -119,4 +122,3 @@ class CanFrameTriggering(FrameTriggering):
     def setTxMask(self, value):
         self.txMask = value
         return self
-

@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for instance references
+# It defines variable and component instance references used in system modeling
+
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
@@ -7,11 +10,11 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                                         # type: RefType
-        self.contextComponentRefs = []                              # type: List[RefType]
-        self.contextCompositionRef = None                           # type: RefType
-        self.contextPortRef = None                                  # type: RefType
-        self.targetDataPrototypeRef = None                          # type: RefType
+        self.baseRef: RefType = None
+        self.contextComponentRefs: List[RefType] = []
+        self.contextCompositionRef: RefType = None
+        self.contextPortRef: RefType = None
+        self.targetDataPrototypeRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -53,10 +56,10 @@ class ComponentInSystemInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                         # type: RefType
-        self.contextComponentRefs = []              # type: List[RefType]
-        self.contextCompositionRef = None           # type: RefType
-        self.targetComponentRef = None              # type: RefType
+        self.baseRef: RefType = None
+        self.contextComponentRefs: List[RefType] = []
+        self.contextCompositionRef: RefType = None
+        self.targetComponentRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef

@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for transport protocols
+# It defines CAN, DoIP, and LIN transport protocol configurations and connections
+
 from abc import ABCMeta
 from typing import List
 
@@ -14,7 +17,7 @@ class TpConfig(FibexElement, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef = None                                 # type: RefType
+        self.communicationClusterRef: RefType = None
 
     def getCommunicationClusterRef(self):
         return self.communicationClusterRef
@@ -28,8 +31,8 @@ class CanTpAddress(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.tpAddress = None                                           # type: Integer
-        self.tpAddressExtensionValue = None                             # type: Integer
+        self.tpAddress: Integer = None
+        self.tpAddressExtensionValue: Integer = None
 
     def getTpAddress(self):
         return self.tpAddress
@@ -51,8 +54,8 @@ class CanTpChannel(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.channelId = None                                       # type: PositiveInteger
-        self.channelMode = None                                     # type: CanTpChannelModeType
+        self.channelId: PositiveInteger = None
+        self.channelMode: CanTpChannelModeType = None
 
     def getChannelId(self):
         return self.channelId
@@ -81,7 +84,7 @@ class TpConnection(ARObject, metaclass = ABCMeta):
         
         super().__init__()
 
-        self.ident = None                                               # type: TpConnectionIdent
+        self.ident: TpConnectionIdent = None
 
     def getIdent(self):
         return self.ident
@@ -95,22 +98,22 @@ class CanTpConnection(TpConnection):
     def __init__(self):
         super().__init__()
 
-        self.addressingFormat = None                                    # type: CanTpAddressingFormatType
-        self.cancellation = None                                        # type: Boolean
-        self.canTpChannelRef = None                                     # type: RefType
-        self.dataPduRef = None                                          # type: RefType
-        self.flowControlPduRef = None                                   # type: RefType
-        self.maxBlockSize = None                                        # type: Integer
-        self.multicastRef = None                                        # type: RefType
-        self.paddingActivation = None                                   # type: Boolean
-        self.receiverRefs = []                                          # type: List[RefType]
-        self.taType = None                                              # type: NetworkTargetAddressType
-        self.timeoutBr = None                                           # type: TimeValue
-        self.timeoutBs = None                                           # type: TimeValue
-        self.timeoutCr = None                                           # type: TimeValue
-        self.timeoutCs = None                                           # type: TimeValue
-        self.tpSduRef = None                                            # type: RefType
-        self.transmitterRef = None                                      # type: RefType
+        self.addressingFormat: CanTpAddressingFormatType = None
+        self.cancellation: Boolean = None
+        self.canTpChannelRef: RefType = None
+        self.dataPduRef: RefType = None
+        self.flowControlPduRef: RefType = None
+        self.maxBlockSize: Integer = None
+        self.multicastRef: RefType = None
+        self.paddingActivation: Boolean = None
+        self.receiverRefs: List[RefType] = []
+        self.taType: NetworkTargetAddressType = None
+        self.timeoutBr: TimeValue = None
+        self.timeoutBs: TimeValue = None
+        self.timeoutCr: TimeValue = None
+        self.timeoutCs: TimeValue = None
+        self.tpSduRef: RefType = None
+        self.transmitterRef: RefType = None
 
     def getAddressingFormat(self):
         return self.addressingFormat
@@ -244,8 +247,8 @@ class CanTpEcu(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.cycleTimeMainFunction = None                               # type: TimeValue
-        self.ecuInstanceRef = None                                      # type: RefType
+        self.cycleTimeMainFunction: TimeValue = None
+        self.ecuInstanceRef: RefType = None
 
     def getCycleTimeMainFunction(self):
         return self.cycleTimeMainFunction
@@ -267,12 +270,12 @@ class CanTpNode(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.connectorRef = None                                        # type: RefType
-        self.maxFcWait = None                                           # type: Integer
-        self.stMin = None                                               # type: TimeValue
-        self.timeoutAr = None                                           # type: TimeValue
-        self.timeoutAs = None                                           # type: TimeValue
-        self.tpAddressRef = None                                        # type: RefType
+        self.connectorRef: RefType = None
+        self.maxFcWait: Integer = None
+        self.stMin: TimeValue = None
+        self.timeoutAr: TimeValue = None
+        self.timeoutAs: TimeValue = None
+        self.tpAddressRef: RefType = None
 
     def getConnectorRef(self):
         return self.connectorRef
@@ -328,11 +331,11 @@ class CanTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.tpAddresses = []                                           # type: List[CanTpAddress]
-        self.tpChannels = []                                            # type: List[CanTpChannel]
-        self.tpConnections =[]                                          # type: List[CanTpConnection]
-        self.tpEcus = []                                                # type: List[CanTpEcu]
-        self.tpNodes = []                                               # type: List[CanTpNode]
+        self.tpAddresses: List[CanTpAddress] = []
+        self.tpChannels: List[CanTpChannel] = []
+        self.tpConnections:List[CanTpConnection] = []
+        self.tpEcus: List[CanTpEcu] = []
+        self.tpNodes: List[CanTpNode] = []
 
     def getTpAddresses(self):
         return self.tpAddresses
@@ -384,8 +387,8 @@ class DoIpLogicAddress(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.address = None                                         # type: Integer
-        self.doIpLogicAddressProps = None                           # type: AbstractDoIpLogicAddressProps
+        self.address: Integer = None
+        self.doIpLogicAddressProps: AbstractDoIpLogicAddressProps = None
 
     def getAddress(self):
         return self.address
@@ -407,9 +410,9 @@ class DoIpTpConnection(TpConnection):
     def __init__(self):
         super().__init__()
 
-        self.doIpSourceAddressRef = None                            # type: RefType
-        self.doIpTargetAddressRef = None                            # type: RefType
-        self.tpSduRef = None                                        # type: RefType
+        self.doIpSourceAddressRef: RefType = None
+        self.doIpTargetAddressRef: RefType = None
+        self.tpSduRef: RefType = None
 
     def getDoIpSourceAddressRef(self):
         return self.doIpSourceAddressRef
@@ -440,8 +443,8 @@ class DoIpTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.doIpLogicAddresses = []                                # type: List[DoIpLogicAddress]
-        self.tpConnections = []                                     # type: List[DoIpTpConnection]
+        self.doIpLogicAddresses: List[DoIpLogicAddress] = []
+        self.tpConnections: List[DoIpTpConnection] = []
 
     def getDoIpLogicAddresses(self):
         return self.doIpLogicAddresses
@@ -465,7 +468,7 @@ class TpAddress(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.tpAddress = None                                       # type: Integer
+        self.tpAddress: Integer = None
 
     def getTpAddress(self):
         return self.tpAddress
@@ -479,15 +482,15 @@ class LinTpConnection(TpConnection):
     def __init__(self):
         super().__init__()
 
-        self.dataPduRef = None                                      # type: RefType
-        self.flowControlRef = None                                  # type: RefType
-        self.linTpNSduRef = None                                    # type: RefType
-        self.multicastRef = None                                    # type: RefType
-        self.receiverRefs = []                                      # type: List[RefType]
-        self.timeoutAs = None                                       # type: TimeValue
-        self.timeoutCr = None                                       # type: TimeValue
-        self.timeoutCs = None                                       # type: TimeValue
-        self.transmitterRef = None                                  # type: RefType
+        self.dataPduRef: RefType = None
+        self.flowControlRef: RefType = None
+        self.linTpNSduRef: RefType = None
+        self.multicastRef: RefType = None
+        self.receiverRefs: List[RefType] = []
+        self.timeoutAs: TimeValue = None
+        self.timeoutCr: TimeValue = None
+        self.timeoutCs: TimeValue = None
+        self.transmitterRef: RefType = None
 
     def getDataPduRef(self):
         return self.dataPduRef
@@ -565,12 +568,12 @@ class LinTpNode(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.connectorRef = None                                    # type: RefType
-        self.dropNotRequestedNad = None                             # type: Boolean
-        self.maxNumberOfRespPendingFrames = None                    # type: Integer
-        self.p2Max = None                                           # type: TimeValue
-        self.p2Timing = None                                        # type: TimeValue
-        self.tpAddressRef = None                                    # type: RefType
+        self.connectorRef: RefType = None
+        self.dropNotRequestedNad: Boolean = None
+        self.maxNumberOfRespPendingFrames: Integer = None
+        self.p2Max: TimeValue = None
+        self.p2Timing: TimeValue = None
+        self.tpAddressRef: RefType = None
 
     def getConnectorRef(self):
         return self.connectorRef
@@ -625,9 +628,9 @@ class LinTpConfig(TpConfig):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.tpAddresses = []                                       # type: List[TpAddress]
-        self.tpConnections = []                                     # type: List[LinTpConnection]
-        self.tpNodes = []                                           # type: List[LinTpNode]
+        self.tpAddresses: List[TpAddress] = []
+        self.tpConnections: List[LinTpConnection] = []
+        self.tpNodes: List[LinTpNode] = []
 
     def getTpAddresses(self):
         return self.tpAddresses

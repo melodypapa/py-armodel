@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for Ethernet frames
+# It defines Ethernet frame structures for network communication
+
 from abc import ABCMeta
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame

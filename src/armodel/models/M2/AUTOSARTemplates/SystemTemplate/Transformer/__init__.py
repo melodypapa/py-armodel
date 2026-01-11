@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for data transformation
+# It defines transformation technologies and end-to-end protection profiles for data safety and security
+
 from abc import ABCMeta
 from typing import List
 
@@ -17,9 +20,9 @@ class DataTransformation(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataTransformationKind = None                              # type: DataTransformationKindEnum
-        self.executeDespiteDataUnavailability = None                    # type: Boolean
-        self.transformerChainRefs = []                                  # type: List[RefType]
+        self.dataTransformationKind: DataTransformationKindEnum = None
+        self.executeDespiteDataUnavailability: Boolean = None
+        self.transformerChainRefs: List[RefType] = []
 
     def getDataTransformationKind(self):
         return self.dataTransformationKind
@@ -50,9 +53,9 @@ class BufferProperties(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.bufferComputation = None                       # type: CompuScale
-        self.headerLength = None                            # type: Integer
-        self.inPlace = None                                 # type: Boolean
+        self.bufferComputation: CompuScale = None
+        self.headerLength: Integer = None
+        self.inPlace: Boolean = None
 
     def getBufferComputation(self):
         return self.bufferComputation
@@ -118,28 +121,28 @@ class EndToEndTransformationDescription(TransformationDescription):
     def __init__(self):
         super().__init__()
 
-        self.clearFromValidToInvalid = None                                 # type: Boolean
-        self.counterOffset = None                                           # type: PositiveInteger
-        self.crcOffset = None                                               # type: PositiveInteger
-        self.dataIdMode = None                                              # type: DataIdModeEnum
-        self.dataIdNibbleOffset = None                                      # type: PositiveInteger
-        self.e2eProfileCompatibilityPropsRef = None                         # type: RefType
-        self.maxDeltaCounter = None                                         # type: PositiveInteger
-        self.maxErrorStateInit = None                                       # type: PositiveInteger
-        self.maxErrorStateInvalid = None                                    # type: PositiveInteger
-        self.maxErrorStateValid = None                                      # type: PositiveInteger
-        self.maxNoNewOrRepeatedData = None                                  # type: PositiveInteger
-        self.minOkStateInit = None                                          # type: PositiveInteger
-        self.minOkStateInvalid = None                                       # type: PositiveInteger
-        self.minOkStateValid = None                                         # type: PositiveInteger
-        self.offset = None                                                  # type: PositiveInteger
-        self.profileBehavior = None                                         # type: EndToEndProfileBehaviorEnum
-        self.profileName = None                                             # type: NameToken
-        self.syncCounterInit = None                                         # type: PositiveInteger
-        self.upperHeaderBitsToShift = None                                  # type: PositiveInteger
-        self.windowSizeInit = None                                          # type: PositiveInteger
-        self.windowSizeInvalid = None                                       # type: PositiveInteger
-        self.windowSizeValid = None                                         # type: PositiveInteger
+        self.clearFromValidToInvalid: Boolean = None
+        self.counterOffset: PositiveInteger = None
+        self.crcOffset: PositiveInteger = None
+        self.dataIdMode: DataIdModeEnum = None
+        self.dataIdNibbleOffset: PositiveInteger = None
+        self.e2eProfileCompatibilityPropsRef: RefType = None
+        self.maxDeltaCounter: PositiveInteger = None
+        self.maxErrorStateInit: PositiveInteger = None
+        self.maxErrorStateInvalid: PositiveInteger = None
+        self.maxErrorStateValid: PositiveInteger = None
+        self.maxNoNewOrRepeatedData: PositiveInteger = None
+        self.minOkStateInit: PositiveInteger = None
+        self.minOkStateInvalid: PositiveInteger = None
+        self.minOkStateValid: PositiveInteger = None
+        self.offset: PositiveInteger = None
+        self.profileBehavior: EndToEndProfileBehaviorEnum = None
+        self.profileName: NameToken = None
+        self.syncCounterInit: PositiveInteger = None
+        self.upperHeaderBitsToShift: PositiveInteger = None
+        self.windowSizeInit: PositiveInteger = None
+        self.windowSizeInvalid: PositiveInteger = None
+        self.windowSizeValid: PositiveInteger = None
 
     def getClearFromValidToInvalid(self):
         return self.clearFromValidToInvalid
@@ -338,13 +341,13 @@ class TransformationTechnology(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.bufferProperties = None                        # type: BufferProperties
-        self.hasInternalState = None                        # type: Boolean
-        self.needsOriginalData = None                       # type: Boolean
-        self.protocol = None                                # type: String
-        self.transformationDescription = None               # type: TransformationDescription
-        self.transformerClass = None                        # type: TransformerClassEnum
-        self.version = None                                 # type: String
+        self.bufferProperties: BufferProperties = None
+        self.hasInternalState: Boolean = None
+        self.needsOriginalData: Boolean = None
+        self.protocol: String = None
+        self.transformationDescription: TransformationDescription = None
+        self.transformerClass: TransformerClassEnum = None
+        self.version: String = None
 
     def getBufferProperties(self):
         return self.bufferProperties
@@ -407,8 +410,8 @@ class DataTransformationSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataTransformations = []                       # type: List[DataTransformation]
-        self.transformationTechnologies = []                # type: List[TransformationTechnology]
+        self.dataTransformations: List[DataTransformation] = []
+        self.transformationTechnologies: List[TransformationTechnology] = []
 
     def getDataTransformations(self):
         return self.dataTransformations
@@ -435,10 +438,10 @@ class TransformationISignalProps(Describable, metaclass=ABCMeta):
     def __init__(self):
         super().__init__()
 
-        self.csErrorReaction = None                                 # type: CSTransformerErrorReactionEnum
-        self.dataPrototypeTransformationProps = []                  # type: List[DataPrototypeTransformationProps]
-        self.ident = None                                           # type: TransformationISignalPropsIdent
-        self.transformerRef = None                                  # type: RefType
+        self.csErrorReaction: CSTransformerErrorReactionEnum = None
+        self.dataPrototypeTransformationProps: List = []
+        self.ident: TransformationISignalPropsIdent = None
+        self.transformerRef: RefType = None
 
     def getCsErrorReaction(self):
         return self.csErrorReaction
@@ -477,11 +480,11 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
     def __init__(self):
         super().__init__()
 
-        self.dataIds = []                                   # type: List[PositiveInteger]
-        self.dataLength = None                              # type: PositiveInteger
-        self.maxDataLength = None                           # type: PositiveInteger
-        self.minDataLength = None                           # type: PositiveInteger
-        self.sourceId = None                                # type: PositiveInteger
+        self.dataIds: List[PositiveInteger] = []
+        self.dataLength: PositiveInteger = None
+        self.maxDataLength: PositiveInteger = None
+        self.minDataLength: PositiveInteger = None
+        self.sourceId: PositiveInteger = None
 
     def getDataIds(self):
         return self.dataIds

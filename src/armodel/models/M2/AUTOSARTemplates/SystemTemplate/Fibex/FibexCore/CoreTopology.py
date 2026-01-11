@@ -23,7 +23,7 @@ class CycleCounter(CommunicationCycle):
     def __init__(self):
         super().__init__()
 
-        self.CycleCounter = None                            # type: Integer
+        self.CycleCounter: Integer = None
 
     def getCycleCounter(self):
         return self.CycleCounter
@@ -43,8 +43,8 @@ class CycleRepetition(CommunicationCycle):
     def __init__(self):
         super().__init__()
 
-        self.BaseCycle = None                               # type: Integer
-        self.CycleRepetition = None                         # type: CycleRepetitionType
+        self.BaseCycle: Integer = None
+        self.CycleRepetition: CycleRepetitionType = None
 
     def getBaseCycle(self):
         return self.BaseCycle
@@ -70,9 +70,9 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.commConnectorRefs = []                     # type: List[RefType]
-        self.frameTriggerings = []                      # type: List[FrameTriggering]
-        self.managedPhysicalChannelRefs = []            # type: List[RefType]
+        self.commConnectorRefs: List[RefType] = []
+        self.frameTriggerings: List[FrameTriggering] = []
+        self.managedPhysicalChannelRefs: List[RefType] = []
 
     def getCommConnectorRefs(self):
         return self.commConnectorRefs
@@ -148,9 +148,8 @@ class LinPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.busIdleTimeoutPeriod = None                        # type: TimeValue
-        # type: List[LinScheduleTable]
-        self.scheduleTables = []
+        self.busIdleTimeoutPeriod: TimeValue = None
+        self.scheduleTables: List[LinScheduleTable] = []
 
     def getBusIdleTimeoutPeriod(self):
         return self.busIdleTimeoutPeriod
@@ -175,7 +174,7 @@ class VlanConfig(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.vlanIdentifier = None                              # type: PositiveInteger
+        self.vlanIdentifier: PositiveInteger = None
 
     def getVlanIdentifier(self):
         return self.vlanIdentifier
@@ -190,9 +189,9 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.networkEndpoints = []                              # type: List[NetworkEndpoint]
-        self.soAdConfig = None                                  # type: SoAdConfig
-        self.vlan = None                                        # type: VlanConfig
+        self.networkEndpoints: List[NetworkEndpoint] = []
+        self.soAdConfig: SoAdConfig = None
+        self.vlan: VlanConfig = None
 
     def getNetworkEndpoints(self):
         return self.networkEndpoints
@@ -256,7 +255,7 @@ class CommunicationCluster(FibexElement, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
         self.baudrate = None                    # type: ARFloat
-        self.physicalChannel = []               # type: List[PhysicalChannel]
+        self.physicalChannel: List[PhysicalChannel] = []
         self.protocolName = None                # type: ARLiteral
         self.protocolVersion = None             # type: ARLiteral
 
@@ -326,11 +325,11 @@ class CanClusterBusOffRecovery(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.borCounterL1ToL2 = None                            # type: PositiveInteger
-        self.borTimeL1 = None                                   # type: TimeValue
-        self.borTimeL2 = None                                   # type: TimeValue
-        self.borTimeTxEnsured = None                            # type: TimeValue
-        self.mainFunctionPeriod = None                          # type: TimeValue
+        self.borCounterL1ToL2: PositiveInteger = None
+        self.borTimeL1: TimeValue = None
+        self.borTimeL2: TimeValue = None
+        self.borTimeTxEnsured: TimeValue = None
+        self.mainFunctionPeriod: TimeValue = None
 
     def getBorCounterL1ToL2(self):
         return self.borCounterL1ToL2
@@ -380,10 +379,10 @@ class AbstractCanCluster(CommunicationCluster, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.busOffRecovery = None                              # type: CanClusterBusOffRecovery
-        self.canFdBaudrate = None                               # type: PositiveUnlimitedInteger
-        self.canXlBaudrate = None                               # type: PositiveUnlimitedInteger
-        self.speed = None                                       # type: PositiveUnlimitedInteger
+        self.busOffRecovery: CanClusterBusOffRecovery = None
+        self.canFdBaudrate: PositiveUnlimitedInteger = None
+        self.canXlBaudrate: PositiveUnlimitedInteger = None
+        self.speed: PositiveUnlimitedInteger = None
 
     def getBusOffRecovery(self):
         return self.busOffRecovery
@@ -431,7 +430,7 @@ class CommunicationController(Identifiable, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.wakeUpByControllerSupported = None                         # type: Boolean
+        self.wakeUpByControllerSupported: Boolean = None
 
     def getWakeUpByControllerSupported(self):
         return self.wakeUpByControllerSupported
@@ -465,7 +464,7 @@ class CommConnectorPort(Identifiable, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
         
-        self.communicationDirection = None                                                  # type: CommunicationDirectionType
+        self.communicationDirection: CommunicationDirectionType = None
 
     def getCommunicationDirection(self):
         return self.communicationDirection
@@ -490,11 +489,11 @@ class IPduPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.iPduSignalProcessing = None                                # type: IPduSignalProcessingEnum
-        self.keyId = None                                               # type: PositiveInteger
-        self.rxSecurityVerification = None                              # type: Boolean
-        self.timestampRxAcceptanceWindow = None                         # type: TimeValue
-        self.useAuthDataFreshness = None                                # type: Boolean
+        self.iPduSignalProcessing: IPduSignalProcessingEnum = None
+        self.keyId: PositiveInteger = None
+        self.rxSecurityVerification: Boolean = None
+        self.timestampRxAcceptanceWindow: TimeValue = None
+        self.useAuthDataFreshness: Boolean = None
 
     def getIPduSignalProcessing(self):
         return self.iPduSignalProcessing
@@ -541,11 +540,11 @@ class ISignalPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.dataFilter = None                                          # type: DataFilter
-        self.ddsQosProfileRef = None                                    # type: RefType
-        self.firstTimeout = None                                        # type: TimeValue
-        self.handleInvalid = None                                       # type: HandleInvalidEnum
-        self.timeout = None                                             # type: TimeValue
+        self.dataFilter: DataFilter = None
+        self.ddsQosProfileRef: RefType = None
+        self.firstTimeout: TimeValue = None
+        self.handleInvalid: HandleInvalidEnum = None
+        self.timeout: TimeValue = None
 
     def getDataFilter(self):
         return self.dataFilter
@@ -595,12 +594,12 @@ class CommunicationConnector(Identifiable, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.commControllerRef = None                                   # type: RefType
-        self.createEcuWakeupSource = None                               # type: Boolean
-        self.dynamicPncToChannelMappingEnabled = None                   # type: Boolean
-        self.ecuCommPortInstances = []                                  # type: List[CommConnectorPort]
-        self.pncFilterArrayMasks = []                                   # type: List[PositiveInteger]
-        self.pncGatewayType = None                                      # type: PncGatewayTypeEnum
+        self.commControllerRef: RefType = None
+        self.createEcuWakeupSource: Boolean = None
+        self.dynamicPncToChannelMappingEnabled: Boolean = None
+        self.ecuCommPortInstances: List[CommConnectorPort] = []
+        self.pncFilterArrayMasks: List[PositiveInteger] = []
+        self.pncGatewayType: PncGatewayTypeEnum = None
 
     def getCommControllerRef(self):
         return self.commControllerRef

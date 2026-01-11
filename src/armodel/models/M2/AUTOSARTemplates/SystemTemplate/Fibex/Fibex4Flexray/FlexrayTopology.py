@@ -10,38 +10,38 @@ class FlexrayCommunicationController(CommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.acceptedStartupRange = None                        # type: Integer
-        self.allowHaltDueToClock = None                         # type: Boolean
-        self.allowPassiveToActive = None                        # type: Integer
-        self.clusterDriftDamping = None                         # type: Integer
-        self.decodingCorrection = None                          # type: Integer
-        self.delayCompensationA = None                          # type: Integer
-        self.delayCompensationB = None                          # type: Integer
-        self.externOffsetCorrection = None                      # type: Integer
-        self.externRateCorrection = None                        # type: Integer
-        self.externalSync = None                                # type: Boolean
-        self.fallBackInternal = None                            # type: Boolean
-        self.flexrayFifos = []                                  # type: List[FlexrayFifoConfiguration]
-        self.keySlotID = None                                   # type: PositiveInteger
-        self.keySlotOnlyEnabled = None                          # type: Boolean
-        self.keySlotUsedForStartUp = None                       # type: Boolean
-        self.keySlotUsedForSync = None                          # type: Boolean
-        self.latestTX = None                                    # type: Integer
-        self.listenTimeout = None                               # type: Integer
-        self.macroInitialOffsetA = None                         # type: Integer
-        self.macroInitialOffsetB = None                         # type: Integer
-        self.maximumDynamicPayloadLength = None                 # type: Integer
-        self.microInitialOffsetA = None                         # type: Integer
-        self.microInitialOffsetB = None                         # type: Integer
-        self.microPerCycle = None                               # type: Integer
-        self.microtickDuration = None                           # type: TimeValue
-        self.nmVectorEarlyUpdate = None                         # type: Boolean
-        self.offsetCorrectionOut = None                         # type: Integer
-        self.rateCorrectionOut = None                           # type: Integer
-        self.samplesPerMicrotick = None                         # type: Integer
-        self.secondKeySlotId = None                             # type: PositiveInteger
-        self.twoKeySlotMode = None                              # type: Boolean
-        self.wakeUpPattern = None                               # type: Integer
+        self.acceptedStartupRange: Integer = None
+        self.allowHaltDueToClock: Boolean = None
+        self.allowPassiveToActive: Integer = None
+        self.clusterDriftDamping: Integer = None
+        self.decodingCorrection: Integer = None
+        self.delayCompensationA: Integer = None
+        self.delayCompensationB: Integer = None
+        self.externOffsetCorrection: Integer = None
+        self.externRateCorrection: Integer = None
+        self.externalSync: Boolean = None
+        self.fallBackInternal: Boolean = None
+        self.flexrayFifos: List[FlexrayFifoConfiguration] = []
+        self.keySlotID: PositiveInteger = None
+        self.keySlotOnlyEnabled: Boolean = None
+        self.keySlotUsedForStartUp: Boolean = None
+        self.keySlotUsedForSync: Boolean = None
+        self.latestTX: Integer = None
+        self.listenTimeout: Integer = None
+        self.macroInitialOffsetA: Integer = None
+        self.macroInitialOffsetB: Integer = None
+        self.maximumDynamicPayloadLength: Integer = None
+        self.microInitialOffsetA: Integer = None
+        self.microInitialOffsetB: Integer = None
+        self.microPerCycle: Integer = None
+        self.microtickDuration: TimeValue = None
+        self.nmVectorEarlyUpdate: Boolean = None
+        self.offsetCorrectionOut: Integer = None
+        self.rateCorrectionOut: Integer = None
+        self.samplesPerMicrotick: Integer = None
+        self.secondKeySlotId: PositiveInteger = None
+        self.twoKeySlotMode: Boolean = None
+        self.wakeUpPattern: Integer = None
 
     def getAcceptedStartupRange(self):
         return self.acceptedStartupRange
@@ -304,9 +304,9 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nmReadySleepTime = None                        # type: Float
-        self.pncFilterDataMask = None                       # type: PositiveUnlimitedInteger
-        self.wakeUpChannel = None                           # type: Boolean
+        self.nmReadySleepTime: Float = None
+        self.pncFilterDataMask: PositiveUnlimitedInteger = None
+        self.wakeUpChannel: Boolean = None
 
     def getNmReadySleepTime(self):
         return self.nmReadySleepTime

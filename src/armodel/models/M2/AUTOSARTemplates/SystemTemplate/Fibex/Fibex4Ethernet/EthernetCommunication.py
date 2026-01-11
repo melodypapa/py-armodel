@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for Ethernet communication
+# It defines socket connections, connection bundles, and service instances for Ethernet networking
+
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, TimeValue
@@ -7,18 +10,18 @@ class SocketConnection(Describable):
     def __init__(self):
         super().__init__()
 
-        self.allowedIPv6ExtHeadersRef = None                                # type: RefType
-        self.allowedTcpOptionsRef = None                                    # type: RefType
-        self.clientIpAddrFromConnectionRequest = None                       # type: Boolean
-        self.clientPortRef = None                                           # type: RefType
-        self.clientPortFromConnectionRequest = None                         # type: Boolean
-        self.pdus = []                                                      # type: List[SocketConnectionIpduIdentifier]
-        self.pduSocketConnectionIpdus = []                                  # type: List[Identifier]
-        self.pduCollectionMaxBufferSize = None                              # type: PositiveInteger
-        self.pduCollectionTimeout = None                                    # type: TimeValue
-        self.runtimeIpAddressConfiguration = None                           # type: RuntimeAddressConfigurationEnum
-        self.runtimePortConfiguration = None                                # type: RuntimeAddressConfigurationEnum
-        self.shortLabel = None                                              # type: Identifier
+        self.allowedIPv6ExtHeadersRef: RefType = None
+        self.allowedTcpOptionsRef: RefType = None
+        self.clientIpAddrFromConnectionRequest: Boolean = None
+        self.clientPortRef: RefType = None
+        self.clientPortFromConnectionRequest: Boolean = None
+        self.pdus: List[SocketConnectionIpduIdentifier] = []
+        self.pduSocketConnectionIpdus: List[Identifier] = []
+        self.pduCollectionMaxBufferSize: PositiveInteger = None
+        self.pduCollectionTimeout: TimeValue = None
+        self.runtimeIpAddressConfiguration = None
+        self.runtimePortConfiguration = None
+        self.shortLabel: Identifier = None
 
     def getAllowedIPv6ExtHeadersRef(self):
         return self.allowedIPv6ExtHeadersRef
@@ -109,13 +112,13 @@ class SocketConnectionIpduIdentifier(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.headerId = None                                                # type: PositiveInteger
-        self.pduCollectionPduTimeout = None                                 # type: TimeValue
-        self.pduCollectionSemantics = None                                  # type: PduCollectionSemanticsEnum
-        self.pduCollectionTrigger = None                                    # type: PduCollectionTriggerEnum
-        self.PduRef = None                                                  # type: RefType
-        self.pduTriggeringRef = None                                        # type: RefType
-        self.routingGroupRefs = []                                          # type: List[RefType]
+        self.headerId: PositiveInteger = None
+        self.pduCollectionPduTimeout: TimeValue = None
+        self.pduCollectionSemantics = None
+        self.pduCollectionTrigger = None
+        self.PduRef: RefType = None
+        self.pduTriggeringRef: RefType = None
+        self.routingGroupRefs: List[RefType] = []
 
 
     def getHeaderId(self):
@@ -171,13 +174,13 @@ class SocketConnectionBundle(Referrable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.bundledConnections = []                                        # type: List[SocketConnection]
-        self.differentiatedServiceField = None                              # type: PositiveInteger
-        self.flowLabel = None                                               # type: PositiveInteger
-        self.pathMtuDiscoveryEnabled = None                                 # type: Boolean
-        self.pdus = []                                                      # type: List[SocketConnectionIpduIdentifier]
-        self.serverPortRef = None                                           # type: RefType
-        self.udpChecksumHandling = None                                     # type: UdpChecksumCalculationEnum
+        self.bundledConnections: List[SocketConnection] = []
+        self.differentiatedServiceField: PositiveInteger = None
+        self.flowLabel: PositiveInteger = None
+        self.pathMtuDiscoveryEnabled: Boolean = None
+        self.pdus: List[SocketConnectionIpduIdentifier] = []
+        self.serverPortRef: RefType = None
+        self.udpChecksumHandling = None                                                           # type: UdpChecksumCalculationEnum
 
     def getBundledConnections(self):
         return self.bundledConnections
@@ -232,8 +235,7 @@ class SoAdRoutingGroup(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # type: EventGroupControlTypeEnum
-        self.eventGroupControlType = None
+        self.eventGroupControlType = None     # type: EventGroupControlTypeEnum
 
     def getEventGroupControlType(self):
         return self.eventGroupControlType

@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for data mapping between sender/receiver interfaces and signals
+# It includes classes for mapping data elements between software component ports and system signals
+
 from abc import ABCMeta
 from typing import List
 
@@ -29,11 +32,11 @@ class SenderReceiverToSignalMapping(DataMapping):
     def __init__(self):
         super().__init__()
 
-        self.communicationDirection = None                          # type: CommunicationDirectionType
-        self.dataElementIRef = None                                 # type: VariableDataPrototypeInSystemInstanceRef
-        self.senderToSignalTextTableMapping = None                  # type: TextTableMapping
-        self.signalToReceiverTextTableMapping = None                # type: TextTableMapping
-        self.systemSignalRef = None                                 # type: RefType
+        self.communicationDirection: CommunicationDirectionType = None
+        self.dataElementIRef: VariableDataPrototypeInSystemInstanceRef = None
+        self.senderToSignalTextTableMapping: TextTableMapping = None
+        self.signalToReceiverTextTableMapping: TextTableMapping = None
+        self.systemSignalRef: RefType = None
 
     def getCommunicationDirection(self):
         return self.communicationDirection
@@ -83,12 +86,12 @@ class SenderRecRecordElementMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.applicationRecordElementRef = None                     # type: RefType
-        self.complexTypeMapping = None                              # type: SenderRecCompositeTypeMapping
-        self.implementationRecordElementRef = None                  # type: RefType
-        self.senderToSignalTextTableMapping = None                  # type: TextTableMapping
-        self.signalToReceiverTextTableMapping = None                # type: TextTableMapping
-        self.systemSignalRef = None                                 # type: RefType
+        self.applicationRecordElementRef: RefType = None
+        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
+        self.implementationRecordElementRef: RefType = None
+        self.senderToSignalTextTableMapping: TextTableMapping = None
+        self.signalToReceiverTextTableMapping: TextTableMapping = None
+        self.systemSignalRef: RefType = None
 
     def getApplicationRecordElementRef(self):
         return self.applicationRecordElementRef
@@ -143,7 +146,7 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
     def __init__(self):
         super().__init__()
 
-        self.recordElementMappings = []                     # type: List[SenderRecRecordElementMapping]
+        self.recordElementMappings: List[SenderRecRecordElementMapping] = []                     # type: List[SenderRecRecordElementMapping]
 
     def getRecordElementMappings(self):
         return self.recordElementMappings
@@ -158,18 +161,18 @@ class IndexedArrayElement(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.applicationArrayElementRef = None              # type: RefType
-        self.implementationArrayElementRef = None           # type: RefType
-        self.index = None                                   # type: Integer
+        self.applicationArrayElementRef: RefType = None
+        self.implementationArrayElementRef: RefType = None
+        self.index: Integer = None
         
 
 class SenderRecArrayElementMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.complexTypeMapping = None                      # type: SenderRecCompositeTypeMapping
-        self.indexedArrayElement = None                     # type: IndexedArrayElement
-        self.systemSignalRef = None                         # type: RefType
+        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
+        self.indexedArrayElement: IndexedArrayElement = None
+        self.systemSignalRef: RefType = None
 
     def getComplexTypeMapping(self):
         return self.complexTypeMapping
@@ -200,9 +203,9 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     def __init__(self):
         super().__init__()
 
-        self.arrayElementMappings = []                      # type: List[SenderRecArrayElementMapping]
-        self.senderToSignal = None                          # type: TextTableMapping
-        self.signalToReceiverTextTableMapping = None        # type: TextTableMapping
+        self.arrayElementMappings: List[SenderRecArrayElementMapping] = []
+        self.senderToSignal: TextTableMapping = None
+        self.signalToReceiverTextTableMapping: TextTableMapping = None
 
     def getArrayElementMappings(self):
         return self.arrayElementMappings
@@ -233,9 +236,9 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def __init__(self):
         super().__init__()
 
-        self.dataElementIRef = None                         # type: VariableDataPrototypeInSystemInstanceRef
-        self.signalGroupRef = None                          # type: RefType
-        self.typeMapping = None                             # type: SenderRecCompositeTypeMapping
+        self.dataElementIRef: VariableDataPrototypeInSystemInstanceRef = None
+        self.signalGroupRef: RefType = None
+        self.typeMapping: SenderRecCompositeTypeMapping = None
 
     def getDataElementIRef(self):
         return self.dataElementIRef

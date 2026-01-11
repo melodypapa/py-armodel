@@ -10,9 +10,9 @@ class FrameMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.introduction = None            # type: DocumentationBlock
-        self.sourceFrameRef = None          # type: RefType
-        self.targetFrameRef = None          # type: RefType
+        self.introduction: DocumentationBlock = None
+        self.sourceFrameRef: RefType = None
+        self.targetFrameRef: RefType = None
 
     def getIntroduction(self):
         return self.introduction
@@ -39,9 +39,9 @@ class ISignalMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.introduction = None         # type: DocumentationBlock
-        self.sourceSignalRef = None      # type: RefType
-        self.targetSignalRef = None      # type: RefType
+        self.introduction: DocumentationBlock = None
+        self.sourceSignalRef: RefType = None
+        self.targetSignalRef: RefType = None
 
     def getIntroduction(self):
         return self.introduction
@@ -68,8 +68,8 @@ class DefaultValueElement(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.elementByteValue = None                    # type: Integer
-        self.elementPosition = None                     # type: Integer
+        self.elementByteValue: Integer = None
+        self.elementPosition: Integer = None
 
     def getElementByteValue(self):
         return self.elementByteValue
@@ -91,7 +91,7 @@ class PduMappingDefaultValue(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.defaultValueElements = []                  # type: List[DefaultValueElement]
+        self.defaultValueElements: List[DefaultValueElement] = []
 
     def getDefaultValueElements(self):
         return self.defaultValueElements
@@ -105,8 +105,8 @@ class TargetIPduRef(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.defaultValue = None                        # type: PduMappingDefaultValue
-        self.targetIPdu = None                          # type: RefType
+        self.defaultValue: PduMappingDefaultValue = None
+        self.targetIPdu: RefType = None
 
     def getDefaultValue(self):
         return self.defaultValue
@@ -128,10 +128,10 @@ class IPduMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.introduction = None            # type: DocumentationBlock
-        self.pdurTpChunkSize = None         # type: ARPositiveInteger
-        self.sourceIpduRef = None           # type: RefType
-        self.targetIPdu = None              # type: TargetIPduRef
+        self.introduction: DocumentationBlock = None
+        self.pdurTpChunkSize: ARPositiveInteger = None
+        self.sourceIpduRef: RefType = None
+        self.targetIPdu: TargetIPduRef = None
 
     def getIntroduction(self):
         return self.introduction
@@ -171,10 +171,10 @@ class Gateway(FibexElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ecuRef = None                # type: RefType
-        self.frameMappings = []           # type: List[FrameMapping]
-        self.iPduMappings = []            # type: List[IPduMapping]
-        self.signalMappings = []          # type: List[ISignalMapping]
+        self.ecuRef: RefType = None
+        self.frameMappings: List[FrameMapping] = []
+        self.iPduMappings: List[IPduMapping] = []
+        self.signalMappings: List[ISignalMapping] = []
     
     def getEcuRef(self):
         return self.ecuRef

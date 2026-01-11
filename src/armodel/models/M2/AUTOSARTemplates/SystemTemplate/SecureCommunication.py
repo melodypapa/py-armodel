@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for secure communication
+# It defines crypto service mappings and TLS configurations for secure data transmission
+
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -12,9 +15,9 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.authenticationRef = None                           # type: RefType
-        self.cryptoServiceKeyRef = None                         # type: RefType
-        self.cryptoServiceQueueRef = None                       # type: RefType
+        self.authenticationRef: RefType = None
+        self.cryptoServiceKeyRef: RefType = None
+        self.cryptoServiceQueueRef: RefType = None
 
     def getAuthenticationRef(self):
         return self.authenticationRef
@@ -45,10 +48,10 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.keyExchangeRef = None                                  # type: RefType
-        self.tlsCipherSuites = []                                   # type: List[TlsCryptoCipherSuite]
-        self.useClientAuthenticationRequest = None                  # type: Boolean
-        self.useSecurityExtensionRecordSizeLimit = None             # type: Boolean
+        self.keyExchangeRef: RefType = None
+        self.tlsCipherSuites: List = []
+        self.useClientAuthenticationRequest: Boolean = None
+        self.useSecurityExtensionRecordSizeLimit: Boolean = None
 
     def getKeyExchangeRef(self):
         return self.keyExchangeRef

@@ -24,8 +24,8 @@ class LinFrameTriggering(FrameTriggering):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.identifier = None                          # type: ARNumerical
-        self.linChecksum = None                         # type: ARLiteral
+        self.identifier: ARNumerical = None
+        self.linChecksum: ARLiteral = None
 
     def getIdentifier(self):
         return self.identifier
@@ -61,9 +61,9 @@ class ScheduleTableEntry(ARObject, metaclass = ABCMeta):
         
         super().__init__()
 
-        self.delay = None                                       # type: TimeValue
+        self.delay: TimeValue = None
         self.introduction = None                                # type: DocumentationBlock
-        self.positionInTable = None                             # type: Integer
+        self.positionInTable: Integer = None
 
     def getDelay(self):
         return self.delay
@@ -93,7 +93,7 @@ class ApplicationEntry(ScheduleTableEntry):
     def __init__(self):
         super().__init__()
 
-        self.frameTriggeringRef = None                              # type: RefType
+        self.frameTriggeringRef: RefType = None
 
     def getFrameTriggeringRef(self):
         return self.frameTriggeringRef
@@ -122,7 +122,7 @@ class LinScheduleTable(Identifiable):
 
         self.resumePosition = None                              # type: ResumePosition
         self.runMode = None                                     # type: RunMode
-        self.tableEntries = []                                  # type: List[ScheduleTableEntry]
+        self.tableEntries: List[ScheduleTableEntry] = []
 
     def getResumePosition(self):
         return self.resumePosition

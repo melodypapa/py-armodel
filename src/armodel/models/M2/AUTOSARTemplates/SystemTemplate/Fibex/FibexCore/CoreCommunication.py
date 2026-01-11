@@ -20,10 +20,10 @@ class PduToFrameMapping(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.packingByteOrder = None                    # type: ARLiteral
-        self.pduRef = None                              # type: RefType
-        self.startPosition = None                       # type: ARNumerical
-        self.updateIndicationBitPosition = None         # type: ARNumerical
+        self.packingByteOrder: ARLiteral = None
+        self.pduRef: RefType = None
+        self.startPosition: ARNumerical = None
+        self.updateIndicationBitPosition: ARNumerical = None
 
     def getPackingByteOrder(self):
         return self.packingByteOrder
@@ -62,7 +62,7 @@ class Frame(Identifiable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
         self.frameLength = None
-        self.pduToFrameMappings = []                # type: List[PduToFrameMapping]
+        self.pduToFrameMappings: List[PduToFrameMapping] = []
 
     def getFrameLength(self):
         return self.frameLength
@@ -86,13 +86,13 @@ class ContainedIPduProps(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.collectionSemantics = None                 # type: ARLiteral
-        self.headerIdLongHeader = None                  # type: ARPositiveInteger
-        self.headerIdShortHeader = None                 # type: ARPositiveInteger
-        self.offset = None                              # type: ARNumerical
-        self.timeout = None                             # type: ARNumerical
-        self.trigger = None                             # type: ARLiteral
-        self.updateIndicationBitPosition = None         # type: ARNumerical
+        self.collectionSemantics: ARLiteral = None
+        self.headerIdLongHeader: ARPositiveInteger = None
+        self.headerIdShortHeader: ARPositiveInteger = None
+        self.offset: ARNumerical = None
+        self.timeout: ARNumerical = None
+        self.trigger: ARLiteral = None
+        self.updateIndicationBitPosition: ARNumerical = None
 
     def getCollectionSemantics(self):
         return self.collectionSemantics
@@ -148,8 +148,8 @@ class ISignalGroup(FibexElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.comBasedSignalGroupTransformationRefs = []             # type: List[RefType]
-        self.iSignalRefs = []                                       # type: List[RefType]
+        self.comBasedSignalGroupTransformationRefs: List[RefType] = []
+        self.iSignalRefs: List[RefType] = []
         self.systemSignalGroupRef = None
         self.transformationISignalProps = None
 
@@ -236,8 +236,8 @@ class Pdu(FibexElement, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.hasDynamicLength = None                                    # type: Boolean
-        self.length = None                                              # type: UnlimitedInteger
+        self.hasDynamicLength: Boolean = None
+        self.length: UnlimitedInteger = None
 
     def getHasDynamicLength(self):
         return self.hasDynamicLength
@@ -262,8 +262,7 @@ class IPdu(Pdu, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        # type: ContainedIPduProps
-        self.containedIPduProps = None
+        self.containedIPduProps: ContainedIPduProps = None
 
     def getContainedIPduProps(self):
         return self.containedIPduProps
@@ -278,20 +277,20 @@ class SecureCommunicationProps(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.authDataFreshnessLength = None                                 # type: PositiveInteger
-        self.authDataFreshnessStartPosition = None                          # type: PositiveInteger
-        self.authInfoTxLength = None                                        # type: PositiveInteger
-        self.authenticationBuildAttempts = None                             # type: PositiveInteger
-        self.authenticationRetries = None                                   # type: PositiveInteger
-        self.dataId = None                                                  # type: PositiveInteger
-        self.freshnessValueId = None                                        # type: PositiveInteger
-        self.freshnessValueLength = None                                    # type: PositiveInteger
-        self.freshnessValueTxLength = None                                  # type: PositiveInteger
-        self.messageLinkLength = None                                       # type: PositiveInteger
-        self.messageLinkPosition = None                                     # type: PositiveInteger
-        self.secondaryFreshnessValueId = None                               # type: PositiveInteger
-        self.securedAreaLength = None                                       # type: PositiveInteger
-        self.securedAreaOffset = None                                       # type: PositiveInteger
+        self.authDataFreshnessLength: PositiveInteger = None
+        self.authDataFreshnessStartPosition: PositiveInteger = None
+        self.authInfoTxLength: PositiveInteger = None
+        self.authenticationBuildAttempts: PositiveInteger = None
+        self.authenticationRetries: PositiveInteger = None
+        self.dataId: PositiveInteger = None
+        self.freshnessValueId: PositiveInteger = None
+        self.freshnessValueLength: PositiveInteger = None
+        self.freshnessValueTxLength: PositiveInteger = None
+        self.messageLinkLength: PositiveInteger = None
+        self.messageLinkPosition: PositiveInteger = None
+        self.secondaryFreshnessValueId: PositiveInteger = None
+        self.securedAreaLength: PositiveInteger = None
+        self.securedAreaOffset: PositiveInteger = None
 
     def getAuthDataFreshnessLength(self):
         return self.authDataFreshnessLength
@@ -410,13 +409,13 @@ class SecuredIPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.authenticationPropsRef = None                                  # type: RefType
-        self.dynamicRuntimeLengthHandling = None                            # type: Boolean
-        self.freshnessPropsRef = None                                       # type: RefType
-        self.payloadRef = None                                              # type: RefType
-        self.secureCommunicationProps = None                                # type: SecureCommunicationProps
-        self.useAsCryptographicIPdu = None                                  # type: Boolean
-        self.useSecuredPduHeader = None                                     # type: SecuredPduHeaderEnum
+        self.authenticationPropsRef: RefType = None
+        self.dynamicRuntimeLengthHandling: Boolean = None
+        self.freshnessPropsRef: RefType = None
+        self.payloadRef: RefType = None
+        self.secureCommunicationProps: SecureCommunicationProps = None
+        self.useAsCryptographicIPdu: Boolean = None
+        self.useSecuredPduHeader: SecuredPduHeaderEnum = None
 
     def getAuthenticationPropsRef(self):
         return self.authenticationPropsRef
@@ -479,12 +478,12 @@ class ISignalToIPduMapping(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.iSignalRef = None                              # type: RefType
-        self.iSignalGroupRef = None                         # type: RefType
-        self.packingByteOrder = None                        # type: ByteOrderEnum
-        self.startPosition = None                           # type: UnlimitedInteger
-        self.transferProperty = None                        # type: TransferPropertyEnum
-        self.updateIndicationBitPosition = None             # type: UnlimitedInteger
+        self.iSignalRef: RefType = None
+        self.iSignalGroupRef: RefType = None
+        self.packingByteOrder: ByteOrderEnum = None
+        self.startPosition: UnlimitedInteger = None
+        self.transferProperty: TransferPropertyEnum = None
+        self.updateIndicationBitPosition: UnlimitedInteger = None
 
     def getISignalRef(self):
         return self.iSignalRef
@@ -533,10 +532,10 @@ class NmPdu(Pdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iSignalToIPduMappings = []                                     # type: List[ISignalToIPduMapping]
-        self.nmDataInformation = None                                       # type: Boolean
-        self.nmVoteInformation = None                                       # type: Boolean
-        self.unusedBitPattern = None                                        # type: Integer
+        self.iSignalToIPduMappings: List[ISignalToIPduMapping] = []
+        self.nmDataInformation: Boolean = None
+        self.nmVoteInformation: Boolean = None
+        self.unusedBitPattern: Integer = None
 
     def getISignalToIPduMappings(self):
         return self.iSignalToIPduMappings
@@ -582,7 +581,7 @@ class DcmIPdu(IPdu):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.diagPduType = None                                 # type: ARLiteral
+        self.diagPduType: ARLiteral = None
 
     def getDiagPduType(self):
         return self.diagPduType
@@ -596,8 +595,8 @@ class IPduTiming(Describable):
     def __init__(self):
         super().__init__()
 
-        self.minimumDelay = None                                # type: TimeValue
-        self.transmissionModeDeclaration = None                 # type: TransmissionModeDeclaration
+        self.minimumDelay: TimeValue = None
+        self.transmissionModeDeclaration: TransmissionModeDeclaration = None
 
     def getMinimumDelay(self):
         return self.minimumDelay
@@ -618,9 +617,9 @@ class ISignalIPdu(IPdu):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.iPduTimingSpecification = None                     # type: IPduTiming
-        self.iSignalToPduMappings = []                          # type: List[ISignalToIPduMapping]
-        self.unusedBitPattern = None                            # type: Integer
+        self.iPduTimingSpecification: IPduTiming = None
+        self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
+        self.unusedBitPattern: Integer = None
 
     def getIPduTimingSpecification(self):
         return self.iPduTimingSpecification
@@ -658,7 +657,7 @@ class ISignal(FibexElement):
         self.initValue = None
         self.length = None
         self.networkRepresentationProps = None
-        self.systemSignalRef = None                  # type: RefType
+        self.systemSignalRef: RefType = None
         self.timeoutSubstitutionValue = None
         self.transformationISignalProps = []
 
@@ -737,10 +736,10 @@ class PduTriggering(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.iPduRef = None                         # type: RefType
-        self.iPduPortRefs = []                      # type: List[RefType]
-        self.iSignalTriggeringRefs = []             # type: List[RefType]
-        self.secOcCryptoMappingRef = None           # type: RefType
+        self.iPduRef: RefType = None
+        self.iPduPortRefs: List[RefType] = []
+        self.iSignalTriggeringRefs: List[RefType] = []
+        self.secOcCryptoMappingRef: RefType = None
         self.triggerIPduSendConditions = []         # type: List
 
     def getIPduRef(self):
@@ -787,9 +786,9 @@ class FrameTriggering(Identifiable, metaclass=ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.frameRef = None                        # type: RefType
-        self.framePortRefs = []                     # type: List[RefType]
-        self.pduTriggeringRefs = []                 # type: List[RefType]
+        self.frameRef: RefType = None
+        self.framePortRefs: List[RefType] = []
+        self.pduTriggeringRefs: List[RefType] = []
 
     def getFrameRef(self) -> RefType:
         return self.frameRef
@@ -817,8 +816,8 @@ class SystemSignal(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.dynamicLength = None                   # type: ARBoolean
-        self.physicalProps = None                   # type: SwDataDefProps
+        self.dynamicLength: ARBoolean = None
+        self.physicalProps: SwDataDefProps = None
 
     def getDynamicLength(self):
         return self.dynamicLength
@@ -839,8 +838,8 @@ class SystemSignalGroup(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.systemSignalRefs = []                  # type: List[RefType]
-        self.transformingSystemSignalRef = None     # type: RefType
+        self.systemSignalRefs: List[RefType] = []
+        self.transformingSystemSignalRef: RefType = None
 
     def getSystemSignalRefs(self):
         return self.systemSignalRefs
@@ -861,9 +860,9 @@ class ISignalTriggering(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.iSignalRef = None                      # type: RefType
-        self.iSignalGroupRef = None                 # type: RefType
-        self.iSignalPortRefs = []                   # type: List[RefType]
+        self.iSignalRef: RefType = None
+        self.iSignalGroupRef: RefType = None
+        self.iSignalPortRefs: List[RefType] = []
 
     def getISignalRef(self):
         return self.iSignalRef
@@ -891,9 +890,9 @@ class SegmentPosition(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.segmentByteOrder = None                                # type: ByteOrderEnum
-        self.segmentLength = None                                   # type: Integer
-        self.segmentPosition = None                                 # type: Integer
+        self.segmentByteOrder: ByteOrderEnum = None
+        self.segmentLength: Integer = None
+        self.segmentPosition: Integer = None
 
     def getSegmentByteOrder(self):
         return self.segmentByteOrder

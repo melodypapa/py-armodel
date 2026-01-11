@@ -14,8 +14,8 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.communicationCycle = None                              # type: CommunicationCycle
-        self.slotID = None                                          # type: PositiveInteger
+        self.communicationCycle = None
+        self.slotID: PositiveInteger = None
 
     def getCommunicationCycle(self):
         return self.communicationCycle
@@ -38,10 +38,10 @@ class FlexrayFrameTriggering(FrameTriggering):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.absolutelyScheduledTimings = []                        # type: List[FlexrayAbsolutelyScheduledTiming]
-        self.allowDynamicLSduLength = None                          # type: Boolean
-        self.messageId = None                                       # type: PositiveInteger
-        self.payloadPreambleIndicator = None                        # type: Boolean
+        self.absolutelyScheduledTimings: List[FlexrayAbsolutelyScheduledTiming] = []
+        self.allowDynamicLSduLength: Boolean = None
+        self.messageId: PositiveInteger = None
+        self.payloadPreambleIndicator: Boolean = None
 
     def getAbsolutelyScheduledTimings(self):
         return self.absolutelyScheduledTimings

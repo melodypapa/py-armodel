@@ -12,33 +12,33 @@ class EcuInstance(FibexElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.associatedComIPduGroupRefs = []                                # type: List[RefType]
-        self.associatedConsumedProvidedServiceInstanceGroupRefs = []        # type: List[RefType]
-        self.associatedPdurIPduGroupRefs = []                               # type: List[RefType]
-        self.channelSynchronousWakeup = None                                # type: Boolean
-        self.clientIdRange = None                                           # type: ClientIdRange
-        self.comConfigurationGwTimeBase = None                              # type: TimeValue
-        self.comConfigurationRxTimeBase = None                              # type: TimeValue
-        self.comConfigurationTxTimeBase = None                              # type: TimeValue
-        self.comEnableMDTForCyclicTransmission = None                       # type: Boolean
-        self.commControllers = []                                           # type: List[CommunicationController]
-        self.connectors = []                                                # type: List[CommunicationConnector]
-        self.diagnosticAddress = None                                       # type: Integer             ## Only AR 4.3.1
-        self.dltConfig = None                                               # type: DltConfig
-        self.doIpConfig = None                                              # type: DoIpConfig
-        self.ecuTaskProxyRefs = []                                          # type: List[RefType]
-        self.ethSwitchPortGroupDerivation = None                            # type: Boolean
-        self.firewallRuleRef = None                                         # type: RefType
-        self.partitions = []                                                # type: List[EcuPartition]
-        self.pncNmRequest = None                                            # type: Boolean
-        self.pncPrepareSleepTimer = None                                    # type: TimeValue
-        self.pncSynchronousWakeup = None                                    # type: Boolean
-        self.pnResetTime = None                                             # type: TimeValue
-        self.sleepModeSupported = None                                      # type: Boolean
-        self.tcpIpIcmpPropsRef = None                                       # type: RefType
-        self.tcpIpPropsRef = None                                           # type: RefType
-        self.v2xSupported = None                                            # type: V2xSupportEnum
-        self.wakeUpOverBusSupported = None                                  # type: Boolean
+        self.associatedComIPduGroupRefs: List[RefType] = []
+        self.associatedConsumedProvidedServiceInstanceGroupRefs: List[RefType] = []
+        self.associatedPdurIPduGroupRefs: List[RefType] = []
+        self.channelSynchronousWakeup: Boolean = None
+        self.clientIdRange: ClientIdRange = None
+        self.comConfigurationGwTimeBase: TimeValue = None
+        self.comConfigurationRxTimeBase: TimeValue = None
+        self.comConfigurationTxTimeBase: TimeValue = None
+        self.comEnableMDTForCyclicTransmission: Boolean = None
+        self.commControllers: List[CommunicationController] = []
+        self.connectors: List[CommunicationConnector] = []
+        self.diagnosticAddress: Integer = None
+        self.dltConfig: DltConfig = None
+        self.doIpConfig: DoIpConfig = None
+        self.ecuTaskProxyRefs: List[RefType] = []
+        self.ethSwitchPortGroupDerivation: Boolean = None
+        self.firewallRuleRef: RefType = None
+        self.partitions: List[EcuPartition] = []
+        self.pncNmRequest: Boolean = None
+        self.pncPrepareSleepTimer: TimeValue = None
+        self.pncSynchronousWakeup: Boolean = None
+        self.pnResetTime: TimeValue = None
+        self.sleepModeSupported: Boolean = None
+        self.tcpIpIcmpPropsRef: RefType = None
+        self.tcpIpPropsRef: RefType = None
+        self.v2xSupported: V2xSupportEnum = None
+        self.wakeUpOverBusSupported: Boolean = None
 
     def getAssociatedComIPduGroupRefs(self):
         return self.associatedComIPduGroupRefs

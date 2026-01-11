@@ -7,7 +7,7 @@ class ModeDrivenTransmissionModeCondition(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.modeDeclarationRef = None                          # type: RefType
+        self.modeDeclarationRef: RefType = None
 
     def getModeDeclarationRef(self):
         return self.modeDeclarationRef
@@ -20,8 +20,8 @@ class TransmissionModeCondition(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.dataFilter = None                                  # type: DataFilter
-        self.iSignalInIPduRef = None                            # type: RefType
+        self.dataFilter: DataFilter = None
+        self.iSignalInIPduRef: RefType = None
 
     def getDataFilter(self):
         return self.dataFilter
@@ -42,9 +42,8 @@ class TimeRangeType(ARObject):
     def __init__(self):
         super().__init__()
 
-        # type: TimeRangeTypeTolerance
-        self.tolerance = None
-        self.value = None                                       # type: TimeValue
+        self.tolerance: TimeRangeTypeTolerance = None
+        self.value: TimeValue = None
 
     def getTolerance(self):
         return self.tolerance
@@ -65,8 +64,8 @@ class CyclicTiming(Describable):
     def __init__(self):
         super().__init__()
 
-        self.timeOffset = None                                  # type: TimeRangeType
-        self.timePeriod = None                                  # type: TimeRangeType
+        self.timeOffset: TimeRangeType = None
+        self.timePeriod: TimeRangeType = None
 
     def getTimeOffset(self):
         return self.timeOffset
@@ -87,8 +86,8 @@ class EventControlledTiming(Describable):
     def __init__(self):
         super().__init__()
 
-        self.numberOfRepetitions = None                         # type: Integer
-        self.repetitionPeriod = None                            # type: TimeRangeType
+        self.numberOfRepetitions: Integer = None
+        self.repetitionPeriod: TimeRangeType = None
 
     def getNumberOfRepetitions(self):
         return self.numberOfRepetitions
@@ -109,8 +108,8 @@ class TransmissionModeTiming(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.cyclicTiming = None                                # type: CyclicTiming
-        self.eventControlledTiming = None                       # type: EventControlledTiming
+        self.cyclicTiming: CyclicTiming = None
+        self.eventControlledTiming: EventControlledTiming = None
 
     def getCyclicTiming(self):
         return self.cyclicTiming
@@ -130,11 +129,11 @@ class TransmissionModeDeclaration(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.modeDrivenFalseConditions = []                         # type: List[ModeDrivenTransmissionModeCondition]
-        self.modeDrivenTrueConditions = []                          # type: List[ModeDrivenTransmissionModeCondition]
-        self.transmissionModeConditions = []                        # typeL List[TransmissionModeCondition]
-        self.transmissionModeFalseTiming = None                     # type: TransmissionModeTiming
-        self.transmissionModeTrueTiming = None                      # type: TransmissionModeTiming
+        self.modeDrivenFalseConditions: List[ModeDrivenTransmissionModeCondition] = []
+        self.modeDrivenTrueConditions: List[ModeDrivenTransmissionModeCondition] = []
+        self.transmissionModeConditions: List[TransmissionModeCondition] = []
+        self.transmissionModeFalseTiming: TransmissionModeTiming = None
+        self.transmissionModeTrueTiming: TransmissionModeTiming = None
 
     def getModeDrivenFalseConditions(self):
         return self.modeDrivenFalseConditions

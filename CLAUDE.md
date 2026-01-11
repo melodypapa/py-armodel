@@ -19,6 +19,8 @@ The project is organized into the following key modules and follows the AUTOSAR 
   - M2/MSR: Meta-model metadata
     - AsamHdo: Base types, computation methods, units
     - DataDictionary: Data definition properties, service process tasks, auxillary objects
+    - CalibrationData: Calibration and measurement data elements
+    - Documentation: Documentation elements
   - M2/AUTOSARTemplates: Core AUTOSAR template models organized by domain
     - AutosarTopLevelStructure: AUTOSAR singleton and root model
     - ECUCDescriptionTemplate: ECUC configuration models
@@ -40,6 +42,24 @@ The project is organized into the following key modules and follows the AUTOSAR 
       - SwcImplementation: Software component implementation details
       - SwcInternalBehavior: Software component internal behavior
     - SystemTemplate: System-level models (SystemSignal, ECU-INSTANCE, etc.)
+      - DataMapping: Data mapping between components and system level
+      - DiagnosticConnection: Diagnostic connection definitions
+      - DoIp: DoIP (Diagnostics over IP) service definitions
+      - EcuResourceMapping: ECU resource mapping elements
+      - InstanceRefs: Instance reference elements
+      - NetworkManagement: Network management configurations
+      - RteEventToOsTaskMapping: Rte event to OS task mapping
+      - SecureCommunication: Secure communication elements
+      - SWmapping: Software component to ECU mapping
+      - TransportProtocols: Transport protocol definitions
+      - Fibex: Communication network definitions
+        - Fibex4Can: CAN communication elements
+        - Fibex4Ethernet: Ethernet communication elements
+        - Fibex4Flexray: FlexRay communication elements
+        - Fibex4Lin: LIN communication elements
+        - FibexCore: Core communication and topology elements
+        - Fibex4Multiplatform: Multi-platform communication elements
+      - Transformer: Data transformation elements
     - BswModuleTemplate: Basic Software module models (BswModuleDescription, BswBehavior, BswImplementation, BswInterfaces, BswOverview)
     - EcuResourceTemplate: ECU resource models
     - GenericStructure: Generic structure elements
@@ -200,6 +220,7 @@ All CLI tools are registered as console_scripts in setup.py:
 - Ethernet: ETHERNET-COMMUNICATION-CONNECTOR, ETHERNET-PHYSICAL-CHANNEL, SO-AD-CONFIG
 - Network Management: NM-CONFIG, NM-NODE, NM-CLUSTER, CAN-NM-MODE, UDP-NM-CLUSTER
 - End-to-End Protection: EndToEndProtectionSet, EndToEndProtection
+- Fibex Communication: Detailed network communication elements for CAN, Ethernet, FlexRay, LIN
 
 ### Behavior
 - RunnableEntity
@@ -229,12 +250,16 @@ All CLI tools are registered as console_scripts in setup.py:
 - DiagnosticEventNeeds
 - DCM Needs: DiagnosticCommunicationManagerNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 - DiagnosticContribution: Enhanced functionality with improved diagnostic support
+- DoIP (Diagnostics over IP): DoIpServiceNeeds, DoIpConfiguration
 
 ### System
 - SystemSignal, SystemSignalGroup
 - SWC-TO-ECU-MAPPING, SW-MAPPINGS
 - ECU-INSTANCE
 - ROOT-SOFTWARE-COMPOSITIONS
+- DataMapping: System-level data mapping
+- NetworkManagement: System-level network management
+- SecureCommunication: System-level secure communication
 
 ### BSW Modules
 - BswModuleDescription
@@ -263,35 +288,51 @@ All CLI tools are registered as console_scripts in setup.py:
 - HwElementCategory for ECU resource template
 - Measurement and calibration support (McGroups, McSupportData)
 
+### Fibex (Field Bus Exchange Format)
+- Fibex4Can: CAN communication elements including CanFrame, CanFrameTriggering
+- Fibex4Ethernet: Ethernet communication elements including SocketConnection, SocketConnectionBundle
+- Fibex4Flexray: FlexRay communication elements
+- Fibex4Lin: LIN communication elements
+- FibexCore: Core communication and topology elements
+- Fibex4Multiplatform: Multi-platform communication elements
+
 ## Testing Structure
 
-Tests are located in `tests/test_armodel/` and `src/armodel/tests/` directories and include comprehensive coverage for all major components and functionality:
-
+Tests are located in `tests/test_armodel/` directory and include comprehensive coverage for all major components and functionality:
 
 ```
 tests/test_armodel/
 ├── cli/                    # CLI tool tests
 ├── models/                 # Model class tests
+│   ├── M2/                 # M2 model structure tests
+│   │   ├── AUTOSARTemplates/  # AUTOSAR template specific tests
+│   │   │   ├── BswModuleTemplate/
+│   │   │   ├── CommonStructure/
+│   │   │   │   ├── ResourceConsumption/
+│   │   │   │   ├── StandardizationTemplate/
+│   │   │   │   ├── Timing/
+│   │   │   │   ├── test_CommonStructure_init.py
+│   │   │   │   ├── test_CommonStructure.py
+│   │   │   │   ├── test_Filter.py
+│   │   │   │   ├── test_FlatMap.py
+│   │   │   │   ├── test_Implementation.py
+│   │   │   │   ├── test_ImplementationDataTypes.py
+│   │   │   │   ├── test_InternalBehavior.py
+│   │   │   │   ├── test_ModeDeclaration.py
+│   │   │   │   ├── test_ServiceNeeds.py
+│   │   │   │   ├── test_SwcBswMapping.py
+│   │   │   │   └── test_TriggerDeclaration.py
+│   │   │   ├── DiagnosticExtract/
+│   │   │   ├── ECUCParameterDefTemplate/
+│   │   │   ├── EcuResourceTemplate/
+│   │   │   ├── GenericStructure/
+│   │   │   ├── SWComponentTemplate/
+│   │   │   └── SystemTemplate/
+│   │   └── MSR/            # MSR (Meta-Model Semantic Rules) tests
 │   ├── test_ar_object.py
 │   ├── test_ar_package.py
 │   ├── test_ar_ref.py
-│   ├── test_bsw_behavior.py
-│   ├── test_bsw_implementation.py
-│   ├── test_bsw_interfaces.py
-│   ├── test_bsw_module_template.py
-│   ├── test_bsw_overview.py
-│   ├── test_common_structure.py
-│   ├── test_data_dictionary.py
-│   ├── test_data_prototype.py
-│   ├── test_datatype.py
-│   ├── test_ECUCParameterDefTemplate.py
-│   ├── test_general_structure.py
-│   ├── test_Identifiable.py
-│   ├── test_implementation.py
-│   ├── test_m2_msr.py
-│   ├── test_port_interface.py
-│   ├── test_port_prototype.py
-│   └── test_resource_consumption.py
+│   └── other model test files...
 ├── parser/                 # Parser tests
 │   ├── test_arxml_parser.py
 │   ├── test_bsw_module_descriiption.py
@@ -318,6 +359,7 @@ Test files in `test_files/` directory contain sample ARXML files for validation 
 - Report module generates Excel-based reports
 - ServiceNeeds module provides comprehensive support for AUTOSAR service needs with enhanced test coverage
 - BSW Module template includes comprehensive documentation and test cases with improved coverage
+- SystemTemplate includes detailed communication protocol support (Fibex modules for CAN, Ethernet, FlexRay, LIN)
 
 ## Dependencies
 
@@ -411,6 +453,8 @@ Key updates in recent versions include significant enhancements and new features
 - Improved ResourceConsumption elements with memory, stack, heap, and execution time usage specifications
 - Enhanced ModeDeclaration elements with improved mode switch and error behavior support
 - Extended CommonStructure elements with comprehensive service needs support including diagnostic, communication, and measurement needs
+- Added detailed Fibex communication modules for CAN, Ethernet, FlexRay, LIN protocols
+- Enhanced SystemTemplate with data mapping, network management, and secure communication modules
 
 ## BSW Module Template Documentation
 

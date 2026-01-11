@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for diagnostic connections
+# It defines connections for diagnostic services and communication between diagnostic entities
+
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
@@ -6,11 +9,11 @@ class DiagnosticConnection(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.functionalRequestRefs = []                         # type: List[RefType]
-        self.periodicResponseUudtRefs = []                      # type: List[RefType]
-        self.physicalRequestRef = None                          # type: RefType
-        self.responseRef = None                                 # type: RefType
-        self.responseOnEventRef = None                          # type: RefType
+        self.functionalRequestRefs: List[RefType] = []
+        self.periodicResponseUudtRefs: List[RefType] = []
+        self.physicalRequestRef: RefType = None
+        self.responseRef: RefType = None
+        self.responseOnEventRef: RefType = None
 
     def getFunctionalRequestRefs(self):
         return self.functionalRequestRefs
@@ -51,8 +54,3 @@ class DiagnosticConnection(ARElement):
         if value is not None:
             self.responseOnEventRef = value
         return self
-
-
-    
-
-

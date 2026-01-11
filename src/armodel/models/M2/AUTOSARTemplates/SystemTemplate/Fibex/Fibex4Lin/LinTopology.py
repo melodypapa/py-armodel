@@ -8,7 +8,7 @@ class LinCommunicationController(CommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.protocolVersion = None                                     # type: String
+        self.protocolVersion: String = None
 
     def getProtocolVersion(self):
         return self.protocolVersion
@@ -22,9 +22,9 @@ class LinMaster(LinCommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.linSlaves = []                                             # type: List[LinSlaveConfig]
-        self.timeBase = None                                            # type: TimeValue
-        self.timeBaseJitter = None                                      # type: TimeValue
+        self.linSlaves: List[LinSlaveConfig] = []
+        self.timeBase: TimeValue = None
+        self.timeBaseJitter: TimeValue = None
 
     def getLinSlaves(self):
         return self.linSlaves
@@ -54,10 +54,10 @@ class LinCommunicationConnector(CommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.initialNad = None                                      # type: Integer
-        self.linConfigurableFrames = []                             # type: List[LinConfigurableFrame]
-        self.linOrderedConfigurableFrames = []                      # type: List[LinOrderedConfigurableFrame]
-        self.scheduleChangeNextTimeBase = None                      # type: Boolean
+        self.initialNad: Integer = None
+        self.linConfigurableFrames: List[LinConfigurableFrame] = []
+        self.linOrderedConfigurableFrames: List[LinOrderedConfigurableFrame] = []
+        self.scheduleChangeNextTimeBase: Boolean = None
 
     def getInitialNad(self):
         return self.initialNad

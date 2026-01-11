@@ -1,3 +1,6 @@
+# This module contains AUTOSAR System Template classes for network endpoints
+# It defines IP configuration, network addresses, and communication protocols for networked ECUs
+
 from abc import ABCMeta
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -15,14 +18,14 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def __init__(self):
         super().__init__()
 
-        self.assignmentPriority = None                              # type: PositiveInteger    
-        self.defaultGateway = None                                  # type: Ip4AddressString
-        self.dnsServerAddresses = []                                # type: List[Ip4AddressString]
-        self.ipAddressKeepBehavior = None                           # type: IpAddressKeepEnum
-        self.ipv4Address = None                                     # type: Ip4AddressString
-        self.ipv4AddressSource = None                               # type: Ipv4AddressSourceEnum
-        self.networkMask = None                                     # type: Ip4AddressString
-        self.ttl = None                                             # type: PositiveInteger
+        self.assignmentPriority: PositiveInteger = None
+        self.defaultGateway: Ip4AddressString = None
+        self.dnsServerAddresses: List[Ip4AddressString] = []
+        self.ipAddressKeepBehavior = None
+        self.ipv4Address: Ip4AddressString = None
+        self.ipv4AddressSource = None
+        self.networkMask: Ip4AddressString = None
+        self.ttl: PositiveInteger = None
 
     def getAssignmentPriority(self):
         return self.assignmentPriority
@@ -84,15 +87,15 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def __init__(self):
         super().__init__()
 
-        self.assignmentPriority = None                              # type: PositiveInteger
-        self.defaultRouter = None                                   # type: Ip6AddressString
-        self.dnsServerAddresses = []                                # type: List[Ip6AddressString]
-        self.enableAnycast = None                                   # type: Boolean
-        self.hopCount = None                                        # type: PositiveInteger
-        self.ipAddressKeepBehavior = None                           # type: IpAddressKeepEnum
-        self.ipAddressPrefixLength = None                           # type: PositiveInteger
-        self.ipv6Address = None                                     # type: Ip6AddressString
-        self.ipv6AddressSource = None                               # type: Ipv6AddressSourceEnum
+        self.assignmentPriority: PositiveInteger = None
+        self.defaultRouter: Ip6AddressString = None
+        self.dnsServerAddresses: List[Ip6AddressString] = []
+        self.enableAnycast: Boolean = None
+        self.hopCount: PositiveInteger = None
+        self.ipAddressKeepBehavior = None
+        self.ipAddressPrefixLength: PositiveInteger = None
+        self.ipv6Address: Ip6AddressString = None
+        self.ipv6AddressSource = None
 
     def getAssignmentPriority(self):
         return self.assignmentPriority
@@ -175,7 +178,7 @@ class TimeSyncClientConfiguration(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.orderedMasters = []                                    # type: List[OrderedMaster]
+        self.orderedMasters: List[OrderedMaster] = []
         self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
 
     def getOrderedMasters(self):
@@ -199,9 +202,9 @@ class TimeSyncServerConfiguration(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.priority = None                                        # type: PositiveInteger
-        self.syncInterval = None                                    # type: TimeValue
-        self.timeSyncServerIdentifier = None                        # type: String
+        self.priority: PositiveInteger = None
+        self.syncInterval: TimeValue = None
+        self.timeSyncServerIdentifier: String = None
         self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
 
     def getPriority(self):
@@ -241,8 +244,8 @@ class TimeSynchronization(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.timeSyncClient = None                                  # type: TimeSyncClientConfiguration
-        self.timeSyncServer = None                                  # type: TimeSyncServerConfiguration
+        self.timeSyncClient: TimeSyncClientConfiguration = None
+        self.timeSyncServer: TimeSyncServerConfiguration = None
 
     def getTimeSyncClient(self):
         return self.timeSyncClient
@@ -265,8 +268,8 @@ class InfrastructureServices(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.doIpEntity = None                                      # type: DoIpEntity
-        self.timeSynchronization = None                             # type: TimeSynchronization
+        self.doIpEntity: DoIpEntity = None
+        self.timeSynchronization: TimeSynchronization = None
 
     def getDoIpEntity(self):
         return self.doIpEntity
@@ -286,11 +289,11 @@ class NetworkEndpoint(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.fullyQualifiedDomainName = None                        # type: String
-        self.infrastructureServices = None                          # type: InfrastructureServices
-        self.ipSecConfig = None                                     # type: IPSecConfig
-        self.networkEndpointAddresses = []                          # type: List[NetworkEndpointAddress]
-        self.priority = None                                        # type: PositiveInteger
+        self.fullyQualifiedDomainName: String = None
+        self.infrastructureServices: InfrastructureServices = None
+        self.ipSecConfig = None
+        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
+        self.priority: PositiveInteger = None
 
     def getFullyQualifiedDomainName(self):
         return self.fullyQualifiedDomainName
