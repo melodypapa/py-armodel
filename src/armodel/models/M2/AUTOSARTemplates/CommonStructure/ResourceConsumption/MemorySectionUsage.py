@@ -56,7 +56,7 @@ class MemorySection(Identifiable):
 
     @alignment.setter
     def alignment(self, value: ARLiteral):
-        '''
+        r'''
         if value is not None and value.getValue() != "":
             match = False
             if value.getValue() in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
