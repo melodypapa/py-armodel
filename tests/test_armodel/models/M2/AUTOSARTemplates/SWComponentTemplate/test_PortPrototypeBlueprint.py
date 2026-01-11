@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprintInitValue, PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec, RPortComSpec
 
 
 class TestPortPrototypeBlueprintInitValue:
@@ -160,11 +161,12 @@ class TestPortPrototypeBlueprint:
         ar_root = parent.createARPackage("AUTOSAR")
         blueprint = PortPrototypeBlueprint(ar_root, "TestBlueprint")
         
-        # Create a mock PPortComSpec for testing
-        class MockPPortComSpec:
-            pass
+        # Create a concrete subclass of PPortComSpec for testing since PPortComSpec is abstract
+        class ConcretePPortComSpec(PPortComSpec):
+            def __init__(self):
+                super().__init__()
         
-        spec = MockPPortComSpec()
+        spec = ConcretePPortComSpec()
         test_specs = [spec]
         result = blueprint.setProvidedComSpecs(test_specs)
         assert result is blueprint
@@ -193,11 +195,12 @@ class TestPortPrototypeBlueprint:
         ar_root = parent.createARPackage("AUTOSAR")
         blueprint = PortPrototypeBlueprint(ar_root, "TestBlueprint")
         
-        # Create a mock RPortComSpec for testing (not imported so using mock)
-        class MockRPortComSpec:
-            pass
+        # Create a concrete subclass of RPortComSpec for testing since RPortComSpec is abstract
+        class ConcreteRPortComSpec(RPortComSpec):
+            def __init__(self):
+                super().__init__()
         
-        spec = MockRPortComSpec()
+        spec = ConcreteRPortComSpec()
         test_specs = [spec]
         result = blueprint.setRequiredComSpecs(test_specs)
         assert result is blueprint
