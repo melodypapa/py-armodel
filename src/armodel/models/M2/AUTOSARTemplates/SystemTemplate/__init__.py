@@ -16,6 +16,11 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 
 
 class SwcToEcuMapping(Identifiable):
+    """
+    Represents the mapping between software components and ECU instances
+    in the system, defining how components are assigned to specific
+    ECUs including hardware element and processing unit references.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -54,6 +59,11 @@ class SwcToEcuMapping(Identifiable):
 
 
 class ComManagementMapping(Identifiable):
+    """
+    Represents communication management mapping in the system,
+    defining how communication management groups and port groups
+    are mapped to physical communication channels.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -87,6 +97,12 @@ class ComManagementMapping(Identifiable):
 
 
 class SystemMapping(Identifiable):
+    """
+    Represents system mapping in the AUTOSAR system, organizing
+    various types of mappings including application partition mappings,
+    ECU resource mappings, data mappings, and software component mappings
+    for comprehensive system configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -297,6 +313,11 @@ class SystemMapping(Identifiable):
 
 
 class RootSwCompositionPrototype(Identifiable):
+    """
+    Represents the root software composition prototype in the system,
+    defining references to calibration parameter value sets, flat maps,
+    and software composition templates for the top-level composition.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -327,6 +348,11 @@ class RootSwCompositionPrototype(Identifiable):
 
 
 class J1939SharedAddressCluster(Identifiable):
+    """
+    Represents a J1939 shared address cluster in the system,
+    defining references to participating J1939 clusters for
+    shared address management in J1939 communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -342,6 +368,11 @@ class J1939SharedAddressCluster(Identifiable):
 
 
 class System(ARElement):
+    """
+    Represents the top-level system in the AUTOSAR system template,
+    organizing all system-level elements including ECU extractions,
+    mappings, and system configurations for complete system definition.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

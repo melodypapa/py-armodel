@@ -15,11 +15,20 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication 
 
 
 class CommunicationCycle(ARObject):
+    """
+    Abstract base class for communication cycles, defining common
+    properties for different types of communication timing cycles
+    in the AUTOSAR communication system.
+    """
     def __init__(self):
         super().__init__()
 
 
 class CycleCounter(CommunicationCycle):
+    """
+    Defines a counter for communication cycles, specifying the
+    count value for cycle tracking in timed communication systems.
+    """
     def __init__(self):
         super().__init__()
 
@@ -35,11 +44,21 @@ class CycleCounter(CommunicationCycle):
 
 
 class CycleRepetitionType(AREnum):
+    """
+    Enumeration defining types of cycle repetitions in communication
+    scheduling, specifying how communication cycles are repeated
+    over time.
+    """
     def __init__(self):
         super().__init__([])
 
 
 class CycleRepetition(CommunicationCycle):
+    """
+    Defines repetition properties for communication cycles,
+    specifying base cycle and repetition pattern for cyclic
+    communication scheduling.
+    """
     def __init__(self):
         super().__init__()
 
@@ -64,6 +83,12 @@ class CycleRepetition(CommunicationCycle):
 
 
 class PhysicalChannel (Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for physical communication channels,
+    defining common properties for different types of physical
+    communication media including connector references and
+    frame triggering mechanisms.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
             raise NotImplementedError("PhysicalChannel is an abstract class.")
@@ -132,6 +157,11 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
 
 
 class AbstractCanPhysicalChannel(PhysicalChannel, metaclass=ABCMeta):
+    """
+    Abstract base class for CAN physical channels, defining
+    common properties for CAN-specific physical communication
+    channels in the AUTOSAR system.
+    """
     def __init__(self, parent, short_name):
         if type(self) is AbstractCanPhysicalChannel:
             raise NotImplementedError("AbstractCanPhysicalChannel is an abstract class.")
@@ -140,11 +170,21 @@ class AbstractCanPhysicalChannel(PhysicalChannel, metaclass=ABCMeta):
 
 
 class CanPhysicalChannel(AbstractCanPhysicalChannel):
+    """
+    Represents a CAN physical channel in the communication system,
+    implementing specific properties for CAN bus communication
+    including frame triggering and connector management.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
 
 class LinPhysicalChannel(PhysicalChannel):
+    """
+    Represents a LIN physical channel in the communication system,
+    defining LIN-specific properties including bus idle timeout
+    and schedule tables for LIN network communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -171,6 +211,11 @@ class LinPhysicalChannel(PhysicalChannel):
 
 
 class VlanConfig(Identifiable):
+    """
+    Defines Virtual LAN (VLAN) configuration properties,
+    specifying VLAN identifiers for network segmentation
+    and traffic management in Ethernet communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -186,6 +231,11 @@ class VlanConfig(Identifiable):
 
 
 class EthernetPhysicalChannel(PhysicalChannel):
+    """
+    Represents an Ethernet physical channel in the communication system,
+    defining Ethernet-specific properties including network endpoints,
+    Socket Adaptor (SoAd) configuration, and VLAN settings.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -222,6 +272,11 @@ class EthernetPhysicalChannel(PhysicalChannel):
 
 
 class FlexrayChannelName(AREnum):
+    """
+    Enumeration defining names for FlexRay channels,
+    specifying the available channel designations
+    in FlexRay communication systems.
+    """
     CHANNEL_A = "channelA"
     channel_B = "channelB"
 
@@ -233,6 +288,11 @@ class FlexrayChannelName(AREnum):
 
 
 class FlexrayPhysicalChannel(PhysicalChannel):
+    """
+    Represents a FlexRay physical channel in the communication system,
+    defining FlexRay-specific properties including channel name
+    designation for dual-channel FlexRay communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -248,6 +308,12 @@ class FlexrayPhysicalChannel(PhysicalChannel):
 
 
 class CommunicationCluster(FibexElement, metaclass=ABCMeta):
+    """
+    Abstract base class for communication clusters, defining
+    common properties for different types of communication
+    networks including baud rate, protocol specifications,
+    and physical channel management.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
             raise NotImplementedError("CommunicationCluster is an abstract class.")
@@ -322,6 +388,11 @@ class CommunicationCluster(FibexElement, metaclass=ABCMeta):
 
 
 class CanClusterBusOffRecovery(ARObject):
+    """
+    Defines bus off recovery properties for CAN clusters,
+    specifying timing and counter configurations for
+    CAN controller recovery after bus off conditions.
+    """
     def __init__(self):
         super().__init__()
 
@@ -373,6 +444,11 @@ class CanClusterBusOffRecovery(ARObject):
 
 
 class AbstractCanCluster(CommunicationCluster, metaclass=ABCMeta):
+    """
+    Abstract base class for CAN clusters, extending communication
+    clusters with CAN-specific properties including FD and XL
+    baud rates and speed configurations.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
             raise NotImplementedError("AbstractCanCluster is an abstract class.")
@@ -414,16 +490,31 @@ class AbstractCanCluster(CommunicationCluster, metaclass=ABCMeta):
 
 
 class CanCluster(AbstractCanCluster):
+    """
+    Represents a CAN cluster in the communication system,
+    implementing specific properties for CAN network
+    communication including timing and error recovery.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class LinCluster(CommunicationCluster):
+    """
+    Represents a LIN cluster in the communication system,
+    implementing specific properties for LIN network
+    communication including scheduling and timing management.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class CommunicationController(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for communication controllers,
+    defining common properties for different types of
+    communication hardware controllers in the system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationController:
             raise NotImplementedError("CommunicationController is an abstract class.")
@@ -441,23 +532,44 @@ class CommunicationController(Identifiable, metaclass=ABCMeta):
 
 
 class PncGatewayTypeEnum(AREnum):
+    """
+    Enumeration defining types of PNC (Partial Network Cluster)
+    gateways, specifying the gateway behavior in partial
+    network communication management.
+    """
     ENUM_ACTIVE = "active"
     ENUM_NONE = "none"
     ENUM_PASSIVE = "passive"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__([
+            PncGatewayTypeEnum.ENUM_ACTIVE,
+            PncGatewayTypeEnum.ENUM_NONE,
+            PncGatewayTypeEnum.ENUM_PASSIVE
+        ])
 
 
 class CommunicationDirectionType(AREnum):
+    """
+    Enumeration defining communication direction types,
+    specifying whether communication is inbound or outbound.
+    """
     ENUM_IN = "in"
     ENUM_OUT = "out"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__([
+            CommunicationDirectionType.ENUM_IN,
+            CommunicationDirectionType.ENUM_OUT
+        ])
 
 
 class CommConnectorPort(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for communication connector ports,
+    defining common properties for different types of
+    communication ports including direction and processing.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
             raise NotImplementedError("CommConnectorPort is an abstract class.")
@@ -476,16 +588,29 @@ class CommConnectorPort(Identifiable, metaclass=ABCMeta):
 
 
 class FramePort(CommConnectorPort):
+    """
+    Represents a frame port for communication connectors,
+    handling frame-based communication at the connector level.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class IPduSignalProcessingEnum(Enum):
+    """
+    Enumeration defining types of IPDU signal processing,
+    specifying whether signal processing is deferred or immediate.
+    """
     ENUM_DEFERRED = "deferred"
     ENUM_IMMEDIATE = "immediate"
 
 
 class IPduPort(CommConnectorPort):
+    """
+    Represents an IPDU port for communication connectors,
+    handling Interaction Protocol Data Unit communication
+    with specific processing and security properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -537,6 +662,11 @@ class IPduPort(CommConnectorPort):
 
 
 class ISignalPort(CommConnectorPort):
+    """
+    Represents an interaction signal port for communication connectors,
+    handling interaction signal communication with filtering,
+    timeout, and validity handling properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -588,6 +718,12 @@ class ISignalPort(CommConnectorPort):
 
 
 class CommunicationConnector(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for communication connectors,
+    defining common properties for connecting communication
+    controllers to communication channels and managing
+    port instances and gateway types.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
             raise NotImplementedError("CommunicationConnector is an abstract class.")

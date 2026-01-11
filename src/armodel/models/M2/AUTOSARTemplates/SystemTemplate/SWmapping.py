@@ -8,6 +8,11 @@ from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSyste
 
 
 class SwcToImplMapping(Identifiable):
+    """
+    Represents a mapping between software components and their implementations,
+    defining how software component instances in the system are connected to
+    their specific implementation references and instance references.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -32,6 +37,11 @@ class SwcToImplMapping(Identifiable):
 
 
 class ApplicationPartitionToEcuPartitionMapping(Identifiable):
+    """
+    Represents a mapping between application partitions and ECU partitions,
+    defining how application-level partitions are mapped to ECU-level
+    partitions for resource allocation and execution management.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

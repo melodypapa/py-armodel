@@ -9,6 +9,12 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import Tran
 
 
 class FibexElement(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for FIBEX (FIBer EXchange) elements in the
+    AUTOSAR system, providing a common foundation for all communication
+    elements defined in the FIBEX format used for exchanging communication
+    data between tools.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is FibexElement:
             raise NotImplementedError("FibexElement is an abstract class.")
@@ -17,6 +23,11 @@ class FibexElement(Identifiable, metaclass=ABCMeta):
 
 
 class PduToFrameMapping(Identifiable):
+    """
+    Defines the mapping between Protocol Data Units (PDUs) and frames,
+    specifying how PDUs are embedded within frames including byte order,
+    start position, and update indication bit position.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -55,6 +66,11 @@ class PduToFrameMapping(Identifiable):
 
 
 class Frame(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for communication frames in the AUTOSAR system,
+    defining common properties for different types of communication
+    frames including frame length and PDU to frame mappings.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
             raise NotImplementedError("Frame is an abstract class.")
@@ -83,6 +99,11 @@ class Frame(Identifiable, metaclass=ABCMeta):
 
 
 class ContainedIPduProps(ARObject):
+    """
+    Defines properties for contained Interaction Protocol Data Units (IPDUs),
+    specifying collection semantics, header IDs, offset, timeout,
+    trigger, and update indication bit position properties.
+    """
     def __init__(self):
         super().__init__()
 
@@ -145,6 +166,11 @@ class ContainedIPduProps(ARObject):
 
 
 class ISignalGroup(FibexElement):
+    """
+    Defines a group of interaction signals in the communication system,
+    specifying relationships between individual signals and system-level
+    signal groups with transformation properties.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -184,6 +210,11 @@ class ISignalGroup(FibexElement):
 
 
 class ISignalIPduGroup(FibexElement):
+    """
+    Defines a group of Interaction Protocol Data Units (IPDUs) based on interaction signals,
+    specifying communication direction, mode, and references to contained
+    IPDU groups and individual IPDUs.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -230,6 +261,10 @@ class ISignalIPduGroup(FibexElement):
 
 
 class Pdu(FibexElement, metaclass=ABCMeta):
+    """
+    Abstract base class for Protocol Data Units (PDUs) in the communication system,
+    defining common properties such as dynamic length support and length specifications.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Pdu:
             raise NotImplementedError("Pdu is an abstract class.")
@@ -256,6 +291,11 @@ class Pdu(FibexElement, metaclass=ABCMeta):
     
 
 class IPdu(Pdu, metaclass=ABCMeta):
+    """
+    Abstract base class for Interaction Protocol Data Units (IPDUs),
+    extending the PDU class with contained IPDU properties for
+    interaction-based communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
             raise NotImplementedError("IPdu is an abstract class.")
@@ -274,6 +314,11 @@ class IPdu(Pdu, metaclass=ABCMeta):
 
 
 class SecureCommunicationProps(ARObject):
+    """
+    Defines properties for secure communication, including authentication
+    data freshness, integrity protection, and secured area specifications
+    for protected communication channels.
+    """
     def __init__(self):
         super().__init__()
 
@@ -406,6 +451,11 @@ class SecureCommunicationProps(ARObject):
 
 
 class SecuredIPdu(IPdu):
+    """
+    Represents a secured Interaction Protocol Data Unit (IPDU) with
+    authentication, integrity protection, and other security properties
+    for protected communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -475,6 +525,11 @@ class SecuredIPdu(IPdu):
 
 
 class ISignalToIPduMapping(Identifiable):
+    """
+    Defines the mapping between interaction signals and Interaction Protocol Data Units (IPDUs),
+    specifying signal references, byte order, start position, transfer
+    properties, and update indication bit position.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -529,6 +584,11 @@ class ISignalToIPduMapping(Identifiable):
 
 
 class NmPdu(Pdu):
+    """
+    Represents a Network Management Protocol Data Unit (PDU) used for
+    network management communication including node monitoring,
+    wake-up, and sleep state management.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -573,11 +633,19 @@ class NmPdu(Pdu):
 
 
 class NPdu(IPdu):
+    """
+    Represents a Network Protocol Data Unit (PDU) used for network-level
+    communication in the AUTOSAR communication system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class DcmIPdu(IPdu):
+    """
+    Represents a Diagnostic Communication Management Interaction Protocol Data Unit (IPDU)
+    used for diagnostic communication in the AUTOSAR system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -592,6 +660,11 @@ class DcmIPdu(IPdu):
 
 
 class IPduTiming(Describable):
+    """
+    Defines timing properties for Interaction Protocol Data Units (IPDUs),
+    specifying minimum delay and transmission mode declaration for
+    timed communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -614,6 +687,11 @@ class IPduTiming(Describable):
 
 
 class ISignalIPdu(IPdu):
+    """
+    Represents an Interaction Protocol Data Unit (IPDU) based on interaction signals,
+    defining timing specifications, signal-to-PDU mappings, and unused
+    bit patterns for signal-based communication.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -647,6 +725,11 @@ class ISignalIPdu(IPdu):
 
 
 class ISignal(FibexElement):
+    """
+    Represents an interaction signal in the communication system,
+    defining data transformation, signal type, initialization values,
+    length, and system signal references for signal-based communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -733,6 +816,11 @@ class ISignal(FibexElement):
 
 
 class PduTriggering(Identifiable):
+    """
+    Defines the triggering mechanism for Protocol Data Units (PDUs),
+    specifying PDU references, port references, and trigger conditions
+    for PDU transmission and reception.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -780,6 +868,11 @@ class PduTriggering(Identifiable):
 
 
 class FrameTriggering(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for frame triggering mechanisms, defining
+    common properties for triggering frame transmission and reception
+    including frame references and port references.
+    """
     def __init__(self, parent, short_name):
         if type(self) is FrameTriggering:
             raise NotImplementedError("FrameTriggering is an abstract class.")
@@ -813,6 +906,11 @@ class FrameTriggering(Identifiable, metaclass=ABCMeta):
 
 
 class SystemSignal(ARElement):
+    """
+    Represents a system signal in the AUTOSAR system, defining
+    dynamic length properties and physical properties for
+    system-level signal communication.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -835,6 +933,11 @@ class SystemSignal(ARElement):
 
 
 class SystemSignalGroup(ARElement):
+    """
+    Represents a group of system signals, defining relationships
+    between individual system signals and transforming signal references
+    for grouped signal communication.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -857,6 +960,11 @@ class SystemSignalGroup(ARElement):
 
 
 class ISignalTriggering(Identifiable):
+    """
+    Defines triggering properties for interaction signals, specifying
+    signal references, group references, and port references for
+    signal-based communication triggering.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -887,6 +995,11 @@ class ISignalTriggering(Identifiable):
 
 
 class SegmentPosition(ARObject):
+    """
+    Defines the position of a segment within a communication element,
+    specifying byte order, length, and position properties for
+    segmented communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -920,6 +1033,11 @@ class SegmentPosition(ARObject):
 
 
 class MultiplexedPart(ARObject, metaclass=ABCMeta):
+    """
+    Abstract base class for multiplexed communication parts, defining
+    common properties for dynamic and static multiplexed communication
+    segments including segment positions.
+    """
     def __init__(self):
         if type(self) is MultiplexedPart:
             raise NotImplementedError("MultiplexedPart is an abstract class.")
@@ -938,6 +1056,11 @@ class MultiplexedPart(ARObject, metaclass=ABCMeta):
 
 
 class StaticPart(MultiplexedPart):
+    """
+    Defines a static part of multiplexed communication, specifying
+    Interaction Protocol Data Unit (IPDU) references for fixed
+    segments in multiplexed communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -953,6 +1076,11 @@ class StaticPart(MultiplexedPart):
     
 
 class DynamicPartAlternative(ARObject):
+    """
+    Defines an alternative for dynamic parts in multiplexed communication,
+    specifying selector field codes, initial dynamic part properties,
+    and Interaction Protocol Data Unit (IPDU) references.
+    """
     def __init__(self):
         super().__init__()
 
@@ -986,6 +1114,11 @@ class DynamicPartAlternative(ARObject):
 
 
 class DynamicPart(MultiplexedPart):
+    """
+    Defines a dynamic part of multiplexed communication, specifying
+    alternatives for variable segments in multiplexed communication
+    based on selector field values.
+    """
     def __init__(self):
         super().__init__()
 
@@ -1001,6 +1134,11 @@ class DynamicPart(MultiplexedPart):
 
 
 class MultiplexedIPdu(IPdu):
+    """
+    Represents a multiplexed Interaction Protocol Data Unit (IPDU)
+    with dynamic and static parts, defining selector field properties
+    and trigger modes for multiplexed communication.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -1069,113 +1207,123 @@ class MultiplexedIPdu(IPdu):
         return self
 
 
-class UserDefinedIPdu(IPdu):
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-        self.cddType = None                                 # type: String
-
-    def getCddType(self):
-        return self.cddType
-
-    def setCddType(self, value):
-        if value is not None:
-            self.cddType = value
-        return self
-    
-
-class GeneralPurposeIPdu(IPdu):
+class GeneralPurposePdu(Pdu):
+    """
+    Represents a general-purpose Protocol Data Unit (PDU) for flexible
+    communication patterns that don't fit into specific PDU categories.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+class GeneralPurposeIPdu(IPdu):
+    """
+    Represents a general-purpose Interaction Protocol Data Unit (IPDU) for flexible
+    interaction-based communication patterns that don't fit into specific IPDU categories.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class SecureCommunicationPropsSet(Identifiable):
+    """
+    Represents a set of secure communication properties that can be grouped
+    together to define common security configurations for communication channels.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.secureComProps: List[SecureCommunicationProps] = []
 
 
 class UserDefinedPdu(Pdu):
+    """
+    Represents a user-defined Protocol Data Unit (PDU) that allows for custom
+    communication patterns defined by the user rather than following standard PDU types.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.cddType = None                                     # type: String
 
-    def getCddType(self):
-        return self.cddType
-
-    def setCddType(self, value):
-        if value is not None:
-            self.cddType = value
-        return self
-
-
-class GeneralPurposePdu(Pdu):
+class UserDefinedIPdu(IPdu):
+    """
+    Represents a user-defined Interaction Protocol Data Unit (IPDU) that allows for custom
+    interaction-based communication patterns defined by the user rather than following standard IPDU types.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-
-        self.hasDynamicLength = None                            # type: Boolean
-        self.length = None                                      # type: UnlimitedInteger
-
-    def getHasDynamicLength(self):
-        return self.hasDynamicLength
-
-    def setHasDynamicLength(self, value):
-        if value is not None:
-            self.hasDynamicLength = value
-        return self
-
-    def getLength(self):
-        return self.length
-
-    def setLength(self, value):
-        if value is not None:
-            self.length = value
-        return self
 
 
 class SecureCommunicationAuthenticationProps(Identifiable):
+    """
+    Defines authentication properties for secure communication,
+    including authentication build attempts, retries, and other
+    authentication-related security parameters.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.authAlgorithm = None                                               # type: String
-        self.authInfoTxLength = None                                            # type: PositiveInteger
+        self.authenticationBuildAttempts: PositiveInteger = None
+        self.authenticationRetries: PositiveInteger = None
+        self.dataId: PositiveInteger = None
+        self.securedComAuthenticationType: ARLiteral = None
 
-    def getAuthAlgorithm(self):
-        return self.authAlgorithm
+    def getAuthenticationBuildAttempts(self):
+        return self.authenticationBuildAttempts
 
-    def setAuthAlgorithm(self, value):
+    def setAuthenticationBuildAttempts(self, value):
         if value is not None:
-            self.authAlgorithm = value
+            self.authenticationBuildAttempts = value
         return self
 
-    def getAuthInfoTxLength(self):
-        return self.authInfoTxLength
+    def getAuthenticationRetries(self):
+        return self.authenticationRetries
 
-    def setAuthInfoTxLength(self, value):
+    def setAuthenticationRetries(self, value):
         if value is not None:
-            self.authInfoTxLength = value
+            self.authenticationRetries = value
+        return self
+
+    def getDataId(self):
+        return self.dataId
+
+    def setDataId(self, value):
+        if value is not None:
+            self.dataId = value
+        return self
+
+    def getSecuredComAuthenticationType(self):
+        return self.securedComAuthenticationType
+
+    def setSecuredComAuthenticationType(self, value):
+        if value is not None:
+            self.securedComAuthenticationType = value
         return self
 
 
 class SecureCommunicationFreshnessProps(Identifiable):
+    """
+    Defines freshness properties for secure communication,
+    including freshness value IDs, lengths, and other
+    freshness-related security parameters to prevent replay attacks.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.freshnessCounterSyncAttempts = None                                # type: PositiveInteger
-        self.freshnessTimestampTimePeriodFactor = None                          # type: PositiveInteger
-        self.freshnessValueLength = None                                        # type: PositiveInteger
-        self.freshnessValueTxLength = None                                      # type: PositiveInteger
-        self.useFreshnessTimestamp = None                                       # type: Boolean
+        self.freshnessValueId: PositiveInteger = None
+        self.freshnessValueLength: PositiveInteger = None
+        self.freshnessValueTxLength: PositiveInteger = None
+        self.messageLinkLength: PositiveInteger = None
+        self.messageLinkPosition: PositiveInteger = None
+        self.secondaryFreshnessValueId: PositiveInteger = None
+        self.securedComFreshnessType: ARLiteral = None
 
-    def getFreshnessCounterSyncAttempts(self):
-        return self.freshnessCounterSyncAttempts
+    def getFreshnessValueId(self):
+        return self.freshnessValueId
 
-    def setFreshnessCounterSyncAttempts(self, value):
+    def setFreshnessValueId(self, value):
         if value is not None:
-            self.freshnessCounterSyncAttempts = value
-        return self
-
-    def getFreshnessTimestampTimePeriodFactor(self):
-        return self.freshnessTimestampTimePeriodFactor
-
-    def setFreshnessTimestampTimePeriodFactor(self, value):
-        if value is not None:
-            self.freshnessTimestampTimePeriodFactor = value
+            self.freshnessValueId = value
         return self
 
     def getFreshnessValueLength(self):
@@ -1194,38 +1342,34 @@ class SecureCommunicationFreshnessProps(Identifiable):
             self.freshnessValueTxLength = value
         return self
 
-    def getUseFreshnessTimestamp(self):
-        return self.useFreshnessTimestamp
+    def getMessageLinkLength(self):
+        return self.messageLinkLength
 
-    def setUseFreshnessTimestamp(self, value):
+    def setMessageLinkLength(self, value):
         if value is not None:
-            self.useFreshnessTimestamp = value
+            self.messageLinkLength = value
         return self
 
+    def getMessageLinkPosition(self):
+        return self.messageLinkPosition
 
-class SecureCommunicationPropsSet(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-        
-        self.authenticationProps = []                                           # type: List[SecureCommunicationAuthenticationProps]
-        self.freshnessProps = []                                                # type: List[SecureCommunicationFreshnessProps]
+    def setMessageLinkPosition(self, value):
+        if value is not None:
+            self.messageLinkPosition = value
+        return self
 
-    def getAuthenticationProps(self):
-        return self.authenticationProps
+    def getSecondaryFreshnessValueId(self):
+        return self.secondaryFreshnessValueId
 
-    def createSecureCommunicationAuthenticationProps(self, short_name: str) -> SecureCommunicationAuthenticationProps:
-        if (not self.IsElementExists(short_name)):
-            props = SecureCommunicationAuthenticationProps(self, short_name)
-            self.addElement(props)
-            self.authenticationProps.append(props)
-        return self.getElement(short_name, SecureCommunicationAuthenticationProps)
+    def setSecondaryFreshnessValueId(self, value):
+        if value is not None:
+            self.secondaryFreshnessValueId = value
+        return self
 
-    def getFreshnessProps(self):
-        return self.freshnessProps
+    def getSecuredComFreshnessType(self):
+        return self.securedComFreshnessType
 
-    def createSecureCommunicationFreshnessProps(self, short_name: str) -> SecureCommunicationFreshnessProps:
-        if (not self.IsElementExists(short_name)):
-            props = SecureCommunicationFreshnessProps(self, short_name)
-            self.addElement(props)
-            self.freshnessProps.append(props)
-        return self.getElement(short_name, SecureCommunicationFreshnessProps)
+    def setSecuredComFreshnessType(self, value):
+        if value is not None:
+            self.securedComFreshnessType = value
+        return self

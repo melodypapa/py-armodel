@@ -7,6 +7,11 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 
 class SocketConnection(Describable):
+    """
+    Represents a socket connection in the Ethernet communication system,
+    defining properties for TCP/IP communication including IP addresses,
+    ports, PDU handling, and timeout configurations for network connections.
+    """
     def __init__(self):
         super().__init__()
 
@@ -109,6 +114,11 @@ class SocketConnection(Describable):
 
 
 class SocketConnectionIpduIdentifier(ARObject):
+    """
+    Identifies an IPDU (Interaction Protocol Data Unit) within a socket connection,
+    defining header IDs, timeout values, collection semantics, and references
+    to PDUs and triggering mechanisms for Ethernet communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -171,6 +181,11 @@ class SocketConnectionIpduIdentifier(ARObject):
         return self
 
 class SocketConnectionBundle(Referrable):
+    """
+    Groups multiple socket connections into a bundle for managing related
+    Ethernet communications, including differentiated services, flow labels,
+    and UDP checksum handling configurations.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -232,6 +247,11 @@ class SocketConnectionBundle(Referrable):
         return self
 
 class SoAdRoutingGroup(Identifiable):
+    """
+    Defines a routing group for the Socket Adaptor (SoAd) module,
+    specifying how Ethernet communication is organized and controlled
+    within the AUTOSAR communication system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

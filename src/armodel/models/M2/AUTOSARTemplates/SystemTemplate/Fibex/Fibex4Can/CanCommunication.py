@@ -6,6 +6,11 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
 
 class RxIdentifierRange(ARObject):
+    """
+    Defines a range of CAN identifiers used for receive filtering in CAN communication.
+    This class specifies the lower and upper bounds of CAN message IDs that should
+    be accepted by a CAN controller or communication endpoint.
+    """
     def __init__(self):
         super().__init__()
 
@@ -27,10 +32,20 @@ class RxIdentifierRange(ARObject):
         return self
 
 class CanFrame(Frame):
+    """
+    Represents a CAN frame in the AUTOSAR system, extending the generic Frame class
+    with CAN-specific properties and behavior. This class defines the structure
+    and characteristics of CAN messages in the communication system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 class CanFrameTriggering(FrameTriggering):
+    """
+    Defines the triggering mechanism for CAN frames, specifying how and when
+    CAN frames are transmitted or received on the network, including timing,
+    addressing modes, and frame behavior properties.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

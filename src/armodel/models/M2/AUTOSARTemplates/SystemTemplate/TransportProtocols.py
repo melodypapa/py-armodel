@@ -11,6 +11,11 @@ from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication im
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class TpConfig(FibexElement, metaclass = ABCMeta):
+    """
+    Abstract base class for transport protocol configurations,
+    defining common properties for different types of transport
+    protocol implementations including communication cluster references.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == TpConfig:
             raise NotImplementedError("TpConfig is an abstract class.")
@@ -28,6 +33,11 @@ class TpConfig(FibexElement, metaclass = ABCMeta):
         return self
     
 class CanTpAddress(Identifiable):
+    """
+    Represents a CAN transport protocol address in the system,
+    defining the transport address and address extension values
+    for CAN communication endpoints.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -51,6 +61,10 @@ class CanTpAddress(Identifiable):
         return self
     
 class CanTpChannel(Identifiable):
+    """
+    Represents a CAN transport protocol channel in the system,
+    defining the channel ID and channel mode for CAN TP communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -74,10 +88,20 @@ class CanTpChannel(Identifiable):
         return self
 
 class TpConnectionIdent(Referrable):
+    """
+    Represents a transport protocol connection identifier,
+    providing a referenceable identifier for transport protocol
+    connections in the communication system.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)    
 
 class TpConnection(ARObject, metaclass = ABCMeta):
+    """
+    Abstract base class for transport protocol connections,
+    defining common properties for different types of transport
+    protocol connections including connection identification.
+    """
     def __init__(self):
         if type(self) == TpConnection:
             raise NotImplementedError("TpConnection is an abstract class.")
@@ -95,6 +119,11 @@ class TpConnection(ARObject, metaclass = ABCMeta):
         return ident
 
 class CanTpConnection(TpConnection):
+    """
+    Represents a CAN transport protocol connection in the system,
+    defining addressing format, cancellation settings, channel
+    configuration, and timing parameters for CAN TP communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -244,6 +273,11 @@ class CanTpConnection(TpConnection):
         return self
 
 class CanTpEcu(ARObject):
+    """
+    Represents a CAN transport protocol ECU configuration,
+    defining cycle time for the main function and ECU instance
+    references for CAN TP communication management.
+    """
     def __init__(self):
         super().__init__()
 
@@ -267,6 +301,11 @@ class CanTpEcu(ARObject):
         return self
     
 class CanTpNode(Identifiable):
+    """
+    Represents a CAN transport protocol node in the system,
+    defining connector references, timing parameters, and
+    address references for CAN TP node configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -328,6 +367,11 @@ class CanTpNode(Identifiable):
 
 
 class CanTpConfig(TpConfig):
+    """
+    Represents CAN transport protocol configuration in the system,
+    organizing addresses, channels, connections, ECUs, and nodes
+    for comprehensive CAN TP communication setup.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -384,6 +428,11 @@ class CanTpConfig(TpConfig):
         return self.getElement(short_name)
     
 class DoIpLogicAddress(Identifiable):
+    """
+    Represents a DoIP (Diagnostics over IP) logic address in the system,
+    defining the address value and logic address properties for
+    DoIP communication endpoints.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -407,6 +456,11 @@ class DoIpLogicAddress(Identifiable):
         return self
 
 class DoIpTpConnection(TpConnection):
+    """
+    Represents a DoIP transport protocol connection in the system,
+    defining source and target address references and SDU
+    references for DoIP communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -440,6 +494,11 @@ class DoIpTpConnection(TpConnection):
 
 
 class DoIpTpConfig(TpConfig):
+    """
+    Represents DoIP transport protocol configuration in the system,
+    organizing logic addresses and connections for comprehensive
+    DoIP communication setup.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -465,6 +524,10 @@ class DoIpTpConfig(TpConfig):
         return self
         
 class TpAddress(Identifiable):
+    """
+    Represents a generic transport protocol address in the system,
+    defining the transport address value for communication endpoints.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -479,6 +542,11 @@ class TpAddress(Identifiable):
         return self
     
 class LinTpConnection(TpConnection):
+    """
+    Represents a LIN transport protocol connection in the system,
+    defining PDU references, timeout parameters, and transmitter/
+    receiver configurations for LIN TP communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -565,6 +633,11 @@ class LinTpConnection(TpConnection):
         return self
 
 class LinTpNode(Identifiable):
+    """
+    Represents a LIN transport protocol node in the system,
+    defining connector references, response pending settings,
+    and timing parameters for LIN TP node configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -625,6 +698,11 @@ class LinTpNode(Identifiable):
 
  
 class LinTpConfig(TpConfig):
+    """
+    Represents LIN transport protocol configuration in the system,
+    organizing addresses, connections, and nodes for comprehensive
+    LIN TP communication setup.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

@@ -5,6 +5,11 @@ from .......models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopolo
 
 
 class LinCommunicationController(CommunicationController):
+    """
+    Represents a LIN communication controller in the system,
+    defining properties for LIN network communication including
+    protocol version specifications.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -19,6 +24,11 @@ class LinCommunicationController(CommunicationController):
         return self
 
 class LinMaster(LinCommunicationController):
+    """
+    Defines a LIN master node in the network topology, specifying
+    slave configurations, time base settings, and timing jitter
+    properties for LIN master communication management.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -51,6 +61,11 @@ class LinMaster(LinCommunicationController):
         return self
 
 class LinCommunicationConnector(CommunicationConnector):
+    """
+    Defines a LIN communication connector that links LIN controllers
+    to communication channels, specifying initial NAD (Node Address),
+    configurable frames, and schedule change properties for LIN communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

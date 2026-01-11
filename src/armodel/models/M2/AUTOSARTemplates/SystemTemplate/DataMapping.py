@@ -12,6 +12,12 @@ from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import 
 
 
 class DataMapping(ARObject, metaclass=ABCMeta):
+    """
+    Abstract base class for data mapping elements that define relationships between 
+    AUTOSAR software component data elements and system-level communication signals.
+    This class serves as the foundation for various types of data mappings used in
+    system design to connect component interfaces with communication infrastructure.
+    """
     def __init__(self):
         if type(self) is DataMapping:
             raise NotImplementedError("DataMapping is an abstract class.")
@@ -29,6 +35,12 @@ class DataMapping(ARObject, metaclass=ABCMeta):
 
 
 class SenderReceiverToSignalMapping(DataMapping):
+    """
+    Maps data elements from sender/receiver interfaces to system signals.
+    This class establishes the connection between variable data prototypes
+    in system instance references and their corresponding system signal
+    representations, including text table mappings for data transformation.
+    """
     def __init__(self):
         super().__init__()
 
@@ -75,6 +87,11 @@ class SenderReceiverToSignalMapping(DataMapping):
 
 
 class SenderRecCompositeTypeMapping(ARObject, metaclass=ABCMeta):
+    """
+    Abstract base class for composite type mappings between sender/receiver
+    interfaces and system-level signals. This class handles complex data
+    structures such as records and arrays in data mapping scenarios.
+    """
     def __init__(self):
         if type(self) is SenderRecCompositeTypeMapping:
             raise NotImplementedError("SenderRecCompositeTypeMapping is an abstract class.")
@@ -83,6 +100,12 @@ class SenderRecCompositeTypeMapping(ARObject, metaclass=ABCMeta):
 
 
 class SenderRecRecordElementMapping(ARObject):
+    """
+    Defines mapping for individual elements within a record structure,
+    connecting application record elements to implementation record elements
+    and their corresponding system signals, with optional text table mappings
+    for data transformation.
+    """
     def __init__(self):
         super().__init__()
 
@@ -143,6 +166,11 @@ class SenderRecRecordElementMapping(ARObject):
 
 
 class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
+    """
+    Maps record data types between sender/receiver interfaces and system signals,
+    containing multiple record element mappings that define how each field in
+    the record structure is connected to system-level communication elements.
+    """
     def __init__(self):
         super().__init__()
 
@@ -158,15 +186,49 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
 
 
 class IndexedArrayElement(ARObject):
+    """
+    Represents an element in an array with a specific index, connecting
+    application array elements to implementation array elements in the
+    mapping between component interfaces and system signals.
+    """
     def __init__(self):
         super().__init__()
 
         self.applicationArrayElementRef: RefType = None
         self.implementationArrayElementRef: RefType = None
         self.index: Integer = None
+
+    def getApplicationArrayElementRef(self):
+        return self.applicationArrayElementRef
+
+    def setApplicationArrayElementRef(self, value):
+        if value is not None:
+            self.applicationArrayElementRef = value
+        return self
+
+    def getImplementationArrayElementRef(self):
+        return self.implementationArrayElementRef
+
+    def setImplementationArrayElementRef(self, value):
+        if value is not None:
+            self.implementationArrayElementRef = value
+        return self
+
+    def getIndex(self):
+        return self.index
+
+    def setIndex(self, value):
+        if value is not None:
+            self.index = value
+        return self
         
 
 class SenderRecArrayElementMapping(ARObject):
+    """
+    Maps individual elements of an array data type between sender/receiver
+    interfaces and system signals, including complex type mapping for 
+    nested data structures and indexed array elements.
+    """
     def __init__(self):
         super().__init__()
 
@@ -200,6 +262,11 @@ class SenderRecArrayElementMapping(ARObject):
 
 
 class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
+    """
+    Maps array data types between sender/receiver interfaces and system signals,
+    containing multiple array element mappings and text table mappings for
+    transforming array data during communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -233,6 +300,11 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
 
 
 class SenderReceiverToSignalGroupMapping(DataMapping):
+    """
+    Maps sender/receiver interface data to system signal groups, enabling
+    communication with multiple related signals as a single entity, with
+    support for complex type mappings of grouped data structures.
+    """
     def __init__(self):
         super().__init__()
 

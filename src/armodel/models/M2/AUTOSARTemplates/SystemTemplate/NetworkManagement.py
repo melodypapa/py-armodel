@@ -10,6 +10,11 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class NmClusterCoupling(ARObject, metaclass = ABCMeta):
+    """
+    Abstract base class for network management cluster coupling,
+    defining common properties for connecting different types of
+    network management clusters for coordinated network management.
+    """
     def __init__(self):
         if type(self) == NmClusterCoupling:
             raise NotImplementedError("NmClusterCoupling is an abstract class.")
@@ -17,6 +22,11 @@ class NmClusterCoupling(ARObject, metaclass = ABCMeta):
         super().__init__()
 
 class CanNmClusterCoupling(NmClusterCoupling):
+    """
+    Defines coupling properties for CAN network management clusters,
+    specifying coupled cluster references and CAN-specific NM features
+    like busload reduction and immediate restart capabilities.
+    """
     def __init__(self):
         super().__init__()
 
@@ -46,6 +56,11 @@ class CanNmClusterCoupling(NmClusterCoupling):
         return self
 
 class FlexrayNmClusterCoupling(NmClusterCoupling):
+    """
+    Defines coupling properties for FlexRay network management clusters,
+    specifying coupled cluster references and FlexRay-specific NM
+    schedule variant configurations.
+    """
     def __init__(self):
         super().__init__()
 
@@ -68,6 +83,11 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     
 
 class NmNode(Identifiable, metaclass = ABCMeta):
+    """
+    Abstract base class for network management nodes, defining
+    common properties for different types of NM nodes including
+    controller references, node IDs, and communication properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == NmNode:
             raise NotImplementedError("NmNode is an abstract class.")
@@ -140,6 +160,11 @@ class NmNode(Identifiable, metaclass = ABCMeta):
         return self.TxNmPduRefs
 
 class CanNmNode(NmNode):
+    """
+    Represents a CAN network management node in the system,
+    defining CAN-specific NM properties including message
+    cycle offsets, timing configurations, and range settings.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -192,14 +217,29 @@ class CanNmNode(NmNode):
         self.nmRangeConfig = value
 
 class FlexrayNmNode(NmNode):
+    """
+    Represents a FlexRay network management node in the system,
+    defining FlexRay-specific NM properties for time-triggered
+    network management communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 class J1939NmNode(NmNode):
+    """
+    Represents a J1939 network management node in the system,
+    defining J1939-specific NM properties for heavy-duty
+    vehicle network management communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 class UdpNmNode(NmNode):
+    """
+    Represents a UDP network management node in the system,
+    defining UDP-specific NM properties including message
+    timing and wake-up capabilities.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -223,22 +263,46 @@ class UdpNmNode(NmNode):
         return self
 
 class BusspecificNmEcu(ARObject, metaclass = ABCMeta):
+    """
+    Abstract base class for bus-specific network management ECU
+    configurations, defining common properties for different
+    types of bus-specific NM implementations.
+    """
     def __init__(self):
+        if type(self) is BusspecificNmEcu:
+            raise NotImplementedError("BusspecificNmEcu is an abstract class.")
         super().__init__()
 
 class CanNmEcu(BusspecificNmEcu):
+    """
+    Defines CAN-specific network management ECU properties,
+    implementing bus-specific NM features for CAN communication.
+    """
     def __init__(self):
         super().__init__()
 
 class FlexrayNmEcu(BusspecificNmEcu):
+    """
+    Defines FlexRay-specific network management ECU properties,
+    implementing bus-specific NM features for FlexRay communication.
+    """
     def __init__(self):
         super().__init__()
 
 class J1939NmEcu(BusspecificNmEcu):
+    """
+    Defines J1939-specific network management ECU properties,
+    implementing bus-specific NM features for J1939 communication.
+    """
     def __init__(self):
         super().__init__()
 
 class UdpNmEcu(BusspecificNmEcu):
+    """
+    Defines UDP-specific network management ECU properties,
+    implementing bus-specific NM features for UDP communication
+    including synchronization point capabilities.
+    """
     def __init__(self):
         super().__init__()     
 
@@ -254,6 +318,11 @@ class UdpNmEcu(BusspecificNmEcu):
 
 
 class NmEcu(Identifiable):
+    """
+    Represents a network management ECU in the system,
+    defining properties for NM coordination, node detection,
+    and communication control across different bus types.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -376,6 +445,11 @@ class NmEcu(Identifiable):
         return self   
 
 class NmConfig(FibexElement):
+    """
+    Represents network management configuration in the system,
+    defining cluster couplings and ECU configurations for
+    comprehensive network management setup.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -421,6 +495,12 @@ class NmConfig(FibexElement):
         return self.getElement(short_name)
     
 class NmCluster(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for network management clusters,
+    defining common properties for different types of
+    NM clusters including communication cluster references
+    and node management capabilities.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -514,6 +594,11 @@ class NmCluster(Identifiable, metaclass=ABCMeta):
         return self
 
 class CanNmCluster(NmCluster):
+    """
+    Represents a CAN network management cluster in the system,
+    defining CAN-specific NM properties including busload
+    reduction, wake-up configurations, and message timing.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -647,14 +732,29 @@ class CanNmCluster(NmCluster):
         return self
 
 class FlexrayNmCluster(NmCluster):
+    """
+    Represents a FlexRay network management cluster in the system,
+    defining FlexRay-specific NM properties for time-triggered
+    network management in FlexRay communication networks.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 class J1939NmCluster(NmCluster):
+    """
+    Represents a J1939 network management cluster in the system,
+    defining J1939-specific NM properties for heavy-duty vehicle
+    network management communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 class UdpNmClusterCoupling(NmClusterCoupling):
+    """
+    Defines coupling properties for UDP network management clusters,
+    specifying coupled cluster references and UDP-specific NM
+    immediate restart capabilities.
+    """
     def __init__(self):
         super().__init__()
 
@@ -679,6 +779,11 @@ class UdpNmClusterCoupling(NmClusterCoupling):
 
 
 class UdpNmCluster(NmCluster):
+    """
+    Represents a UDP network management cluster in the system,
+    defining UDP-specific NM properties including message timing,
+    CBV (Common Bit Vector) position, and VLAN references.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

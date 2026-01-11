@@ -339,6 +339,11 @@ The following classes are abstract classes in the AUTOSAR BSW Module Description
     - `modeGroup: ModeDeclarationGroupPrototype [0..1]` (ref) - A mode group provided by this module. The acknowledgement of a switch of this group raises this event
   - Note: The event is raised after a switch of the referenced mode group has been acknowledged or an error occurs. The referenced mode group shall be provided by this module. Base classes: ARObject, AbstractEvent, BswEvent, BswScheduleEvent, Identifiable, MultilanguageReferrable, Referrable
   - Constraints:
+- `BswDistinguishedPartition` - (M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
+  - Note: Each instance of this meta-class represents an abstract partition in which context the code of the enclosing BswModuleBehavior can be executed. The intended use case is to distinguish between several partitions in order to implement different behavior per partition, for example to behave either as a master or satellite in a multicore ECU with shared BSW code. Base classes: ARObject, Referrable
+  - Aggregated by: BswInternalBehavior.distinguishedPartition
+  - Constraints:
+    - [constr_4083] BswDistinguishedPartition shall be used only in the context of a particular BswInternalBehavior - All instances of BswEvent, BswModuleCallPoint and BswVariableAccess which refer to a BswDistinguishedPartition shall belong to the same BswInternalBehavior that also aggregates the referred BswDistinguishedPartition
     - [constr_10285] For each BswModeSwitchedAckEvent, the reference in the role modeGroup shall exist at the time when the configuration of the BSW module is finished
     - [constr_4026] The ModeDeclarationGroupPrototype used by BswModeSwitchedAckEvent shall be referred as BswModuleDescription.providedModeGroup by the same module
 - `BswModeManagerErrorEvent` - (M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)

@@ -6,6 +6,12 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class DiagnosticConnection(ARElement):
+    """
+    Represents a diagnostic connection in the AUTOSAR system, defining the relationship
+    between diagnostic services and their communication endpoints. This class connects
+    functional requests, physical requests, and responses within the diagnostic communication
+    infrastructure of the system.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

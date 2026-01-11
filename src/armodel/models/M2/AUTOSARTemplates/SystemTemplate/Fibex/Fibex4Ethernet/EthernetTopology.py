@@ -10,6 +10,11 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology impor
 
 
 class MacMulticastGroup(Identifiable):
+    """
+    Represents a MAC multicast group used in Ethernet communication,
+    defining multicast addresses that can be used for group-based
+    communication in the network topology.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -25,6 +30,11 @@ class MacMulticastGroup(Identifiable):
 
 
 class EthernetCluster(CommunicationCluster):
+    """
+    Defines an Ethernet communication cluster in the system topology,
+    specifying properties for Ethernet network communication including
+    coupling ports, startup timing, and multicast group configurations.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -69,6 +79,11 @@ class EthernetCluster(CommunicationCluster):
     
 
 class CouplingPortStructuralElement(Identifiable, metaclass=ABCMeta):
+    """
+    Abstract base class for coupling port structural elements in Ethernet
+    switches and bridges, defining common properties and behavior for
+    various types of coupling port components.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortStructuralElement:
             raise NotImplementedError("CouplingPortStructuralElement is an abstract class.")
@@ -77,6 +92,11 @@ class CouplingPortStructuralElement(Identifiable, metaclass=ABCMeta):
         
 
 class CouplingPortFifo(CouplingPortStructuralElement):
+    """
+    Defines a FIFO (First In, First Out) buffer for coupling ports in
+    Ethernet switches, specifying traffic class assignments, minimum
+    buffer lengths, and preemption support properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -119,6 +139,11 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
 
 class CouplingPortScheduler(CouplingPortStructuralElement):
+    """
+    Defines a scheduler for coupling ports in Ethernet switches,
+    specifying scheduling algorithms and predecessor relationships
+    for managing traffic flow through the coupling ports.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -143,6 +168,11 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
 
 
 class EthernetPriorityRegeneration(Referrable):
+    """
+    Defines priority regeneration rules for Ethernet traffic,
+    specifying how ingress priorities are mapped to regenerated
+    priorities for traffic management in the network.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -167,6 +197,11 @@ class EthernetPriorityRegeneration(Referrable):
 
 
 class CouplingPortDetails(ARObject):
+    """
+    Contains detailed configuration information for coupling ports
+    in Ethernet switches, including traffic class assignments, frame
+    preemption support, and VLAN translation tables.
+    """
     def __init__(self):
         super().__init__()
 
@@ -264,6 +299,11 @@ class CouplingPortDetails(ARObject):
 
 
 class VlanMembership(ARObject):
+    """
+    Defines VLAN membership properties for network interfaces,
+    specifying default priorities, DHCP configurations, and VLAN
+    tagging behaviors for Ethernet communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -306,6 +346,11 @@ class VlanMembership(ARObject):
 
 
 class CouplingPort(Identifiable):
+    """
+    Defines a coupling port in an Ethernet switch or bridge,
+    specifying connection negotiation behavior, MAC layer type,
+    physical layer type, and VLAN membership configurations.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -438,6 +483,11 @@ class CouplingPort(Identifiable):
 
 
 class EthernetCommunicationController(CommunicationController):
+    """
+    Represents an Ethernet communication controller in the system,
+    defining properties for MAC configuration, coupling ports,
+    and communication buffer management for Ethernet networking.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -511,6 +561,11 @@ class EthernetCommunicationController(CommunicationController):
 
 
 class EthernetCommunicationConnector(CommunicationConnector):
+    """
+    Defines an Ethernet communication connector that links Ethernet
+    controllers to communication channels, specifying MTU settings,
+    network endpoint references, and path MTU configuration properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -566,6 +621,11 @@ class EthernetCommunicationConnector(CommunicationConnector):
     
 
 class RequestResponseDelay(ARObject):
+    """
+    Defines the delay constraints for request-response communication
+    patterns in service-oriented architectures, specifying minimum
+    and maximum acceptable response times.
+    """
     def __init__(self):
         super().__init__()
 
@@ -590,6 +650,11 @@ class RequestResponseDelay(ARObject):
 
 
 class InitialSdDelayConfig(ARObject):
+    """
+    Configures the initial delay parameters for Service Discovery (SD)
+    communication, defining minimum and maximum delay values and
+    repetition timing for service announcements and requests.
+    """
     def __init__(self):
         super().__init__()
 
@@ -632,6 +697,11 @@ class InitialSdDelayConfig(ARObject):
 
     
 class SdClientConfig(ARObject):
+    """
+    Configures Service Discovery (SD) client properties, including
+    service version requirements, delay configurations, and TTL settings
+    for service discovery communication in the network.
+    """
     def __init__(self):
         super().__init__()
 
@@ -681,5 +751,3 @@ class SdClientConfig(ARObject):
         if value is not None:
             self.ttl = value
         return self
-
-
