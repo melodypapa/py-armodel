@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR RTE events
+in software component internal behavior templates.
+"""
+
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
 from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
@@ -10,8 +15,8 @@ class RTEEvent(AbstractEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.disabledModeIRefs = []                                     # type: List[RModeInAtomicSwcInstanceRef]
-        self.startOnEventRef = None                                     # type: RefType
+        self.disabledModeIRefs: List['RModeInAtomicSwcInstanceRef'] = []
+        self.startOnEventRef: 'RefType' = None
 
     def getDisabledModeIRefs(self):
         return self.disabledModeIRefs
@@ -32,7 +37,7 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None                                      # type: RefType
+        self.eventSourceRef: 'RefType' = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef
@@ -46,7 +51,7 @@ class DataSendCompletedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None                                      # type: RefType
+        self.eventSourceRef: 'RefType' = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef
@@ -60,7 +65,7 @@ class DataWriteCompletedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None                                      # type: RefType
+        self.eventSourceRef: 'RefType' = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef
@@ -74,7 +79,7 @@ class DataReceivedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef = None                   # type: RVariableInAtomicSwcInstanceRef
+        self.dataIRef: 'RVariableInAtomicSwcInstanceRef' = None
 
     def getDataIRef(self):
         return self.dataIRef
@@ -88,8 +93,8 @@ class SwcModeSwitchEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.activation = None                                  # type: ModeActivationKind
-        self.modeIRefs: List[RModeInAtomicSwcInstanceRef] = []
+        self.activation = None
+        self.modeIRefs: List['RModeInAtomicSwcInstanceRef'] = []
 
     def getActivation(self):
         return self.activation
@@ -110,7 +115,7 @@ class DataReceiveErrorEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef = None
+        self.dataIRef: 'RVariableInAtomicSwcInstanceRef' = None
 
     def getDataIRef(self):
         return self.dataIRef
@@ -124,7 +129,7 @@ class OperationInvokedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.operationIRef = None                                   # type: POperationInAtomicSwcInstanceRef
+        self.operationIRef: 'POperationInAtomicSwcInstanceRef' = None
 
     def getOperationIRef(self):
         return self.operationIRef
@@ -144,15 +149,19 @@ class TimingEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.offset = None                              # type: TimeValue
-        self.period = None                              # type: TimeValue
+        self.offset: 'TimeValue' = None
+        self.period: 'TimeValue' = None
 
     @property
     def periodMs(self):
-        if (self.period < 0.001):
-            return self.period * 1000
+        if self.period is None:
+            return None
         else:
-            return (int)(self.period * 1000)
+            period_value = self.period.getValue() if hasattr(self.period, 'getValue') else self.period
+            if period_value < 0.001:
+                return period_value * 1000
+            else:
+                return (int)(period_value * 1000)
         
     def getOffset(self):
         return self.offset
@@ -175,7 +184,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef = None                                  # type: RefType
+        self.eventSourceRef: 'RefType' = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef

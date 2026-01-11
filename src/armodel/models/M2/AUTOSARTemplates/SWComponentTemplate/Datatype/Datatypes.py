@@ -1,3 +1,10 @@
+"""
+This module contains classes for representing AUTOSAR data types
+in the SWComponentTemplate module. It includes application and
+implementation data types, as well as datatype mapping classes
+used to map between different type representations.
+"""
+
 from typing import List
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
@@ -16,7 +23,7 @@ class AutosarDataType(AtpType, metaclass=ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.swDataDefProps = None                  # type: SwDataDefProps
+        self.swDataDefProps: SwDataDefProps = None
 
     def getSwDataDefProps(self):
         return self.swDataDefProps
@@ -51,8 +58,8 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dynamicArraySizeProfile = None         # type: String
-        self.element = None                         # type: ApplicationArrayElement
+        self.dynamicArraySizeProfile: String = None
+        self.element: ApplicationArrayElement = None
 
     def getDynamicArraySizeProfile(self):
         return self.dynamicArraySizeProfile
@@ -90,8 +97,8 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
 class DataTypeMap(ARObject):
     def __init__(self):
 
-        self.applicationDataTypeRef = None                  # type: RefType
-        self.implementationDataTypeRef = None               # type: RefType
+        self.applicationDataTypeRef: RefType = None
+        self.implementationDataTypeRef: RefType = None
 
     def getApplicationDataTypeRef(self):
         return self.applicationDataTypeRef
@@ -112,9 +119,8 @@ class DataTypeMappingSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataTypeMaps = []                              # type: List[DataTypeMap]
-        # type: List[ModeRequestTypeMap]
-        self.modeRequestTypeMaps = []
+        self.dataTypeMaps: List[DataTypeMap] = []
+        self.modeRequestTypeMaps: List[ModeRequestTypeMap] = []
 
     def addDataTypeMap(self, type_map: DataTypeMap):
         self.dataTypeMaps.append(type_map)

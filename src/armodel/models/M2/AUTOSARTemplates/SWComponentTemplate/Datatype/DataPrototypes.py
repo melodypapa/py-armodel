@@ -1,3 +1,10 @@
+"""
+This module contains classes for representing AUTOSAR data prototypes
+in the SWComponentTemplate module. It includes various types of data
+prototypes such as variable, parameter, and composite element prototypes
+used in software components.
+"""
+
 from abc import ABCMeta
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, TRefType
@@ -20,7 +27,7 @@ class DataPrototype(AtpPrototype, metaclass = ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.swDataDefProps = None          # type: SwDataDefProps
+        self.swDataDefProps: SwDataDefProps = None
 
     def getSwDataDefProps(self):
         return self.swDataDefProps
@@ -36,7 +43,7 @@ class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
 
         super().__init__(parent, short_name)
 
-        self.typeTRef = None                # type:     TRefType
+        self.typeTRef: TRefType = None
 
     def getTypeTRef(self):
         return self.typeTRef
@@ -49,7 +56,7 @@ class VariableDataPrototype(AutosarDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.initValue = None      # type: ValueSpecification
+        self.initValue: ValueSpecification = None
 
     def getInitValue(self):
         return self.initValue
@@ -65,7 +72,7 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMet
 
         super().__init__(parent, short_name)
 
-        self.typeTRef = None                    # type: RefType
+        self.typeTRef: RefType = None
 
     def getTypeTRef(self):
         return self.typeTRef
@@ -79,10 +86,10 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arraySizeHandling = None               # type: ArraySizeHandlingEnum
-        self.arraySizeSemantics = None              # type: ArraySizeSemanticsEnum
-        self.indexDataTypeRef = None                # type: RefType
-        self.maxNumberOfElements = None             # type: PositiveInteger
+        self.arraySizeHandling = None
+        self.arraySizeSemantics = None
+        self.indexDataTypeRef: RefType = None
+        self.maxNumberOfElements: PositiveInteger = None
 
     def getArraySizeHandling(self):
         return self.arraySizeHandling
@@ -120,7 +127,7 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.isOptional = None                                              # type: Boolean
+        self.isOptional = None
 
     def getIsOptional(self):
         return self.isOptional
@@ -135,7 +142,7 @@ class ParameterDataPrototype(AutosarDataPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.initValue = None                       # type: ValueSpecification
+        self.initValue: ValueSpecification = None
 
     def getInitValue(self):
         return self.initValue

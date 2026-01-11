@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR service mapping elements
+in software component internal behavior templates.
+"""
+
 from typing import List
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from .....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
@@ -12,8 +17,8 @@ class RoleBasedPortAssignment(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.portPrototypeRef = None            # type: RefType
-        self.role = None                        # type: Identifier
+        self.portPrototypeRef: 'RefType' = None
+        self.role: 'Identifier' = None
 
     def getPortPrototypeRef(self):
         return self.portPrototypeRef
@@ -34,8 +39,8 @@ class SwcServiceDependency(ServiceDependency):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._assigned_data = []
-        self._assigned_ports = []
+        self._assigned_data: List['RoleBasedDataAssignment'] = []
+        self._assigned_ports: List['RoleBasedPortAssignment'] = []
 
     def AddAssignedData(self, data: RoleBasedDataAssignment):
         self._assigned_data.append(data)
@@ -118,8 +123,14 @@ class SwcServiceDependency(ServiceDependency):
     def getDiagnosticRoutineNeeds(self) -> List[DiagnosticRoutineNeeds]:
         return sorted(filter(lambda c: isinstance(c, DiagnosticRoutineNeeds), self.elements), key=lambda e: e.short_name)
     
+    def getDiagnosticValueNeeds(self) -> List[DiagnosticValueNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DiagnosticValueNeeds), self.elements), key=lambda e: e.short_name)
+    
     def getDiagnosticEventNeeds(self) -> List[DiagnosticEventNeeds]:
         return sorted(filter(lambda c: isinstance(c, DiagnosticEventNeeds), self.elements), key=lambda e: e.short_name)
+    
+    def getDiagnosticEventInfoNeeds(self) -> List[DiagnosticEventInfoNeeds]:
+        return sorted(filter(lambda c: isinstance(c, DiagnosticEventInfoNeeds), self.elements), key=lambda e: e.short_name)
     
     def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
         return sorted(filter(lambda c: isinstance(c, CryptoServiceNeeds), self.elements), key=lambda e: e.short_name)

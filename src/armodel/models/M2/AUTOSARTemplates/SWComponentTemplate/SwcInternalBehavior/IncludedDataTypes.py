@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR included data types
+in software component internal behavior templates.
+"""
+
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 from typing import List
@@ -22,3 +27,6 @@ class IncludedDataTypeSet(ARObject):
     @literalPrefix.setter
     def literalPrefix(self, value: ARLiteral):
         self.literal_prefix = value
+        
+    def getLiteralPrefix(self) -> ARLiteral:
+        return self.literal_prefix

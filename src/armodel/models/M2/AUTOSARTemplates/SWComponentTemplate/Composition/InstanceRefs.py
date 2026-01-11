@@ -1,3 +1,9 @@
+"""
+This module contains classes for representing AUTOSAR instance references
+in composition contexts. These classes are used for referencing ports and
+operations within compositions and atomic SWC instances.
+"""
+
 from abc import ABCMeta
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
@@ -9,9 +15,9 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
         
         super().__init__()
 
-        self.abstractContextComponentRef = None                 # type: RefType
-        self.baseRef = None                                     # type: RefType
-        self.targetPortRef = None                               # type: RefType
+        self.abstractContextComponentRef: RefType = None
+        self.baseRef: RefType = None
+        self.targetPortRef: RefType = None
 
     def getAbstractContextComponentRef(self):
         return self.abstractContextComponentRef
@@ -39,8 +45,8 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextComponentRef = None                         # type: RefType
-        self.targetPPortRef = None                              # type: RefType
+        self.contextComponentRef: RefType = None
+        self.targetPPortRef: RefType = None
 
     def getContextComponentRef(self):
         return self.contextComponentRef
@@ -61,8 +67,8 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextComponentRef = None                         # type: RefType
-        self.targetRPortRef = None                              # type: RefType
+        self.contextComponentRef: RefType = None
+        self.targetRPortRef: RefType = None
 
     def getContextComponentRef(self):
         return self.contextComponentRef
@@ -85,9 +91,9 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
         
         super().__init__()
 
-        self.baseRef = None                         # type: RefType
-        self.contextPortRef = None                  # type: RefType
-        self.targetOperationRef = None              # type: RefType
+        self.baseRef: RefType = None
+        self.contextPortRef: RefType = None
+        self.targetOperationRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -114,8 +120,8 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextPPortRef = None                 # type: RefType
-        self.targetProvidedOperationRef = None      # type: RefType
+        self.contextPPortRef: RefType = None
+        self.targetProvidedOperationRef: RefType = None
 
     def getContextPPortRef(self):
         return self.contextPPortRef
@@ -136,8 +142,8 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextRPortRef = None                     # type: RefType
-        self.targetRequiredOperationRef = None          # type: RefType
+        self.contextRPortRef: RefType = None
+        self.targetRequiredOperationRef: RefType = None
 
     def getContextRPortRef(self):
         return self.contextRPortRef

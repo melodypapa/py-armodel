@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR port API options
+in software component internal behavior templates.
+"""
+
 from .....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType
@@ -7,8 +12,8 @@ class PortDefinedArgumentValue(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.value = None                       # type: ValueSpecification
-        self.valueTypeTRef = None               # type: TRefType
+        self.value: 'ValueSpecification' = None
+        self.valueTypeTRef: 'TRefType' = None
 
     def getValue(self):
         return self.value
@@ -28,13 +33,13 @@ class PortAPIOption(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.enableTakeAddress = None               # type: ARBoolean
-        self.errorHandling = None                   # type: DataTransformationErrorHandlingEnum
-        self.indirectAPI = None                     # type: ARBoolean
-        self.portRef = None                         # type: RefType
-        self.portArgValues = []                     # type: List[PortDefinedArgumentValue]
-        self.supportedFeatures = []                 # type: List[SwcSupportedFeature]
-        self.transformerStatusForwarding = None     # type: DataTransformationStatusForwardingEnum
+        self.enableTakeAddress: ARBoolean = None
+        self.errorHandling = None
+        self.indirectAPI: ARBoolean = None
+        self.portRef: RefType = None
+        self.portArgValues: List['PortDefinedArgumentValue'] = []
+        self.supportedFeatures = []
+        self.transformerStatusForwarding = None
 
     def getEnableTakeAddress(self):
         return self.enableTakeAddress

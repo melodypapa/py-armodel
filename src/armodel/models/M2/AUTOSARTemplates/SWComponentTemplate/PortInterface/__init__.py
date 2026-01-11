@@ -1,3 +1,10 @@
+"""
+This module contains classes for representing AUTOSAR port interfaces
+in the SWComponentTemplate module. It includes various types of port
+interfaces such as sender/receiver, client/server, mode switch, and
+parameter interfaces, as well as mapping classes for interface mappings.
+"""
+
 from abc import ABCMeta
 from typing import List
 
@@ -21,8 +28,8 @@ class PortInterface(AtpType, metaclass=ABCMeta):
             raise NotImplementedError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.isService = None                       # type: ARBoolean
-        self.serviceKind = None                     # type: ARLiteral
+        self.isService: ARBoolean = None
+        self.serviceKind: ARLiteral = None
 
     def getIsService(self):
         return self.isService
@@ -50,7 +57,7 @@ class NvDataInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nvDatas = []       # type: List[VariableDataPrototype]
+        self.nvDatas: List[VariableDataPrototype] = []
 
     def getNvDatas(self):
         return self.nvDatas
@@ -64,7 +71,7 @@ class ParameterInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.parameters = []                        # type: List[ParameterDataPrototype]
+        self.parameters: List[ParameterDataPrototype] = []
 
     def getParameters(self):
         return self.parameters
@@ -80,8 +87,8 @@ class InvalidationPolicy(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.dataElementRef = None                      # type: RefType
-        self.handleInvalid = None                       # type: ARLiteral
+        self.dataElementRef: RefType = None
+        self.handleInvalid: ARLiteral = None
 
     def getDataElementRef(self):
         return self.dataElementRef
@@ -102,8 +109,8 @@ class MetaDataItem(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.length = None                              # type: PositiveInteger
-        self.metaDataItemType = None                    # type: TextValueSpecification
+        self.length: PositiveInteger = None
+        self.metaDataItemType: TextValueSpecification = None
 
     def getLength(self):
         return self.length
@@ -124,8 +131,8 @@ class MetaDataItemSet(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.dataElementRefs = []                           # type: List[RefType]
-        self.metaDataItems = []                             # type: List[MetaDataItem]
+        self.dataElementRefs: List[RefType] = []
+        self.metaDataItems: List[MetaDataItem] = []
 
     def getDataElementRefs(self):
         return self.dataElementRefs
@@ -146,8 +153,8 @@ class SenderReceiverInterface(DataInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.invalidationPolicies = []                # type: List[InvalidationPolicy]
-        self.metaDataItemSets = []                    # type: List[MetaDataItemSet]
+        self.invalidationPolicies: List[InvalidationPolicy] = []
+        self.metaDataItemSets: List[MetaDataItemSet] = []
 
     def getInvalidationPolicies(self):
         return self.invalidationPolicies
@@ -176,7 +183,7 @@ class SenderReceiverInterface(DataInterface):
         return self.getElement(short_name, VariableDataPrototype)
     
     def createInvalidationPolicy(self) -> InvalidationPolicy:
-        policy = InvalidationPolicy(self)
+        policy = InvalidationPolicy()
         self.invalidationPolicies.append(policy)
         return policy
     
@@ -189,7 +196,7 @@ class ArgumentDataPrototype(AutosarDataPrototype):
         super().__init__(parent, short_name)
 
         self.direction: ArgumentDirectionEnum = None
-        self.serverArgumentImplPolicy = None                # type: ServerArgumentImplPolicyEnum
+        self.serverArgumentImplPolicy = None
 
     def getDirection(self):
         return self.direction
@@ -212,7 +219,7 @@ class ApplicationError(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.error_code = None                  # type: ARNumerical
+        self.error_code: ARNumerical = None
 
 
 class ClientServerOperation(AtpFeature):
@@ -240,8 +247,8 @@ class ClientServerOperation(AtpFeature):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arguments = []                                                     # type: List[ArgumentDataPrototype]
-        self.possibleErrorRefs = []                                             # type: List[RefType]
+        self.arguments: List[ArgumentDataPrototype] = []
+        self.possibleErrorRefs: List[RefType] = []
 
     def getArguments(self):
         return self.arguments
@@ -303,14 +310,14 @@ class TriggerInterface(PortInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._triggers = []             # type: Trigger
+        self._triggers: List[Trigger] = []
 
 
 class ModeSwitchInterface(PortInterface):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._modeGroup = []            # type: List[ModeDeclarationGroupPrototype]
+        self._modeGroup: List[ModeDeclarationGroupPrototype] = []
 
     def createModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         if not self.IsElementExists(short_name):
@@ -333,8 +340,8 @@ class ClientServerApplicationErrorMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.firstApplicationErrorRef = None                    # type: RefType
-        self.secondApplicationErrorRef = None                   # type: RefType
+        self.firstApplicationErrorRef: RefType = None
+        self.secondApplicationErrorRef: RefType = None
 
     def getFirstApplicationErrorRef(self):
         return self.firstApplicationErrorRef
@@ -355,10 +362,10 @@ class ClientServerOperationMapping(ARObject):
     def __init__(self):
         super().__init__()
         
-        self.argumentMappings = []                              # type: List[DataPrototypeMapping]
-        self.firstOperationRef = None                           # type: RefType
-        self.firstToSecondDataTransformationRef = None          # type: RefType
-        self.secondOperationRef = None                          # type: RefType
+        self.argumentMappings: List['DataPrototypeMapping'] = []
+        self.firstOperationRef: RefType = None
+        self.firstToSecondDataTransformationRef: RefType = None
+        self.secondOperationRef: RefType = None
 
     def getArgumentMappings(self):
         return self.argumentMappings
@@ -393,12 +400,12 @@ class DataPrototypeMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.firstDataPrototypeRef = None                       # type: RefType
-        self.firstToSecondDataTransformationRef = None          # type: RefType
-        self.secondDataPrototypeRef = None                      # type: RefType
-        self.secondToFirstDataTransformationRef = None          # type: RefType
-        self.subElementMappings = []                            # type: List[SubElementMapping]
-        self.textTableMappings = []                             # type: List[TextTableMapping]
+        self.firstDataPrototypeRef: RefType = None
+        self.firstToSecondDataTransformationRef: RefType = None
+        self.secondDataPrototypeRef: RefType = None
+        self.secondToFirstDataTransformationRef: RefType = None
+        self.subElementMappings = []
+        self.textTableMappings: List['TextTableMapping'] = []
 
     def getFirstDataPrototypeRef(self):
         return self.firstDataPrototypeRef
@@ -447,8 +454,8 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.errorMappings = []                                 # type: List[ClientServerApplicationErrorMapping]
-        self.operationMappings = []                             # type: List[ClientServerOperationMapping]
+        self.errorMappings: List['ClientServerApplicationErrorMapping'] = []
+        self.operationMappings: List['ClientServerOperationMapping'] = []
 
     def getErrorMappings(self):
         return self.errorMappings
@@ -471,7 +478,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataMappings = []                          # type: List[DataPrototypeMapping]
+        self.dataMappings: List['DataPrototypeMapping'] = []
 
     def getDataMappings(self):
         return self.dataMappings
@@ -485,7 +492,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.modeMapping = None                         # type: ModeDeclarationGroupPrototypeMapping
+        self.modeMapping: 'ModeDeclarationGroupPrototypeMapping' = None
 
     def getModeMapping(self):
         return self.modeMapping
@@ -521,7 +528,7 @@ class ModeDeclarationMapping(Identifiable):
     def getFirstModeRefs(self) -> List[RefType]:
         return self.firstModeRefs
 
-    def addFirstModeRef(self, value: List[RefType]):
+    def addFirstModeRef(self, value: 'RefType'):
         if value is not None:
             self.firstModeRefs.append(value)
         return self
@@ -594,11 +601,11 @@ class TextTableMapping(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.bitfieldTextTableMaskFirst = None                  # type: PositiveInteger
-        self.bitfieldTextTableMaskSecond = None                 # type: PositiveInteger
-        self.identicalMapping = None                            # type: Boolean
-        self.mappingDirection = None                            # type: MappingDirectionEnum
-        self.valuePairs = []                                    # type: List[TextTableValuePair]
+        self.bitfieldTextTableMaskFirst: PositiveInteger = None
+        self.bitfieldTextTableMaskSecond: PositiveInteger = None
+        self.identicalMapping: Boolean = None
+        self.mappingDirection = None
+        self.valuePairs = []
 
     def getBitfieldTextTableMaskFirst(self):
         return self.bitfieldTextTableMaskFirst

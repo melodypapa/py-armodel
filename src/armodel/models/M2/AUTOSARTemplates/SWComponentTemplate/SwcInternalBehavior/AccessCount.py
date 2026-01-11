@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR access count elements
+in software component internal behavior templates.
+"""
+
 from abc import ABCMeta
 
 from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -10,7 +15,7 @@ class AbstractAccessPoint(Identifiable, metaclass = ABCMeta):
         
         super().__init__(parent, short_name)
 
-        self.returnValueProvision = None                                    # type: RteApiReturnValueProvisionEnum
+        self.returnValueProvision = None
 
     def getReturnValueProvision(self):
         return self.returnValueProvision

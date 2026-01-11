@@ -1,3 +1,10 @@
+"""
+This module contains classes for representing AUTOSAR communication specifications
+in the SWComponentTemplate module. It includes various communication specifications
+for different types of port communication such as sender/receiver, client/server,
+and mode switching communications, as well as non-volatile and parameter communications.
+"""
+
 from abc import ABCMeta
 from typing import List
 
@@ -65,9 +72,8 @@ class CompositeNetworkRepresentation(ARObject):
     def __init__(self):
         super().__init__()
 
-        # type: ApplicationCompositeElementInPortInterfaceInstanceRef
         self.leafElementIRef = None
-        self.networkRepresentation = None           # type: SwDataDefProps
+        self.networkRepresentation: SwDataDefProps = None
 
     def getLeafElementIRef(self):
         return self.leafElementIRef
@@ -88,7 +94,7 @@ class TransmissionAcknowledgementRequest(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.timeout = None     # type: float
+        self.timeout: float = None
 
 
 class SenderComSpec(PPortComSpec, metaclass=ABCMeta):
@@ -98,14 +104,12 @@ class SenderComSpec(PPortComSpec, metaclass=ABCMeta):
 
         super().__init__()
 
-        # type: List[CompositeNetworkRepresentation]
-        self.compositeNetworkRepresentations = []
-        self.dataElementRef = None                      # type: RefType
-        self.networkRepresentation = None               # type: SwDataDefProps
-        self.handleOutOfRange = None                    # type: str
-        # type: TransmissionAcknowledgementRequest
-        self.transmissionAcknowledge = None
-        self.usesEndToEndProtection = None              # type: ARBoolean
+        self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = []
+        self.dataElementRef: RefType = None
+        self.networkRepresentation: SwDataDefProps = None
+        self.handleOutOfRange: str = None
+        self.transmissionAcknowledge: TransmissionAcknowledgementRequest = None
+        self.usesEndToEndProtection: ARBoolean = None
 
     def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
         self.compositeNetworkRepresentations.append(representation)
@@ -158,7 +162,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
     def __init__(self):
         super().__init__()
 
-        self.initValue = None                               # type: ValueSpecification
+        self.initValue: ValueSpecification = None
 
     def getInitValue(self):
         return self.initValue
@@ -172,7 +176,7 @@ class ClientComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.operationRef = None                            # type: RefType
+        self.operationRef: RefType = None
 
     def getOperationRef(self):
         return self.operationRef
@@ -186,9 +190,9 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.enhancedModeApi = None                         # type: Boolean
-        self.modeGroupRef = None                            # type: RefType
-        self.supportsAsynchronousModeSwitch = None          # type: Boolean
+        self.enhancedModeApi: Boolean = None
+        self.modeGroupRef: RefType = None
+        self.supportsAsynchronousModeSwitch: Boolean = None
 
     def getEnhancedModeApi(self):
         return self.enhancedModeApi
@@ -240,8 +244,8 @@ class ParameterRequireComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.initValue = None                           # type: ValueSpecification
-        self.parameterRef = None                        # type: RefType
+        self.initValue: ValueSpecification = None
+        self.parameterRef: RefType = None
 
     def getInitValue(self):
         return self.initValue
@@ -344,8 +348,7 @@ class ModeSwitchedAckRequest(ARObject):
     def __init__(self):
         super().__init__()
 
-        # type: TimeValue
-        self.timeout = None
+        self.timeout: TimeValue = None
 
     def getTimeout(self):
         return self.timeout
@@ -360,12 +363,10 @@ class ModeSwitchSenderComSpec(RPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.enhancedModeApi = None                                     # type: ARBoolean
-        self.modeGroupRef = None                                        # type: RefType
-        # type: ModeSwitchedAckRequest
-        self.modeSwitchedAck = None
-        # type: ARPositiveInteger
-        self.queueLength = None
+        self.enhancedModeApi: ARBoolean = None
+        self.modeGroupRef: RefType = None
+        self.modeSwitchedAck: ModeSwitchedAckRequest = None
+        self.queueLength: ARPositiveInteger = None
 
     def getEnhancedModeApi(self):
         return self.enhancedModeApi
@@ -632,14 +633,14 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
         super().__init__()
 
-        self.aliveTimeout = None                # type: ARNumerical
-        self.enableUpdated = None               # type: ARBoolean
-        self.filter = None                      # type: DataFilter
-        self.handleDataStatus = None            # type: ARBoolean
-        self.handleNeverReceived = None         # type: ARBoolean
-        self.handleTimeoutType = ""
-        self.initValue = None                   # type: ValueSpecification
-        self.timeoutSubstitution = None         # type: ValueSpecification
+        self.aliveTimeout: ARNumerical = None
+        self.enableUpdated: ARBoolean = None
+        self.filter = None
+        self.handleDataStatus: ARBoolean = None
+        self.handleNeverReceived: ARBoolean = None
+        self.handleTimeoutType: str = ""
+        self.initValue: ValueSpecification = None
+        self.timeoutSubstitution: ValueSpecification = None
 
     def getAliveTimeout(self):
         return self.aliveTimeout
@@ -702,7 +703,7 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
         super().__init__()
 
-        self.queueLength = None                    # type: ARPositiveInteger
+        self.queueLength: ARPositiveInteger = None
 
     def getQueueLength(self):
         return self.queueLength
