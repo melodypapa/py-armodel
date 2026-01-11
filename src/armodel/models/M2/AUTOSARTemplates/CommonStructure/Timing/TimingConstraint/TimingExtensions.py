@@ -1,3 +1,15 @@
+"""
+This module defines timing extension classes for AUTOSAR software component timing specifications.
+
+Timing extensions provide mechanisms to specify various timing constraints and requirements
+for AUTOSAR software components. This includes execution order constraints and other
+timing-related specifications that ensure proper temporal behavior of AUTOSAR components.
+
+Classes:
+    TimingExtension: Abstract base class for timing extensions
+    SwcTiming: Software component timing specification
+"""
+
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -7,6 +19,11 @@ from typing import List
 
 
 class TimingExtension(Identifiable):
+    """
+    Abstract base class for timing extensions in AUTOSAR.
+    This class cannot be instantiated directly and provides common functionality
+    for timing extension implementations such as software component timing specifications.
+    """
     __metaclass__ = ABCMeta
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -15,9 +32,18 @@ class TimingExtension(Identifiable):
 
         super().__init__(parent, short_name)
 
-        self.timing_requirements = []           # Type: List[TimingConstraint]
+        self.timing_requirements: List[TimingConstraint] = []
 
     def createExecutionOrderConstraint(self, short_name: str)-> ExecutionOrderConstraint:
+        """
+        Creates a new execution order constraint with the specified short name.
+        
+        Args:
+            short_name: Short name for the new execution order constraint
+            
+        Returns:
+            The created ExecutionOrderConstraint instance
+        """
         if not self.IsElementExists(short_name):
             constraint = ExecutionOrderConstraint(self, short_name)
             self.addElement(constraint)
@@ -25,9 +51,20 @@ class TimingExtension(Identifiable):
         return self.getElement(short_name, ExecutionOrderConstraint)
 
     def getTimingRequirements(self) -> List[TimingConstraint]:
+        """
+        Returns the list of timing requirements for this extension.
+        
+        Returns:
+            List of timing constraint requirements
+        """
         return self.timing_requirements
 
 
 class SwcTiming(TimingExtension):
+    """
+    Software component timing specification that defines timing constraints
+    for AUTOSAR software components. This class extends TimingExtension to
+    provide component-specific timing functionality.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
