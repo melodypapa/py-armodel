@@ -1,3 +1,10 @@
+"""
+This module contains classes for representing AUTOSAR instance references
+in the SWComponentTemplate module. These classes are used for referencing
+elements within atomic SWCs and compositions, particularly for mode groups
+and data elements in instance contexts.
+"""
+
 from abc import ABCMeta
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -10,9 +17,9 @@ class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
         
         super().__init__()
 
-        self.baseRef = None                         # type: RefType
-        self.contextPortRef = None                  # type: RefType
-        self.targetRef = None                       # type: RefType
+        self.baseRef: RefType = None
+        self.contextPortRef: RefType = None
+        self.targetRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -40,8 +47,8 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextPPortRef = None                         # type: RefType
-        self.targetModeGroupRef = None                      # type: RefType
+        self.contextPPortRef: RefType = None
+        self.targetModeGroupRef: RefType = None
 
     def getContextPPortRef(self):
         return self.contextPPortRef
@@ -61,8 +68,8 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextRPortRef = None                                  # type: RefType
-        self.targetModeGroupRef = None                               # type: RefType
+        self.contextRPortRef: RefType = None
+        self.targetModeGroupRef: RefType = None
 
     def getContextRPortRef(self):
         return self.contextRPortRef
@@ -83,10 +90,10 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                                         # type: RefType
-        self.contextModeDeclarationGroupPrototypeRef = None         # type: RefType
-        self.contextPortRef = None                                  # type: RefType
-        self.targetModeDeclarationRef = None                        # type: RefType
+        self.baseRef: RefType = None
+        self.contextModeDeclarationGroupPrototypeRef: RefType = None
+        self.contextPortRef: RefType = None
+        self.targetModeDeclarationRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -123,16 +130,16 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
 
         super().__init__()
 
-        self.abstractTargetDataElementRef = None                # type: RefType
-        self.baseRef = None                                     # type: RefType
-        self.contextPortRef = None                              # type: RefType
+        self.abstractTargetDataElementRef: RefType = None
+        self.baseRef: RefType = None
+        self.contextPortRef: RefType = None
 
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextRPortRef = None              # type: RefType
-        self.targetDataElementRef = None         # type: RefType
+        self.contextRPortRef: RefType = None
+        self.targetDataElementRef: RefType = None
 
     def getContextRPortRef(self):
         return self.contextRPortRef
@@ -152,9 +159,9 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                                         # type: RefType
-        self.contextRefs = []                                       # type: List[RefType]
-        self.targetRef = None                                       # type: RefType
+        self.baseRef: RefType = None
+        self.contextRefs = []
+        self.targetRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef

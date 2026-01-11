@@ -1,3 +1,10 @@
+"""
+This module contains classes for representing AUTOSAR end-to-end protection
+mechanisms in the SWComponentTemplate module. It includes classes for
+defining end-to-end protection profiles, variables, and protection sets
+used to ensure data integrity in communication systems.
+"""
+
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
@@ -9,16 +16,16 @@ class EndToEndDescription(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.category = None                # type: NameToken
-        self.counterOffset = None           # type: PositiveInteger
-        self.crcOffset = None               # type: PositiveInteger
-        self.dataIds = []                   # type: List[PositiveInteger]
-        self.dataIdMode = None              # type: PositiveInteger
-        self.dataIdNibbleOffset = None      # type: PositiveInteger
-        self.dataLength = None              # type: PositiveInteger
-        self.maxDeltaCounterInit = None     # type: PositiveInteger
-        self.maxNoNewOrRepeatedData = None  # type: int
-        self.syncCounterInit = None         # type: PositiveInteger
+        self.category: NameToken = None
+        self.counterOffset: PositiveInteger = None
+        self.crcOffset: PositiveInteger = None
+        self.dataIds: List[PositiveInteger] = []
+        self.dataIdMode: PositiveInteger = None
+        self.dataIdNibbleOffset: PositiveInteger = None
+        self.dataLength: PositiveInteger = None
+        self.maxDeltaCounterInit: PositiveInteger = None
+        self.maxNoNewOrRepeatedData: int = None
+        self.syncCounterInit: PositiveInteger = None
 
     def getCategory(self):
         return self.category
@@ -96,9 +103,9 @@ class EndToEndProtectionVariablePrototype(ARObject):
     def __init__(self):
         super().__init__()
 
-        self._receiverIRefs = []            # type: List[VariableDataPrototypeInSystemInstanceRef]
-        self.senderIRef = None             # type: VariableDataPrototypeInSystemInstanceRef
-        self.shortLabel = None              # type: str
+        self._receiverIRefs: List[VariableDataPrototypeInSystemInstanceRef] = []
+        self.senderIRef: VariableDataPrototypeInSystemInstanceRef = None
+        self.shortLabel: str = None
 
     def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef):
         self._receiverIRefs.append(iref)
@@ -111,9 +118,9 @@ class EndToEndProtectionISignalIPdu(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.dataOffset = None                              # type: Integer
-        self.iSignalGroupRef = None                         # type: RefType
-        self.iSignalIPduRef = None                          # type: RefType
+        self.dataOffset: Integer = None
+        self.iSignalGroupRef: RefType = None
+        self.iSignalIPduRef: RefType = None
 
     def getDataOffset(self):
         return self.dataOffset
@@ -141,9 +148,9 @@ class EndToEndProtection(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.endToEndProfile = None                         # type: EndToEndDescription
-        self.endToEndProtectionISignalIPdus = []            # type: List[EndToEndProtectionISignalIPdu]
-        self.endToEndProtectionVariablePrototypes = []      # type: List[EndToEndProtectionVariablePrototype]
+        self.endToEndProfile: EndToEndDescription = None
+        self.endToEndProtectionISignalIPdus: List[EndToEndProtectionISignalIPdu] = []
+        self.endToEndProtectionVariablePrototypes: List[EndToEndProtectionVariablePrototype] = []
 
     def getEndToEndProfile(self):
         return self.endToEndProfile

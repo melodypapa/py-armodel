@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR trigger elements
+in software component internal behavior templates.
+"""
+
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from .....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum

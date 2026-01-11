@@ -1,3 +1,9 @@
+"""
+This module contains classes for representing AUTOSAR instance references
+in port interface contexts. These classes are used for referencing data
+elements within port interfaces and compositions.
+"""
+
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
@@ -5,10 +11,10 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                                         # type: RefType
-        self.contextDataPrototypeRef = None                         # type: RefType
-        self.rootDataPrototypeRef = None                            # type: RefType
-        self.targetDataPrototypeRef = None                          # type: RefType
+        self.baseRef: RefType = None
+        self.contextDataPrototypeRef: RefType = None
+        self.rootDataPrototypeRef: RefType = None
+        self.targetDataPrototypeRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef

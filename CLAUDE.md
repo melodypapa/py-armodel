@@ -343,6 +343,7 @@ Test files in `test_files/` directory contain sample ARXML files for validation 
 - Use pytest for unit testing with high code coverage requirement
 - Use flake8 for code quality checking
 - Continuous Integration with GitHub Actions (Python 3.8-3.12)
+- Test folder structure should match source folder structure: tests/models directory structure must match src/models directory structure, with one test file corresponding to each source file
 
 ## Continuous Integration
 

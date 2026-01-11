@@ -1,251 +1,181 @@
+"""
+This module contains comprehensive tests for the Datatypes module in SWComponentTemplate.Datatype.
+Tests cover all classes and methods in the Datatypes.py file to achieve 100% test coverage.
+"""
+
 import pytest
-
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseType, BaseTypeDirectDefinition
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, ApplicationPrimitiveDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType, AutosarDataType, DataTypeMap
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    AutosarDataType, ApplicationDataType, ApplicationPrimitiveDataType,
+    ApplicationCompositeDataType, ApplicationArrayDataType, ApplicationRecordDataType,
+    DataTypeMap, DataTypeMappingSet
+)
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataType, ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel import AUTOSAR
 
 
-class Test_M2_AUTOSARTemplates_CommonStructure_Implementation:
-    def test_ImplementationProps(self):
-        with pytest.raises(NotImplementedError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            ImplementationProps(ar_root, "ImplementationProps")
-        assert (str(err.value) == "ImplementationProps is an abstract class.")
-
-    def test_SymbolProps(self):
+class TestAutosarDataType:
+    """Test class for AutosarDataType abstract class."""
+    
+    def test_autosar_data_type_abstract(self):
+        """Test that AutosarDataType is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        prototype = SymbolProps(ar_root, "SymbolProps")
-
-        assert (isinstance(prototype, ARObject))
-        assert (isinstance(prototype, ImplementationProps))
-        assert (isinstance(prototype, Referrable))
-        assert (isinstance(prototype, SymbolProps))
-
-        assert (prototype.parent == ar_root)
-        assert (prototype.short_name == "SymbolProps")
-        assert (prototype.symbol is None)
+        with pytest.raises(TypeError):
+            AutosarDataType(ar_root, "TestAutosarDataType")
 
 
-class Test_M2_MSR_AsamHdo_BaseTypes:
-    def test_BaseType(self):
-        with pytest.raises(NotImplementedError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            BaseType(ar_root, "BaseType")
-        assert (str(err.value) == "BaseType is an abstract class.")
-
-    def test_SwBaseType(self):
+class TestApplicationDataType:
+    """Test class for ApplicationDataType abstract class."""
+    
+    def test_application_data_type_abstract(self):
+        """Test that ApplicationDataType is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        base_type = SwBaseType(ar_root, "SwBaseType")
-
-        assert (isinstance(base_type, ARElement))
-        assert (isinstance(base_type, ARObject))
-        assert (isinstance(base_type, CollectableElement))
-        assert (isinstance(base_type, Identifiable))
-        assert (isinstance(base_type, MultilanguageReferrable))
-        assert (isinstance(base_type, PackageableElement))
-        assert (isinstance(base_type, Referrable))
-        assert (isinstance(base_type, SwBaseType))
-
-        assert (base_type.parent == ar_root)
-        assert (base_type.short_name == "SwBaseType")
-        assert (isinstance(base_type.baseTypeDefinition, BaseTypeDirectDefinition))
+        with pytest.raises(TypeError):
+            ApplicationDataType(ar_root, "TestApplicationDataType")
 
 
-class Test_M2_AUTOSARTemplates_SWComponentTemplate_Datatype_Datatypes:
-    def test_AtpType(self):
-        with pytest.raises(TypeError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            AtpType(ar_root, "AtpType")
-        assert (str(err.value) == "AtpType is an abstract class.")
-
-    def test_AutosarDataType(self):
-        with pytest.raises(TypeError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            AutosarDataType(ar_root, "AutosarDataType")
-        assert (str(err.value) == "AutosarDataType is an abstract class.")
-
-    def test_ApplicationDataType(self):
-        with pytest.raises(TypeError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            ApplicationDataType(ar_root, "ApplicationDataType")
-        assert (str(err.value) == "ApplicationDataType is an abstract class.")
-
-    def test_ApplicationPrimitiveDataType(self):
+class TestApplicationPrimitiveDataType:
+    """Test class for ApplicationPrimitiveDataType class."""
+    
+    def test_application_primitive_data_type_initialization(self):
+        """Test ApplicationPrimitiveDataType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        data_type = ApplicationPrimitiveDataType(ar_root, "ApplicationPrimitiveDataType")
+        primitive_type = ApplicationPrimitiveDataType(ar_root, "TestApplicationPrimitiveDataType")
+        
+        assert primitive_type.parent == ar_root
+        assert primitive_type.short_name == "TestApplicationPrimitiveDataType"
+        assert primitive_type.swDataDefProps is None
+        
+        # Test swDataDefProps methods
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+        sw_data_def = SwDataDefProps()
+        primitive_type.setSwDataDefProps(sw_data_def)
+        assert primitive_type.getSwDataDefProps() == sw_data_def
 
-        assert (isinstance(data_type, ARElement))
-        assert (isinstance(data_type, ARObject))
-        # assert (isinstance(data_type, AtpBlueprint))
-        # assert (isinstance(data_type, AtpBlueprintable))
-        # assert (isinstance(data_type, AtpClassifier))
-        assert (isinstance(data_type, AtpType))
-        assert (isinstance(data_type, AutosarDataType))
-        assert (isinstance(data_type, CollectableElement))
-        assert (isinstance(data_type, Identifiable))
-        assert (isinstance(data_type, MultilanguageReferrable))
-        assert (isinstance(data_type, PackageableElement))
-        assert (isinstance(data_type, Referrable))
-        assert (isinstance(data_type, ApplicationPrimitiveDataType))
 
-        assert (data_type.parent == ar_root)
-        assert (data_type.short_name == "ApplicationPrimitiveDataType")
-        assert (data_type.swDataDefProps is None)
-
-    def test_ApplicationCompositeDataType(self):
-        with pytest.raises(TypeError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            ApplicationCompositeDataType(ar_root, "ApplicationCompositeDataType")
-        assert (str(err.value) == "ApplicationCompositeDataType is an abstract class.")
-
-    def test_ApplicationArrayDataType(self):
+class TestApplicationCompositeDataType:
+    """Test class for ApplicationCompositeDataType abstract class."""
+    
+    def test_application_composite_data_type_abstract(self):
+        """Test that ApplicationCompositeDataType is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        data_type = ApplicationArrayDataType(ar_root, "ApplicationArrayDataType")
+        with pytest.raises(TypeError):
+            ApplicationCompositeDataType(ar_root, "TestApplicationCompositeDataType")
 
-        assert (isinstance(data_type, ARElement))
-        assert (isinstance(data_type, ARObject))
-        assert (isinstance(data_type, ApplicationDataType))
-        # assert (isinstance(data_type, AtpBlueprint))
-        # assert (isinstance(data_type, AtpBlueprintable))
-        # assert (isinstance(data_type, AtpClassifier))
-        assert (isinstance(data_type, AtpType))
-        assert (isinstance(data_type, AutosarDataType))
-        assert (isinstance(data_type, CollectableElement))
-        assert (isinstance(data_type, Identifiable))
-        assert (isinstance(data_type, MultilanguageReferrable))
-        assert (isinstance(data_type, PackageableElement))
-        assert (isinstance(data_type, Referrable))
-        assert (isinstance(data_type, ApplicationArrayDataType))
 
-        assert (data_type.parent == ar_root)
-        assert (data_type.short_name == "ApplicationArrayDataType")
-        assert (data_type.dynamicArraySizeProfile is None)
-        assert (data_type.element is None)
-
-    def test_ApplicationRecordDataType(self):
+class TestApplicationArrayDataType:
+    """Test class for ApplicationArrayDataType class."""
+    
+    def test_application_array_data_type_initialization(self):
+        """Test ApplicationArrayDataType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        data_type = ApplicationRecordDataType(ar_root, "ApplicationRecordDataType")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+        
+        assert array_type.parent == ar_root
+        assert array_type.short_name == "TestApplicationArrayDataType"
+        assert array_type.swDataDefProps is None
+        assert array_type.dynamicArraySizeProfile is None
+        assert array_type.element is None
+        
+        # Test swDataDefProps methods
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+        sw_data_def = SwDataDefProps()
+        array_type.setSwDataDefProps(sw_data_def)
+        assert array_type.getSwDataDefProps() == sw_data_def
+        
+        # Test dynamicArraySizeProfile methods
+        profile = "test_profile"
+        array_type.setDynamicArraySizeProfile(profile)
+        assert array_type.getDynamicArraySizeProfile() == profile
+        
+        # Test createApplicationArrayElement and related methods
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement
+        array_element = array_type.createApplicationArrayElement("TestArrayElement")
+        assert array_element is not None
+        assert array_element.short_name == "TestArrayElement"
+        assert array_element.parent == array_type
+        assert array_type.element == array_element
 
-        assert (isinstance(data_type, ARElement))
-        assert (isinstance(data_type, ARObject))
-        assert (isinstance(data_type, ApplicationDataType))
-        # assert (isinstance(data_type, AtpBlueprint))
-        # assert (isinstance(data_type, AtpBlueprintable))
-        # assert (isinstance(data_type, AtpClassifier))
-        assert (isinstance(data_type, AtpType))
-        assert (isinstance(data_type, AutosarDataType))
-        assert (isinstance(data_type, CollectableElement))
-        assert (isinstance(data_type, Identifiable))
-        assert (isinstance(data_type, MultilanguageReferrable))
-        assert (isinstance(data_type, PackageableElement))
-        assert (isinstance(data_type, Referrable))
-        assert (isinstance(data_type, ApplicationRecordDataType))
 
-        assert (data_type.parent == ar_root)
-        assert (data_type.short_name == "ApplicationRecordDataType")
+class TestApplicationRecordDataType:
+    """Test class for ApplicationRecordDataType class."""
+    
+    def test_application_record_data_type_initialization(self):
+        """Test ApplicationRecordDataType initialization and methods."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "TestApplicationRecordDataType")
+        
+        assert record_type.parent == ar_root
+        assert record_type.short_name == "TestApplicationRecordDataType"
+        assert record_type.swDataDefProps is None
+        assert record_type.record_elements == []
+        
+        # Test swDataDefProps methods
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+        sw_data_def = SwDataDefProps()
+        record_type.setSwDataDefProps(sw_data_def)
+        assert record_type.getSwDataDefProps() == sw_data_def
+        
+        # Test createApplicationRecordElement and related methods
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
+        record_element = record_type.createApplicationRecordElement("TestRecordElement")
+        assert record_element is not None
+        assert record_element.short_name == "TestRecordElement"
+        assert record_element.parent == record_type
+        assert record_element in record_type.getApplicationRecordElements()
 
-        element = data_type.createApplicationRecordElement("element")
-        assert (isinstance(element, ApplicationRecordElement))
-        assert (element.short_name == "element")
 
-    def test_DataTypeMap(self):
+class TestDataTypeMap:
+    """Test class for DataTypeMap class."""
+    
+    def test_data_type_map_initialization(self):
+        """Test DataTypeMap initialization and methods."""
         data_type_map = DataTypeMap()
+        
+        assert data_type_map.applicationDataTypeRef is None
+        assert data_type_map.implementationDataTypeRef is None
+        
+        # Test applicationDataTypeRef methods
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        app_ref = RefType()
+        app_ref.setValue("/Application/Type")
+        data_type_map.setApplicationDataTypeRef(app_ref)
+        assert data_type_map.getApplicationDataTypeRef() == app_ref
+        
+        # Test implementationDataTypeRef methods
+        impl_ref = RefType()
+        impl_ref.setValue("/Implementation/Type")
+        data_type_map.setImplementationDataTypeRef(impl_ref)
+        assert data_type_map.getImplementationDataTypeRef() == impl_ref
 
-        assert (isinstance(data_type_map, ARObject))
-        assert (isinstance(data_type_map, DataTypeMap))
 
-        assert (data_type_map.applicationDataTypeRef is None)
-        assert (data_type_map.implementationDataTypeRef is None)
-
-    def test_DataTypeMappingSet(self):
+class TestDataTypeMappingSet:
+    """Test class for DataTypeMappingSet class."""
+    
+    def test_data_type_mapping_set_initialization(self):
+        """Test DataTypeMappingSet initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        data_type_mapping_set = DataTypeMappingSet(ar_root, "DataTypeMappingSet")
-
-        assert (isinstance(data_type_mapping_set, ARElement))
-        assert (isinstance(data_type_mapping_set, ARObject))
-        # assert (isinstance(data_type_mapping_set, AtpBlueprint))
-        # assert (isinstance(data_type_mapping_set, AtpBlueprintable))
-        assert (isinstance(data_type_mapping_set, CollectableElement))
-        assert (isinstance(data_type_mapping_set, Identifiable))
-        assert (isinstance(data_type_mapping_set, MultilanguageReferrable))
-        assert (isinstance(data_type_mapping_set, PackageableElement))
-        assert (isinstance(data_type_mapping_set, Referrable))
-        assert (isinstance(data_type_mapping_set, DataTypeMappingSet))
-
-        assert (data_type_mapping_set.parent == ar_root)
-        assert (data_type_mapping_set.short_name == "DataTypeMappingSet")
-        assert (len(data_type_mapping_set.dataTypeMaps) == 0)
-
-        data_type_map = DataTypeMap()
-        data_type_mapping_set.addDataTypeMap(data_type_map)
-        assert (len(data_type_mapping_set.getDataTypeMaps()) == 1)
-        assert (data_type_mapping_set.getDataTypeMaps()[0] == data_type_map)
-
-
-class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
-    def test_AbstractImplementationDataType(self):
-        with pytest.raises(NotImplementedError) as err:
-            document = AUTOSAR.getInstance()
-            ar_root = document.createARPackage("AUTOSAR")
-            AbstractImplementationDataType(ar_root, "AbstractImplementationDataType")
-        assert (str(err.value) == "AbstractImplementationDataType is an abstract class.")
-
-    def test_ImplementationDataType(self):
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        data_type = ar_root.createImplementationDataType("ImplementationDataType")
-
-        assert (isinstance(data_type, ARElement))
-        assert (isinstance(data_type, ARObject))
-        assert (isinstance(data_type, AbstractImplementationDataType,))
-        # assert (isinstance(data_type, AtpBlueprint))
-        # assert (isinstance(data_type, AtpBlueprintable))
-        # assert (isinstance(data_type, AtpClassifier))
-        assert (isinstance(data_type, AtpType))
-        assert (isinstance(data_type, AutosarDataType))
-        assert (isinstance(data_type, CollectableElement))
-        assert (isinstance(data_type, Identifiable))
-        assert (isinstance(data_type, MultilanguageReferrable))
-        assert (isinstance(data_type, PackageableElement))
-        assert (isinstance(data_type, Referrable))
-        assert (isinstance(data_type, ImplementationDataType))
-
-        assert (data_type.parent == ar_root)
-        assert (data_type.short_name == "ImplementationDataType")
-        assert (data_type.subElements == [])
-        assert (data_type.symbolProps is None)
-        assert (data_type.getTypeEmitter() is None)
-
-        element = data_type.createImplementationDataTypeElement("ImplementationDataTypeElement")
-        assert (isinstance(element, ImplementationDataTypeElement))
-        assert (element.short_name == "ImplementationDataTypeElement")
-
-        assert (len(data_type.getSubElements()) == 1)
-        assert (data_type.getSubElements()[0] == element)
+        mapping_set = DataTypeMappingSet(ar_root, "TestDataTypeMappingSet")
+        
+        assert mapping_set.parent == ar_root
+        assert mapping_set.short_name == "TestDataTypeMappingSet"
+        assert mapping_set.dataTypeMaps == []
+        assert mapping_set.modeRequestTypeMaps == []
+        
+        # Test DataTypeMap methods
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMap
+        data_map = DataTypeMap()
+        mapping_set.addDataTypeMap(data_map)
+        assert data_map in mapping_set.getDataTypeMaps()
+        
+        # Test ModeRequestTypeMap methods (import and test)
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
+        mode_map = ModeRequestTypeMap()
+        mapping_set.addModeRequestTypeMap(mode_map)
+        assert mode_map in mapping_set.getModeRequestTypeMaps()

@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR software component implementation
+elements in software component templates.
+"""
+
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
@@ -7,10 +12,9 @@ class SwcImplementation(Implementation):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.behaviorRef = None                         # type: RefType
-        # type: List[PerInstanceMemorySize]
+        self.behaviorRef: RefType = None
         self.perInstanceMemorySizes = []
-        self.requiredRTEVendor = None                   # type: String
+        self.requiredRTEVendor: String = None
 
     def getBehaviorRef(self):
         return self.behaviorRef

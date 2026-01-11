@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR software component documentation
+elements in software component templates.
+"""
+
 from typing import List
 from .....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -6,14 +11,14 @@ class SwComponentDocumentation(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.chapters = []                              # type: List[Chapter]
-        self.swCalibrationNotes = None                  # type: Chapter
-        self.swCarbDoc = None                           # type: Chapter
-        self.swDiagnosticsNotes = None                  # type: Chapter
-        self.swFeatureDef = None                        # type: Chapter
-        self.swFeatureDesc = None                       # type: Chapter
-        self.swMaintenanceNotes = None                  # type: Chapter
-        self.swTestDesc = None                          # type: sChapter
+        self.chapters = []
+        self.swCalibrationNotes = None
+        self.swCarbDoc = None
+        self.swDiagnosticsNotes = None
+        self.swFeatureDef = None
+        self.swFeatureDesc = None
+        self.swMaintenanceNotes = None
+        self.swTestDesc = None
 
     def getChapters(self):
         return self.chapters

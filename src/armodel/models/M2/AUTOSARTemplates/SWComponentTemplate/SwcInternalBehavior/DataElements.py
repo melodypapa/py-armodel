@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR data elements
+in software component internal behavior templates.
+"""
+
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AutosarVariableRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
@@ -11,8 +16,8 @@ class ParameterAccess(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.accessedParameter = None                               # type: AutosarParameterRef
-        self.swDataDefProps = None                                  # type: SwDataDefProps
+        self.accessedParameter: 'AutosarParameterRef' = None
+        self.swDataDefProps: 'SwDataDefProps' = None
 
     def getAccessedParameter(self):
         return self.accessedParameter
@@ -33,13 +38,13 @@ class VariableAccess(Identifiable):
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)
 
-        self.accessedVariableRef: AutosarVariableRef = None
+        self.accessedVariableRef: 'AutosarVariableRef' = None
         self.scope: ARLiteral = None
 
-    def getAccessedVariableRef(self) -> AutosarVariableRef:
+    def getAccessedVariableRef(self) -> 'AutosarVariableRef':
         return self.accessedVariableRef
 
-    def setAccessedVariableRef(self, value: AutosarVariableRef):
+    def setAccessedVariableRef(self, value: 'AutosarVariableRef'):
         if value is not None:
             self.accessedVariableRef = value
         return self

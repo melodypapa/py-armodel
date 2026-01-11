@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR mode declaration groups
+in software component internal behavior templates.
+"""
+
 from typing import List
 
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, RefType
@@ -10,8 +15,8 @@ class ModeAccessPoint(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.ident = None                   # type: ModeAccessPointIdent
-        self.modeGroupIRef = None           # type: RModeGroupInAtomicSWCInstanceRef
+        self.ident: 'ModeAccessPointIdent' = None
+        self.modeGroupIRef: 'RModeGroupInAtomicSWCInstanceRef' = None
 
     def getIdent(self):
         return self.ident
@@ -31,7 +36,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeGroupIRef = None                                   # type: PModeGroupInAtomicSwcInstanceRef
+        self.modeGroupIRef: 'PModeGroupInAtomicSwcInstanceRef' = None
 
     def getModeGroupIRef(self):
         return self.modeGroupIRef
@@ -45,8 +50,8 @@ class IncludedModeDeclarationGroupSet(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.mode_declaration_group_refs = []                       # type: List[RefType]
-        self.prefix = None                                          # type: Identifier
+        self.mode_declaration_group_refs: List['RefType'] = []
+        self.prefix: 'Identifier' = None
 
     def addModeDeclarationGroupRef(self, ref: RefType):
         self.mode_declaration_group_refs.append(ref)

@@ -1,3 +1,8 @@
+"""
+This module contains classes for representing AUTOSAR instance reference usages
+in software component internal behavior templates.
+"""
+
 from typing import List
 
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -8,10 +13,10 @@ class ArVariableInImplementationDataInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.contextDataPrototypeRefs = []              # type: List[RefType]
-        self.portPrototypeRef = None                    # type: RefType
-        self.rootVariableDataPrototypeRef = None        # type: RefType
-        self.targetDataPrototypeRef = None              # type: RefType
+        self.contextDataPrototypeRefs: List['RefType'] = []
+        self.portPrototypeRef: 'RefType' = None
+        self.rootVariableDataPrototypeRef: 'RefType' = None
+        self.targetDataPrototypeRef: 'RefType' = None
 
     def getContextDataPrototypeRefs(self):
         return self.contextDataPrototypeRefs
@@ -45,11 +50,11 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                             # type: RefType
-        self.contextDataPrototypeRefs = []              # type: List[RefType]
-        self.portPrototypeRef = None                    # type: RefType
-        self.rootVariableDataPrototypeRef = None        # type: RefType
-        self.targetDataPrototypeRef = None              # type: RefType
+        self.baseRef: 'RefType' = None
+        self.contextDataPrototypeRefs: List['RefType'] = []
+        self.portPrototypeRef: 'RefType' = None
+        self.rootVariableDataPrototypeRef: 'RefType' = None
+        self.targetDataPrototypeRef: 'RefType' = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -91,11 +96,11 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef = None                                         # type: RefType
-        self.contextDataPrototypeRef = None                         # type: RefType
-        self.portPrototypeRef = None                                # type: RefType
-        self.rootParameterDataPrototypeRef = None                   # type: RefType
-        self.targetDataPrototypeRef = None                          # type: RefType
+        self.baseRef: 'RefType' = None
+        self.contextDataPrototypeRef: 'RefType' = None
+        self.portPrototypeRef: 'RefType' = None
+        self.rootParameterDataPrototypeRef: 'RefType' = None
+        self.targetDataPrototypeRef: 'RefType' = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -137,8 +142,8 @@ class AutosarParameterRef(ARObject):
     def __init__(self):
         super().__init__()
         
-        self.autosarParameterIRef: ParameterInAtomicSWCTypeInstanceRef = None
-        self.localParameterRef: RefType = None               # type: RefType
+        self.autosarParameterIRef: 'ParameterInAtomicSWCTypeInstanceRef' = None
+        self.localParameterRef: 'RefType' = None
 
     def getAutosarParameterIRef(self):
         return self.autosarParameterIRef
