@@ -548,3 +548,19 @@ CI 流程包括：
 - [在线文档](https://py-armodel.readthedocs.io/)
 - [GitHub Actions](https://github.com/melodypapa/py-armodel/actions)
 - [覆盖率报告](https://coveralls.io/github/melodypapa/py-armodel)
+
+## Prompts
+
+help me create one python script to extract the attributes of classes in
+   @autosar/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate/AUTOSAR_CP_TPS_BSWModuleDescriptionT
+   emplate_part_05.pdf  and update the file @docs/autosar/bsw_module_description_template.md 
+
+convert the type comments to variable declarations of all the class in @ and add the comments for each class
+
+add the comments for the class in @.
+
+valdate the changes with flake8 and pytest.
+
+increase the test coverage for the @ to 100% and add the comments for each tests file.
+
+change the @tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate folder structure same as @src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate folder structure. 
