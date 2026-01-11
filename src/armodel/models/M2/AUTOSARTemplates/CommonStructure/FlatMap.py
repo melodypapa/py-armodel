@@ -32,8 +32,8 @@ class FlatInstanceDescriptor(Identifiable):
         self.ecuExtractReferenceIRef: AnyInstanceRef = None                     
         # Role identifier for this instance descriptor
         self.role: Identifier = None                                        
-        # RTE plugin properties for this instance
-        self.rtePluginProps: 'RtePluginProps' = None                              
+        # RTE plugin properties for this instance (forward reference)
+        self.rtePluginProps = None                              
         # Software data definition properties for this instance
         self.swDataDefProps: SwDataDefProps = None                              
         # Upstream instance reference for this instance descriptor

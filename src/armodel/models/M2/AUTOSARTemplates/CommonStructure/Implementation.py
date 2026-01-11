@@ -9,7 +9,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String, RevisionLabelString
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
@@ -242,7 +242,7 @@ class DependencyOnArtifact(Identifiable):
         # Artifact descriptor that this dependency references
         self.artifactDescriptor: AutosarEngineeringObject = None
         # Usage type of this dependency
-        self.usage: 'DependencyUsageEnum' = None                                   
+        self.usage = None                                   
 
     def getArtifactDescriptor(self):
         """
@@ -320,11 +320,11 @@ class Implementation(PackageableElement, metaclass=ABCMeta):
         # List of hardware element references for this implementation
         self.hwElementRefs: List[RefType] = []                             
         # List of linkers used in this implementation
-        self.linkers: List['Linker'] = []                                   
+        self.linkers: List = []                                   
         # Microcontroller support information for this implementation
         self.mcSupport = None
         # Programming language used in this implementation
-        self.programmingLanguage: 'ProgramminglanguageEnum' = None                     
+        self.programmingLanguage = None                     
         # List of required artifacts for this implementation
         self.requiredArtifacts: List['DependencyOnArtifact'] = []                         
         # List of required generator tools for this implementation
@@ -334,7 +334,7 @@ class Implementation(PackageableElement, metaclass=ABCMeta):
         # Reference to software component/BSW mapping for this implementation
         self.swcBswMappingRef: RefType = None                        
         # Software version information for this implementation
-        self.swVersion: 'RevisionLabelString' = []                                 
+        self.swVersion: List[RevisionLabelString] = []                                 
         # Code generator used for this implementation
         self.usedCodeGenerator: String = None                       
         # Vendor ID for this implementation

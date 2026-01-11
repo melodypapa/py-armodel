@@ -230,11 +230,11 @@ class ModeDeclarationGroup(Identifiable):
         # List of mode declarations in this group
         self.modeDeclarations: List['ModeDeclaration'] = []                          
         # Error behavior for the mode manager
-        self.modeManagerErrorBehavior: 'ModeErrorBehavior' = None                
+        self.modeManagerErrorBehavior = None                
         # Mode transition behavior for this group
-        self.modeTransition: 'ModeTransition' = None                          
+        self.modeTransition = None                          
         # Error behavior for the mode user
-        self.modeUserErrorBehavior: 'ModeErrorBehavior' = None                   
+        self.modeUserErrorBehavior = None                   
         # Value used on mode transitions
         self.onTransitionValue: PositiveInteger = None                       
 

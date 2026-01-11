@@ -66,7 +66,7 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
         # List of activation reasons for this executable entity
-        self.activationReasons: List['ExecutableEntityActivationReason'] = []                 
+        self.activationReasons: List = []                 
         # List of references to exclusive areas this entity can enter
         self.canEnterExclusiveAreaRefs: List[RefType] = []         
         # Minimum interval between consecutive starts of this entity (in seconds)
@@ -228,7 +228,7 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
         # List of exclusive areas defined in this internal behavior
         self.exclusiveAreas: List['ExclusiveArea'] = []                            
         # List of exclusive area nesting orders for this internal behavior
-        self.exclusiveAreaNestingOrders: List['ExclusiveAreaNestingOrder'] = []               
+        self.exclusiveAreaNestingOrders: List = []               
         # List of static memories (variable data prototypes) in this internal behavior
         self.staticMemories: List[VariableDataPrototype] = []                            
 

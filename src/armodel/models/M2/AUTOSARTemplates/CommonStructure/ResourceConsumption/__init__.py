@@ -29,15 +29,15 @@ class ResourceConsumption(Identifiable):
         super().__init__(parent, short_name)
 
         # List of access count sets for resource consumption analysis
-        self.accessCountSets: List['AccessCountSet'] = []                               
+        self.accessCountSets: List = []                               
         # List of execution time measurements for resource consumption analysis
-        self.executionTimes: List['ExecutionTime'] = []                                
+        self.executionTimes: List = []                                
         # List of heap usage measurements for resource consumption analysis
         self.heapUsages: List[HeapUsage] = []                                    
         # List of memory sections for resource consumption analysis
         self.memorySections = []
         # List of section name prefixes for resource consumption analysis
-        self.sectionNamePrefixs: List['SectionNamePrefix'] = []                            
+        self.sectionNamePrefixs: List = []                            
         # List of stack usage measurements for resource consumption analysis
         self.stackUsages: List[StackUsage] = []                                   
 

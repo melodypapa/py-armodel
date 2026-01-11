@@ -531,7 +531,7 @@ class ServiceDependency(Identifiable):
         # Diagnostic relevance of this service dependency
         self.diagnosticRelevance: ServiceDiagnosticRelevanceEnum = None                             
         # Symbolic name properties for this service dependency
-        self.symbolicNameProps: 'SymbolicNameProps' = None                               
+        self.symbolicNameProps = None                               
 
     def getAssignedDataTypes(self):
         """
