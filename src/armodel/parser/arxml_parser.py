@@ -160,7 +160,7 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecCom
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecRecordElementMapping, SenderRecRecordTypeMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalGroupMapping, SenderReceiverToSignalMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from ..models.M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
+from ..models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController
 from ..models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationControllerAttributes

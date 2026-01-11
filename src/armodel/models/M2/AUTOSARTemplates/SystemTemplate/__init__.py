@@ -6,7 +6,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
-from ....M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import ECUMapping
+from ....M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from ....M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject

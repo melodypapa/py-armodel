@@ -62,7 +62,7 @@ from .M2.AUTOSARTemplates.SystemTemplate import *
 from .M2.AUTOSARTemplates.SystemTemplate.DoIp import *
 from .M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
-from .M2.AUTOSARTemplates.SystemTemplate.EcuResourceMapping import *
+from .M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *
 from .M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import *
 from .M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import *
