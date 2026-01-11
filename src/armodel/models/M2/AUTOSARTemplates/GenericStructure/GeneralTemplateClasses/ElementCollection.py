@@ -8,6 +8,7 @@ from typing import List, Optional
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import AutoCollectEnum
 
 
 class Collection(ARElement):
@@ -19,7 +20,7 @@ class Collection(ARElement):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.autoCollect: Optional['AutoCollectEnum'] = None
+        self.autoCollect: Optional[AutoCollectEnum] = None
         self.collectedInstances: List[AnyInstanceRef] = []
         self.collectionSemantics: Optional[NameToken] = None
         self.elementRefs: List[RefType] = []
@@ -27,7 +28,7 @@ class Collection(ARElement):
         self.sourceElementRefs: List[RefType] = []
         self.sourceInstances: List[AnyInstanceRef] = []
 
-    def getAutoCollect(self) -> Optional['AutoCollectEnum']:
+    def getAutoCollect(self) -> Optional[AutoCollectEnum]:
         """
         Gets the auto-collect setting for this collection.
         
@@ -36,7 +37,7 @@ class Collection(ARElement):
         """
         return self.autoCollect
 
-    def setAutoCollect(self, value: 'AutoCollectEnum'):
+    def setAutoCollect(self, value: AutoCollectEnum):
         """
         Sets the auto-collect setting for this collection.
         Only sets the value if it is not None.

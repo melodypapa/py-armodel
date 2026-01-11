@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XML (ARXML) files. It provides comprehensive support for AUTOSAR model processing with various tools and CLI utilities for handling AUTOSAR data structures.
+py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XML (ARXML) files. It provides comprehensive support for AUTOSAR model processing with various tools and CLI utilities for handling AUTOSAR data structures. The library follows the AUTOSAR standard specifications and supports versions from 4.0.3 to R24-11, with particular focus on CP R23-11 standard compliance.
 
 **Current Version**: 1.9.0  
 **Python Requirements**: >= 3.5  
@@ -13,16 +13,32 @@ py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XM
 
 ## Architecture
 
-The project is organized into the following key modules:
+The project is organized into the following key modules and follows the AUTOSAR M2 schema structure (M2/MSR/..., M2/AUTOSARTemplates/...):
 
 - **models**: Contains all AUTOSAR data model classes organized according to AUTOSAR XML schema (M2 structure)
   - M2/MSR: Meta-model metadata
+    - AsamHdo: Base types, computation methods, units
+    - DataDictionary: Data definition properties, service process tasks, auxillary objects
   - M2/AUTOSARTemplates: Core AUTOSAR template models organized by domain
     - AutosarTopLevelStructure: AUTOSAR singleton and root model
     - ECUCDescriptionTemplate: ECUC configuration models
     - ECUCParameterDefTemplate: ECUC parameter definitions
     - CommonStructure: Common AUTOSAR elements (ARObject, Referrable, Identifiable, ServiceNeeds)
+      - Implementation: Implementation-related elements
+      - ImplementationDataTypes: Implementation data type definitions
+      - InternalBehavior: Internal behavior specifications for components
+      - ModeDeclaration: Mode declaration and switch specifications
+      - ResourceConsumption: Resource usage specifications (memory, stack, heap, execution time)
+      - SwcBswMapping: Software component and BSW mapping elements
+      - ServiceNeeds: Support for various AUTOSAR service needs (Diagnostic, Communication, etc.)
+      - StandardizationTemplate: Standardization template elements
+      - Timing: Timing-related elements
     - SWComponentTemplate: Software component models (AtomicSwComponentType, CompositionSwComponentType, etc.)
+      - Components: Software component types (Application, Service, SensorActuator, etc.)
+      - Datatype: Data type and prototype definitions
+      - PortInterface: Port interface definitions
+      - SwcImplementation: Software component implementation details
+      - SwcInternalBehavior: Software component internal behavior
     - SystemTemplate: System-level models (SystemSignal, ECU-INSTANCE, etc.)
     - BswModuleTemplate: Basic Software module models (BswModuleDescription, BswBehavior, BswImplementation, BswInterfaces, BswOverview)
     - EcuResourceTemplate: ECU resource models
@@ -143,13 +159,15 @@ All CLI tools are registered as console_scripts in setup.py:
 
 ## Supported AUTOSAR Elements
 
-
-
 ### Component Types
 - ApplicationSwComponentType
 - CompositionSwComponentType
 - SensorActuatorSwComponentType
 - ServiceSwComponentType
+- ComplexDeviceDriverSwComponentType
+- EcuAbstractionSwComponentType
+- ServiceProxySwComponentType
+- NvBlockSwComponentType
 
 ### Port Interfaces
 - SenderReceiverInterface
@@ -157,6 +175,11 @@ All CLI tools are registered as console_scripts in setup.py:
 - ModeSwitchInterface
 - ParameterInterface
 - NvDataInterface
+- TriggerInterface
+- ServiceInterface
+- DiagnosticDataElementInterface
+- DiagnosticRoutineInterface
+- DiagnosticServiceInterface
 
 ### Data Types
 - ApplicationDataType
@@ -183,15 +206,20 @@ All CLI tools are registered as console_scripts in setup.py:
 - InternalBehavior: SwcInternalBehavior, BswInternalBehavior
 - Implementation: SwcImplementation, BswImplementation
 - Events: InitEvent, DataReceiveEvent, SwcModeSwitchEvent, BswBackgroundEvent, BswDataReceivedEvent
+- BSW Events: BswBackgroundEvent, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswModeSwitchedAckEvent, BswOperationInvokedEvent, BswAsynchronousServerCallReturnsEvent
 
 ### CommonStructure
 - ServiceNeeds: Support for various AUTOSAR service needs (Diagnostic, Communication, etc.)
+  - DiagnosticEventNeeds, DiagnosticCapabilityElement, FunctionInhibitionNeeds, CryptoServiceNeeds
+  - ComMgrUserNeeds, EcuStateMgrUserNeeds, DltUserNeeds, DoIpServiceNeeds
+  - DiagEventDebounceAlgorithm, DiagEventDebounceCounterBased, DiagEventDebounceTimeBased
 - ARObject: Base object for all AUTOSAR objects
 - Referrable: Elements that can have unique short names
 - Identifiable: Elements with unique identifiers and categories
 - Implementation: Implementation-related elements
 - InternalBehavior: Internal behavior specifications for components
 - ResourceConsumption: Resource usage specifications (memory, stack, heap)
+  - MemorySection, StackUsage, HeapUsage, ExecutionTime
 - ModeDeclaration: Mode declaration and switch specifications
 - SwcBswMapping: Software component and BSW mapping elements
 
@@ -200,6 +228,7 @@ All CLI tools are registered as console_scripts in setup.py:
 - DiagnosticServiceTable
 - DiagnosticEventNeeds
 - DCM Needs: DiagnosticCommunicationManagerNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
+- DiagnosticContribution: Enhanced functionality with improved diagnostic support
 
 ### System
 - SystemSignal, SystemSignalGroup
@@ -209,14 +238,16 @@ All CLI tools are registered as console_scripts in setup.py:
 
 ### BSW Modules
 - BswModuleDescription
-- BswBehavior
+- BswBehavior: BswInternalBehavior, BswModuleEntity, BswCalledEntity, BswSchedulableEntity, BswInterruptEntity
 - BswImplementation
-- BswInterfaces
+- BswInterfaces: BswModuleEntry, BswModuleClientServerEntry, BswModuleDependency
 - BswSchedulableEntity
 - BswCalledEntity
 - BswModuleClientServerEntry
 - BswModuleEntry
 - BswModuleDependency
+- BSW Events: BswBackgroundEvent, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswModeSwitchedAckEvent
+- BSW Call Points: BswDirectCallPoint, BswSynchronousServerCallPoint, BswAsynchronousServerCallPoint, BswAsynchronousServerCallResultPoint
 
 ### ECUC Configuration
 - EcucValueCollection
@@ -226,9 +257,16 @@ All CLI tools are registered as console_scripts in setup.py:
 - EcucModuleDef
 - EcucParamDef (Boolean, String, Integer, Float, Enumeration)
 
+### Generic Structure and Standardization
+- Abstract classes and template elements following AUTOSAR standardization
+- Lifecycle support with improved abstract structure and lifecycle support
+- HwElementCategory for ECU resource template
+- Measurement and calibration support (McGroups, McSupportData)
+
 ## Testing Structure
 
-Tests are located in `tests/test_armodel/` and `src/armodel/tests/` directories:
+Tests are located in `tests/test_armodel/` and `src/armodel/tests/` directories and include comprehensive coverage for all major components and functionality:
+
 
 ```
 tests/test_armodel/
@@ -268,16 +306,18 @@ tests/test_armodel/
 └── requirements.txt        # Test dependencies
 ```
 
-Test files in `test_files/` directory contain sample ARXML files for validation.
+Test files in `test_files/` directory contain sample ARXML files for validation and include test cases for various AUTOSAR element types and specifications such as AUTOSAR_Datatypes.arxml, SoftwareComponents.arxml, BswM_Bswmd.arxml, and many other specification files organized by AUTOSAR modules and domains.
 
 ## Code Organization
 
-- Data models are organized according to AUTOSAR specification structure
+- Data models are organized according to AUTOSAR specification structure following M2 schema
 - Parser and writer follow separation of concerns
 - CLI tools provide specific functionality access points
 - Test files use sample ARXML files from the test_files directory
 - Transformer module provides data transformation capabilities
 - Report module generates Excel-based reports
+- ServiceNeeds module provides comprehensive support for AUTOSAR service needs with enhanced test coverage
+- BSW Module template includes comprehensive documentation and test cases with improved coverage
 
 ## Dependencies
 
@@ -306,7 +346,7 @@ Test files in `test_files/` directory contain sample ARXML files for validation.
 
 ## Continuous Integration
 
-Project uses GitHub Actions for CI/CD:
+Project uses GitHub Actions for CI/CD with comprehensive testing across multiple Python versions and includes linting and coverage checks to ensure code quality and compliance to standards.
 
 - Python versions: 3.8, 3.9, 3.10, 3.11, 3.12
 - CI workflow: `.github/workflows/python-package.yml`
@@ -348,7 +388,7 @@ writer.write_to_file(autosar_model, 'output.arxml')
 
 ## Recent Changes (Version 1.7.0 - 1.9.0)
 
-Key updates in recent versions:
+Key updates in recent versions include significant enhancements and new features that align with current AUTOSAR standards and development practices:
 
 - Added system modeling support (SWC-TO-ECU-MAPPING, ECU-INSTANCE)
 - Added communication protocol support for CAN, LIN, FlexRay, Ethernet
@@ -356,16 +396,24 @@ Key updates in recent versions:
 - Added end-to-end protection support
 - Added UUID checking CLI tool
 - Added transformer module for data transformation
-- Improved BSW module description support
-- Improved ECUC configuration support
+- Improved BSW module description support with comprehensive documentation and test coverage
+- Improved ECUC configuration support with comprehensive parameter definitions
 - Fixed various XML schema issues
-- Improved findXXX methods for element lookup
-- Added duplicate UUID checking
+- Improved findXXX methods for element lookup with validation support
+- Added duplicate UUID checking with enhanced validation
 - Enhanced BSW module template functionality with comprehensive type hints and documentation
-- Enhanced ServiceNeeds support with increased test coverage
+- Enhanced ServiceNeeds support with increased test coverage for diagnostic and communication needs
 - Improved DiagnosticContribution functionality
 - Extended HwElementCategory for ECU resource template
 - Enhanced GenericStructure with improved abstract structure and lifecycle support
+- Added comprehensive BSW Module Description Template support with class and package reference documentation
+- Improved ResourceConsumption elements with memory, stack, heap, and execution time usage specifications
+- Enhanced ModeDeclaration elements with improved mode switch and error behavior support
+- Extended CommonStructure elements with comprehensive service needs support including diagnostic, communication, and measurement needs
+
+## BSW Module Template Documentation
+
+The project now includes comprehensive documentation for BSW Module Description Template in `docs/autosar/bsw_module_description_template.md`, which provides detailed class and package reference information following the AUTOSAR CP R23-11 standard. This includes abstract classes, concrete implementations, interfaces, behavior models, and comprehensive enumeration support for BSW modules and their associated functionality.
 
 ## References
 

@@ -7,6 +7,7 @@ from typing import List, Optional
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
 
 
 class HwType(ARElement):
@@ -42,11 +43,11 @@ class HwAttributeDef(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        self.hwAttributeLiterals: List['HwAttributeLiteralDef'] = []
+        self.hwAttributeLiterals: List[HwAttributeLiteralDef] = []
         self.isRequired: Optional[Boolean] = None
         self.unitRef: Optional[RefType] = None
 
-    def getHwAttributeLiterals(self) -> List['HwAttributeLiteralDef']:
+    def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
         """
         Gets the list of hardware attribute literals for this definition.
         
@@ -55,7 +56,7 @@ class HwAttributeDef(Identifiable):
         """
         return self.hwAttributeLiterals
 
-    def setHwAttributeLiterals(self, value: List['HwAttributeLiteralDef']):
+    def setHwAttributeLiterals(self, value: List[HwAttributeLiteralDef]):
         """
         Sets the list of hardware attribute literals for this definition.
         Only sets the value if it is not None.

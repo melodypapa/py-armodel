@@ -11,6 +11,8 @@ from typing import List, Optional
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
 
 
 class HwDescriptionEntity(ARElement):
@@ -29,11 +31,11 @@ class HwDescriptionEntity(ARElement):
         """
         super().__init__(parent, short_name)
         
-        self.hwAttributeValues: List['HwAttributeValue'] = []
+        self.hwAttributeValues: List[HwAttributeValue] = []
         self.hwCategoryRefs: List[RefType] = []
         self.hwTypeRef: Optional[RefType] = None
 
-    def getHwAttributeValues(self) -> List['HwAttributeValue']:
+    def getHwAttributeValues(self) -> List[HwAttributeValue]:
         """
         Gets the list of hardware attribute values for this entity.
         
@@ -42,7 +44,7 @@ class HwDescriptionEntity(ARElement):
         """
         return self.hwAttributeValues
 
-    def setHwAttributeValues(self, value: List['HwAttributeValue']):
+    def setHwAttributeValues(self, value: List[HwAttributeValue]):
         """
         Sets the list of hardware attribute values for this entity.
         Only sets the value if it is not None.
@@ -321,11 +323,11 @@ class HwElement(HwDescriptionEntity):
         """
         super().__init__(parent, short_name)
 
-        self.hwElementConnections: List['HwElementConnector'] = []
+        self.hwElementConnections: List[HwElementConnector] = []
         self.hwPinGroups: List[HwPinGroup] = []
         self.nestedElementRefs: List[RefType] = []
 
-    def getHwElementConnections(self) -> List['HwElementConnector']:
+    def getHwElementConnections(self) -> List[HwElementConnector]:
         """
         Gets the list of hardware element connections for this element.
         
@@ -334,7 +336,7 @@ class HwElement(HwDescriptionEntity):
         """
         return self.hwElementConnections
 
-    def setHwElementConnections(self, value: List['HwElementConnector']):
+    def setHwElementConnections(self, value: List[HwElementConnector]):
         """
         Sets the list of hardware element connections for this element.
         Only sets the value if it is not None.
