@@ -6,11 +6,22 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication 
 
 
 class FlexrayFrame(Frame):
+    """
+    Represents a FlexRay frame in the AUTOSAR system, extending the generic
+    Frame class with FlexRay-specific properties and behavior. This class
+    defines the structure and characteristics of FlexRay messages in the
+    communication system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class FlexrayAbsolutelyScheduledTiming(ARObject):
+    """
+    Defines absolutely scheduled timing properties for FlexRay communication,
+    specifying communication cycles and slot IDs for time-triggered
+    communication in FlexRay networks.
+    """
     def __init__(self):
         super().__init__()
 
@@ -35,6 +46,11 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
 
 
 class FlexrayFrameTriggering(FrameTriggering):
+    """
+    Defines the triggering mechanism for FlexRay frames, specifying how and when
+    FlexRay frames are transmitted or received on the network, including timing,
+    message IDs, and payload properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

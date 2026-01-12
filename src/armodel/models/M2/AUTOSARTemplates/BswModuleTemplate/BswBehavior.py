@@ -23,6 +23,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiabl
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 
 
 class BswModuleCallPoint(Referrable):
@@ -335,6 +336,26 @@ class BswVariableAccess(Referrable):
         """
         self.contextLimitationRefs.append(value)
         return self
+
+
+class BswDistinguishedPartition(Referrable):
+    """
+    Each instance of this meta-class represents an abstract partition in which context 
+    the code of the enclosing BswModuleBehavior can be executed. The intended use case 
+    is to distinguish between several partitions in order to implement different behavior 
+    per partition, for example to behave either as a master or satellite in a multicore 
+    ECU with shared BSW code.
+    """
+    
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswDistinguishedPartition with a parent and short name.
+        
+        Args:
+            parent: The parent ARObject that contains this distinguished partition
+            short_name: The unique short name of this distinguished partition
+        """
+        super().__init__(parent, short_name)
 
 
 class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
@@ -857,7 +878,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Activation information for this mode switch event
-        self.activation = None
+        self.activation: ModeActivationKind = None
 
     def getActivation(self):
         """
@@ -1402,47 +1423,47 @@ class BswInternalBehavior(InternalBehavior):
         # List of AUTOSAR typed per-instance memories
         self.arTypedPerInstanceMemories: List[VariableDataPrototype] = []
         # List of BSW per-instance memory policies
-        self.bswPerInstanceMemoryPolicies = []                                  # type: List[BswPerInstanceMemoryPolicy]
+        self.bswPerInstanceMemoryPolicies = []
         # List of BSW client policies
-        self.clientPolicies = []                                                # type: List[BswClientPolicy]
+        self.clientPolicies = []
         # List of BSW distinguished partitions
-        self.distinguishedPartitions = []                                       # type: List[BswDistinguishedPartition]
+        self.distinguishedPartitions: List[BswDistinguishedPartition] = []
         # List of BSW module entities
-        self.entities: List[BswModuleEntity] = []
+        self.entities = []
         # List of BSW events
-        self.events: List[BswEvent] = []
+        self.events = []
         # List of BSW exclusive area policies
-        self.exclusiveAreaPolicies = []                                         # type: List[BswExclusiveAreaPolicy]
+        self.exclusiveAreaPolicies = []
         # List of included data type sets
-        self.includedDataTypeSets: List[IncludedDataTypeSet] = []
+        self.includedDataTypeSets = []
         # List of included mode declaration group sets
-        self.includedModeDeclarationGroupSets: List[IncludedModeDeclarationGroupSet] = []
+        self.includedModeDeclarationGroupSets = []
         # List of BSW internal triggering points
-        self.internalTriggeringPoints: List[BswInternalTriggeringPoint] = []
+        self.internalTriggeringPoints = []
         # List of BSW internal triggering point policies
-        self.internalTriggeringPointPolicies = []                               # type: List[BswInternalTriggeringPointPolicy]
+        self.internalTriggeringPointPolicies = []
         # List of BSW mode receiver policies
-        self.modeReceiverPolicies = []                                          # type: List[BswModeReceiverPolicy]
+        self.modeReceiverPolicies = []
         # List of BSW mode sender policies
-        self.modeSenderPolicies: List[BswModeSenderPolicy] = []
+        self.modeSenderPolicies = []
         # List of BSW parameter policies
-        self.parameterPolicies = []                                             # type: List[BswParameterPolicy]
+        self.parameterPolicies = []
         # List of per-instance parameters
-        self.perInstanceParameters: List[ParameterDataPrototype] = []
+        self.perInstanceParameters = []
         # List of BSW data reception policies
-        self.receptionPolicies: List[BswDataReceptionPolicy] = []
+        self.receptionPolicies = []
         # List of BSW released trigger policies
-        self.releasedTriggerPolicies = []                                       # type: List[BswReleasedTriggerPolicy]
+        self.releasedTriggerPolicies = []
         # List of BSW scheduler name prefixes
-        self.schedulerNamePrefixes = []                                         # type: List[BswSchedulerNamePrefix]
+        self.schedulerNamePrefixes = []
         # List of BSW data send policies
-        self.sendPolicies = []                                                  # type: List[BswDataSendPolicy]
+        self.sendPolicies = []
         # List of BSW service dependencies
-        self.serviceDependencies = []                                           # type: List[BswServiceDependency]
+        self.serviceDependencies = []
         # List of BSW trigger direct implementations
-        self.triggerDirectImplementations = []                                  # type: List[BswTriggerDirectImplementation]
+        self.triggerDirectImplementations = []
         # List of variation point proxies
-        self.variationPointProxies = []                                         # type: List[VariationPointProxy]
+        self.variationPointProxies = []
 
     def getArTypedPerInstanceMemories(self):
         """

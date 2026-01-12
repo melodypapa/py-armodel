@@ -2,6 +2,7 @@ from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
+from ......M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
 class ModeDrivenTransmissionModeCondition(ARObject):
     def __init__(self):
@@ -42,7 +43,7 @@ class TimeRangeType(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.tolerance: TimeRangeTypeTolerance = None
+        self.tolerance = None
         self.value: TimeValue = None
 
     def getTolerance(self):

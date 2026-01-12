@@ -8,6 +8,11 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifia
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
 
 class NetworkEndpointAddress(ARObject, metaclass = ABCMeta):
+    """
+    Abstract base class for network endpoint addresses, defining the
+    common properties and behavior for different types of network
+    addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
+    """
     def __init__(self):
         if type(self) == NetworkEndpointAddress:
             raise NotImplementedError("NetworkEndpointAddress is an abstract class.")
@@ -15,6 +20,11 @@ class NetworkEndpointAddress(ARObject, metaclass = ABCMeta):
         super().__init__()
         
 class Ipv4Configuration(NetworkEndpointAddress):
+    """
+    Defines IPv4 network configuration properties for a network endpoint,
+    including IP addresses, network masks, DNS server addresses, and
+    TTL settings for IPv4 communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -84,6 +94,11 @@ class Ipv4Configuration(NetworkEndpointAddress):
         return self
     
 class Ipv6Configuration(NetworkEndpointAddress):
+    """
+    Defines IPv6 network configuration properties for a network endpoint,
+    including IPv6 addresses, default router, DNS server addresses,
+    and IPv6-specific communication parameters.
+    """
     def __init__(self):
         super().__init__()
 
@@ -161,6 +176,11 @@ class Ipv6Configuration(NetworkEndpointAddress):
         return self
     
 class DoIpEntity(ARObject):
+    """
+    Defines properties for a DoIP (Diagnostics over IP) entity,
+    specifying the role and behavior of DoIP-enabled devices in
+    the network for diagnostic communication purposes.
+    """
     def __init__(self):
         super().__init__()
 
@@ -175,10 +195,15 @@ class DoIpEntity(ARObject):
         return self
     
 class TimeSyncClientConfiguration(ARObject):
+    """
+    Configures time synchronization client properties, defining
+    ordered master relationships and time synchronization
+    technology settings for network time coordination.
+    """
     def __init__(self):
         super().__init__()
 
-        self.orderedMasters: List[OrderedMaster] = []
+        self.orderedMasters = []
         self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
 
     def getOrderedMasters(self):
@@ -199,6 +224,11 @@ class TimeSyncClientConfiguration(ARObject):
 
 
 class TimeSyncServerConfiguration(ARObject):
+    """
+    Configures time synchronization server properties, specifying
+    priority, synchronization intervals, and time synchronization
+    identifiers for network time coordination services.
+    """
     def __init__(self):
         super().__init__()
 
@@ -241,6 +271,11 @@ class TimeSyncServerConfiguration(ARObject):
 
     
 class TimeSynchronization(ARObject):
+    """
+    Defines time synchronization configuration for network entities,
+    including both client and server configurations for coordinated
+    timing across the AUTOSAR system network.
+    """
     def __init__(self):
         super().__init__()
 
@@ -265,6 +300,11 @@ class TimeSynchronization(ARObject):
 
 
 class InfrastructureServices(ARObject):
+    """
+    Defines infrastructure services available at a network endpoint,
+    including DoIP capabilities and time synchronization services
+    for network management and coordination.
+    """
     def __init__(self):
         super().__init__()
 
@@ -286,6 +326,11 @@ class InfrastructureServices(ARObject):
         return self
 
 class NetworkEndpoint(Identifiable):
+    """
+    Represents a network endpoint in the AUTOSAR system, defining
+    IP configuration, infrastructure services, and network address
+    properties for communication nodes in the network.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

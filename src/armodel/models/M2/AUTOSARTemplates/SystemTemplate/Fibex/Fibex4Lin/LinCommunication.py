@@ -1,4 +1,3 @@
-
 from abc import ABCMeta
 from typing import List
 
@@ -10,6 +9,11 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 
 class LinFrame(Frame, metaclass = ABCMeta):
+    """
+    Abstract base class for LIN frames, extending the generic Frame class
+    with LIN-specific properties and behavior. This class serves as the
+    foundation for concrete LIN frame implementations.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == LinFrame:
             raise NotImplementedError("LinFrame is an abstract class.")
@@ -17,10 +21,20 @@ class LinFrame(Frame, metaclass = ABCMeta):
         super().__init__(parent, short_name)
 
 class LinUnconditionalFrame(LinFrame):
+    """
+    Represents an unconditional LIN frame in the AUTOSAR system,
+    defining the structure and properties for LIN messages that
+    are transmitted without conditional logic.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 class LinFrameTriggering(FrameTriggering):
+    """
+    Defines the triggering mechanism for LIN frames, specifying how and when
+    LIN frames are transmitted or received on the network, including
+    identifier and checksum properties.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -44,6 +58,10 @@ class LinFrameTriggering(FrameTriggering):
         return self
 
 class ResumePosition(AREnum):
+    """
+    Enumeration defining possible resume positions for LIN schedule tables,
+    specifying where execution should continue after an interruption.
+    """
     CONTINUE_AT_IT_POSITION = "continueAtItPosition"
     START_FROM_BEGINNING = "startFromBeginning"
 
@@ -54,6 +72,11 @@ class ResumePosition(AREnum):
         ))
 
 class ScheduleTableEntry(ARObject, metaclass = ABCMeta):
+    """
+    Abstract base class for schedule table entries, defining common
+    properties for different types of entries in LIN schedule tables
+    including timing, position, and documentation properties.
+    """
     def __init__(self):
         
         if type(self) == ScheduleTableEntry:
@@ -90,6 +113,11 @@ class ScheduleTableEntry(ARObject, metaclass = ABCMeta):
         return self
 
 class ApplicationEntry(ScheduleTableEntry):
+    """
+    Defines an application entry in a LIN schedule table,
+    specifying frame triggering references for application-level
+    communication entries in the schedule.
+    """
     def __init__(self):
         super().__init__()
 
@@ -104,10 +132,19 @@ class ApplicationEntry(ScheduleTableEntry):
         return self
 
 class FreeFormatEntry(ScheduleTableEntry):
+    """
+    Defines a free format entry in a LIN schedule table,
+    allowing for flexible schedule entries without specific
+    frame triggering references.
+    """
     def __init__(self):
         super().__init__()
 
 class LinConfigurationEntry(ScheduleTableEntry, metaclass = ABCMeta):
+    """
+    Abstract base class for LIN configuration entries in schedule tables,
+    defining common properties for configuration-related schedule entries.
+    """
     def __init__(self):
 
         if type(self) == LinConfigurationEntry:
@@ -117,6 +154,11 @@ class LinConfigurationEntry(ScheduleTableEntry, metaclass = ABCMeta):
 
 
 class LinScheduleTable(Identifiable):
+    """
+    Represents a LIN schedule table defining the timing and sequence
+    of LIN frame transmissions, including resume position, run mode,
+    and table entries for scheduled communication.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

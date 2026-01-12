@@ -5,9 +5,24 @@ that software components or BSW modules can be in, along with transitions betwee
 """
 
 from typing import List
+from enum import Enum
+
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, RefType, TRefType
+
+
+class ModeActivationKind(str, Enum):
+    """
+    Enumeration for mode activation kind values.
+    Defines the kind of mode switch condition used for activation of an event.
+    """
+    # On entering the referred mode
+    ON_ENTRY = "onEntry"
+    # On exiting the referred mode
+    ON_EXIT = "onExit"
+    # On transition of the 1st referred mode to the 2nd referred mode
+    ON_TRANSITION = "onTransition"
 
 
 class ModeDeclarationGroupPrototypeMapping(ARObject):

@@ -7,6 +7,12 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication 
 
 
 class AbstractEthernetFrame(Frame, metaclass=ABCMeta):
+    """
+    Abstract base class for Ethernet frames in the AUTOSAR system,
+    extending the generic Frame class with Ethernet-specific properties
+    and behavior. This class serves as the foundation for concrete
+    Ethernet frame implementations.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractEthernetFrame:
             raise NotImplementedError("AbstractEthernetFrame is an abstract class.")
@@ -15,5 +21,10 @@ class AbstractEthernetFrame(Frame, metaclass=ABCMeta):
 
 
 class GenericEthernetFrame(AbstractEthernetFrame):
+    """
+    Represents a generic Ethernet frame in the AUTOSAR system,
+    implementing the basic structure and properties for standard
+    Ethernet communication frames.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -11,6 +11,12 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopol
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 
 class TransportProtocolConfiguration(ARObject, metaclass = ABCMeta):
+    """
+    Abstract base class for transport protocol configurations,
+    defining the common properties and behavior for different
+    transport protocols (TCP, UDP, etc.) used in service-oriented
+    communication.
+    """
     def __init__(self):
         if type(self) == TransportProtocolConfiguration:
             raise NotImplementedError("TransportProtocolConfiguration is an abstract class.")
@@ -18,6 +24,11 @@ class TransportProtocolConfiguration(ARObject, metaclass = ABCMeta):
         super().__init__()
 
 class GenericTp(TransportProtocolConfiguration):
+    """
+    Defines generic transport protocol configuration properties,
+    including address and technology specifications for custom
+    transport protocol implementations.
+    """
     def __init__(self):
         super().__init__()
 
@@ -40,6 +51,11 @@ class GenericTp(TransportProtocolConfiguration):
 
 
 class TcpUdpConfig(TransportProtocolConfiguration, metaclass = ABCMeta):
+    """
+    Abstract base class for TCP and UDP transport protocol configurations,
+    defining common properties for both connection-oriented and
+    connectionless transport protocols.
+    """
     def __init__(self):
         if type(self) == TcpUdpConfig:
             raise NotImplementedError("TcpUdpConfig is an abstract class.")
@@ -47,6 +63,11 @@ class TcpUdpConfig(TransportProtocolConfiguration, metaclass = ABCMeta):
         super().__init__()
 
 class TpPort(ARObject):
+    """
+    Defines properties for a transport protocol port, including
+    port number and dynamic assignment capabilities for network
+    communication endpoints.
+    """
     def __init__(self):
         super().__init__()
 
@@ -69,6 +90,11 @@ class TpPort(ARObject):
 
 
 class UdpTp(TcpUdpConfig):
+    """
+    Defines UDP (User Datagram Protocol) transport protocol configuration,
+    specifying UDP-specific port configuration for unreliable but fast
+    datagram-based communication services.
+    """
     def __init__(self):
         super().__init__()
 
@@ -83,6 +109,11 @@ class UdpTp(TcpUdpConfig):
 
 
 class TcpTp(TcpUdpConfig):
+    """
+    Defines TCP (Transmission Control Protocol) transport protocol configuration,
+    specifying TCP-specific properties such as keep-alive settings, retransmission
+    timeouts, and flow control parameters for reliable connection-oriented communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -152,6 +183,11 @@ class TcpTp(TcpUdpConfig):
         return self
     
 class AbstractServiceInstance(Identifiable, metaclass = ABCMeta):
+    """
+    Abstract base class for service instances, defining common properties
+    for both consumed and provided services in the AUTOSAR service-oriented
+    architecture.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractServiceInstance:
             raise NotImplementedError("AbstractServiceInstance is an abstract class.")
@@ -196,6 +232,11 @@ class AbstractServiceInstance(Identifiable, metaclass = ABCMeta):
         return self
     
 class ConsumedEventGroup(Identifiable):
+    """
+    Defines a consumed event group for service-oriented communication,
+    specifying how events are consumed by service clients including
+    application endpoint references and event group identifiers.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -283,6 +324,11 @@ class ConsumedEventGroup(Identifiable):
 
 
 class ConsumedServiceInstance(AbstractServiceInstance):
+    """
+    Represents a consumed service instance in the AUTOSAR service-oriented
+    architecture, defining how services are consumed by clients including
+    provider references, service identifiers, and client configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -416,6 +462,11 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
     
 class InitialSdDelayConfig(ARObject):
+    """
+    Configures initial delay parameters for Service Discovery (SD)
+    operations, defining the timing behavior for initial service
+    discovery attempts and repetitions.
+    """
     def __init__(self):
         super().__init__()
 
@@ -458,6 +509,11 @@ class InitialSdDelayConfig(ARObject):
 
     
 class SdServerConfig(ARObject):
+    """
+    Configures Service Discovery (SD) server properties, specifying
+    service advertisement behavior, timing parameters, and version
+    information for service providers in the network.
+    """
     def __init__(self):
         super().__init__()
 
@@ -527,6 +583,11 @@ class SdServerConfig(ARObject):
 
     
 class EventHandler(Identifiable):
+    """
+    Defines an event handler for service-oriented communication,
+    specifying how events are processed by service providers including
+    application endpoint references and service discovery configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -578,6 +639,11 @@ class EventHandler(Identifiable):
 
 
 class ProvidedServiceInstance(AbstractServiceInstance):
+    """
+    Represents a provided service instance in the AUTOSAR service-oriented
+    architecture, defining how services are provided to clients including
+    service identifiers, instance identifiers, and server configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -631,6 +697,11 @@ class ProvidedServiceInstance(AbstractServiceInstance):
 
 
 class ApplicationEndpoint(Identifiable):
+    """
+    Defines an application endpoint for service-oriented communication,
+    specifying the interface between applications and the service
+    infrastructure including network endpoint references and service instances.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -698,6 +769,11 @@ class ApplicationEndpoint(Identifiable):
         return self
 
 class SocketAddress(Identifiable):
+    """
+    Defines a socket address for network communication, specifying
+    port addresses, connection properties, and socket configuration
+    for TCP/IP communication endpoints.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -712,7 +788,7 @@ class SocketAddress(Identifiable):
         self.pduCollectionMaxBufferSize: PositiveInteger = None
         self.pduCollectionTimeout: TimeValue = None
         self.portAddress: PositiveInteger = None
-        self.staticSocketConnections: List[StaticSocketConnection] = []
+        self.staticSocketConnections = []
         self.udpChecksumHandling = None
 
     def getAllowedIPv6ExtHeadersRef(self):
@@ -808,6 +884,11 @@ class SocketAddress(Identifiable):
         return self
 
 class SoAdConfig(ARObject):
+    """
+    Defines Socket Adaptor (SoAd) configuration, specifying socket
+    connections, connection bundles, and socket address configurations
+    for TCP/IP communication management in AUTOSAR systems.
+    """
     def __init__(self):
         super().__init__()
 

@@ -7,6 +7,12 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology impor
 
 
 class FlexrayCommunicationController(CommunicationController):
+    """
+    Represents a FlexRay communication controller in the system,
+    defining properties for FlexRay network communication including
+    startup parameters, timing, and synchronization settings for
+    time-triggered communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -21,7 +27,7 @@ class FlexrayCommunicationController(CommunicationController):
         self.externRateCorrection: Integer = None
         self.externalSync: Boolean = None
         self.fallBackInternal: Boolean = None
-        self.flexrayFifos: List[FlexrayFifoConfiguration] = []
+        self.flexrayFifos = []
         self.keySlotID: PositiveInteger = None
         self.keySlotOnlyEnabled: Boolean = None
         self.keySlotUsedForStartUp: Boolean = None
@@ -301,6 +307,11 @@ class FlexrayCommunicationController(CommunicationController):
 
 
 class FlexrayCommunicationConnector(CommunicationConnector):
+    """
+    Defines a FlexRay communication connector that links FlexRay controllers
+    to communication channels, specifying NM (Network Management) timing
+    and PNC (Partial Network Cluster) properties for FlexRay communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -334,6 +345,11 @@ class FlexrayCommunicationConnector(CommunicationConnector):
 
 
 class FlexrayCluster(CommunicationCluster):
+    """
+    Defines a FlexRay communication cluster in the system topology,
+    specifying timing parameters, slot configurations, and network
+    management properties for FlexRay network communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

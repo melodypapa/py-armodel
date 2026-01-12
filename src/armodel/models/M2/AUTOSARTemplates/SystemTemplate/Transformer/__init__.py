@@ -12,11 +12,21 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiab
 
 
 class DataTransformationKindEnum(AREnum):
+    """
+    Enumeration defining types of data transformations,
+    specifying the kind of transformation to be applied
+    to data elements in the communication system.
+    """
     def __init__(self):
         super().__init__([])
 
 
 class DataTransformation(Identifiable):
+    """
+    Represents a data transformation in the system, defining
+    the type of transformation, execution behavior, and
+    references to transformation chains for data processing.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -50,6 +60,11 @@ class DataTransformation(Identifiable):
     
 
 class BufferProperties(ARObject):
+    """
+    Defines properties for data buffers used in transformations,
+    specifying computation scales, header lengths, and in-place
+    processing capabilities for buffer management.
+    """
     def __init__(self):
         super().__init__()
 
@@ -83,6 +98,11 @@ class BufferProperties(ARObject):
     
     
 class TransformationDescription(Describable, metaclass=ABCMeta):
+    """
+    Abstract base class for transformation descriptions,
+    defining common properties for different types of
+    data transformation descriptions in the system.
+    """
     def __init__(self):
         if type(self) is TransformationDescription:
             raise NotImplementedError("TransformationDescription is an abstract class.")
@@ -118,6 +138,11 @@ class EndToEndProfileBehaviorEnum(AREnum):
 
 
 class EndToEndTransformationDescription(TransformationDescription):
+    """
+    Defines end-to-end transformation properties for data protection,
+    specifying counter offsets, CRC calculations, data ID modes,
+    and profile behavior for safe data transmission.
+    """
     def __init__(self):
         super().__init__()
 
@@ -338,6 +363,11 @@ class TransformerClassEnum(AREnum):
 
 
 class TransformationTechnology(Identifiable):
+    """
+    Represents a transformation technology in the system,
+    defining buffer properties, state management, protocol
+    specifications, and transformer class for data transformation.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -407,6 +437,11 @@ class TransformationTechnology(Identifiable):
 
 
 class DataTransformationSet(ARElement):
+    """
+    Represents a set of data transformations in the system,
+    organizing multiple data transformations and transformation
+    technologies for comprehensive data processing configurations.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -435,12 +470,17 @@ class DataTransformationSet(ARElement):
 
 
 class TransformationISignalProps(Describable, metaclass=ABCMeta):
+    """
+    Abstract base class for transformation interaction signal properties,
+    defining common properties for signal transformation including
+    error reactions, data prototype properties, and transformer references.
+    """
     def __init__(self):
         super().__init__()
 
-        self.csErrorReaction: CSTransformerErrorReactionEnum = None
+        self.csErrorReaction = None
         self.dataPrototypeTransformationProps: List = []
-        self.ident: TransformationISignalPropsIdent = None
+        self.ident = None
         self.transformerRef: RefType = None
 
     def getCsErrorReaction(self):
@@ -477,6 +517,11 @@ class TransformationISignalProps(Describable, metaclass=ABCMeta):
 
 
 class EndToEndTransformationISignalProps(TransformationISignalProps):
+    """
+    Defines end-to-end transformation properties for interaction signals,
+    specifying data IDs, length constraints, and source identifiers
+    for protected signal transmission.
+    """
     def __init__(self):
         super().__init__()
 

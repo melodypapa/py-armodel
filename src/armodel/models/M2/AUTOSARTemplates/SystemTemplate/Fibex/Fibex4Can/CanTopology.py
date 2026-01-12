@@ -10,6 +10,11 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology impor
 
 
 class CanControllerFdConfiguration(ARObject):
+    """
+    Defines CAN FD (Flexible Data Rate) configuration parameters for CAN controllers,
+    including timing settings, padding values, and bit rate switching properties
+    required for CAN FD communication.
+    """
     def __init__(self):
         super().__init__()
 
@@ -79,6 +84,11 @@ class CanControllerFdConfiguration(ARObject):
 
 
 class CanControllerFdConfigurationRequirements(ARObject):
+    """
+    Specifies the requirements for CAN FD configuration parameters, defining
+    the acceptable ranges and constraints for timing, bit rate, and other
+    CAN FD communication properties.
+    """
     def __init__(self):
         super().__init__()
 
@@ -174,7 +184,250 @@ class CanControllerFdConfigurationRequirements(ARObject):
         return self
 
 
+class CanControllerXlConfiguration(ARObject):
+    """
+    Defines CAN XL (eXtended Length) configuration parameters for CAN controllers,
+    including timing settings, payload length configurations, and other
+    CAN XL communication properties.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.arbitrationPhaseSeg1: PositiveInteger = None
+        self.arbitrationPhaseSeg2: PositiveInteger = None
+        self.arbitrationSJW: PositiveInteger = None
+        self.dataPhaseSeg1: PositiveInteger = None
+        self.dataPhaseSeg2: PositiveInteger = None
+        self.dataSJW: PositiveInteger = None
+        self.minArbitrationBitTime: TimeValue = None
+        self.minDataBitTime: TimeValue = None
+        self.paddingValue: PositiveInteger = None
+        self.timeSeg1Arbitration: PositiveInteger = None
+        self.timeSeg1Data: PositiveInteger = None
+        self.timeSeg2Arbitration: PositiveInteger = None
+        self.timeSeg2Data: PositiveInteger = None
+        self.xlBitRateSwitch: Boolean = None
+
+    def getArbitrationPhaseSeg1(self):
+        return self.arbitrationPhaseSeg1
+
+    def setArbitrationPhaseSeg1(self, value):
+        if value is not None:
+            self.arbitrationPhaseSeg1 = value
+        return self
+
+    def getArbitrationPhaseSeg2(self):
+        return self.arbitrationPhaseSeg2
+
+    def setArbitrationPhaseSeg2(self, value):
+        if value is not None:
+            self.arbitrationPhaseSeg2 = value
+        return self
+
+    def getArbitrationSJW(self):
+        return self.arbitrationSJW
+
+    def setArbitrationSJW(self, value):
+        if value is not None:
+            self.arbitrationSJW = value
+        return self
+
+    def getDataPhaseSeg1(self):
+        return self.dataPhaseSeg1
+
+    def setDataPhaseSeg1(self, value):
+        if value is not None:
+            self.dataPhaseSeg1 = value
+        return self
+
+    def getDataPhaseSeg2(self):
+        return self.dataPhaseSeg2
+
+    def setDataPhaseSeg2(self, value):
+        if value is not None:
+            self.dataPhaseSeg2 = value
+        return self
+
+    def getDataSJW(self):
+        return self.dataSJW
+
+    def setDataSJW(self, value):
+        if value is not None:
+            self.dataSJW = value
+        return self
+
+    def getMinArbitrationBitTime(self):
+        return self.minArbitrationBitTime
+
+    def setMinArbitrationBitTime(self, value):
+        if value is not None:
+            self.minArbitrationBitTime = value
+        return self
+
+    def getMinDataBitTime(self):
+        return self.minDataBitTime
+
+    def setMinDataBitTime(self, value):
+        if value is not None:
+            self.minDataBitTime = value
+        return self
+
+    def getPaddingValue(self):
+        return self.paddingValue
+
+    def setPaddingValue(self, value):
+        if value is not None:
+            self.paddingValue = value
+        return self
+
+    def getTimeSeg1Arbitration(self):
+        return self.timeSeg1Arbitration
+
+    def setTimeSeg1Arbitration(self, value):
+        if value is not None:
+            self.timeSeg1Arbitration = value
+        return self
+
+    def getTimeSeg1Data(self):
+        return self.timeSeg1Data
+
+    def setTimeSeg1Data(self, value):
+        if value is not None:
+            self.timeSeg1Data = value
+        return self
+
+    def getTimeSeg2Arbitration(self):
+        return self.timeSeg2Arbitration
+
+    def setTimeSeg2Arbitration(self, value):
+        if value is not None:
+            self.timeSeg2Arbitration = value
+        return self
+
+    def getTimeSeg2Data(self):
+        return self.timeSeg2Data
+
+    def setTimeSeg2Data(self, value):
+        if value is not None:
+            self.timeSeg2Data = value
+        return self
+
+    def getXlBitRateSwitch(self):
+        return self.xlBitRateSwitch
+
+    def setXlBitRateSwitch(self, value):
+        if value is not None:
+            self.xlBitRateSwitch = value
+        return self
+
+
+class CanControllerXlConfigurationRequirements(ARObject):
+    """
+    Specifies the requirements for CAN XL configuration parameters, defining
+    the acceptable ranges and constraints for timing, bit rate, and other
+    CAN XL communication properties.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.maxNumberOfTimeQuantaPerBit: Integer = None
+        self.maxSamplePoint: Float = None
+        self.maxSyncJumpWidth: Float = None
+        self.maxTrcvDelayCompensationOffset: TimeValue = None
+        self.minNumberOfTimeQuantaPerBit: Integer = None
+        self.minSamplePoint: Float = None
+        self.minSyncJumpWidth: Float = None
+        self.minTrcvDelayCompensationOffset: TimeValue = None
+        self.paddingValue: PositiveInteger = None
+        self.xlBitRateSwitch: Boolean = None
+
+    def getMaxNumberOfTimeQuantaPerBit(self):
+        return self.maxNumberOfTimeQuantaPerBit
+
+    def setMaxNumberOfTimeQuantaPerBit(self, value):
+        if value is not None:
+            self.maxNumberOfTimeQuantaPerBit = value
+        return self
+
+    def getMaxSamplePoint(self):
+        return self.maxSamplePoint
+
+    def setMaxSamplePoint(self, value):
+        if value is not None:
+            self.maxSamplePoint = value
+        return self
+
+    def getMaxSyncJumpWidth(self):
+        return self.maxSyncJumpWidth
+
+    def setMaxSyncJumpWidth(self, value):
+        if value is not None:
+            self.maxSyncJumpWidth = value
+        return self
+
+    def getMaxTrcvDelayCompensationOffset(self):
+        return self.maxTrcvDelayCompensationOffset
+
+    def setMaxTrcvDelayCompensationOffset(self, value):
+        if value is not None:
+            self.maxTrcvDelayCompensationOffset = value
+        return self
+
+    def getMinNumberOfTimeQuantaPerBit(self):
+        return self.minNumberOfTimeQuantaPerBit
+
+    def setMinNumberOfTimeQuantaPerBit(self, value):
+        if value is not None:
+            self.minNumberOfTimeQuantaPerBit = value
+        return self
+
+    def getMinSamplePoint(self):
+        return self.minSamplePoint
+
+    def setMinSamplePoint(self, value):
+        if value is not None:
+            self.minSamplePoint = value
+        return self
+
+    def getMinSyncJumpWidth(self):
+        return self.minSyncJumpWidth
+
+    def setMinSyncJumpWidth(self, value):
+        if value is not None:
+            self.minSyncJumpWidth = value
+        return self
+
+    def getMinTrcvDelayCompensationOffset(self):
+        return self.minTrcvDelayCompensationOffset
+
+    def setMinTrcvDelayCompensationOffset(self, value):
+        if value is not None:
+            self.minTrcvDelayCompensationOffset = value
+        return self
+
+    def getPaddingValue(self):
+        return self.paddingValue
+
+    def setPaddingValue(self, value):
+        if value is not None:
+            self.paddingValue = value
+        return self
+
+    def getXlBitRateSwitch(self):
+        return self.xlBitRateSwitch
+
+    def setXlBitRateSwitch(self, value):
+        if value is not None:
+            self.xlBitRateSwitch = value
+        return self
+
+
 class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
+    """
+    Abstract base class for CAN communication controller attributes,
+    providing a common foundation for both FD and XL configuration
+    properties of CAN controllers.
+    """
     def __init__(self):
         super().__init__()
 
@@ -213,6 +466,11 @@ class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
 
 
 class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerAttributes):
+    """
+    Defines configuration requirements for CAN controllers, specifying
+    the timing and communication parameters that must be supported
+    by the CAN communication hardware.
+    """
     def __init__(self):
         super().__init__()
 
@@ -267,6 +525,11 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
 
 
 class AbstractCanCommunicationController(CommunicationController, metaclass=ABCMeta):
+    """
+    Abstract base class for CAN communication controllers, defining
+    the common properties and behavior for CAN network interfaces
+    in the AUTOSAR communication system.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
             raise NotImplementedError("AbstractCanCommunicationController is an abstract class.")
@@ -284,11 +547,21 @@ class AbstractCanCommunicationController(CommunicationController, metaclass=ABCM
 
 
 class CanCommunicationController(AbstractCanCommunicationController):
+    """
+    Represents a CAN communication controller in the system, implementing
+    the specific properties and behavior for CAN network communication
+    hardware interfaces.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class AbstractCanCommunicationConnector(CommunicationConnector, metaclass=ABCMeta):
+    """
+    Abstract base class for CAN communication connectors, providing
+    the foundation for connecting CAN controllers to communication
+    channels and network segments.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
             raise NotImplementedError("AbstractCanCommunicationConnector is an abstract class.")
@@ -297,6 +570,11 @@ class AbstractCanCommunicationConnector(CommunicationConnector, metaclass=ABCMet
 
 
 class CanCommunicationConnector(AbstractCanCommunicationConnector):
+    """
+    Represents a CAN communication connector that links CAN controllers
+    to communication channels, enabling network connectivity and defining
+    power state management properties for CAN communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

@@ -4,6 +4,11 @@ from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class ECUMapping(Identifiable):
+    """
+    Represents an ECU mapping that defines the relationship between AUTOSAR software components
+    and their physical ECU instances. This class maps communication controllers, hardware ports,
+    and other ECU resources to specific ECU instances within the system configuration.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

@@ -1,10 +1,15 @@
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, String, TimeValue
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, String, TimeValue
 from .......models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
 class LinCommunicationController(CommunicationController):
+    """
+    Represents a LIN communication controller in the system,
+    defining properties for LIN network communication including
+    protocol version specifications.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -19,10 +24,15 @@ class LinCommunicationController(CommunicationController):
         return self
 
 class LinMaster(LinCommunicationController):
+    """
+    Defines a LIN master node in the network topology, specifying
+    slave configurations, time base settings, and timing jitter
+    properties for LIN master communication management.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.linSlaves: List[LinSlaveConfig] = []
+        self.linSlaves = []
         self.timeBase: TimeValue = None
         self.timeBaseJitter: TimeValue = None
 
@@ -51,12 +61,17 @@ class LinMaster(LinCommunicationController):
         return self
 
 class LinCommunicationConnector(CommunicationConnector):
+    """
+    Defines a LIN communication connector that links LIN controllers
+    to communication channels, specifying initial NAD (Node Address),
+    configurable frames, and schedule change properties for LIN communication.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.initialNad: Integer = None
-        self.linConfigurableFrames: List[LinConfigurableFrame] = []
-        self.linOrderedConfigurableFrames: List[LinOrderedConfigurableFrame] = []
+        self.linConfigurableFrames = []
+        self.linOrderedConfigurableFrames = []
         self.scheduleChangeNextTimeBase: Boolean = None
 
     def getInitialNad(self):

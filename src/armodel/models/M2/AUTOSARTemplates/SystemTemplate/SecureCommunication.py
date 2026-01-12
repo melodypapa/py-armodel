@@ -7,11 +7,21 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiabl
 
 
 class CryptoServiceMapping(Identifiable):
+    """
+    Abstract base class for crypto service mappings, defining
+    common properties for different types of cryptographic
+    service mappings in the AUTOSAR system.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
 
 class SecOcCryptoServiceMapping(CryptoServiceMapping):
+    """
+    Represents a Secure Onboard Communication (SecOC) crypto service mapping,
+    defining authentication, key, and queue references for secure
+    communication between ECUs.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -45,6 +55,11 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
 
 
 class TlsCryptoServiceMapping(CryptoServiceMapping):
+    """
+    Represents a TLS (Transport Layer Security) crypto service mapping,
+    defining key exchange references, cipher suites, and authentication
+    settings for TLS-secured communication.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

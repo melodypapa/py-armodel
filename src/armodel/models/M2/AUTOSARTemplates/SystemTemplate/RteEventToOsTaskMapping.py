@@ -6,6 +6,11 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiabl
 
 
 class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
+    """
+    Represents a mapping between application OS task proxies and ECU task proxies
+    in the Runtime Environment (RTE), defining how application-level tasks are
+    connected to ECU-level tasks for real-time execution coordination.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
