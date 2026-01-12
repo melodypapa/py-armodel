@@ -69,7 +69,7 @@ class CanTpChannel(Identifiable):
         super().__init__(parent, short_name)
 
         self.channelId: PositiveInteger = None
-        self.channelMode: CanTpChannelModeType = None
+        self.channelMode = None
 
     def getChannelId(self):
         return self.channelId
@@ -127,7 +127,7 @@ class CanTpConnection(TpConnection):
     def __init__(self):
         super().__init__()
 
-        self.addressingFormat: CanTpAddressingFormatType = None
+        self.addressingFormat = None
         self.cancellation: Boolean = None
         self.canTpChannelRef: RefType = None
         self.dataPduRef: RefType = None
@@ -136,7 +136,7 @@ class CanTpConnection(TpConnection):
         self.multicastRef: RefType = None
         self.paddingActivation: Boolean = None
         self.receiverRefs: List[RefType] = []
-        self.taType: NetworkTargetAddressType = None
+        self.taType = None
         self.timeoutBr: TimeValue = None
         self.timeoutBs: TimeValue = None
         self.timeoutCr: TimeValue = None

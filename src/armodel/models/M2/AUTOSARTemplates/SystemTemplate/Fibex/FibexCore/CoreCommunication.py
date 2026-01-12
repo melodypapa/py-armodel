@@ -2,9 +2,10 @@ from abc import ABCMeta
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean, String
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
+from ......M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
 
 
@@ -465,7 +466,7 @@ class SecuredIPdu(IPdu):
         self.payloadRef: RefType = None
         self.secureCommunicationProps: SecureCommunicationProps = None
         self.useAsCryptographicIPdu: Boolean = None
-        self.useSecuredPduHeader: SecuredPduHeaderEnum = None
+        self.useSecuredPduHeader = None
 
     def getAuthenticationPropsRef(self):
         return self.authenticationPropsRef
@@ -537,7 +538,7 @@ class ISignalToIPduMapping(Identifiable):
         self.iSignalGroupRef: RefType = None
         self.packingByteOrder: ByteOrderEnum = None
         self.startPosition: UnlimitedInteger = None
-        self.transferProperty: TransferPropertyEnum = None
+        self.transferProperty = None
         self.updateIndicationBitPosition: UnlimitedInteger = None
 
     def getISignalRef(self):

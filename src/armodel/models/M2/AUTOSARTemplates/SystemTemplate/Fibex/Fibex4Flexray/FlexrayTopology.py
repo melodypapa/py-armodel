@@ -27,7 +27,7 @@ class FlexrayCommunicationController(CommunicationController):
         self.externRateCorrection: Integer = None
         self.externalSync: Boolean = None
         self.fallBackInternal: Boolean = None
-        self.flexrayFifos: List[FlexrayFifoConfiguration] = []
+        self.flexrayFifos = []
         self.keySlotID: PositiveInteger = None
         self.keySlotOnlyEnabled: Boolean = None
         self.keySlotUsedForStartUp: Boolean = None

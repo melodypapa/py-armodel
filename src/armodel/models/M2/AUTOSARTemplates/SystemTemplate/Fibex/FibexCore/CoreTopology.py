@@ -240,7 +240,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
         super().__init__(parent, short_name)
 
         self.networkEndpoints: List[NetworkEndpoint] = []
-        self.soAdConfig: SoAdConfig = None
+        self.soAdConfig = None
         self.vlan: VlanConfig = None
 
     def getNetworkEndpoints(self):
@@ -673,7 +673,7 @@ class ISignalPort(CommConnectorPort):
         self.dataFilter: DataFilter = None
         self.ddsQosProfileRef: RefType = None
         self.firstTimeout: TimeValue = None
-        self.handleInvalid: HandleInvalidEnum = None
+        self.handleInvalid = None
         self.timeout: TimeValue = None
 
     def getDataFilter(self):

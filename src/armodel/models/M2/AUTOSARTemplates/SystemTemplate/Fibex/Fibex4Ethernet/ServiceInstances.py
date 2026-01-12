@@ -788,7 +788,7 @@ class SocketAddress(Identifiable):
         self.pduCollectionMaxBufferSize: PositiveInteger = None
         self.pduCollectionTimeout: TimeValue = None
         self.portAddress: PositiveInteger = None
-        self.staticSocketConnections: List[StaticSocketConnection] = []
+        self.staticSocketConnections = []
         self.udpChecksumHandling = None
 
     def getAllowedIPv6ExtHeadersRef(self):

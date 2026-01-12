@@ -478,9 +478,9 @@ class TransformationISignalProps(Describable, metaclass=ABCMeta):
     def __init__(self):
         super().__init__()
 
-        self.csErrorReaction: CSTransformerErrorReactionEnum = None
+        self.csErrorReaction = None
         self.dataPrototypeTransformationProps: List = []
-        self.ident: TransformationISignalPropsIdent = None
+        self.ident = None
         self.transformerRef: RefType = None
 
     def getCsErrorReaction(self):

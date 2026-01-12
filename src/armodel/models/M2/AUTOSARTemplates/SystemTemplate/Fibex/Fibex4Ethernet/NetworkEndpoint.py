@@ -203,7 +203,7 @@ class TimeSyncClientConfiguration(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.orderedMasters: List[OrderedMaster] = []
+        self.orderedMasters = []
         self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
 
     def getOrderedMasters(self):
