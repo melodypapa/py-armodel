@@ -8,11 +8,13 @@ class LEnum (ARLiteral):
 
 class LanguageSpecific(ARObject, metaclass = ABCMeta):
     def __init__(self):
+        if type(self) is LanguageSpecific:
+            raise NotImplementedError("LanguageSpecific is an abstract class.")
+
         super().__init__()
 
         self.l = None                   # type: LEnum
         self.value = ""
-
     def getL(self):
         return self.l
 

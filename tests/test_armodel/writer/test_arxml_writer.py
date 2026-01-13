@@ -308,7 +308,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         writer = ARXMLWriter()
         parent = ET.Element("parent")
         
-        specific = LanguageSpecific()
+        specific = LPlainText()  # Use concrete subclass instead of abstract base class
         specific.setL("EN")
         specific.setValue("Test value")
         
@@ -325,7 +325,7 @@ class TestARXMLWriterLanguageSpecificMethods:
         writer = ARXMLWriter()
         parent = ET.Element("parent")
         
-        specific = LanguageSpecific()
+        specific = LPlainText()  # Use concrete subclass instead of abstract base class
         specific.setValue("Test value")
         # l attribute is None by default
         

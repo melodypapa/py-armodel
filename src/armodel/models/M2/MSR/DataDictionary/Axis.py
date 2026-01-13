@@ -121,7 +121,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
 
         self.sharedAxisTypeRef = None           # type: RefType
         self.swAxisIndex = None                 # type: ARNumerical
-        self.swCalprmRef = None                 # type: SwCalprmRefProxy
+        self.swCalprmRef = None                 # type: RefType
 
     def getSharedAxisTypeRef(self):
         return self.sharedAxisTypeRef
