@@ -23,6 +23,16 @@ class Test_Fibex4FlexrayCommunication:
         frame = FlexrayFrame(parent, "test_flexray_frame")
 
         assert isinstance(frame, Frame)
+        assert frame.short_name == "test_flexray_frame"
+
+    def test_flexray_frame_creation(self):
+        """Test FlexrayFrame class creation to ensure the __init__ method is covered."""
+        parent = MockParent()
+        frame = FlexrayFrame(parent, "test_frame")
+        
+        # Verify that the frame was created properly
+        assert frame.short_name == "test_frame"
+        assert frame.parent == parent
 
     def test_FlexrayAbsolutelyScheduledTiming(self):
         """Test FlexrayAbsolutelyScheduledTiming class functionality."""
@@ -89,6 +99,9 @@ class Test_Fibex4FlexrayCommunication:
         
         triggering.setMessageId(42)
         assert triggering.getMessageId() == 42
+        
+        triggering.setPayloadPreambleIndicator(True)
+        assert triggering.getPayloadPreambleIndicator() is True
         
         # Test adding absolutely scheduled timings
         timing = FlexrayAbsolutelyScheduledTiming()

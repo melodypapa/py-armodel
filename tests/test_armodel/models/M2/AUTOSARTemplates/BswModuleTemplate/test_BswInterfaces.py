@@ -326,19 +326,23 @@ class TestBswModuleEntry:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "test_entry")
         
-        # Set some properties to test string representation, avoiding serviceId to prevent formatting error
+        # Set some properties to test string representation including serviceId
+        service_id = ARNumerical()
+        service_id.setValue(123)
+        entry.setServiceId(service_id)
         entry.setIsReentrant(True)
         entry.setIsSynchronous(False)
         entry.setCallType(BswCallType.SYNCHRONOUS)
         entry.setExecutionContext("TASK")
         entry.setSwServiceImplPolicy(SwServiceImplPolicyEnum.STANDARD)
         
-        # Call the __str__ method which should work even with serviceId as None
+        # Call the __str__ method which should work with serviceId set
         str_repr = str(entry)
         
         assert "short_name" in str_repr
         assert "test_entry" in str_repr
-        # service_id should not appear since it's None
+        assert "service_id" in str_repr
+        assert "123" in str_repr
         assert "is_reentrant" in str_repr
         assert "True" in str_repr
         assert "is_synchronous" in str_repr

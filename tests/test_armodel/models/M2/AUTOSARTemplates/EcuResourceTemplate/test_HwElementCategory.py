@@ -1,265 +1,148 @@
 """
-This module contains comprehensive tests for the EcuResourceTemplate HwElementCategory.py file
-in the AUTOSAR EcuResourceTemplate module.
+Test cases for the HwElementCategory module.
+These tests ensure 100% code coverage for the HwType, HwAttributeDef, and HwCategory classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
-    HwType,
-    HwAttributeDef,
-    HwCategory
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    RefType
-)
+from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwType, HwAttributeDef, HwCategory
+from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
 
 
-class TestHwType:
+def test_hw_type_init():
     """
-    Test class for HwType functionality.
+    Test initialization of HwType class.
+    
+    Test Steps:
+    1. Create a HwType instance with parent and short_name
+    2. Verify basic attributes are set correctly
     """
-
-    def test_initialization(self):
-        """
-        Test HwType initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        # Create HwType instance
-        hw_type = HwType(ar_root, "TestHwType")
-
-        # Verify basic properties
-        assert hw_type is not None
-        assert hw_type.getShortName() == "TestHwType"
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwType
+    hw_type = HwType(parent, "test_hw_type")
+    
+    # Verify initial values
+    assert hw_type.parent == parent
+    assert hw_type.short_name == "test_hw_type"
 
 
-class TestHwAttributeDef:
+def test_hw_attribute_def_init():
     """
-    Test class for HwAttributeDef functionality.
+    Test initialization of HwAttributeDef class.
+    
+    Test Steps:
+    1. Create a HwAttributeDef instance with parent and short_name
+    2. Verify default attributes are set correctly
     """
-
-    def test_initialization(self):
-        """
-        Test HwAttributeDef initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        # Create HwAttributeDef instance
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Verify basic properties
-        assert hw_attr_def is not None
-        assert hw_attr_def.getShortName() == "TestHwAttributeDef"
-
-        # Verify default values for attributes
-        assert hw_attr_def.getHwAttributeLiterals() == []
-        assert hw_attr_def.getIsRequired() is None
-        assert hw_attr_def.getUnitRef() is None
-
-    def test_get_hw_attribute_literals(self):
-        """
-        Test getHwAttributeLiterals method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Verify initial state
-        literals = hw_attr_def.getHwAttributeLiterals()
-        assert literals == []
-        assert isinstance(literals, list)
-
-    def test_set_hw_attribute_literals(self):
-        """
-        Test setHwAttributeLiterals method sets attribute literals correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Create mock HwAttributeLiteralDef instances (using a simple class for testing)
-        class MockHwAttributeLiteralDef:
-            pass
-        literal1 = MockHwAttributeLiteralDef()
-        literal2 = MockHwAttributeLiteralDef()
-        literals = [literal1, literal2]
-
-        # Set the attribute literals
-        result = hw_attr_def.setHwAttributeLiterals(literals)
-        assert result is hw_attr_def  # Verify method chaining
-        assert hw_attr_def.getHwAttributeLiterals() == literals
-
-    def test_set_hw_attribute_literals_none(self):
-        """
-        Test setHwAttributeLiterals method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Set initial values
-        class MockHwAttributeLiteralDef:
-            pass
-        initial_literal = MockHwAttributeLiteralDef()
-        initial_literals = [initial_literal]
-        hw_attr_def.setHwAttributeLiterals(initial_literals)
-        assert hw_attr_def.getHwAttributeLiterals() == initial_literals
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_attr_def.setHwAttributeLiterals(None)
-        assert result is hw_attr_def  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_attr_def.getHwAttributeLiterals() == initial_literals
-
-    def test_get_is_required(self):
-        """
-        Test getIsRequired method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Verify initial state
-        is_required = hw_attr_def.getIsRequired()
-        assert is_required is None
-
-    def test_set_is_required(self):
-        """
-        Test setIsRequired method sets the required flag correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Create mock Boolean instance
-        is_required = Boolean().setValue(True)
-
-        # Set the required flag
-        result = hw_attr_def.setIsRequired(is_required)
-        assert result is hw_attr_def  # Verify method chaining
-        assert hw_attr_def.getIsRequired() == is_required
-
-    def test_set_is_required_none(self):
-        """
-        Test setIsRequired method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Set initial value
-        initial_required = Boolean().setValue(True)
-        hw_attr_def.setIsRequired(initial_required)
-        assert hw_attr_def.getIsRequired() == initial_required
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_attr_def.setIsRequired(None)
-        assert result is hw_attr_def  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_attr_def.getIsRequired() == initial_required
-
-    def test_get_unit_ref(self):
-        """
-        Test getUnitRef method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Verify initial state
-        unit_ref = hw_attr_def.getUnitRef()
-        assert unit_ref is None
-
-    def test_set_unit_ref(self):
-        """
-        Test setUnitRef method sets the unit reference correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Create mock RefType instance
-        unit_ref = RefType().setValue("UnitRef1")
-
-        # Set the unit reference
-        result = hw_attr_def.setUnitRef(unit_ref)
-        assert result is hw_attr_def  # Verify method chaining
-        assert hw_attr_def.getUnitRef() == unit_ref
-
-    def test_set_unit_ref_none(self):
-        """
-        Test setUnitRef method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_attr_def = HwAttributeDef(ar_root, "TestHwAttributeDef")
-
-        # Set initial value
-        initial_ref = RefType().setValue("UnitRef1")
-        hw_attr_def.setUnitRef(initial_ref)
-        assert hw_attr_def.getUnitRef() == initial_ref
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_attr_def.setUnitRef(None)
-        assert result is hw_attr_def  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_attr_def.getUnitRef() == initial_ref
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwAttributeDef
+    hw_attr_def = HwAttributeDef(parent, "test_hw_attr_def")
+    
+    # Verify initial values
+    assert hw_attr_def.parent == parent
+    assert hw_attr_def.short_name == "test_hw_attr_def"
+    assert hw_attr_def.hwAttributeLiterals == []
+    assert hw_attr_def.isRequired is None
+    assert hw_attr_def.unitRef is None
 
 
-class TestHwCategory:
+def test_hw_attribute_def_getters_and_setters():
     """
-    Test class for HwCategory functionality.
+    Test all getter and setter methods of HwAttributeDef class.
+    
+    Test Steps:
+    1. Create a HwAttributeDef instance
+    2. Test setting and getting hwAttributeLiterals
+    3. Test setting and getting isRequired
+    4. Test setting and getting unitRef
+    5. Verify method chaining (return self)
     """
+    hw_attr_def = HwAttributeDef(None, "test_hw_attr_def")
+    
+    # Test hwAttributeLiterals setter and getter
+    test_literals = [HwAttributeLiteralDef(None, "literal1"), HwAttributeLiteralDef(None, "literal2")]
+    return_value = hw_attr_def.setHwAttributeLiterals(test_literals)
+    assert return_value == hw_attr_def  # Verify method chaining
+    assert hw_attr_def.getHwAttributeLiterals() == test_literals
+    
+    # Test isRequired setter and getter
+    test_required = True
+    return_value = hw_attr_def.setIsRequired(test_required)
+    assert return_value == hw_attr_def  # Verify method chaining
+    assert hw_attr_def.getIsRequired() == test_required
+    
+    # Test unitRef setter and getter
+    test_unit_ref = "test_unit_ref"
+    return_value = hw_attr_def.setUnitRef(test_unit_ref)
+    assert return_value == hw_attr_def  # Verify method chaining
+    assert hw_attr_def.getUnitRef() == test_unit_ref
+    
+    # Test with None values (should not set)
+    original_literals = hw_attr_def.getHwAttributeLiterals()
+    hw_attr_def.setHwAttributeLiterals(None)
+    assert hw_attr_def.getHwAttributeLiterals() == original_literals  # Should remain unchanged
+    
+    original_required = hw_attr_def.getIsRequired()
+    hw_attr_def.setIsRequired(None)
+    assert hw_attr_def.getIsRequired() == original_required  # Should remain unchanged
+    
+    original_unit_ref = hw_attr_def.getUnitRef()
+    hw_attr_def.setUnitRef(None)
+    assert hw_attr_def.getUnitRef() == original_unit_ref  # Should remain unchanged
 
-    def test_initialization(self):
-        """
-        Test HwCategory initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
 
-        # Create HwCategory instance
-        hw_category = HwCategory(ar_root, "TestHwCategory")
+def test_hw_category_init():
+    """
+    Test initialization of HwCategory class.
+    
+    Test Steps:
+    1. Create a HwCategory instance with parent and short_name
+    2. Verify default attributes are set correctly
+    """
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwCategory
+    hw_category = HwCategory(parent, "test_hw_category")
+    
+    # Verify initial values
+    assert hw_category.parent == parent
+    assert hw_category.short_name == "test_hw_category"
+    assert hw_category.hwAttributeDefs == []
 
-        # Verify basic properties
-        assert hw_category is not None
-        assert hw_category.getShortName() == "TestHwCategory"
 
-        # Verify default values for attributes
-        assert hw_category.getHwAttributeDefs() == []
+def test_hw_category_getters_and_create_hw_attribute_def():
+    """
+    Test getter and createHwAttributeDef method of HwCategory class.
+    
+    Test Steps:
+    1. Create a HwCategory instance
+    2. Test getting hwAttributeDefs
+    3. Test creating a new HwAttributeDef
+    4. Verify the created HwAttributeDef is added to the category
+    """
+    hw_category = HwCategory(None, "test_hw_category")
+    
+    # Test getHwAttributeDefs
+    assert hw_category.getHwAttributeDefs() == []
+    
+    # Test createHwAttributeDef
+    new_attr_def = hw_category.createHwAttributeDef("new_attr_def")
+    assert new_attr_def is not None
+    assert new_attr_def.short_name == "new_attr_def"
+    assert new_attr_def in hw_category.getHwAttributeDefs()
+    
+    # Test creating another one with the same name (should return existing)
+    same_attr_def = hw_category.createHwAttributeDef("new_attr_def")
+    assert same_attr_def == new_attr_def  # Should return the same instance
 
-    def test_get_hw_attribute_defs(self):
-        """
-        Test getHwAttributeDefs method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_category = HwCategory(ar_root, "TestHwCategory")
 
-        # Verify initial state
-        attr_defs = hw_category.getHwAttributeDefs()
-        assert attr_defs == []
-        assert isinstance(attr_defs, list)
-
-    def test_create_hw_attribute_def(self):
-        """
-        Test createHwAttributeDef method creates and adds a new HwAttributeDef instance.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_category = HwCategory(ar_root, "TestHwCategory")
-
-        # Create a new HwAttributeDef
-        new_attr_def = hw_category.createHwAttributeDef("NewAttributeDef")
-
-        # Verify the created attribute definition
-        assert new_attr_def is not None
-        assert new_attr_def.getShortName() == "NewAttributeDef"
-        # The instance should be in the list
-        assert new_attr_def in hw_category.getHwAttributeDefs()
+if __name__ == '__main__':
+    test_hw_type_init()
+    test_hw_attribute_def_init()
+    test_hw_attribute_def_getters_and_setters()
+    test_hw_category_init()
+    test_hw_category_getters_and_create_hw_attribute_def()
+    print("All HwElementCategory tests passed!")
