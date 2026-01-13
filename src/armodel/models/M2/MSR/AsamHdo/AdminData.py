@@ -6,6 +6,11 @@ from typing import List
 
 
 class Modification(ARObject):
+    """
+    Represents a modification made to a document.
+    Base: ARObject
+    Aggregated by: DocRevision.modifications
+    """
     def __init__(self):
         super().__init__()
 
@@ -30,6 +35,11 @@ class Modification(ARObject):
 
 
 class DocRevision(ARObject):
+    """
+    Represents a single revision of a document with metadata.
+    Base: ARObject
+    Aggregated by: AdminData.DocRevisions
+    """
     def __init__(self):
         super().__init__()
 
@@ -99,6 +109,10 @@ class DocRevision(ARObject):
 
 
 class AdminData(ARObject):
+    """
+    Container for administrative data including document revisions and language settings.
+    Base: ARObject
+    """
     def __init__(self):
         super().__init__()
 
@@ -107,7 +121,10 @@ class AdminData(ARObject):
         self.sdgs: List = []
         self.usedLanguages: MultiLanguagePlainText = None
 
-    def getDocRevisions(self):
+    def getDocRevisions(self) -> List[DocRevision]:
+        return self.DocRevisions
+
+    def getDocRevisions(self) -> List[DocRevision]:
         return self.DocRevisions
 
     def addDocRevision(self, value: DocRevision):

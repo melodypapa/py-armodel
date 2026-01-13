@@ -44,17 +44,43 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getNetworkMask() is None
         assert config.getTtl() is None
         
-        # Test setter/getter methods
-        config.setAssignmentPriority(1)
+        # Test setter/getter methods with method chaining
+        result = config.setAssignmentPriority(1)
         assert config.getAssignmentPriority() == 1
-        
-        config.setIpv4Address("192.168.1.1")
+        assert result == config  # Test method chaining
+
+        result = config.setDefaultGateway("192.168.1.254")
+        assert config.getDefaultGateway() == "192.168.1.254"
+        assert result == config  # Test method chaining
+
+        result = config.setIpAddressKeepBehavior("keep")
+        assert config.getIpAddressKeepBehavior() == "keep"
+        assert result == config  # Test method chaining
+
+        result = config.setIpv4Address("192.168.1.1")
         assert config.getIpv4Address() == "192.168.1.1"
-        
-        # Test adding DNS server addresses
-        config.addDnsServerAddress("8.8.8.8")
-        config.addDnsServerAddress("8.8.4.4")
+        assert result == config  # Test method chaining
+
+        result = config.setIpv4AddressSource("dhcp")
+        assert config.getIpv4AddressSource() == "dhcp"
+        assert result == config  # Test method chaining
+
+        result = config.setNetworkMask("255.255.255.0")
+        assert config.getNetworkMask() == "255.255.255.0"
+        assert result == config  # Test method chaining
+
+        result = config.setTtl(64)
+        assert config.getTtl() == 64
+        assert result == config  # Test method chaining
+
+        # Test adding DNS server addresses with method chaining
+        result = config.addDnsServerAddress("8.8.8.8")
+        assert config.getDnsServerAddresses() == ["8.8.8.8"]
+        assert result == config  # Test method chaining
+
+        result = config.addDnsServerAddress("8.8.4.4")
         assert config.getDnsServerAddresses() == ["8.8.8.8", "8.8.4.4"]
+        assert result == config  # Test method chaining
 
     def test_Ipv6Configuration(self):
         """Test Ipv6Configuration class functionality."""
@@ -73,12 +99,43 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getIpv6Address() is None
         assert config.getIpv6AddressSource() is None
         
-        # Test setter/getter methods
-        config.setIpv6Address("2001:db8::1")
-        assert config.getIpv6Address() == "2001:db8::1"
-        
-        config.setEnableAnycast(True)
+        # Test setter/getter methods with method chaining
+        result = config.setAssignmentPriority(2)
+        assert config.getAssignmentPriority() == 2
+        assert result == config  # Test method chaining
+
+        result = config.setDefaultRouter("2001:db8::1")
+        assert config.getDefaultRouter() == "2001:db8::1"
+        assert result == config  # Test method chaining
+
+        result = config.setEnableAnycast(True)
         assert config.getEnableAnycast() is True
+        assert result == config  # Test method chaining
+
+        result = config.setHopCount(64)
+        assert config.getHopCount() == 64
+        assert result == config  # Test method chaining
+
+        result = config.setIpAddressKeepBehavior("keep")
+        assert config.getIpAddressKeepBehavior() == "keep"
+        assert result == config  # Test method chaining
+
+        result = config.setIpAddressPrefixLength(64)
+        assert config.getIpAddressPrefixLength() == 64
+        assert result == config  # Test method chaining
+
+        result = config.setIpv6Address("2001:db8::1")
+        assert config.getIpv6Address() == "2001:db8::1"
+        assert result == config  # Test method chaining
+
+        result = config.setIpv6AddressSource("auto")
+        assert config.getIpv6AddressSource() == "auto"
+        assert result == config  # Test method chaining
+
+        # Test setting DNS server addresses with method chaining
+        result = config.setDnsServerAddresses(["2001:4860:4860::8888", "2001:4860:4860::8844"])
+        assert config.getDnsServerAddresses() == ["2001:4860:4860::8888", "2001:4860:4860::8844"]
+        assert result == config  # Test method chaining
 
     def test_DoIpEntity(self):
         """Test DoIpEntity class functionality."""
@@ -89,9 +146,10 @@ class Test_Fibex4EthernetNetworkEndpoint:
         # Test default values
         assert entity.getDoIpEntityRole() is None
         
-        # Test setter/getter methods
-        entity.setDoIpEntityRole("tester")
+        # Test setter/getter methods with method chaining
+        result = entity.setDoIpEntityRole("tester")
         assert entity.getDoIpEntityRole() == "tester"
+        assert result == entity  # Test method chaining
 
     def test_TimeSyncClientConfiguration(self):
         """Test TimeSyncClientConfiguration class functionality."""
@@ -103,9 +161,19 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getOrderedMasters() == []
         assert config.getTimeSyncTechnology() is None
         
-        # Test setter/getter methods
-        config.setTimeSyncTechnology("IEEE_1588")
+        # Test setter/getter methods with method chaining
+        result = config.setTimeSyncTechnology("IEEE_1588")
         assert config.getTimeSyncTechnology() == "IEEE_1588"
+        assert result == config  # Test method chaining
+
+        # Test adding ordered masters with method chaining
+        result = config.addOrderedMaster("master1")
+        assert config.getOrderedMasters() == ["master1"]
+        assert result == config  # Test method chaining
+
+        result = config.addOrderedMaster("master2")
+        assert config.getOrderedMasters() == ["master1", "master2"]
+        assert result == config  # Test method chaining
 
     def test_TimeSyncServerConfiguration(self):
         """Test TimeSyncServerConfiguration class functionality."""
@@ -119,12 +187,22 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getTimeSyncServerIdentifier() is None
         assert config.getTimeSyncTechnology() is None
         
-        # Test setter/getter methods
-        config.setPriority(10)
+        # Test setter/getter methods with method chaining
+        result = config.setPriority(10)
         assert config.getPriority() == 10
-        
-        config.setSyncInterval("100ms")
+        assert result == config  # Test method chaining
+
+        result = config.setSyncInterval("100ms")
         assert config.getSyncInterval() == "100ms"
+        assert result == config  # Test method chaining
+
+        result = config.setTimeSyncServerIdentifier("server1")
+        assert config.getTimeSyncServerIdentifier() == "server1"
+        assert result == config  # Test method chaining
+
+        result = config.setTimeSyncTechnology("IEEE_1588")
+        assert config.getTimeSyncTechnology() == "IEEE_1588"
+        assert result == config  # Test method chaining
 
     def test_TimeSynchronization(self):
         """Test TimeSynchronization class functionality."""
@@ -136,10 +214,16 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert sync.getTimeSyncClient() is None
         assert sync.getTimeSyncServer() is None
         
-        # Test setter/getter methods
+        # Test setter/getter methods with method chaining
         client_config = TimeSyncClientConfiguration()
-        sync.setTimeSyncClient(client_config)
+        result = sync.setTimeSyncClient(client_config)
         assert sync.getTimeSyncClient() == client_config
+        assert result == sync  # Test method chaining
+
+        server_config = TimeSyncServerConfiguration()
+        result = sync.setTimeSyncServer(server_config)
+        assert sync.getTimeSyncServer() == server_config
+        assert result == sync  # Test method chaining
 
     def test_InfrastructureServices(self):
         """Test InfrastructureServices class functionality."""
@@ -151,10 +235,16 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert services.getDoIpEntity() is None
         assert services.getTimeSynchronization() is None
         
-        # Test setter/getter methods
+        # Test setter/getter methods with method chaining
         doip_entity = DoIpEntity()
-        services.setDoIpEntity(doip_entity)
+        result = services.setDoIpEntity(doip_entity)
         assert services.getDoIpEntity() == doip_entity
+        assert result == services  # Test method chaining
+
+        time_sync = TimeSynchronization()
+        result = services.setTimeSynchronization(time_sync)
+        assert services.getTimeSynchronization() == time_sync
+        assert result == services  # Test method chaining
 
     def test_NetworkEndpoint(self):
         """Test NetworkEndpoint class functionality."""
@@ -170,11 +260,25 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert endpoint.getNetworkEndpointAddresses() == []
         assert endpoint.getPriority() is None
         
-        # Test setter/getter methods
-        endpoint.setFullyQualifiedDomainName("example.com")
+        # Test setter/getter methods with method chaining
+        result = endpoint.setFullyQualifiedDomainName("example.com")
         assert endpoint.getFullyQualifiedDomainName() == "example.com"
-        
-        # Test adding network endpoint addresses
+        assert result == endpoint  # Test method chaining
+
+        result = endpoint.setInfrastructureServices(InfrastructureServices())
+        assert isinstance(endpoint.getInfrastructureServices(), InfrastructureServices)
+        assert result == endpoint  # Test method chaining
+
+        result = endpoint.setIpSecConfig("ipsec_config")
+        assert endpoint.getIpSecConfig() == "ipsec_config"
+        assert result == endpoint  # Test method chaining
+
+        result = endpoint.setPriority(5)
+        assert endpoint.getPriority() == 5
+        assert result == endpoint  # Test method chaining
+
+        # Test adding network endpoint addresses with method chaining
         ipv4_config = Ipv4Configuration()
-        endpoint.addNetworkEndpointAddress(ipv4_config)
+        result = endpoint.addNetworkEndpointAddress(ipv4_config)
         assert endpoint.getNetworkEndpointAddresses() == [ipv4_config]
+        assert result == endpoint  # Test method chaining

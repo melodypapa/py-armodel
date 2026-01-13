@@ -41,6 +41,35 @@ class Test_Fibex4FlexrayCommunication:
         timing.setSlotID(10)
         assert timing.getSlotID() == 10
 
+    def test_FlexrayAbsolutelyScheduledTiming_none_handling(self):
+        """Test FlexrayAbsolutelyScheduledTiming None value handling to achieve 100% coverage."""
+        timing = FlexrayAbsolutelyScheduledTiming()
+
+        # Test setting None keeps original value (which is None) - tests if value is not None logic
+        result = timing.setCommunicationCycle(None)
+        assert result == timing
+        assert timing.getCommunicationCycle() is None
+
+        result = timing.setSlotID(None)
+        assert result == timing
+        assert timing.getSlotID() is None
+
+        # Test setting actual values then setting back to None (should not change value)
+        timing.setCommunicationCycle("test_cycle")
+        assert timing.getCommunicationCycle() == "test_cycle"
+        result = timing.setCommunicationCycle(None)
+        assert result == timing
+        # Value should remain unchanged since None was passed
+        assert timing.getCommunicationCycle() == "test_cycle"
+
+
+        timing.setSlotID(42)
+        assert timing.getSlotID() == 42
+        result = timing.setSlotID(None)
+        assert result == timing
+        # Value should remain unchanged since None was passed
+        assert timing.getSlotID() == 42
+
     def test_FlexrayFrameTriggering(self):
         """Test FlexrayFrameTriggering class functionality."""
         parent = MockParent()
@@ -65,6 +94,46 @@ class Test_Fibex4FlexrayCommunication:
         timing = FlexrayAbsolutelyScheduledTiming()
         triggering.addAbsolutelyScheduledTiming(timing)
         assert triggering.getAbsolutelyScheduledTimings() == [timing]
+
+    def test_FlexrayFrameTriggering_none_handling(self):
+        """Test FlexrayFrameTriggering None value handling to achieve 100% coverage."""
+        parent = MockParent()
+        triggering = FlexrayFrameTriggering(parent, "test_flexray_frame_triggering")
+
+        # Test setting None keeps original value (which is None) - tests if value is not None logic
+        result = triggering.setAllowDynamicLSduLength(None)
+        assert result == triggering
+        assert triggering.getAllowDynamicLSduLength() is None
+
+        result = triggering.setMessageId(None)
+        assert result == triggering
+        assert triggering.getMessageId() is None
+
+        result = triggering.setPayloadPreambleIndicator(None)
+        assert result == triggering
+        assert triggering.getPayloadPreambleIndicator() is None
+
+        # Test setting actual values then setting back to None (should not change value)
+        triggering.setAllowDynamicLSduLength(True)
+        assert triggering.getAllowDynamicLSduLength() is True
+        result = triggering.setAllowDynamicLSduLength(None)
+        assert result == triggering
+        # Value should remain unchanged since None was passed
+        assert triggering.getAllowDynamicLSduLength() is True
+
+        triggering.setMessageId(123)
+        assert triggering.getMessageId() == 123
+        result = triggering.setMessageId(None)
+        assert result == triggering
+        # Value should remain unchanged since None was passed
+        assert triggering.getMessageId() == 123
+
+        # Test addAbsolutelyScheduledTiming with None (should not add to list)
+        original_timings = triggering.getAbsolutelyScheduledTimings()
+        result = triggering.addAbsolutelyScheduledTiming(None)
+        assert result == triggering
+        # The list should remain unchanged since None was passed
+        assert triggering.getAbsolutelyScheduledTimings() == original_timings
 
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (

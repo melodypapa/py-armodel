@@ -5,55 +5,67 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 from typing import List
 
 class Sd(ARObject):
+    """
+    Represents special data with a global identifier and value.
+    Base: ARObject
+    """
     def __init__(self):
         super().__init__()
 
-        self.gid = ""
-        self.value = ""
+        self.gid: str = ""
+        self.value: str = ""
 
-    def getGID(self):
+    def getGID(self) -> str:
         return self.gid
 
-    def setGID(self, value):
+    def setGID(self, value: str):
         self.gid = value
         return self
 
-    def getValue(self):
+    def getValue(self) -> str:
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: str):
         self.value = value
         return self
 
 class SdgCaption(MultilanguageReferrable):
+    """
+    Represents a caption for special data groups with multilingual description.
+    Base: MultilanguageReferrable
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.desc = None                                    # type: MultiLanguageOverviewParagraph
+        self.desc: MultiLanguageOverviewParagraph = None
 
-    def getDesc(self):
+    def getDesc(self) -> MultiLanguageOverviewParagraph:
         return self.desc
 
-    def setDesc(self, value):
+    def setDesc(self, value: MultiLanguageOverviewParagraph):
         if value is not None:
             self.desc = value
         return self
 
 
 class Sdg(ARObject):
+    """
+    Represents a special data group containing special data items and references.
+    Base: ARObject
+    """
     def __init__(self):
         super().__init__()
 
-        self.gid = ""
-        self.sd = []                                        # type: List[Sd]
-        self.sdgCaption = None                              # type: SdgCaption
-        self.sdgContentsTypes = []                          # type: List[Sdg]
-        self.sdxRefs = []                                   # type: List[RefType]
+        self.gid: str = ""
+        self.sd: List[Sd] = []
+        self.sdgCaption: SdgCaption = None
+        self.sdgContentsTypes: List[Sdg] = []
+        self.sdxRefs: List[RefType] = []
 
-    def getGID(self):
+    def getGID(self) -> str:
         return self.gid
 
-    def setGID(self, value):
+    def setGID(self, value: str):
         self.gid = value
         return self
 
@@ -64,7 +76,7 @@ class Sdg(ARObject):
     def getSds(self) -> List[Sd]:
         return self.sd
 
-    def getSdgCaption(self):
+    def getSdgCaption(self) -> SdgCaption:
         return self.sdgCaption
 
     def createSdgCaption(self, short_name: str) -> SdgCaption:
@@ -72,16 +84,16 @@ class Sdg(ARObject):
         self.sdgCaption = caption
         return caption
 
-    def getSdgContentsTypes(self):
+    def getSdgContentsTypes(self) -> List['Sdg']:
         return self.sdgContentsTypes
-    
-    def addSdgContentsType(self, sdg):
+
+    def addSdgContentsType(self, sdg: 'Sdg'):
         self.sdgContentsTypes.append(sdg)
-    
-    def getSdxRefs(self):
+
+    def getSdxRefs(self) -> List[RefType]:
         return self.sdxRefs
 
-    def addSdxRef(self, value):
+    def addSdxRef(self, value: RefType):
         if value is not None:
             self.sdxRefs.append(value)
         return self

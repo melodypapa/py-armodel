@@ -384,6 +384,7 @@ Test files in `test_files/` directory contain sample ARXML files for validation 
 - Follow Python PEP 8 coding conventions
 - Use pytest for unit testing with high code coverage requirement
 - Use flake8 for code quality checking
+- When adding type annotations, only reference classes that exist in the codebase to avoid F821 errors; add proper imports for existing types or remove annotations for non-existent types
 - Continuous Integration with GitHub Actions (Python 3.8-3.12)
 - Test folder structure should match source folder structure: tests/models directory structure must match src/models directory structure, with one test file corresponding to each source file
 
@@ -393,6 +394,7 @@ Project uses GitHub Actions for CI/CD with comprehensive testing across multiple
 
 - Python versions: 3.8, 3.9, 3.10, 3.11, 3.12
 - CI workflow: `.github/workflows/python-package.yml`
+- Linting includes flake8 checks with error codes E9, F63, F7, F82 to catch syntax and undefined name errors
 - Steps: Install dependencies → Lint with flake8 → Run tests with pytest
 
 ## Key API Methods
@@ -455,6 +457,7 @@ Key updates in recent versions include significant enhancements and new features
 - Extended CommonStructure elements with comprehensive service needs support including diagnostic, communication, and measurement needs
 - Added detailed Fibex communication modules for CAN, Ethernet, FlexRay, LIN protocols
 - Enhanced SystemTemplate with data mapping, network management, and secure communication modules
+- Fixed undefined type annotations causing F821 errors in flake8 checks across multiple modules (BswBehavior, NetworkEndpoint, ServiceInstances, FlexrayTopology, LinTopology, CoreCommunication, CoreTopology, EcuInstance, Timing, Transformer, TransportProtocols) by removing references to non-existent types and adding proper imports where types exist
 
 ## BSW Module Template Documentation
 
