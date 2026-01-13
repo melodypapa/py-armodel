@@ -70,7 +70,7 @@ class DocRevision(ARObject):
     def getModifications(self) -> List[Modification]:
         return self.modifications
 
-    def addModification(self, value: List[Modification]):
+    def addModification(self, value: Modification):
         if value is not None:
             self.modifications.append(value)
         return self
@@ -120,9 +120,6 @@ class AdminData(ARObject):
         self.language: LEnum = None
         self.sdgs: List = []
         self.usedLanguages: MultiLanguagePlainText = None
-
-    def getDocRevisions(self) -> List[DocRevision]:
-        return self.DocRevisions
 
     def getDocRevisions(self) -> List[DocRevision]:
         return self.DocRevisions

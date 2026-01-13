@@ -6,11 +6,10 @@ from abc import ABCMeta
 
 class GeneralAnnotation(ARObject, metaclass=ABCMeta):
     def __init__(self):
-        if type(self) == ARObject:
+        if type(self) is GeneralAnnotation:
             raise NotImplementedError("GeneralAnnotation is an abstract class.")
 
         super().__init__()
-
         self.annotationOrigin = None        # type: ARLiteral
         self.annotationText = None          # type: DocumentationBlock
         self.label = None                   # type: MultilanguageLongName
