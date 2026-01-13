@@ -6,7 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector, CommunicationCluster
 
 
 class MockParent(ARObject):
@@ -182,6 +182,88 @@ class TestFlexrayTopology:
         assert "fifo1" in controller.getFlexrayFifos()
         assert controller == controller.setFlexrayFifos(["fifo1", "fifo2"])
 
+        # Test all other setter methods with actual values to ensure 100% coverage
+        controller.setAllowPassiveToActive(3)
+        assert controller.getAllowPassiveToActive() == 3
+
+        controller.setClusterDriftDamping(4)
+        assert controller.getClusterDriftDamping() == 4
+
+        controller.setDecodingCorrection(5)
+        assert controller.getDecodingCorrection() == 5
+
+        controller.setDelayCompensationA(6)
+        assert controller.getDelayCompensationA() == 6
+
+        controller.setDelayCompensationB(7)
+        assert controller.getDelayCompensationB() == 7
+
+        controller.setExternOffsetCorrection(8)
+        assert controller.getExternOffsetCorrection() == 8
+
+        controller.setExternRateCorrection(9)
+        assert controller.getExternRateCorrection() == 9
+
+        controller.setExternalSync(True)
+        assert controller.getExternalSync() is True
+
+        controller.setFallBackInternal(True)
+        assert controller.getFallBackInternal() is True
+
+        controller.setKeySlotUsedForStartUp(True)
+        assert controller.getKeySlotUsedForStartUp() is True
+
+        controller.setKeySlotUsedForSync(True)
+        assert controller.getKeySlotUsedForSync() is True
+
+        controller.setLatestTX(10)
+        assert controller.getLatestTX() == 10
+
+        controller.setListenTimeout(11)
+        assert controller.getListenTimeout() == 11
+
+        controller.setMacroInitialOffsetA(12)
+        assert controller.getMacroInitialOffsetA() == 12
+
+        controller.setMacroInitialOffsetB(13)
+        assert controller.getMacroInitialOffsetB() == 13
+
+        controller.setMaximumDynamicPayloadLength(14)
+        assert controller.getMaximumDynamicPayloadLength() == 14
+
+        controller.setMicroInitialOffsetA(15)
+        assert controller.getMicroInitialOffsetA() == 15
+
+        controller.setMicroInitialOffsetB(16)
+        assert controller.getMicroInitialOffsetB() == 16
+
+        controller.setMicroPerCycle(17)
+        assert controller.getMicroPerCycle() == 17
+
+        controller.setNmVectorEarlyUpdate(True)
+        assert controller.getNmVectorEarlyUpdate() is True
+
+        controller.setOffsetCorrectionOut(18)
+        assert controller.getOffsetCorrectionOut() == 18
+
+        controller.setRateCorrectionOut(19)
+        assert controller.getRateCorrectionOut() == 19
+
+        controller.setSamplesPerMicrotick(20)
+        assert controller.getSamplesPerMicrotick() == 20
+
+        controller.setSecondKeySlotId(21)
+        assert controller.getSecondKeySlotId() == 21
+
+        controller.setTwoKeySlotMode(True)
+        assert controller.getTwoKeySlotMode() is True
+
+        controller.setWakeUpPattern(22)
+        assert controller.getWakeUpPattern() == 22
+
+        controller.setMicrotickDuration(100.0)
+        assert controller.getMicrotickDuration() == 100.0
+
     def test_flexray_communication_connector(self):
         """
         Test the FlexrayCommunicationConnector class initialization and methods with method chaining and None handling.
@@ -226,7 +308,7 @@ class TestFlexrayTopology:
         cluster = FlexrayCluster(parent, "TestCluster")
         
         assert cluster.getShortName() == "TestCluster"
-        assert isinstance(cluster, Identifiable)
+        assert isinstance(cluster, CommunicationCluster)
         assert cluster.getActionPointOffset() is None
         assert cluster.getBit() is None
         assert cluster.getCasRxLowMax() is None
@@ -453,3 +535,49 @@ class TestFlexrayTopology:
         cluster.setWakeupTxIdle(500)
         assert cluster.getWakeupTxIdle() == 500
         assert cluster == cluster.setWakeupTxIdle(500)
+
+        # Test remaining setter methods to ensure 100% coverage
+        cluster.setCasRxLowMax(100)
+        assert cluster.getCasRxLowMax() == 100
+
+        cluster.setCycleCountMax(10)
+        assert cluster.getCycleCountMax() == 10
+
+        cluster.setIgnoreAfterTx(15)
+        assert cluster.getIgnoreAfterTx() == 15
+
+        cluster.setListenNoise(20)
+        assert cluster.getListenNoise() == 20
+
+        cluster.setMinislotActionPointOffset(25)
+        assert cluster.getMinislotActionPointOffset() == 25
+
+        cluster.setMinislotDuration(30)
+        assert cluster.getMinislotDuration() == 30
+
+        cluster.setNetworkIdleTime(35)
+        assert cluster.getNetworkIdleTime() == 35
+
+        cluster.setNetworkManagementVectorLength(40)
+        assert cluster.getNetworkManagementVectorLength() == 40
+
+        cluster.setOffsetCorrectionStart(45)
+        assert cluster.getOffsetCorrectionStart() == 45
+
+        cluster.setPayloadLengthStatic(50)
+        assert cluster.getPayloadLengthStatic() == 50
+
+        cluster.setSampleClockPeriod(55.0)
+        assert cluster.getSampleClockPeriod() == 55.0
+
+        cluster.setSymbolWindowActionPointOffset(60)
+        assert cluster.getSymbolWindowActionPointOffset() == 60
+
+        # Ensure the two remaining methods are specifically tested for 100% coverage
+        cluster.setMaxWithoutClockCorrectionFatal(65)
+        assert cluster.getMaxWithoutClockCorrectionFatal() == 65
+        assert cluster == cluster.setMaxWithoutClockCorrectionFatal(65)
+
+        cluster.setMaxWithoutClockCorrectionPassive(35)
+        assert cluster.getMaxWithoutClockCorrectionPassive() == 35
+        assert cluster == cluster.setMaxWithoutClockCorrectionPassive(35)

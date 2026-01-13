@@ -11,8 +11,8 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 
 from ..parser.excel_parser import AbstractExcelParser
 from ..data_models.sw_connector import AssemblySwConnectorData, DelegationSwConnectorData, SwConnectorData
-from ..models.ar_ref import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from ..models.sw_component import CompositionSwComponentType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 class ConnectorXls:

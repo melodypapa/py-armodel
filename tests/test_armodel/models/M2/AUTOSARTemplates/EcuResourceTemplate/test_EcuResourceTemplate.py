@@ -1,692 +1,325 @@
 """
-This module contains comprehensive tests for the EcuResourceTemplate __init__.py file
-in the AUTOSAR EcuResourceTemplate module.
+Test cases for the EcuResourceTemplate __init__.py module.
+These tests ensure 100% code coverage for the HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, and HwElement classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
-    HwDescriptionEntity,
-    HwPin,
-    HwPinGroupContent,
-    HwPinGroup,
-    HwElement
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Integer,
-    RefType,
-    String
-)
+from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, HwElement
+from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
 
 
-class TestHwDescriptionEntity:
+def test_hw_description_entity_init():
     """
-    Test class for HwDescriptionEntity functionality.
+    Test initialization of HwDescriptionEntity class.
+    
+    Test Steps:
+    1. Create a HwDescriptionEntity instance with parent and short_name
+    2. Verify default attributes are set correctly
     """
-
-    def test_initialization(self):
-        """
-        Test HwDescriptionEntity initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        # Create HwDescriptionEntity instance
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Verify basic properties
-        assert hw_entity is not None
-        assert hw_entity.getShortName() == "TestHwDescriptionEntity"
-
-        # Verify default values for attributes
-        assert hw_entity.getHwAttributeValues() == []
-        assert hw_entity.getHwCategoryRefs() == []
-        assert hw_entity.getHwTypeRef() is None
-
-    def test_get_hw_attribute_values(self):
-        """
-        Test getHwAttributeValues method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Verify initial state
-        attr_values = hw_entity.getHwAttributeValues()
-        assert attr_values == []
-        assert isinstance(attr_values, list)
-
-    def test_set_hw_attribute_values(self):
-        """
-        Test setHwAttributeValues method sets attribute values correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Create mock HwAttributeValue instances (using a simple class for testing)
-        class MockHwAttributeValue:
-            pass
-        value1 = MockHwAttributeValue()
-        value2 = MockHwAttributeValue()
-        values = [value1, value2]
-
-        # Set the attribute values
-        result = hw_entity.setHwAttributeValues(values)
-        assert result is hw_entity  # Verify method chaining
-        assert hw_entity.getHwAttributeValues() == values
-
-    def test_set_hw_attribute_values_none(self):
-        """
-        Test setHwAttributeValues method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Set initial values
-        class MockHwAttributeValue:
-            pass
-        initial_value = MockHwAttributeValue()
-        initial_values = [initial_value]
-        hw_entity.setHwAttributeValues(initial_values)
-        assert hw_entity.getHwAttributeValues() == initial_values
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_entity.setHwAttributeValues(None)
-        assert result is hw_entity  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_entity.getHwAttributeValues() == initial_values
-
-    def test_get_hw_category_refs(self):
-        """
-        Test getHwCategoryRefs method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Verify initial state
-        category_refs = hw_entity.getHwCategoryRefs()
-        assert category_refs == []
-        assert isinstance(category_refs, list)
-
-    def test_add_hw_category_ref(self):
-        """
-        Test addHwCategoryRef method adds references correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Create mock RefType instances
-        ref1 = RefType().setValue("Category1")
-        ref2 = RefType().setValue("Category2")
-
-        # Add first reference
-        result = hw_entity.addHwCategoryRef(ref1)
-        assert result is hw_entity  # Verify method chaining
-        assert hw_entity.getHwCategoryRefs() == [ref1]
-
-        # Add second reference
-        hw_entity.addHwCategoryRef(ref2)
-        assert hw_entity.getHwCategoryRefs() == [ref1, ref2]
-
-    def test_add_hw_category_ref_none(self):
-        """
-        Test addHwCategoryRef method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Add None value - should not add to list
-        result = hw_entity.addHwCategoryRef(None)
-        assert result is hw_entity  # Verify method chaining
-        assert hw_entity.getHwCategoryRefs() == []
-
-    def test_get_hw_type_ref(self):
-        """
-        Test getHwTypeRef method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Verify initial state
-        type_ref = hw_entity.getHwTypeRef()
-        assert type_ref is None
-
-    def test_set_hw_type_ref(self):
-        """
-        Test setHwTypeRef method sets the type reference correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Create mock RefType instance
-        type_ref = RefType().setValue("HwType1")
-
-        # Set the reference
-        result = hw_entity.setHwTypeRef(type_ref)
-        assert result is hw_entity  # Verify method chaining
-        assert hw_entity.getHwTypeRef() == type_ref
-
-    def test_set_hw_type_ref_none(self):
-        """
-        Test setHwTypeRef method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_entity = HwDescriptionEntity(ar_root, "TestHwDescriptionEntity")
-
-        # Set initial value
-        initial_ref = RefType().setValue("HwType1")
-        hw_entity.setHwTypeRef(initial_ref)
-        assert hw_entity.getHwTypeRef() == initial_ref
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_entity.setHwTypeRef(None)
-        assert result is hw_entity  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_entity.getHwTypeRef() == initial_ref
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwDescriptionEntity
+    hw_desc_entity = HwDescriptionEntity(parent, "test_hw_desc_entity")
+    
+    # Verify initial values
+    assert hw_desc_entity.parent == parent
+    assert hw_desc_entity.short_name == "test_hw_desc_entity"
+    assert hw_desc_entity.hwAttributeValues == []
+    assert hw_desc_entity.hwCategoryRefs == []
+    assert hw_desc_entity.hwTypeRef is None
 
 
-class TestHwPin:
+def test_hw_description_entity_getters_and_setters():
     """
-    Test class for HwPin functionality.
+    Test all getter and setter methods of HwDescriptionEntity class.
+    
+    Test Steps:
+    1. Create a HwDescriptionEntity instance
+    2. Test setting and getting hwAttributeValues
+    3. Test adding and getting hwCategoryRefs
+    4. Test setting and getting hwTypeRef
+    5. Verify method chaining (return self)
     """
-
-    def test_initialization(self):
-        """
-        Test HwPin initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        # Create HwPin instance
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Verify basic properties
-        assert hw_pin is not None
-        assert hw_pin.getShortName() == "TestHwPin"
-
-        # Verify default values for attributes (inherited and specific)
-        assert hw_pin.getHwAttributeValues() == []
-        assert hw_pin.getHwCategoryRefs() == []
-        assert hw_pin.getHwTypeRef() is None
-        assert hw_pin.getFunctionName() is None
-        assert hw_pin.getPackagingPinName() is None
-        assert hw_pin.getPinNumber() is None
-
-    def test_get_function_name(self):
-        """
-        Test getFunctionName method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Verify initial state
-        func_name = hw_pin.getFunctionName()
-        assert func_name is None
-
-    def test_set_function_name(self):
-        """
-        Test setFunctionName method sets the function name correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Create mock String instance
-        func_name = String().setValue("GPIO1")
-
-        # Set the function name
-        result = hw_pin.setFunctionName(func_name)
-        assert result is hw_pin  # Verify method chaining
-        assert hw_pin.getFunctionName() == func_name
-
-    def test_set_function_name_none(self):
-        """
-        Test setFunctionName method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Set initial value
-        initial_func = String().setValue("GPIO1")
-        hw_pin.setFunctionName(initial_func)
-        assert hw_pin.getFunctionName() == initial_func
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_pin.setFunctionName(None)
-        assert result is hw_pin  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_pin.getFunctionName() == initial_func
-
-    def test_get_packaging_pin_name(self):
-        """
-        Test getPackagingPinName method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Verify initial state
-        packaging_name = hw_pin.getPackagingPinName()
-        assert packaging_name is None
-
-    def test_set_packaging_pin_name(self):
-        """
-        Test setPackagingPinName method sets the packaging pin name correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Create mock String instance
-        packaging_name = String().setValue("BGA500_PIN_1")
-
-        # Set the packaging pin name
-        result = hw_pin.setPackagingPinName(packaging_name)
-        assert result is hw_pin  # Verify method chaining
-        assert hw_pin.getPackagingPinName() == packaging_name
-
-    def test_set_packaging_pin_name_none(self):
-        """
-        Test setPackagingPinName method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Set initial value
-        initial_packaging = String().setValue("BGA500_PIN_1")
-        hw_pin.setPackagingPinName(initial_packaging)
-        assert hw_pin.getPackagingPinName() == initial_packaging
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_pin.setPackagingPinName(None)
-        assert result is hw_pin  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_pin.getPackagingPinName() == initial_packaging
-
-    def test_get_pin_number(self):
-        """
-        Test getPinNumber method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Verify initial state
-        pin_number = hw_pin.getPinNumber()
-        assert pin_number is None
-
-    def test_set_pin_number(self):
-        """
-        Test setPinNumber method sets the pin number correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Create mock Integer instance
-        pin_number = Integer().setValue(1)
-
-        # Set the pin number
-        result = hw_pin.setPinNumber(pin_number)
-        assert result is hw_pin  # Verify method chaining
-        assert hw_pin.getPinNumber() == pin_number
-
-    def test_set_pin_number_none(self):
-        """
-        Test setPinNumber method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin = HwPin(ar_root, "TestHwPin")
-
-        # Set initial value
-        initial_number = Integer().setValue(1)
-        hw_pin.setPinNumber(initial_number)
-        assert hw_pin.getPinNumber() == initial_number
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_pin.setPinNumber(None)
-        assert result is hw_pin  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_pin.getPinNumber() == initial_number
+    hw_desc_entity = HwDescriptionEntity(None, "test_hw_desc_entity")
+    
+    # Test hwAttributeValues setter and getter
+    test_attr_values = [HwAttributeValue(None, "attr1"), HwAttributeValue(None, "attr2")]
+    return_value = hw_desc_entity.setHwAttributeValues(test_attr_values)
+    assert return_value == hw_desc_entity  # Verify method chaining
+    assert hw_desc_entity.getHwAttributeValues() == test_attr_values
+    
+    # Test addHwCategoryRef and getHwCategoryRefs
+    test_category_ref = "test_category_ref"
+    return_value = hw_desc_entity.addHwCategoryRef(test_category_ref)
+    assert return_value == hw_desc_entity  # Verify method chaining
+    assert test_category_ref in hw_desc_entity.getHwCategoryRefs()
+    
+    # Test hwTypeRef setter and getter
+    test_type_ref = "test_type_ref"
+    return_value = hw_desc_entity.setHwTypeRef(test_type_ref)
+    assert return_value == hw_desc_entity  # Verify method chaining
+    assert hw_desc_entity.getHwTypeRef() == test_type_ref
+    
+    # Test with None values (should not set/add)
+    original_attr_values = hw_desc_entity.getHwAttributeValues()
+    hw_desc_entity.setHwAttributeValues(None)
+    assert hw_desc_entity.getHwAttributeValues() == original_attr_values  # Should remain unchanged
+    
+    original_type_ref = hw_desc_entity.getHwTypeRef()
+    hw_desc_entity.setHwTypeRef(None)
+    assert hw_desc_entity.getHwTypeRef() == original_type_ref  # Should remain unchanged
+    
+    original_category_refs_count = len(hw_desc_entity.getHwCategoryRefs())
+    hw_desc_entity.addHwCategoryRef(None)
+    assert len(hw_desc_entity.getHwCategoryRefs()) == original_category_refs_count  # Should remain unchanged
 
 
-class TestHwPinGroupContent:
+def test_hw_pin_init():
     """
-    Test class for HwPinGroupContent functionality.
+    Test initialization of HwPin class.
+    
+    Test Steps:
+    1. Create a HwPin instance with parent and short_name
+    2. Verify default attributes are set correctly
     """
-
-    def test_initialization(self):
-        """
-        Test HwPinGroupContent initialization with default values.
-        """
-        # Create HwPinGroupContent instance
-        hw_pin_group_content = HwPinGroupContent()
-
-        # Verify basic properties
-        assert hw_pin_group_content is not None
-
-        # Verify default values for attributes
-        assert hw_pin_group_content.getHwPin() is None
-        assert hw_pin_group_content.getHwPinGroup() is None
-
-    def test_get_hw_pin(self):
-        """
-        Test getHwPin method returns None by default.
-        """
-        hw_pin_group_content = HwPinGroupContent()
-
-        # Verify initial state
-        hw_pin = hw_pin_group_content.getHwPin()
-        assert hw_pin is None
-
-    def test_create_hw_pin(self):
-        """
-        Test createHwPin method creates and returns a new HwPin instance.
-        """
-        hw_pin_group_content = HwPinGroupContent()
-
-        # Create a new HwPin (the createHwPin method creates the HwPin internally)
-        new_pin = hw_pin_group_content.createHwPin("NewPin")
-
-        # Verify the created pin
-        assert new_pin is not None
-        assert new_pin.getShortName() == "NewPin"
-        # The instance should be stored in the hwPin attribute
-        assert hw_pin_group_content.getHwPin() == new_pin
-
-    def test_get_hw_pin_group(self):
-        """
-        Test getHwPinGroup method returns None by default.
-        """
-        hw_pin_group_content = HwPinGroupContent()
-
-        # Verify initial state
-        hw_pin_group = hw_pin_group_content.getHwPinGroup()
-        assert hw_pin_group is None
-
-    def test_set_hw_pin_group(self):
-        """
-        Test setHwPinGroup method sets the pin group correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin_group_content = HwPinGroupContent()
-
-        # Create mock HwPinGroup instance
-        hw_pin_group = HwPinGroup(ar_root, "TestPinGroup")
-
-        # Set the pin group
-        result = hw_pin_group_content.setHwPinGroup(hw_pin_group)
-        assert result is hw_pin_group_content  # Verify method chaining
-        assert hw_pin_group_content.getHwPinGroup() == hw_pin_group
-
-    def test_set_hw_pin_group_none(self):
-        """
-        Test setHwPinGroup method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin_group_content = HwPinGroupContent()
-
-        # Set initial value
-        initial_group = HwPinGroup(ar_root, "TestPinGroup")
-        hw_pin_group_content.setHwPinGroup(initial_group)
-        assert hw_pin_group_content.getHwPinGroup() == initial_group
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_pin_group_content.setHwPinGroup(None)
-        assert result is hw_pin_group_content  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_pin_group_content.getHwPinGroup() == initial_group
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwPin
+    hw_pin = HwPin(parent, "test_hw_pin")
+    
+    # Verify initial values
+    assert hw_pin.parent == parent
+    assert hw_pin.short_name == "test_hw_pin"
+    assert hw_pin.hwAttributeValues == []
+    assert hw_pin.hwCategoryRefs == []
+    assert hw_pin.hwTypeRef is None
+    assert hw_pin.functionName is None
+    assert hw_pin.packagingPinName is None
+    assert hw_pin.pinNumber is None
 
 
-class TestHwPinGroup:
+def test_hw_pin_getters_and_setters():
     """
-    Test class for HwPinGroup functionality.
+    Test all getter and setter methods of HwPin class.
+    
+    Test Steps:
+    1. Create a HwPin instance
+    2. Test setting and getting functionName
+    3. Test setting and getting packagingPinName
+    4. Test setting and getting pinNumber
+    5. Verify method chaining (return self)
     """
-
-    def test_initialization(self):
-        """
-        Test HwPinGroup initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        # Create HwPinGroup instance
-        hw_pin_group = HwPinGroup(ar_root, "TestHwPinGroup")
-
-        # Verify basic properties
-        assert hw_pin_group is not None
-        assert hw_pin_group.getShortName() == "TestHwPinGroup"
-
-        # Verify default values for attributes (inherited and specific)
-        assert hw_pin_group.getHwAttributeValues() == []
-        assert hw_pin_group.getHwCategoryRefs() == []
-        assert hw_pin_group.getHwTypeRef() is None
-        assert hw_pin_group.getHwPinGroupContent() is None
-
-    def test_get_hw_pin_group_content(self):
-        """
-        Test getHwPinGroupContent method returns None by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin_group = HwPinGroup(ar_root, "TestHwPinGroup")
-
-        # Verify initial state
-        content = hw_pin_group.getHwPinGroupContent()
-        assert content is None
-
-    def test_set_hw_pin_group_content(self):
-        """
-        Test setHwPinGroupContent method sets the pin group content correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin_group = HwPinGroup(ar_root, "TestHwPinGroup")
-
-        # Create mock HwPinGroupContent instance
-        content = HwPinGroupContent()
-
-        # Set the content
-        result = hw_pin_group.setHwPinGroupContent(content)
-        assert result is hw_pin_group  # Verify method chaining
-        assert hw_pin_group.getHwPinGroupContent() == content
-
-    def test_set_hw_pin_group_content_none(self):
-        """
-        Test setHwPinGroupContent method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_pin_group = HwPinGroup(ar_root, "TestHwPinGroup")
-
-        # Set initial value
-        initial_content = HwPinGroupContent()
-        hw_pin_group.setHwPinGroupContent(initial_content)
-        assert hw_pin_group.getHwPinGroupContent() == initial_content
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_pin_group.setHwPinGroupContent(None)
-        assert result is hw_pin_group  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_pin_group.getHwPinGroupContent() == initial_content
+    hw_pin = HwPin(None, "test_hw_pin")
+    
+    # Test functionName setter and getter
+    test_function_name = "test_function"
+    return_value = hw_pin.setFunctionName(test_function_name)
+    assert return_value == hw_pin  # Verify method chaining
+    assert hw_pin.getFunctionName() == test_function_name
+    
+    # Test packagingPinName setter and getter
+    test_packaging_name = "test_packaging"
+    return_value = hw_pin.setPackagingPinName(test_packaging_name)
+    assert return_value == hw_pin  # Verify method chaining
+    assert hw_pin.getPackagingPinName() == test_packaging_name
+    
+    # Test pinNumber setter and getter
+    test_pin_number = 123
+    return_value = hw_pin.setPinNumber(test_pin_number)
+    assert return_value == hw_pin  # Verify method chaining
+    assert hw_pin.getPinNumber() == test_pin_number
+    
+    # Test with None values (should not set)
+    original_function_name = hw_pin.getFunctionName()
+    hw_pin.setFunctionName(None)
+    assert hw_pin.getFunctionName() == original_function_name  # Should remain unchanged
+    
+    original_packaging_name = hw_pin.getPackagingPinName()
+    hw_pin.setPackagingPinName(None)
+    assert hw_pin.getPackagingPinName() == original_packaging_name  # Should remain unchanged
+    
+    original_pin_number = hw_pin.getPinNumber()
+    hw_pin.setPinNumber(None)
+    assert hw_pin.getPinNumber() == original_pin_number  # Should remain unchanged
 
 
-class TestHwElement:
+def test_hw_pin_group_content_init():
     """
-    Test class for HwElement functionality.
+    Test initialization of HwPinGroupContent class.
+    
+    Test Steps:
+    1. Create a HwPinGroupContent instance
+    2. Verify default attributes are set correctly
     """
+    # Initialize HwPinGroupContent
+    hw_pin_group_content = HwPinGroupContent()
+    
+    # Verify initial values
+    assert hw_pin_group_content.hwPin is None
+    assert hw_pin_group_content.hwPinGroup is None
 
-    def test_initialization(self):
-        """
-        Test HwElement initialization with parent and short name.
-        """
-        # Create parent AUTOSAR structure
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
 
-        # Create HwElement instance
-        hw_element = HwElement(ar_root, "TestHwElement")
+def test_hw_pin_group_content_getters_and_setters():
+    """
+    Test all getter and setter methods of HwPinGroupContent class.
+    
+    Test Steps:
+    1. Create a HwPinGroupContent instance
+    2. Test createHwPin method
+    3. Test setHwPinGroup and getHwPinGroup methods
+    4. Verify method chaining (return self)
+    """
+    from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroup
+    
+    hw_pin_group_content = HwPinGroupContent()
+    
+    # Test createHwPin
+    new_pin = hw_pin_group_content.createHwPin("new_pin")
+    assert new_pin is not None
+    assert new_pin.short_name == "new_pin"
+    assert hw_pin_group_content.getHwPin() == new_pin
+    
+    # Test getHwPin
+    assert hw_pin_group_content.getHwPin() == new_pin
+    
+    # Test setHwPinGroup and getHwPinGroup
+    hw_pin_group = HwPinGroup(None, "test_pin_group")
+    return_value = hw_pin_group_content.setHwPinGroup(hw_pin_group)
+    assert return_value == hw_pin_group_content  # Verify method chaining
+    assert hw_pin_group_content.getHwPinGroup() == hw_pin_group
+    
+    # Test with None values (should not set)
+    original_pin_group = hw_pin_group_content.getHwPinGroup()
+    hw_pin_group_content.setHwPinGroup(None)
+    assert hw_pin_group_content.getHwPinGroup() == original_pin_group  # Should remain unchanged
 
-        # Verify basic properties
-        assert hw_element is not None
-        assert hw_element.getShortName() == "TestHwElement"
 
-        # Verify default values for attributes (inherited and specific)
-        assert hw_element.getHwAttributeValues() == []
-        assert hw_element.getHwCategoryRefs() == []
-        assert hw_element.getHwTypeRef() is None
-        assert hw_element.getHwElementConnections() == []
-        assert hw_element.getHwPinGroups() == []
-        assert hw_element.getNestedElementRefs() == []
+def test_hw_pin_group_init():
+    """
+    Test initialization of HwPinGroup class.
+    
+    Test Steps:
+    1. Create a HwPinGroup instance with parent and short_name
+    2. Verify default attributes are set correctly
+    """
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwPinGroup
+    hw_pin_group = HwPinGroup(parent, "test_hw_pin_group")
+    
+    # Verify initial values
+    assert hw_pin_group.parent == parent
+    assert hw_pin_group.short_name == "test_hw_pin_group"
+    assert hw_pin_group.hwAttributeValues == []
+    assert hw_pin_group.hwCategoryRefs == []
+    assert hw_pin_group.hwTypeRef is None
+    assert hw_pin_group.hwPinGroupContent is None
 
-    def test_get_hw_element_connections(self):
-        """
-        Test getHwElementConnections method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
 
-        # Verify initial state
-        connections = hw_element.getHwElementConnections()
-        assert connections == []
-        assert isinstance(connections, list)
+def test_hw_pin_group_getters_and_setters():
+    """
+    Test all getter and setter methods of HwPinGroup class.
+    
+    Test Steps:
+    1. Create a HwPinGroup instance
+    2. Test setting and getting hwPinGroupContent
+    3. Verify method chaining (return self)
+    """
+    hw_pin_group = HwPinGroup(None, "test_hw_pin_group")
+    
+    # Test hwPinGroupContent setter and getter
+    from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupContent
+    test_content = HwPinGroupContent()
+    return_value = hw_pin_group.setHwPinGroupContent(test_content)
+    assert return_value == hw_pin_group  # Verify method chaining
+    assert hw_pin_group.getHwPinGroupContent() == test_content
+    
+    # Test with None values (should not set)
+    original_content = hw_pin_group.getHwPinGroupContent()
+    hw_pin_group.setHwPinGroupContent(None)
+    assert hw_pin_group.getHwPinGroupContent() == original_content  # Should remain unchanged
 
-    def test_set_hw_element_connections(self):
-        """
-        Test setHwElementConnections method sets connections correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
 
-        # Create mock HwElementConnector instances (using a simple class for testing)
-        class MockHwElementConnector:
-            pass
-        conn1 = MockHwElementConnector()
-        conn2 = MockHwElementConnector()
-        connections = [conn1, conn2]
+def test_hw_element_init():
+    """
+    Test initialization of HwElement class.
+    
+    Test Steps:
+    1. Create a HwElement instance with parent and short_name
+    2. Verify default attributes are set correctly
+    """
+    # Create a mock parent object
+    parent = object()
+    
+    # Initialize HwElement
+    hw_element = HwElement(parent, "test_hw_element")
+    
+    # Verify initial values
+    assert hw_element.parent == parent
+    assert hw_element.short_name == "test_hw_element"
+    assert hw_element.hwAttributeValues == []
+    assert hw_element.hwCategoryRefs == []
+    assert hw_element.hwTypeRef is None
+    assert hw_element.hwElementConnections == []
+    assert hw_element.hwPinGroups == []
+    assert hw_element.nestedElementRefs == []
 
-        # Set the connections
-        result = hw_element.setHwElementConnections(connections)
-        assert result is hw_element  # Verify method chaining
-        assert hw_element.getHwElementConnections() == connections
 
-    def test_set_hw_element_connections_none(self):
-        """
-        Test setHwElementConnections method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
+def test_hw_element_getters_and_setters():
+    """
+    Test all getter and setter methods of HwElement class.
+    
+    Test Steps:
+    1. Create a HwElement instance
+    2. Test setting and getting hwElementConnections
+    3. Test createHwPinGroup method
+    4. Test setting and getting nestedElementRefs
+    5. Verify method chaining (return self)
+    """
+    from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+    
+    hw_element = HwElement(None, "test_hw_element")
+    
+    # Test hwElementConnections setter and getter
+    test_connections = [HwElementConnector(None, "conn1"), HwElementConnector(None, "conn2")]
+    return_value = hw_element.setHwElementConnections(test_connections)
+    assert return_value == hw_element  # Verify method chaining
+    assert hw_element.getHwElementConnections() == test_connections
+    
+    # Test createHwPinGroup
+    new_pin_group = hw_element.createHwPinGroup("new_pin_group")
+    assert new_pin_group is not None
+    assert new_pin_group.short_name == "new_pin_group"
+    assert new_pin_group in hw_element.getHwPinGroups()
+    
+    # Test nestedElementRefs setter and getter
+    test_nested_refs = ["ref1", "ref2", "ref3"]
+    return_value = hw_element.setNestedElementRefs(test_nested_refs)
+    assert return_value == hw_element  # Verify method chaining
+    assert hw_element.getNestedElementRefs() == test_nested_refs
+    
+    # Test with None values (should not set)
+    original_connections = hw_element.getHwElementConnections()
+    hw_element.setHwElementConnections(None)
+    assert hw_element.getHwElementConnections() == original_connections  # Should remain unchanged
+    
+    original_nested_refs = hw_element.getNestedElementRefs()
+    hw_element.setNestedElementRefs(None)
+    assert hw_element.getNestedElementRefs() == original_nested_refs  # Should remain unchanged
 
-        # Set initial values
-        class MockHwElementConnector:
-            pass
-        initial_conn = MockHwElementConnector()
-        initial_connections = [initial_conn]
-        hw_element.setHwElementConnections(initial_connections)
-        assert hw_element.getHwElementConnections() == initial_connections
 
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_element.setHwElementConnections(None)
-        assert result is hw_element  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_element.getHwElementConnections() == initial_connections
-
-    def test_get_hw_pin_groups(self):
-        """
-        Test getHwPinGroups method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
-
-        # Verify initial state
-        pin_groups = hw_element.getHwPinGroups()
-        assert pin_groups == []
-        assert isinstance(pin_groups, list)
-
-    def test_create_hw_pin_group(self):
-        """
-        Test createHwPinGroup method creates and adds a new HwPinGroup instance.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
-
-        # Create a new HwPinGroup
-        new_pin_group = hw_element.createHwPinGroup("NewPinGroup")
-
-        # Verify the created pin group
-        assert new_pin_group is not None
-        assert new_pin_group.getShortName() == "NewPinGroup"
-        # The instance should be in the list
-        assert new_pin_group in hw_element.getHwPinGroups()
-
-    def test_get_nested_element_refs(self):
-        """
-        Test getNestedElementRefs method returns empty list by default.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
-
-        # Verify initial state
-        nested_refs = hw_element.getNestedElementRefs()
-        assert nested_refs == []
-        assert isinstance(nested_refs, list)
-
-    def test_set_nested_element_refs(self):
-        """
-        Test setNestedElementRefs method sets nested element references correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
-
-        # Create mock RefType instances
-        ref1 = RefType().setValue("NestedElement1")
-        ref2 = RefType().setValue("NestedElement2")
-        refs = [ref1, ref2]
-
-        # Set the nested element references
-        result = hw_element.setNestedElementRefs(refs)
-        assert result is hw_element  # Verify method chaining
-        assert hw_element.getNestedElementRefs() == refs
-
-    def test_set_nested_element_refs_none(self):
-        """
-        Test setNestedElementRefs method handles None value correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        hw_element = HwElement(ar_root, "TestHwElement")
-
-        # Set initial values
-        ref1 = RefType().setValue("NestedElement1")
-        initial_refs = [ref1]
-        hw_element.setNestedElementRefs(initial_refs)
-        assert hw_element.getNestedElementRefs() == initial_refs
-
-        # Set to None - should not change the value (per implementation logic)
-        result = hw_element.setNestedElementRefs(None)
-        assert result is hw_element  # Verify method chaining
-        # Value should remain unchanged due to "if value is not None" check
-        assert hw_element.getNestedElementRefs() == initial_refs
+if __name__ == '__main__':
+    test_hw_description_entity_init()
+    test_hw_description_entity_getters_and_setters()
+    test_hw_pin_init()
+    test_hw_pin_getters_and_setters()
+    test_hw_pin_group_content_init()
+    test_hw_pin_group_content_getters_and_setters()
+    test_hw_pin_group_init()
+    test_hw_pin_group_getters_and_setters()
+    test_hw_element_init()
+    test_hw_element_getters_and_setters()
+    print("All EcuResourceTemplate __init__ tests passed!")

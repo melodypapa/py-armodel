@@ -3,7 +3,7 @@ import sys
 import logging
 
 from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ..models.M2.AUTOSARTemplates.CommonStructure import SwcInternalBehavior
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswModuleEntity
@@ -130,7 +130,7 @@ def show_bsw_internal_behavior(indent: int, behavior: BswInternalBehavior):
 def show_bsw_module_description(indent: int, description: BswModuleDescription):
     print("%s-%s" % (" " * indent, description.short_name))
 
-    for behavior in description.getBswInternalBehaviors():
+    for behavior in description.getInternalBehaviors():
         show_bsw_internal_behavior(indent + 2, behavior)
 
 

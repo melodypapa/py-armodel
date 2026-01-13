@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswSynchronousServerCallPoint,
     BswAsynchronousServerCallResultPoint,
     BswVariableAccess,
+    BswDistinguishedPartition,
     BswModuleEntity,
     BswCalledEntity,
     BswSchedulableEntity,
@@ -1332,3 +1333,14 @@ class TestBswInternalBehavior:
         # This method adds to modeReceiverPolicies, not modeSenderPolicies
         assert len(behavior.getModeReceiverPolicies()) == 1
         assert behavior.getModeReceiverPolicies()[0] == policy
+
+
+class TestBswDistinguishedPartition:
+    """Test cases for BswDistinguishedPartition class - represents an abstract partition in which context the code of the enclosing BswModuleBehavior can be executed."""
+    def test_initialization(self):
+        """Test BswDistinguishedPartition initialization with proper attributes."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        partition = BswDistinguishedPartition(ar_root, "test_partition")
+        
+        assert partition.short_name == "test_partition"

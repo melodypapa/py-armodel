@@ -474,7 +474,7 @@ class BswModuleEntry(ARElement):
 
         result.append("short_name             : %s" % self.short_name)
         if self.serviceId is not None:
-            result.append("service_id             : %d" % self.serviceId)
+            result.append("service_id             : %d" % self.serviceId.getValue())
         if self.isReentrant is not None:
             result.append("is_reentrant           : %s" % self.isReentrant)
         if self.isSynchronous is not None:

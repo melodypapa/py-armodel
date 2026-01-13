@@ -16,7 +16,6 @@ def main():
     ap.add_argument("-f", "--format", required= False, help= "Specify the short or long name of Sw-C. [short|long]")
     
     ap.add_argument("INPUT", help = "The path of AUTOSAR XML", nargs='+')
-    ap.add_argument("")
 
     args = ap.parse_args()
 
