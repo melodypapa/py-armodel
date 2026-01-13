@@ -117,3 +117,36 @@ class Test_Fibex4CanCommunication:
         mock_range = RxIdentifierRange()
         triggering.setRxIdentifierRange(mock_range)
         assert triggering.getRxIdentifierRange() == mock_range
+        
+        # Test additional setter methods and method chaining functionality
+        result = triggering.setAbsolutelyScheduledTimings(["timing1", "timing2"])
+        assert triggering.getAbsolutelyScheduledTimings() == ["timing1", "timing2"]
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setCanFrameRxBehavior("rx_behavior")
+        assert triggering.getCanFrameRxBehavior() == "rx_behavior"
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setCanFrameTxBehavior("tx_behavior")
+        assert triggering.getCanFrameTxBehavior() == "tx_behavior"
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setCanXlFrameTriggeringProps("xl_props")
+        assert triggering.getCanXlFrameTriggeringProps() == "xl_props"
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setIdentifier(123)
+        assert triggering.getIdentifier() == 123
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setJ1939requestable(True)
+        assert triggering.getJ1939requestable() is True
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setRxMask("rx_mask")
+        assert triggering.getRxMask() == "rx_mask"
+        assert result == triggering  # Test method chaining
+        
+        result = triggering.setTxMask("tx_mask")
+        assert triggering.getTxMask() == "tx_mask"
+        assert result == triggering  # Test method chaining
