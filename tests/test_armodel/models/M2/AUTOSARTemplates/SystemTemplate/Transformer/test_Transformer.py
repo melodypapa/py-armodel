@@ -34,10 +34,12 @@ class TestTransformer:
         """
         Test BufferProperties class functionality with method chaining and None handling.
         """
+        from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuScale
+
         buffer_props = BufferProperties()
 
         assert isinstance(buffer_props, ARObject)
-        
+
         # Test default values
         assert buffer_props.getBufferComputation() is None
         assert buffer_props.getHeaderLength() is None
@@ -57,10 +59,16 @@ class TestTransformer:
         buffer_props.setHeaderLength(10)
         assert buffer_props.getHeaderLength() == 10
         assert buffer_props == buffer_props.setHeaderLength(10)
-        
+
         buffer_props.setInPlace(True)
         assert buffer_props.getInPlace() is True
         assert buffer_props == buffer_props.setInPlace(True)
+
+        # Test setBufferComputation with actual CompuScale value to cover line 80
+        compu_scale = CompuScale()
+        buffer_props.setBufferComputation(compu_scale)
+        assert buffer_props.getBufferComputation() == compu_scale
+        assert buffer_props == buffer_props.setBufferComputation(compu_scale)
 
     def test_data_id_mode_enum(self):
         """

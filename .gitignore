@@ -16,4 +16,9 @@ data/*.xlsx
 src/armodel/tests/test_files/backup.arxml
 src/armodel/tests/test_files/SimpleTest.arxml
 pytest_html_report.html
+pytest_html_report.html
 output*.json
+tests/coverage.md
+tests/coverage.html
+tests/coverage.xml
+.claude/settings.local.json

@@ -248,8 +248,21 @@ class TestTimingEvent:
         event.setPeriod(period)
         assert event.getPeriod() == period
         
-        # Test periodMs property
-        assert event.periodMs == 10000  # 10.0 * 1000
+        # Test periodMs property with period >= 0.001 (else block)
+        period_large = TimeValue()
+        period_large.setValue(100.0)
+        event.setPeriod(period_large)
+        assert event.periodMs == 100000  # 100.0 * 1000
+
+        # Test periodMs property with None period (return None case)
+        event_none = TimingEvent(ar_root, "TimingEventNone")
+        assert event_none.periodMs is None
+
+        # Test periodMs property with period < 0.001 (if block)
+        period_small = TimeValue()
+        period_small.setValue(0.0005)
+        event.setPeriod(period_small)
+        assert event.periodMs == 0.5  # 0.0005 * 1000
 
 
 class TestInternalTriggerOccurredEvent:

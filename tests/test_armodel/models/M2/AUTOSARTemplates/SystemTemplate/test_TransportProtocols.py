@@ -173,13 +173,25 @@ class Test_TransportProtocols:
         config = CanTpConfig(parent, "test_can_tp_config")
 
         assert isinstance(config, FibexElement)
-        
+
         # Test default values
         assert config.getTpAddresses() == []
         assert config.getTpChannels() == []
         assert config.getTpConnections() == []
         assert config.getTpEcus() == []
         assert config.getTpNodes() == []
+
+        # Test communicationClusterRef getter and setter to cover lines 28, 31-33
+        assert config.getCommunicationClusterRef() is None
+
+        result = config.setCommunicationClusterRef("cluster_ref")
+        assert config.getCommunicationClusterRef() == "cluster_ref"
+        assert result == config  # Test method chaining
+
+        # Test setting None (should not change the value due to if value is not None check)
+        result = config.setCommunicationClusterRef(None)
+        assert config.getCommunicationClusterRef() == "cluster_ref"  # Value remains unchanged
+        assert result == config  # Test method chaining
 
     def test_DoIpLogicAddress(self):
         """Test DoIpLogicAddress class functionality."""

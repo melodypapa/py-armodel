@@ -225,6 +225,11 @@ class TestSystemTemplate:
         assert swc_mapping is not None
         assert swc_mapping in mapping.getSwMappings()
 
+        # Test getSwcToEcuMappings to cover line 291
+        swc_to_ecu_mappings = mapping.getSwcToEcuMappings()
+        assert swc_mapping in swc_to_ecu_mappings
+        assert isinstance(swc_to_ecu_mappings, list)
+
     def test_root_sw_composition_prototype(self):
         """
         Test RootSwCompositionPrototype class functionality with method chaining.
@@ -346,6 +351,11 @@ class TestSystemTemplate:
         mapping = system.createSystemMapping("mapping_name")
         assert mapping is not None
         assert mapping in system.getMappings()
+
+        # Test getSystemMappings to cover line 441
+        system_mappings = system.getSystemMappings()
+        assert mapping in system_mappings
+        assert isinstance(system_mappings, list)
 
         prototype = system.createRootSoftwareComposition("prototype_name")
         assert prototype is not None

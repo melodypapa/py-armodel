@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find:*)",
-      "Bash(python -m pytest:*)",
-      "Bash(python update_test_imports_final.py:*)"
-    ]
-  }
-}

@@ -131,8 +131,8 @@ Using package.json scripts:
 
 ### Building
 
-- Create distribution: `python setup.py bdist_wheel`
-- Create source and wheel: `python setup.py sdist bdist_wheel --universal`
+- Create wheel distribution: `python setup.py bdist_wheel`
+- Create source and wheel distribution: `python setup.py sdist bdist_wheel --universal`
 - Check distribution: `twine check dist/*`
 - Upload to PyPI: `twine upload dist/*`
 

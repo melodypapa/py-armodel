@@ -103,6 +103,39 @@ class TestQueuedSenderComSpec:
         assert sender.transmissionAcknowledge is None
         assert sender.usesEndToEndProtection is None
 
+        # Test addCompositeNetworkRepresentation method to cover line 115 in Communication.py
+        representation = CompositeNetworkRepresentation()
+        sender.addCompositeNetworkRepresentation(representation)
+        assert representation in sender.getCompositeNetworkRepresentations()
+
+        # Test getter methods to cover lines 121, 128, 135, 142, 149
+        assert sender.getDataElementRef() is None
+        assert sender.getNetworkRepresentation() is None
+        assert sender.getHandleOutOfRange() is None
+        assert sender.getTransmissionAcknowledge() is None
+        assert sender.getUsesEndToEndProtection() is None
+
+        # Test setter methods to cover lines 124-125, 131-132, 138-139, 145-146, 152-153, 171-172
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, ARBoolean
+
+        ref = RefType()
+        sender.setDataElementRef(ref)
+        assert sender.getDataElementRef() == ref
+        assert sender == sender.setDataElementRef(ref)  # Test method chaining
+
+        network_rep = SwDataDefProps()
+        sender.setNetworkRepresentation(network_rep)
+        assert sender.getNetworkRepresentation() == network_rep
+        assert sender == sender.setNetworkRepresentation(network_rep)  # Test method chaining
+
+        sender.setHandleOutOfRange("handle_out")
+        assert sender.getHandleOutOfRange() == "handle_out"
+        assert sender == sender.setHandleOutOfRange("handle_out")  # Test method chaining
+
+
+
 
 class TestNonqueuedSenderComSpec:
     """Test class for NonqueuedSenderComSpec class."""
