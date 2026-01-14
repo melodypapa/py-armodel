@@ -42,10 +42,15 @@ class TestFibex4Multiplatform:
         frame_mapping.setSourceFrameRef("source_frame_ref")
         assert frame_mapping.getSourceFrameRef() == "source_frame_ref"
         assert frame_mapping == frame_mapping.setSourceFrameRef("source_frame_ref")
-        
+
         frame_mapping.setTargetFrameRef("target_frame_ref")
         assert frame_mapping.getTargetFrameRef() == "target_frame_ref"
         assert frame_mapping == frame_mapping.setTargetFrameRef("target_frame_ref")
+
+        # Test setIntroduction to cover lines 21-22
+        frame_mapping.setIntroduction("test_introduction")
+        assert frame_mapping.getIntroduction() == "test_introduction"
+        assert frame_mapping == frame_mapping.setIntroduction("test_introduction")
 
     def test_isignal_mapping(self):
         """
@@ -65,10 +70,15 @@ class TestFibex4Multiplatform:
         signal_mapping.setSourceSignalRef("source_signal_ref")
         assert signal_mapping.getSourceSignalRef() == "source_signal_ref"
         assert signal_mapping == signal_mapping.setSourceSignalRef("source_signal_ref")
-        
+
         signal_mapping.setTargetSignalRef("target_signal_ref")
         assert signal_mapping.getTargetSignalRef() == "target_signal_ref"
         assert signal_mapping == signal_mapping.setTargetSignalRef("target_signal_ref")
+
+        # Test setIntroduction to cover lines 50-51
+        signal_mapping.setIntroduction("test_introduction")
+        assert signal_mapping.getIntroduction() == "test_introduction"
+        assert signal_mapping == signal_mapping.setIntroduction("test_introduction")
 
     def test_default_value_element(self):
         """

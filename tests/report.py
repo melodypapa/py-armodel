@@ -17,14 +17,13 @@ import time
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('tests/coverage_generation.log'),
         logging.StreamHandler(sys.stdout)
     ]
 )
 logger = logging.getLogger(__name__)
-
 
 def run_pytest_with_coverage(include_slow_tests=True, test_path="tests/test_armodel", exclude_patterns=None):
     """Run pytest with coverage and return the output"""
@@ -176,7 +175,7 @@ def main():
     exclude_patterns = args.exclude
     if not exclude_patterns:
         # Add the known failing test to exclusions
-        exclude_patterns = ['tests/test_armodel/cli/test_uuid_checker_cli.py']
+        exclude_patterns = []
     
     start_time = time.time()
     logger.info(f"Running pytest with coverage on {args.test_path}...")

@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class MockParent(ARObject):
@@ -315,3 +316,18 @@ class Test_Fibex4LinTopology:
         result = connector.addLinOrderedConfigurableFrame("ordered_frame_ref")
         assert connector.getLinOrderedConfigurableFrames() == ["ordered_frame_ref"]
         assert result == connector  # Test method chaining
+
+    def test_LinConfigurationEntry_concrete_subclass(self):
+        """Test LinConfigurationEntry via concrete subclass to cover line 153 (super().__init__())."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinConfigurationEntry
+
+        # Create a concrete subclass to test the abstract class
+        class ConcreteLinConfigurationEntry(LinConfigurationEntry):
+            def __init__(self):
+                super().__init__()
+
+        # Instantiate the concrete subclass, which calls super().__init__() on line 153
+        entry = ConcreteLinConfigurationEntry()
+        assert entry is not None
+        # The super().__init__() call is now covered
+

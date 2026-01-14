@@ -200,3 +200,30 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         element2 = cs_if.getPossibleErrors()[0]
         assert (element == element2)
+    
+    def test_NvDataInterface_serviceKind(self):
+        """Test NvDataInterface getServiceKind method to cover line 42 in PortInterface/__init__.py"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        nv_data_if = NvDataInterface(ar_root, "NvDataInterface")
+
+        # Test getServiceKind - this should return self.serviceKind
+        service_kind = nv_data_if.getServiceKind()
+        # NvDataInterface inherits from PortInterface, so it should have serviceKind attribute
+        # This test covers line 42 in PortInterface/__init__.py
+
+        # Test setServiceKind to cover lines 45-46
+        ar_literal = ARLiteral()
+        nv_data_if.setServiceKind(ar_literal)
+        assert nv_data_if.getServiceKind() == ar_literal
+        assert nv_data_if == nv_data_if.setServiceKind(ar_literal)  # Test method chaining
+
+        # Test setIsService and getIsService to cover lines 35, 38-39
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        ar_bool = ARBoolean()
+        nv_data_if.setIsService(ar_bool)
+        assert nv_data_if.getIsService() == ar_bool
+        assert nv_data_if == nv_data_if.setIsService(ar_bool)  # Test method chaining
+
