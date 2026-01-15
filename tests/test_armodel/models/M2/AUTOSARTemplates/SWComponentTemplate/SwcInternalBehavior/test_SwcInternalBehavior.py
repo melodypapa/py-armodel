@@ -343,3 +343,128 @@ class TestSwcInternalBehavior:
         port_api_option = PortAPIOption()
         behavior.addPortAPIOption(port_api_option)
         assert port_api_option in behavior.getPortAPIOptions()
+
+    def test_runnable_entity_add_argument(self):
+        """Test RunnableEntity.addArgument method (lines 107-108)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "TestRunnableEntity")
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntityArgument
+        arg = RunnableEntityArgument()
+        result = runnable.addArgument(arg)
+
+        assert arg in runnable.arguments
+        assert result == runnable
+
+    def test_runnable_entity_create_data_read_access(self):
+        """Test RunnableEntity.createDataReadAccess method (line 118)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "TestRunnableEntity")
+
+        data_access = runnable.createDataReadAccess("TestDataReadAccess")
+        assert data_access is not None
+        assert data_access.short_name == "TestDataReadAccess"
+        assert data_access in runnable.dataReadAccesses
+
+    def test_runnable_entity_create_data_receive_point_by_argument(self):
+        """Test RunnableEntity.createDataReceivePointByArgument method (line 136)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "TestRunnableEntity")
+
+        data_point = runnable.createDataReceivePointByArgument("TestDataReceivePoint")
+        assert data_point is not None
+        assert data_point.short_name == "TestDataReceivePoint"
+        assert data_point in runnable.dataReceivePointByArguments
+
+    def test_runnable_entity_get_data_receive_point_by_values(self):
+        """Test RunnableEntity.getDataReceivePointByValues method (line 139)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "TestRunnableEntity")
+
+        # Create a data receive point by value
+        data_point = runnable.createDataReceivePointByValue("TestDataPoint")
+        values = runnable.getDataReceivePointByValues()
+        assert data_point in values
+
+    def test_runnable_entity_get_internal_triggering_points(self):
+        """Test RunnableEntity.getInternalTriggeringPoints method (line 211)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "TestRunnableEntity")
+
+        # Create internal triggering point
+        trigger = runnable.createInternalTriggeringPoint("TestTrigger")
+        triggering_points = runnable.getInternalTriggeringPoints()
+
+        # getInternalTriggeringPoints returns a filter object
+        trigger_list = list(triggering_points)
+        assert len(trigger_list) == 1
+        assert trigger in trigger_list
+
+    def test_runnable_entity_add_mode_access_point(self):
+        """Test RunnableEntity.addModeAccessPoint method (line 217)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "TestRunnableEntity")
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
+        mode_access = ModeAccessPoint()
+        runnable.addModeAccessPoint(mode_access)
+
+        assert mode_access in runnable.modeAccessPoints
+
+    def test_swc_internal_behavior_create_asynchronous_server_call_returns_event(self):
+        """Test SwcInternalBehavior.createAsynchronousServerCallReturnsEvent method (lines 349-352)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        event = behavior.createAsynchronousServerCallReturnsEvent("TestAsyncReturnsEvent")
+        assert event is not None
+        assert event.short_name == "TestAsyncReturnsEvent"
+        assert event in behavior.elements
+
+    def test_swc_internal_behavior_get_runnable_entity(self):
+        """Test SwcInternalBehavior.getRunnableEntity method (line 472)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        runnable = behavior.createRunnableEntity("TestRunnable")
+        retrieved_runnable = behavior.getRunnableEntity("TestRunnable")
+
+        assert retrieved_runnable == runnable
+
+    def test_swc_internal_behavior_get_variable_data_prototypes(self):
+        """Test SwcInternalBehavior.getVariableDataPrototypes method (line 460)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+        var1 = VariableDataPrototype(ar_root, "Var1")
+        var2 = VariableDataPrototype(ar_root, "Var2")
+        behavior.addElement(var1)
+        behavior.addElement(var2)
+
+        var_prototypes = behavior.getVariableDataPrototypes()
+        assert len(list(var_prototypes)) == 2
+        assert var1 in var_prototypes
+        assert var2 in var_prototypes
+
+    def test_swc_internal_behavior_get_event(self):
+        """Test SwcInternalBehavior.getEvent method (line 436)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        # Create an event
+        init_event = behavior.createInitEvent("TestInitEvent")
+
+        # Get the event using getEvent
+        retrieved_event = behavior.getEvent("TestInitEvent")
+        assert retrieved_event == init_event
