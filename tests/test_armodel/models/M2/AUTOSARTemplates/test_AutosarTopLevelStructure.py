@@ -262,10 +262,40 @@ class TestAbstractAUTOSAR:
         # Use AUTOSAR singleton since find() method uses AUTOSAR.getInstance() internally
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("TestPackage")
-        
+
         # This simulates a reference like "/TestPackage" with empty string at start
         result = autosar.find("TestPackage")
         assert result == pkg
+
+        # Clean up
+        autosar.new()
+
+    def test_find_returns_none_when_element_not_found(self):
+        """Test the find method returns None when element is not found (line 145)."""
+        autosar = AUTOSAR.getInstance()
+        # Try to find a non-existent element
+        result = autosar.find("NonExistentPackage/NonExistentElement")
+        assert result is None
+        # Clean up
+        autosar.new()
+
+    def test_find_with_referred_type_validation(self):
+        """Test the find method with referred_type validation (lines 149-151)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("TestPackage")
+        impl_type = ImplementationDataType(pkg, "TestImplType")
+        pkg.addElement(impl_type)  # Add the element to the package
+
+        # Create a RefType with a referred type that doesn't match
+        ref_type = RefType()
+        ref_type.setValue("TestPackage/TestImplType")
+        ref_type.setDest("WRONG-TYPE")  # This doesn't match IMPLEMENTATION-DATA-TYPE
+
+        # This should raise ValueError because types don't match
+        with pytest.raises(ValueError, match="The type does not matched"):
+            autosar.find(ref_type)
 
         # Clean up
         autosar.new()
@@ -450,34 +480,36 @@ class TestAbstractAUTOSAR:
 
     def test_get_data_type_with_data_reference(self):
         """Test getDataType with CATEGORY_DATA_REFERENCE to cover lines 203-205."""
-        autosar = AbstractAUTOSAR()
+        # Use AUTOSAR singleton to ensure packages are properly tracked
+        autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("TestPackage")
         base_type = ImplementationDataType(pkg, "BaseType")
+        pkg.addElement(base_type)
 
         # Create a data reference type (lines 203-205)
         data_ref_type = ImplementationDataType(pkg, "DataRefType")
         data_ref_type.category = ImplementationDataType.CATEGORY_DATA_REFERENCE
 
+        # Create a RefType for the base type reference
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        mock_base_type_ref = RefType()
+        mock_base_type_ref.setValue("TestPackage/BaseType")
+
         # Setup swDataDefProps structure
         data_ref_type.swDataDefProps = Mock()
         data_ref_type.swDataDefProps.swPointerTargetProps = Mock()
         data_ref_type.swDataDefProps.swPointerTargetProps.getTargetCategory.return_value = "VALUE"
+        data_ref_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps.return_value.getBaseTypeRef.return_value = mock_base_type_ref
 
-        # Setup getSwDataDefProps mock chain
-        mock_sw_data_def_props = Mock()
-        mock_base_type_ref = Mock()
-        mock_base_type_ref.value = "TestPackage/BaseType"
-        mock_sw_data_def_props.getBaseTypeRef.return_value = mock_base_type_ref
-        data_ref_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps.return_value = mock_sw_data_def_props
+        # Call getDataType - it should find base_type and return it
+        # Since base_type is not a TYPE_REFERENCE or DATA_REFERENCE, it will return itself
+        result = autosar.getDataType(data_ref_type)
 
-        # Mock find to return base_type
-        with patch.object(autosar, 'find', return_value=base_type):
-            # Mock getDataType to avoid infinite recursion
-            with patch.object(autosar, 'getDataType', return_value=base_type) as mock_get_data_type:
-                result = autosar.getDataType(data_ref_type)
-                # The method should call find with the base type ref
-                # and then recursively call getDataType
-                assert result == base_type
+        # The method should call find with the base type ref and return base_type
+        assert result == base_type
+
+        # Clean up
+        autosar.new()
 
     
     def test_get_data_type_with_invalid_type(self):
