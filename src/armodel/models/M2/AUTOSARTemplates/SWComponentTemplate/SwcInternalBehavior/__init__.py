@@ -89,8 +89,7 @@ class RunnableEntity(ExecutableEntity):
         self.readLocalVariables: List[VariableAccess] = []
         self.serverCallPoints: List[ServerCallPoint] = []
         self.symbol: ARLiteral = None
-        # type: Dict[str, WaitPoint]
-        self.waitPoints = {}
+        self.waitPoints = {}            # type: Dict[str, WaitPoint]
         self.writtenLocalVariables: List[VariableAccess] = []
 
     def _createVariableAccess(self, short_name, variable_accesses: List[VariableAccess]):
