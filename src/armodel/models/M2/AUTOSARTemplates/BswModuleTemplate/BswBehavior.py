@@ -903,6 +903,24 @@ class BswModeSwitchEvent(BswScheduleEvent):
         return self
 
 
+class BswModeSwitchedAckEvent(BswScheduleEvent):
+    """
+    Represents an event that is triggered when a mode switch acknowledgment occurs.
+    This event handles the acknowledgment that a mode switch has been completed or confirmed
+    within BSW modules.
+    """
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswModeSwitchedAckEvent with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this event
+            short_name: The unique short name of this event
+        """
+        super().__init__(parent, short_name)
+
+
 class BswTimingEvent(BswScheduleEvent):
     """
     Represents a timing event in a BSW module.
