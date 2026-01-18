@@ -9,8 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     PPortPrototype, RPortPrototype, PRPortPrototype, PortGroup, SwComponentType,
     AtomicSwComponentType, EcuAbstractionSwComponentType, ApplicationSwComponentType,
     ComplexDeviceDriverSwComponentType, NvBlockSwComponentType, SensorActuatorSwComponentType,
-    ServiceProxySwComponentType, ServiceSwComponentType, CompositionSwComponentType
+    ServiceProxySwComponentType, ServiceSwComponentType
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 

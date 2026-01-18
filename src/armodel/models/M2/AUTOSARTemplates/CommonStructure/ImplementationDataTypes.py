@@ -83,7 +83,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
             self.addElement(type_element)
             self.subElements.append(type_element)
         return self.getElement(short_name, ImplementationDataTypeElement)
-    
+
     def getSubElements(self) -> List["ImplementationDataTypeElement"]:
         return self.subElements
 
@@ -101,7 +101,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     Represents an implementation data type in AUTOSAR models.
     This class defines how data types are implemented in code, including arrays, structures, and data references.
     """
-    
+
     # Category constant for type reference implementation data types
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
     # Category constant for value implementation data types
@@ -116,7 +116,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ImplementationDataType with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this implementation data type
             short_name: The unique short name of this implementation data type
@@ -124,20 +124,20 @@ class ImplementationDataType(AbstractImplementationDataType):
         super().__init__(parent, short_name)
 
         # Profile for dynamic array size (for variable-size arrays)
-        self.dynamicArraySizeProfile: String = None             
+        self.dynamicArraySizeProfile: String = None
         # Flag indicating if this structure contains optional elements
-        self.isStructWithOptionalElement: Boolean = None         
+        self.isStructWithOptionalElement: Boolean = None
         # List of sub-elements in this implementation data type
-        self.subElements: List['ImplementationDataTypeElement'] = []                           
+        self.subElements: List['ImplementationDataTypeElement'] = []
         # Symbol properties for this implementation data type
-        self.symbolProps: SymbolProps = None                         
+        self.symbolProps: SymbolProps = None
         # Type emitter for code generation
         self.typeEmitter: ARLiteral = None
 
     def getDynamicArraySizeProfile(self):
         """
         Gets the profile for dynamic array size (for variable-size arrays).
-        
+
         Returns:
             String: The dynamic array size profile
         """
@@ -147,10 +147,10 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         Sets the profile for dynamic array size (for variable-size arrays).
         Only sets the value if it is not None.
-        
+
         Args:
             value: The dynamic array size profile to set
-            
+
         Returns:
             self for method chaining
         """
@@ -160,7 +160,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getIsStructWithOptionalElement(self):
         """
         Gets the flag indicating if this structure contains optional elements.
-        
+
         Returns:
             Boolean: The flag for optional elements in structure
         """
@@ -170,10 +170,10 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         Sets the flag indicating if this structure contains optional elements.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The flag for optional elements in structure to set
-            
+
         Returns:
             self for method chaining
         """
@@ -183,10 +183,10 @@ class ImplementationDataType(AbstractImplementationDataType):
     def createImplementationDataTypeElement(self, short_name: str) -> 'ImplementationDataTypeElement':
         """
         Creates and adds an ImplementationDataTypeElement to this implementation data type's sub-elements.
-        
+
         Args:
             short_name: The short name for the new implementation data type element
-            
+
         Returns:
             The created ImplementationDataTypeElement instance
         """
@@ -199,7 +199,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     def getSubElements(self) -> List['ImplementationDataTypeElement']:
         """
         Gets the list of sub-elements in this implementation data type.
-        
+
         Returns:
             List of ImplementationDataTypeElement instances
         """
@@ -209,7 +209,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         Gets the array element type for this implementation data type.
         This is an internal property used for tracking the array type.
-        
+
         Returns:
             str: The array element type
         """
@@ -219,10 +219,10 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         Sets the array element type for this implementation data type.
         This is an internal property used for tracking the array type.
-        
+
         Args:
             type: The array element type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -233,57 +233,57 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         Sets the type emitter for code generation for this implementation data type.
         The type emitter defines how the type should be emitted in generated code.
-        
+
         Args:
             emitter: The type emitter to set
-            
+
         Returns:
             self for method chaining
         """
         self.typeEmitter = emitter
         return self
-    
+
     def getTypeEmitter(self) -> str:
         """
         Gets the type emitter for code generation for this implementation data type.
         The type emitter defines how the type should be emitted in generated code.
-        
+
         Returns:
             str: The type emitter
         """
         return self.typeEmitter
-    
+
     def setStructElementType(self, type: str):
         """
         Sets the structure element type for this implementation data type.
         This is an internal property used for tracking the structure type.
-        
+
         Args:
             type: The structure element type to set
-            
+
         Returns:
             self for method chaining
         """
         self._struct_type = type
         return self
-    
+
     def getStructElementType(self) -> str:
         """
         Gets the structure element type for this implementation data type.
         This is an internal property used for tracking the structure type.
-        
+
         Returns:
             str: The structure element type
         """
         return getattr(self, '_struct_type', None)
-    
+
     def createSymbolProps(self, short_name: str) -> SymbolProps:
         """
         Creates and adds SymbolProps to this implementation data type.
-        
+
         Args:
             short_name: The short name for the new symbol properties
-            
+
         Returns:
             The created SymbolProps instance
         """
@@ -292,11 +292,11 @@ class ImplementationDataType(AbstractImplementationDataType):
             self.addElement(symbol_props)
             self.symbolProps = symbol_props
         return self.symbolProps
-    
+
     def getSymbolProps(self) -> SymbolProps:
         """
         Gets the symbol properties for this implementation data type.
-        
+
         Returns:
             SymbolProps: The symbol properties
         """

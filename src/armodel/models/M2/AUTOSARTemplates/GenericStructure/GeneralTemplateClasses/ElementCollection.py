@@ -6,7 +6,7 @@ in the GenericStructure module.
 from typing import List, Optional
 
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import AutoCollectEnum
 
