@@ -12,7 +12,7 @@ from src.armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from src.armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef, EcucChoiceContainerDef
 from src.armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
+from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARBoolean, RefType, CIdentifier, Boolean, Limit
 from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

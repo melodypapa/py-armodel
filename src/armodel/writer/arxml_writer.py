@@ -80,7 +80,7 @@ from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucContainerD
 from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucMultiplicityConfigurationClass, EcucParamConfContainerDef
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from ..models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
-from ..models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AnyInstanceRef
+from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -97,7 +97,8 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import Param
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, CompositionSwComponentType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType, PRPortPrototype, PortGroup, SwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, PortPrototype, RPortPrototype, SymbolProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType

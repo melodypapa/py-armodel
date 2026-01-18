@@ -21,6 +21,14 @@ All existing rules in this document are currently at maturity level **accept**.
 5. [Docstrings](#docstrings)
 6. [Whitespace in Expressions](#whitespace-in-expressions)
 7. [Code Style](#code-style)
+   - Dataclass Usage
+   - Validation in `__post_init__`
+   - Regular Expressions
+   - Context Managers
+   - String Methods
+   - List Comprehensions
+   - Dunder Methods
+   - Python Package Structure
 8. [Error Handling](#error-handling)
 9. [Testing Standards](#testing-standards)
 10. [Logging Standards](#logging-standards)
@@ -766,6 +774,120 @@ def __str__(self) -> str:
 def __repr__(self) -> str:
     """Return detailed representation for debugging."""
     return f"AutosarClass(name='{self.name}', is_abstract={self.is_abstract})"
+```
+
+### CODING_RULE_STYLE_00008: Python Package Structure
+
+**Maturity**: accept
+
+**Follow the py-armodel package structure conventions to align AUTOSAR M2 model hierarchy with Python package structure.**
+
+**Leaf Packages (no subdirectories):**
+- Classes defined in a single `.py` file
+- Package name = filename (without `.py` extension)
+- File name typically matches the primary class name or package concept
+- Import path includes the filename as the package name
+
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
+# This is a leaf package (no subdirectories)
+
+from abc import ABCMeta
+from typing import List
+
+class AbstractImplementationDataTypeElement(Identifiable):
+    """Base class for implementation data type elements."""
+    pass
+
+class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+    """Implementation data type element class."""
+    pass
+
+class ImplementationDataType(AbstractImplementationDataType):
+    """Implementation data type class."""
+    pass
+
+# Import statement:
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+# Module path: armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes
+```
+
+**Non-Leaf Packages (have subdirectories):**
+- Classes defined in `__init__.py` of the directory
+- Package name = directory name
+- May contain multiple subdirectories with their own classes
+
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/CommonStructure/__init__.py
+# This is a non-leaf package (has subdirectories like InternalBehavior/, Implementation.py, etc.)
+
+from abc import ABCMeta
+from typing import List
+
+class ValueSpecification(ARObject, metaclass=ABCMeta):
+    """Value specification base class."""
+    pass
+
+class ConstantSpecification(ARElement):
+    """Constant specification class."""
+    pass
+
+# Import statement:
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+# Module path: armodel.models.M2.AUTOSARTemplates.CommonStructure
+```
+
+**Directory Structure Examples:**
+
+```
+src/armodel/models/M2/AUTOSARTemplates/
+├── CommonStructure/                      # Non-leaf package (has subdirs)
+│   ├── __init__.py                       # Classes defined here
+│   ├── InternalBehavior.py               # Leaf package
+│   ├── ImplementationDataTypes.py        # Leaf package (primary class)
+│   └── Filter.py                         # Leaf package
+├── SWComponentTemplate/                  # Non-leaf package
+│   ├── __init__.py                       # Classes defined here
+│   ├── Components/                       # Non-leaf sub-package
+│   │   ├── __init__.py
+│   │   └── ...
+│   └── Datatypes/                        # Non-leaf sub-package
+│       ├── __init__.py
+│       └── ...
+└── AutosarTopLevelStructure/            # Non-leaf package
+    └── __init__.py                       # Classes defined here
+```
+
+**Package Structure Decision Tree:**
+
+```
+Does the package contain subdirectories?
+│
+├── YES → Non-Leaf Package
+│   - Create directory with __init__.py
+│   - Define classes in __init__.py
+│   - Package name = directory name
+│
+└── NO  → Leaf Package
+    - Create single .py file
+    - Define all classes in that .py file
+    - Package name = filename (without .py)
+    - File name typically matches primary class or package concept
+```
+
+**Alignment with AUTOSAR M2 Model:**
+
+The package structure conventions ensure alignment between the AUTOSAR M2 model hierarchy and Python package structure:
+
+```
+AUTOSAR M2 Path:                          Python Path:
+M2::AUTOSARTemplates::CommonStructure::    armodel.models.M2.AUTOSARTemplates.CommonStructure
+  ImplementationDataTypes::                  .ImplementationDataTypes
+    ImplementationDataType                   .ImplementationDataType
+
+File Structure:
+AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
+  (contains ImplementationDataType class)
 ```
 
 ---

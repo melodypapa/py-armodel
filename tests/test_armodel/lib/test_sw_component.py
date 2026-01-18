@@ -7,7 +7,8 @@ from unittest.mock import Mock, patch
 from src.armodel.lib.sw_component import SwComponentAnalyzer
 from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType
+from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 
 
 class TestSwComponentAnalyzer:

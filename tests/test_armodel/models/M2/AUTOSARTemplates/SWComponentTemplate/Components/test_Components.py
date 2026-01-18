@@ -19,11 +19,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     NvBlockSwComponentType,
     SensorActuatorSwComponentType,
     ServiceProxySwComponentType,
-    ServiceSwComponentType,
-    CompositionSwComponentType
+    ServiceSwComponentType
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     AssemblySwConnector,
+    CompositionSwComponentType,
     DelegationSwConnector,
     SwComponentPrototype
 )

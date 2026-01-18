@@ -37,7 +37,8 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCol
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement, Identifiable, Referrable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
 from .....M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
-from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import CompositionSwComponentType, ServiceSwComponentType, SwComponentType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType, SwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType
