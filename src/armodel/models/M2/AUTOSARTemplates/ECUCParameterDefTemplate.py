@@ -18,13 +18,20 @@ class EcucConditionSpecification(ARObject):
     or configurations. It inherits from the ARObject base class.
     Attributes:
         conditionFormula (EcucConditionFormula): Represents the formula or expression
-            that defines the condition. This attribute is currently commented out
-            and not initialized.
+            that defines the condition.
     """
     def __init__(self):
         super().__init__()
 
-        # self.conditionFormula: EcucConditionFormula = None
+        self.conditionFormula: "EcucConditionFormula" = None
+
+    def getConditionFormula(self) -> "EcucConditionFormula":
+        return self.conditionFormula
+
+    def setConditionFormula(self, value: "EcucConditionFormula"):
+        if value is not None:
+            self.conditionFormula = value
+        return self
 
 
 class EcucValidationCondition(Identifiable):
@@ -1247,6 +1254,261 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(container)
             self.subContainers.append(container)
         return self.getElement(short_name)
+
+
+class EcucAddInfoParamDef(EcucParameterDef):
+    """
+    Represents an ECUC additional info parameter definition in the AUTOSAR model.
+
+    This class is a specialized type of `EcucParameterDef` that allows for the
+    definition of additional info parameters within the ECUC parameter configuration.
+
+    Attributes:
+        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
+        short_name (str): The short name of the ECUC additional info parameter definition.
+        defaultValue (VerbatimString): The default value of the additional info parameter.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.defaultValue: VerbatimString = None
+
+    def getDefaultValue(self) -> VerbatimString:
+        return self.defaultValue
+
+    def setDefaultValue(self, value: VerbatimString):
+        if value is not None:
+            self.defaultValue = value
+        return self
+
+
+class EcucConditionFormula(ARObject):
+    """
+    Represents an ECUC condition formula in the AUTOSAR model.
+
+    This class is used to define formulas or expressions that can be used
+    in ECUC condition specifications.
+
+    Attributes:
+        formula (String): The formula expression.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.formula: String = None
+
+    def getFormula(self) -> String:
+        return self.formula
+
+    def setFormula(self, value: String):
+        if value is not None:
+            self.formula = value
+        return self
+
+
+class EcucDefinitionCollection(ARObject):
+    """
+    Represents an ECUC definition collection in the AUTOSAR model.
+
+    This class is used to group related ECUC definitions together.
+
+    Attributes:
+        definitions (List[EcucDefinitionElement]): A list of ECUC definition elements.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.definitions: List[EcucDefinitionElement] = []
+
+    def getDefinitions(self) -> List[EcucDefinitionElement]:
+        return self.definitions
+
+    def addDefinition(self, value: EcucDefinitionElement):
+        if value is not None:
+            self.definitions.append(value)
+        return self
+
+
+class EcucDestinationUriDef(Identifiable):
+    """
+    Represents an ECUC destination URI definition in the AUTOSAR model.
+
+    This class is used to define destination URIs for ECUC references.
+
+    Attributes:
+        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
+        short_name (str): The short name of the ECUC destination URI definition.
+        destinationUri (String): The destination URI.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.destinationUri: String = None
+
+    def getDestinationUri(self) -> String:
+        return self.destinationUri
+
+    def setDestinationUri(self, value: String):
+        if value is not None:
+            self.destinationUri = value
+        return self
+
+
+class EcucDestinationUriDefSet(Identifiable):
+    """
+    Represents an ECUC destination URI definition set in the AUTOSAR model.
+
+    This class is used to group related ECUC destination URI definitions.
+
+    Attributes:
+        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
+        short_name (str): The short name of the ECUC destination URI definition set.
+        destinationUriDefs (List[EcucDestinationUriDef]): A list of ECUC destination URI definitions.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.destinationUriDefs: List[EcucDestinationUriDef] = []
+
+    def getDestinationUriDefs(self) -> List[EcucDestinationUriDef]:
+        return self.destinationUriDefs
+
+    def addDestinationUriDef(self, value: EcucDestinationUriDef):
+        if value is not None:
+            self.destinationUriDefs.append(value)
+        return self
+
+
+class EcucDestinationUriPolicy(ARObject):
+    """
+    Represents an ECUC destination URI policy in the AUTOSAR model.
+
+    This class is used to define policies for ECUC destination URIs.
+
+    Attributes:
+        policy (String): The policy definition.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.policy: String = None
+
+    def getPolicy(self) -> String:
+        return self.policy
+
+    def setPolicy(self, value: String):
+        if value is not None:
+            self.policy = value
+        return self
+
+
+class EcucLinkerSymbolDef(Identifiable):
+    """
+    Represents an ECUC linker symbol definition in the AUTOSAR model.
+
+    This class is used to define linker symbols for ECUC parameters.
+
+    Attributes:
+        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
+        short_name (str): The short name of the ECUC linker symbol definition.
+        linkerSymbol (CIdentifier): The linker symbol.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.linkerSymbol: CIdentifier = None
+
+    def getLinkerSymbol(self) -> CIdentifier:
+        return self.linkerSymbol
+
+    def setLinkerSymbol(self, value: CIdentifier):
+        if value is not None:
+            self.linkerSymbol = value
+        return self
+
+
+class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
+    """
+    Represents an ECUC multiline string parameter definition in the AUTOSAR model.
+
+    This class is a specialized type of `EcucAbstractStringParamDef` that allows for
+    multiline string parameters within the ECUC parameter configuration.
+
+    Attributes:
+        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
+        short_name (str): The short name of the ECUC multiline string parameter definition.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class EcucParameterDerivationFormula(ARObject):
+    """
+    Represents an ECUC parameter derivation formula in the AUTOSAR model.
+
+    This class is used to define formulas for deriving ECUC parameter values.
+
+    Attributes:
+        formula (String): The derivation formula.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.formula: String = None
+
+    def getFormula(self) -> String:
+        return self.formula
+
+    def setFormula(self, value: String):
+        if value is not None:
+            self.formula = value
+        return self
+
+
+class EcucQuery(ARObject):
+    """
+    Represents an ECUC query in the AUTOSAR model.
+
+    This class is used to define queries for ECUC parameter values.
+
+    Attributes:
+        queryExpression (EcucQueryExpression): The query expression.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.queryExpression: "EcucQueryExpression" = None
+
+    def getQueryExpression(self) -> "EcucQueryExpression":
+        return self.queryExpression
+
+    def setQueryExpression(self, value: "EcucQueryExpression"):
+        if value is not None:
+            self.queryExpression = value
+        return self
+
+
+class EcucQueryExpression(ARObject):
+    """
+    Represents an ECUC query expression in the AUTOSAR model.
+
+    This class is used to define query expressions for ECUC parameters.
+
+    Attributes:
+        expression (String): The query expression.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.expression: String = None
+
+    def getExpression(self) -> String:
+        return self.expression
+
+    def setExpression(self, value: String):
+        if value is not None:
+            self.expression = value
+        return self
 
 
 class EcucModuleDef(EcucDefinitionElement):

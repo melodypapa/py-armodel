@@ -349,3 +349,37 @@ class ValueList(ARObject):
 
     def getVfs(self) -> List[ARLiteral]:
         return sorted(self._vf)
+
+
+class SwTextProps(ARObject):
+    """
+    Represents software text properties in the AUTOSAR model.
+
+    This class is used to define text-related properties for data elements,
+    such as encoding and format information.
+
+    Attributes:
+        encoding (ARLiteral): The encoding of the text.
+        format (ARLiteral): The format of the text.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.encoding: ARLiteral = None
+        self.format: ARLiteral = None
+
+    def getEncoding(self) -> ARLiteral:
+        return self.encoding
+
+    def setEncoding(self, value: ARLiteral):
+        if value is not None:
+            self.encoding = value
+        return self
+
+    def getFormat(self) -> ARLiteral:
+        return self.format
+
+    def setFormat(self, value: ARLiteral):
+        if value is not None:
+            self.format = value
+        return self

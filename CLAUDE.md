@@ -164,6 +164,62 @@ ARXMLWriter serializes the AUTOSAR model back to ARXML format, respecting the AU
 - Test methods: `test_<method_name>_<scenario>` or `test_<scenario>`
 - Use `pytest.raises(ValueError, match="pattern")` for exception testing
 
+## Coding Standards
+
+The project follows comprehensive coding standards documented in `docs/development/coding_rules.md`. Key coding rule categories include:
+
+### Code Layout (CODING_RULE_LAYOUT_00001 - CODING_RULE_LAYOUT_00007)
+- Indentation, maximum line length, line breaking, binary operator placement
+- Blank lines, source file encoding, string quotes
+
+### Import Organization (CODING_RULE_IMPORT_00001 - CODING_RULE_IMPORT_00003)
+- Import order, section separation, alphabetical ordering
+
+### Naming Conventions (CODING_RULE_NAMING_00001 - CODING_RULE_NAMING_00005)
+- Class names, function/method names, constant names
+- Private attribute names, instance variable names
+
+### Type Annotations (CODING_RULE_TYPE_00001 - CODING_RULE_TYPE_00005)
+- Mandatory type annotations, union types, collection types
+- Forward references, dataclass field types
+
+### Documentation (CODING_RULE_DOC_00001 - CODING_RULE_DOC_00005)
+- Google-style docstrings, class/method docstrings
+- Requirements section, docstring language
+
+### Whitespace (CODING_RULE_WS_00001 - CODING_RULE_WS_00006)
+- Extraneous whitespace, operator spacing
+- Keyword arguments, function annotations, trailing whitespace
+- Compound statements
+
+### Style Guidelines (CODING_RULE_STYLE_00001 - CODING_RULE_STYLE_00008)
+- Dataclass usage, validation in `__post_init__`
+- Regular expressions, context managers, string methods
+- List comprehensions, dunder methods, **Python package structure**
+
+### Error Handling (CODING_RULE_ERROR_00001 - CODING_RULE_ERROR_00004)
+- Validation errors, immediate validation
+- Exception chaining, import validation
+
+### Testing (CODING_RULE_TEST_00001 - CODING_RULE_TEST_00003)
+- Test structure, coverage goals, test patterns
+
+### Logging (CODING_RULE_LOG_00001 - CODING_RULE_LOG_00003)
+- Logging levels, configuration, CLI error handling
+
+### Best Practices (CODING_RULE_BP_00001 - CODING_RULE_BP_00002)
+- Query methods, path operations
+
+### Programming Recommendations (CODING_RULE_PR_00001 - CODING_RULE_PR_00010)
+- Type comparisons, sequence checks, string prefix/suffix checks
+- None comparisons, boolean comparisons, exception handling
+- Resource management, return statement consistency
+- Use `def` instead of lambda assignment, exception classes
+
+**Important:** When creating new classes or modules, always follow CODING_RULE_STYLE_00008 for package structure:
+- **Leaf packages** (no subdirectories): Classes defined in `.py` file with package name = filename
+- **Non-leaf packages** (have subdirectories): Classes defined in `__init__.py` of the directory
+
 ## Key Supported Elements
 
 ### Component Types
@@ -174,6 +230,7 @@ SenderReceiverInterface, ClientServerInterface, ModeSwitchInterface, ParameterIn
 
 ### Data Types
 ApplicationDataType, ImplementationDataType, ApplicationRecordElement, ApplicationArrayElement, CompuMethod, DataConstr, Unit, BaseTypes
+- Additional: UnitGroup, SwTextProps, SwSystemconst
 
 ### Communication
 AssemblySwConnector, DelegationSwConnector, ServerComSpec, ModeSwitchReceiverComSpec, NvProvideComSpec, NvRequireComSpec
@@ -190,9 +247,12 @@ RunnableEntity, SwcInternalBehavior, BswInternalBehavior, SwcImplementation, Bsw
 
 ### CommonStructure
 ARObject, Referrable, Identifiable, ServiceNeeds (Diagnostic, Communication, etc.), Implementation, InternalBehavior, ResourceConsumption (MemorySection, StackUsage, HeapUsage, ExecutionTime), ModeDeclaration, SwcBswMapping
+- Documentation: Documentation (DocumentationOnM1)
+- Variant Handling: VariationPoint, PostBuildVariantCriterion, PostBuildVariantCriterionValue, PredefinedVariant, SwSystemconstantValueSet, NumericalValueVariationPoint
 
 ### Diagnostics
 DiagnosticConnection, DiagnosticServiceTable, DiagnosticEventNeeds, DCM Needs, DoIP (DoIpServiceNeeds, DoIpConfiguration)
+- Additional: MlFormula (MathML formulas)
 
 ### System
 SystemSignal, SystemSignalGroup, SWC-TO-ECU-MAPPING, SW-MAPPINGS, ECU-INSTANCE, ROOT-SOFTWARE-COMPOSITIONS, DataMapping, NetworkManagement, SecureCommunication
@@ -202,6 +262,7 @@ BswModuleDescription, BswBehavior (BswInternalBehavior, BswModuleEntity, BswCall
 
 ### ECUC Configuration
 EcucValueCollection, EcucModuleConfigurationValues, EcucContainerValue, EcucParameterValue, EcucModuleDef, EcucParamDef (Boolean, String, Integer, Float, Enumeration)
+- Additional: EcucAddInfoParamDef, EcucConditionFormula, EcucDefinitionCollection, EcucDestinationUriDef, EcucDestinationUriDefSet, EcucDestinationUriPolicy, EcucLinkerSymbolDef, EcucMultilineStringParamDef, EcucParameterDerivationFormula, EcucQuery, EcucQueryExpression
 
 ### Fibex (Field Bus Exchange Format)
 Fibex4Can, Fibex4Ethernet, Fibex4Flexray, Fibex4Lin, FibexCore, Fibex4Multiplatform

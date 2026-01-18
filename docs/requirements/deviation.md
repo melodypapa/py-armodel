@@ -5,44 +5,21 @@ and the actual Python implementation.
 
 ## Summary
 
-- ✓ **Match**: 69 classes correctly implemented
-- ✗ **Missing**: 23 classes documented but not found
+- ✓ **Match**: 91 classes correctly implemented
+- ✗ **Missing**: 0 classes documented but not found
 - ⚠ **Path Mismatch**: 4 classes in wrong location
 - + **Extra**: 625 undocumented classes
-- **Total Documented Classes**: 96
-- **Total Deviations**: 652
+- **Total Documented Classes**: 95
+- **Total Deviations**: 629
 
 ## Deviations Table
 
 | Status | Path (M2 / Expected / Actual) | Notes |
 |--------|------------------------------|-------|
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucAddInfoParamDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucAddInfoParamDef<br>Actual: Not Found | Class EcucAddInfoParamDef not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucConditionFormula<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucConditionFormula<br>Actual: Not Found | Class EcucConditionFormula not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDefinitionCollection<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucDefinitionCollection<br>Actual: Not Found | Class EcucDefinitionCollection not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriDef<br>Actual: Not Found | Class EcucDestinationUriDef not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriDefSet<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriDefSet<br>Actual: Not Found | Class EcucDestinationUriDefSet not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriPolicy<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriPolicy<br>Actual: Not Found | Class EcucDestinationUriPolicy not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucLinkerSymbolDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucLinkerSymbolDef<br>Actual: Not Found | Class EcucLinkerSymbolDef not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucMultilineStringParamDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucMultilineStringParamDef<br>Actual: Not Found | Class EcucMultilineStringParamDef not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParameterDerivationFormula<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucParameterDerivationFormula<br>Actual: Not Found | Class EcucParameterDerivationFormula not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQuery<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucQuery<br>Actual: Not Found | Class EcucQuery not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQueryExpression<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucQueryExpression<br>Actual: Not Found | Class EcucQueryExpression not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1::Documentation<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1.Documentation<br>Actual: Not Found | Class Documentation not found in source code |
 | ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::ARElement<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage.ARElement<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.ARElement | Class exists but in different location |
 | ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage::PackageableElement<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage.PackageableElement<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.PackageableElement | Class exists but in different location |
 | ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes::BswImplementation<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.BswImplementation<br>Actual: armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation.BswImplementation | Class exists but in different location |
 | ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes::Identifiable<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Identifiable<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.Identifiable | Class exists but in different location |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes::VariationPoint<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.VariationPoint<br>Actual: Not Found | Class VariationPoint not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::VariantHandling::AttributeValueVariationPoints::NumericalValueVariationPoint<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints.NumericalValueVariationPoint<br>Actual: Not Found | Class NumericalValueVariationPoint not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterion<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.PostBuildVariantCriterion<br>Actual: Not Found | Class PostBuildVariantCriterion not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PostBuildVariantCriterionValue<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.PostBuildVariantCriterionValue<br>Actual: Not Found | Class PostBuildVariantCriterionValue not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::VariantHandling::PredefinedVariant<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.PredefinedVariant<br>Actual: Not Found | Class PredefinedVariant not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::VariantHandling::SwSystemconstantValueSet<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.SwSystemconstantValueSet<br>Actual: Not Found | Class SwSystemconstantValueSet not found in source code |
-| ✗ MISSING | M2: M2::AUTOSARTemplates::GenericStructure::VariantHandling::VariationPoint<br>Expected: armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.VariationPoint<br>Actual: Not Found | Class VariationPoint not found in source code |
-| ✗ MISSING | M2: M2::MSR::AsamHdo::Units::UnitGroup<br>Expected: armodel.models.M2.MSR.AsamHdo.Units.UnitGroup<br>Actual: Not Found | Class UnitGroup not found in source code |
-| ✗ MISSING | M2: M2::MSR::DataDictionary::DataDefProperties::SwTextProps<br>Expected: armodel.models.M2.MSR.DataDictionary.DataDefProperties.SwTextProps<br>Actual: Not Found | Class SwTextProps not found in source code |
-| ✗ MISSING | M2: M2::MSR::DataDictionary::SystemConstant::SwSystemconst<br>Expected: armodel.models.M2.MSR.DataDictionary.SystemConstant.SwSystemconst<br>Actual: Not Found | Class SwSystemconst not found in source code |
-| ✗ MISSING | M2: M2::MSR::Documentation::BlockElements::Formula::MlFormula<br>Expected: armodel.models.M2.MSR.Documentation.BlockElements.Formula.MlFormula<br>Actual: Not Found | Class MlFormula not found in source code |
 
 ## Extra Classes (Not Documented)
 
