@@ -1,3 +1,4 @@
+from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType, ARLiteral
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
@@ -114,4 +115,29 @@ class Unit(ARElement):
 
     def setPhysicalDimensionRef(self, value: RefType):
         self.physicalDimensionRef = value
+        return self
+
+
+class UnitGroup(ARElement):
+    """
+    Represents a group of units in the AUTOSAR model.
+
+    This class is used to group related units together for organizational purposes.
+
+    Attributes:
+        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
+        short_name (str): The short name of the unit group.
+        units (List[Unit]): A list of units in the group.
+    """
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.units: List[Unit] = []
+
+    def getUnits(self) -> List[Unit]:
+        return self.units
+
+    def addUnit(self, value: Unit):
+        if value is not None:
+            self.units.append(value)
         return self

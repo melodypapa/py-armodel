@@ -64,7 +64,6 @@
         * PrimitiveTypes
           * BswImplementation
           * Identifiable
-          * VariationPoint
         * Identifiable
           * Describable
           * Identifiable
