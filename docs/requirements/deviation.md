@@ -5,12 +5,12 @@ and the actual Python implementation.
 
 ## Summary
 
-- ✓ **Match**: 68 classes correctly implemented
+- ✓ **Match**: 69 classes correctly implemented
 - ✗ **Missing**: 23 classes documented but not found
-- ⚠ **Path Mismatch**: 5 classes in wrong location
+- ⚠ **Path Mismatch**: 4 classes in wrong location
 - + **Extra**: 625 undocumented classes
 - **Total Documented Classes**: 96
-- **Total Deviations**: 653
+- **Total Deviations**: 652
 
 ## Deviations Table
 
@@ -23,7 +23,6 @@ and the actual Python implementation.
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriDefSet<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriDefSet<br>Actual: Not Found | Class EcucDestinationUriDefSet not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucDestinationUriPolicy<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriPolicy<br>Actual: Not Found | Class EcucDestinationUriPolicy not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucLinkerSymbolDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucLinkerSymbolDef<br>Actual: Not Found | Class EcucLinkerSymbolDef not found in source code |
-| ⚠ PATH_MISMATCH | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucModuleDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucModuleDef<br>Actual: armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate.EcucModuleDef | Class exists but in different location |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucMultilineStringParamDef<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucMultilineStringParamDef<br>Actual: Not Found | Class EcucMultilineStringParamDef not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucParameterDerivationFormula<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucParameterDerivationFormula<br>Actual: Not Found | Class EcucParameterDerivationFormula not found in source code |
 | ✗ MISSING | M2: M2::AUTOSARTemplates::ECUCParameterDefTemplate::EcucQuery<br>Expected: armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate.EcucQuery<br>Actual: Not Found | Class EcucQuery not found in source code |
