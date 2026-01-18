@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from typing import List
 
-from ...M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucContainerDef, EcucDefinitionElement, EcucParamConfContainerDef
+from ...M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucContainerDef, EcucDefinitionElement, EcucModuleDef, EcucParamConfContainerDef
 from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.MSR.Documentation.Annotation import Annotation
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
@@ -284,63 +284,3 @@ class EcucConditionSpecification(ARObject):
 class EcucConfigurationVariantEnum(AREnum):
     def __init__(self):
         super().__init__([])
-
-
-class EcucModuleDef(EcucDefinitionElement):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.apiServicePrefix: CIdentifier = None
-        self.containers: List[EcucContainerDef] = []
-        self.postBuildVariantSupport: Boolean = None
-        self.refinedModuleDefRef: RefType = None
-        self.supportedConfigVariants: List[EcucConfigurationVariantEnum] = []
-
-    def getApiServicePrefix(self) -> CIdentifier:
-        return self.apiServicePrefix
-
-    def setApiServicePrefix(self, value: CIdentifier):
-        if value is not None:
-            self.apiServicePrefix = value
-        return self
-
-    def getContainers(self) -> List[EcucContainerDef]:
-        return self.containers
-
-    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
-        if (not self.IsElementExists(short_name)):
-            container_def = EcucParamConfContainerDef(self, short_name)
-            self.addElement(container_def)
-            self.containers.append(container_def)
-        return self.getElement(short_name)
-    
-    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
-        if (not self.IsElementExists(short_name)):
-            container_def = EcucChoiceContainerDef(self, short_name)
-            self.addElement(container_def)
-            self.containers.append(container_def)
-        return self.getElement(short_name)
-
-    def getPostBuildVariantSupport(self) -> Boolean:
-        return self.postBuildVariantSupport
-
-    def setPostBuildVariantSupport(self, value: Boolean):
-        if value is not None:
-            self.postBuildVariantSupport = value
-        return self
-
-    def getRefinedModuleDefRef(self) -> RefType:
-        return self.refinedModuleDefRef
-
-    def setRefinedModuleDefRef(self, value: RefType):
-        if value is not None:
-            self.refinedModuleDefRef = value
-        return self
-
-    def getSupportedConfigVariants(self) -> List[EcucConfigurationVariantEnum]:
-        return self.supportedConfigVariants
-
-    def addSupportedConfigVariant(self, value: EcucConfigurationVariantEnum):
-        if value is not None:
-            self.supportedConfigVariants.append(value)
-        return self
