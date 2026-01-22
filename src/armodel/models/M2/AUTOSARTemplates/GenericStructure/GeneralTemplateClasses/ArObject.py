@@ -12,7 +12,7 @@ class ARObject(metaclass=ABCMeta):
     Abstract base class for all AUTOSAR objects.
     This class provides the basic structure and functionality for all AUTOSAR objects.
     """
-    
+
     def __init__(self):
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
