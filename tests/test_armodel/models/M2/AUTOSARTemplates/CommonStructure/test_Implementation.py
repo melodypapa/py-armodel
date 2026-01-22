@@ -11,7 +11,7 @@ class TestImplementationProps:
         """Test that ImplementationProps abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="ImplementationProps is an abstract class."):
+        with pytest.raises(TypeError, match="ImplementationProps is an abstract class."):
             ImplementationProps(ar_root, "TestImplementationProps")
 
     def test_concrete_subclass_can_be_instantiated(self):
@@ -284,7 +284,7 @@ class TestImplementation:
         """Test that Implementation abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="Implementation is an abstract class."):
+        with pytest.raises(TypeError, match="Implementation is an abstract class."):
             Implementation(ar_root, "TestImplementation")
 
     def test_concrete_subclass_initialization(self):

@@ -10,11 +10,11 @@ from .....M2.MSR.Documentation.Annotation import Annotation
 from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-from abc import ABCMeta
+from abc import ABC
 from typing import Dict, List, Optional, Any
 
 
-class Referrable(ARObject, metaclass=ABCMeta):
+class Referrable(ARObject, ABC):
     """
     Abstract class for elements that can be referenced by other elements in AUTOSAR models.
     This class provides basic functionality for managing short names and parent-child relationships.
@@ -73,7 +73,7 @@ class Referrable(ARObject, metaclass=ABCMeta):
         return self.full_name
 
 
-class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
+class MultilanguageReferrable(Referrable, ABC):
     """
     Abstract class for referrable elements that support multilingual text.
     This class extends Referrable with multilingual support functionality.
@@ -111,7 +111,7 @@ class MultilanguageReferrable(Referrable, metaclass=ABCMeta):
         return self
 
 
-class CollectableElement(ARObject, metaclass=ABCMeta):
+class CollectableElement(ARObject, ABC):
     """
     Abstract class for elements that can collect other referrable elements.
     This class provides functionality for managing collections of elements with lookup capabilities.
@@ -218,7 +218,7 @@ class CollectableElement(ARObject, metaclass=ABCMeta):
         return False
 
 
-class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMeta):
+class Identifiable(MultilanguageReferrable, CollectableElement, ABC):
     """
     Abstract class for identifiable elements in AUTOSAR models.
     This class combines multilingual referrable functionality with element collection capabilities.
@@ -360,7 +360,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, metaclass=ABCMet
         return self.annotations
 
 
-class PackageableElement(Identifiable, metaclass=ABCMeta):
+class PackageableElement(Identifiable, ABC):
     """
     Abstract class for elements that can be packaged in AUTOSAR models.
     This class extends Identifiable with packaging functionality.
@@ -372,7 +372,7 @@ class PackageableElement(Identifiable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
 
-class ARElement(PackageableElement, metaclass=ABCMeta):
+class ARElement(PackageableElement, ABC):
     """
     Abstract class for AUTOSAR elements.
     This class represents the basic structure for all AUTOSAR model elements.
@@ -384,7 +384,7 @@ class ARElement(PackageableElement, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
 
-class Describable(ARObject, metaclass=ABCMeta):
+class Describable(ARObject, ABC):
     """
     Abstract class for elements that can be described in AUTOSAR models.
     This class provides basic description functionality for AUTOSAR elements.

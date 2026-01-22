@@ -12,14 +12,14 @@ Classes:
 """
 
 from typing import List
-from abc import ABCMeta
+from abc import ABC
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 
 
-class EOCExecutableEntityRefAbstract(Identifiable, metaclass=ABCMeta):
+class EOCExecutableEntityRefAbstract(Identifiable, ABC):
     """
     Abstract base class for execution order constraint executable entity references.
     This class cannot be instantiated directly and serves as the base for concrete implementations.

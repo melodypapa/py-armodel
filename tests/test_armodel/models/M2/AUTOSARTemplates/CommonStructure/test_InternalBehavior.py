@@ -34,7 +34,7 @@ class TestExecutableEntity:
         """Test that ExecutableEntity abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="ExecutableEntity is an abstract class."):
+        with pytest.raises(TypeError, match="ExecutableEntity is an abstract class."):
             ExecutableEntity(ar_root, "TestExecutableEntity")
 
     def test_concrete_subclass_initialization(self):
@@ -243,7 +243,7 @@ class TestInternalBehavior:
         """Test that InternalBehavior abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="InternalBehavior is an abstract class."):
+        with pytest.raises(TypeError, match="InternalBehavior is an abstract class."):
             InternalBehavior(ar_root, "TestInternalBehavior")
 
     def test_concrete_subclass_initialization(self):

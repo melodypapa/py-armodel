@@ -4,14 +4,14 @@ This module contains abstract structure classes for AUTOSAR models
 in the GenericStructure module.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List, Optional
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class AtpInstanceRef(ARObject, metaclass=ABCMeta):
+class AtpInstanceRef(ARObject, ABC):
     """
     Abstract class for AUTOSAR Template Parameter (ATP) instance references.
     This class defines the structure for referencing ATP instances.
@@ -19,7 +19,7 @@ class AtpInstanceRef(ARObject, metaclass=ABCMeta):
     
     def __init__(self):
         if type(self) == AtpInstanceRef:
-            raise NotImplementedError("AtpInstanceRef is an abstract class.")
+            raise TypeError("AtpInstanceRef is an abstract class.")
 
         super().__init__()
 
@@ -94,7 +94,7 @@ class AtpInstanceRef(ARObject, metaclass=ABCMeta):
         return self
 
 
-class AtpFeature(Identifiable, metaclass=ABCMeta):
+class AtpFeature(Identifiable, ABC):
     """
     Abstract class for AUTOSAR Template Parameter (ATP) features.
     This class defines the basic structure for ATP features.
@@ -106,7 +106,7 @@ class AtpFeature(Identifiable, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
 
-class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
+class AtpStructureElement(AtpFeature, ABC):
     """
     Abstract class for AUTOSAR Template Parameter (ATP) structure elements.
     This class defines the basic structure for ATP structure elements.
@@ -118,7 +118,7 @@ class AtpStructureElement(AtpFeature, metaclass=ABCMeta):
         super().__init__(parent, short_name)
 
 
-class AtpType(ARElement, metaclass=ABCMeta):
+class AtpType(ARElement, ABC):
     """
     Abstract class for AUTOSAR Template Parameter (ATP) types.
     This class defines the basic structure for ATP types.

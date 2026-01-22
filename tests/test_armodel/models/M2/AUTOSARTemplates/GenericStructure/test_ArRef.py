@@ -32,7 +32,7 @@ class TestARRef:
         assert (ref_type.localVariableRef == None)
 
     def test_AtpInstanceRef(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             ref_type = AtpInstanceRef()
         assert (str(err.value) == "AtpInstanceRef is an abstract class.")
 
@@ -55,7 +55,7 @@ class TestARRef:
         assert (ref_type.getTargetDataPrototypeRef() == None)
 
     def test_OperationInAtomicSwcInstanceRef(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             _ = OperationInAtomicSwcInstanceRef()
         assert (str(err.value) ==
                 "OperationInAtomicSwcInstanceRef is an abstract class.")

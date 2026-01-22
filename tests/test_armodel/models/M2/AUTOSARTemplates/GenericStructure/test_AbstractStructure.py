@@ -21,7 +21,7 @@ class TestAtpInstanceRef:
         try:
             obj = AtpInstanceRef()
             assert False, "AtpInstanceRef should not be instantiable"
-        except NotImplementedError:
+        except TypeError:
             pass  # Expected behavior
 
     def test_get_set_atp_base_ref(self):

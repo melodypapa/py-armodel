@@ -13,10 +13,10 @@ Classes:
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from abc import ABCMeta
+from abc import ABC
 
 
-class TimingConstraint(Identifiable, metaclass=ABCMeta):
+class TimingConstraint(Identifiable, ABC):
     """
     Abstract base class for all timing constraints in AUTOSAR.
     This class cannot be instantiated directly and serves as the base for concrete

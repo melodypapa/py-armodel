@@ -87,7 +87,7 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 class OperationInAtomicSwcInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
     def __init__(self):
         if type(self) == OperationInAtomicSwcInstanceRef:
-            raise NotImplementedError("OperationInAtomicSwcInstanceRef is an abstract class.")
+            raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
         
         super().__init__()
 

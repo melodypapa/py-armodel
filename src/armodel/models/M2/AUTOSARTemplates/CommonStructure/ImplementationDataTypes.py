@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String
@@ -9,7 +9,7 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Autos
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
 
-class AbstractImplementationDataTypeElement(Identifiable, metaclass=ABCMeta):
+class AbstractImplementationDataTypeElement(Identifiable, ABC):
     def __init__(self, parent, short_name: str):
         if type(self) is AbstractImplementationDataTypeElement:
             raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
@@ -90,10 +90,10 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         return self.subElements
 
 
-class AbstractImplementationDataType(AutosarDataType, metaclass=ABCMeta):
+class AbstractImplementationDataType(AutosarDataType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractImplementationDataType:
-            raise NotImplementedError("AbstractImplementationDataType is an abstract class.")
+            raise TypeError("AbstractImplementationDataType is an abstract class.")
 
         super().__init__(parent, short_name)
 

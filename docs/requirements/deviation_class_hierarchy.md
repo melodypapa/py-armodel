@@ -18,7 +18,7 @@ and the actual Python implementation class hierarchy.
 |--------|-------|-------------------------------|---------------------------|-------|
 | ✗ MISSING | <<atpPrototype>> PduToFrameMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
 | ⚠ MISMATCH | ARElement | PackageableElement, True | PackageableElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ARObject | None, True | None, False | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | ARObject | None, True | ABC, False | parent mismatch (expected None, got ABC), abstract mismatch (expected True, got False) |
 | ⚠ MISMATCH | ARPackage | CollectableElement, False | Identifiable, False | parent mismatch (expected CollectableElement, got Identifiable) |
 | ⚠ MISMATCH | AUTOSAR | ARObject, False | AbstractAUTOSAR, False | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
 | ⚠ MISMATCH | AbstractAccessPoint | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |

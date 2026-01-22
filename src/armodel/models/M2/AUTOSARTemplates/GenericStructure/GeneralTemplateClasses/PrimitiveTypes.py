@@ -3,13 +3,13 @@ This module contains primitive type classes for AUTOSAR models
 in the GenericStructure module.
 """
 
-from abc import ABCMeta
+from abc import ABC
 import re
 from typing import List, Optional, Union, Any
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class ARType(metaclass=ABCMeta):
+class ARType(ABC):
     """
     Abstract base class for all AUTOSAR types.
     This class provides the basic structure for all AUTOSAR type definitions.

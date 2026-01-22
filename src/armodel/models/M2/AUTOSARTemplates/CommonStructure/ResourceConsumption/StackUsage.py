@@ -3,14 +3,14 @@ This module contains classes for representing stack usage in AUTOSAR resource co
 It includes abstract base classes and concrete implementations for different types of stack usage analysis.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from .....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import SoftwareContext
 from .....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import HardwareConfiguration
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
-class StackUsage(Identifiable, metaclass = ABCMeta):
+class StackUsage(Identifiable, ABC):
     """
     Abstract base class for representing stack usage in AUTOSAR models.
     This class defines the basic structure for stack memory consumption tracking with hardware and software context.
@@ -19,14 +19,14 @@ class StackUsage(Identifiable, metaclass = ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the StackUsage with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this stack usage
             short_name: The unique short name of this stack usage
         """
         if type(self) == StackUsage:
-            raise NotImplementedError("StackUsage is an abstract class.")
+            raise TypeError("StackUsage is an abstract class.")
         
         super().__init__(parent, short_name)
 
