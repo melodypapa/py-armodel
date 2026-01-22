@@ -19,7 +19,7 @@ class TestAtpPrototype:
         """Test that AtpPrototype is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AtpPrototype(ar_root, "TestAtpPrototype")
 
 
@@ -30,7 +30,7 @@ class TestDataPrototype:
         """Test that DataPrototype is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             DataPrototype(ar_root, "TestDataPrototype")
 
 
@@ -41,7 +41,7 @@ class TestAutosarDataPrototype:
         """Test that AutosarDataPrototype is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AutosarDataPrototype(ar_root, "TestAutosarDataPrototype")
 
 
@@ -87,7 +87,7 @@ class TestApplicationCompositeElementDataPrototype:
         """Test that ApplicationCompositeElementDataPrototype is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             ApplicationCompositeElementDataPrototype(ar_root, "TestApplicationCompositeElementDataPrototype")
 
 

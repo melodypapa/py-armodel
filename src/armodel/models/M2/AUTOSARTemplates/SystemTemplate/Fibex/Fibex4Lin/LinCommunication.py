@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -7,7 +7,7 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 
-class LinFrame(Frame, metaclass = ABCMeta):
+class LinFrame(Frame, ABC):
     """
     Abstract base class for LIN frames, extending the generic Frame class
     with LIN-specific properties and behavior. This class serves as the
@@ -15,7 +15,7 @@ class LinFrame(Frame, metaclass = ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == LinFrame:
-            raise NotImplementedError("LinFrame is an abstract class.")
+            raise TypeError("LinFrame is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -70,7 +70,7 @@ class ResumePosition(AREnum):
             ResumePosition.START_FROM_BEGINNING
         ))
 
-class ScheduleTableEntry(ARObject, metaclass = ABCMeta):
+class ScheduleTableEntry(ARObject, ABC):
     """
     Abstract base class for schedule table entries, defining common
     properties for different types of entries in LIN schedule tables
@@ -79,7 +79,7 @@ class ScheduleTableEntry(ARObject, metaclass = ABCMeta):
     def __init__(self):
         
         if type(self) == ScheduleTableEntry:
-            raise NotImplementedError("ScheduleTableEntry is an abstract class.")
+            raise TypeError("ScheduleTableEntry is an abstract class.")
         
         super().__init__()
 
@@ -130,7 +130,7 @@ class ApplicationEntry(ScheduleTableEntry):
             self.frameTriggeringRef = value
         return self
 
-class FreeFormatEntry(ScheduleTableEntry, metaclass=ABCMeta):
+class FreeFormatEntry(ScheduleTableEntry, ABC):
     """
     Defines a free format entry in a LIN schedule table,
     allowing for flexible schedule entries without specific
@@ -142,7 +142,7 @@ class FreeFormatEntry(ScheduleTableEntry, metaclass=ABCMeta):
             raise TypeError("FreeFormatEntry is an abstract class.")
         super().__init__()
 
-class LinConfigurationEntry(ScheduleTableEntry, metaclass = ABCMeta):
+class LinConfigurationEntry(ScheduleTableEntry, ABC):
     """
     Abstract base class for LIN configuration entries in schedule tables,
     defining common properties for configuration-related schedule entries.
@@ -150,7 +150,7 @@ class LinConfigurationEntry(ScheduleTableEntry, metaclass = ABCMeta):
     def __init__(self):
 
         if type(self) == LinConfigurationEntry:
-            raise NotImplementedError("LinConfigurationEntry is an abstract class.")
+            raise TypeError("LinConfigurationEntry is an abstract class.")
         
         super().__init__()
 

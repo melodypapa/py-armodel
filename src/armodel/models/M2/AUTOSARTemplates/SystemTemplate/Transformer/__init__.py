@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for data transformation
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from .....M2.MSR.AsamHdo.ComputationMethod import CompuScale
@@ -97,7 +97,7 @@ class BufferProperties(ARObject):
         return self
     
     
-class TransformationDescription(Describable, metaclass=ABCMeta):
+class TransformationDescription(Describable, ABC):
     """
     Abstract base class for transformation descriptions,
     defining common properties for different types of
@@ -105,7 +105,7 @@ class TransformationDescription(Describable, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) is TransformationDescription:
-            raise NotImplementedError("TransformationDescription is an abstract class.")
+            raise TypeError("TransformationDescription is an abstract class.")
         super().__init__()
 
 
@@ -469,7 +469,7 @@ class DataTransformationSet(ARElement):
         return self.getElement(short_name)
 
 
-class TransformationISignalProps(Describable, metaclass=ABCMeta):
+class TransformationISignalProps(Describable, ABC):
     """
     Abstract base class for transformation interaction signal properties,
     defining common properties for signal transformation including
@@ -477,7 +477,7 @@ class TransformationISignalProps(Describable, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) is TransformationISignalProps:
-            raise NotImplementedError("TransformationISignalProps is an abstract class.")
+            raise TypeError("TransformationISignalProps is an abstract class.")
         super().__init__()
 
         self.csErrorReaction = None

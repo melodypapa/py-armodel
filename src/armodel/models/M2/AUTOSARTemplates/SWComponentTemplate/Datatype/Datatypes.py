@@ -13,10 +13,10 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiab
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from abc import ABCMeta
+from abc import ABC
 
 
-class AutosarDataType(AtpType, metaclass=ABCMeta):
+class AutosarDataType(AtpType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataType:
             raise TypeError("AutosarDataType is an abstract class.")
@@ -33,7 +33,7 @@ class AutosarDataType(AtpType, metaclass=ABCMeta):
         return self
 
 
-class ApplicationDataType(AutosarDataType, metaclass=ABCMeta):
+class ApplicationDataType(AutosarDataType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationDataType:
             raise TypeError("ApplicationDataType is an abstract class.")
@@ -46,7 +46,7 @@ class ApplicationPrimitiveDataType(ApplicationDataType):
         super().__init__(parent, short_name)
 
 
-class ApplicationCompositeDataType(ApplicationDataType, metaclass=ABCMeta):
+class ApplicationCompositeDataType(ApplicationDataType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationCompositeDataType:
             raise TypeError("ApplicationCompositeDataType is an abstract class.")

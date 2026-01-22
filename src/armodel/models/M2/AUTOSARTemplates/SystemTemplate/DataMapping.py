@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for data mapping between sender/receiver interfaces and signals
 # It includes classes for mapping data elements between software component ports and system signals
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ....M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
@@ -11,7 +11,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationDirectionType
 
 
-class DataMapping(ARObject, metaclass=ABCMeta):
+class DataMapping(ARObject, ABC):
     """
     Abstract base class for data mapping elements that define relationships between 
     AUTOSAR software component data elements and system-level communication signals.
@@ -20,7 +20,7 @@ class DataMapping(ARObject, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) is DataMapping:
-            raise NotImplementedError("DataMapping is an abstract class.")
+            raise TypeError("DataMapping is an abstract class.")
         
         super().__init__()
 
@@ -86,7 +86,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         return self
 
 
-class SenderRecCompositeTypeMapping(ARObject, metaclass=ABCMeta):
+class SenderRecCompositeTypeMapping(ARObject, ABC):
     """
     Abstract base class for composite type mappings between sender/receiver
     interfaces and system-level signals. This class handles complex data
@@ -94,7 +94,7 @@ class SenderRecCompositeTypeMapping(ARObject, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) is SenderRecCompositeTypeMapping:
-            raise NotImplementedError("SenderRecCompositeTypeMapping is an abstract class.")
+            raise TypeError("SenderRecCompositeTypeMapping is an abstract class.")
         
         super().__init__()
 

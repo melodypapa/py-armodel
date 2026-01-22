@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for CAN topology
 # It defines CAN controllers, connectors, and their configuration attributes
 
-from abc import ABCMeta
+from abc import ABC
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
@@ -422,7 +422,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         return self
 
 
-class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
+class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     """
     Abstract base class for CAN communication controller attributes,
     providing a common foundation for both FD and XL configuration
@@ -430,7 +430,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
-            raise NotImplementedError("AbstractCanCommunicationControllerAttributes is an abstract class.")
+            raise TypeError("AbstractCanCommunicationControllerAttributes is an abstract class.")
         
         super().__init__()
 
@@ -527,7 +527,7 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
         return self
 
 
-class AbstractCanCommunicationController(CommunicationController, metaclass=ABCMeta):
+class AbstractCanCommunicationController(CommunicationController, ABC):
     """
     Abstract base class for CAN communication controllers, defining
     the common properties and behavior for CAN network interfaces
@@ -535,7 +535,7 @@ class AbstractCanCommunicationController(CommunicationController, metaclass=ABCM
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
-            raise NotImplementedError("AbstractCanCommunicationController is an abstract class.")
+            raise TypeError("AbstractCanCommunicationController is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -559,7 +559,7 @@ class CanCommunicationController(AbstractCanCommunicationController):
         super().__init__(parent, short_name)
 
 
-class AbstractCanCommunicationConnector(CommunicationConnector, metaclass=ABCMeta):
+class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
     """
     Abstract base class for CAN communication connectors, providing
     the foundation for connecting CAN controllers to communication
@@ -567,7 +567,7 @@ class AbstractCanCommunicationConnector(CommunicationConnector, metaclass=ABCMet
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
-            raise NotImplementedError("AbstractCanCommunicationConnector is an abstract class.")
+            raise TypeError("AbstractCanCommunicationConnector is an abstract class.")
         
         super().__init__(parent, short_name)
 

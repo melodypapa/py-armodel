@@ -5,7 +5,7 @@ prototypes such as variable, parameter, and composite element prototypes
 used in software components.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -13,17 +13,17 @@ from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from .....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 
-class AtpPrototype(AtpFeature, metaclass = ABCMeta):
+class AtpPrototype(AtpFeature, ABC):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == AtpPrototype:
-            raise NotImplementedError("AtpPrototype is an abstract class.")
+            raise TypeError("AtpPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 
-class DataPrototype(AtpPrototype, metaclass = ABCMeta):
+class DataPrototype(AtpPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == DataPrototype:
-            raise NotImplementedError("DataPrototype is an abstract class.")
+            raise TypeError("DataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -36,10 +36,10 @@ class DataPrototype(AtpPrototype, metaclass = ABCMeta):
         self.swDataDefProps = value
         return self
     
-class AutosarDataPrototype(DataPrototype, metaclass = ABCMeta):
+class AutosarDataPrototype(DataPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == AutosarDataPrototype:
-            raise NotImplementedError("AutosarDataPrototype is an abstract class.")
+            raise TypeError("AutosarDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -65,10 +65,10 @@ class VariableDataPrototype(AutosarDataPrototype):
         self.initValue = value
         return self
 
-class ApplicationCompositeElementDataPrototype(DataPrototype, metaclass = ABCMeta):
+class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == ApplicationCompositeElementDataPrototype:
-            raise NotImplementedError("ApplicationCompositeElementDataPrototype is an abstract class.")
+            raise TypeError("ApplicationCompositeElementDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 

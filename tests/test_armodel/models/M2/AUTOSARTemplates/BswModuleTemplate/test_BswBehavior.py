@@ -246,7 +246,7 @@ class TestBswModuleEntity:
     def test_abstract_class_cannot_be_instantiated(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             BswModuleEntity(ar_root, "BswModuleEntity")
         assert str(err.value) == "BswModuleEntity is an abstract class."
     
@@ -497,7 +497,7 @@ class TestBswEvent:
     def test_abstract_class_cannot_be_instantiated(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             BswEvent(ar_root, "BswEvent")
         assert str(err.value) == "BswEvent is an abstract class."
     
@@ -545,7 +545,7 @@ class TestBswScheduleEvent:
     def test_abstract_class_cannot_be_instantiated(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             BswScheduleEvent(ar_root, "BswScheduleEvent")
         assert str(err.value) == "BswScheduleEvent is an abstract class."
 
@@ -769,7 +769,7 @@ class TestBswExternalTriggerOccurredEvent:
 class TestBswApiOptions:
     """Test cases for BswApiOptions class - abstract base class for BSW API options."""
     def test_abstract_class_cannot_be_instantiated(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             BswApiOptions()
         assert str(err.value) == "BswApiOptions is an abstract class."
     
@@ -797,7 +797,7 @@ class TestBswApiOptions:
 class TestBswDataReceptionPolicy:
     """Test cases for BswDataReceptionPolicy class - abstract base class for BSW data reception policies."""
     def test_abstract_class_cannot_be_instantiated(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             BswDataReceptionPolicy()
         assert str(err.value) == "BswDataReceptionPolicy is an abstract class."
     

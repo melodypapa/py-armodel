@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -9,7 +9,7 @@ from ......M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
 
 
-class FibexElement(Identifiable, metaclass=ABCMeta):
+class FibexElement(Identifiable, ABC):
     """
     Abstract base class for FIBEX (FIBer EXchange) elements in the
     AUTOSAR system, providing a common foundation for all communication
@@ -18,7 +18,7 @@ class FibexElement(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is FibexElement:
-            raise NotImplementedError("FibexElement is an abstract class.")
+            raise TypeError("FibexElement is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -66,7 +66,7 @@ class PduToFrameMapping(Identifiable):
         return self
 
 
-class Frame(Identifiable, metaclass=ABCMeta):
+class Frame(Identifiable, ABC):
     """
     Abstract base class for communication frames in the AUTOSAR system,
     defining common properties for different types of communication
@@ -74,7 +74,7 @@ class Frame(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
-            raise NotImplementedError("Frame is an abstract class.")
+            raise TypeError("Frame is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -261,14 +261,14 @@ class ISignalIPduGroup(FibexElement):
         return self
 
 
-class Pdu(FibexElement, metaclass=ABCMeta):
+class Pdu(FibexElement, ABC):
     """
     Abstract base class for Protocol Data Units (PDUs) in the communication system,
     defining common properties such as dynamic length support and length specifications.
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Pdu:
-            raise NotImplementedError("Pdu is an abstract class.")
+            raise TypeError("Pdu is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -291,7 +291,7 @@ class Pdu(FibexElement, metaclass=ABCMeta):
         return self
     
 
-class IPdu(Pdu, metaclass=ABCMeta):
+class IPdu(Pdu, ABC):
     """
     Abstract base class for Interaction Protocol Data Units (IPDUs),
     extending the PDU class with contained IPDU properties for
@@ -299,7 +299,7 @@ class IPdu(Pdu, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
-            raise NotImplementedError("IPdu is an abstract class.")
+            raise TypeError("IPdu is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -868,7 +868,7 @@ class PduTriggering(Identifiable):
         return self
 
 
-class FrameTriggering(Identifiable, metaclass=ABCMeta):
+class FrameTriggering(Identifiable, ABC):
     """
     Abstract base class for frame triggering mechanisms, defining
     common properties for triggering frame transmission and reception
@@ -876,7 +876,7 @@ class FrameTriggering(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent, short_name):
         if type(self) is FrameTriggering:
-            raise NotImplementedError("FrameTriggering is an abstract class.")
+            raise TypeError("FrameTriggering is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -1033,7 +1033,7 @@ class SegmentPosition(ARObject):
         return self
 
 
-class MultiplexedPart(ARObject, metaclass=ABCMeta):
+class MultiplexedPart(ARObject, ABC):
     """
     Abstract base class for multiplexed communication parts, defining
     common properties for dynamic and static multiplexed communication
@@ -1041,7 +1041,7 @@ class MultiplexedPart(ARObject, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) is MultiplexedPart:
-            raise NotImplementedError("MultiplexedPart is an abstract class.")
+            raise TypeError("MultiplexedPart is an abstract class.")
         
         super().__init__()
 

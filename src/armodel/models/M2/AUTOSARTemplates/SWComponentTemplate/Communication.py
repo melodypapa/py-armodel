@@ -5,7 +5,7 @@ for different types of port communication such as sender/receiver, client/server
 and mode switching communications, as well as non-volatile and parameter communications.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
@@ -33,7 +33,7 @@ class HandleInvalidEnum(AREnum):
         ))
 
 
-class PPortComSpec(ARObject, metaclass=ABCMeta):
+class PPortComSpec(ARObject, ABC):
     """
         Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for
         all kinds of provide ports, independent of client-server or sender-receiver communication patterns.
@@ -46,11 +46,11 @@ class PPortComSpec(ARObject, metaclass=ABCMeta):
 
     def __init__(self):
         if type(self) is PPortComSpec:
-            raise NotImplementedError("PPortComSpec is an abstract class.")
+            raise TypeError("PPortComSpec is an abstract class.")
         super().__init__()
 
 
-class RPortComSpec(ARObject, metaclass=ABCMeta):
+class RPortComSpec(ARObject, ABC):
     """
         Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for
         all kinds of provide ports, independent of client-server or sender-receiver communication patterns.
@@ -63,7 +63,7 @@ class RPortComSpec(ARObject, metaclass=ABCMeta):
 
     def __init__(self):
         if type(self) is RPortComSpec:
-            raise NotImplementedError("RPortComSpec is an abstract class.")
+            raise TypeError("RPortComSpec is an abstract class.")
 
         super().__init__()
 
@@ -97,10 +97,10 @@ class TransmissionAcknowledgementRequest(ARObject):
         self.timeout: float = None
 
 
-class SenderComSpec(PPortComSpec, metaclass=ABCMeta):
+class SenderComSpec(PPortComSpec, ABC):
     def __init__(self):
         if type(self) is SenderComSpec:
-            raise NotImplementedError("SenderComSpec is an abstract class.")
+            raise TypeError("SenderComSpec is an abstract class.")
 
         super().__init__()
 
@@ -262,7 +262,7 @@ class ParameterRequireComSpec(RPortComSpec):
         return self
 
 
-class ReceiverComSpec(RPortComSpec, metaclass=ABCMeta):
+class ReceiverComSpec(RPortComSpec, ABC):
 
     def __init__(self):
         if type(self) is ReceiverComSpec:
@@ -403,10 +403,10 @@ class ParameterProvideComSpec(RPortComSpec):
         super().__init__()
 
 
-class TransformationComSpecProps(Describable, metaclass=ABCMeta):
+class TransformationComSpecProps(Describable, ABC):
     def __init__(self):
         if type(self) is TransformationComSpecProps:
-            raise NotImplementedError("TransformationComSpecProps is an abstract class.")
+            raise TypeError("TransformationComSpecProps is an abstract class.")
 
         super().__init__()
 

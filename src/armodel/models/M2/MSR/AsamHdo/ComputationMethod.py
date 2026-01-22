@@ -1,5 +1,5 @@
 from typing import List
-from abc import ABCMeta
+from abc import ABC
 
 from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
@@ -8,14 +8,14 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
-class CompuContent(ARObject, metaclass=ABCMeta):
+class CompuContent(ARObject, ABC):
     """
     Abstract base class for computation content.
     Base: ARObject
     """
     def __init__(self):
         if type(self) == CompuContent:
-            raise NotImplementedError("CompuContent is an abstract class.")
+            raise TypeError("CompuContent is an abstract class.")
 
         super().__init__()
 
@@ -64,7 +64,7 @@ class Compu(ARObject):
         return self
 
 
-class CompuConstContent(ARObject, metaclass=ABCMeta):
+class CompuConstContent(ARObject, ABC):
     """
     This meta-class represents the fact that the constant value of the computation method can be numerical or textual.
     Base            : ARObject
@@ -73,7 +73,7 @@ class CompuConstContent(ARObject, metaclass=ABCMeta):
     """
     def __init__(self):
         if type(self) == CompuConstContent:
-            raise NotImplementedError("CompuConstContent is an abstract class.")
+            raise TypeError("CompuConstContent is an abstract class.")
 
         super().__init__()
 
@@ -133,14 +133,14 @@ class CompuConstFormulaContent(CompuConstContent):
 
 
 
-class CompuScaleContents(ARObject, metaclass=ABCMeta):
+class CompuScaleContents(ARObject, ABC):
     """
     Abstract base class for computation scale contents.
     Base: ARObject
     """
     def __init__(self):
         if type(self) == CompuScaleContents:
-            raise NotImplementedError("CompuScaleContents is an abstract class.")
+            raise TypeError("CompuScaleContents is an abstract class.")
 
         super().__init__()
 

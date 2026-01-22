@@ -35,7 +35,7 @@ class Test_TransportProtocols:
     def test_TpConfig(self):
         """Test TpConfig abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TpConfig(parent, "test_tp_config")
 
     def test_CanTpAddress(self):
@@ -83,7 +83,7 @@ class Test_TransportProtocols:
 
     def test_TpConnection(self):
         """Test TpConnection abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TpConnection()
 
     def test_CanTpConnection(self):

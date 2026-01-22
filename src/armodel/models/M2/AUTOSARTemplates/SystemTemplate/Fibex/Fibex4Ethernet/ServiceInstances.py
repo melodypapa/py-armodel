@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for service instances
 # It defines consumed and provided service instances, application endpoints, and SOAD configurations
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String, TimeValue
@@ -10,7 +10,7 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject 
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 
-class TransportProtocolConfiguration(ARObject, metaclass = ABCMeta):
+class TransportProtocolConfiguration(ARObject, ABC):
     """
     Abstract base class for transport protocol configurations,
     defining the common properties and behavior for different
@@ -19,7 +19,7 @@ class TransportProtocolConfiguration(ARObject, metaclass = ABCMeta):
     """
     def __init__(self):
         if type(self) == TransportProtocolConfiguration:
-            raise NotImplementedError("TransportProtocolConfiguration is an abstract class.")
+            raise TypeError("TransportProtocolConfiguration is an abstract class.")
         
         super().__init__()
 
@@ -50,7 +50,7 @@ class GenericTp(TransportProtocolConfiguration):
         return self
 
 
-class TcpUdpConfig(TransportProtocolConfiguration, metaclass = ABCMeta):
+class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     """
     Abstract base class for TCP and UDP transport protocol configurations,
     defining common properties for both connection-oriented and
@@ -58,7 +58,7 @@ class TcpUdpConfig(TransportProtocolConfiguration, metaclass = ABCMeta):
     """
     def __init__(self):
         if type(self) == TcpUdpConfig:
-            raise NotImplementedError("TcpUdpConfig is an abstract class.")
+            raise TypeError("TcpUdpConfig is an abstract class.")
         
         super().__init__()
 
@@ -182,7 +182,7 @@ class TcpTp(TcpUdpConfig):
         self.tcpTpPort = value
         return self
     
-class AbstractServiceInstance(Identifiable, metaclass = ABCMeta):
+class AbstractServiceInstance(Identifiable, ABC):
     """
     Abstract base class for service instances, defining common properties
     for both consumed and provided services in the AUTOSAR service-oriented
@@ -190,7 +190,7 @@ class AbstractServiceInstance(Identifiable, metaclass = ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractServiceInstance:
-            raise NotImplementedError("AbstractServiceInstance is an abstract class.")
+            raise TypeError("AbstractServiceInstance is an abstract class.")
         
         super().__init__(parent, short_name)
 

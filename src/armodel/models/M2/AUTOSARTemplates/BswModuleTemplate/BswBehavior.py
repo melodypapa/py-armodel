@@ -9,7 +9,7 @@ These classes are used to model:
 - Internal behavior of BSW modules
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
@@ -26,7 +26,7 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclara
 from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 
 
-class BswModuleCallPoint(Referrable, metaclass=ABCMeta):
+class BswModuleCallPoint(Referrable, ABC):
     """
     Represents a call point for a BSW module, which defines how the module can be called.
     This is an abstract base class for different types of call points.
@@ -361,7 +361,7 @@ class BswDistinguishedPartition(Referrable):
         super().__init__(parent, short_name)
 
 
-class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
+class BswModuleEntity(ExecutableEntity, ABC):
     """
     Abstract base class for BSW module entities.
     A BSW module entity represents an executable piece of code in a BSW module.
@@ -370,14 +370,14 @@ class BswModuleEntity(ExecutableEntity, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module entity with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this entity
             short_name: The unique short name of this entity
         """
         if type(self) is BswModuleEntity:
-            raise NotImplementedError("BswModuleEntity is an abstract class.")
+            raise TypeError("BswModuleEntity is an abstract class.")
         super().__init__(parent, short_name)
 
         # List of mode group references that this entity accesses
@@ -755,7 +755,7 @@ class BswInterruptEntity(BswModuleEntity):
         return self
 
 
-class BswEvent(AbstractEvent, metaclass=ABCMeta):
+class BswEvent(AbstractEvent, ABC):
     """
     Abstract base class for BSW events.
     BSW events trigger the execution of BSW module entities.
@@ -764,14 +764,14 @@ class BswEvent(AbstractEvent, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW event with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this event
             short_name: The unique short name of this event
         """
         if type(self) is BswEvent:
-            raise NotImplementedError("BswEvent is an abstract class.")
+            raise TypeError("BswEvent is an abstract class.")
         super().__init__(parent, short_name)
 
         # Reference to the event that starts this event
@@ -844,7 +844,7 @@ class BswOperationInvokedEvent(BswEvent):
         return self
 
 
-class BswScheduleEvent(BswEvent, metaclass=ABCMeta):
+class BswScheduleEvent(BswEvent, ABC):
     """
     Abstract base class for BSW scheduled events.
     These events are scheduled for execution at specific times or conditions.
@@ -853,14 +853,14 @@ class BswScheduleEvent(BswEvent, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW schedule event with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this event
             short_name: The unique short name of this event
         """
         if type(self) is BswScheduleEvent:
-            raise NotImplementedError("BswScheduleEvent is an abstract class.")
+            raise TypeError("BswScheduleEvent is an abstract class.")
         super().__init__(parent, short_name)
 
 
@@ -1252,7 +1252,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
         return self
 
     
-class BswApiOptions(ARObject, metaclass=ABCMeta):
+class BswApiOptions(ARObject, ABC):
     """
     Abstract base class for BSW API options.
     Defines common options for BSW API implementations.
@@ -1261,10 +1261,10 @@ class BswApiOptions(ARObject, metaclass=ABCMeta):
     def __init__(self):
         """
         Initializes the BSW API options.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         """
         if type(self) is BswApiOptions:
-            raise NotImplementedError("BswApiOptions is an abstract class.")
+            raise TypeError("BswApiOptions is an abstract class.")
 
         super().__init__()
 
@@ -1296,7 +1296,7 @@ class BswApiOptions(ARObject, metaclass=ABCMeta):
         return self
 
 
-class BswDataReceptionPolicy(BswApiOptions, metaclass=ABCMeta):
+class BswDataReceptionPolicy(BswApiOptions, ABC):
     """
     Abstract base class for BSW data reception policies.
     Defines how BSW modules receive data.
@@ -1305,10 +1305,10 @@ class BswDataReceptionPolicy(BswApiOptions, metaclass=ABCMeta):
     def __init__(self):
         """
         Initializes the BSW data reception policy.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         """
         if type(self) is BswDataReceptionPolicy:
-            raise NotImplementedError("BswDataReceptionPolicy is an abstract class.")
+            raise TypeError("BswDataReceptionPolicy is an abstract class.")
 
         super().__init__()
 

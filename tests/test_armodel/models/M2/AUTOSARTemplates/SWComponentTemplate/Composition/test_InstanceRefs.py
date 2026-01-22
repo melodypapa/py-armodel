@@ -17,7 +17,7 @@ class TestPortInCompositionTypeInstanceRef:
     
     def test_port_in_composition_type_instance_ref_abstract(self):
         """Test that PortInCompositionTypeInstanceRef is an abstract class."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             PortInCompositionTypeInstanceRef()
 
 
@@ -114,7 +114,7 @@ class TestOperationInAtomicSwcInstanceRef:
     
     def test_operation_in_atomic_swc_instance_ref_abstract(self):
         """Test that OperationInAtomicSwcInstanceRef is an abstract class."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             OperationInAtomicSwcInstanceRef()
 
 

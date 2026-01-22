@@ -24,7 +24,7 @@ class TestPortInterface:
         """Test PortInterface initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             PortInterface(ar_root, "TestPortInterface")
 
 
@@ -35,7 +35,7 @@ class TestDataInterface:
         """Test DataInterface initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             DataInterface(ar_root, "TestDataInterface")
 
 
@@ -333,7 +333,7 @@ class TestPortInterfaceMapping:
         """Test PortInterfaceMapping initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             PortInterfaceMapping(ar_root, "TestPortInterfaceMapping")
 
 

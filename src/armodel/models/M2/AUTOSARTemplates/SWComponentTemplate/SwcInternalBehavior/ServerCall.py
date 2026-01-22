@@ -3,12 +3,12 @@ This module contains classes for representing AUTOSAR server call points
 in software component internal behavior templates.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
 
-class ServerCallPoint(AbstractAccessPoint, metaclass=ABCMeta):
+class ServerCallPoint(AbstractAccessPoint, ABC):
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ServerCallPoint:

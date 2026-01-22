@@ -33,7 +33,7 @@ class Test_Fibex4EthernetServiceInstances:
     
     def test_TransportProtocolConfiguration(self):
         """Test TransportProtocolConfiguration abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TransportProtocolConfiguration()
 
     def test_GenericTp(self):
@@ -64,7 +64,7 @@ class Test_Fibex4EthernetServiceInstances:
 
     def test_TcpUdpConfig(self):
         """Test TcpUdpConfig abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TcpUdpConfig()
 
     def test_TpPort(self):
@@ -186,7 +186,7 @@ class Test_Fibex4EthernetServiceInstances:
     def test_AbstractServiceInstance(self):
         """Test AbstractServiceInstance abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractServiceInstance(parent, "test_abstract_service_instance")
 
     def test_AbstractServiceInstance_methods(self):

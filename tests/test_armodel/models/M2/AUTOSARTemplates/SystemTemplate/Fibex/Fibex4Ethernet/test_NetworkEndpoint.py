@@ -25,7 +25,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
     
     def test_NetworkEndpointAddress(self):
         """Test NetworkEndpointAddress abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             NetworkEndpointAddress()
 
     def test_Ipv4Configuration(self):

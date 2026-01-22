@@ -1148,7 +1148,7 @@ and the actual Python implementation class hierarchy.
 | + EXTRA | ARLiteral | N/A, N/A | ARType, False | Class exists but not documented |
 | + EXTRA | ARNumerical | N/A, N/A | ARType, False | Class exists but not documented |
 | + EXTRA | ARPositiveInteger | N/A, N/A | ARNumerical, False | Class exists but not documented |
-| + EXTRA | ARType | N/A, N/A | None, False | Class exists but not documented |
+| + EXTRA | ARType | N/A, N/A | ABC, False | Class exists but not documented |
 | + EXTRA | AUTOSARDoc | N/A, N/A | AbstractAUTOSAR, False | Class exists but not documented |
 | + EXTRA | AbstractAUTOSAR | N/A, N/A | CollectableElement, False | Class exists but not documented |
 | + EXTRA | ArgumentDirectionEnum | N/A, N/A | AREnum, False | Class exists but not documented |

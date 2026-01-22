@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for transport protocols
 # It defines CAN, DoIP, and LIN transport protocol configurations and connections
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ....M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
@@ -10,7 +10,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-class TpConfig(FibexElement, metaclass = ABCMeta):
+class TpConfig(FibexElement, ABC):
     """
     Abstract base class for transport protocol configurations,
     defining common properties for different types of transport
@@ -18,7 +18,7 @@ class TpConfig(FibexElement, metaclass = ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == TpConfig:
-            raise NotImplementedError("TpConfig is an abstract class.")
+            raise TypeError("TpConfig is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -96,7 +96,7 @@ class TpConnectionIdent(Referrable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)    
 
-class TpConnection(ARObject, metaclass = ABCMeta):
+class TpConnection(ARObject, ABC):
     """
     Abstract base class for transport protocol connections,
     defining common properties for different types of transport
@@ -104,7 +104,7 @@ class TpConnection(ARObject, metaclass = ABCMeta):
     """
     def __init__(self):
         if type(self) == TpConnection:
-            raise NotImplementedError("TpConnection is an abstract class.")
+            raise TypeError("TpConnection is an abstract class.")
         
         super().__init__()
 

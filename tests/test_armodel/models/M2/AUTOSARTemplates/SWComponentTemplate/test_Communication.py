@@ -37,7 +37,7 @@ class TestPPortComSpec:
     
     def test_pport_com_spec_abstract(self):
         """Test that PPortComSpec is an abstract class that raises NotImplementedError when instantiated."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             PPortComSpec()
 
 
@@ -46,7 +46,7 @@ class TestRPortComSpec:
     
     def test_rport_com_spec_abstract(self):
         """Test that RPortComSpec is an abstract class that raises NotImplementedError when instantiated."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             RPortComSpec()
 
 
@@ -85,7 +85,7 @@ class TestSenderComSpec:
     
     def test_sender_com_spec_abstract(self):
         """Test that SenderComSpec is an abstract class that raises NotImplementedError when instantiated."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             SenderComSpec()
 
 
@@ -355,7 +355,7 @@ class TestTransformationComSpecProps:
     
     def test_transformation_com_spec_props_abstract(self):
         """Test that TransformationComSpecProps is an abstract class that raises NotImplementedError when instantiated."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TransformationComSpecProps()
 
 

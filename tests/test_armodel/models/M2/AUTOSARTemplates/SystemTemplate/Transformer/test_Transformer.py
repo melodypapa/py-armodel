@@ -354,7 +354,7 @@ class TestTransformer:
         """
         Test TransformationDescription abstract class functionality.
         """
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TransformationDescription()
 
     def test_transformation_technology(self):

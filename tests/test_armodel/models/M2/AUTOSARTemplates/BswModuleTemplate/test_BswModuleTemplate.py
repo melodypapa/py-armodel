@@ -40,7 +40,7 @@ class Test_M2_AUTOSARTemplates_BswModuleTemplate_BswBehavior:
     def test_BswModuleEntity(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             BswModuleEntity(ar_root, "BswModuleEntity")
         assert(str(err.value) == "BswModuleEntity is an abstract class.")
 

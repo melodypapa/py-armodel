@@ -55,7 +55,7 @@ def test_ecuc_indexable_value_abstract():
     try:
         EcucIndexableValue()
         assert False, "Should raise NotImplementedError"
-    except NotImplementedError:
+    except TypeError:
         pass  # Expected
 
 
@@ -69,7 +69,7 @@ def test_ecuc_parameter_value_abstract():
     try:
         EcucParameterValue()
         assert False, "Should raise NotImplementedError"
-    except NotImplementedError:
+    except TypeError:
         pass  # Expected
 
 
@@ -173,7 +173,7 @@ def test_ecuc_abstract_reference_value_abstract():
     try:
         EcucAbstractReferenceValue()
         assert False, "Should raise NotImplementedError"
-    except NotImplementedError:
+    except TypeError:
         pass  # Expected
 
 

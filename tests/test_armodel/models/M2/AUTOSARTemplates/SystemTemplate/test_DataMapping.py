@@ -20,7 +20,7 @@ class Test_DataMapping:
     
     def test_DataMapping(self):
         """Test DataMapping abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             DataMapping()
 
     def test_SenderReceiverToSignalMapping(self):
@@ -69,7 +69,7 @@ class Test_DataMapping:
 
     def test_SenderRecCompositeTypeMapping(self):
         """Test SenderRecCompositeTypeMapping abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             SenderRecCompositeTypeMapping()
 
     def test_SenderRecRecordElementMapping(self):

@@ -18,7 +18,7 @@ class TestModeGroupInAtomicSwcInstanceRef:
     
     def test_mode_group_in_atomic_swc_instance_ref_abstract(self):
         """Test that ModeGroupInAtomicSwcInstanceRef is an abstract class."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             ModeGroupInAtomicSwcInstanceRef()
 
 
@@ -152,7 +152,7 @@ class TestVariableInAtomicSwcInstanceRef:
     
     def test_variable_in_atomic_swc_instance_ref_abstract(self):
         """Test that VariableInAtomicSwcInstanceRef is an abstract class."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             VariableInAtomicSwcInstanceRef()
 
 

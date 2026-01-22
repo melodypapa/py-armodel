@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -75,7 +75,7 @@ class EthernetCluster(CommunicationCluster):
         return self.getElement(short_name)
     
 
-class CouplingPortStructuralElement(Identifiable, metaclass=ABCMeta):
+class CouplingPortStructuralElement(Identifiable, ABC):
     """
     Abstract base class for coupling port structural elements in Ethernet
     switches and bridges, defining common properties and behavior for
@@ -83,7 +83,7 @@ class CouplingPortStructuralElement(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortStructuralElement:
-            raise NotImplementedError("CouplingPortStructuralElement is an abstract class.")
+            raise TypeError("CouplingPortStructuralElement is an abstract class.")
         
         super().__init__(parent, short_name)
         

@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Identifier, Limit
@@ -54,7 +54,7 @@ class EcucScopeEnum(AREnum):
         super().__init__([])
 
 
-class EcucDefinitionElement(Identifiable, metaclass=ABCMeta):
+class EcucDefinitionElement(Identifiable, ABC):
     """
     Represents an ECUC (Electronic Control Unit Configuration) definition element 
     with various attributes and methods to manage its properties.
@@ -190,7 +190,7 @@ class EcucConfigurationVariantEnum(AREnum):
         super().__init__([])
 
 
-class EcucAbstractConfigurationClass(ARObject, metaclass=ABCMeta):
+class EcucAbstractConfigurationClass(ARObject, ABC):
     """
     Represents an abstract configuration class for ECUC (Electronic Control Unit Configuration).
     This class provides methods to get and set the configuration class and variant.
@@ -249,7 +249,7 @@ class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
         super().__init__()
 
 
-class EcucContainerDef(EcucDefinitionElement, metaclass=ABCMeta):
+class EcucContainerDef(EcucDefinitionElement, ABC):
     """
     Represents an ECUC container definition in the AUTOSAR model.
     This class defines various properties and methods to manage ECUC container
@@ -365,7 +365,7 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
         super().__init__()
 
 
-class EcucCommonAttributes(EcucDefinitionElement, metaclass=ABCMeta):
+class EcucCommonAttributes(EcucDefinitionElement, ABC):
     """
     EcucCommonAttributes is an abstract base class that represents common attributes 
     for ECUC (Electronic Control Unit Configuration) definition elements. This class 
@@ -482,7 +482,7 @@ class EcucDerivationSpecification(ARObject):
         super().__init__()
 
 
-class EcucParameterDef(EcucCommonAttributes, metaclass=ABCMeta):
+class EcucParameterDef(EcucCommonAttributes, ABC):
     """
     Represents an ECUC (Electronic Control Unit Configuration) parameter definition
     in the AUTOSAR model. This class extends common attributes for ECUC elements
@@ -568,7 +568,7 @@ class EcucBooleanParamDef(EcucParameterDef):
         return self
 
 
-class EcucAbstractReferenceDef(EcucCommonAttributes, metaclass=ABCMeta):
+class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     """
     EcucAbstractReferenceDef is an abstract class that extends EcucCommonAttributes and uses ABCMeta as its metaclass.
     It represents an ECUC (Electronic Control Unit Configuration) abstract reference definition.
@@ -600,7 +600,7 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, metaclass=ABCMeta):
         return self
 
 
-class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, metaclass=ABCMeta):
+class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
     EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef 
     and uses ABCMeta as its metaclass. This class cannot be instantiated directly.
@@ -630,7 +630,7 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, metaclass=ABCMe
         return self
 
 
-class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, metaclass=ABCMeta):
+class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
@@ -737,7 +737,7 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
         return self
 
 
-class EcucAbstractStringParamDef(EcucParameterDef, metaclass=ABCMeta):
+class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     """
     EcucAbstractStringParamDef is an abstract class that represents a string parameter definition
     in the AUTOSAR ECUC model. It inherits from EcucParameterDef and uses ABCMeta as its metaclass

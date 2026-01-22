@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -6,10 +6,10 @@ class LEnum (ARLiteral):
     def __init__(self):
         super().__init__()
 
-class LanguageSpecific(ARObject, metaclass = ABCMeta):
+class LanguageSpecific(ARObject, ABC):
     def __init__(self):
         if type(self) is LanguageSpecific:
-            raise NotImplementedError("LanguageSpecific is an abstract class.")
+            raise TypeError("LanguageSpecific is an abstract class.")
 
         super().__init__()
 

@@ -19,12 +19,12 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
     def test_PortInterface(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             PortInterface(AUTOSAR.getInstance(), "PortInterface")
         assert (str(err.value) == "PortInterface is an abstract class.")
 
     def test_DataInterface(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             DataInterface(AUTOSAR.getInstance(), "DataInterface")
         assert (str(err.value) == "DataInterface is an abstract class.")
 

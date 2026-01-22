@@ -27,7 +27,7 @@ class Test_Fibex4LinCommunication:
     def test_LinFrame(self):
         """Test LinFrame abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             LinFrame(parent, "test_lin_frame")
 
     def test_LinUnconditionalFrame(self):
@@ -77,7 +77,7 @@ class Test_Fibex4LinCommunication:
 
     def test_ScheduleTableEntry(self):
         """Test ScheduleTableEntry abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             ScheduleTableEntry()
 
     def test_ApplicationEntry(self):
@@ -170,7 +170,7 @@ class Test_Fibex4LinCommunication:
 
     def test_LinConfigurationEntry(self):
         """Test LinConfigurationEntry abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             LinConfigurationEntry()
 
     def test_LinScheduleTable(self):

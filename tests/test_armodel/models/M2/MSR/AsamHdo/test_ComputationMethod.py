@@ -14,7 +14,7 @@ class TestCompuContent:
     def test_compu_content_abstract_class(self):
         """Test that CompuContent cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CompuContent()
 
 
@@ -72,7 +72,7 @@ class TestCompuConstContent:
     def test_compu_const_content_abstract_class(self):
         """Test that CompuConstContent cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CompuConstContent()
 
 
@@ -136,7 +136,7 @@ class TestCompuScaleContents:
     def test_compu_scale_contents_abstract_class(self):
         """Test that CompuScaleContents cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CompuScaleContents()
 
 

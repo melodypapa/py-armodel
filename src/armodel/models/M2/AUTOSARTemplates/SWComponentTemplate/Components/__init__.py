@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
@@ -20,7 +20,7 @@ class SymbolProps(ImplementationProps):
         super().__init__(parent, short_name)
 
 
-class PortPrototype(Identifiable, metaclass=ABCMeta):
+class PortPrototype(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortPrototype:
             raise TypeError("PortPrototype is an abstract class.")
@@ -95,7 +95,7 @@ class PortPrototype(Identifiable, metaclass=ABCMeta):
 class AbstractProvidedPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractProvidedPortPrototype:
-            raise NotImplementedError("AbstractProvidedPortPrototype is an abstract class.")
+            raise TypeError("AbstractProvidedPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
         self.providedComSpecs = []                  # type: List[PPortComSpec]
@@ -131,7 +131,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
 class AbstractRequiredPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractRequiredPortPrototype:
-            raise NotImplementedError("AbstractRequiredPortPrototype is an abstract class.")
+            raise TypeError("AbstractRequiredPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
         self.requiredComSpecs = []                          # type: List[RPortComSpec]
@@ -256,7 +256,7 @@ class PortGroup(Identifiable):
         return self._outer_port_ref
 
 
-class AtomicSwComponentType(SwComponentType, metaclass=ABCMeta):
+class AtomicSwComponentType(SwComponentType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

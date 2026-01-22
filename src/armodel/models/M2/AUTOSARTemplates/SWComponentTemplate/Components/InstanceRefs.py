@@ -5,15 +5,15 @@ elements within atomic SWCs and compositions, particularly for mode groups
 and data elements in instance contexts.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
-class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
+class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         
         if type(self) == ModeGroupInAtomicSwcInstanceRef:
-            raise NotImplementedError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
+            raise TypeError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
         
         super().__init__()
 
@@ -123,10 +123,10 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
         self.targetModeDeclarationRef = value
         return self
     
-class VariableInAtomicSwcInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
+class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         if type(self) == VariableInAtomicSwcInstanceRef:
-            raise NotImplementedError("VariableInAtomicSwcInstanceRef is an abstract class.")
+            raise TypeError("VariableInAtomicSwcInstanceRef is an abstract class.")
 
         super().__init__()
 
