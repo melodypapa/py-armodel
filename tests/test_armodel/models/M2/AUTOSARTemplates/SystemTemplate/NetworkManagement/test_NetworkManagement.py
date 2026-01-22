@@ -459,7 +459,7 @@ class TestNetworkManagement:
         Test NmCluster abstract class functionality.
         """
         parent = MockParent()
-        cluster = NmCluster(parent, "test_nm_cluster")
+        cluster = CanNmCluster(parent, "test_nm_cluster")
 
         # Test constructor
         assert cluster is not None

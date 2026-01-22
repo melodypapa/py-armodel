@@ -1,15 +1,19 @@
+from abc import ABCMeta
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, String, TimeValue
 from .......models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
-class LinCommunicationController(CommunicationController):
+class LinCommunicationController(CommunicationController, metaclass=ABCMeta):
     """
     Represents a LIN communication controller in the system,
     defining properties for LIN network communication including
     protocol version specifications.
     """
+
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is LinCommunicationController:
+            raise TypeError("LinCommunicationController is an abstract class.")
         super().__init__(parent, short_name)
 
         self.protocolVersion: String = None

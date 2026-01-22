@@ -7,6 +7,7 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
+import pytest
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCommunicationController,
     LinMaster,
@@ -39,10 +40,16 @@ class TestLinTopology:
 
     def test_lin_communication_controller(self):
         """
-        Test the LinCommunicationController class initialization and methods.
+        Test the LinCommunicationController abstract class.
         """
         parent = MockParent()
-        controller = LinCommunicationController(parent, "TestController")
+        
+        # Test that LinCommunicationController cannot be instantiated directly
+        with pytest.raises(TypeError, match="LinCommunicationController is an abstract class"):
+            LinCommunicationController(parent, "TestController")
+        
+        # Test that a concrete subclass can be instantiated
+        controller = LinMaster(parent, "TestController")
         
         assert controller.getShortName() == "TestController"
         assert isinstance(controller, CommunicationController)

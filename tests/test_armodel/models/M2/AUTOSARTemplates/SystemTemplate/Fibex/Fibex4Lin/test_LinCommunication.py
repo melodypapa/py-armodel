@@ -132,8 +132,16 @@ class Test_Fibex4LinCommunication:
         assert result == entry  # Test method chaining
 
     def test_FreeFormatEntry(self):
-        """Test FreeFormatEntry class functionality."""
-        entry = FreeFormatEntry()
+        """Test FreeFormatEntry abstract class functionality."""
+        # Test that FreeFormatEntry cannot be instantiated directly
+        with pytest.raises(TypeError, match="FreeFormatEntry is an abstract class"):
+            FreeFormatEntry()
+
+        # Test that a concrete subclass can be instantiated and use inherited methods
+        class ConcreteFreeFormatEntry(FreeFormatEntry):
+            pass
+
+        entry = ConcreteFreeFormatEntry()
 
         assert isinstance(entry, ScheduleTableEntry)
         
@@ -223,13 +231,13 @@ class Test_Fibex4LinTopology:
     def test_LinCommunicationController(self):
         """Test LinCommunicationController class functionality."""
         parent = MockParent()
-        controller = LinCommunicationController(parent, "test_lin_comm_controller")
+        controller = LinMaster(parent, "test_lin_comm_controller")
 
         assert isinstance(controller, CommunicationController)
-        
+
         # Test default values
         assert controller.getProtocolVersion() is None
-        
+
         # Test setter/getter methods with method chaining
         result = controller.setProtocolVersion("2.1")
         assert controller.getProtocolVersion() == "2.1"

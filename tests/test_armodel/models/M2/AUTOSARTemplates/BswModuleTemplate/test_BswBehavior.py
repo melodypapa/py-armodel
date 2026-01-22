@@ -45,20 +45,30 @@ from armodel import AUTOSAR
 
 class TestBswModuleCallPoint:
     """Test cases for BswModuleCallPoint class - represents a call point in a BSW module."""
-    def test_initialization(self):
-        """Test initialization of BswModuleCallPoint with proper attributes."""
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that BswModuleCallPoint is abstract and cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        call_point = BswModuleCallPoint(ar_root, "test_call_point")
+        
+        with pytest.raises(TypeError, match="BswModuleCallPoint is an abstract class"):
+            call_point = BswModuleCallPoint(ar_root, "test_call_point")
+    
+    def test_concrete_subclass_can_be_instantiated(self):
+        """Test that concrete subclasses of BswModuleCallPoint can be instantiated."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        
+        # Test with BswDirectCallPoint (a concrete subclass)
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
         
         assert call_point.short_name == "test_call_point"
         assert call_point.getContextLimitationRefs() == []
         
     def test_add_context_limitation_ref(self):
-        """Test adding a context limitation reference to BswModuleCallPoint."""
+        """Test adding a context limitation reference to a concrete subclass of BswModuleCallPoint."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        call_point = BswModuleCallPoint(ar_root, "test_call_point")
+        call_point = BswDirectCallPoint(ar_root, "test_call_point")
         
         ref = RefType()
         result = call_point.addContextLimitationRef(ref)

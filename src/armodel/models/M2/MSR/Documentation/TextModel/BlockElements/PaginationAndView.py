@@ -1,8 +1,11 @@
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABCMeta
 
 
-class DocumentViewSelectable(ARObject):
+class DocumentViewSelectable(ARObject, metaclass=ABCMeta):
     def __init__(self):
+        if type(self) is DocumentViewSelectable:
+            raise TypeError("DocumentViewSelectable is an abstract class.")
         super().__init__()
 
 

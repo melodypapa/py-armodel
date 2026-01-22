@@ -130,13 +130,16 @@ class ApplicationEntry(ScheduleTableEntry):
             self.frameTriggeringRef = value
         return self
 
-class FreeFormatEntry(ScheduleTableEntry):
+class FreeFormatEntry(ScheduleTableEntry, metaclass=ABCMeta):
     """
     Defines a free format entry in a LIN schedule table,
     allowing for flexible schedule entries without specific
     frame triggering references.
     """
+
     def __init__(self):
+        if type(self) is FreeFormatEntry:
+            raise TypeError("FreeFormatEntry is an abstract class.")
         super().__init__()
 
 class LinConfigurationEntry(ScheduleTableEntry, metaclass = ABCMeta):

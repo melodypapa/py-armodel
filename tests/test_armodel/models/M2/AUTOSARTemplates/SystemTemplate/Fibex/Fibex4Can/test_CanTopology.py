@@ -395,7 +395,7 @@ class Test_Fibex4CanTopology:
 
     def test_AbstractCanCommunicationControllerAttributes(self):
         """Test AbstractCanCommunicationControllerAttributes class functionality."""
-        attrs = AbstractCanCommunicationControllerAttributes()
+        attrs = CanControllerConfigurationRequirements()
 
         assert isinstance(attrs, ARObject)
 
@@ -482,7 +482,7 @@ class Test_Fibex4CanTopology:
         assert controller.getCanControllerAttributes() is None
 
         # Test setter/getter methods with method chaining
-        attrs = AbstractCanCommunicationControllerAttributes()
+        attrs = CanControllerConfigurationRequirements()
         controller.setCanControllerAttributes(attrs)
         assert controller.getCanControllerAttributes() == attrs
         assert controller == controller.setCanControllerAttributes(attrs)  # Test method chaining

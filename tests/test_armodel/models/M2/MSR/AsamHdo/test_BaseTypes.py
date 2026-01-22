@@ -9,10 +9,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class TestBaseTypeDefinition:
     """Test class for BaseTypeDefinition class."""
-    
-    def test_base_type_definition_initialization(self):
-        """Test that a BaseTypeDefinition object can be initialized with default values."""
-        base_type_def = BaseTypeDefinition()
+
+    def test_base_type_definition_abstract_class(self):
+        """Test that BaseTypeDefinition cannot be instantiated directly."""
+        with pytest.raises(TypeError, match="BaseTypeDefinition is an abstract class"):
+            BaseTypeDefinition()
+
+    def test_base_type_definition_concrete_subclass(self):
+        """Test that a concrete subclass of BaseTypeDefinition can be instantiated."""
+        base_type_def = BaseTypeDirectDefinition()
         # BaseTypeDefinition inherits from ARObject, so we just check it's created
         assert base_type_def is not None
 

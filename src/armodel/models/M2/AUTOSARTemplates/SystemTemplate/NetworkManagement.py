@@ -502,6 +502,8 @@ class NmCluster(Identifiable, metaclass=ABCMeta):
     and node management capabilities.
     """
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is NmCluster:
+            raise TypeError("NmCluster is an abstract class.")
         super().__init__(parent, short_name)
 
         self.communicationClusterRef: RefType = None

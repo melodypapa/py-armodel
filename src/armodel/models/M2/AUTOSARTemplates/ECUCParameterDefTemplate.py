@@ -482,7 +482,7 @@ class EcucDerivationSpecification(ARObject):
         super().__init__()
 
 
-class EcucParameterDef(EcucCommonAttributes):
+class EcucParameterDef(EcucCommonAttributes, metaclass=ABCMeta):
     """
     Represents an ECUC (Electronic Control Unit Configuration) parameter definition
     in the AUTOSAR model. This class extends common attributes for ECUC elements
@@ -508,7 +508,10 @@ class EcucParameterDef(EcucCommonAttributes):
             Sets the automatic configuration status of the parameter.
             Returns the current instance for method chaining.
     """
+
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is EcucParameterDef:
+            raise TypeError("EcucParameterDef is an abstract class.")
         super().__init__(parent, short_name)
 
         self.derivation: EcucDerivationSpecification = None

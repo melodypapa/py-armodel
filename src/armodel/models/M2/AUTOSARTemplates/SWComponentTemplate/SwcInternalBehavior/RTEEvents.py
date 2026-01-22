@@ -3,6 +3,7 @@ This module contains classes for representing AUTOSAR RTE events
 in software component internal behavior templates.
 """
 
+from abc import ABCMeta
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
 from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
@@ -11,8 +12,10 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveT
 from typing import List
 
 
-class RTEEvent(AbstractEvent):
+class RTEEvent(AbstractEvent, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is RTEEvent:
+            raise TypeError("RTEEvent is an abstract class.")
         super().__init__(parent, short_name)
         
         self.disabledModeIRefs: List['RModeInAtomicSwcInstanceRef'] = []

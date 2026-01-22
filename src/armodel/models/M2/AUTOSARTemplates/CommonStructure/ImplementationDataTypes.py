@@ -9,8 +9,10 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Autos
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
 
-class AbstractImplementationDataTypeElement(Identifiable):
+class AbstractImplementationDataTypeElement(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent, short_name: str):
+        if type(self) is AbstractImplementationDataTypeElement:
+            raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
         super().__init__(parent, short_name)
 
 

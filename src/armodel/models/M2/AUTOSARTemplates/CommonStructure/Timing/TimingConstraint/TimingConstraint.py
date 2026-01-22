@@ -16,17 +16,16 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from abc import ABCMeta
 
 
-class TimingConstraint(Identifiable):
+class TimingConstraint(Identifiable, metaclass=ABCMeta):
     """
     Abstract base class for all timing constraints in AUTOSAR.
     This class cannot be instantiated directly and serves as the base for concrete
     timing constraint implementations such as execution order constraints.
     """
-    __metaclass__ = ABCMeta
 
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == TimingConstraint:
-            raise NotImplementedError("TimingConstraint is an abstract class.")
+        if type(self) is TimingConstraint:
+            raise TypeError("TimingConstraint is an abstract class.")
 
         super().__init__(parent, short_name)
 

@@ -3,6 +3,7 @@ This module contains comprehensive tests for the RTEEvents module in SWComponent
 Tests cover all classes and methods in the RTEEvents.py file to achieve 100% test coverage.
 """
 
+import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     RTEEvent, AsynchronousServerCallReturnsEvent, DataSendCompletedEvent,
     DataWriteCompletedEvent, DataReceivedEvent, SwcModeSwitchEvent,
@@ -14,24 +15,31 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 class TestRTEEvent:
     """Test class for RTEEvent abstract class."""
-    
-    def test_rte_event_initialization(self):
-        """Test RTEEvent initialization and methods."""
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that RTEEvent abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        rte_event = RTEEvent(ar_root, "TestRTEEvent")
-        
+        with pytest.raises(TypeError, match="RTEEvent is an abstract class"):
+            RTEEvent(ar_root, "TestRTEEvent")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of RTEEvent can be instantiated."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        rte_event = InitEvent(ar_root, "TestRTEEvent")
+
         assert rte_event.parent == ar_root
         assert rte_event.short_name == "TestRTEEvent"
         assert rte_event.disabledModeIRefs == []
         assert rte_event.startOnEventRef is None
-        
+
         # Test disabledModeIRefs methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
         iref = RModeInAtomicSwcInstanceRef()
         rte_event.addDisabledModeIRef(iref)
         assert iref in rte_event.getDisabledModeIRefs()
-        
+
         # Test startOnEventRef methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
         event_ref = RefType()

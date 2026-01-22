@@ -2,17 +2,21 @@
 # It defines crypto service mappings and TLS configurations for secure data transmission
 
 from typing import List
+from abc import ABCMeta
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
-class CryptoServiceMapping(Identifiable):
+class CryptoServiceMapping(Identifiable, metaclass=ABCMeta):
     """
     Abstract base class for crypto service mappings, defining
     common properties for different types of cryptographic
     service mappings in the AUTOSAR system.
     """
+
     def __init__(self, parent, short_name):
+        if type(self) is CryptoServiceMapping:
+            raise TypeError("CryptoServiceMapping is an abstract class.")
         super().__init__(parent, short_name)
 
 

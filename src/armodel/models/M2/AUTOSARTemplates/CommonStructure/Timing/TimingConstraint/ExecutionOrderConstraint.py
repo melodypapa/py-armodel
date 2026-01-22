@@ -19,16 +19,15 @@ from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primitive
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 
 
-class EOCExecutableEntityRefAbstract(Identifiable):
+class EOCExecutableEntityRefAbstract(Identifiable, metaclass=ABCMeta):
     """
     Abstract base class for execution order constraint executable entity references.
     This class cannot be instantiated directly and serves as the base for concrete implementations.
     """
-    __metaclass__ = ABCMeta
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EOCExecutableEntityRefAbstract:
-            raise NotImplementedError("EOCExecutableEntityRefAbstract is an abstract class.")
+            raise TypeError("EOCExecutableEntityRefAbstract is an abstract class.")
 
         super().__init__(parent, short_name)
 

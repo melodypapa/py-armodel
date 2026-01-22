@@ -90,7 +90,7 @@ def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
                                 parent_class = base.id
                                 break
 
-                    # Check if abstract (has ABCMeta metaclass or abstract methods)
+                    # Check if abstract (has ABCMeta metaclass or abstract methods or instantiation check)
                     is_abstract = False
                     # Check metaclass
                     for decorator in node.decorator_list:
@@ -111,6 +111,29 @@ def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
                                     if isinstance(decorator, ast.Name) and decorator.id == 'abstractmethod':
                                         is_abstract = True
                                         break
+                                if is_abstract:
+                                    break
+
+                    if not is_abstract:
+                        # Check for instantiation check pattern in __init__ method
+                        for item in node.body:
+                            if isinstance(item, ast.FunctionDef) and item.name == '__init__':
+                                for stmt in ast.walk(item):
+                                    if isinstance(stmt, ast.If):
+                                        # Check if it's a type(self) is ClassName check
+                                        if (isinstance(stmt.test, ast.Compare) and 
+                                            len(stmt.test.ops) == 2 and
+                                            isinstance(stmt.test.ops[0], ast.Call) and
+                                            isinstance(stmt.test.ops[1], ast.Name) and
+                                            isinstance(stmt.test.left, ast.Call) and
+                                            isinstance(stmt.test.left.func, ast.Name) and
+                                            stmt.test.left.func.id == 'type' and
+                                            stmt.test.comparators[0].id == 'is' and
+                                            isinstance(stmt.test.left.args[0], ast.Name) and
+                                            stmt.test.left.args[0].id == 'self' and
+                                            stmt.test.right.id == node.name):
+                                            is_abstract = True
+                                            break
                                 if is_abstract:
                                     break
 

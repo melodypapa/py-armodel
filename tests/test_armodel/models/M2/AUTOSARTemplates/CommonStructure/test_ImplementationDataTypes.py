@@ -8,11 +8,18 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import Sy
 
 
 class TestAbstractImplementationDataTypeElement:
-    def test_initialization(self):
-        """Test AbstractImplementationDataTypeElement initialization"""
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that AbstractImplementationDataTypeElement abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        element = AbstractImplementationDataTypeElement(ar_root, "TestElement")
+        with pytest.raises(TypeError, match="AbstractImplementationDataTypeElement is an abstract class"):
+            AbstractImplementationDataTypeElement(ar_root, "TestElement")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of AbstractImplementationDataTypeElement can be instantiated"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        element = ImplementationDataTypeElement(ar_root, "TestElement")
         
         assert element is not None
         assert element.getShortName() == "TestElement"

@@ -46,10 +46,15 @@ class Test_FibexCoreTopology:
     """Test cases for FibexCore Topology classes."""
     
     def test_CommunicationCycle(self):
-        """Test CommunicationCycle class functionality."""
-        cycle = CommunicationCycle()
-
+        """Test CommunicationCycle abstract class functionality."""
+        # Test that CommunicationCycle cannot be instantiated directly
+        with pytest.raises(TypeError, match="CommunicationCycle is an abstract class"):
+            CommunicationCycle()
+        
+        # Test that a concrete subclass can be instantiated
+        cycle = CycleCounter()
         assert isinstance(cycle, ARObject)
+        assert isinstance(cycle, CommunicationCycle)
 
     def test_CycleCounter(self):
         """Test CycleCounter class functionality."""

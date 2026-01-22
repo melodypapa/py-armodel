@@ -405,12 +405,27 @@ class TestInternalBehavior:
 
 
 class TestAbstractEvent:
-    def test_initialization(self):
-        """Test AbstractEvent initialization"""
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that AbstractEvent abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        abstract_event = AbstractEvent(ar_root, "TestAbstractEvent")
-        
+        with pytest.raises(TypeError, match="AbstractEvent is an abstract class"):
+            AbstractEvent(ar_root, "TestAbstractEvent")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of AbstractEvent can be instantiated"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        # Use BswEvent as a concrete subclass
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
+        class ConcreteBswEvent(BswEvent):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        abstract_event = ConcreteBswEvent(ar_root, "TestAbstractEvent")
+
         assert abstract_event is not None
         assert abstract_event.getShortName() == "TestAbstractEvent"
         assert abstract_event.activationReasonRepresentationRef is None
@@ -419,14 +434,28 @@ class TestAbstractEvent:
         """Test getActivationReasonRepresentationRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        abstract_event = AbstractEvent(ar_root, "TestAbstractEvent")
+
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
+        class ConcreteBswEvent(BswEvent):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        abstract_event = ConcreteBswEvent(ar_root, "TestAbstractEvent")
         assert abstract_event.getActivationReasonRepresentationRef() is None
 
     def test_set_activation_reason_representation_ref(self):
         """Test setActivationReasonRepresentationRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        abstract_event = AbstractEvent(ar_root, "TestAbstractEvent")
+
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
+        class ConcreteBswEvent(BswEvent):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        abstract_event = ConcreteBswEvent(ar_root, "TestAbstractEvent")
         test_value = RefType().setValue("ActivationReasonRef")
         result = abstract_event.setActivationReasonRepresentationRef(test_value)
         assert result is abstract_event  # Method chaining
@@ -436,7 +465,14 @@ class TestAbstractEvent:
         """Test setActivationReasonRepresentationRef with None value"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        abstract_event = AbstractEvent(ar_root, "TestAbstractEvent")
+
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
+
+        class ConcreteBswEvent(BswEvent):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        abstract_event = ConcreteBswEvent(ar_root, "TestAbstractEvent")
         result = abstract_event.setActivationReasonRepresentationRef(None)
         assert result is abstract_event  # Method chaining
         assert abstract_event.getActivationReasonRepresentationRef() is None

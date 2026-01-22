@@ -429,6 +429,9 @@ class AbstractCanCommunicationControllerAttributes(ARObject, metaclass=ABCMeta):
     properties of CAN controllers.
     """
     def __init__(self):
+        if type(self) is AbstractCanCommunicationControllerAttributes:
+            raise NotImplementedError("AbstractCanCommunicationControllerAttributes is an abstract class.")
+        
         super().__init__()
 
         self.canControllerFdAttributes: CanControllerFdConfiguration = None

@@ -1,4 +1,5 @@
 
+import pytest
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
     SecOcCryptoServiceMapping,
@@ -17,11 +18,17 @@ class Test_SecureCommunication:
     """Test cases for SecureCommunication-related classes."""
     
     def test_CryptoServiceMapping(self):
-        """Test CryptoServiceMapping class functionality."""
+        """Test CryptoServiceMapping abstract class functionality."""
         parent = MockParent()
-        mapping = CryptoServiceMapping(parent, "test_crypto_mapping")
-
+        
+        # Test that CryptoServiceMapping cannot be instantiated directly
+        with pytest.raises(TypeError, match="CryptoServiceMapping is an abstract class"):
+            CryptoServiceMapping(parent, "test_crypto_mapping")
+        
+        # Test that a concrete subclass can be instantiated
+        mapping = SecOcCryptoServiceMapping(parent, "test_crypto_mapping")
         assert isinstance(mapping, Identifiable)
+        assert isinstance(mapping, CryptoServiceMapping)
 
     def test_SecOcCryptoServiceMapping(self):
         """Test SecOcCryptoServiceMapping class functionality."""

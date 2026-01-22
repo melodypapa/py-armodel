@@ -326,21 +326,24 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
 
 
-class AbstractEvent(Identifiable):
+class AbstractEvent(Identifiable, metaclass=ABCMeta):
     """
     Represents an abstract event in AUTOSAR models.
     Abstract events define the base structure for events that can trigger executable entities.
     They may have activation reason representations that define why the event occurred.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the AbstractEvent with a parent and short name.
-        
+        Raises TypeError if this abstract class is instantiated directly.
+
         Args:
             parent: The parent ARObject that contains this abstract event
             short_name: The unique short name of this abstract event
         """
+        if type(self) is AbstractEvent:
+            raise TypeError("AbstractEvent is an abstract class.")
         super().__init__(parent, short_name)
 
         # Reference to activation reason representation for this event

@@ -12,7 +12,7 @@ class TestTimingConstraint:
         """Test that TimingConstraint abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="TimingConstraint is an abstract class."):
+        with pytest.raises(TypeError, match="TimingConstraint is an abstract class"):
             TimingConstraint(ar_root, "TestTimingConstraint")
 
     def test_timing_condition_ref_property(self):
@@ -37,7 +37,7 @@ class TestEOCExecutableEntityRefAbstract:
         """Test that EOCExecutableEntityRefAbstract abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="EOCExecutableEntityRefAbstract is an abstract class."):
+        with pytest.raises(TypeError, match="EOCExecutableEntityRefAbstract is an abstract class"):
             EOCExecutableEntityRefAbstract(ar_root, "TestEOCExecutableEntityRefAbstract")
 
 

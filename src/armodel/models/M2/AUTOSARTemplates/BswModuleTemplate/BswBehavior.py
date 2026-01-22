@@ -26,20 +26,23 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclara
 from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 
 
-class BswModuleCallPoint(Referrable):
+class BswModuleCallPoint(Referrable, metaclass=ABCMeta):
     """
     Represents a call point for a BSW module, which defines how the module can be called.
     This is an abstract base class for different types of call points.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswModuleCallPoint with a parent and short name.
-        
+        Raises TypeError if this abstract class is instantiated directly.
+
         Args:
             parent: The parent ARObject that contains this call point
             short_name: The unique short name of this call point
         """
+        if type(self) is BswModuleCallPoint:
+            raise TypeError("BswModuleCallPoint is an abstract class.")
         super().__init__(parent, short_name)
 
         # List of context limitation references that apply to this call point

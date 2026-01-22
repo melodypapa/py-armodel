@@ -13,6 +13,8 @@ if TYPE_CHECKING:
 
 class SwComponentType(ARElement, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SwComponentType:
+            raise TypeError("SwComponentType is an abstract class.")
         super().__init__(parent, short_name)
 
         self.ports = []

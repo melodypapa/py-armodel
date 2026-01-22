@@ -3,6 +3,7 @@ This module contains comprehensive tests for the Components module in SWComponen
 Tests cover all classes and methods in the __init__.py file to achieve 100% test coverage.
 """
 
+import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SymbolProps, PortPrototype, AbstractProvidedPortPrototype, AbstractRequiredPortPrototype,
     PPortPrototype, RPortPrototype, PRPortPrototype, PortGroup, SwComponentType,
@@ -29,13 +30,22 @@ class TestSymbolProps:
 
 class TestPortPrototype:
     """Test class for PortPrototype class."""
-    
-    def test_port_prototype_initialization(self):
-        """Test PortPrototype initialization and methods."""
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that PortPrototype abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        port_proto = PortPrototype(ar_root, "TestPortPrototype")
-        
+        with pytest.raises(TypeError, match="PortPrototype is an abstract class"):
+            PortPrototype(ar_root, "TestPortPrototype")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of PortPrototype can be instantiated."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        port_proto = PRPortPrototype(ar_root, "TestPortPrototype")
+
         assert port_proto.parent == ar_root
         assert port_proto.short_name == "TestPortPrototype"
         assert port_proto.clientServerAnnotations == []
@@ -46,32 +56,32 @@ class TestPortPrototype:
         assert port_proto.parameterPortAnnotations == []
         assert port_proto.senderReceiverAnnotations == []
         assert port_proto.triggerPortAnnotations == []
-        
+
         # Test clientServerAnnotations methods
         cs_annotation = "test_cs_annotation"
         port_proto.addClientServerAnnotation(cs_annotation)
         assert cs_annotation in port_proto.getClientServerAnnotations()
-        
+
         # Test delegatedPortAnnotation methods
         del_port_annotation = "test_del_port_annotation"
         port_proto.setDelegatedPortAnnotation(del_port_annotation)
         assert port_proto.getDelegatedPortAnnotation() == del_port_annotation
-        
+
         # Test ioHwAbstractionServerAnnotations methods
         io_hw_annotation = "test_io_hw_annotation"
         port_proto.addIoHwAbstractionServerAnnotation(io_hw_annotation)
         assert io_hw_annotation in port_proto.getIoHwAbstractionServerAnnotations()
-        
+
         # Test modePortAnnotations methods
         mode_annotation = "test_mode_annotation"
         port_proto.addModePortAnnotation(mode_annotation)
         assert mode_annotation in port_proto.getModePortAnnotations()
-        
+
         # Test nvDataPortAnnotations methods
         nv_annotation = "test_nv_annotation"
         port_proto.addNvDataPortAnnotation(nv_annotation)
         assert nv_annotation in port_proto.getNvDataPortAnnotations()
-        
+
         # Test parameterPortAnnotations methods
         param_annotation = "test_param_annotation"
         port_proto.addParameterPortAnnotation(param_annotation)
@@ -90,13 +100,22 @@ class TestPortPrototype:
 
 class TestAbstractProvidedPortPrototype:
     """Test class for AbstractProvidedPortPrototype class."""
-    
-    def test_abstract_provided_port_prototype_initialization(self):
-        """Test AbstractProvidedPortPrototype initialization and methods."""
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that AbstractProvidedPortPrototype abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        provided_port = AbstractProvidedPortPrototype(ar_root, "TestAbstractProvidedPortPrototype")
-        
+        with pytest.raises(NotImplementedError, match="AbstractProvidedPortPrototype is an abstract class"):
+            AbstractProvidedPortPrototype(ar_root, "TestAbstractProvidedPortPrototype")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of AbstractProvidedPortPrototype can be instantiated."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        provided_port = PPortPrototype(ar_root, "TestAbstractProvidedPortPrototype")
+
         assert provided_port.parent == ar_root
         assert provided_port.short_name == "TestAbstractProvidedPortPrototype"
         assert provided_port.clientServerAnnotations == []
@@ -108,7 +127,7 @@ class TestAbstractProvidedPortPrototype:
         assert provided_port.senderReceiverAnnotations == []
         assert provided_port.triggerPortAnnotations == []
         assert provided_port.providedComSpecs == []
-        
+
         # Test providedComSpecs methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedSenderComSpec
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -124,13 +143,22 @@ class TestAbstractProvidedPortPrototype:
 
 class TestAbstractRequiredPortPrototype:
     """Test class for AbstractRequiredPortPrototype class."""
-    
-    def test_abstract_required_port_prototype_initialization(self):
-        """Test AbstractRequiredPortPrototype initialization and methods."""
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that AbstractRequiredPortPrototype abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        required_port = AbstractRequiredPortPrototype(ar_root, "TestAbstractRequiredPortPrototype")
-        
+        with pytest.raises(NotImplementedError, match="AbstractRequiredPortPrototype is an abstract class"):
+            AbstractRequiredPortPrototype(ar_root, "TestAbstractRequiredPortPrototype")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of AbstractRequiredPortPrototype can be instantiated."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        required_port = RPortPrototype(ar_root, "TestAbstractRequiredPortPrototype")
+
         assert required_port.parent == ar_root
         assert required_port.short_name == "TestAbstractRequiredPortPrototype"
         assert required_port.clientServerAnnotations == []
@@ -142,7 +170,7 @@ class TestAbstractRequiredPortPrototype:
         assert required_port.senderReceiverAnnotations == []
         assert required_port.triggerPortAnnotations == []
         assert required_port.requiredComSpecs == []
-        
+
         # Test requiredComSpecs methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -288,16 +316,21 @@ class TestPortGroup:
 
 
 class TestSwComponentType:
-    """Test class for SwComponentType class."""
-    
-    def test_sw_component_type_initialization(self):
-        """Test SwComponentType initialization and methods."""
+    """Test class for SwComponentType abstract class."""
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that SwComponentType abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        # SwComponentType is marked as abstract with ABCMeta, but has no abstract methods
-        # so it can actually be instantiated
-        comp_type = SwComponentType(ar_root, "TestSwComponentType")
-        
+        with pytest.raises(TypeError, match="SwComponentType is an abstract class"):
+            SwComponentType(ar_root, "TestSwComponentType")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of SwComponentType can be instantiated."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        comp_type = ApplicationSwComponentType(ar_root, "TestSwComponentType")
+
         assert comp_type.parent == ar_root
         assert comp_type.short_name == "TestSwComponentType"
         assert comp_type.ports == []

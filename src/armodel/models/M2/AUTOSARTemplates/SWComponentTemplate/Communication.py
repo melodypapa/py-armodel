@@ -262,10 +262,11 @@ class ParameterRequireComSpec(RPortComSpec):
         return self
 
 
-class ReceiverComSpec(RPortComSpec):
-    __metaclass__ = ABCMeta
+class ReceiverComSpec(RPortComSpec, metaclass=ABCMeta):
 
     def __init__(self):
+        if type(self) is ReceiverComSpec:
+            raise TypeError("ReceiverComSpec is an abstract class.")
         super().__init__()
 
         self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = [
