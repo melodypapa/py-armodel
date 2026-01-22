@@ -4,14 +4,14 @@ in composition contexts. These classes are used for referencing ports and
 operations within compositions and atomic SWC instances.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
-class PortInCompositionTypeInstanceRef(AtpInstanceRef, metaclass = ABCMeta):
+class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         if type(self) == PortInCompositionTypeInstanceRef:
-            raise NotImplementedError("PortInCompositionTypeInstanceRef is an abstract class.")
+            raise TypeError("PortInCompositionTypeInstanceRef is an abstract class.")
         
         super().__init__()
 
@@ -84,10 +84,10 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         self.targetRPortRef = value
         return self
 
-class OperationInAtomicSwcInstanceRef(AtpInstanceRef, metaclass=ABCMeta):
+class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         if type(self) == OperationInAtomicSwcInstanceRef:
-            raise NotImplementedError("OperationInAtomicSwcInstanceRef is an abstract class.")
+            raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
         
         super().__init__()
 

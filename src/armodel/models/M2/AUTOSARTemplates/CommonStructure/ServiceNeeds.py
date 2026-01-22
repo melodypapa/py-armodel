@@ -4,7 +4,7 @@ in the CommonStructure module. Service needs define requirements for various
 services such as NV block management, diagnostic services, cryptographic services, etc.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
@@ -129,7 +129,7 @@ class RoleBasedDataAssignment(ARObject):
         return self
 
 
-class ServiceNeeds(Identifiable, metaclass=ABCMeta):
+class ServiceNeeds(Identifiable, ABC):
     """
     Abstract base class for service needs in AUTOSAR models.
     Service needs define requirements for various services such as NV block management, diagnostic services, etc.
@@ -138,14 +138,14 @@ class ServiceNeeds(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ServiceNeeds with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this service needs
             short_name: The unique short name of this service needs
         """
         if type(self) is ServiceNeeds:
-            raise NotImplementedError("ServiceNeeds is an abstract class.")
+            raise TypeError("ServiceNeeds is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -510,7 +510,7 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
         super().__init__([])
     
 
-class ServiceDependency(Identifiable, metaclass=ABCMeta):
+class ServiceDependency(Identifiable, ABC):
     """
     Represents a service dependency in AUTOSAR models.
     This class defines dependencies on services along with their data type assignments and diagnostic relevance.
@@ -654,7 +654,7 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
         ))
 
 
-class DiagnosticCapabilityElement(ServiceNeeds, metaclass=ABCMeta):
+class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     """
     Abstract base class for diagnostic capability elements in AUTOSAR models.
     This class defines common properties for diagnostic capabilities including audiences, requirements, and security access levels.
@@ -663,14 +663,14 @@ class DiagnosticCapabilityElement(ServiceNeeds, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticCapabilityElement with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this diagnostic capability element
             short_name: The unique short name of this diagnostic capability element
         """
         if type(self) is DiagnosticCapabilityElement:
-            raise NotImplementedError("DiagnosticCapabilityElement is an abstract class.")
+            raise TypeError("DiagnosticCapabilityElement is an abstract class.")
     
         super().__init__(parent, short_name)
        
@@ -1070,7 +1070,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagEventDebounceAlgorithm(Identifiable, metaclass=ABCMeta):
+class DiagEventDebounceAlgorithm(Identifiable, ABC):
     """
     Abstract base class for diagnostic event debounce algorithms in AUTOSAR models.
     This class defines the base structure for algorithms that debounce diagnostic events to prevent false triggers.
@@ -1079,14 +1079,14 @@ class DiagEventDebounceAlgorithm(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceAlgorithm with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this diagnostic event debounce algorithm
             short_name: The unique short name of this diagnostic event debounce algorithm
         """
         if type(self) is DiagEventDebounceAlgorithm:
-            raise NotImplementedError("DiagEventDebounceAlgorithm is an abstract class.")
+            raise TypeError("DiagEventDebounceAlgorithm is an abstract class.")
 
         super().__init__(parent, short_name)
 

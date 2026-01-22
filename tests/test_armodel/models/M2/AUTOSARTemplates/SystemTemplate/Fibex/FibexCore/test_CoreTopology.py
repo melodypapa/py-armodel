@@ -109,13 +109,13 @@ class Test_FibexCoreTopology:
     def test_PhysicalChannel(self):
         """Test PhysicalChannel abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             PhysicalChannel(parent, "test_physical_channel")
 
     def test_AbstractCanPhysicalChannel(self):
         """Test AbstractCanPhysicalChannel abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractCanPhysicalChannel(parent, "test_abstract_can_physical_channel")
 
     def test_CanPhysicalChannel(self):
@@ -227,7 +227,7 @@ class Test_FibexCoreTopology:
     def test_CommunicationCluster(self):
         """Test CommunicationCluster abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CommunicationCluster(parent, "test_communication_cluster")
 
     def test_CanClusterBusOffRecovery(self):
@@ -283,7 +283,7 @@ class Test_FibexCoreTopology:
     def test_AbstractCanCluster(self):
         """Test AbstractCanCluster abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractCanCluster(parent, "test_abstract_can_cluster")
 
     def test_CanCluster(self):
@@ -345,7 +345,7 @@ class Test_FibexCoreTopology:
     def test_CommunicationController(self):
         """Test CommunicationController abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CommunicationController(parent, "test_communication_controller")
 
     def test_PncGatewayTypeEnum(self):
@@ -366,7 +366,7 @@ class Test_FibexCoreTopology:
     def test_CommConnectorPort(self):
         """Test CommConnectorPort abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CommConnectorPort(parent, "test_comm_connector_port")
 
     def test_FramePort(self):
@@ -525,7 +525,7 @@ class Test_FibexCoreTopology:
     def test_CommunicationConnector(self):
         """Test CommunicationConnector abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CommunicationConnector(parent, "test_communication_connector")
 
     def test_PhysicalChannel_methods(self):

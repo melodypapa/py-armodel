@@ -77,7 +77,7 @@ class TestBaseType:
     def test_base_type_abstract_class(self):
         """Test that BaseType cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             BaseType(None, "test_name")
     
     def test_base_type_definition_methods(self):

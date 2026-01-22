@@ -20,7 +20,7 @@ class Test_DoIp:
     def test_AbstractDoIpLogicAddressProps(self):
         """Test AbstractDoIpLogicAddressProps abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractDoIpLogicAddressProps(parent, "test_abstract")
 
     def test_DoIpLogicTargetAddressProps(self):

@@ -39,7 +39,7 @@ class Test_NetworkManagement:
     
     def test_NmClusterCoupling(self):
         """Test NmClusterCoupling abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             NmClusterCoupling()
 
     def test_CanNmClusterCoupling(self):
@@ -87,7 +87,7 @@ class Test_NetworkManagement:
     def test_NmNode(self):
         """Test NmNode abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             NmNode(parent, "test_nm_node")
 
     def test_CanNmNode(self):
@@ -160,7 +160,7 @@ class Test_NetworkManagement:
 
     def test_BusspecificNmEcu(self):
         """Test BusspecificNmEcu abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             BusspecificNmEcu()
 
     def test_CanNmEcu(self):

@@ -14,7 +14,7 @@ from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.Execution
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 
@@ -24,11 +24,11 @@ class TimingExtension(Identifiable):
     This class cannot be instantiated directly and provides common functionality
     for timing extension implementations such as software component timing specifications.
     """
-    __metaclass__ = ABCMeta
+    __metaclass__ = ABC
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == TimingExtension:
-            raise NotImplementedError("TimingExtension is an abstract class.")
+            raise TypeError("TimingExtension is an abstract class.")
 
         super().__init__(parent, short_name)
 

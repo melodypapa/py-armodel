@@ -5,7 +5,7 @@ interfaces such as sender/receiver, client/server, mode switch, and
 parameter interfaces, as well as mapping classes for interface mappings.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
@@ -22,10 +22,10 @@ from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeatu
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-class PortInterface(AtpType, metaclass=ABCMeta):
+class PortInterface(AtpType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterface:
-            raise NotImplementedError("PortInterface is an abstract class.")
+            raise TypeError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
         self.isService: ARBoolean = None
@@ -46,10 +46,10 @@ class PortInterface(AtpType, metaclass=ABCMeta):
         return self
 
 
-class DataInterface(PortInterface, metaclass=ABCMeta):
+class DataInterface(PortInterface, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DataInterface:
-            raise NotImplementedError("DataInterface is an abstract class.")
+            raise TypeError("DataInterface is an abstract class.")
         super().__init__(parent, short_name)
 
 
@@ -329,10 +329,10 @@ class ModeSwitchInterface(PortInterface):
         return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name))
 
 
-class PortInterfaceMapping(Identifiable, metaclass=ABCMeta):
+class PortInterfaceMapping(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterfaceMapping:
-            raise NotImplementedError("PortInterfaceMapping is an abstract class.")
+            raise TypeError("PortInterfaceMapping is an abstract class.")
         super().__init__(parent, short_name)
 
 

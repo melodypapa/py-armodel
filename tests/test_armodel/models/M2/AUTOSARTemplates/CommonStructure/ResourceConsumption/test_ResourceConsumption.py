@@ -12,7 +12,7 @@ import pytest
 class TestHeapUsage:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that HeapUsage abstract class cannot be instantiated directly"""
-        with pytest.raises(NotImplementedError, match="HeapUsage is an abstract class."):
+        with pytest.raises(TypeError, match="HeapUsage is an abstract class."):
             HeapUsage(None, "TestHeap")
     
     def test_concrete_subclass_can_be_instantiated(self):
@@ -112,7 +112,7 @@ class TestStackUsage:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that StackUsage abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
-        with pytest.raises(NotImplementedError, match="StackUsage is an abstract class."):
+        with pytest.raises(TypeError, match="StackUsage is an abstract class."):
             StackUsage(parent, "TestStack")
 
     def test_measured_stack_usage_initialization(self):

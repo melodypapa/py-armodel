@@ -20,7 +20,7 @@ class TestLanguageSpecific:
     def test_language_specific_abstract_class(self):
         """Test that LanguageSpecific cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             LanguageSpecific()
     
     def test_language_specific_initialization(self):

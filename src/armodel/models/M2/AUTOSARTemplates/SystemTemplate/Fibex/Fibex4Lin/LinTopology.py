@@ -1,10 +1,10 @@
-from abc import ABCMeta
+from abc import ABC
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, String, TimeValue
 from .......models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
-class LinCommunicationController(CommunicationController, metaclass=ABCMeta):
+class LinCommunicationController(CommunicationController, ABC):
     """
     Represents a LIN communication controller in the system,
     defining properties for LIN network communication including

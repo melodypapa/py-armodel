@@ -10,7 +10,7 @@ class TestTimingExtension:
         """Test that TimingExtension abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="TimingExtension is an abstract class."):
+        with pytest.raises(TypeError, match="TimingExtension is an abstract class."):
             TimingExtension(ar_root, "TestTimingExtension")
 
     def test_create_execution_order_constraint(self):

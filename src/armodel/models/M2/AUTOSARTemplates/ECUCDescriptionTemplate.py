@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 
 from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -32,18 +32,18 @@ class EcucValueCollection(ARElement):
         return self
 
 
-class EcucIndexableValue(ARObject, metaclass=ABCMeta):
+class EcucIndexableValue(ARObject, ABC):
     def __init__(self):
         if type(self) is EcucIndexableValue:
-            raise NotImplementedError("EcucIndexableValue is an abstract class.")
+            raise TypeError("EcucIndexableValue is an abstract class.")
 
         super().__init__()
 
 
-class EcucParameterValue(EcucIndexableValue, metaclass=ABCMeta):
+class EcucParameterValue(EcucIndexableValue, ABC):
     def __init__(self):
         if type(self) is EcucParameterValue:
-            raise NotImplementedError("EcucParameterValue is an abstract class.")
+            raise TypeError("EcucParameterValue is an abstract class.")
 
         super().__init__()
 
@@ -112,10 +112,10 @@ class EcucNumericalParamValue(EcucParameterValue):
         self.value = value
 
 
-class EcucAbstractReferenceValue(EcucIndexableValue, metaclass=ABCMeta):
+class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     def __init__(self):
         if type(self) is EcucAbstractReferenceValue:
-            raise NotImplementedError("EcucAbstractReferenceValue is an abstract class.")
+            raise TypeError("EcucAbstractReferenceValue is an abstract class.")
 
         super().__init__()
 

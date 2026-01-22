@@ -17,5 +17,5 @@ class TestAbstractAccessPoint:
         """Test AbstractAccessPoint initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractAccessPoint(ar_root, "TestAbstractAccessPoint")

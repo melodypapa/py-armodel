@@ -2,12 +2,12 @@
 # It defines crypto service mappings and TLS configurations for secure data transmission
 
 from typing import List
-from abc import ABCMeta
+from abc import ABC
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
-class CryptoServiceMapping(Identifiable, metaclass=ABCMeta):
+class CryptoServiceMapping(Identifiable, ABC):
     """
     Abstract base class for crypto service mappings, defining
     common properties for different types of cryptographic

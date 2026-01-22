@@ -167,7 +167,7 @@ class TestPortInterfaceMapping:
         assert test_mapping.short_name == "TestPortInterfaceMapping"
         
         # Test that the original abstract class raises NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             PortInterfaceMapping(ar_root, "Test")
 
 

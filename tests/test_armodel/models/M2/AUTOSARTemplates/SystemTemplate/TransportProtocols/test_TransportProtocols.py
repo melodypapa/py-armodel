@@ -37,7 +37,7 @@ class TestTransportProtocols:
         """
         Test TpConfig abstract class functionality.
         """
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TpConfig(MockParent(), "test_tp_config")
 
     def test_can_tp_address(self):
@@ -114,7 +114,7 @@ class TestTransportProtocols:
         """
         Test TpConnection abstract class functionality.
         """
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             TpConnection()
 
     def test_can_tp_connection(self):

@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import RPortInCompositionInstanceRef
@@ -22,7 +22,7 @@ class SwComponentPrototype(Identifiable):
         return self
 
 
-class SwConnector(Identifiable, metaclass=ABCMeta):
+class SwConnector(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
             raise TypeError("SwConnector is an abstract class.")

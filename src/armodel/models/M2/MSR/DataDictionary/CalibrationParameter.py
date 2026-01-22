@@ -1,11 +1,11 @@
 from typing import List
-from abc import ABCMeta
+from abc import ABC
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-class SwCalprmAxisTypeProps(ARObject, metaclass = ABCMeta):
+class SwCalprmAxisTypeProps(ARObject, ABC):
     def __init__(self):
         if type(self) == SwCalprmAxisTypeProps:
-            raise NotImplementedError("SwCalprmAxisTypeProps is an abstract class.")
+            raise TypeError("SwCalprmAxisTypeProps is an abstract class.")
 
         super().__init__()
 

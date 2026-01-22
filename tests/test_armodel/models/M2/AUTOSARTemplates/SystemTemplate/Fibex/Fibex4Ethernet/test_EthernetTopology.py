@@ -104,7 +104,7 @@ class TestEthernetTopology:
         parent = MockParent()
         
         # Test that abstract class cannot be instantiated directly
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             CouplingPortStructuralElement(parent, "TestElement")
 
     def test_coupling_port_fifo(self):

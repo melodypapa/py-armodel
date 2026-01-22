@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class Test_M2_AUTOSARTemplates_CommonStructure_Constants:
 
     def test_ValueSpecification(self):
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             ValueSpecification()
         assert (str(err.value) == "ValueSpecification is an abstract class.")
 
@@ -47,7 +47,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_InternalBehavior:
     def test_ExecutableEntity(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError) as err:
+        with pytest.raises(TypeError) as err:
             ExecutableEntity(ar_root, "ExecutableEntity")
         assert (str(err.value) == "ExecutableEntity is an abstract class.")
 

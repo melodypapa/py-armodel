@@ -3,11 +3,11 @@ This module contains the base ARObject class for AUTOSAR models
 in the GenericStructure module.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import Dict, Optional
 
 
-class ARObject(metaclass=ABCMeta):
+class ARObject(ABC):
     """
     Abstract base class for all AUTOSAR objects.
     This class provides the basic structure and functionality for all AUTOSAR objects.

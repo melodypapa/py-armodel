@@ -17,7 +17,7 @@ class TestIdentCaption:
         """Test that IdentCaption is an abstract class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             IdentCaption(ar_root, "TestIdentCaption")
 
 

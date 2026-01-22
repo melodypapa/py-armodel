@@ -264,7 +264,7 @@ class TestAbstractImplementationDataType:
         """Test that AbstractImplementationDataType abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="AbstractImplementationDataType is an abstract class."):
+        with pytest.raises(TypeError, match="AbstractImplementationDataType is an abstract class."):
             AbstractImplementationDataType(ar_root, "TestAbstractImplementationDataType")
 
 

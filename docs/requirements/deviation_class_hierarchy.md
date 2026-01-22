@@ -18,7 +18,7 @@ and the actual Python implementation class hierarchy.
 |--------|-------|-------------------------------|---------------------------|-------|
 | ✗ MISSING | <<atpPrototype>> PduToFrameMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
 | ⚠ MISMATCH | ARElement | PackageableElement, True | PackageableElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ARObject | None, True | None, False | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | ARObject | None, True | ABC, False | parent mismatch (expected None, got ABC), abstract mismatch (expected True, got False) |
 | ⚠ MISMATCH | ARPackage | CollectableElement, False | Identifiable, False | parent mismatch (expected CollectableElement, got Identifiable) |
 | ⚠ MISMATCH | AUTOSAR | ARObject, False | AbstractAUTOSAR, False | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
 | ⚠ MISMATCH | AbstractAccessPoint | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |
@@ -1148,7 +1148,7 @@ and the actual Python implementation class hierarchy.
 | + EXTRA | ARLiteral | N/A, N/A | ARType, False | Class exists but not documented |
 | + EXTRA | ARNumerical | N/A, N/A | ARType, False | Class exists but not documented |
 | + EXTRA | ARPositiveInteger | N/A, N/A | ARNumerical, False | Class exists but not documented |
-| + EXTRA | ARType | N/A, N/A | None, False | Class exists but not documented |
+| + EXTRA | ARType | N/A, N/A | ABC, False | Class exists but not documented |
 | + EXTRA | AUTOSARDoc | N/A, N/A | AbstractAUTOSAR, False | Class exists but not documented |
 | + EXTRA | AbstractAUTOSAR | N/A, N/A | CollectableElement, False | Class exists but not documented |
 | + EXTRA | ArgumentDirectionEnum | N/A, N/A | AREnum, False | Class exists but not documented |

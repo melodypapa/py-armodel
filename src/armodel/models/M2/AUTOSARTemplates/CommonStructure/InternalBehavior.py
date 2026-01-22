@@ -4,7 +4,7 @@ in the CommonStructure module. Internal behavior classes define executable entit
 exclusive areas, and event handling mechanisms within AUTOSAR components and BSW modules.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from enum import Enum
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -44,7 +44,7 @@ class ExclusiveArea(Identifiable):
         super().__init__(parent, short_name)
 
 
-class ExecutableEntity(Identifiable, metaclass=ABCMeta):
+class ExecutableEntity(Identifiable, ABC):
     """
     Abstract base class for executable entities in AUTOSAR models.
     Executable entities represent pieces of executable code that can be triggered by events
@@ -54,14 +54,14 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ExecutableEntity with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this executable entity
             short_name: The unique short name of this executable entity
         """
         if type(self) is ExecutableEntity:
-            raise NotImplementedError("ExecutableEntity is an abstract class.")
+            raise TypeError("ExecutableEntity is an abstract class.")
 
         super().__init__(parent, short_name)
 
@@ -199,7 +199,7 @@ class ExecutableEntity(Identifiable, metaclass=ABCMeta):
         return self.canEnterExclusiveAreaRefs
 
 
-class InternalBehavior(Identifiable, metaclass=ABCMeta):
+class InternalBehavior(Identifiable, ABC):
     """
     Abstract base class for internal behavior in AUTOSAR models.
     Internal behavior defines the internal structure of software components or BSW modules,
@@ -209,14 +209,14 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the InternalBehavior with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         
         Args:
             parent: The parent ARObject that contains this internal behavior
             short_name: The unique short name of this internal behavior
         """
         if type(self) is InternalBehavior:
-            raise NotImplementedError("InternalBehavior is an abstract class.")
+            raise TypeError("InternalBehavior is an abstract class.")
         super().__init__(parent, short_name)
 
         # List of constant memories (parameter data prototypes) in this internal behavior
@@ -326,7 +326,7 @@ class InternalBehavior(Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
 
 
-class AbstractEvent(Identifiable, metaclass=ABCMeta):
+class AbstractEvent(Identifiable, ABC):
     """
     Represents an abstract event in AUTOSAR models.
     Abstract events define the base structure for events that can trigger executable entities.

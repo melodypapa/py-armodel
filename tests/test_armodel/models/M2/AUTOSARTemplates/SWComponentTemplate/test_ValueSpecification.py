@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class TestValueSpecification:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that ValueSpecification abstract class cannot be instantiated directly"""
-        with pytest.raises(NotImplementedError, match="ValueSpecification is an abstract class."):
+        with pytest.raises(TypeError, match="ValueSpecification is an abstract class."):
             ValueSpecification()
 
     def test_get_short_label(self):
@@ -47,14 +47,14 @@ class TestValueSpecification:
 class TestCompositeValueSpecification:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that CompositeValueSpecification abstract class cannot be instantiated directly"""
-        with pytest.raises(NotImplementedError, match="CompositeValueSpecification is an abstract class."):
+        with pytest.raises(TypeError, match="CompositeValueSpecification is an abstract class."):
             CompositeValueSpecification()
 
 
 class TestCompositeRuleBasedValueArgument:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that CompositeRuleBasedValueArgument abstract class cannot be instantiated directly"""
-        with pytest.raises(NotImplementedError, match="CompositeRuleBasedValueArgument is an abstract class."):
+        with pytest.raises(TypeError, match="CompositeRuleBasedValueArgument is an abstract class."):
             CompositeRuleBasedValueArgument()
 
 

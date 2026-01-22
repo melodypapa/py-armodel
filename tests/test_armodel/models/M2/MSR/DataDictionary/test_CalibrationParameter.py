@@ -11,7 +11,7 @@ class TestSwCalprmAxisTypeProps:
     def test_sw_calprm_axis_type_props_abstract_class(self):
         """Test that SwCalprmAxisTypeProps cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             SwCalprmAxisTypeProps()
     
     def test_sw_calprm_axis_type_props_initialization(self):

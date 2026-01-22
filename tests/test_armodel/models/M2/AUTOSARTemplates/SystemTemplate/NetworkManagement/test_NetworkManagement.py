@@ -42,7 +42,7 @@ class TestNetworkManagement:
         """
         Test NmClusterCoupling abstract class functionality.
         """
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             NmClusterCoupling()
 
     def test_can_nm_cluster_coupling(self):
@@ -100,7 +100,7 @@ class TestNetworkManagement:
         """
         Test NmNode abstract class functionality.
         """
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             NmNode(MockParent(), "test_nm_node")
 
     def test_can_nm_node(self):
@@ -266,7 +266,7 @@ class TestNetworkManagement:
         """
         Test BusspecificNmEcu abstract class functionality.
         """
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             BusspecificNmEcu()
 
     def test_can_nm_ecu(self):

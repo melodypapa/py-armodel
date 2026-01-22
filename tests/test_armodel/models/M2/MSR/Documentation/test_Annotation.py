@@ -14,7 +14,7 @@ class TestGeneralAnnotation:
     def test_general_annotation_abstract_class(self):
         """Test that GeneralAnnotation cannot be instantiated directly."""
         # This should raise NotImplementedError
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             GeneralAnnotation()
     
     def test_general_annotation_initialization(self):

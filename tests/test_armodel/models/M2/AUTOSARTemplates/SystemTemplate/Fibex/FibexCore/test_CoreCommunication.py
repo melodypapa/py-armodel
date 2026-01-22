@@ -52,7 +52,7 @@ class Test_FibexCoreCommunication:
     def test_FibexElement(self):
         """Test FibexElement abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             FibexElement(parent, "test_fibex_element")
 
     def test_PduToFrameMapping(self):
@@ -89,7 +89,7 @@ class Test_FibexCoreCommunication:
     def test_Frame(self):
         """Test Frame abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             Frame(parent, "test_frame")
 
     def test_Frame_methods(self):
@@ -238,7 +238,7 @@ class Test_FibexCoreCommunication:
     def test_Pdu(self):
         """Test Pdu abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             Pdu(parent, "test_pdu")
 
     def test_Pdu_methods(self):
@@ -270,7 +270,7 @@ class Test_FibexCoreCommunication:
     def test_IPdu(self):
         """Test IPdu abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             IPdu(parent, "test_ipdu")
 
     def test_IPdu_methods(self):
@@ -680,7 +680,7 @@ class Test_FibexCoreCommunication:
     def test_FrameTriggering(self):
         """Test FrameTriggering abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             FrameTriggering(parent, "test_frame_triggering")
 
     def test_FrameTriggering_methods(self):
@@ -810,7 +810,7 @@ class Test_FibexCoreCommunication:
 
     def test_MultiplexedPart(self):
         """Test MultiplexedPart abstract class instantiation."""
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             MultiplexedPart()
 
     def test_MultiplexedPart_methods(self):

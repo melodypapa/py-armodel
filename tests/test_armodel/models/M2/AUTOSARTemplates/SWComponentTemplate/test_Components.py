@@ -105,7 +105,7 @@ class TestAbstractProvidedPortPrototype:
         """Test that AbstractProvidedPortPrototype abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="AbstractProvidedPortPrototype is an abstract class"):
+        with pytest.raises(TypeError, match="AbstractProvidedPortPrototype is an abstract class"):
             AbstractProvidedPortPrototype(ar_root, "TestAbstractProvidedPortPrototype")
 
     def test_concrete_subclass_initialization(self):
@@ -148,7 +148,7 @@ class TestAbstractRequiredPortPrototype:
         """Test that AbstractRequiredPortPrototype abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="AbstractRequiredPortPrototype is an abstract class"):
+        with pytest.raises(TypeError, match="AbstractRequiredPortPrototype is an abstract class"):
             AbstractRequiredPortPrototype(ar_root, "TestAbstractRequiredPortPrototype")
 
     def test_concrete_subclass_initialization(self):

@@ -5,11 +5,11 @@ in the GenericStructure module.
 
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from abc import ABCMeta
+from abc import ABC
 from typing import Optional, Any
 
 
-class EngineeringObject(ARObject, metaclass=ABCMeta):
+class EngineeringObject(ARObject, ABC):
     """
     Abstract class for AUTOSAR engineering objects.
     This class defines the basic structure for engineering objects in AUTOSAR models.
@@ -17,7 +17,7 @@ class EngineeringObject(ARObject, metaclass=ABCMeta):
     
     def __init__(self):
         if type(self) == EngineeringObject:
-            raise NotImplementedError("EngineeringObject is an abstract class.")
+            raise TypeError("EngineeringObject is an abstract class.")
 
         super().__init__()
 

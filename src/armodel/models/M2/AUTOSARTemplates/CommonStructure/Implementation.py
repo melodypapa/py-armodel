@@ -4,7 +4,7 @@ in the CommonStructure module. Implementation classes define software implementa
 including code descriptors, compilers, dependencies, and resource consumption information.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
@@ -13,23 +13,23 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class ImplementationProps(Referrable, metaclass=ABCMeta):
+class ImplementationProps(Referrable, ABC):
     """
     Abstract base class for implementation properties in AUTOSAR models.
     This class serves as a base for defining properties of implementations such as symbols and identifiers.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ImplementationProps with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
-        
+        Raises TypeError if this abstract class is instantiated directly.
+
         Args:
             parent: The parent ARObject that contains this implementation properties
             short_name: The unique short name of this implementation properties
         """
         if type(self) is ImplementationProps:
-            raise NotImplementedError("ImplementationProps is an abstract class.")
+            raise TypeError("ImplementationProps is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -289,23 +289,23 @@ class DependencyOnArtifact(Identifiable):
         return self
 
 
-class Implementation(PackageableElement, metaclass=ABCMeta):
+class Implementation(PackageableElement, ABC):
     """
     Abstract base class for implementations in AUTOSAR models.
     This class serves as a base for defining software implementations including code, compilers, dependencies, and resource consumption information.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Implementation with a parent and short name.
-        Raises NotImplementedError if this abstract class is instantiated directly.
-        
+        Raises TypeError if this abstract class is instantiated directly.
+
         Args:
             parent: The parent ARObject that contains this implementation
             short_name: The unique short name of this implementation
         """
         if type(self) is Implementation:
-            raise NotImplementedError("Implementation is an abstract class.")
+            raise TypeError("Implementation is an abstract class.")
 
         super().__init__(parent, short_name)
 

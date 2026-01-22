@@ -19,7 +19,7 @@ class Test_Fibex4EthernetFrame:
     def test_AbstractEthernetFrame(self):
         """Test AbstractEthernetFrame abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractEthernetFrame(parent, "test_abstract_eth_frame")
 
     def test_GenericEthernetFrame(self):

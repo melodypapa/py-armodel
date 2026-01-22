@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for network management
 # It defines CAN, FlexRay, J1939, and UDP network management configurations
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
@@ -9,7 +9,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
-class NmClusterCoupling(ARObject, metaclass = ABCMeta):
+class NmClusterCoupling(ARObject, ABC):
     """
     Abstract base class for network management cluster coupling,
     defining common properties for connecting different types of
@@ -17,7 +17,7 @@ class NmClusterCoupling(ARObject, metaclass = ABCMeta):
     """
     def __init__(self):
         if type(self) == NmClusterCoupling:
-            raise NotImplementedError("NmClusterCoupling is an abstract class.")
+            raise TypeError("NmClusterCoupling is an abstract class.")
         
         super().__init__()
 
@@ -82,7 +82,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         return self
     
 
-class NmNode(Identifiable, metaclass = ABCMeta):
+class NmNode(Identifiable, ABC):
     """
     Abstract base class for network management nodes, defining
     common properties for different types of NM nodes including
@@ -90,7 +90,7 @@ class NmNode(Identifiable, metaclass = ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == NmNode:
-            raise NotImplementedError("NmNode is an abstract class.")
+            raise TypeError("NmNode is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -262,7 +262,7 @@ class UdpNmNode(NmNode):
             self.nmMsgCycleOffset = value
         return self
 
-class BusspecificNmEcu(ARObject, metaclass = ABCMeta):
+class BusspecificNmEcu(ARObject, ABC):
     """
     Abstract base class for bus-specific network management ECU
     configurations, defining common properties for different
@@ -270,7 +270,7 @@ class BusspecificNmEcu(ARObject, metaclass = ABCMeta):
     """
     def __init__(self):
         if type(self) is BusspecificNmEcu:
-            raise NotImplementedError("BusspecificNmEcu is an abstract class.")
+            raise TypeError("BusspecificNmEcu is an abstract class.")
         super().__init__()
 
 class CanNmEcu(BusspecificNmEcu):
@@ -494,7 +494,7 @@ class NmConfig(FibexElement):
             self.nmIfEcus.append(cluster)
         return self.getElement(short_name)
     
-class NmCluster(Identifiable, metaclass=ABCMeta):
+class NmCluster(Identifiable, ABC):
     """
     Abstract base class for network management clusters,
     defining common properties for different types of

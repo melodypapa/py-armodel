@@ -1,13 +1,13 @@
 # This module contains AUTOSAR System Template classes for network endpoints
 # It defines IP configuration, network addresses, and communication protocols for networked ECUs
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
 
-class NetworkEndpointAddress(ARObject, metaclass = ABCMeta):
+class NetworkEndpointAddress(ARObject, ABC):
     """
     Abstract base class for network endpoint addresses, defining the
     common properties and behavior for different types of network
@@ -15,7 +15,7 @@ class NetworkEndpointAddress(ARObject, metaclass = ABCMeta):
     """
     def __init__(self):
         if type(self) == NetworkEndpointAddress:
-            raise NotImplementedError("NetworkEndpointAddress is an abstract class.")
+            raise TypeError("NetworkEndpointAddress is an abstract class.")
         
         super().__init__()
         

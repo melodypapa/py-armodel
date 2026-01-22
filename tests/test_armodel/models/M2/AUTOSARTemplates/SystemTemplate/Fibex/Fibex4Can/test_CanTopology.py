@@ -468,7 +468,7 @@ class Test_Fibex4CanTopology:
     def test_AbstractCanCommunicationController(self):
         """Test AbstractCanCommunicationController abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractCanCommunicationController(parent, "test_abstract_controller")
 
     def test_CanCommunicationController(self):
@@ -490,7 +490,7 @@ class Test_Fibex4CanTopology:
     def test_AbstractCanCommunicationConnector(self):
         """Test AbstractCanCommunicationConnector abstract class instantiation."""
         parent = MockParent()
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             AbstractCanCommunicationConnector(parent, "test_abstract_connector")
 
     def test_CanCommunicationConnector(self):

@@ -5,7 +5,7 @@ for initializing data objects in AUTOSAR models, including various forms like
 numerical, text, array, record, and application-specific value specifications.
 """
 
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
@@ -13,7 +13,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiabl
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 
-class ValueSpecification(ARObject, metaclass=ABCMeta):
+class ValueSpecification(ARObject, ABC):
     """
     Abstract base class for expressions leading to a value which can be used to initialize a data object.
     This class serves as the base for all value specification types in AUTOSAR models.
@@ -25,11 +25,10 @@ class ValueSpecification(ARObject, metaclass=ABCMeta):
     def __init__(self):
         """
         Initializes the ValueSpecification base class.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         """
         if type(self) is ValueSpecification:
-            raise NotImplementedError(
-                "ValueSpecification is an abstract class.")
+            raise TypeError("ValueSpecification is an abstract class.")
 
         super().__init__()
 
@@ -60,7 +59,7 @@ class ValueSpecification(ARObject, metaclass=ABCMeta):
         return self
 
 
-class CompositeValueSpecification(ValueSpecification, metaclass=ABCMeta):
+class CompositeValueSpecification(ValueSpecification, ABC):
     """
     Abstract base class for value specifications that have a composite form.
     This class serves as a base for value specifications that contain multiple elements or components.
@@ -70,16 +69,15 @@ class CompositeValueSpecification(ValueSpecification, metaclass=ABCMeta):
     def __init__(self):
         """
         Initializes the CompositeValueSpecification base class.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         """
         if type(self) is CompositeValueSpecification:
-            raise NotImplementedError(
-                "CompositeValueSpecification is an abstract class.")
+            raise TypeError("CompositeValueSpecification is an abstract class.")
 
         super().__init__()
 
 
-class CompositeRuleBasedValueArgument(ARObject, metaclass=ABCMeta):
+class CompositeRuleBasedValueArgument(ARObject, ABC):
     """
     Abstract base class for value specifications that can be used for compound primitive data types.
     This class serves as the base for specialized value specifications that handle complex data types.
@@ -89,11 +87,10 @@ class CompositeRuleBasedValueArgument(ARObject, metaclass=ABCMeta):
     def __init__(self):
         """
         Initializes the CompositeRuleBasedValueArgument base class.
-        Raises NotImplementedError if this abstract class is instantiated directly.
+        Raises TypeError if this abstract class is instantiated directly.
         """
         if type(self) is CompositeRuleBasedValueArgument:
-            raise NotImplementedError(
-                "CompositeRuleBasedValueArgument is an abstract class.")
+            raise TypeError("CompositeRuleBasedValueArgument is an abstract class.")
 
         super().__init__()
 

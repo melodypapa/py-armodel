@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from enum import Enum
 from typing import List
 
@@ -14,7 +14,7 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoi
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 
 
-class CommunicationCycle(ARObject, metaclass=ABCMeta):
+class CommunicationCycle(ARObject, ABC):
     """
     Abstract base class for communication cycles, defining common
     properties for different types of communication timing cycles
@@ -85,7 +85,7 @@ class CycleRepetition(CommunicationCycle):
         return self
 
 
-class PhysicalChannel (Identifiable, metaclass=ABCMeta):
+class PhysicalChannel (Identifiable, ABC):
     """
     Abstract base class for physical communication channels,
     defining common properties for different types of physical
@@ -94,7 +94,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
-            raise NotImplementedError("PhysicalChannel is an abstract class.")
+            raise TypeError("PhysicalChannel is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -159,7 +159,7 @@ class PhysicalChannel (Identifiable, metaclass=ABCMeta):
         return self.getElement(short_name)
 
 
-class AbstractCanPhysicalChannel(PhysicalChannel, metaclass=ABCMeta):
+class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     """
     Abstract base class for CAN physical channels, defining
     common properties for CAN-specific physical communication
@@ -167,7 +167,7 @@ class AbstractCanPhysicalChannel(PhysicalChannel, metaclass=ABCMeta):
     """
     def __init__(self, parent, short_name):
         if type(self) is AbstractCanPhysicalChannel:
-            raise NotImplementedError("AbstractCanPhysicalChannel is an abstract class.")
+            raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
          
         super().__init__(parent, short_name)
 
@@ -310,7 +310,7 @@ class FlexrayPhysicalChannel(PhysicalChannel):
         return self
 
 
-class CommunicationCluster(FibexElement, metaclass=ABCMeta):
+class CommunicationCluster(FibexElement, ABC):
     """
     Abstract base class for communication clusters, defining
     common properties for different types of communication
@@ -319,7 +319,7 @@ class CommunicationCluster(FibexElement, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
-            raise NotImplementedError("CommunicationCluster is an abstract class.")
+            raise TypeError("CommunicationCluster is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -446,7 +446,7 @@ class CanClusterBusOffRecovery(ARObject):
         return self
 
 
-class AbstractCanCluster(CommunicationCluster, metaclass=ABCMeta):
+class AbstractCanCluster(CommunicationCluster, ABC):
     """
     Abstract base class for CAN clusters, extending communication
     clusters with CAN-specific properties including FD and XL
@@ -454,7 +454,7 @@ class AbstractCanCluster(CommunicationCluster, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
-            raise NotImplementedError("AbstractCanCluster is an abstract class.")
+            raise TypeError("AbstractCanCluster is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -512,7 +512,7 @@ class LinCluster(CommunicationCluster):
         super().__init__(parent, short_name)
 
 
-class CommunicationController(Identifiable, metaclass=ABCMeta):
+class CommunicationController(Identifiable, ABC):
     """
     Abstract base class for communication controllers,
     defining common properties for different types of
@@ -520,7 +520,7 @@ class CommunicationController(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationController:
-            raise NotImplementedError("CommunicationController is an abstract class.")
+            raise TypeError("CommunicationController is an abstract class.")
         
         super().__init__(parent, short_name)
 
@@ -567,7 +567,7 @@ class CommunicationDirectionType(AREnum):
         ])
 
 
-class CommConnectorPort(Identifiable, metaclass=ABCMeta):
+class CommConnectorPort(Identifiable, ABC):
     """
     Abstract base class for communication connector ports,
     defining common properties for different types of
@@ -575,7 +575,7 @@ class CommConnectorPort(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
-            raise NotImplementedError("CommConnectorPort is an abstract class.")
+            raise TypeError("CommConnectorPort is an abstract class.")
         
         super().__init__(parent, short_name)
         
@@ -720,7 +720,7 @@ class ISignalPort(CommConnectorPort):
         return self
 
 
-class CommunicationConnector(Identifiable, metaclass=ABCMeta):
+class CommunicationConnector(Identifiable, ABC):
     """
     Abstract base class for communication connectors,
     defining common properties for connecting communication
@@ -729,7 +729,7 @@ class CommunicationConnector(Identifiable, metaclass=ABCMeta):
     """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
-            raise NotImplementedError("CommunicationConnector is an abstract class.")
+            raise TypeError("CommunicationConnector is an abstract class.")
         
         super().__init__(parent, short_name)
 

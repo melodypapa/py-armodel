@@ -19,7 +19,7 @@ class TestEngineeringObject:
         try:
             obj = EngineeringObject()
             assert False, "EngineeringObject should not be instantiable"
-        except NotImplementedError:
+        except TypeError:
             pass  # Expected behavior
 
     def test_category_methods(self):

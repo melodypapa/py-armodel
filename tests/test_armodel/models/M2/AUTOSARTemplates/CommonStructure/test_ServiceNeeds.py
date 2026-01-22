@@ -103,7 +103,7 @@ class TestServiceNeeds:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             ServiceNeeds(ar_root, "TestServiceNeeds")
 
 
@@ -607,7 +607,7 @@ class TestDiagnosticCapabilityElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             DiagnosticCapabilityElement(ar_root, "TestDiagnosticCapabilityElement")
 
 
@@ -930,7 +930,7 @@ class TestDiagEventDebounceAlgorithm:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         
-        with pytest.raises(NotImplementedError):
+        with pytest.raises(TypeError):
             DiagEventDebounceAlgorithm(ar_root, "TestDiagEventDebounceAlgorithm")
 
 

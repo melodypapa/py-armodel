@@ -2,12 +2,12 @@ from .TextModel.BlockElements import DocumentationBlock
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
-from abc import ABCMeta
+from abc import ABC
 
-class GeneralAnnotation(ARObject, metaclass=ABCMeta):
+class GeneralAnnotation(ARObject, ABC):
     def __init__(self):
         if type(self) is GeneralAnnotation:
-            raise NotImplementedError("GeneralAnnotation is an abstract class.")
+            raise TypeError("GeneralAnnotation is an abstract class.")
 
         super().__init__()
         self.annotationOrigin = None        # type: ARLiteral
