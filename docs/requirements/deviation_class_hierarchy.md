@@ -5,19 +5,18 @@ and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 47 classes with correct hierarchy
+- ✓ **Match**: 48 classes with correct hierarchy
 - ✗ **Missing**: 347 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 115 classes with wrong parent/abstract
+- ⚠ **Hierarchy Mismatch**: 114 classes with wrong parent/abstract
 - + **Extra**: 557 undocumented classes
 - **Total Documented Classes**: 509
-- **Total Deviations**: 1019
+- **Total Deviations**: 1018
 
 ## Hierarchy Deviations Table
 
 | Status | Class | Documented (Parent, Abstract) | Actual (Parent, Abstract) | Notes |
 |--------|-------|-------------------------------|---------------------------|-------|
 | ⚠ MISMATCH | ARElement | ARObject, True | PackageableElement, False | parent mismatch (expected ARObject, got PackageableElement), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ARObject | None, True | None, False | abstract mismatch (expected True, got False) |
 | ⚠ MISMATCH | ARPackage | ARObject, False | Identifiable, False | parent mismatch (expected ARObject, got Identifiable) |
 | ⚠ MISMATCH | AUTOSAR | ARObject, False | AbstractAUTOSAR, False | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
 | ⚠ MISMATCH | AbstractCanCluster | ARElement, True | CommunicationCluster, False | parent mismatch (expected ARElement, got CommunicationCluster), abstract mismatch (expected True, got False) |

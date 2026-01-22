@@ -5056,11 +5056,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
         self.setAnnotations(element, value.getAnnotations())
 
-    def setEcucReferenceValue(self, element: ET.Element, value=EcucReferenceValue()):
-        child_element = ET.SubElement(element, "ECUC-REFERENCE-VALUE")
-        self.writeEcucAbstractReferenceValue(child_element, value)
-        self.setChildElementOptionalRefType(child_element, "VALUE-REF", value.getValueRef())
-        return value
+    def setEcucReferenceValue(self, element: ET.Element, value=None):
+        if value is not None:
+            child_element = ET.SubElement(element, "ECUC-REFERENCE-VALUE")
+            self.writeEcucAbstractReferenceValue(child_element, value)
+            self.setChildElementOptionalRefType(child_element, "VALUE-REF",
+                                                value.getValueRef())
+            return value
     
     def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: AnyInstanceRef):
         if instance_ref is not None:

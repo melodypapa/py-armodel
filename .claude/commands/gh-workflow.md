@@ -46,6 +46,7 @@ When the user runs `/gh-workflow`, perform the following steps in order:
   - Conventional commit format: `<type>: <description>`
   - Detailed commit body describing changes
   - Reference to the issue (e.g., `Closes #20`)
+  - **Important**: Do NOT add Claude as co-author (no `Co-Authored-By` line)
 
 ### 6. Push to GitHub Only
 - Push the branch to GitHub remote (origin)
