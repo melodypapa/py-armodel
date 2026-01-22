@@ -1,13 +1,10 @@
 import filecmp
-from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 from armodel import AUTOSAR
 

@@ -6,13 +6,12 @@ from ..models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswModuleEntity
+from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface, ClientServerInterface
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, PortPrototype, RPortPrototype, SwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import VariableAccess
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from ..models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
 from ..parser import ARXMLParser
 
 

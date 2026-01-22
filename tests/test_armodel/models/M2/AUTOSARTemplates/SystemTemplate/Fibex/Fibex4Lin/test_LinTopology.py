@@ -7,14 +7,12 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCommunicationController,
     LinMaster,
     LinCommunicationConnector
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector
 
 

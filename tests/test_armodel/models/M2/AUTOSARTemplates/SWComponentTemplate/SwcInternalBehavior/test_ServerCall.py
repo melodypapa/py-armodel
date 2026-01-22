@@ -3,7 +3,6 @@ This module contains comprehensive tests for the ServerCall module in SWComponen
 Tests cover all classes and methods in the ServerCall.py file to achieve 100% test coverage.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
     ServerCallPoint
 )

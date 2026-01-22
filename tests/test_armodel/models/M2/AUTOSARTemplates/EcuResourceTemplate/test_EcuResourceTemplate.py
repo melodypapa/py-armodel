@@ -279,7 +279,6 @@ def test_hw_element_getters_and_setters():
     4. Test setting and getting nestedElementRefs
     5. Verify method chaining (return self)
     """
-    from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
     
     hw_element = HwElement(None, "test_hw_element")
     

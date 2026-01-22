@@ -3,7 +3,6 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPack
 from .excel_report import ExcelReporter
 from ..models import AUTOSAR
 from ..models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from typing import List
 
 class ConnectorXlsReport(ExcelReporter):
     def __init__(self) -> None:

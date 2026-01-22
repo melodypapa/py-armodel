@@ -10,7 +10,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequest
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, String
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from abc import ABCMeta

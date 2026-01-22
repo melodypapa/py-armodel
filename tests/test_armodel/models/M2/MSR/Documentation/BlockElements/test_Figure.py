@@ -1,10 +1,8 @@
 """
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
-import pytest
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
 
 class TestGraphicFitEnum:

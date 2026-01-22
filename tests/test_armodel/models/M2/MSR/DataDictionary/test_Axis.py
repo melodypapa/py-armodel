@@ -1,9 +1,7 @@
 """
 This module contains tests for the Axis module in MSR.DataDictionary.
 """
-import pytest
 from armodel.models.M2.MSR.DataDictionary.Axis import *
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 
 

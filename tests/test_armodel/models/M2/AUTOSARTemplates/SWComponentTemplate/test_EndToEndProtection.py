@@ -3,7 +3,6 @@ This module contains comprehensive tests for the EndToEndProtection module in SW
 Tests cover all classes and methods in the EndToEndProtection.py file to achieve 100% test coverage.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
     EndToEndDescription, EndToEndProtectionVariablePrototype, EndToEndProtectionISignalIPdu,
     EndToEndProtection, EndToEndProtectionSet

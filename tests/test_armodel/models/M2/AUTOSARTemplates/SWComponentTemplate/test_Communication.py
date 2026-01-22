@@ -14,9 +14,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     UserDefinedTransformationComSpecProps, ServerComSpec, NvProvideComSpec,
     NonqueuedReceiverComSpec, QueuedReceiverComSpec
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType, ARBoolean, PositiveInteger, TimeValue, ARPositiveInteger, ARNumerical, ARLiteral
+    RefType, ARBoolean, PositiveInteger, TimeValue, ARPositiveInteger, ARNumerical
 )
 
 
@@ -118,7 +117,6 @@ class TestQueuedSenderComSpec:
         # Test setter methods to cover lines 124-125, 131-132, 138-139, 145-146, 152-153, 171-172
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, ARBoolean
 
         ref = RefType()
         sender.setDataElementRef(ref)

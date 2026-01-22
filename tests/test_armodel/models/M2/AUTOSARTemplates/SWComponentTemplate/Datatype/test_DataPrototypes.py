@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     ApplicationRecordElement, ParameterDataPrototype
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TestAtpPrototype:

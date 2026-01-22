@@ -1,7 +1,6 @@
 """
 This module contains tests for the SpecialData module in MSR.AsamHdo.
 """
-import pytest
 from armodel.models.M2.MSR.AsamHdo.SpecialData import *
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType

@@ -36,9 +36,8 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalTriggeringPoint,
     BswInternalBehavior
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType, ARFloat, ARBoolean, ARNumerical, Boolean, PositiveInteger, String, TimeValue
+    RefType, ARFloat, ARNumerical, PositiveInteger, TimeValue
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel import AUTOSAR
@@ -1268,7 +1267,6 @@ class TestBswInternalBehavior:
         assert behavior.getIncludedModeDeclarationGroupSets()[0] == group_set
         
     def test_get_included_mode_declaration_group_sets(self):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
         
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -1290,7 +1288,6 @@ class TestBswInternalBehavior:
         assert behavior.getIncludedDataTypeSets()[0] == type_set
         
     def test_get_included_data_type_sets(self):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
         
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")

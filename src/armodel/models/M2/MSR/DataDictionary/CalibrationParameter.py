@@ -1,7 +1,6 @@
 from typing import List
 from abc import ABCMeta
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
 
 class SwCalprmAxisTypeProps(ARObject, metaclass = ABCMeta):
     def __init__(self):

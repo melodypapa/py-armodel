@@ -3,7 +3,6 @@ This module contains comprehensive tests for the SwcInternalBehavior module in S
 Tests cover all classes and methods in the __init__.py file to achieve 100% test coverage.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntityArgument, AsynchronousServerCallResultPoint, AsynchronousServerCallPoint,
     SynchronousServerCallPoint, RunnableEntity, SwcInternalBehavior
@@ -158,7 +157,6 @@ class TestRunnableEntity:
         assert data_access in runnable.getDataReadAccesses()
         
         # Test parameter access methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess
         param_access = runnable.createParameterAccess("TestParamAccess")
         assert param_access is not None
         assert param_access.short_name == "TestParamAccess"
@@ -181,14 +179,12 @@ class TestRunnableEntity:
         assert result_point in runnable.getAsynchronousServerCallResultPoints()
         
         # Test internal triggering point methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint
         trigger_point = runnable.createInternalTriggeringPoint("TestTrigger")
         assert trigger_point is not None
         assert trigger_point.short_name == "TestTrigger"
         # Note: getInternalTriggeringPoints uses filter, so we don't check for it in the list directly
         
         # Test mode switch point methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeSwitchPoint
         mode_switch_point = runnable.createModeSwitchPoint("TestModeSwitch")
         assert mode_switch_point is not None
         assert mode_switch_point.short_name == "TestModeSwitch"
@@ -295,7 +291,6 @@ class TestSwcInternalBehavior:
         assert runnable in behavior.getRunnableEntities()
         
         # Test data prototype methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype, ParameterDataPrototype
         ar_typed_mem = behavior.createArTypedPerInstanceMemory("TestArTypedMem")
         assert ar_typed_mem is not None
         assert ar_typed_mem.short_name == "TestArTypedMem"

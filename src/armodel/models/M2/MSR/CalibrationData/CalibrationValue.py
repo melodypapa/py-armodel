@@ -1,9 +1,7 @@
 from typing import List
 
-from ....M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
-from ....M2.MSR.DataDictionary.DataDefProperties import ValueList
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 
 class SwValues(ARObject):
     def __init__(self):

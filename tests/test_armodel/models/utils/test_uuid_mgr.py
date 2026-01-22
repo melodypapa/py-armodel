@@ -7,7 +7,6 @@ This module tests the UUIDMgr class and its functionality including:
 - getDuplicateUUIDs method
 """
 
-import pytest
 from armodel.models.utils.uuid_mgr import UUIDMgr
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

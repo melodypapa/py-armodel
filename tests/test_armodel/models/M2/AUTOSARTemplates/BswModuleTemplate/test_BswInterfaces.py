@@ -18,9 +18,8 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleClientServerEntry
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
-from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARNumerical, Boolean, Identifier, NameToken, RefType, PositiveInteger
+    ARNumerical, Identifier, NameToken, RefType, PositiveInteger
 )
 from armodel import AUTOSAR
 

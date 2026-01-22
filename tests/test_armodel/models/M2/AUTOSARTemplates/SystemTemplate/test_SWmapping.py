@@ -1,4 +1,3 @@
-import pytest
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     SwcToImplMapping,

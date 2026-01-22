@@ -3,7 +3,6 @@ This module contains comprehensive tests for the Components module in SWComponen
 Tests cover all classes and methods in the __init__.py file to achieve 100% test coverage.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SymbolProps, PortPrototype, AbstractProvidedPortPrototype, AbstractRequiredPortPrototype,
     PPortPrototype, RPortPrototype, PRPortPrototype, PortGroup, SwComponentType,
@@ -495,7 +494,6 @@ class TestCompositionSwComponentType:
         assert comp_type.instantiationRTEEventProps == []
         
         # Test component methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwComponentPrototype
         comp_proto = comp_type.createSwComponentPrototype("TestComponent")
         assert comp_proto is not None
         assert comp_proto.short_name == "TestComponent"

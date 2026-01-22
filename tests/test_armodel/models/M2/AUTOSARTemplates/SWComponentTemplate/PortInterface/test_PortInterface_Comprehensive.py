@@ -17,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType, ARLiteral, PositiveInteger, ARBoolean, ARNumerical, Boolean
+    RefType, ARLiteral, PositiveInteger, ARBoolean
 )
 
 

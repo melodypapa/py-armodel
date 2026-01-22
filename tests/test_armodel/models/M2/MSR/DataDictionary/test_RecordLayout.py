@@ -1,7 +1,6 @@
 """
 This module contains tests for the RecordLayout module in MSR.DataDictionary.
 """
-import pytest
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import *
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph

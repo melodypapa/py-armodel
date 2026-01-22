@@ -6,8 +6,8 @@ in the AUTOSAR GenericStructure module.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARType, ARNumerical, ARFloat, Float, TimeValue, ARLiteral, AREnum, String,
     ReferrableSubtypesEnum, ARPositiveInteger, ARBoolean, NameToken, PositiveInteger,
-    PositiveUnlimitedInteger, Integer, UnlimitedInteger, Boolean, Identifier,
-    CIdentifier, RevisionLabelString, Limit, RefType, TRefType, DiagRequirementIdString,
+    Integer, UnlimitedInteger, Boolean, Identifier,
+    CIdentifier, Limit, RefType, TRefType, DiagRequirementIdString,
     ArgumentDirectionEnum, Ip4AddressString, Ip6AddressString, MacAddressString,
     CategoryString, ByteOrderEnum, DateTime, VerbatimString, RegularExpression
 )

@@ -4,7 +4,6 @@ These tests ensure 100% code coverage for all ECUC parameter definition classes.
 """
 
 import pytest
-from unittest.mock import Mock
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
@@ -42,7 +41,6 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucChoiceContainerDef,
     EcucParamConfContainerDef
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TestEcucConditionSpecification:

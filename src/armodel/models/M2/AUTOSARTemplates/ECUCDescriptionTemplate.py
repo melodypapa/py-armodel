@@ -1,12 +1,11 @@
 from abc import ABCMeta
 from typing import List
 
-from ...M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucContainerDef, EcucDefinitionElement, EcucModuleDef, EcucParamConfContainerDef
 from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from ...M2.MSR.Documentation.Annotation import Annotation
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, Boolean, CIdentifier, String
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 

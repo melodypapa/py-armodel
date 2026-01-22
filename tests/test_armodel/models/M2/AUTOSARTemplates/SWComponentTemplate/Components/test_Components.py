@@ -22,12 +22,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ServiceSwComponentType
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
-    AssemblySwConnector,
-    CompositionSwComponentType,
-    DelegationSwConnector,
-    SwComponentPrototype
+    CompositionSwComponentType
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     PPortComSpec, RPortComSpec, NonqueuedSenderComSpec, ServerComSpec, 
     QueuedSenderComSpec, ModeSwitchSenderComSpec, ClientComSpec,

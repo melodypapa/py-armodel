@@ -5,7 +5,6 @@ in software component internal behavior templates.
 
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from .....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

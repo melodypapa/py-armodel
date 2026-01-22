@@ -150,7 +150,6 @@ class TestCollectableElement:
         """
         Test getTotalElement method.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -174,7 +173,6 @@ class TestCollectableElement:
         """
         Test addElement and getElements methods.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -203,7 +201,6 @@ class TestCollectableElement:
         """
         Test getElement method with type parameter to cover missing lines.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -237,7 +234,6 @@ class TestCollectableElement:
         """
         Test getElement method when no elements match the specified type to cover missing line.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -263,7 +259,6 @@ class TestCollectableElement:
         """
         Test getElement method with manually added elements to ensure filter returns empty list.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -292,7 +287,6 @@ class TestCollectableElement:
         """
         Test IsElementExists method with type parameter to cover missing lines.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -323,7 +317,6 @@ class TestCollectableElement:
         """
         Test removeElement method with type parameter to cover missing lines.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -359,7 +352,6 @@ class TestCollectableElement:
         """
         Test the KeyError path in removeElement method.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -378,7 +370,6 @@ class TestCollectableElement:
         """
         Test getElement method with default type=None to cover line 201.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -456,7 +447,6 @@ class TestCollectableElement:
         """
         Test IsElementExists method.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
@@ -485,7 +475,6 @@ class TestCollectableElement:
         """
         Test removeElement method.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
         
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):

@@ -1,24 +1,64 @@
+# Python
 .coverage
 .pytest_cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
 /src/*.egg-info
 /build/
+/dist/
 /htmlcov/
 /reports/coverage.xml
-__pycache__
-.vscode/configurationCache.log
-.vscode/dryrun.log
-.vscode/targets.log
-*.log
-docs/py-armodel.und
-data/*.arxml
-data/*.lst
-data/*.xlsx
-src/armodel/tests/test_files/backup.arxml
-src/armodel/tests/test_files/SimpleTest.arxml
-pytest_html_report.html
+
+# Testing
 pytest_html_report.html
 output*.json
 tests/coverage.md
 tests/coverage.html
 tests/coverage.xml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/targets.log
+
+# Documentation
+docs/py-armodel.und
+
+# Data files
+data/*.arxml
+data/*.lst
+data/*.xlsx
+src/armodel/tests/test_files/backup.arxml
+src/armodel/tests/test_files/SimpleTest.arxml
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Claude
 .claude/settings.local.json

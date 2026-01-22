@@ -1,6 +1,4 @@
-from typing import List
 from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class ECUMapping(Identifiable):

@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
     DataTypeMap, DataTypeMappingSet
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class TestAutosarDataType:
@@ -93,7 +92,6 @@ class TestApplicationArrayDataType:
         assert array_type.getDynamicArraySizeProfile() == profile
         
         # Test createApplicationArrayElement and related methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement
         array_element = array_type.createApplicationArrayElement("TestArrayElement")
         assert array_element is not None
         assert array_element.short_name == "TestArrayElement"
@@ -122,7 +120,6 @@ class TestApplicationRecordDataType:
         assert record_type.getSwDataDefProps() == sw_data_def
         
         # Test createApplicationRecordElement and related methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement
         record_element = record_type.createApplicationRecordElement("TestRecordElement")
         assert record_element is not None
         assert record_element.short_name == "TestRecordElement"

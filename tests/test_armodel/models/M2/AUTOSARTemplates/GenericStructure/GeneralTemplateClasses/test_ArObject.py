@@ -3,7 +3,6 @@ This module contains comprehensive tests for the ArObject.py file
 in the AUTOSAR GenericStructure module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 

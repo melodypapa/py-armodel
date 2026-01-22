@@ -7,7 +7,7 @@ used in software components.
 
 from abc import ABCMeta
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, TRefType
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from .....M2.AUTOSARTemplates.CommonStructure import ValueSpecification

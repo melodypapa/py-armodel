@@ -3,7 +3,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ReentrancyLevelEnum, ExclusiveArea, ExecutableEntity, InternalBehavior, AbstractEvent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
 
 class TestReentrancyLevelEnum:

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Deviation Check Script for py-armodel
 
@@ -337,7 +337,7 @@ def main():
     project_root = script_dir.parent
     requirements_file = project_root / 'docs' / 'requirements' / 'software_components.md'
     source_dir = project_root / 'src'
-    output_file = project_root / 'docs' / 'requirements' / 'deviation.md'
+    output_file = project_root / 'docs' / 'requirements' / 'deviation_package.md'
 
     print(f"Py-ARModel Deviation Check Script")
     print(f"=" * 50)

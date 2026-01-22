@@ -6,15 +6,11 @@ for describing a single BSW module or BSW cluster. It includes functionality for
 dependencies, documentation, entry references, internal behaviors, and various other BSW-specific elements.
 """
 
-import pytest
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleDependency
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
 from armodel import AUTOSAR
 

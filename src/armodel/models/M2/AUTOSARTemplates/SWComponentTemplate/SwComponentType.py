@@ -62,7 +62,6 @@ class SwComponentType(ARElement, metaclass=ABCMeta):
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name))
 
     def getPortGroups(self) -> List['PortGroup']:
-        from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup
         return self.portGroups
 
     def createPortGroup(self, short_name):

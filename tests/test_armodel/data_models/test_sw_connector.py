@@ -7,7 +7,6 @@ This module tests the SwConnectorData and its subclasses including:
 - AssemblySwConnectorData
 """
 
-import pytest
 from armodel.data_models.sw_connector import SwConnectorData, DelegationSwConnectorData, AssemblySwConnectorData
 
 

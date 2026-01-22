@@ -54,8 +54,10 @@ AUTOSAR model objects maintain bi-directional references:
     - SystemTemplate - System signals, ECU instances, communication (Fibex for CAN/Ethernet/FlexRay/LIN)
     - BswModuleTemplate - BSW module descriptions, behavior, implementation, interfaces
     - ECUCDescriptionTemplate - ECUC configuration values
+    - ECUCParameterDefTemplate - ECUC parameter definitions
     - EcuResourceTemplate - ECU resources
-    - GenericStructure - Generic template classes
+    - GenericStructure - Generic template classes, variant handling, lifecycle
+    - DiagnosticExtract - Diagnostic contributions
   - utils/ - UUID management utilities
 
 - **parser/** - ARXML parsing
@@ -63,6 +65,7 @@ AUTOSAR model objects maintain bi-directional references:
   - abstract_arxml_parser.py - Abstract base parser
   - connector_xlsx_parser.py - Excel connector parsing
   - excel_parser.py - Generic Excel parsing
+  - file_parser.py - File parsing utilities
 
 - **writer/** - ARXML writing
   - arxml_writer.py - Main ARXML writer
@@ -85,8 +88,16 @@ AUTOSAR model objects maintain bi-directional references:
   - sw_component.py - Software component utilities
   - system_signal.py - System signal utilities
 
+- **data_models/** - Data model definitions
+  - sw_connector.py - Software connector model (AssemblySwConnector, DelegationSwConnector)
+
 - **transformer/** - Data transformation
+  - abstract.py - Abstract transformer base
+  - admin_data.py - Admin data transformation
+
 - **report/** - Report generation
+  - connector_xls_report.py - Connector Excel report
+  - excel_report.py - Excel report utilities
 
 ### Source Layout
 - Source code in `src/armodel/` directory (src layout)
@@ -166,59 +177,69 @@ ARXMLWriter serializes the AUTOSAR model back to ARXML format, respecting the AU
 
 ## Coding Standards
 
-The project follows comprehensive coding standards documented in `docs/development/coding_rules.md`. Key coding rule categories include:
+The project follows PEP 8 coding conventions. Key conventions include:
 
-### Code Layout (CODING_RULE_LAYOUT_00001 - CODING_RULE_LAYOUT_00007)
-- Indentation, maximum line length, line breaking, binary operator placement
-- Blank lines, source file encoding, string quotes
+### Code Layout
+- Indentation with 4 spaces (never tabs)
+- Maximum line length: 79 characters per PEP 8 (CI warns at 127)
+- Double quotes for strings (triple double quotes for docstrings)
+- Blank lines: 2 between top-level definitions, 1 between class methods
 
-### Import Organization (CODING_RULE_IMPORT_00001 - CODING_RULE_IMPORT_00003)
-- Import order, section separation, alphabetical ordering
+### Import Organization
+- Import order: Standard library → Third-party → Local (absolute paths)
+- Section separation with blank lines, alphabetical ordering within sections
 
-### Naming Conventions (CODING_RULE_NAMING_00001 - CODING_RULE_NAMING_00005)
-- Class names, function/method names, constant names
-- Private attribute names, instance variable names
+### Naming Conventions
+- Classes: `PascalCase`
+- Functions/Methods: `camelCase` (for AUTOSAR methods) or `snake_case` (for new code)
+- Constants: `UPPER_CASE`
+- Private attributes: `_leading_underscore`
+- Test classes: `Test<ClassName>`
+- Test methods: `test_<method_name>_<scenario>` or `test_<scenario>`
 
-### Type Annotations (CODING_RULE_TYPE_00001 - CODING_RULE_TYPE_00005)
-- Mandatory type annotations, union types, collection types
-- Forward references, dataclass field types
+### Type Annotations
+- Use Python 3.10+ union syntax: `str | None` instead of `Optional[str]`
+- Use forward references with string literals for circular dependencies: `List["MyClass"]`
+- Only reference classes that exist in the codebase to avoid F821 flake8 errors
 
-### Documentation (CODING_RULE_DOC_00001 - CODING_RULE_DOC_00005)
-- Google-style docstrings, class/method docstrings
-- Requirements section, docstring language
+### Documentation
+- Google-style docstrings for public classes and methods (when present)
+- Requirements section with requirement IDs in docstrings (when applicable)
+- All docstrings in English
 
-### Whitespace (CODING_RULE_WS_00001 - CODING_RULE_WS_00006)
-- Extraneous whitespace, operator spacing
-- Keyword arguments, function annotations, trailing whitespace
-- Compound statements
+### Whitespace
+- No extraneous whitespace in parentheses/brackets
+- Operators surrounded by spaces: `x = 1`, `a + b`
+- Keyword arguments use `arg=value` (no spaces around `=`)
 
-### Style Guidelines (CODING_RULE_STYLE_00001 - CODING_RULE_STYLE_00008)
-- Dataclass usage, validation in `__post_init__`
-- Regular expressions, context managers, string methods
-- List comprehensions, dunder methods, **Python package structure**
+### Style Guidelines
+- Use `@dataclass` decorator for model classes (when applicable)
+- Validate dataclass fields in `__post_init__`
+- Compile regex patterns as class constants
+- Use context managers (`with`) for resource management
 
-### Error Handling (CODING_RULE_ERROR_00001 - CODING_RULE_ERROR_00004)
-- Validation errors, immediate validation
-- Exception chaining, import validation
-
-### Testing (CODING_RULE_TEST_00001 - CODING_RULE_TEST_00003)
-- Test structure, coverage goals, test patterns
-
-### Logging (CODING_RULE_LOG_00001 - CODING_RULE_LOG_00003)
-- Logging levels, configuration, CLI error handling
-
-### Best Practices (CODING_RULE_BP_00001 - CODING_RULE_BP_00002)
-- Query methods, path operations
-
-### Programming Recommendations (CODING_RULE_PR_00001 - CODING_RULE_PR_00010)
-- Type comparisons, sequence checks, string prefix/suffix checks
-- None comparisons, boolean comparisons, exception handling
-- Resource management, return statement consistency
-- Use `def` instead of lambda assignment, exception classes
-
-**Important:** When creating new classes or modules, always follow CODING_RULE_STYLE_00008 for package structure:
+**Important Package Structure Rule:**
 - **Leaf packages** (no subdirectories): Classes defined in `.py` file with package name = filename
 - **Non-leaf packages** (have subdirectories): Classes defined in `__init__.py` of the directory
+
+### Error Handling
+- Use `ValueError` for invalid arguments
+- Validate inputs immediately
+- Use `raise ... from e` for exception chaining
+- Abstract base classes raise `TypeError` in `__init__`
+
+### Testing
+- Mirror source structure in `tests/` directory
+- Test classes: `Test<ClassName>`
+- Test methods: `test_<method_name>_<scenario>` or `test_<scenario>`
+- Use `pytest.raises(ValueError, match="pattern")` for exception testing
+
+### Programming Recommendations
+- Use `isinstance()` for type comparisons
+- Use `is` / `is not` for `None` comparisons
+- Don't compare booleans to `True`/`False` using `==`
+- Catch specific exceptions, not bare `except:`
+- Use `with` statements for resource management
 
 ## Key Supported Elements
 
@@ -244,14 +265,18 @@ AssemblySwConnector, DelegationSwConnector, ServerComSpec, ModeSwitchReceiverCom
 ### Behavior
 RunnableEntity, SwcInternalBehavior, BswInternalBehavior, SwcImplementation, BswImplementation
 - Events: InitEvent, DataReceiveEvent, SwcModeSwitchEvent, BswBackgroundEvent, BswDataReceivedEvent, BswExternalTriggerOccurredEvent, BswModeSwitchedAckEvent, BswOperationInvokedEvent, BswAsynchronousServerCallReturnsEvent
+- BSW Call Points: BswDirectCallPoint, BswSynchronousServerCallPoint, BswAsynchronousServerCallPoint, BswAsynchronousServerCallResultPoint
 
 ### CommonStructure
 ARObject, Referrable, Identifiable, ServiceNeeds (Diagnostic, Communication, etc.), Implementation, InternalBehavior, ResourceConsumption (MemorySection, StackUsage, HeapUsage, ExecutionTime), ModeDeclaration, SwcBswMapping
+- Timing: TimingConstraints, ExecutionOrderConstraint, TimingExtensions
+- TriggerDeclaration: Trigger
 - Documentation: Documentation (DocumentationOnM1)
 - Variant Handling: VariationPoint, PostBuildVariantCriterion, PostBuildVariantCriterionValue, PredefinedVariant, SwSystemconstantValueSet, NumericalValueVariationPoint
+- LifeCycle: LifeCycleInfo, LifeCycleInfoSet, KeywordSet, Collection
 
 ### Diagnostics
-DiagnosticConnection, DiagnosticServiceTable, DiagnosticEventNeeds, DCM Needs, DoIP (DoIpServiceNeeds, DoIpConfiguration)
+DiagnosticConnection, DiagnosticServiceTable, DiagnosticEventNeeds, DiagnosticEventInfoNeeds, DCM Needs (DiagnosticCommunicationManagerNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds), DoIP (DoIpServiceNeeds, DoIpConfiguration)
 - Additional: MlFormula (MathML formulas)
 
 ### System
@@ -262,10 +287,16 @@ BswModuleDescription, BswBehavior (BswInternalBehavior, BswModuleEntity, BswCall
 
 ### ECUC Configuration
 EcucValueCollection, EcucModuleConfigurationValues, EcucContainerValue, EcucParameterValue, EcucModuleDef, EcucParamDef (Boolean, String, Integer, Float, Enumeration)
-- Additional: EcucAddInfoParamDef, EcucConditionFormula, EcucDefinitionCollection, EcucDestinationUriDef, EcucDestinationUriDefSet, EcucDestinationUriPolicy, EcucLinkerSymbolDef, EcucMultilineStringParamDef, EcucParameterDerivationFormula, EcucQuery, EcucQueryExpression
+- Additional: EcucAddInfoParamDef, EcucConditionFormula, EcucDefinitionCollection, EcucDestinationUriDef, EcucDestinationUriDefSet, EcucDestinationUriPolicy, EcucLinkerSymbolDef, EcucMultilineStringParamDef, EcucParameterDerivationFormula, EcucQuery, EcucQueryExpression, EcucParamConfContainerDef
 
 ### Fibex (Field Bus Exchange Format)
 Fibex4Can, Fibex4Ethernet, Fibex4Flexray, Fibex4Lin, FibexCore, Fibex4Multiplatform
+
+### Transport Protocols
+GenericTP, TCP-TP, UDP-TP, CAN-TP, LIN-TP, DO-IP-TP
+
+### Data Transformation
+DataTransformationSet, TypeMapping, Mask, UserDefinedTransformationComSpecProps
 
 ## Testing Structure
 
@@ -354,6 +385,29 @@ GitHub Actions (`.github/workflows/python-package.yml`):
 - Linting: `flake8 --select=E9,F63,F7,F82` (syntax errors) and `--max-complexity=10 --max-line-length=127` (complexity warnings)
 - Steps: Install dependencies → Lint → Test
 - All lint and test checks must pass before merge
+
+## Additional Documentation
+
+### Hierarchy and Class Relationships
+The project maintains detailed documentation of AUTOSAR class hierarchies:
+- `docs/requirements/software_components_hierarchy.md` - Complete class hierarchy from ARObject down through all ARElement types
+- Shows inheritance relationships (abstract classes marked with "abstract")
+- Useful for understanding the AUTOSAR M2 meta-model structure
+
+### Deviation Documentation
+The project includes scripts and documentation for tracking deviations from the AUTOSAR standard:
+- `scripts/deviation-package.py` - Generate deviation package documentation
+- `scripts/deviation-class-hierarchy.py` - Generate class hierarchy documentation
+- `docs/requirements/deviation_package.md` - Deviation package structure documentation
+- `docs/requirements/deviation_class_hierarchy.md` - Deviation class hierarchy documentation
+- `docs/requirements/software_components.md` - Software component requirements
+
+### Agent Guidelines
+- `AGENTS.md` - Additional guidelines for AI agents working with this codebase
+
+### Requirements Documentation
+- `docs/requirements/deviation.md` - Deviations from AUTOSAR standard (replaced by deviation_package.md)
+- `docs/requirements/software_components.md` - Software component requirements
 
 ## References
 

@@ -1,7 +1,6 @@
 """
 This module contains tests for the AuxillaryObjects module in MSR.DataDictionary.
 """
-import pytest
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import *
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral

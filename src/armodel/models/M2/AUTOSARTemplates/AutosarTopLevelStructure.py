@@ -1,12 +1,9 @@
-from typing import Dict, List
+from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 from ...utils.uuid_mgr import UUIDMgr
-from ...M2.MSR.AsamHdo.SpecialData import Sdg
-from ...M2.MSR.AsamHdo import AdminData
 from ...M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from ...M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 from ...M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ...M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
@@ -17,7 +14,7 @@ from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Applic
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, CompositionSwComponentType, PortPrototype
 from ...M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from ...M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ...M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
+from ...M2.AUTOSARTemplates.SystemTemplate import System
 from ...M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
 from ...M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
 from ...M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulableEntity, BswCalledEntity

@@ -218,7 +218,7 @@ def main():
     logger.info(f"- Average coverage: {avg_coverage:.1f}%")
     logger.info(f"- Total execution time: {total_time:.2f} seconds")
     
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"- Total files: {total_files}")
     print(f"- Files with complete coverage (100%): {complete_files}")
     print(f"- Files with incomplete coverage: {incomplete_files}")

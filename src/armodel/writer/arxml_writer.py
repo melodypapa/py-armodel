@@ -68,7 +68,7 @@ from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractRef
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucInstanceReferenceValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
 from ..models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection, EcucModuleDef
-from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractConfigurationClass, EcucAbstractExternalReferenceDef
+from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractConfigurationClass
 from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucFunctionNameDef, EcucReferenceDef
 from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractInternalReferenceDef, EcucAbstractReferenceDef
 from ..models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractStringParamDef, EcucBooleanParamDef, EcucSymbolicNameReferenceDef
@@ -100,7 +100,7 @@ from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import Applicat
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType, PRPortPrototype, PortGroup, SwComponentType
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, PortPrototype, RPortPrototype, SymbolProps
+from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, RPortPrototype, SymbolProps
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef

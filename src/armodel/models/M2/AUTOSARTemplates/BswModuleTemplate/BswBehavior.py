@@ -20,7 +20,7 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTy
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
+from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind

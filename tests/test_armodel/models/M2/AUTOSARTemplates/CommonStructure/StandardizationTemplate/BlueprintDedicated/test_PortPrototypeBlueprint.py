@@ -3,7 +3,6 @@ This module contains comprehensive tests for the PortPrototypeBlueprint.py file
 in the AUTOSAR CommonStructure StandardizationTemplate BlueprintDedicated module.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
     PortPrototypeBlueprintInitValue,
@@ -11,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import PPortComSpec, RPortComSpec
 
 
 class TestPortPrototypeBlueprintInitValue:

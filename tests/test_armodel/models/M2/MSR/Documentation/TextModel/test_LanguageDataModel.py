@@ -3,7 +3,6 @@ This module contains tests for the LanguageDataModel module in MSR.Documentation
 """
 import pytest
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import *
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
 
 class TestLEnum:

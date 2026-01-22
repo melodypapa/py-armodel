@@ -5,7 +5,7 @@ configuration options, and version information.
 """
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, RefType, RevisionLabelString
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, RevisionLabelString
 from ....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from typing import List
 

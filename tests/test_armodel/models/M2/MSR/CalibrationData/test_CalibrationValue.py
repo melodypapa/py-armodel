@@ -1,7 +1,6 @@
 """
 This module contains tests for the CalibrationValue module in MSR.CalibrationData.
 """
-import pytest
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import *
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType

@@ -3,7 +3,7 @@ Test cases for the AdminDataTransformer class.
 These tests ensure 100% code coverage for the admin data transformer functionality.
 """
 
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch, MagicMock
 from src.armodel.transformer.admin_data import AdminDataTransformer
 from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 

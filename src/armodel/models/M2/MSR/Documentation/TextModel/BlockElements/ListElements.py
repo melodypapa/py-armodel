@@ -1,4 +1,3 @@
-from typing import List
 
 from ......M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum

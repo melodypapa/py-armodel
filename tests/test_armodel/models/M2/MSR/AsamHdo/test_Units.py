@@ -1,9 +1,8 @@
 """
 This module contains tests for the Units module in MSR.AsamHdo.
 """
-import pytest
 from armodel.models.M2.MSR.AsamHdo.Units import *
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 

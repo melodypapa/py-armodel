@@ -3,7 +3,6 @@ This module contains classes for representing AUTOSAR software component impleme
 elements in software component templates.
 """
 
-from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from ....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation

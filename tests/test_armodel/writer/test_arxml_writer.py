@@ -1,20 +1,15 @@
 """
 Tests for ARXMLWriter class
 """
-import pytest
 import xml.etree.cElementTree as ET
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, Sd
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit, RefType, ARLiteral, RevisionLabelString, DateTime, ARFloat
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguagePlainText
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification, TextValueSpecification, NumericalValueSpecification, ConstantReference, ApplicationValueSpecification, RecordValueSpecification, ArrayValueSpecification
-from armodel.models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConstNumericContent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, NumericalValueSpecification, ConstantReference
 
 
 class TestARXMLWriterBasicMethods:

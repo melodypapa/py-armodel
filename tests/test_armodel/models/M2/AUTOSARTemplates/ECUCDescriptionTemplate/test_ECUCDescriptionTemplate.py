@@ -10,11 +10,9 @@ from src.armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucContainerValue, EcucModuleConfigurationValues, EcucConditionSpecification,
     EcucConfigurationVariantEnum, EcucModuleDef
 )
-from src.armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef, EcucChoiceContainerDef
 from src.armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARBoolean, RefType, CIdentifier, Boolean, Limit
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, CIdentifier, Limit
 
 
 def test_ecuc_value_collection():

@@ -7,7 +7,6 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
-import pytest
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     RxIdentifierRange,

@@ -1,7 +1,6 @@
 """
 This module contains tests for the Composition subdirectory in SWComponentTemplate.
 """
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     SwComponentPrototype,
     SwConnector,

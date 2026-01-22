@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR hardware attribute values
 in the EcuResourceTemplate module.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement

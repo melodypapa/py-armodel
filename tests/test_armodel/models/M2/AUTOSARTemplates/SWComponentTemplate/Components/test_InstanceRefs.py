@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     VariableInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef,
     InnerPortGroupInCompositionInstanceRef
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 

@@ -1,9 +1,7 @@
 """
 This module contains tests for the ListElements module in MSR.Documentation.TextModel.BlockElements.
 """
-import pytest
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import *
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 
 
 class TestListEnum:

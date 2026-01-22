@@ -1,7 +1,8 @@
 from typing import List
 
 import logging
-import os, re
+import os
+import re
 
 class InputFileParser:
     def __init__(self, args: List[str]) -> None:

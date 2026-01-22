@@ -6,7 +6,6 @@ It includes functionality for managing BSW-specific implementation properties li
 behavior references, configuration references, and vendor-specific information.
 """
 
-import pytest
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString, Identifier

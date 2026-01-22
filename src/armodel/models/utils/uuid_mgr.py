@@ -1,4 +1,3 @@
-from typing import Dict, List
 
 from ..M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

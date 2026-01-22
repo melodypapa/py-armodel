@@ -3,7 +3,6 @@ This module contains comprehensive tests for the PortAPIOptions module in SWComp
 Tests cover all classes and methods in the PortAPIOptions.py file to achieve 100% test coverage.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
     PortDefinedArgumentValue, PortAPIOption
 )

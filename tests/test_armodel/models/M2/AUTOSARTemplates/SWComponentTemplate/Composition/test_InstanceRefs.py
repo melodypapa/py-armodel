@@ -9,7 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.Instance
     RPortInCompositionInstanceRef, OperationInAtomicSwcInstanceRef,
     POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 

@@ -9,9 +9,9 @@ from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageL
 from .....M2.MSR.Documentation.Annotation import Annotation
 from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, CategoryString
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from abc import ABCMeta
-from typing import Dict, List, Optional, Any, TYPE_CHECKING
+from typing import Dict, List, Optional, Any
 
 
 class Referrable(ARObject, metaclass=ABCMeta):

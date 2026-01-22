@@ -1,12 +1,10 @@
 import pytest
 import tempfile
 import os
-import sys
 import xml.etree.cElementTree as ET
 
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 from armodel.writer.arxml_writer import ARXMLWriter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARFloat, ARLiteral, ARNumerical, DateTime, Integer, 
