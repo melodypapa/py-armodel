@@ -1,6 +1,6 @@
 # Merge Pull Request
 
-Check pull request status and prepare for merge. This command does NOT perform the actual merge - it verifies CI checks are passing and switches to the master branch.
+Check pull request status, merge it, and return to master branch.
 
 ## Usage
 
@@ -11,9 +11,10 @@ Check pull request status and prepare for merge. This command does NOT perform t
 ## What This Command Does
 
 1. **Check PR Status**: Checks if the pull request can be merged (passes CI checks)
-2. **Switch to Master**: Checks out the master branch
-3. **Pull Latest**: Pulls the latest changes from origin/master
-4. **Cleanup**: Optionally deletes the feature branch
+2. **Merge PR via GitHub**: Uses `gh pr merge` to merge the PR directly through GitHub
+3. **Switch to Master**: Checks out the master branch
+4. **Pull Latest**: Pulls the merged changes from origin/master
+5. **Cleanup**: Optionally deletes the local feature branch
 
 ## Steps
 
@@ -22,23 +23,29 @@ Check pull request status and prepare for merge. This command does NOT perform t
 - Show the status of the current PR
 - Verify CI checks are passing
 
-### 2. Switch to Master
+### 2. Merge PR via GitHub
+- Use `gh pr merge` to merge the PR directly through GitHub
+- This automatically closes the PR and updates the master branch on GitHub
+- Supports merge methods: merge, squash, rebase
+
+### 3. Switch to Master
 - Checkout master branch: `git checkout master`
 - Ensure we're on master
 
-### 3. Pull Latest Changes
+### 4. Pull Latest Changes
 - Pull from origin/master: `git pull origin master`
-- Ensure local master is up to date
+- This updates local master with the merged changes from GitHub
 
-### 4. Cleanup (Optional)
-- Ask if you want to delete the feature branch
+### 5. Cleanup (Optional)
+- Ask if you want to delete the local feature branch
 - Delete local branch: `git branch -d <feature-branch>`
-- Delete remote branch: `git push origin --delete <feature-branch>`
+- Remote branch is automatically deleted by GitHub when PR is merged
 
 ## Arguments
 
 Use `$ARGUMENTS` to accept:
 - PR number (if not the current branch's PR)
+- Merge method: `--merge`, `--squash`, or `--rebase` (default: merge)
 - Skip cleanup (don't delete feature branch)
 - Force merge (merge even if CI is not passing)
 
@@ -47,17 +54,21 @@ Use `$ARGUMENTS` to accept:
 ```
 /merge-pr
 /merge-pr 36
+/merge-pr --squash
+/merge-pr 87 --rebase
 /merge-pr --no-cleanup
 /merge-pr --force
 ```
 
 ## Notes
 
-- This command does NOT perform the actual merge or push - use GitHub UI or `gh pr merge` for that
-- Confirms before destructive operations (branch delete)
+- Always confirms before destructive operations (merge, delete)
 - Shows progress updates at each step
-- Reports PR status and CI check results
-- Provides links to the PR
+- Uses `gh pr merge` to merge via GitHub API (cleaner than local merge)
+- GitHub automatically closes the PR when merged
+- Remote branch is automatically deleted by GitHub after merge
+- Reports any merge conflicts if they occur
+- Provides links to the merged PR
 - Updates the todo list to track progress
 
 ## Prerequisites

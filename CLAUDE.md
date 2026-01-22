@@ -43,6 +43,26 @@ AUTOSAR model objects maintain bi-directional references:
 - Use `findXXX()` methods for lookups by short name; they return `None` if not found (not exceptions)
 - Same short name can exist in different packages or with different types
 
+### Recent Architectural Improvements
+
+**Package Structure Refactoring (2024):**
+- Fixed case-sensitivity issues with Components/ vs Components directories
+- Reorganized ECUC module imports to resolve ImportError
+- Improved AnyInstanceRef and CompositionSwComponentType package structure
+- Enhanced deviation tracking and documentation
+
+**Test Coverage Enhancement:**
+- Ongoing effort to increase test coverage across all modules
+- Focus on M2 models, parser, writer, and library functions
+- Added tests for SwcInternalBehavior and NetworkManagement
+- Using test-driven development for new features
+
+**Documentation Improvements:**
+- Added comprehensive deviation documentation
+- Enhanced class hierarchy documentation
+- Improved coding rules documentation
+- Added SpeckKit integration for feature specification
+
 ## Module Organization
 
 - **models/** - AUTOSAR data model classes following M2 schema structure
@@ -103,6 +123,8 @@ AUTOSAR model objects maintain bi-directional references:
 - Source code in `src/armodel/` directory (src layout)
 - Install in development mode with: `pip install -e .`
 - All imports are absolute: `from armodel.models import AUTOSAR`
+- `.specify/` - SpeckKit directory for feature specification and development workflows
+- `.claude/commands/` - Custom Claude Code slash commands for development automation
 
 ## Development Commands
 
@@ -135,6 +157,27 @@ Or using npm scripts:
 ### Documentation
 - `cd docs && make html` - Build with Sphinx
 - `mkdocs build` or `mkdocs serve` - Build with MkDocs
+
+### Common Development Tasks
+
+**Adding a new AUTOSAR model class:**
+1. Determine if it should be a leaf package (`.py` file) or non-leaf package (`__init__.py`)
+2. Create the file in appropriate M2 location
+3. Add wildcard import in parent `__init__.py`
+4. Add to `__init__.py` of the module's directory
+5. Create corresponding test in `tests/test_armodel/`
+6. Run tests and linting
+
+**Debugging parser issues:**
+- Use `options={"warning": True}` to get warnings instead of exceptions
+- Check XML namespace mappings in `release_xsd_mappings`
+- Verify element is in supported elements list
+- Check parent-child relationships are maintained
+
+**Working with test files:**
+- Sample ARXML files in `tests/test_files/`
+- Use existing files as templates for new test cases
+- Ensure test files cover supported AUTOSAR versions
 
 ## CLI Tools (console_scripts)
 
@@ -175,6 +218,28 @@ ARXMLWriter serializes the AUTOSAR model back to ARXML format, respecting the AU
 - Test methods: `test_<method_name>_<scenario>` or `test_<scenario>`
 - Use `pytest.raises(ValueError, match="pattern")` for exception testing
 
+### Common Pitfalls
+
+**Import Errors:**
+- Ensure proper package structure when adding new classes
+- Check that wildcard imports in `__init__.py` files include new classes
+- Leaf packages use `.py` files, non-leaf packages use `__init__.py`
+
+**Package Structure:**
+- Recent refactoring fixed issues with Components/ vs Components
+- Always verify package exists before adding classes
+- Use proper import paths: `from armodel.models.M2.AUTOSARTemplates...`
+
+**UUID Management:**
+- UUIDs are managed through `UUIDMgr` utility
+- Duplicate UUIDs are checked and will raise errors
+- Each AUTOSAR element should have a unique UUID
+
+**Parent References:**
+- Always maintain parent-child relationships
+- Use `addElement()` methods rather than directly appending to lists
+- Parent references are used for navigation and serialization
+
 ## Coding Standards
 
 The project follows PEP 8 coding conventions. Key conventions include:
@@ -191,7 +256,8 @@ The project follows PEP 8 coding conventions. Key conventions include:
 
 ### Naming Conventions
 - Classes: `PascalCase`
-- Functions/Methods: `camelCase` (for AUTOSAR methods) or `snake_case` (for new code)
+- AUTOSAR methods: `camelCase` (following AUTOSAR standard)
+- New Python methods: `snake_case` (following PEP 8)
 - Constants: `UPPER_CASE`
 - Private attributes: `_leading_underscore`
 - Test classes: `Test<ClassName>`
@@ -240,6 +306,8 @@ The project follows PEP 8 coding conventions. Key conventions include:
 - Don't compare booleans to `True`/`False` using `==`
 - Catch specific exceptions, not bare `except:`
 - Use `with` statements for resource management
+
+For comprehensive coding rules, see `docs/development/coding_rules.md`.
 
 ## Key Supported Elements
 
@@ -301,6 +369,16 @@ DataTransformationSet, TypeMapping, Mask, UserDefinedTransformationComSpecProps
 ## Testing Structure
 
 Tests in `tests/test_armodel/` mirror the source structure. Sample ARXML files in `test_files/` include AUTOSAR_Datatypes.arxml, SoftwareComponents.arxml, BswM_Bswmd.arxml organized by AUTOSAR modules.
+
+**Test Data Location:**
+- Sample ARXML files are in `tests/test_files/` directory
+- Common test files: AUTOSAR_Datatypes.arxml, SoftwareComponents.arxml, BswM_Bswmd.arxml, CanSystem.arxml
+- Use these files for parser/writer validation
+
+**Test Coverage Goals:**
+- Target high test coverage (current focus on increasing coverage)
+- Test both success and error paths
+- Include edge cases and boundary conditions
 
 ## Dependencies
 
@@ -378,6 +456,31 @@ if component is not None:
     behavior = autosar.getBehavior(component)
 ```
 
+**Working with parent-child relationships:**
+```python
+# When adding elements, ensure proper parent references
+pkg.addElement(element)
+assert element.parent == pkg  # Parent is automatically set
+```
+
+**Getter/setter pattern:**
+```python
+# Most AUTOSAR classes follow getter/setter pattern
+element.getShortName()
+element.setShortName("NewName")  # Returns self for chaining
+```
+
+**Working with collections:**
+```python
+# Add to collections
+pkg.addARPackage(child_pkg)
+behavior.addRunnableEntity(runnable)
+
+# Get collections (returns list)
+packages = pkg.getARPackages()
+runnables = behavior.getRunnableEntities()
+```
+
 ## CI/CD
 
 GitHub Actions (`.github/workflows/python-package.yml`):
@@ -402,8 +505,23 @@ The project includes scripts and documentation for tracking deviations from the 
 - `docs/requirements/deviation_class_hierarchy.md` - Deviation class hierarchy documentation
 - `docs/requirements/software_components.md` - Software component requirements
 
+### Coding Standards
+- `docs/development/coding_rules.md` - Comprehensive coding rules and standards (maturity levels: accept/invalid/draft)
+- Covers PEP 8 conventions, type hints, docstrings, testing, error handling
+- Enforced through CI/CD pipeline with flake8 and pytest
+
 ### Agent Guidelines
 - `AGENTS.md` - Additional guidelines for AI agents working with this codebase
+- `CLAUDE.md` - This file, providing project guidance for Claude Code
+
+### Slash Commands
+The project includes custom Claude Code slash commands in `.claude/commands/`:
+- `/merge-pr` - Merge pull requests via GitHub CLI (gh)
+- `/gh-workflow` - Automate GitHub workflow (create issue, branch, commit, PR)
+- `/quality` - Run quality checks (flake8, pytest coverage)
+- `/req` - Requirement management and documentation
+- `/test` - Test runner with coverage reporting
+- See `.claude/commands/README.md` for complete command documentation
 
 ### Requirements Documentation
 - `docs/requirements/deviation.md` - Deviations from AUTOSAR standard (replaced by deviation_package.md)
@@ -415,3 +533,9 @@ The project includes scripts and documentation for tracking deviations from the 
 - GitHub: http://github.com/melodypapa/py-armodel
 - PyPI: https://pypi.org/project/armodel/
 - Docs: https://py-armodel.readthedocs.io/
+
+## Language-Specific Documentation
+
+- **IFLOW.md** - 项目指南 (Chinese language project guide with architecture overview)
+- **AGENTS.md** - Agent Guidelines (English language guidelines for AI agents)
+- **CLAUDE.md** - This file (Claude Code guidance in English)
