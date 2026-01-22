@@ -52,8 +52,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test PortPrototype class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        port_prototype = PortPrototype(ar_root, "TestPort")
-        
+        port_prototype = PRPortPrototype(ar_root, "TestPort")
+
         assert port_prototype.parent == ar_root
         assert port_prototype.short_name == "TestPort"
         assert port_prototype.clientServerAnnotations == []
@@ -64,11 +64,11 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert port_prototype.parameterPortAnnotations == []
         assert port_prototype.senderReceiverAnnotations == []
         assert port_prototype.triggerPortAnnotations == []
-        
+
         # Test setters and getters
         port_prototype.addClientServerAnnotation("Annotation1")
         assert "Annotation1" in port_prototype.getClientServerAnnotations()
-        
+
         port_prototype.setDelegatedPortAnnotation("DelegatedAnnotation")
         assert port_prototype.getDelegatedPortAnnotation() == "DelegatedAnnotation"
 
@@ -76,7 +76,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test AbstractProvidedPortPrototype class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        provided_port = AbstractProvidedPortPrototype(ar_root, "TestProvidedPort")
+        provided_port = PPortPrototype(ar_root, "TestProvidedPort")
 
         assert provided_port.providedComSpecs == []
 
@@ -110,7 +110,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test AbstractRequiredPortPrototype class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        required_port = AbstractRequiredPortPrototype(ar_root, "TestRequiredPort")
+        required_port = RPortPrototype(ar_root, "TestRequiredPort")
 
         assert required_port.requiredComSpecs == []
 
@@ -357,7 +357,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test validation error paths for PPortComSpec."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        provided_port = AbstractProvidedPortPrototype(ar_root, "TestProvidedPort")
+        provided_port = PPortPrototype(ar_root, "TestProvidedPort")
 
         # Test NonqueuedSenderComSpec without dataElementRef
         com_spec_no_ref = NonqueuedSenderComSpec()
@@ -389,7 +389,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test validation error paths for RPortComSpec."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        required_port = AbstractRequiredPortPrototype(ar_root, "TestRequiredPort")
+        required_port = RPortPrototype(ar_root, "TestRequiredPort")
 
         # Test ClientComSpec with invalid dest
         client_spec = ClientComSpec()
@@ -434,7 +434,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test getting nonqueued sender com specs filter."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        provided_port = AbstractProvidedPortPrototype(ar_root, "TestProvidedPort")
+        provided_port = PPortPrototype(ar_root, "TestProvidedPort")
 
         com_spec = NonqueuedSenderComSpec()
         ref = RefType()
@@ -454,7 +454,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test getting client com specs filter."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        required_port = AbstractRequiredPortPrototype(ar_root, "TestRequiredPort")
+        required_port = RPortPrototype(ar_root, "TestRequiredPort")
 
         client_spec = ClientComSpec()
         required_port.addRequiredComSpec(client_spec)
@@ -470,7 +470,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test getting nonqueued receiver com specs filter."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        required_port = AbstractRequiredPortPrototype(ar_root, "TestRequiredPort")
+        required_port = RPortPrototype(ar_root, "TestRequiredPort")
 
         client_spec = ClientComSpec()
         required_port.addRequiredComSpec(client_spec)
@@ -562,7 +562,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test all annotation methods for PortPrototype."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        port = PortPrototype(ar_root, "TestPort")
+        port = PRPortPrototype(ar_root, "TestPort")
 
         # Test all add annotation methods
         port.addIoHwAbstractionServerAnnotation("io_hw")

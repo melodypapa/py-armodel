@@ -246,10 +246,10 @@ class Test_NetworkManagement:
     def test_NmCluster(self):
         """Test NmCluster abstract class functionality."""
         parent = MockParent()
-        cluster = NmCluster(parent, "test_nm_cluster")
+        cluster = CanNmCluster(parent, "test_nm_cluster")
 
         assert isinstance(cluster, Identifiable)
-        
+
         # Test default values
         assert cluster.getCommunicationClusterRef() is None
         assert cluster.getNmChannelId() is None

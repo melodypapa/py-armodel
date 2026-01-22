@@ -236,10 +236,15 @@ class TestParameterRequireComSpec:
 
 class TestReceiverComSpec:
     """Test class for ReceiverComSpec class."""
-    
-    def test_receiver_com_spec_initialization(self):
-        """Test ReceiverComSpec initialization and methods."""
-        receiver = ReceiverComSpec()
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that ReceiverComSpec abstract class cannot be instantiated directly."""
+        with pytest.raises(TypeError, match="ReceiverComSpec is an abstract class"):
+            ReceiverComSpec()
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of ReceiverComSpec can be instantiated."""
+        receiver = NonqueuedReceiverComSpec()
         assert receiver.compositeNetworkRepresentations == []
         assert receiver.dataElementRef is None
         assert receiver.networkRepresentation is None
@@ -248,36 +253,36 @@ class TestReceiverComSpec:
         assert receiver.maxDeltaCounterInit is None
         assert receiver.maxNoNewOrRepeatedData is None
         assert receiver.usesEndToEndProtection is None
-        
+
         # Test setters and getters
         ref = RefType()
         ref.setValue("/Test/DataElement")
         receiver.setDataElementRef(ref)
         assert receiver.getDataElementRef() == ref
-        
+
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
         network_rep = SwDataDefProps()
         receiver.setNetworkRepresentation(network_rep)
         assert receiver.getNetworkRepresentation() == network_rep
-        
+
         handle_out = "test_handle"
         receiver.setHandleOutOfRange(handle_out)
         assert receiver.getHandleOutOfRange() == handle_out
-        
+
         status = "test_status"
         receiver.setHandleOutOfRangeStatus(status)
         assert receiver.getHandleOutOfRangeStatus() == status
-        
+
         max_delta = PositiveInteger()
         max_delta.setValue(10)
         receiver.setMaxDeltaCounterInit(max_delta)
         assert receiver.getMaxDeltaCounterInit() == max_delta
-        
+
         max_new = PositiveInteger()
         max_new.setValue(20)
         receiver.setMaxNoNewOrRepeatedData(max_new)
         assert receiver.getMaxNoNewOrRepeatedData() == max_new
-        
+
         e2e = ARBoolean()
         e2e.setValue(True)
         receiver.setUsesEndToEndProtection(e2e)

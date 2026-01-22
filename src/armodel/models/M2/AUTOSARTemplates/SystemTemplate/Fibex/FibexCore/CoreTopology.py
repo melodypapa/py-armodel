@@ -14,13 +14,16 @@ from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoi
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 
 
-class CommunicationCycle(ARObject):
+class CommunicationCycle(ARObject, metaclass=ABCMeta):
     """
     Abstract base class for communication cycles, defining common
     properties for different types of communication timing cycles
     in the AUTOSAR communication system.
     """
+
     def __init__(self):
+        if type(self) is CommunicationCycle:
+            raise TypeError("CommunicationCycle is an abstract class.")
         super().__init__()
 
 

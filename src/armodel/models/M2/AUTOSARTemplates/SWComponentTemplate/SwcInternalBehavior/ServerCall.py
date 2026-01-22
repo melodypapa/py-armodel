@@ -8,9 +8,11 @@ from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCoun
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
 
-class ServerCallPoint(AbstractAccessPoint, metaclass = ABCMeta):
+class ServerCallPoint(AbstractAccessPoint, metaclass=ABCMeta):
 
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is ServerCallPoint:
+            raise TypeError("ServerCallPoint is an abstract class.")
         super().__init__(parent, short_name)
 
         self.operationIRef: 'ROperationInAtomicSwcInstanceRef' = None

@@ -505,18 +505,26 @@ class TestEcucDerivationSpecification:
 class TestEcucParameterDef:
     """
     Test class for EcucParameterDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucParameterDef class, including its initialization and methods.
     """
-    
-    def test_initialization(self):
+
+    def test_abstract_class_cannot_be_instantiated(self):
         """
-        Test EcucParameterDef class initialization.
-        Verifies that the EcucParameterDef can be properly instantiated.
+        Test that EcucParameterDef abstract class cannot be instantiated directly.
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        param_def = EcucParameterDef(parent, "TestParameterDef")
+        with pytest.raises(TypeError, match="EcucParameterDef is an abstract class"):
+            EcucParameterDef(parent, "TestParameterDef")
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass of EcucParameterDef can be instantiated.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        param_def = EcucBooleanParamDef(parent, "TestParameterDef")
 
         assert param_def is not None
         assert param_def.getShortName() == "TestParameterDef"
@@ -531,7 +539,7 @@ class TestEcucParameterDef:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        param_def = EcucParameterDef(parent, "TestParameterDef")
+        param_def = EcucBooleanParamDef(parent, "TestParameterDef")
 
         # Test setDerivation
         derivation = EcucDerivationSpecification()

@@ -3,6 +3,7 @@ This module contains comprehensive tests for the Composition module in SWCompone
 Tests cover all classes and methods in the __init__.py file to achieve 100% test coverage.
 """
 
+import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     SwComponentPrototype, SwConnector, AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector
 )
@@ -32,14 +33,20 @@ class TestSwComponentPrototype:
 
 class TestSwConnector:
     """Test class for SwConnector abstract class."""
-    
-    def test_sw_connector_initialization(self):
-        """Test SwConnector initialization and methods."""
+
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that SwConnector abstract class cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        # SwConnector has ABCMeta but no abstract methods, so it can be instantiated
-        connector = SwConnector(ar_root, "TestSwConnector")
-        
+        with pytest.raises(TypeError, match="SwConnector is an abstract class"):
+            SwConnector(ar_root, "TestSwConnector")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of SwConnector can be instantiated."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        connector = AssemblySwConnector(ar_root, "TestSwConnector")
+
         assert connector.parent == ar_root
         assert connector.short_name == "TestSwConnector"
         assert connector.mappingRef is None

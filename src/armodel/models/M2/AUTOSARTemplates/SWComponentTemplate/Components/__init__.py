@@ -20,8 +20,10 @@ class SymbolProps(ImplementationProps):
         super().__init__(parent, short_name)
 
 
-class PortPrototype(Identifiable):
+class PortPrototype(Identifiable, metaclass=ABCMeta):
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is PortPrototype:
+            raise TypeError("PortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
         self.clientServerAnnotations = []
@@ -92,6 +94,8 @@ class PortPrototype(Identifiable):
 
 class AbstractProvidedPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AbstractProvidedPortPrototype:
+            raise NotImplementedError("AbstractProvidedPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
         self.providedComSpecs = []                  # type: List[PPortComSpec]
@@ -126,6 +130,8 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
 class AbstractRequiredPortPrototype(PortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AbstractRequiredPortPrototype:
+            raise NotImplementedError("AbstractRequiredPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
         self.requiredComSpecs = []                          # type: List[RPortComSpec]

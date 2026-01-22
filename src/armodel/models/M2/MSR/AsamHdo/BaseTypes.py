@@ -3,12 +3,15 @@ from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject im
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, ByteOrderEnum
 
-class BaseTypeDefinition(ARObject):
+class BaseTypeDefinition(ARObject, metaclass=ABCMeta):
     """
     Abstract base class for base type definitions.
     Base: ARObject
     """
+
     def __init__(self):
+        if type(self) is BaseTypeDefinition:
+            raise TypeError("BaseTypeDefinition is an abstract class.")
         super().__init__()
 
 

@@ -510,20 +510,23 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
         super().__init__([])
     
 
-class ServiceDependency(Identifiable):
+class ServiceDependency(Identifiable, metaclass=ABCMeta):
     """
     Represents a service dependency in AUTOSAR models.
     This class defines dependencies on services along with their data type assignments and diagnostic relevance.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ServiceDependency with a parent and short name.
-        
+        Raises TypeError if this abstract class is instantiated directly.
+
         Args:
             parent: The parent ARObject that contains this service dependency
             short_name: The unique short name of this service dependency
         """
+        if type(self) is ServiceDependency:
+            raise TypeError("ServiceDependency is an abstract class.")
         super().__init__(parent, short_name)
 
         # List of role-based data type assignments for this service dependency

@@ -1,6 +1,7 @@
 """
 This module contains tests for the PaginationAndView module in MSR.Documentation.TextModel.BlockElements.
 """
+import pytest
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import *
 
 
@@ -8,9 +9,15 @@ class TestDocumentViewSelectable:
     """Test class for DocumentViewSelectable class."""
     
     def test_document_view_selectable_initialization(self):
-        """Test that a DocumentViewSelectable object can be initialized."""
-        doc_view_selectable = DocumentViewSelectable()
-        assert doc_view_selectable is not None
+        """Test that DocumentViewSelectable is abstract and cannot be instantiated directly."""
+        # Test that DocumentViewSelectable cannot be instantiated directly
+        with pytest.raises(TypeError, match="DocumentViewSelectable is an abstract class"):
+            DocumentViewSelectable()
+        
+        # Test that a concrete subclass can be instantiated
+        paginateable = Paginateable()
+        assert paginateable is not None
+        assert isinstance(paginateable, DocumentViewSelectable)
 
 
 class TestPaginateable:

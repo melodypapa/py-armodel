@@ -481,12 +481,21 @@ class TestServiceDiagnosticRelevanceEnum:
 
 
 class TestServiceDependency:
-    def test_initialization(self):
-        """Test ServiceDependency initialization"""
+    def test_abstract_class_cannot_be_instantiated(self):
+        """Test that ServiceDependency abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        service_dep = ServiceDependency(ar_root, "TestServiceDependency")
-        
+        with pytest.raises(TypeError, match="ServiceDependency is an abstract class"):
+            ServiceDependency(ar_root, "TestServiceDependency")
+
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete subclass of ServiceDependency can be instantiated"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        service_dep = SwcServiceDependency(ar_root, "TestServiceDependency")
+
         assert service_dep is not None
         assert service_dep.getShortName() == "TestServiceDependency"
         assert service_dep.assignedDataTypes == []
@@ -495,34 +504,40 @@ class TestServiceDependency:
 
     def test_get_assigned_data_types(self):
         """Test getAssignedDataTypes method"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        service_dep = ServiceDependency(ar_root, "TestServiceDependency")
-        
+        service_dep = SwcServiceDependency(ar_root, "TestServiceDependency")
+
         assert service_dep.getAssignedDataTypes() == []
 
     def test_add_assigned_data_type(self):
         """Test addAssignedDataType method"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        service_dep = ServiceDependency(ar_root, "TestServiceDependency")
-        
+        service_dep = SwcServiceDependency(ar_root, "TestServiceDependency")
+
         class MockDataTypeAssignment:
             pass
         data_type = MockDataTypeAssignment()
-        
+
         result = service_dep.addAssignedDataType(data_type)
         assert result is service_dep
         assert service_dep.getAssignedDataTypes() == [data_type]
 
     def test_get_set_diagnostic_relevance(self):
         """Test getDiagnosticRelevance and setDiagnosticRelevance methods"""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        service_dep = ServiceDependency(ar_root, "TestServiceDependency")
-        
+        service_dep = SwcServiceDependency(ar_root, "TestServiceDependency")
+
         assert service_dep.getDiagnosticRelevance() is None
-        
+
         enum_val = ServiceDiagnosticRelevanceEnum()
         result = service_dep.setDiagnosticRelevance(enum_val)
         assert result is service_dep
@@ -532,10 +547,14 @@ class TestServiceDependency:
         """Test getSymbolicNameProps and setSymbolicNameProps methods"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        service_dep = ServiceDependency(ar_root, "TestServiceDependency")
-        
+        # Create a concrete subclass for testing since ServiceDependency is abstract
+        class ConcreteServiceDependency(ServiceDependency):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+        service_dep = ConcreteServiceDependency(ar_root, "TestServiceDependency")
+
         assert service_dep.getSymbolicNameProps() is None
-        
+
         class MockSymbolicNameProps:
             pass
         props = MockSymbolicNameProps()

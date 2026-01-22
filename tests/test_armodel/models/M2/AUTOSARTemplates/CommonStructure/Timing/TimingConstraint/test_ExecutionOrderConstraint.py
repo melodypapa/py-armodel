@@ -10,7 +10,7 @@ class TestEOCExecutableEntityRefAbstract:
         """Test that EOCExecutableEntityRefAbstract abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(NotImplementedError, match="EOCExecutableEntityRefAbstract is an abstract class."):
+        with pytest.raises(TypeError, match="EOCExecutableEntityRefAbstract is an abstract class"):
             EOCExecutableEntityRefAbstract(ar_root, "TestEOCExecutableEntityRefAbstract")
 
 

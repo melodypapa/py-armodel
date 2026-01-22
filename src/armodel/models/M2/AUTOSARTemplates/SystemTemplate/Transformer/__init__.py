@@ -476,6 +476,8 @@ class TransformationISignalProps(Describable, metaclass=ABCMeta):
     error reactions, data prototype properties, and transformer references.
     """
     def __init__(self):
+        if type(self) is TransformationISignalProps:
+            raise NotImplementedError("TransformationISignalProps is an abstract class.")
         super().__init__()
 
         self.csErrorReaction = None
