@@ -75,6 +75,9 @@ def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
 
     Returns: {class_name: (parent_class_name, is_abstract)}
     """
+    # Common base classes to skip (not AUTOSAR classes)
+    SKIP_BASES = {'ABC', 'object', 'Enum'}
+
     classes = {}
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -82,29 +85,50 @@ def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
             tree = ast.parse(content, filename=file_path)
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
-                    # Extract parent class name
+                    # Extract parent class name (skip ABC, object, Enum, etc.)
                     parent_class = None
+                    inherits_from_abc = False
+
                     if node.bases:
                         for base in node.bases:
                             if isinstance(base, ast.Name):
-                                parent_class = base.id
+                                base_name = base.id
+                                if base_name in SKIP_BASES:
+                                    if base_name == 'ABC':
+                                        inherits_from_abc = True
+                                    continue
+                                # First non-skipped base is the parent
+                                parent_class = base_name
                                 break
+                            elif isinstance(base, ast.Subscript):
+                                # Handle generic types like List[Something]
+                                if isinstance(base.value, ast.Name):
+                                    base_name = base.value.id
+                                    if base_name not in SKIP_BASES:
+                                        parent_class = base_name
+                                        break
 
-                    # Check if abstract (has ABCMeta metaclass or abstract methods or instantiation check)
+                    # Check if abstract (has ABC inheritance, @abstractmethod decorators, or instantiation check)
                     is_abstract = False
-                    # Check metaclass
-                    for decorator in node.decorator_list:
-                        if isinstance(decorator, ast.Name):
-                            if decorator.id == 'abstractmethod':
-                                is_abstract = True
-                                break
-                        elif isinstance(decorator, ast.Call):
-                            if isinstance(decorator.func, ast.Name) and decorator.func.id == 'ABCMeta':
-                                is_abstract = True
-                                break
 
+                    # Check 1: Inherits from ABC
+                    if inherits_from_abc:
+                        is_abstract = True
+
+                    # Check 2: @abstractmethod decorator on class
                     if not is_abstract:
-                        # Check for abstract methods
+                        for decorator in node.decorator_list:
+                            if isinstance(decorator, ast.Name):
+                                if decorator.id == 'abstractmethod':
+                                    is_abstract = True
+                                    break
+                            elif isinstance(decorator, ast.Call):
+                                if isinstance(decorator.func, ast.Name) and decorator.func.id == 'ABCMeta':
+                                    is_abstract = True
+                                    break
+
+                    # Check 3: Abstract methods
+                    if not is_abstract:
                         for item in node.body:
                             if isinstance(item, ast.FunctionDef):
                                 for decorator in item.decorator_list:
@@ -114,25 +138,22 @@ def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
                                 if is_abstract:
                                     break
 
+                    # Check 4: Instantiation check pattern in __init__ method
                     if not is_abstract:
-                        # Check for instantiation check pattern in __init__ method
                         for item in node.body:
                             if isinstance(item, ast.FunctionDef) and item.name == '__init__':
                                 for stmt in ast.walk(item):
                                     if isinstance(stmt, ast.If):
-                                        # Check if it's a type(self) is ClassName check
-                                        if (isinstance(stmt.test, ast.Compare) and 
-                                            len(stmt.test.ops) == 2 and
-                                            isinstance(stmt.test.ops[0], ast.Call) and
-                                            isinstance(stmt.test.ops[1], ast.Name) and
-                                            isinstance(stmt.test.left, ast.Call) and
-                                            isinstance(stmt.test.left.func, ast.Name) and
-                                            stmt.test.left.func.id == 'type' and
-                                            stmt.test.comparators[0].id == 'is' and
-                                            isinstance(stmt.test.left.args[0], ast.Name) and
-                                            stmt.test.left.args[0].id == 'self' and
-                                            stmt.test.right.id == node.name):
-                                            is_abstract = True
+                                        # Check if it raises TypeError or NotImplementedError
+                                        for body_stmt in ast.walk(stmt):
+                                            if isinstance(body_stmt, ast.Raise):
+                                                if isinstance(body_stmt.exc, ast.Call):
+                                                    if isinstance(body_stmt.exc.func, ast.Name):
+                                                        exc_type = body_stmt.exc.func.id
+                                                        if exc_type in ('TypeError', 'NotImplementedError'):
+                                                            is_abstract = True
+                                                            break
+                                        if is_abstract:
                                             break
                                 if is_abstract:
                                     break
@@ -271,29 +292,52 @@ def generate_hierarchy_report(
         f.write(f'- **Total Documented Classes**: {total_documented}\n')
         f.write(f'- **Total Deviations**: {len(deviations) + total_extra}\n\n')
 
-        # Deviations Table
-        if deviations:
-            f.write('## Hierarchy Deviations Table\n\n')
-            f.write('| Status | Class | Documented (Parent, Abstract) | Actual (Parent, Abstract) | Notes |\n')
-            f.write('|--------|-------|-------------------------------|---------------------------|-------|\n')
+        # Separate deviations into missing and mismatch
+        missing_classes = [d for d in deviations if d['status'] == '✗ MISSING']
+        mismatch_classes = [d for d in deviations if d['status'] == '⚠ MISMATCH']
 
-            for d in sorted(deviations, key=lambda x: x['class_name']):
-                doc_info = f"{d['documented_parent']}, {d['documented_abstract']}"
-                act_info = f"{d['actual_parent']}, {d['actual_abstract']}"
-                f.write(f"| {d['status']} | {d['class_name']} | {doc_info} | {act_info} | {d['notes']} |\n")
+        # Missing Classes Table
+        if missing_classes:
+            f.write('## Missing Classes (Documented but Not Found)\n\n')
+            f.write('| Status | Class | Hierarchy | Notes |\n')
+            f.write('|--------|-------|-----------|-------|\n')
+
+            for d in sorted(missing_classes, key=lambda x: x['class_name']):
+                doc_parent = d['documented_parent'] or 'None'
+                doc_abstract = 'Abstract' if d['documented_abstract'] else 'Concrete'
+                hierarchy = f"**Documented:**<br>Parent: {doc_parent}<br>Type: {doc_abstract}"
+                f.write(f"| {d['status']} | {d['class_name']} | {hierarchy} | {d['notes']} |\n")
+
+            f.write('\n')
+
+        # Hierarchy Mismatch Table
+        if mismatch_classes:
+            f.write('## Hierarchy Mismatches\n\n')
+            f.write('| Status | Class | Hierarchy | Notes |\n')
+            f.write('|--------|-------|-----------|-------|\n')
+
+            for d in sorted(mismatch_classes, key=lambda x: x['class_name']):
+                doc_parent = d['documented_parent'] or 'None'
+                doc_abstract = 'Abstract' if d['documented_abstract'] else 'Concrete'
+                act_parent = d['actual_parent'] or 'None'
+                act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
+
+                hierarchy = f"**Documented:**<br>Parent: {doc_parent}<br>Type: {doc_abstract}<br><br>**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
+                f.write(f"| {d['status']} | {d['class_name']} | {hierarchy} | {d['notes']} |\n")
 
             f.write('\n')
 
         # Extra Classes Table
         if extra_classes:
             f.write('## Extra Classes (Not Documented)\n\n')
-            f.write('| Status | Class | Documented (Parent, Abstract) | Actual (Parent, Abstract) | Notes |\n')
-            f.write('|--------|-------|-------------------------------|---------------------------|-------|\n')
+            f.write('| Status | Class | Hierarchy | Notes |\n')
+            f.write('|--------|-------|-----------|-------|\n')
 
             for d in sorted(extra_classes, key=lambda x: x['class_name']):
-                doc_info = f"{d['documented_parent']}, {d['documented_abstract']}"
-                act_info = f"{d['actual_parent']}, {d['actual_abstract']}"
-                f.write(f"| {d['status']} | {d['class_name']} | {doc_info} | {act_info} | {d['notes']} |\n")
+                act_parent = d['actual_parent'] or 'None'
+                act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
+                hierarchy = f"**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
+                f.write(f"| {d['status']} | {d['class_name']} | {hierarchy} | {d['notes']} |\n")
 
             f.write('\n')
 

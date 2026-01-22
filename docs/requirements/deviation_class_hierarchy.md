@@ -5,1231 +5,1136 @@ and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 402 classes with correct hierarchy
+- ✓ **Match**: 502 classes with correct hierarchy
 - ✗ **Missing**: 892 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 228 classes with wrong parent/abstract
+- ⚠ **Hierarchy Mismatch**: 128 classes with wrong parent/abstract
 - + **Extra**: 89 undocumented classes
 - **Total Documented Classes**: 1522
-- **Total Deviations**: 1209
+- **Total Deviations**: 1109
 
-## Hierarchy Deviations Table
+## Missing Classes (Documented but Not Found)
 
-| Status | Class | Documented (Parent, Abstract) | Actual (Parent, Abstract) | Notes |
-|--------|-------|-------------------------------|---------------------------|-------|
-| ✗ MISSING | <<atpPrototype>> PduToFrameMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ARElement | PackageableElement, True | PackageableElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ARObject | None, True | ABC, False | parent mismatch (expected None, got ABC), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ARPackage | CollectableElement, False | Identifiable, False | parent mismatch (expected CollectableElement, got Identifiable) |
-| ⚠ MISMATCH | AUTOSAR | ARObject, False | AbstractAUTOSAR, False | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
-| ⚠ MISMATCH | AbstractAccessPoint | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractCanCluster | CommunicationCluster, True | CommunicationCluster, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractCanCommunicationConnector | CommunicationConnector, True | CommunicationConnector, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractCanCommunicationController | CommunicationController, True | CommunicationController, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractCanCommunicationControllerAttributes | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractCanPhysicalChannel | PhysicalChannel, True | PhysicalChannel, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractDoIpLogicAddressProps | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | AbstractEnumerationValueVariationPoint | AttributeValueVariationPoint, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AbstractEthernetFrame | Frame, True | Frame, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractEvent | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | AbstractGlobalTimeDomainProps | ARObject, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AbstractImplementationDataType | AutosarDataType, True | AutosarDataType, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractImplementationDataTypeElement | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | AbstractMultiplicityRestriction | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AbstractNumericalVariationPoint | AttributeValueVariationPoint, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AbstractProvidedPortPrototype | AtpPrototype, True | PortPrototype, False | parent mismatch (expected AtpPrototype, got PortPrototype), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AbstractRequiredPortPrototype | AtpPrototype, True | PortPrototype, False | parent mismatch (expected AtpPrototype, got PortPrototype), abstract mismatch (expected True, got False) |
-| ✗ MISSING | AbstractRuleBasedValueSpecification | ValueSpecification, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AbstractServiceInstance | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | AbstractValueRestriction | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AbstractVariationRestriction | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AccessCount | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AccessCountSet | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AclObjectSet | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AclOperation | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AclPermission | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AclRole | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AgeConstraint | TimingConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AliasNameAssignment | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AliasNameSet | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AnalyzedExecutionTime | ExecutionTime, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AnyInstanceRef | AtpInstanceRef, False | ARObject, False | parent mismatch (expected AtpInstanceRef, got ARObject) |
-| ⚠ MISMATCH | ApplicationCompositeDataType | ApplicationDataType, True | ApplicationDataType, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ApplicationCompositeDataTypeSubElementRef | SubElementRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ApplicationCompositeElementDataPrototype | DataPrototype, True | DataPrototype, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ApplicationDataType | AutosarDataType, True | AutosarDataType, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ApplicationPartition | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ApplicationRuleBasedValueSpecification | CompositeRuleBasedValueArgument, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ApplicationValueSpecification | ValueSpecification, False | CompositeRuleBasedValueArgument, False | parent mismatch (expected ValueSpecification, got CompositeRuleBasedValueArgument) |
-| ✗ MISSING | ArParameterInImplementationDataInstanceRef | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ArVariableInImplementationDataInstanceRef | ARObject, False | AtpInstanceRef, False | parent mismatch (expected ARObject, got AtpInstanceRef) |
-| ✗ MISSING | ArbitraryEventTriggering | EventTriggeringConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Area | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ArrayValueSpecification | CompositeValueSpecification, False | ValueSpecification, False | parent mismatch (expected CompositeValueSpecification, got ValueSpecification) |
-| ⚠ MISMATCH | AssemblySwConnector | AtpStructureElement, False | SwConnector, False | parent mismatch (expected AtpStructureElement, got SwConnector) |
-| ✗ MISSING | AssignFrameId | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AssignFrameIdRange | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AssignNad | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AsynchronousServerCallPoint | AbstractAccessPoint, False | ServerCallPoint, False | parent mismatch (expected AbstractAccessPoint, got ServerCallPoint) |
-| ⚠ MISMATCH | AsynchronousServerCallReturnsEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | AtomicSwComponentType | AtpType, True | SwComponentType, False | parent mismatch (expected AtpType, got SwComponentType), abstract mismatch (expected True, got False) |
-| ✗ MISSING | AtpBlueprint | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AtpBlueprintable | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AtpClassifier | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AtpDefinition | Referrable, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AtpFeature | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AtpInstanceRef | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AtpPrototype | AtpFeature, True | AtpFeature, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AtpStructureElement | AtpFeature, True | AtpFeature, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AtpType | AtpClassifier, True | ARElement, False | parent mismatch (expected AtpClassifier, got ARElement), abstract mismatch (expected True, got False) |
-| ✗ MISSING | AttributeValueVariationPoint | SwSystemconstDependentFormula, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | AutosarDataPrototype | DataPrototype, True | DataPrototype, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | AutosarDataType | AtpType, True | AtpType, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | AutosarOperationArgumentInstance | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | AutosarVariableInstance | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | BackgroundEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | BaseType | ARElement, True | ARElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | BaseTypeDefinition | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | BinaryManifestAddressableObject | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestItem | BinaryManifestAddressableObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestItemDefinition | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestItemNumericalValue | BinaryManifestItemValue, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestItemPointerValue | BinaryManifestItemValue, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestItemValue | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestMetaDataField | BinaryManifestAddressableObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestProvideResource | BinaryManifestResource, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestRequireResource | BinaryManifestResource, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestResource | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BinaryManifestResourceDefinition | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BlueprintGenerator | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BlueprintMappingSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BooleanValueVariationPoint | AttributeValueVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Br | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswAsynchronousServerCallReturnsEvent | BswScheduleEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswCompositionTiming | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswEntryRelationship | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswEntryRelationshipSet | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | BswEvent | AbstractEvent, True | AbstractEvent, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | BswInterruptEvent | BswEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswMgrNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswModeManagerErrorEvent | BswScheduleEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswModeReceiverPolicy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | BswModuleCallPoint | Referrable, True | Referrable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | BswModuleDescription | AtpStructureElement, False | ARElement, False | parent mismatch (expected AtpStructureElement, got ARElement) |
-| ⚠ MISMATCH | BswModuleEntity | ExecutableEntity, True | ExecutableEntity, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | BswModuleEntry | AtpBlueprintable, False | ARElement, False | parent mismatch (expected AtpBlueprintable, got ARElement) |
-| ✗ MISSING | BswModuleTiming | ARElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | BswScheduleEvent | BswEvent, True | BswEvent, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | BswSchedulerNamePrefix | ImplementationProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswServiceDependency | ServiceDependency, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswServiceDependencyIdent | IdentCaption, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BswTriggerDirectImplementation | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildAction | BuildActionEntity, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildActionEntity | AtpBlueprintable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildActionEnvironment | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildActionInvocator | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildActionIoElement | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildActionManifest | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BuildEngineeringObject | EngineeringObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BulkNvDataDescriptor | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BurstPatternEventTriggering | EventTriggeringConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorCanIdRangeMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorCanIdToCanIdMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorChannel | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorChannelMapping | FibexElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorChannelMappingCan | BusMirrorChannelMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorChannelMappingFlexray | BusMirrorChannelMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorChannelMappingIp | BusMirrorChannelMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorChannelMappingUserDefined | BusMirrorChannelMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | BusMirrorLinPidToCanIdMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | BusspecificNmEcu | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CalibrationParameterValue | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CalibrationParameterValueSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CanControllerConfiguration | AbstractCanCommunicationControllerAttributes, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CanGlobalTimeDomainProps | AbstractGlobalTimeDomainProps, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CanTpConfig | FibexElement, False | TpConfig, False | parent mismatch (expected FibexElement, got TpConfig) |
-| ✗ MISSING | CanXlFrameTriggeringProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Caption | MultilanguageReferrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Chapter | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ChapterContent | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ChapterModel | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ChapterOrMsrQuery | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ClientIdDefinition | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ClientIdDefinitionSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ClientIdRange | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ClientServerAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ClientServerInterface | AtpType, False | PortInterface, False | parent mismatch (expected AtpType, got PortInterface) |
-| ⚠ MISMATCH | ClientServerOperation | AtpStructureElement, False | AtpFeature, False | parent mismatch (expected AtpStructureElement, got AtpFeature) |
-| ✗ MISSING | ClientServerOperationComProps | CpSoftwareClusterCommunicationResourceProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ClientServerToSignalMapping | DataMapping, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CollectableElement | Identifiable, True | ARObject, False | parent mismatch (expected Identifiable, got ARObject), abstract mismatch (expected True, got False) |
-| ✗ MISSING | Colspec | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ComMgrUserNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CommConnectorPort | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CommonSignalPath | SignalPathConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CommunicationBufferLocking | SwcSupportedFeature, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CommunicationCluster | FibexElement, True | FibexElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | CommunicationConnector | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | CommunicationController | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CommunicationControllerMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CommunicationCycle | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ComponentClustering | MappingConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ComponentInCompositionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ComponentSeparation | MappingConstraint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CompositeRuleBasedValueArgument | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CompositeRuleBasedValueSpecification | AbstractRuleBasedValueSpecification, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CompositeValueSpecification | ValueSpecification, True | ValueSpecification, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | CompositionSwComponentType | AtpType, False | SwComponentType, False | parent mismatch (expected AtpType, got SwComponentType) |
-| ⚠ MISMATCH | CompuConstContent | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | CompuContent | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CompuGenericMath | FormulaExpression, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CompuMethod | AtpBlueprintable, False | ARElement, False | parent mismatch (expected AtpBlueprintable, got ARElement) |
-| ⚠ MISMATCH | CompuScale | ARObject, False | Compu, False | parent mismatch (expected ARObject, got Compu) |
-| ⚠ MISMATCH | CompuScaleContents | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ConcretePatternEventTriggering | EventTriggeringConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConditionByFormula | SwSystemconstDependentFormula, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConditionalChangeNad | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConfidenceInterval | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConsistencyNeeds | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConstantSpecificationMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConstantSpecificationMappingSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ConsumedProvidedServiceInstanceGroup | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ContainerIPdu | IPdu, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingElement | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingElementAbstractDetails | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingElementSwitchDetails | CouplingElementAbstractDetails, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingPortAsynchronousTrafficShaper | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingPortConnection | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingPortCreditBasedShaper | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingPortRatePolicy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CouplingPortShaper | CouplingPortStructuralElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CouplingPortStructuralElement | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CouplingPortTrafficClassAssignment | Referrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareCluster | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterBinaryManifestDescriptor | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterCommunicationResource | CpSoftwareClusterResource, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterCommunicationResourceProps | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterMappingSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterResource | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterResourcePool | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterResourceToApplicationPartitionMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterServiceResource | CpSoftwareClusterResource, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterToApplicationPartitionMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterToEcuInstanceMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSoftwareClusterToResourceMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSwClusterResourceToDiagDataElemMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSwClusterResourceToDiagFunctionIdMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSwClusterToDiagEventMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CpSwClusterToDiagRoutineSubfunctionMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoEllipticCurveProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoKeyManagementNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoServiceCertificate | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoServiceJobNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoServiceKey | ARElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | CryptoServiceMapping | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | CryptoServicePrimitive | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoServiceQueue | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | CryptoSignatureScheme | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataComProps | CpSoftwareClusterCommunicationResourceProps, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DataConstr | AtpBlueprintable, False | Identifiable, False | parent mismatch (expected AtpBlueprintable, got Identifiable) |
-| ✗ MISSING | DataDumpEntry | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DataInterface | AtpType, True | PortInterface, False | parent mismatch (expected AtpType, got PortInterface), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | DataMapping | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | DataPrototype | AtpPrototype, True | AtpPrototype, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | DataPrototypeGroup | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeInClientServerInterfaceInstanceRef | DataPrototypeInPortInterfaceInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeInPortInterfaceInstanceRef | AtpInstanceRef, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeInPortInterfaceRef | DataPrototypeReference, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeInSenderReceiverInterfaceInstanceRef | DataPrototypeInPortInterfaceInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeInSystemInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeReference | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DataPrototypeTransformationProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DataReceiveErrorEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | DataReceivedEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | DataSendCompletedEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | DataTypeMappingSet | AtpBlueprintable, False | ARElement, False | parent mismatch (expected AtpBlueprintable, got ARElement) |
-| ⚠ MISMATCH | DataWriteCompletedEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ✗ MISSING | DdsCpConfig | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpConsumedServiceInstance | DdsCpServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpDomain | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpISignalToDdsTopicMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpPartition | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpProvidedServiceInstance | DdsCpServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpQosProfile | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpServiceInstance | AbstractServiceInstance, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpServiceInstanceEvent | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpServiceInstanceOperation | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsCpTopic | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsDeadline | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsDestinationOrder | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsDurability | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsDurabilityService | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsHistory | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsLatencyBudget | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsLifespan | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsLiveliness | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsOwnership | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsOwnershipStrength | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsReliability | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsResourceLimits | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsTopicData | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DdsTransportPriority | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DefItem | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DefList | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DelegatedPortAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DelegationSwConnector | AtpStructureElement, False | SwConnector, False | parent mismatch (expected AtpStructureElement, got SwConnector) |
-| ⚠ MISMATCH | Describable | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | DevelopmentError | TracedFailure, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DhcpServerConfiguration | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Dhcpv6Props | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DiagEventDebounceAlgorithm | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | DiagnosticAbstractAliasEvent | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAbstractDataIdentifier | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAbstractParameter | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAccessPermission | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAging | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthRole | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthRoleProxy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthTransmitCertificate | DiagnosticAuthentication, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthTransmitCertificateEvaluation | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthTransmitCertificateMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthentication | DiagnosticServiceInstance, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthenticationClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticAuthenticationConfiguration | DiagnosticAuthentication, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DiagnosticCapabilityElement | ServiceNeeds, True | ServiceNeeds, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | DiagnosticClearDiagnosticInformation | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticClearDiagnosticInformationClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticClearResetEmissionRelatedInfo | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticClearResetEmissionRelatedInfoClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticComControl | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticComControlClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticComControlSpecificChannel | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticComControlSubNodeChannel | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticCommonElement | ARElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticCommonProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticComponentNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticCondition | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticConditionGroup | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticConnectedIndicator | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticContributionSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticControlDTCSetting | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticControlDTCSettingClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticControlEnableMaskBit | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticControlNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticCustomServiceClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticCustomServiceInstance | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDataByIdentifier | DiagnosticServiceInstance, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDataElement | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDataIdentifier | DiagnosticAbstractDataIdentifier, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDataIdentifierSet | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDataTransfer | DiagnosticMemoryByAddress, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDataTransferClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDeAuthentication | DiagnosticAuthentication, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDebounceAlgorithmProps | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDemProvidedDataMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDynamicDataIdentifier | DiagnosticAbstractDataIdentifier, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDynamicallyDefineDataIdentifier | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticDynamicallyDefineDataIdentifierClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEcuInstanceProps | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEcuReset | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEcuResetClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnableCondition | DiagnosticCondition, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnableConditionGroup | DiagnosticConditionGroup, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnableConditionNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnableConditionPortMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvBswModeElement | DiagnosticEnvModeElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvCompareCondition | DiagnosticEnvConditionFormulaPart, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvConditionFormula | DiagnosticEnvConditionFormulaPart, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvConditionFormulaPart | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvDataCondition | DiagnosticEnvCompareCondition, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvDataElementCondition | DiagnosticEnvCompareCondition, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvModeCondition | DiagnosticEnvCompareCondition, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvModeElement | Referrable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvSwcModeElement | DiagnosticEnvModeElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEnvironmentalCondition | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEvent | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventManagerNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventPortMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToDebounceAlgorithmMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToEnableConditionGroupMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToOperationCycleMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToSecurityEventMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToStorageConditionGroupMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToTroubleCodeJ1939Mapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventToTroubleCodeUdsMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticEventWindow | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticExtendedDataRecord | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFimAliasEvent | DiagnosticAbstractAliasEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFimAliasEventGroup | DiagnosticAbstractAliasEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFimAliasEventGroupMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFimAliasEventMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFimEventGroup | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFimFunctionMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFreezeFrame | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFunctionIdentifier | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFunctionIdentifierInhibit | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticFunctionInhibitSource | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIOControl | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIndicator | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticInfoType | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticInhibitSourceEventMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIoControlClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIoControlNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIumpr | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIumprDenominatorGroup | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIumprGroup | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIumprGroupIdentifier | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticIumprToFunctionIdentifierMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticJ1939ExpandedFreezeFrame | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticJ1939FreezeFrame | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticJ1939Node | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticJ1939Spn | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticJ1939SpnMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticJ1939SwMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMapping | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMasterToSlaveEventMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMeasurementIdentifier | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMemoryAddressableRangeAccess | DiagnosticMemoryByAddress, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMemoryByAddress | DiagnosticServiceInstance, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMemoryDestination | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMemoryDestinationPrimary | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMemoryDestinationUserDefined | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticMemoryIdentifier | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticOperationCycle | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticOperationCycleNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticOperationCyclePortMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticParameter | DiagnosticAbstractParameter, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticParameterElement | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticParameterElementAccess | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticParameterIdent | DiagnosticServiceMappingDiagTarget, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticParameterIdentifier | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticParameterSupportInfo | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticPeriodicRate | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticPowertrainFreezeFrame | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticProofOfOwnership | DiagnosticAuthentication, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticProtocol | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadDTCInformation | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadDTCInformationClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadDataByIdentifier | DiagnosticDataByIdentifier, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadDataByIdentifierClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadDataByPeriodicID | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadDataByPeriodicIDClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadMemoryByAddress | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadMemoryByAddressClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadScalingDataByIdentifier | DiagnosticDataByIdentifier, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticReadScalingDataByIdentifierClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestControlOfOnBoardDevice | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestControlOfOnBoardDeviceClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestCurrentPowertrainData | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestCurrentPowertrainDataClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestDownload | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestDownloadClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestEmissionRelatedDTC | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestEmissionRelatedDTCClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestEmissionRelatedDTCPermanentStatus | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestEmissionRelatedDTCPermanentStatusClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestFileTransfer | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestFileTransferClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestFileTransferNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestOnBoardMonitoringTestResults | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestOnBoardMonitoringTestResultsClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestPowertrainFreezeFrameData | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestPowertrainFreezeFrameDataClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestRoutineResults | DiagnosticRoutineSubfunction, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestUpload | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestUploadClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestVehicleInfo | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRequestVehicleInfoClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticResponseOnEvent | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticResponseOnEventClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRoutine | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRoutineControl | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRoutineControlClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticRoutineSubfunction | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSecureCodingMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSecurityAccess | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSecurityAccessClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSecurityEventReportingModeMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSecurityLevel | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticServiceClass | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticServiceDataMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticServiceInstance | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticServiceMappingDiagTarget | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticServiceSwMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DiagnosticServiceTable | DiagnosticCommonElement, False | ARElement, False | parent mismatch (expected DiagnosticCommonElement, got ARElement) |
-| ✗ MISSING | DiagnosticSession | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSessionControl | DiagnosticServiceInstance, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSessionControlClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticStartRoutine | DiagnosticRoutineSubfunction, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticStopRoutine | DiagnosticRoutineSubfunction, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticStorageCondition | DiagnosticCondition, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticStorageConditionGroup | DiagnosticConditionGroup, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticStorageConditionNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticStorageConditionPortMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSupportInfoByte | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticSwMapping | DiagnosticMapping, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTestIdentifier | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTestResult | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTestRoutineIdentifier | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTransferExit | DiagnosticMemoryByAddress, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTransferExitClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCode | DiagnosticCommonElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCodeGroup | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCodeJ1939 | DiagnosticTroubleCode, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCodeObd | DiagnosticTroubleCode, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCodeProps | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCodeUds | DiagnosticTroubleCode, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticTroubleCodeUdsToTroubleCodeObdMapping | DiagnosticMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticUploadDownloadNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticVerifyCertificateBidirectional | DiagnosticAuthentication, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticVerifyCertificateUnidirectional | DiagnosticAuthentication, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticWriteDataByIdentifier | DiagnosticDataByIdentifier, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticWriteDataByIdentifierClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticWriteMemoryByAddress | DiagnosticCommonElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticWriteMemoryByAddressClass | DiagnosticServiceClass, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DiagnosticsCommunicationSecurityNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltApplication | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltArgument | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltContext | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltEcu | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltLogChannel | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DltMessage | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpActivationLineNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpGidNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpGidSynchronizationNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpInterface | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpPowerModeStatusNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpRoutingActivation | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpRoutingActivationAuthenticationNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpRoutingActivationConfirmationNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | DoIpServiceNeeds | ServiceNeeds, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | DoIpTpConfig | FibexElement, False | TpConfig, False | parent mismatch (expected FibexElement, got TpConfig) |
-| ⚠ MISMATCH | DocumentViewSelectable | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | Documentation | ARElement, False | ARObject, False | parent mismatch (expected ARElement, got ARObject) |
-| ✗ MISSING | DocumentationContext | MultilanguageReferrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | E2EProfileCompatibilityProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EOCEventRef | EOCExecutableEntityRefAbstract, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | EOCExecutableEntityRefAbstract | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | EOCExecutableEntityRefGroup | EOCExecutableEntityRefAbstract, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EcuPartition | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EcuResourceEstimation | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EcuTiming | ARElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | EcucAbstractConfigurationClass | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucAbstractExternalReferenceDef | EcucAbstractReferenceDef, True | EcucAbstractReferenceDef, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucAbstractInternalReferenceDef | EcucAbstractReferenceDef, True | EcucAbstractReferenceDef, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucAbstractReferenceDef | EcucCommonAttributes, True | EcucCommonAttributes, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucAbstractReferenceValue | EcucIndexableValue, True | EcucIndexableValue, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucAbstractStringParamDef | EcucParameterDef, True | EcucParameterDef, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucCommonAttributes | EcucDefinitionElement, True | EcucDefinitionElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucConditionFormula | FormulaExpression, False | ARObject, False | parent mismatch (expected FormulaExpression, got ARObject) |
-| ⚠ MISMATCH | EcucContainerDef | EcucDefinitionElement, True | EcucDefinitionElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucContainerValue | Identifiable, False | ARElement, False | parent mismatch (expected Identifiable, got ARElement) |
-| ⚠ MISMATCH | EcucDefinitionCollection | AtpBlueprintable, False | ARObject, False | parent mismatch (expected AtpBlueprintable, got ARObject) |
-| ⚠ MISMATCH | EcucDefinitionElement | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucDestinationUriDefSet | AtpBlueprintable, False | Identifiable, False | parent mismatch (expected AtpBlueprintable, got Identifiable) |
-| ⚠ MISMATCH | EcucIndexableValue | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucLinkerSymbolDef | EcucAbstractStringParamDef, False | Identifiable, False | parent mismatch (expected EcucAbstractStringParamDef, got Identifiable) |
-| ⚠ MISMATCH | EcucModuleDef | AtpDefinition, False | EcucDefinitionElement, False | parent mismatch (expected AtpDefinition, got EcucDefinitionElement) |
-| ⚠ MISMATCH | EcucParamConfContainerDef | EcucContainerDef, False | None, False | parent mismatch (expected EcucContainerDef, got None) |
-| ⚠ MISMATCH | EcucParameterDef | EcucCommonAttributes, True | EcucCommonAttributes, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucParameterDerivationFormula | FormulaExpression, False | ARObject, False | parent mismatch (expected FormulaExpression, got ARObject) |
-| ⚠ MISMATCH | EcucParameterValue | EcucIndexableValue, True | EcucIndexableValue, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | EcucQuery | Identifiable, False | ARObject, False | parent mismatch (expected Identifiable, got ARObject) |
-| ✗ MISSING | EmphasisText | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | EndToEndProtectionSet | ARElement, False | Identifiable, False | parent mismatch (expected ARElement, got Identifiable) |
-| ⚠ MISMATCH | EngineeringObject | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | Entry | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EnumerationMappingEntry | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EnumerationMappingTable | PackageableElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ErrorTracerNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthGlobalTimeDomainProps | AbstractGlobalTimeDomainProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthGlobalTimeManagedCouplingPort | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthIpProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthTSynCrcFlags | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthTSynSubTlvConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthTcpIpIcmpProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthTcpIpProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthTpConfig | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthTpConnection | TpConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthernetFrameTriggering | FrameTriggering, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthernetWakeupSleepOnDatalineConfig | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EthernetWakeupSleepOnDatalineConfigSet | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EvaluatedVariantSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EventObdReadinessGroup | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | EventTriggeringConstraint | TimingConstraint, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ExclusiveAreaNestingOrder | Referrable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ExecutableEntity | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ExecutableEntityActivationReason | ImplementationProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ExecutionTime | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ExecutionTimeConstraint | TimingConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ExternalTriggerOccurredEvent | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ExternalTriggeringPointIdent | IdentCaption, False | AbstractAccessPoint, False | parent mismatch (expected IdentCaption, got AbstractAccessPoint) |
-| ✗ MISSING | FMFeature | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FMFeatureModel | ARElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | FibexElement | PackageableElement, True | Identifiable, False | parent mismatch (expected PackageableElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | FirewallRule | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FirewallRuleProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | FlatMap | AtpBlueprintable, False | ARElement, False | parent mismatch (expected AtpBlueprintable, got ARElement) |
-| ✗ MISSING | FlexrayArTpChannel | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayArTpConfig | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayArTpConnection | TpConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayArTpNode | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayFifoConfiguration | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayFifoRange | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayTpConfig | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayTpConnection | TpConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayTpConnectionControl | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayTpEcu | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayTpNode | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FlexrayTpPduPool | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FloatValueVariationPoint | AttributeValueVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ForbiddenSignalPath | SignalPathConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FormulaExpression | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FrGlobalTimeDomainProps | AbstractGlobalTimeDomainProps, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | Frame | FibexElement, True | Identifiable, False | parent mismatch (expected FibexElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | FramePid | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | FrameTriggering | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | FreeFormat | FreeFormatEntry, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | FreeFormatEntry | ScheduleTableEntry, True | ScheduleTableEntry, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | FunctionInhibitionAvailabilityNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FunctionInhibitionNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | FurtherActionByteNeeds | DoIpServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | GeneralAnnotation | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | GeneralPurposeConnection | ARElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | GeneralPurposePdu | FibexElement, False | Pdu, False | parent mismatch (expected FibexElement, got Pdu) |
-| ✗ MISSING | GenericModelReference | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalSupervisionNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeCanMaster | GlobalTimeMaster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeCanSlave | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeCorrectionProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeCouplingPortProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeDomain | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeEthMaster | GlobalTimeMaster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeEthSlave | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeFrMaster | GlobalTimeMaster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeFrSlave | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeGateway | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | GlobalTimeMaster | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | HardwareTestNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | HeapUsage | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | HttpTp | TransportProtocolConfiguration, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | HwAttributeLiteralDef | Identifiable, False | ARElement, False | parent mismatch (expected Identifiable, got ARElement) |
-| ⚠ MISMATCH | HwAttributeValue | ARObject, False | ARElement, False | parent mismatch (expected ARObject, got ARElement) |
-| ⚠ MISMATCH | HwCategory | AtpDefinition, False | ARElement, False | parent mismatch (expected AtpDefinition, got ARElement) |
-| ⚠ MISMATCH | HwDescriptionEntity | Referrable, True | ARElement, False | parent mismatch (expected Referrable, got ARElement), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | HwElementConnector | Describable, False | ARElement, False | parent mismatch (expected Describable, got ARElement) |
-| ⚠ MISMATCH | HwPin | Identifiable, False | HwDescriptionEntity, False | parent mismatch (expected Identifiable, got HwDescriptionEntity) |
-| ✗ MISSING | HwPinConnector | Describable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | HwPinGroup | Identifiable, False | HwDescriptionEntity, False | parent mismatch (expected Identifiable, got HwDescriptionEntity) |
-| ✗ MISSING | HwPinGroupConnector | Describable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | HwPortMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | HwType | HwDescriptionEntity, False | ARElement, False | parent mismatch (expected HwDescriptionEntity, got ARElement) |
-| ✗ MISSING | IEEE1722TpAafConnection | IEEE1722TpAvConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfBus | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfBusPart | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfCan | IEEE1722TpAcfBus, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfCanPart | IEEE1722TpAcfBusPart, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfConnection | IEEE1722TpConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfLin | IEEE1722TpAcfBus, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAcfLinPart | IEEE1722TpAcfBusPart, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpAvConnection | IEEE1722TpConnection, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpConfig | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpConnection | ARElement, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpCrfConnection | IEEE1722TpAvConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpIidcConnection | IEEE1722TpAvConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IEEE1722TpRvfConnection | IEEE1722TpAvConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IPSecConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IPSecConfigProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IPSecRule | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | IPdu | FibexElement, True | Pdu, False | parent mismatch (expected FibexElement, got Pdu), abstract mismatch (expected True, got False) |
-| ✗ MISSING | IPv6ExtHeaderFilterList | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IPv6ExtHeaderFilterSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ISignalProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | IdentCaption | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | Identifiable | MultilanguageReferrable, True | MultilanguageReferrable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | IdsMgrCustomTimestampNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IdsMgrNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ieee1722Tp | TransportProtocolConfiguration, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ieee1722TpEthernetFrame | AbstractEthernetFrame, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | Implementation | ARElement, True | PackageableElement, False | parent mismatch (expected ARElement, got PackageableElement), abstract mismatch (expected True, got False) |
-| ✗ MISSING | ImplementationDataTypeElementInPortInterfaceRef | DataPrototypeReference, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ImplementationDataTypeSubElementRef | SubElementRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ImplementationElementInParameterInstanceRef | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ImplementationProps | Referrable, True | Referrable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | IndentSample | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IndexEntry | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IndicatorStatusNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | InitEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ✗ MISSING | InnerDataPrototypeGroupInCompositionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InnerRunnableEntityGroupInCompositionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InstanceEventInCompositionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InstantiationDataDefProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InstantiationRTEEventProps | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InstantiationTimingEventProps | InstantiationRTEEventProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IntegerValueVariationPoint | AttributeValueVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | InternalBehavior | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | InternalTriggerOccurredEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ✗ MISSING | InterpolationRoutine | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InterpolationRoutineMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | InterpolationRoutineMappingSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | IoHwAbstractionServerAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv4ArpProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv4AutoIpProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv4DhcpServerConfiguration | Describable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv4FragmentationProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv4Props | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv6DhcpServerConfiguration | Describable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv6FragmentationProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv6NdpProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Ipv6Props | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939Cluster | AbstractCanCluster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939ControllerApplication | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939ControllerApplicationToJ1939NmNodeMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939DcmDm19Support | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939DcmIPdu | IPdu, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939NodeName | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939RmIncomingRequestServiceNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939RmOutgoingRequestServiceNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939TpConfig | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939TpConnection | TpConnection, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939TpNode | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | J1939TpPg | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | LLongName | MixedContentForLongName, False | LanguageSpecific, False | parent mismatch (expected MixedContentForLongName, got LanguageSpecific) |
-| ⚠ MISMATCH | LOverviewParagraph | MixedContentForOverviewParagraph, False | LanguageSpecific, False | parent mismatch (expected MixedContentForOverviewParagraph, got LanguageSpecific) |
-| ⚠ MISMATCH | LParagraph | MixedContentForParagraph, False | LanguageSpecific, False | parent mismatch (expected MixedContentForParagraph, got LanguageSpecific) |
-| ⚠ MISMATCH | LPlainText | MixedContentForPlainText, False | LanguageSpecific, False | parent mismatch (expected MixedContentForPlainText, got LanguageSpecific) |
-| ✗ MISSING | LVerbatim | MixedContentForVerbatim, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LabeledItem | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LabeledList | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | LanguageSpecific | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | LatencyTimingConstraint | TimingConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LifeCycleState | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LifeCycleStateDefinitionGroup | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LimitValueVariationPoint | AbstractNumericalVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | LinCommunicationController | CommunicationController, True | CommunicationController, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | LinConfigurableFrame | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | LinConfigurationEntry | ScheduleTableEntry, True | ScheduleTableEntry, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | LinErrorResponse | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LinEventTriggeredFrame | LinFrame, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | LinFrame | Frame, True | Frame, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | LinOrderedConfigurableFrame | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LinSlave | LinCommunicationController, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LinSlaveConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LinSlaveConfigIdent | Referrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | LinSporadicFrame | LinFrame, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | LinTpConfig | FibexElement, False | TpConfig, False | parent mismatch (expected FibexElement, got TpConfig) |
-| ✗ MISSING | Linker | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | List | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacMulticastConfiguration | NetworkEndpointAddress, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecCipherSuiteConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecCryptoAlgoConfig | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecGlobalKayProps | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecKayParticipant | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecLocalKayProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecParticipantSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MacSecProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MappingConstraint | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McDataAccessDetails | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McDataInstance | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McFunction | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McFunctionDataRefSet | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McGroup | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McGroupDataRefSet | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McParameterElementGroup | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McSupportData | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | McSwEmulationMethodSupport | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MeasuredExecutionTime | ExecutionTime, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MeasuredHeapUsage | HeapUsage, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MemorySectionLocation | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MixedContentForLongName | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MixedContentForOverviewParagraph | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MixedContentForParagraph | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MixedContentForPlainText | WhitespaceControlled, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MixedContentForUnitNames | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MixedContentForVerbatim | WhitespaceControlled, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | MlFormula | Paginateable, False | ARObject, False | parent mismatch (expected Paginateable, got ARObject) |
-| ⚠ MISMATCH | ModeDeclaration | AtpStructureElement, False | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable) |
-| ⚠ MISMATCH | ModeDeclarationGroup | AtpType, False | Identifiable, False | parent mismatch (expected AtpType, got Identifiable) |
-| ⚠ MISMATCH | ModeDeclarationGroupPrototype | AtpPrototype, False | Identifiable, False | parent mismatch (expected AtpPrototype, got Identifiable) |
-| ⚠ MISMATCH | ModeDeclarationMapping | AtpStructureElement, False | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable) |
-| ⚠ MISMATCH | ModeDeclarationMappingSet | AtpType, False | ARElement, False | parent mismatch (expected AtpType, got ARElement) |
-| ✗ MISSING | ModeErrorBehavior | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ModeGroupInAtomicSwcInstanceRef | AtpInstanceRef, True | AtpInstanceRef, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ModeInBswModuleDescriptionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ModeInSwcInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ModePortAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ModeSwitchEventTriggeredActivity | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ModeSwitchInterface | AtpType, False | PortInterface, False | parent mismatch (expected AtpType, got PortInterface) |
-| ⚠ MISMATCH | ModeSwitchSenderComSpec | PPortComSpec, False | RPortComSpec, False | parent mismatch (expected PPortComSpec, got RPortComSpec) |
-| ⚠ MISMATCH | ModeSwitchedAckEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ✗ MISSING | ModeTransition | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryArg | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryChapter | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryP1 | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryP2 | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryResultChapter | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryResultTopic1 | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MsrQueryTopic1 | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | MultiLanguageParagraph | Paginateable, False | ARObject, False | parent mismatch (expected Paginateable, got ARObject) |
-| ✗ MISSING | MultiLanguageVerbatim | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | MultidimensionalTime | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | MultilanguageReferrable | Referrable, True | Referrable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | MultiplexedPart | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | NetworkEndpointAddress | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | NetworkSegmentIdentification | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | NmCluster | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | NmClusterCoupling | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | NmCoordinator | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | NmNode | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | NmPdu | FibexElement, False | Pdu, False | parent mismatch (expected FibexElement, got Pdu) |
-| ✗ MISSING | NotAvailableValueSpecification | ValueSpecification, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Note | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | NumericalOrText | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | NumericalRuleBasedValueSpecification | AbstractRuleBasedValueSpecification, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | NumericalValueVariationPoint | AbstractNumericalVariationPoint, False | ARObject, False | parent mismatch (expected AbstractNumericalVariationPoint, got ARObject) |
-| ✗ MISSING | NvBlockDataMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | NvBlockDescriptor | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | NvDataInterface | AtpType, False | DataInterface, False | parent mismatch (expected AtpType, got DataInterface) |
-| ✗ MISSING | NvDataPortAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ObdControlServiceNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ObdInfoServiceNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ObdMonitorServiceNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ObdPidServiceNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ObdRatioDenominatorNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ObdRatioServiceNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | OffsetTimingConstraint | TimingConstraint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | OperationInAtomicSwcInstanceRef | AtpInstanceRef, True | AtpInstanceRef, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | OperationInSystemInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | OperationInvokedEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ✗ MISSING | OrderedMaster | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | OsTaskExecutionEvent | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | OsTaskProxy | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PModeInSystemInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PPortComSpec | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | PRPortPrototype | AbstractRequiredPortPrototype, False | PortPrototype, False | parent mismatch (expected AbstractRequiredPortPrototype, got PortPrototype) |
-| ✗ MISSING | PTriggerInAtomicSwcTypeInstanceRef | TriggerInAtomicSwcInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PackageableElement | CollectableElement, True | Identifiable, False | parent mismatch (expected CollectableElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | Paginateable | DocumentViewSelectable, True | DocumentViewSelectable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ParameterInterface | AtpType, False | DataInterface, False | parent mismatch (expected AtpType, got DataInterface) |
-| ✗ MISSING | ParameterPortAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ParameterProvideComSpec | PPortComSpec, False | RPortComSpec, False | parent mismatch (expected PPortComSpec, got RPortComSpec) |
-| ✗ MISSING | ParameterSwComponentType | AtpType, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PassThroughSwConnector | AtpStructureElement, False | SwConnector, False | parent mismatch (expected AtpStructureElement, got SwConnector) |
-| ⚠ MISMATCH | Pdu | FibexElement, True | FibexElement, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | PduActivationRoutingGroup | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PdurIPduGroup | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PerInstanceMemory | AtpStructureElement, False | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable) |
-| ✗ MISSING | PerInstanceMemorySize | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PeriodicEventTriggering | EventTriggeringConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PermissibleSignalPath | SignalPathConstraint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PhysicalChannel | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | PhysicalDimensionMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PhysicalDimensionMappingSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PlcaProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PncMapping | Describable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PncMappingIdent | Referrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PortElementToCommunicationResourceMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PortGroup | AtpStructureElement, False | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable) |
-| ✗ MISSING | PortGroupInSystemInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PortInCompositionTypeInstanceRef | AtpInstanceRef, True | AtpInstanceRef, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | PortInterface | AtpType, True | AtpType, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | PortInterfaceMapping | AtpBlueprintable, True | Identifiable, False | parent mismatch (expected AtpBlueprintable, got Identifiable), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | PortInterfaceMappingSet | AtpBlueprintable, False | ARElement, False | parent mismatch (expected AtpBlueprintable, got ARElement) |
-| ⚠ MISMATCH | PortPrototype | AtpPrototype, True | Identifiable, False | parent mismatch (expected AtpPrototype, got Identifiable), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | PortPrototypeBlueprint | AtpStructureElement, False | ARElement, False | parent mismatch (expected AtpStructureElement, got ARElement) |
-| ✗ MISSING | PositiveIntegerValueVariationPoint | AttributeValueVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PostBuildVariantCondition | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PostBuildVariantCriterion | AtpDefinition, False | ARObject, False | parent mismatch (expected AtpDefinition, got ARObject) |
-| ✗ MISSING | PostBuildVariantCriterionValueSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | PredefinedChapter | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | PredefinedVariant | ARElement, False | ARObject, False | parent mismatch (expected ARElement, got ARObject) |
-| ✗ MISSING | Prms | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | RPortComSpec | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | RTEEvent | AtpStructureElement, True | AbstractEvent, False | parent mismatch (expected AtpStructureElement, got AbstractEvent), abstract mismatch (expected True, got False) |
-| ✗ MISSING | RTriggerInAtomicSwcInstanceRef | TriggerInAtomicSwcInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RapidPrototypingScenario | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ReceiverAnnotation | SenderReceiverAnnotation, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ReceiverComSpec | RPortComSpec, True | RPortComSpec, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ReceptionComSpecProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ReferenceValueSpecification | ValueSpecification, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | Referrable | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | RoleBasedBswModuleEntryAssignment | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RoleBasedMcDataAssignment | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RoleBasedResourceDependency | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | RootSwCompositionPrototype | AtpPrototype, False | Identifiable, False | parent mismatch (expected AtpPrototype, got Identifiable) |
-| ✗ MISSING | RoughEstimateHeapUsage | HeapUsage, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RoughEstimateOfExecutionTime | ExecutionTime, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Row | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptComponent | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptContainer | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptExecutableEntity | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptExecutableEntityEvent | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptExecutableEntityProperties | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptExecutionContext | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptHook | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptImplPolicy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptProfile | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptServicePoint | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptSupportData | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RptSwPrototypingAccess | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RteEventInCompositionSeparation | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RteEventInCompositionToOsTaskProxyMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RteEventInSystemSeparation | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RteEventInSystemToOsTaskProxyMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RtePluginProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RtpTp | TransportProtocolConfiguration, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RuleArguments | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RuleBasedAxisCont | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RuleBasedValueCont | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RuleBasedValueSpecification | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RunnableEntityGroup | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RunnableEntityInCompositionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | RuntimeError | TracedFailure, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SOMEIPTransformationDescription | TransformationDescription, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SOMEIPTransformationISignalProps | TransformationISignalProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SOMEIPTransformationProps | TransformationProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SaveConfigurationEntry | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ScaleConstr | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ScheduleTableEntry | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | Sdf | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgAbstractForeignReference | SdgAttribute, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgAbstractPrimitiveAttribute | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgAggregationWithVariation | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgAttribute | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgClass | SdgElementWithGid, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgContents | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgDef | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgElementWithGid | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgForeignReference | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgForeignReferenceWithVariation | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgPrimitiveAttribute | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgPrimitiveAttributeWithVariation | AbstractVariationRestriction, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SdgReference | SdgAttribute, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SectionNamePrefix | ImplementationProps, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SecureCommunicationPropsSet | FibexElement, False | Identifiable, False | parent mismatch (expected FibexElement, got Identifiable) |
-| ✗ MISSING | SecureOnBoardCommunicationNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SecurityEventContextProps | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SecurityEventDefinition | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SenderAnnotation | SenderReceiverAnnotation, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SenderComSpec | PPortComSpec, True | PPortComSpec, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | SenderRecCompositeTypeMapping | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | SenderReceiverAnnotation | GeneralAnnotation, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SenderReceiverCompositeElementToSignalMapping | DataMapping, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SenderReceiverInterface | AtpType, False | DataInterface, False | parent mismatch (expected AtpType, got DataInterface) |
-| ✗ MISSING | SeparateSignalPath | SignalPathConstraint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ServerCallPoint | AbstractAccessPoint, True | AbstractAccessPoint, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | ServiceDependency | ARObject, True | Identifiable, False | parent mismatch (expected ARObject, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | ServiceInstanceCollectionSet | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ServiceNeeds | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | ShortNameFragment | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SignalPathConstraint | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SignalServiceTranslationElementProps | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SignalServiceTranslationEventProps | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SignalServiceTranslationProps | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SignalServiceTranslationPropsSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SimulatedExecutionTime | ExecutionTime, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SingleLanguageLongName | MixedContentForLongName, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SingleLanguageReferrable | Referrable, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SingleLanguageUnitNames | MixedContentForUnitNames, False | ARLiteral, False | parent mismatch (expected MixedContentForUnitNames, got ARLiteral) |
-| ✗ MISSING | SlOverviewParagraph | MixedContentForOverviewParagraph, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SlParagraph | MixedContentForParagraph, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SoAdRoutingGroup | FibexElement, False | Identifiable, False | parent mismatch (expected FibexElement, got Identifiable) |
-| ✗ MISSING | SoConIPduIdentifier | Referrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SocketConnectionIpduIdentifierSet | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipSdClientEventGroupTimingConfig | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipSdClientServiceInstanceConfig | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipSdServerEventGroupTimingConfig | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipSdServerServiceInstanceConfig | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipServiceVersion | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipTpChannel | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipTpConfig | FibexElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SomeipTpConnection | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SporadicEventTriggering | EventTriggeringConstraint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | StackUsage | Identifiable, True | Identifiable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | StateDependentFirewall | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StaticSocketConnection | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Std | SingleLanguageReferrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterIEEE1722Tp | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterIpv4Address | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterIpv6Address | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterMACAddress | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterPortRange | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterRuleDataLinkLayer | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StreamFilterRuleIpTp | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | StructuredReq | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SubElementMapping | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SubElementRef | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SupervisedEntityCheckpointNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SupervisedEntityNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwAddrMethod | AtpBlueprintable, False | Identifiable, False | parent mismatch (expected AtpBlueprintable, got Identifiable) |
-| ✗ MISSING | SwAxisCont | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwAxisType | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwBitRepresentation | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwCalprmAxisTypeProps | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | SwCalprmRefProxy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwComponentPrototype | AtpPrototype, False | Identifiable, False | parent mismatch (expected AtpPrototype, got Identifiable) |
-| ✗ MISSING | SwComponentPrototypeAssignment | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwComponentType | AtpType, True | ARElement, False | parent mismatch (expected AtpType, got ARElement), abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | SwConnector | AtpStructureElement, True | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | SwDataDependency | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwDataDependencyArgs | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwGenericAxisParamType | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwSystemconst | AtpDefinition, False | ARObject, False | parent mismatch (expected AtpDefinition, got ARObject) |
-| ✗ MISSING | SwSystemconstDependentFormula | FormulaExpression, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwSystemconstValue | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwSystemconstantValueSet | ARElement, False | ARObject, False | parent mismatch (expected ARElement, got ARObject) |
-| ✗ MISSING | SwVariableRefProxy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwcBswMapping | AtpStructureElement, False | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable) |
-| ✗ MISSING | SwcBswSynchronizedModeGroupPrototype | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwcBswSynchronizedTrigger | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwcExclusiveAreaPolicy | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwcModeManagerErrorEvent | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwcModeSwitchEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | SwcServiceDependency | AtpStructureElement, False | ServiceDependency, False | parent mismatch (expected AtpStructureElement, got ServiceDependency) |
-| ✗ MISSING | SwcServiceDependencyInSystemInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwcSupportedFeature | ARObject, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SwcTiming | ARElement, False | TimingExtension, False | parent mismatch (expected ARElement, got TimingExtension) |
-| ✗ MISSING | SwcToApplicationPartitionMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwcToSwcOperationArguments | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwcToSwcSignal | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchAsynchronousTrafficShaperGroupEntry | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchFlowMeteringEntry | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchStreamFilterActionDestPortModification | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchStreamFilterEntry | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchStreamFilterRule | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchStreamGateEntry | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SwitchStreamIdentification | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SymbolicNameProps | ImplementationProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SyncTimeBaseMgrUserNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SynchronizationPointConstraint | TimingConstraint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SynchronizationTimingConstraint | TimingConstraint, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | SynchronousServerCallPoint | AbstractAccessPoint, False | ServerCallPoint, False | parent mismatch (expected AbstractAccessPoint, got ServerCallPoint) |
-| ⚠ MISMATCH | System | AtpStructureElement, False | ARElement, False | parent mismatch (expected AtpStructureElement, got ARElement) |
-| ✗ MISSING | SystemSignalGroupToCommunicationResourceMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SystemSignalToCommunicationResourceMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | SystemTiming | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDCpSoftwareClusterMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDCpSoftwareClusterMappingSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDCpSoftwareClusterResourceMapping | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventBsw | TimingDescriptionEvent, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventBswInternalBehavior | TimingDescriptionEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventBswModeDeclaration | TDEventBsw, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventBswModule | TDEventBsw, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventCom | TimingDescriptionEvent, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventComplex | TimingDescriptionEvent, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventCycleStart | TDEventCom, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventFrClusterCycleStart | TDEventCycleStart, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventFrame | TDEventCom, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventFrameEthernet | TDEventCom, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventIPdu | TDEventCom, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventISignal | TDEventCom, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventModeDeclaration | TDEventVfbPort, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventOccurrenceExpression | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventOccurrenceExpressionFormula | FormulaExpression, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventOperation | TDEventVfbPort, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventSLLET | TimingDescriptionEvent, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventSLLETPort | TDEventSLLET, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventSwc | TimingDescriptionEvent, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventSwcInternalBehavior | TDEventSwc, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventSwcInternalBehaviorReference | TDEventSwc, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventTTCanCycleStart | TDEventCycleStart, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventTrigger | TDEventVfbPort, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventVariableDataPrototype | TDEventVfbPort, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventVfb | TimingDescriptionEvent, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventVfbPort | TDEventVfb, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDEventVfbReference | TDEventVfb, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TDHeaderIdRange | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Table | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TagWithOptionalValue | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Tbody | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TcpIpIcmpv4Props | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TcpIpIcmpv6Props | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TcpOptionFilterList | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TcpOptionFilterSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TcpProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TcpUdpConfig | TransportProtocolConfiguration, True | TransportProtocolConfiguration, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | TextTableValuePair | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Tgroup | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TimeSyncServerConfiguration | Referrable, False | ARObject, False | parent mismatch (expected Referrable, got ARObject) |
-| ✗ MISSING | TimeValueValueVariationPoint | AttributeValueVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TimingClockSyncAccuracy | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TimingCondition | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TimingConditionFormula | FormulaExpression, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TimingConstraint | Traceable, True | Identifiable, False | parent mismatch (expected Traceable, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | TimingDescription | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TimingDescriptionEvent | TimingDescription, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TimingDescriptionEventChain | TimingDescription, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TimingEvent | AtpStructureElement, False | RTEEvent, False | parent mismatch (expected AtpStructureElement, got RTEEvent) |
-| ⚠ MISMATCH | TimingExtension | ARElement, True | Identifiable, False | parent mismatch (expected ARElement, got Identifiable), abstract mismatch (expected True, got False) |
-| ✗ MISSING | TimingExtensionResource | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TimingModeInstance | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TlsCryptoCipherSuite | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TlsCryptoCipherSuiteProps | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TlsPskIdentity | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TlvDataIdDefinition | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TlvDataIdDefinitionSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Topic1 | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TopicContent | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TopicContentOrMsrQuery | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TopicOrMsrQuery | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TpConfig | FibexElement, True | FibexElement, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | TpConnection | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | Traceable | MultilanguageReferrable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TraceableText | Paginateable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TracedFailure | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TransformationComSpecProps | Describable, True | Describable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | TransformationDescription | Describable, True | Describable, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | TransformationISignalProps | Describable, True | Describable, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | TransformationProps | Identifiable, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TransformationPropsSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TransformerHardErrorEvent | AtpStructureElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TransientFault | TracedFailure, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TransmissionComSpecProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TransportProtocolConfiguration | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | Trigger | AtpStructureElement, False | Identifiable, False | parent mismatch (expected AtpStructureElement, got Identifiable) |
-| ✗ MISSING | TriggerIPduSendCondition | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TriggerInAtomicSwcInstanceRef | AtpInstanceRef, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TriggerInSystemInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | TriggerInterface | AtpType, False | PortInterface, False | parent mismatch (expected AtpType, got PortInterface) |
-| ✗ MISSING | TriggerPortAnnotation | GeneralAnnotation, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TriggerToSignalMapping | DataMapping, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Tt | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TtcanAbsolutelyScheduledTiming | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TtcanCluster | AbstractCanCluster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TtcanCommunicationConnector | AbstractCanCommunicationConnector, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TtcanCommunicationController | AbstractCanCommunicationController, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | TtcanPhysicalChannel | AbstractCanPhysicalChannel, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UdpProps | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UnassignFrameId | LinConfigurationEntry, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UnlimitedIntegerValueVariationPoint | AttributeValueVariationPoint, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedCluster | CommunicationCluster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedCommunicationConnector | CommunicationConnector, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedCommunicationController | CommunicationController, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedEthernetFrame | AbstractEthernetFrame, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedGlobalTimeMaster | GlobalTimeMaster, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedGlobalTimeSlave | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | UserDefinedPdu | FibexElement, False | Pdu, False | parent mismatch (expected FibexElement, got Pdu) |
-| ✗ MISSING | UserDefinedPhysicalChannel | PhysicalChannel, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedTransformationDescription | TransformationDescription, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedTransformationISignalProps | TransformationISignalProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | UserDefinedTransformationProps | TransformationProps, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | V2xDataManagerNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | V2xFacUserNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | V2xMUserNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ValueGroup | ARObject, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | ValueSpecification | ARObject, True | ARObject, False | abstract mismatch (expected True, got False) |
-| ⚠ MISMATCH | VariableAccess | AbstractAccessPoint, False | Identifiable, False | parent mismatch (expected AbstractAccessPoint, got Identifiable) |
-| ✗ MISSING | VariableDataPrototypeInCompositionInstanceRef | AtpInstanceRef, False | Not Found, N/A | Class not found in source code |
-| ⚠ MISMATCH | VariableInAtomicSwcInstanceRef | AtpInstanceRef, True | AtpInstanceRef, False | abstract mismatch (expected True, got False) |
-| ✗ MISSING | VariationPointProxy | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | VendorSpecificServiceNeeds | ServiceNeeds, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | VfbTiming | AtpBlueprintable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ViewMap | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | ViewMapSet | ARElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | WaitPoint | Identifiable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | WarningIndicatorRequestedBitNeeds | DiagnosticCapabilityElement, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | WhitespaceControlled | ARObject, True | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | WorstCaseHeapUsage | HeapUsage, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Xdoc | SingleLanguageReferrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Xfile | SingleLanguageReferrable, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | Xref | ARObject, False | Not Found, N/A | Class not found in source code |
-| ✗ MISSING | XrefTarget | SingleLanguageReferrable, False | Not Found, N/A | Class not found in source code |
+| Status | Class | Hierarchy | Notes |
+|--------|-------|-----------|-------|
+| ✗ MISSING | <<atpPrototype>> PduToFrameMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AbstractEnumerationValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AbstractGlobalTimeDomainProps | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AbstractMultiplicityRestriction | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AbstractNumericalVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AbstractRuleBasedValueSpecification | **Documented:**<br>Parent: ValueSpecification<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AbstractValueRestriction | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AbstractVariationRestriction | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AccessCount | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AccessCountSet | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AclObjectSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AclOperation | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AclPermission | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AclRole | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AgeConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AliasNameAssignment | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AliasNameSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AnalyzedExecutionTime | **Documented:**<br>Parent: ExecutionTime<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ApplicationCompositeDataTypeSubElementRef | **Documented:**<br>Parent: SubElementRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ApplicationPartition | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ApplicationRuleBasedValueSpecification | **Documented:**<br>Parent: CompositeRuleBasedValueArgument<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ArParameterInImplementationDataInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ArbitraryEventTriggering | **Documented:**<br>Parent: EventTriggeringConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Area | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AssignFrameId | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AssignFrameIdRange | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AssignNad | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AtpBlueprint | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AtpBlueprintable | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AtpClassifier | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AtpDefinition | **Documented:**<br>Parent: Referrable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AttributeValueVariationPoint | **Documented:**<br>Parent: SwSystemconstDependentFormula<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AutosarOperationArgumentInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AutosarVariableInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestAddressableObject | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | BinaryManifestItem | **Documented:**<br>Parent: BinaryManifestAddressableObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestItemDefinition | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestItemNumericalValue | **Documented:**<br>Parent: BinaryManifestItemValue<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestItemPointerValue | **Documented:**<br>Parent: BinaryManifestItemValue<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestItemValue | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | BinaryManifestMetaDataField | **Documented:**<br>Parent: BinaryManifestAddressableObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestProvideResource | **Documented:**<br>Parent: BinaryManifestResource<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestRequireResource | **Documented:**<br>Parent: BinaryManifestResource<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BinaryManifestResource | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | BinaryManifestResourceDefinition | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BlueprintGenerator | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BlueprintMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BooleanValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Br | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswAsynchronousServerCallReturnsEvent | **Documented:**<br>Parent: BswScheduleEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswCompositionTiming | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswEntryRelationship | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswEntryRelationshipSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswInterruptEvent | **Documented:**<br>Parent: BswEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswMgrNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswModeManagerErrorEvent | **Documented:**<br>Parent: BswScheduleEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswModeReceiverPolicy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswModuleTiming | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswSchedulerNamePrefix | **Documented:**<br>Parent: ImplementationProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswServiceDependency | **Documented:**<br>Parent: ServiceDependency<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswServiceDependencyIdent | **Documented:**<br>Parent: IdentCaption<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BswTriggerDirectImplementation | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BuildAction | **Documented:**<br>Parent: BuildActionEntity<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BuildActionEntity | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | BuildActionEnvironment | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BuildActionInvocator | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BuildActionIoElement | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BuildActionManifest | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BuildEngineeringObject | **Documented:**<br>Parent: EngineeringObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BulkNvDataDescriptor | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BurstPatternEventTriggering | **Documented:**<br>Parent: EventTriggeringConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorCanIdRangeMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorCanIdToCanIdMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorChannel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorChannelMapping | **Documented:**<br>Parent: FibexElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | BusMirrorChannelMappingCan | **Documented:**<br>Parent: BusMirrorChannelMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorChannelMappingFlexray | **Documented:**<br>Parent: BusMirrorChannelMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorChannelMappingIp | **Documented:**<br>Parent: BusMirrorChannelMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorChannelMappingUserDefined | **Documented:**<br>Parent: BusMirrorChannelMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | BusMirrorLinPidToCanIdMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CalibrationParameterValue | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CalibrationParameterValueSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CanControllerConfiguration | **Documented:**<br>Parent: AbstractCanCommunicationControllerAttributes<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CanGlobalTimeDomainProps | **Documented:**<br>Parent: AbstractGlobalTimeDomainProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CanXlFrameTriggeringProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Caption | **Documented:**<br>Parent: MultilanguageReferrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Chapter | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ChapterContent | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ChapterModel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ChapterOrMsrQuery | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ClientIdDefinition | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ClientIdDefinitionSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ClientIdRange | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ClientServerAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ClientServerOperationComProps | **Documented:**<br>Parent: CpSoftwareClusterCommunicationResourceProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ClientServerToSignalMapping | **Documented:**<br>Parent: DataMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Colspec | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ComMgrUserNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CommonSignalPath | **Documented:**<br>Parent: SignalPathConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CommunicationBufferLocking | **Documented:**<br>Parent: SwcSupportedFeature<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CommunicationControllerMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ComponentClustering | **Documented:**<br>Parent: MappingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ComponentInCompositionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ComponentSeparation | **Documented:**<br>Parent: MappingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CompositeRuleBasedValueSpecification | **Documented:**<br>Parent: AbstractRuleBasedValueSpecification<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CompuGenericMath | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConcretePatternEventTriggering | **Documented:**<br>Parent: EventTriggeringConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConditionByFormula | **Documented:**<br>Parent: SwSystemconstDependentFormula<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConditionalChangeNad | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConfidenceInterval | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConsistencyNeeds | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConstantSpecificationMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConstantSpecificationMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ConsumedProvidedServiceInstanceGroup | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ContainerIPdu | **Documented:**<br>Parent: IPdu<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingElement | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingElementAbstractDetails | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | CouplingElementSwitchDetails | **Documented:**<br>Parent: CouplingElementAbstractDetails<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingPortAsynchronousTrafficShaper | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingPortConnection | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingPortCreditBasedShaper | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingPortRatePolicy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingPortShaper | **Documented:**<br>Parent: CouplingPortStructuralElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CouplingPortTrafficClassAssignment | **Documented:**<br>Parent: Referrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareCluster | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterBinaryManifestDescriptor | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterCommunicationResource | **Documented:**<br>Parent: CpSoftwareClusterResource<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterCommunicationResourceProps | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterResource | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterResourcePool | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterResourceToApplicationPartitionMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterServiceResource | **Documented:**<br>Parent: CpSoftwareClusterResource<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterToApplicationPartitionMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterToEcuInstanceMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSoftwareClusterToResourceMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSwClusterResourceToDiagDataElemMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSwClusterResourceToDiagFunctionIdMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSwClusterToDiagEventMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CpSwClusterToDiagRoutineSubfunctionMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoEllipticCurveProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoKeyManagementNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoServiceCertificate | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoServiceJobNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoServiceKey | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoServicePrimitive | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoServiceQueue | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | CryptoSignatureScheme | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataComProps | **Documented:**<br>Parent: CpSoftwareClusterCommunicationResourceProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataDumpEntry | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataPrototypeGroup | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataPrototypeInClientServerInterfaceInstanceRef | **Documented:**<br>Parent: DataPrototypeInPortInterfaceInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataPrototypeInPortInterfaceInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DataPrototypeInPortInterfaceRef | **Documented:**<br>Parent: DataPrototypeReference<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataPrototypeInSenderReceiverInterfaceInstanceRef | **Documented:**<br>Parent: DataPrototypeInPortInterfaceInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataPrototypeInSystemInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DataPrototypeReference | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DataPrototypeTransformationProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpConfig | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpConsumedServiceInstance | **Documented:**<br>Parent: DdsCpServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpDomain | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpISignalToDdsTopicMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpPartition | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpProvidedServiceInstance | **Documented:**<br>Parent: DdsCpServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpQosProfile | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpServiceInstance | **Documented:**<br>Parent: AbstractServiceInstance<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DdsCpServiceInstanceEvent | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpServiceInstanceOperation | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsCpTopic | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsDeadline | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsDestinationOrder | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsDurability | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsDurabilityService | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsHistory | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsLatencyBudget | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsLifespan | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsLiveliness | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsOwnership | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsOwnershipStrength | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsReliability | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsResourceLimits | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsTopicData | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DdsTransportPriority | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DefItem | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DefList | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DelegatedPortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DevelopmentError | **Documented:**<br>Parent: TracedFailure<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DhcpServerConfiguration | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Dhcpv6Props | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAbstractAliasEvent | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticAbstractDataIdentifier | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticAbstractParameter | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticAccessPermission | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAging | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthRole | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthRoleProxy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthTransmitCertificate | **Documented:**<br>Parent: DiagnosticAuthentication<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthTransmitCertificateEvaluation | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthTransmitCertificateMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthentication | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthenticationClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticAuthenticationConfiguration | **Documented:**<br>Parent: DiagnosticAuthentication<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticClearDiagnosticInformation | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticClearDiagnosticInformationClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticClearResetEmissionRelatedInfo | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticClearResetEmissionRelatedInfoClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticComControl | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticComControlClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticComControlSpecificChannel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticComControlSubNodeChannel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticCommonElement | **Documented:**<br>Parent: ARElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticCommonProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticComponentNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticCondition | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticConditionGroup | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticConnectedIndicator | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticContributionSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticControlDTCSetting | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticControlDTCSettingClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticControlEnableMaskBit | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticControlNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticCustomServiceClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticCustomServiceInstance | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDataByIdentifier | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticDataElement | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDataIdentifier | **Documented:**<br>Parent: DiagnosticAbstractDataIdentifier<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDataIdentifierSet | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDataTransfer | **Documented:**<br>Parent: DiagnosticMemoryByAddress<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDataTransferClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDeAuthentication | **Documented:**<br>Parent: DiagnosticAuthentication<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDebounceAlgorithmProps | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDemProvidedDataMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDynamicDataIdentifier | **Documented:**<br>Parent: DiagnosticAbstractDataIdentifier<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDynamicallyDefineDataIdentifier | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticDynamicallyDefineDataIdentifierClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEcuInstanceProps | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEcuReset | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEcuResetClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnableCondition | **Documented:**<br>Parent: DiagnosticCondition<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnableConditionGroup | **Documented:**<br>Parent: DiagnosticConditionGroup<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnableConditionNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnableConditionPortMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvBswModeElement | **Documented:**<br>Parent: DiagnosticEnvModeElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvCompareCondition | **Documented:**<br>Parent: DiagnosticEnvConditionFormulaPart<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvConditionFormula | **Documented:**<br>Parent: DiagnosticEnvConditionFormulaPart<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvConditionFormulaPart | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvDataCondition | **Documented:**<br>Parent: DiagnosticEnvCompareCondition<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvDataElementCondition | **Documented:**<br>Parent: DiagnosticEnvCompareCondition<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvModeCondition | **Documented:**<br>Parent: DiagnosticEnvCompareCondition<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvModeElement | **Documented:**<br>Parent: Referrable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvSwcModeElement | **Documented:**<br>Parent: DiagnosticEnvModeElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEnvironmentalCondition | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEvent | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventManagerNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventPortMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToDebounceAlgorithmMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToEnableConditionGroupMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToOperationCycleMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToSecurityEventMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToStorageConditionGroupMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToTroubleCodeJ1939Mapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventToTroubleCodeUdsMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticEventWindow | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticExtendedDataRecord | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFimAliasEvent | **Documented:**<br>Parent: DiagnosticAbstractAliasEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFimAliasEventGroup | **Documented:**<br>Parent: DiagnosticAbstractAliasEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFimAliasEventGroupMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFimAliasEventMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFimEventGroup | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFimFunctionMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFreezeFrame | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFunctionIdentifier | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFunctionIdentifierInhibit | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticFunctionInhibitSource | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIOControl | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIndicator | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticInfoType | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticInhibitSourceEventMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIoControlClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIoControlNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIumpr | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIumprDenominatorGroup | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIumprGroup | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIumprGroupIdentifier | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticIumprToFunctionIdentifierMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticJ1939ExpandedFreezeFrame | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticJ1939FreezeFrame | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticJ1939Node | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticJ1939Spn | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticJ1939SpnMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticJ1939SwMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticMapping | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticMasterToSlaveEventMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticMeasurementIdentifier | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticMemoryAddressableRangeAccess | **Documented:**<br>Parent: DiagnosticMemoryByAddress<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticMemoryByAddress | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticMemoryDestination | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticMemoryDestinationPrimary | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticMemoryDestinationUserDefined | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticMemoryIdentifier | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticOperationCycle | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticOperationCycleNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticOperationCyclePortMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticParameter | **Documented:**<br>Parent: DiagnosticAbstractParameter<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticParameterElement | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticParameterElementAccess | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticParameterIdent | **Documented:**<br>Parent: DiagnosticServiceMappingDiagTarget<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticParameterIdentifier | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticParameterSupportInfo | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticPeriodicRate | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticPowertrainFreezeFrame | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticProofOfOwnership | **Documented:**<br>Parent: DiagnosticAuthentication<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticProtocol | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadDTCInformation | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadDTCInformationClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadDataByIdentifier | **Documented:**<br>Parent: DiagnosticDataByIdentifier<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadDataByIdentifierClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadDataByPeriodicID | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadDataByPeriodicIDClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadMemoryByAddress | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadMemoryByAddressClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadScalingDataByIdentifier | **Documented:**<br>Parent: DiagnosticDataByIdentifier<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticReadScalingDataByIdentifierClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestControlOfOnBoardDevice | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestControlOfOnBoardDeviceClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestCurrentPowertrainData | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestCurrentPowertrainDataClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestDownload | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestDownloadClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestEmissionRelatedDTC | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestEmissionRelatedDTCClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestEmissionRelatedDTCPermanentStatus | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestEmissionRelatedDTCPermanentStatusClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestFileTransfer | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestFileTransferClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestFileTransferNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestOnBoardMonitoringTestResults | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestOnBoardMonitoringTestResultsClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestPowertrainFreezeFrameData | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestPowertrainFreezeFrameDataClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestRoutineResults | **Documented:**<br>Parent: DiagnosticRoutineSubfunction<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestUpload | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestUploadClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestVehicleInfo | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRequestVehicleInfoClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticResponseOnEvent | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticResponseOnEventClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRoutine | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRoutineControl | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRoutineControlClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticRoutineSubfunction | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticSecureCodingMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSecurityAccess | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSecurityAccessClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSecurityEventReportingModeMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSecurityLevel | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticServiceClass | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticServiceDataMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticServiceInstance | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticServiceMappingDiagTarget | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticServiceSwMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSession | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSessionControl | **Documented:**<br>Parent: DiagnosticServiceInstance<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSessionControlClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticStartRoutine | **Documented:**<br>Parent: DiagnosticRoutineSubfunction<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticStopRoutine | **Documented:**<br>Parent: DiagnosticRoutineSubfunction<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticStorageCondition | **Documented:**<br>Parent: DiagnosticCondition<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticStorageConditionGroup | **Documented:**<br>Parent: DiagnosticConditionGroup<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticStorageConditionNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticStorageConditionPortMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSupportInfoByte | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticSwMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticTestIdentifier | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTestResult | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTestRoutineIdentifier | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTransferExit | **Documented:**<br>Parent: DiagnosticMemoryByAddress<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTransferExitClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCode | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCodeGroup | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCodeJ1939 | **Documented:**<br>Parent: DiagnosticTroubleCode<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCodeObd | **Documented:**<br>Parent: DiagnosticTroubleCode<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCodeProps | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCodeUds | **Documented:**<br>Parent: DiagnosticTroubleCode<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticTroubleCodeUdsToTroubleCodeObdMapping | **Documented:**<br>Parent: DiagnosticMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticUploadDownloadNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticVerifyCertificateBidirectional | **Documented:**<br>Parent: DiagnosticAuthentication<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticVerifyCertificateUnidirectional | **Documented:**<br>Parent: DiagnosticAuthentication<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticWriteDataByIdentifier | **Documented:**<br>Parent: DiagnosticDataByIdentifier<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticWriteDataByIdentifierClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticWriteMemoryByAddress | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticWriteMemoryByAddressClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DiagnosticsCommunicationSecurityNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltApplication | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltArgument | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltContext | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltEcu | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltLogChannel | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DltMessage | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpActivationLineNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpGidNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpGidSynchronizationNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpInterface | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpPowerModeStatusNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpRoutingActivation | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpRoutingActivationAuthenticationNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpRoutingActivationConfirmationNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | DoIpServiceNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | DocumentationContext | **Documented:**<br>Parent: MultilanguageReferrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | E2EProfileCompatibilityProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EOCEventRef | **Documented:**<br>Parent: EOCExecutableEntityRefAbstract<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EOCExecutableEntityRefGroup | **Documented:**<br>Parent: EOCExecutableEntityRefAbstract<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EcuPartition | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EcuResourceEstimation | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EcuTiming | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EmphasisText | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Entry | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EnumerationMappingEntry | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EnumerationMappingTable | **Documented:**<br>Parent: PackageableElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ErrorTracerNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthGlobalTimeDomainProps | **Documented:**<br>Parent: AbstractGlobalTimeDomainProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthGlobalTimeManagedCouplingPort | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthIpProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthTSynCrcFlags | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthTSynSubTlvConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthTcpIpIcmpProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthTcpIpProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthTpConnection | **Documented:**<br>Parent: TpConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthernetFrameTriggering | **Documented:**<br>Parent: FrameTriggering<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthernetWakeupSleepOnDatalineConfig | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EthernetWakeupSleepOnDatalineConfigSet | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EvaluatedVariantSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EventObdReadinessGroup | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | EventTriggeringConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | ExclusiveAreaNestingOrder | **Documented:**<br>Parent: Referrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ExecutableEntityActivationReason | **Documented:**<br>Parent: ImplementationProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ExecutionTime | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | ExecutionTimeConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ExternalTriggerOccurredEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FMFeature | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FMFeatureModel | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FirewallRule | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FirewallRuleProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayArTpChannel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayArTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayArTpConnection | **Documented:**<br>Parent: TpConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayArTpNode | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayFifoConfiguration | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayFifoRange | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayTpConnection | **Documented:**<br>Parent: TpConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayTpConnectionControl | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayTpEcu | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayTpNode | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FlexrayTpPduPool | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FloatValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ForbiddenSignalPath | **Documented:**<br>Parent: SignalPathConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FormulaExpression | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | FrGlobalTimeDomainProps | **Documented:**<br>Parent: AbstractGlobalTimeDomainProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FramePid | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FreeFormat | **Documented:**<br>Parent: FreeFormatEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FunctionInhibitionAvailabilityNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FunctionInhibitionNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | FurtherActionByteNeeds | **Documented:**<br>Parent: DoIpServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GeneralPurposeConnection | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GenericModelReference | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalSupervisionNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeCanMaster | **Documented:**<br>Parent: GlobalTimeMaster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeCanSlave | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeCorrectionProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeCouplingPortProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeDomain | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeEthMaster | **Documented:**<br>Parent: GlobalTimeMaster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeEthSlave | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeFrMaster | **Documented:**<br>Parent: GlobalTimeMaster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeFrSlave | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeGateway | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | GlobalTimeMaster | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | HardwareTestNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | HttpTp | **Documented:**<br>Parent: TransportProtocolConfiguration<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | HwPinConnector | **Documented:**<br>Parent: Describable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | HwPinGroupConnector | **Documented:**<br>Parent: Describable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | HwPortMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAafConnection | **Documented:**<br>Parent: IEEE1722TpAvConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfBus | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfBusPart | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfCan | **Documented:**<br>Parent: IEEE1722TpAcfBus<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfCanPart | **Documented:**<br>Parent: IEEE1722TpAcfBusPart<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfConnection | **Documented:**<br>Parent: IEEE1722TpConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfLin | **Documented:**<br>Parent: IEEE1722TpAcfBus<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAcfLinPart | **Documented:**<br>Parent: IEEE1722TpAcfBusPart<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpAvConnection | **Documented:**<br>Parent: IEEE1722TpConnection<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | IEEE1722TpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpConnection | **Documented:**<br>Parent: ARElement<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | IEEE1722TpCrfConnection | **Documented:**<br>Parent: IEEE1722TpAvConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpIidcConnection | **Documented:**<br>Parent: IEEE1722TpAvConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IEEE1722TpRvfConnection | **Documented:**<br>Parent: IEEE1722TpAvConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IPSecConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IPSecConfigProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IPSecRule | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IPv6ExtHeaderFilterList | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IPv6ExtHeaderFilterSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ISignalProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IdsMgrCustomTimestampNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IdsMgrNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ieee1722Tp | **Documented:**<br>Parent: TransportProtocolConfiguration<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ieee1722TpEthernetFrame | **Documented:**<br>Parent: AbstractEthernetFrame<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ImplementationDataTypeElementInPortInterfaceRef | **Documented:**<br>Parent: DataPrototypeReference<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ImplementationDataTypeSubElementRef | **Documented:**<br>Parent: SubElementRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ImplementationElementInParameterInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IndentSample | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IndexEntry | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IndicatorStatusNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InnerDataPrototypeGroupInCompositionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InnerRunnableEntityGroupInCompositionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InstanceEventInCompositionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InstantiationDataDefProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InstantiationRTEEventProps | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | InstantiationTimingEventProps | **Documented:**<br>Parent: InstantiationRTEEventProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IntegerValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InterpolationRoutine | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InterpolationRoutineMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InterpolationRoutineMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | IoHwAbstractionServerAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv4ArpProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv4AutoIpProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv4DhcpServerConfiguration | **Documented:**<br>Parent: Describable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv4FragmentationProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv4Props | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv6DhcpServerConfiguration | **Documented:**<br>Parent: Describable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv6FragmentationProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv6NdpProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Ipv6Props | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939Cluster | **Documented:**<br>Parent: AbstractCanCluster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939ControllerApplication | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939ControllerApplicationToJ1939NmNodeMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939DcmDm19Support | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939DcmIPdu | **Documented:**<br>Parent: IPdu<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939NodeName | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939RmIncomingRequestServiceNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939RmOutgoingRequestServiceNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939TpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939TpConnection | **Documented:**<br>Parent: TpConnection<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939TpNode | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | J1939TpPg | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LVerbatim | **Documented:**<br>Parent: MixedContentForVerbatim<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LabeledItem | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LabeledList | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LatencyTimingConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LifeCycleState | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LifeCycleStateDefinitionGroup | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LimitValueVariationPoint | **Documented:**<br>Parent: AbstractNumericalVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinConfigurableFrame | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinErrorResponse | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinEventTriggeredFrame | **Documented:**<br>Parent: LinFrame<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinOrderedConfigurableFrame | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinSlave | **Documented:**<br>Parent: LinCommunicationController<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinSlaveConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinSlaveConfigIdent | **Documented:**<br>Parent: Referrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | LinSporadicFrame | **Documented:**<br>Parent: LinFrame<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Linker | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | List | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacMulticastConfiguration | **Documented:**<br>Parent: NetworkEndpointAddress<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecCipherSuiteConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecCryptoAlgoConfig | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecGlobalKayProps | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecKayParticipant | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecLocalKayProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecParticipantSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MacSecProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MappingConstraint | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | McDataAccessDetails | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McDataInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McFunction | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McFunctionDataRefSet | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McGroup | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McGroupDataRefSet | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McParameterElementGroup | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McSupportData | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | McSwEmulationMethodSupport | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MeasuredExecutionTime | **Documented:**<br>Parent: ExecutionTime<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MeasuredHeapUsage | **Documented:**<br>Parent: HeapUsage<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MemorySectionLocation | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MixedContentForLongName | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | MixedContentForOverviewParagraph | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | MixedContentForParagraph | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | MixedContentForPlainText | **Documented:**<br>Parent: WhitespaceControlled<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | MixedContentForUnitNames | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | MixedContentForVerbatim | **Documented:**<br>Parent: WhitespaceControlled<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | ModeErrorBehavior | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ModeInBswModuleDescriptionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ModeInSwcInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ModePortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ModeSwitchEventTriggeredActivity | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ModeTransition | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryArg | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryChapter | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryP1 | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryP2 | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryResultChapter | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryResultTopic1 | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MsrQueryTopic1 | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MultiLanguageVerbatim | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | MultidimensionalTime | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NetworkSegmentIdentification | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NmCoordinator | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NotAvailableValueSpecification | **Documented:**<br>Parent: ValueSpecification<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Note | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NumericalOrText | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NumericalRuleBasedValueSpecification | **Documented:**<br>Parent: AbstractRuleBasedValueSpecification<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NvBlockDataMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NvBlockDescriptor | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | NvDataPortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ObdControlServiceNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ObdInfoServiceNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ObdMonitorServiceNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ObdPidServiceNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ObdRatioDenominatorNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ObdRatioServiceNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | OffsetTimingConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | OperationInSystemInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | OrderedMaster | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | OsTaskExecutionEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | OsTaskProxy | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PModeInSystemInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PTriggerInAtomicSwcTypeInstanceRef | **Documented:**<br>Parent: TriggerInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ParameterPortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ParameterSwComponentType | **Documented:**<br>Parent: AtpType<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PduActivationRoutingGroup | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PdurIPduGroup | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PerInstanceMemorySize | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PeriodicEventTriggering | **Documented:**<br>Parent: EventTriggeringConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PermissibleSignalPath | **Documented:**<br>Parent: SignalPathConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PhysicalDimensionMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PhysicalDimensionMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PlcaProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PncMapping | **Documented:**<br>Parent: Describable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PncMappingIdent | **Documented:**<br>Parent: Referrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PortElementToCommunicationResourceMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PortGroupInSystemInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PositiveIntegerValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PostBuildVariantCondition | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PostBuildVariantCriterionValueSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PredefinedChapter | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Prms | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RTriggerInAtomicSwcInstanceRef | **Documented:**<br>Parent: TriggerInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RapidPrototypingScenario | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ReceiverAnnotation | **Documented:**<br>Parent: SenderReceiverAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ReceptionComSpecProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ReferenceValueSpecification | **Documented:**<br>Parent: ValueSpecification<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RoleBasedBswModuleEntryAssignment | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RoleBasedMcDataAssignment | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RoleBasedResourceDependency | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RoughEstimateHeapUsage | **Documented:**<br>Parent: HeapUsage<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RoughEstimateOfExecutionTime | **Documented:**<br>Parent: ExecutionTime<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Row | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptComponent | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptContainer | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptExecutableEntity | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptExecutableEntityEvent | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptExecutableEntityProperties | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptExecutionContext | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptHook | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptImplPolicy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptProfile | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptServicePoint | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptSupportData | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RptSwPrototypingAccess | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RteEventInCompositionSeparation | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RteEventInCompositionToOsTaskProxyMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RteEventInSystemSeparation | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RteEventInSystemToOsTaskProxyMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RtePluginProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RtpTp | **Documented:**<br>Parent: TransportProtocolConfiguration<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RuleArguments | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RuleBasedAxisCont | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RuleBasedValueCont | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RuleBasedValueSpecification | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RunnableEntityGroup | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RunnableEntityInCompositionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RuntimeError | **Documented:**<br>Parent: TracedFailure<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SOMEIPTransformationDescription | **Documented:**<br>Parent: TransformationDescription<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SOMEIPTransformationISignalProps | **Documented:**<br>Parent: TransformationISignalProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SOMEIPTransformationProps | **Documented:**<br>Parent: TransformationProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SaveConfigurationEntry | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ScaleConstr | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Sdf | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgAbstractForeignReference | **Documented:**<br>Parent: SdgAttribute<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SdgAbstractPrimitiveAttribute | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SdgAggregationWithVariation | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgAttribute | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SdgClass | **Documented:**<br>Parent: SdgElementWithGid<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgContents | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgDef | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgElementWithGid | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SdgForeignReference | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgForeignReferenceWithVariation | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgPrimitiveAttribute | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgPrimitiveAttributeWithVariation | **Documented:**<br>Parent: AbstractVariationRestriction<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SdgReference | **Documented:**<br>Parent: SdgAttribute<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SectionNamePrefix | **Documented:**<br>Parent: ImplementationProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SecureOnBoardCommunicationNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SecurityEventContextProps | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SecurityEventDefinition | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SenderAnnotation | **Documented:**<br>Parent: SenderReceiverAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SenderReceiverAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SenderReceiverCompositeElementToSignalMapping | **Documented:**<br>Parent: DataMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SeparateSignalPath | **Documented:**<br>Parent: SignalPathConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ServiceInstanceCollectionSet | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ShortNameFragment | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SignalPathConstraint | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SignalServiceTranslationElementProps | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SignalServiceTranslationEventProps | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SignalServiceTranslationProps | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SignalServiceTranslationPropsSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SimulatedExecutionTime | **Documented:**<br>Parent: ExecutionTime<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SingleLanguageLongName | **Documented:**<br>Parent: MixedContentForLongName<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SingleLanguageReferrable | **Documented:**<br>Parent: Referrable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SlOverviewParagraph | **Documented:**<br>Parent: MixedContentForOverviewParagraph<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SlParagraph | **Documented:**<br>Parent: MixedContentForParagraph<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SoConIPduIdentifier | **Documented:**<br>Parent: Referrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SocketConnectionIpduIdentifierSet | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipSdClientEventGroupTimingConfig | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipSdClientServiceInstanceConfig | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipSdServerEventGroupTimingConfig | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipSdServerServiceInstanceConfig | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipServiceVersion | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipTpChannel | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SomeipTpConnection | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SporadicEventTriggering | **Documented:**<br>Parent: EventTriggeringConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StateDependentFirewall | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StaticSocketConnection | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Std | **Documented:**<br>Parent: SingleLanguageReferrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterIEEE1722Tp | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterIpv4Address | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterIpv6Address | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterMACAddress | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterPortRange | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterRuleDataLinkLayer | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StreamFilterRuleIpTp | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | StructuredReq | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SubElementMapping | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SubElementRef | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SupervisedEntityCheckpointNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SupervisedEntityNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwAxisCont | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwAxisType | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwBitRepresentation | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwCalprmRefProxy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwComponentPrototypeAssignment | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwDataDependency | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwDataDependencyArgs | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwGenericAxisParamType | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwSystemconstDependentFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SwSystemconstValue | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwVariableRefProxy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcBswSynchronizedModeGroupPrototype | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcBswSynchronizedTrigger | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcExclusiveAreaPolicy | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcModeManagerErrorEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcServiceDependencyInSystemInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcSupportedFeature | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | SwcToApplicationPartitionMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcToSwcOperationArguments | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwcToSwcSignal | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchAsynchronousTrafficShaperGroupEntry | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchFlowMeteringEntry | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchStreamFilterActionDestPortModification | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchStreamFilterEntry | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchStreamFilterRule | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchStreamGateEntry | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SwitchStreamIdentification | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SymbolicNameProps | **Documented:**<br>Parent: ImplementationProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SyncTimeBaseMgrUserNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SynchronizationPointConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SynchronizationTimingConstraint | **Documented:**<br>Parent: TimingConstraint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SystemSignalGroupToCommunicationResourceMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SystemSignalToCommunicationResourceMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | SystemTiming | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDCpSoftwareClusterMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDCpSoftwareClusterMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDCpSoftwareClusterResourceMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventBsw | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventBswInternalBehavior | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventBswModeDeclaration | **Documented:**<br>Parent: TDEventBsw<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventBswModule | **Documented:**<br>Parent: TDEventBsw<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventCom | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventComplex | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventCycleStart | **Documented:**<br>Parent: TDEventCom<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventFrClusterCycleStart | **Documented:**<br>Parent: TDEventCycleStart<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventFrame | **Documented:**<br>Parent: TDEventCom<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventFrameEthernet | **Documented:**<br>Parent: TDEventCom<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventIPdu | **Documented:**<br>Parent: TDEventCom<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventISignal | **Documented:**<br>Parent: TDEventCom<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventModeDeclaration | **Documented:**<br>Parent: TDEventVfbPort<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventOccurrenceExpression | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventOccurrenceExpressionFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventOperation | **Documented:**<br>Parent: TDEventVfbPort<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventSLLET | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventSLLETPort | **Documented:**<br>Parent: TDEventSLLET<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventSwc | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventSwcInternalBehavior | **Documented:**<br>Parent: TDEventSwc<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventSwcInternalBehaviorReference | **Documented:**<br>Parent: TDEventSwc<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventTTCanCycleStart | **Documented:**<br>Parent: TDEventCycleStart<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventTrigger | **Documented:**<br>Parent: TDEventVfbPort<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventVariableDataPrototype | **Documented:**<br>Parent: TDEventVfbPort<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDEventVfb | **Documented:**<br>Parent: TimingDescriptionEvent<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventVfbPort | **Documented:**<br>Parent: TDEventVfb<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TDEventVfbReference | **Documented:**<br>Parent: TDEventVfb<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TDHeaderIdRange | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Table | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TagWithOptionalValue | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Tbody | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TcpIpIcmpv4Props | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TcpIpIcmpv6Props | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TcpOptionFilterList | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TcpOptionFilterSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TcpProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TextTableValuePair | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Tgroup | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimeValueValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimingClockSyncAccuracy | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimingCondition | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimingConditionFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimingDescription | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TimingDescriptionEvent | **Documented:**<br>Parent: TimingDescription<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TimingDescriptionEventChain | **Documented:**<br>Parent: TimingDescription<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimingExtensionResource | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TimingModeInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TlsCryptoCipherSuite | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TlsCryptoCipherSuiteProps | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TlsPskIdentity | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TlvDataIdDefinition | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TlvDataIdDefinitionSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Topic1 | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TopicContent | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TopicContentOrMsrQuery | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TopicOrMsrQuery | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Traceable | **Documented:**<br>Parent: MultilanguageReferrable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TraceableText | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TracedFailure | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TransformationProps | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TransformationPropsSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TransformerHardErrorEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TransientFault | **Documented:**<br>Parent: TracedFailure<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TransmissionComSpecProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TriggerIPduSendCondition | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TriggerInAtomicSwcInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | TriggerInSystemInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TriggerPortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TriggerToSignalMapping | **Documented:**<br>Parent: DataMapping<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Tt | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TtcanAbsolutelyScheduledTiming | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TtcanCluster | **Documented:**<br>Parent: AbstractCanCluster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TtcanCommunicationConnector | **Documented:**<br>Parent: AbstractCanCommunicationConnector<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TtcanCommunicationController | **Documented:**<br>Parent: AbstractCanCommunicationController<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | TtcanPhysicalChannel | **Documented:**<br>Parent: AbstractCanPhysicalChannel<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UdpProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UnassignFrameId | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UnlimitedIntegerValueVariationPoint | **Documented:**<br>Parent: AttributeValueVariationPoint<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedCluster | **Documented:**<br>Parent: CommunicationCluster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedCommunicationConnector | **Documented:**<br>Parent: CommunicationConnector<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedCommunicationController | **Documented:**<br>Parent: CommunicationController<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedEthernetFrame | **Documented:**<br>Parent: AbstractEthernetFrame<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedGlobalTimeMaster | **Documented:**<br>Parent: GlobalTimeMaster<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedGlobalTimeSlave | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedPhysicalChannel | **Documented:**<br>Parent: PhysicalChannel<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedTransformationDescription | **Documented:**<br>Parent: TransformationDescription<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedTransformationISignalProps | **Documented:**<br>Parent: TransformationISignalProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | UserDefinedTransformationProps | **Documented:**<br>Parent: TransformationProps<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | V2xDataManagerNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | V2xFacUserNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | V2xMUserNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ValueGroup | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | VariableDataPrototypeInCompositionInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | VariationPointProxy | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | VendorSpecificServiceNeeds | **Documented:**<br>Parent: ServiceNeeds<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | VfbTiming | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ViewMap | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ViewMapSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | WaitPoint | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | WarningIndicatorRequestedBitNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | WhitespaceControlled | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | WorstCaseHeapUsage | **Documented:**<br>Parent: HeapUsage<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Xdoc | **Documented:**<br>Parent: SingleLanguageReferrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Xfile | **Documented:**<br>Parent: SingleLanguageReferrable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | Xref | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | XrefTarget | **Documented:**<br>Parent: SingleLanguageReferrable<br>Type: Concrete | Class not found in source code |
+
+## Hierarchy Mismatches
+
+| Status | Class | Hierarchy | Notes |
+|--------|-------|-----------|-------|
+| ⚠ MISMATCH | ARPackage | **Documented:**<br>Parent: CollectableElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected CollectableElement, got Identifiable) |
+| ⚠ MISMATCH | AUTOSAR | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: AbstractAUTOSAR<br>Type: Concrete | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
+| ⚠ MISMATCH | AbstractAccessPoint | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | AbstractImplementationDataTypeElement | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | AbstractProvidedPortPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Abstract<br><br>**Actual:**<br>Parent: PortPrototype<br>Type: Abstract | parent mismatch (expected AtpPrototype, got PortPrototype) |
+| ⚠ MISMATCH | AbstractRequiredPortPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Abstract<br><br>**Actual:**<br>Parent: PortPrototype<br>Type: Abstract | parent mismatch (expected AtpPrototype, got PortPrototype) |
+| ⚠ MISMATCH | AnyInstanceRef | **Documented:**<br>Parent: AtpInstanceRef<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpInstanceRef, got ARObject) |
+| ⚠ MISMATCH | ApplicationValueSpecification | **Documented:**<br>Parent: ValueSpecification<br>Type: Concrete<br><br>**Actual:**<br>Parent: CompositeRuleBasedValueArgument<br>Type: Concrete | parent mismatch (expected ValueSpecification, got CompositeRuleBasedValueArgument) |
+| ⚠ MISMATCH | ArVariableInImplementationDataInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: AtpInstanceRef<br>Type: Concrete | parent mismatch (expected ARObject, got AtpInstanceRef) |
+| ⚠ MISMATCH | ArrayValueSpecification | **Documented:**<br>Parent: CompositeValueSpecification<br>Type: Concrete<br><br>**Actual:**<br>Parent: ValueSpecification<br>Type: Concrete | parent mismatch (expected CompositeValueSpecification, got ValueSpecification) |
+| ⚠ MISMATCH | AssemblySwConnector | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: SwConnector<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got SwConnector) |
+| ⚠ MISMATCH | AsynchronousServerCallPoint | **Documented:**<br>Parent: AbstractAccessPoint<br>Type: Concrete<br><br>**Actual:**<br>Parent: ServerCallPoint<br>Type: Concrete | parent mismatch (expected AbstractAccessPoint, got ServerCallPoint) |
+| ⚠ MISMATCH | AsynchronousServerCallReturnsEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | AtomicSwComponentType | **Documented:**<br>Parent: AtpType<br>Type: Abstract<br><br>**Actual:**<br>Parent: SwComponentType<br>Type: Concrete | parent mismatch (expected AtpType, got SwComponentType), abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | AtpType | **Documented:**<br>Parent: AtpClassifier<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARElement<br>Type: Abstract | parent mismatch (expected AtpClassifier, got ARElement) |
+| ⚠ MISMATCH | BackgroundEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | BswModuleDescription | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got ARElement) |
+| ⚠ MISMATCH | BswModuleEntry | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
+| ⚠ MISMATCH | CanTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: TpConfig<br>Type: Concrete | parent mismatch (expected FibexElement, got TpConfig) |
+| ⚠ MISMATCH | ClientServerInterface | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: PortInterface<br>Type: Concrete | parent mismatch (expected AtpType, got PortInterface) |
+| ⚠ MISMATCH | ClientServerOperation | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: AtpFeature<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got AtpFeature) |
+| ⚠ MISMATCH | CollectableElement | **Documented:**<br>Parent: Identifiable<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARObject<br>Type: Abstract | parent mismatch (expected Identifiable, got ARObject) |
+| ⚠ MISMATCH | CompositionSwComponentType | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: SwComponentType<br>Type: Concrete | parent mismatch (expected AtpType, got SwComponentType) |
+| ⚠ MISMATCH | CompuMethod | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
+| ⚠ MISMATCH | CompuScale | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: Compu<br>Type: Concrete | parent mismatch (expected ARObject, got Compu) |
+| ⚠ MISMATCH | DataConstr | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got Identifiable) |
+| ⚠ MISMATCH | DataInterface | **Documented:**<br>Parent: AtpType<br>Type: Abstract<br><br>**Actual:**<br>Parent: PortInterface<br>Type: Abstract | parent mismatch (expected AtpType, got PortInterface) |
+| ⚠ MISMATCH | DataReceiveErrorEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | DataReceivedEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | DataSendCompletedEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | DataTypeMappingSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
+| ⚠ MISMATCH | DataWriteCompletedEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | DelegationSwConnector | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: SwConnector<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got SwConnector) |
+| ⚠ MISMATCH | DiagnosticServiceTable | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected DiagnosticCommonElement, got ARElement) |
+| ⚠ MISMATCH | DoIpTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: TpConfig<br>Type: Concrete | parent mismatch (expected FibexElement, got TpConfig) |
+| ⚠ MISMATCH | Documentation | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected ARElement, got ARObject) |
+| ⚠ MISMATCH | EcucAbstractConfigurationClass | **Documented:**<br>Parent: ARObject<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | EcucConditionFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected FormulaExpression, got ARObject) |
+| ⚠ MISMATCH | EcucContainerDef | **Documented:**<br>Parent: EcucDefinitionElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: EcucDefinitionElement<br>Type: Concrete | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | EcucContainerValue | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected Identifiable, got ARElement) |
+| ⚠ MISMATCH | EcucDefinitionCollection | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARObject) |
+| ⚠ MISMATCH | EcucDefinitionElement | **Documented:**<br>Parent: Identifiable<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | EcucDestinationUriDefSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got Identifiable) |
+| ⚠ MISMATCH | EcucLinkerSymbolDef | **Documented:**<br>Parent: EcucAbstractStringParamDef<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected EcucAbstractStringParamDef, got Identifiable) |
+| ⚠ MISMATCH | EcucModuleDef | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: EcucDefinitionElement<br>Type: Concrete | parent mismatch (expected AtpDefinition, got EcucDefinitionElement) |
+| ⚠ MISMATCH | EcucParamConfContainerDef | **Documented:**<br>Parent: EcucContainerDef<br>Type: Concrete<br><br>**Actual:**<br>Parent: None<br>Type: Concrete | parent mismatch (expected EcucContainerDef, got None) |
+| ⚠ MISMATCH | EcucParameterDerivationFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected FormulaExpression, got ARObject) |
+| ⚠ MISMATCH | EcucQuery | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Identifiable, got ARObject) |
+| ⚠ MISMATCH | EndToEndProtectionSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected ARElement, got Identifiable) |
+| ⚠ MISMATCH | ExternalTriggeringPointIdent | **Documented:**<br>Parent: IdentCaption<br>Type: Concrete<br><br>**Actual:**<br>Parent: AbstractAccessPoint<br>Type: Concrete | parent mismatch (expected IdentCaption, got AbstractAccessPoint) |
+| ⚠ MISMATCH | FibexElement | **Documented:**<br>Parent: PackageableElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected PackageableElement, got Identifiable) |
+| ⚠ MISMATCH | FlatMap | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
+| ⚠ MISMATCH | Frame | **Documented:**<br>Parent: FibexElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected FibexElement, got Identifiable) |
+| ⚠ MISMATCH | GeneralPurposePdu | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Pdu<br>Type: Concrete | parent mismatch (expected FibexElement, got Pdu) |
+| ⚠ MISMATCH | HwAttributeLiteralDef | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected Identifiable, got ARElement) |
+| ⚠ MISMATCH | HwAttributeValue | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected ARObject, got ARElement) |
+| ⚠ MISMATCH | HwCategory | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARElement) |
+| ⚠ MISMATCH | HwDescriptionEntity | **Documented:**<br>Parent: Referrable<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected Referrable, got ARElement), abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | HwElementConnector | **Documented:**<br>Parent: Describable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected Describable, got ARElement) |
+| ⚠ MISMATCH | HwPin | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: HwDescriptionEntity<br>Type: Concrete | parent mismatch (expected Identifiable, got HwDescriptionEntity) |
+| ⚠ MISMATCH | HwPinGroup | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: HwDescriptionEntity<br>Type: Concrete | parent mismatch (expected Identifiable, got HwDescriptionEntity) |
+| ⚠ MISMATCH | HwType | **Documented:**<br>Parent: HwDescriptionEntity<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected HwDescriptionEntity, got ARElement) |
+| ⚠ MISMATCH | IPdu | **Documented:**<br>Parent: FibexElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Pdu<br>Type: Abstract | parent mismatch (expected FibexElement, got Pdu) |
+| ⚠ MISMATCH | IdentCaption | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | Implementation | **Documented:**<br>Parent: ARElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: PackageableElement<br>Type: Abstract | parent mismatch (expected ARElement, got PackageableElement) |
+| ⚠ MISMATCH | InitEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | InternalBehavior | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | InternalTriggerOccurredEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | LLongName | **Documented:**<br>Parent: MixedContentForLongName<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForLongName, got LanguageSpecific) |
+| ⚠ MISMATCH | LOverviewParagraph | **Documented:**<br>Parent: MixedContentForOverviewParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForOverviewParagraph, got LanguageSpecific) |
+| ⚠ MISMATCH | LParagraph | **Documented:**<br>Parent: MixedContentForParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForParagraph, got LanguageSpecific) |
+| ⚠ MISMATCH | LPlainText | **Documented:**<br>Parent: MixedContentForPlainText<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForPlainText, got LanguageSpecific) |
+| ⚠ MISMATCH | LinTpConfig | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: TpConfig<br>Type: Concrete | parent mismatch (expected FibexElement, got TpConfig) |
+| ⚠ MISMATCH | MlFormula | **Documented:**<br>Parent: Paginateable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Paginateable, got ARObject) |
+| ⚠ MISMATCH | ModeDeclaration | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | ModeDeclarationGroup | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpType, got Identifiable) |
+| ⚠ MISMATCH | ModeDeclarationGroupPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpPrototype, got Identifiable) |
+| ⚠ MISMATCH | ModeDeclarationMapping | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | ModeDeclarationMappingSet | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpType, got ARElement) |
+| ⚠ MISMATCH | ModeSwitchInterface | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: PortInterface<br>Type: Concrete | parent mismatch (expected AtpType, got PortInterface) |
+| ⚠ MISMATCH | ModeSwitchSenderComSpec | **Documented:**<br>Parent: PPortComSpec<br>Type: Concrete<br><br>**Actual:**<br>Parent: RPortComSpec<br>Type: Concrete | parent mismatch (expected PPortComSpec, got RPortComSpec) |
+| ⚠ MISMATCH | ModeSwitchedAckEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | MultiLanguageParagraph | **Documented:**<br>Parent: Paginateable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Paginateable, got ARObject) |
+| ⚠ MISMATCH | NmPdu | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Pdu<br>Type: Concrete | parent mismatch (expected FibexElement, got Pdu) |
+| ⚠ MISMATCH | NumericalValueVariationPoint | **Documented:**<br>Parent: AbstractNumericalVariationPoint<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AbstractNumericalVariationPoint, got ARObject) |
+| ⚠ MISMATCH | NvDataInterface | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: DataInterface<br>Type: Concrete | parent mismatch (expected AtpType, got DataInterface) |
+| ⚠ MISMATCH | OperationInvokedEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | PRPortPrototype | **Documented:**<br>Parent: AbstractRequiredPortPrototype<br>Type: Concrete<br><br>**Actual:**<br>Parent: PortPrototype<br>Type: Concrete | parent mismatch (expected AbstractRequiredPortPrototype, got PortPrototype) |
+| ⚠ MISMATCH | PackageableElement | **Documented:**<br>Parent: CollectableElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected CollectableElement, got Identifiable) |
+| ⚠ MISMATCH | Paginateable | **Documented:**<br>Parent: DocumentViewSelectable<br>Type: Abstract<br><br>**Actual:**<br>Parent: DocumentViewSelectable<br>Type: Concrete | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | ParameterInterface | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: DataInterface<br>Type: Concrete | parent mismatch (expected AtpType, got DataInterface) |
+| ⚠ MISMATCH | ParameterProvideComSpec | **Documented:**<br>Parent: PPortComSpec<br>Type: Concrete<br><br>**Actual:**<br>Parent: RPortComSpec<br>Type: Concrete | parent mismatch (expected PPortComSpec, got RPortComSpec) |
+| ⚠ MISMATCH | PassThroughSwConnector | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: SwConnector<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got SwConnector) |
+| ⚠ MISMATCH | PerInstanceMemory | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | PortGroup | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | PortInterfaceMapping | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpBlueprintable, got Identifiable) |
+| ⚠ MISMATCH | PortInterfaceMappingSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
+| ⚠ MISMATCH | PortPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpPrototype, got Identifiable) |
+| ⚠ MISMATCH | PortPrototypeBlueprint | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got ARElement) |
+| ⚠ MISMATCH | PostBuildVariantCriterion | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARObject) |
+| ⚠ MISMATCH | PredefinedVariant | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected ARElement, got ARObject) |
+| ⚠ MISMATCH | RTEEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: AbstractEvent<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got AbstractEvent) |
+| ⚠ MISMATCH | RootSwCompositionPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpPrototype, got Identifiable) |
+| ⚠ MISMATCH | SecureCommunicationPropsSet | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected FibexElement, got Identifiable) |
+| ⚠ MISMATCH | SenderReceiverInterface | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: DataInterface<br>Type: Concrete | parent mismatch (expected AtpType, got DataInterface) |
+| ⚠ MISMATCH | ServiceDependency | **Documented:**<br>Parent: ARObject<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected ARObject, got Identifiable) |
+| ⚠ MISMATCH | SingleLanguageUnitNames | **Documented:**<br>Parent: MixedContentForUnitNames<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARLiteral<br>Type: Concrete | parent mismatch (expected MixedContentForUnitNames, got ARLiteral) |
+| ⚠ MISMATCH | SoAdRoutingGroup | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected FibexElement, got Identifiable) |
+| ⚠ MISMATCH | SwAddrMethod | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got Identifiable) |
+| ⚠ MISMATCH | SwComponentPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpPrototype, got Identifiable) |
+| ⚠ MISMATCH | SwComponentType | **Documented:**<br>Parent: AtpType<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARElement<br>Type: Abstract | parent mismatch (expected AtpType, got ARElement) |
+| ⚠ MISMATCH | SwConnector | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | SwSystemconst | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARObject) |
+| ⚠ MISMATCH | SwSystemconstantValueSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected ARElement, got ARObject) |
+| ⚠ MISMATCH | SwcBswMapping | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | SwcModeSwitchEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | SwcServiceDependency | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ServiceDependency<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got ServiceDependency) |
+| ⚠ MISMATCH | SwcTiming | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: TimingExtension<br>Type: Concrete | parent mismatch (expected ARElement, got TimingExtension) |
+| ⚠ MISMATCH | SynchronousServerCallPoint | **Documented:**<br>Parent: AbstractAccessPoint<br>Type: Concrete<br><br>**Actual:**<br>Parent: ServerCallPoint<br>Type: Concrete | parent mismatch (expected AbstractAccessPoint, got ServerCallPoint) |
+| ⚠ MISMATCH | System | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got ARElement) |
+| ⚠ MISMATCH | TimeSyncServerConfiguration | **Documented:**<br>Parent: Referrable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Referrable, got ARObject) |
+| ⚠ MISMATCH | TimingConstraint | **Documented:**<br>Parent: Traceable<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected Traceable, got Identifiable) |
+| ⚠ MISMATCH | TimingEvent | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: RTEEvent<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got RTEEvent) |
+| ⚠ MISMATCH | TimingExtension | **Documented:**<br>Parent: ARElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected ARElement, got Identifiable) |
+| ⚠ MISMATCH | Trigger | **Documented:**<br>Parent: AtpStructureElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpStructureElement, got Identifiable) |
+| ⚠ MISMATCH | TriggerInterface | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: PortInterface<br>Type: Concrete | parent mismatch (expected AtpType, got PortInterface) |
+| ⚠ MISMATCH | UserDefinedPdu | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Pdu<br>Type: Concrete | parent mismatch (expected FibexElement, got Pdu) |
+| ⚠ MISMATCH | VariableAccess | **Documented:**<br>Parent: AbstractAccessPoint<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AbstractAccessPoint, got Identifiable) |
 
 ## Extra Classes (Not Documented)
 
-| Status | Class | Documented (Parent, Abstract) | Actual (Parent, Abstract) | Notes |
-|--------|-------|-------------------------------|---------------------------|-------|
-| + EXTRA | ARBoolean | N/A, N/A | ARType, False | Class exists but not documented |
-| + EXTRA | AREnum | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | ARFloat | N/A, N/A | ARNumerical, False | Class exists but not documented |
-| + EXTRA | ARList | N/A, N/A | Paginateable, False | Class exists but not documented |
-| + EXTRA | ARLiteral | N/A, N/A | ARType, False | Class exists but not documented |
-| + EXTRA | ARNumerical | N/A, N/A | ARType, False | Class exists but not documented |
-| + EXTRA | ARPositiveInteger | N/A, N/A | ARNumerical, False | Class exists but not documented |
-| + EXTRA | ARType | N/A, N/A | ABC, False | Class exists but not documented |
-| + EXTRA | AUTOSARDoc | N/A, N/A | AbstractAUTOSAR, False | Class exists but not documented |
-| + EXTRA | AbstractAUTOSAR | N/A, N/A | CollectableElement, False | Class exists but not documented |
-| + EXTRA | ArgumentDirectionEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | AutoCollectEnum | N/A, N/A | Enum, False | Class exists but not documented |
-| + EXTRA | Boolean | N/A, N/A | ARBoolean, False | Class exists but not documented |
-| + EXTRA | BswApiOptions | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | BswCallType | N/A, N/A | str, False | Class exists but not documented |
-| + EXTRA | BswDataReceptionPolicy | N/A, N/A | BswApiOptions, False | Class exists but not documented |
-| + EXTRA | BswEntryKindEnum | N/A, N/A | str, False | Class exists but not documented |
-| + EXTRA | BswExecutionContext | N/A, N/A | str, False | Class exists but not documented |
-| + EXTRA | BswInterruptCategory | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | BswQueuedDataReceptionPolicy | N/A, N/A | BswDataReceptionPolicy, False | Class exists but not documented |
-| + EXTRA | ByteOrderEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | CIdentifier | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | CategoryString | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | CommunicationDirectionType | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | CycleRepetitionType | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DataFilterTypeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DataIdModeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DataTransformationKindEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DateTime | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | DiagRequirementIdString | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | DiagnosticAudienceEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DiagnosticClearDtcNotificationEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DiagnosticProcessingStyleEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DiagnosticRoutineTypeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DiagnosticServiceRequestCallbackTypeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DiagnosticValueAccessEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DtcFormatTypeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | DtcKindEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | EcucConfigurationClassEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | EcucConfigurationVariantEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | EcucDestinationUriDefRefType | N/A, N/A | RefType, False | Class exists but not documented |
-| + EXTRA | EcucScopeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | EcucSymbolicNameReferenceDef | N/A, N/A | EcucAbstractInternalReferenceDef, False | Class exists but not documented |
-| + EXTRA | EndToEndProfileBehaviorEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | FlexrayChannelName | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | Float | N/A, N/A | ARFloat, False | Class exists but not documented |
-| + EXTRA | GraphicFitEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | HandleInvalidEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | IPduSignalProcessingEnum | N/A, N/A | Enum, False | Class exists but not documented |
-| + EXTRA | ISignalPort | N/A, N/A | CommConnectorPort, False | Class exists but not documented |
-| + EXTRA | Identifier | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | Integer | N/A, N/A | ARNumerical, False | Class exists but not documented |
-| + EXTRA | Ip4AddressString | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | Ip6AddressString | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | KeywordSet | N/A, N/A | ARElement, False | Class exists but not documented |
-| + EXTRA | LEnum | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | Limit | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | ListEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | MacAddressString | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | ModeActivationKind | N/A, N/A | str, False | Class exists but not documented |
-| + EXTRA | NameToken | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | NvBlockNeedsReliabilityEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | NvBlockNeedsWritingPriorityEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | PduToFrameMapping | N/A, N/A | Identifiable, False | Class exists but not documented |
-| + EXTRA | PncGatewayTypeEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | PortPrototypeBlueprintInitValue | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | PositiveInteger | N/A, N/A | ARPositiveInteger, False | Class exists but not documented |
-| + EXTRA | PositiveUnlimitedInteger | N/A, N/A | ARPositiveInteger, False | Class exists but not documented |
-| + EXTRA | RamBlockStatusControlEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | ReentrancyLevelEnum | N/A, N/A | Enum, False | Class exists but not documented |
-| + EXTRA | RefType | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | ReferrableSubtypesEnum | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | RegularExpression | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | ResumePosition | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | RevisionLabelString | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | SdClientConfig | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | SdServerConfig | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | ServiceDiagnosticRelevanceEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | SocketConnectionBundle | N/A, N/A | Referrable, False | Class exists but not documented |
-| + EXTRA | SocketConnectionIpduIdentifier | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | String | N/A, N/A | ARLiteral, False | Class exists but not documented |
-| + EXTRA | SwDataDefPropsConditional | N/A, N/A | ARObject, False | Class exists but not documented |
-| + EXTRA | SwImplPolicyEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | SwServiceImplPolicyEnum | N/A, N/A | str, False | Class exists but not documented |
-| + EXTRA | TRefType | N/A, N/A | RefType, False | Class exists but not documented |
-| + EXTRA | TimeValue | N/A, N/A | ARFloat, False | Class exists but not documented |
-| + EXTRA | TransformerClassEnum | N/A, N/A | AREnum, False | Class exists but not documented |
-| + EXTRA | UnlimitedInteger | N/A, N/A | Integer, False | Class exists but not documented |
-| + EXTRA | VerbatimString | N/A, N/A | ARLiteral, False | Class exists but not documented |
+| Status | Class | Hierarchy | Notes |
+|--------|-------|-----------|-------|
+| + EXTRA | ARBoolean | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AREnum | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ARFloat | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ARList | **Actual:**<br>Parent: Paginateable<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ARLiteral | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ARNumerical | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ARPositiveInteger | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ARType | **Actual:**<br>Parent: None<br>Type: Abstract | Class exists but not documented |
+| + EXTRA | AUTOSARDoc | **Actual:**<br>Parent: AbstractAUTOSAR<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AbstractAUTOSAR | **Actual:**<br>Parent: CollectableElement<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ArgumentDirectionEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AutoCollectEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Boolean | **Actual:**<br>Parent: ARBoolean<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | BswApiOptions | **Actual:**<br>Parent: ARObject<br>Type: Abstract | Class exists but not documented |
+| + EXTRA | BswCallType | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | BswDataReceptionPolicy | **Actual:**<br>Parent: BswApiOptions<br>Type: Abstract | Class exists but not documented |
+| + EXTRA | BswEntryKindEnum | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | BswExecutionContext | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | BswInterruptCategory | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | BswQueuedDataReceptionPolicy | **Actual:**<br>Parent: BswDataReceptionPolicy<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ByteOrderEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | CIdentifier | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | CategoryString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | CommunicationDirectionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | CycleRepetitionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DataFilterTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DataIdModeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DataTransformationKindEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DateTime | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagRequirementIdString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagnosticAudienceEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagnosticClearDtcNotificationEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagnosticProcessingStyleEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagnosticRoutineTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagnosticServiceRequestCallbackTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DiagnosticValueAccessEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DtcFormatTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | DtcKindEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | EcucConfigurationClassEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | EcucConfigurationVariantEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | EcucDestinationUriDefRefType | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | EcucScopeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | EcucSymbolicNameReferenceDef | **Actual:**<br>Parent: EcucAbstractInternalReferenceDef<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | EndToEndProfileBehaviorEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | FlexrayChannelName | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Float | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | GraphicFitEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | HandleInvalidEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | IPduSignalProcessingEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ISignalPort | **Actual:**<br>Parent: CommConnectorPort<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Identifier | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Integer | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Ip4AddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Ip6AddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | KeywordSet | **Actual:**<br>Parent: ARElement<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | LEnum | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | Limit | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ListEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | MacAddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ModeActivationKind | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | NameToken | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | NvBlockNeedsReliabilityEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | NvBlockNeedsWritingPriorityEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | PduToFrameMapping | **Actual:**<br>Parent: Identifiable<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | PncGatewayTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | PortPrototypeBlueprintInitValue | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | PositiveInteger | **Actual:**<br>Parent: ARPositiveInteger<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | PositiveUnlimitedInteger | **Actual:**<br>Parent: ARPositiveInteger<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | RamBlockStatusControlEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ReentrancyLevelEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | RefType | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ReferrableSubtypesEnum | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | RegularExpression | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ResumePosition | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | RevisionLabelString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SdClientConfig | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SdServerConfig | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | ServiceDiagnosticRelevanceEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SocketConnectionBundle | **Actual:**<br>Parent: Referrable<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SocketConnectionIpduIdentifier | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | String | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SwDataDefPropsConditional | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SwImplPolicyEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | SwServiceImplPolicyEnum | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | TRefType | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | TimeValue | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | TransformerClassEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | UnlimitedInteger | **Actual:**<br>Parent: Integer<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | VerbatimString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
 
 ## Legend
 
