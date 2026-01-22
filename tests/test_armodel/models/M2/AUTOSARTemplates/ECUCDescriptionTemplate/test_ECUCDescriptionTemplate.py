@@ -4,12 +4,13 @@ These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemp
 """
 
 from src.armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
-    EcucValueCollection, EcucIndexableValue, EcucParameterValue, 
+    EcucValueCollection, EcucIndexableValue, EcucParameterValue,
     EcucAddInfoParamValue, EcucTextualParamValue, EcucNumericalParamValue,
     EcucAbstractReferenceValue, EcucInstanceReferenceValue, EcucReferenceValue,
     EcucContainerValue, EcucModuleConfigurationValues, EcucConditionSpecification,
-    EcucConfigurationVariantEnum, EcucModuleDef
+    EcucConfigurationVariantEnum
 )
+from src.armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
 from src.armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, CIdentifier, Limit
