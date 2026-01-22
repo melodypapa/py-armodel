@@ -1,4 +1,4 @@
-from abc import ABCMeta
+from abc import ABC
 from typing import List
 from colorama import Fore
 
@@ -13,12 +13,11 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit, RevisionLabelString
 
 
-class AbstractARXMLParser:
-    __metaclass__ = ABCMeta
-     
+class AbstractARXMLParser(ABC):
+
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLParser:
-            raise NotImplementedError("AbstractArxmlParser is an abstract class.")
+            raise TypeError("AbstractArxmlParser is an abstract class.")
         
         self.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
         self.options = {}

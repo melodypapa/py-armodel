@@ -1,5 +1,5 @@
 import sys
-from abc import ABCMeta
+from abc import ABC
 import re
 from xml.dom import minidom
 from colorama import Fore
@@ -13,12 +13,11 @@ from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Primit
 from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARBoolean
 
 
-class AbstractARXMLWriter:
-    __metaclass__ = ABCMeta
-     
+class AbstractARXMLWriter(ABC):
+
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLWriter:
-            raise NotImplementedError("AbstractARXMLWriter is an abstract class.")
+            raise TypeError("AbstractARXMLWriter is an abstract class.")
         
         self.options = {}
         self.options['warning'] = False

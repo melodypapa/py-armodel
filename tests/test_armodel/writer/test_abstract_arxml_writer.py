@@ -30,7 +30,7 @@ class ConcreteTestARObject(Identifiable):
 class TestAbstractARXMLWriter:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that AbstractARXMLWriter abstract class cannot be instantiated directly"""
-        with pytest.raises(NotImplementedError, match="AbstractARXMLWriter is an abstract class."):
+        with pytest.raises(TypeError, match="AbstractARXMLWriter is an abstract class."):
             AbstractARXMLWriter()
 
     def test_concrete_class_initialization_default_options(self):
