@@ -3,7 +3,7 @@
 Deviation Check Script for py-armodel
 
 This script checks for deviations between:
-1. The documented AUTOSAR M2 model structure (docs/requirements/software_components.md)
+1. The documented AUTOSAR M2 model structure (docs/requirements/autosar_models.md)
 2. The actual Python implementation (src/armodel/models/M2/)
 
 It generates a deviation report in docs/requirements/deviation.md
@@ -40,7 +40,7 @@ from typing import Dict, List, Set, Tuple, Optional
 
 def parse_requirements_md(file_path: str) -> List[Tuple[str, str]]:
     """
-    Parse the software_components.md file to extract the expected M2 hierarchy.
+    Parse the autosar_models.md file to extract the expected M2 hierarchy.
 
     Returns a list of tuples: (full_path, indent_level)
     """
@@ -335,7 +335,7 @@ def main():
     # Define paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    requirements_file = project_root / 'docs' / 'requirements' / 'software_components.md'
+    requirements_file = project_root / 'docs' / 'requirements' / 'autosar_models.md'
     source_dir = project_root / 'src'
     output_file = project_root / 'docs' / 'requirements' / 'deviation_package.md'
 
@@ -347,7 +347,7 @@ def main():
     print()
 
     # Step 1: Parse requirements
-    print("Step 1: Parsing requirements from software_components.md...")
+    print("Step 1: Parsing requirements from autosar_models.md...")
     requirements = parse_requirements_md(str(requirements_file))
     print(f"  Found {len(requirements)} elements in requirements")
 
