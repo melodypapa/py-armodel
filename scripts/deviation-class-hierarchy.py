@@ -3,7 +3,7 @@
 Class Hierarchy Deviation Check Script for py-armodel
 
 This script checks for deviations between:
-1. The documented AUTOSAR M2 class hierarchy (docs/requirements/software_components_hierarchy.md)
+1. The documented AUTOSAR M2 class hierarchy (docs/requirements/autosar_models_hierarchy.md)
 2. The actual Python implementation class hierarchy (src/armodel/models/M2/)
 
 It generates a deviation report in docs/requirements/deviation_class_hierarchy.md
@@ -23,7 +23,7 @@ from typing import Dict, List, Set, Tuple, Optional
 
 def parse_hierarchy_md(file_path: str) -> Dict[str, Tuple[str, bool]]:
     """
-    Parse the software_components_hierarchy.md file to extract the expected class hierarchy.
+    Parse the autosar_models_hierarchy.md file to extract the expected class hierarchy.
 
     Returns a dict: {class_name: (parent_class_name, is_abstract)}
     """
@@ -356,7 +356,7 @@ def main():
     # Define paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    hierarchy_file = project_root / 'docs' / 'requirements' / 'software_components_hierarchy.md'
+    hierarchy_file = project_root / 'docs' / 'requirements' / 'autosar_models_hierarchy.md'
     source_dir = project_root / 'src'
     output_file = project_root / 'docs' / 'requirements' / 'deviation_class_hierarchy.md'
 
@@ -368,7 +368,7 @@ def main():
     print()
 
     # Step 1: Parse documented hierarchy
-    print("Step 1: Parsing documented hierarchy from software_components_hierarchy.md...")
+    print("Step 1: Parsing documented hierarchy from autosar_models_hierarchy.md...")
     documented_hierarchy = parse_hierarchy_md(str(hierarchy_file))
     print(f"  Found {len(documented_hierarchy)} documented classes")
 
