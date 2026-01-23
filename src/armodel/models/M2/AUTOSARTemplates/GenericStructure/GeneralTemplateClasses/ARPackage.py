@@ -6,7 +6,14 @@ primary organizational unit for grouping related AUTOSAR model elements such as
 components, interfaces, data types, and other packages.
 """
 
-from typing import Dict, List, Optional  # Added Optional import which is used but not imported
+from typing import Dict, List, Optional, Any
+
+from .....M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from .....M2.MSR.AsamHdo.AdminData import AdminData
+from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from .....M2.MSR.Documentation.Annotation import Annotation
+from .....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
 from .....M2.MSR.AsamHdo.BaseTypes import SwBaseType
@@ -256,7 +263,7 @@ class ReferenceBase(ARObject):
         return self
 
 
-class ARPackage(Identifiable, CollectableElement):
+class ARPackage(CollectableElement):
     """
     Represents an AUTOSAR package, which is a container for organizing 
     AUTOSAR model elements hierarchically. ARPackage serves as the primary 
@@ -275,13 +282,214 @@ class ARPackage(Identifiable, CollectableElement):
             parent: The parent ARObject that contains this package
             short_name: The unique identifier for this package within its parent
         """
-        Identifiable.__init__(self, parent, short_name)
+        # Initialize CollectableElement (which inherits from ARObject)
         CollectableElement.__init__(self)
+        # Explicitly initialize ARObject attributes since CollectableElement doesn't call super().__init__()
+        ARObject.__init__(self)
+
+        # Referrable attributes (added directly since ARPackage doesn't inherit from Referrable)
+        self.parent = parent
+        self.short_name = short_name
+
+        # Identifiable attributes (added directly since ARPackage doesn't inherit from Identifiable)
+        self.longName: Optional[MultilanguageLongName] = None
+        self.annotations: List[Annotation] = []
+        self.adminData: Optional[AdminData] = None
+        self.category: Optional[CategoryString] = None
+        self.introduction: Optional[DocumentationBlock] = None
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
         # Dictionary mapping short names to sub-packages
         self.arPackages: Dict[str, 'ARPackage'] = {}
         # List of reference bases for this package
         self.referenceBases: List[ReferenceBase] = []
+
+    @property
+    def shortName(self) -> str:
+        """str: The short name of this ARPackage."""
+        return self.short_name
+
+    @shortName.setter
+    def shortName(self, value: str):
+        self.short_name = value
+
+    def getShortName(self) -> str:
+        """
+        Gets the short name of this ARPackage.
+        
+        Returns:
+            The short name of this ARPackage
+        """
+        return self.short_name
+    
+    def getParent(self) -> ARObject:
+        """
+        Gets the parent of this ARPackage.
+        
+        Returns:
+            The parent ARObject
+        """
+        return self.parent
+
+    @property
+    def full_name(self) -> str:
+        """
+        str: The full name of this ARPackage, including the parent's full name.
+        """
+        return self.parent.full_name + "/" + self.short_name
+
+    def getFullName(self) -> str:
+        """
+        Gets the full name of this ARPackage, including the parent's full name.
+        
+        Returns:
+            The full name of this ARPackage
+        """
+        return self.full_name
+
+    def getLongName(self) -> Optional[MultilanguageLongName]:
+        """
+        Gets the long name of this ARPackage.
+        
+        Returns:
+            MultilanguageLongName representing the long name, or None if not set
+        """
+        return self.longName
+
+    def setLongName(self, value: MultilanguageLongName) -> 'ARPackage':
+        """
+        Sets the long name of this ARPackage.
+        
+        Args:
+            value: The long name to set
+            
+        Returns:
+            self for method chaining
+        """
+        self.longName = value
+        return self
+
+    def getAdminData(self) -> Optional[AdminData]:
+        """
+        Gets the administrative data for this ARPackage.
+        
+        Returns:
+            AdminData instance, or None if not set
+        """
+        return self.adminData
+
+    def setAdminData(self, value: AdminData) -> 'ARPackage':
+        """
+        Sets the administrative data for this ARPackage.
+        Only sets the value if it is not None.
+        
+        Args:
+            value: The administrative data to set
+            
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.adminData = value
+        return self
+    
+    def removeAdminData(self) -> None:
+        """
+        Removes the administrative data for this ARPackage.
+        """
+        self.adminData = None
+
+    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
+        """
+        Gets the description for this ARPackage.
+        
+        Returns:
+            MultiLanguageOverviewParagraph instance, or None if not set
+        """
+        return self.desc
+
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> 'ARPackage':
+        """
+        Sets the description for this ARPackage.
+        
+        Args:
+            value: The description to set
+            
+        Returns:
+            self for method chaining
+        """
+        self.desc = value
+        return self
+
+    def getCategory(self) -> Optional[CategoryString]:
+        """
+        Gets the category for this ARPackage.
+        
+        Returns:
+            CategoryString instance, or None if not set
+        """
+        return self.category
+
+    def setCategory(self, value: Any) -> 'ARPackage':
+        """
+        Sets the category for this ARPackage.
+        If the value is a string, it will be converted to a CategoryString.
+        
+        Args:
+            value: The category to set
+            
+        Returns:
+            self for method chaining
+        """
+        if isinstance(value, str):
+            self.category = CategoryString().setValue(value)
+        else:
+            self.category = value
+        return self
+    
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        Gets the introduction documentation for this ARPackage.
+        
+        Returns:
+            DocumentationBlock instance, or None if not set
+        """
+        return self.introduction
+
+    def setIntroduction(self, value: DocumentationBlock) -> 'ARPackage':
+        """
+        Sets the introduction documentation for this ARPackage.
+        
+        Args:
+            value: The introduction documentation to set
+            
+        Returns:
+            self for method chaining
+        """
+        self.introduction = value
+        return self
+
+    def addAnnotation(self, annotation: Annotation) -> 'ARPackage':
+        """
+        Adds an annotation to this ARPackage.
+        
+        Args:
+            annotation: The annotation to add
+            
+        Returns:
+            self for method chaining
+        """
+        self.annotations.append(annotation)
+        return self
+
+    def getAnnotations(self) -> List[Annotation]:
+        """
+        Gets the list of annotations for this ARPackage.
+        
+        Returns:
+            List of Annotation instances
+        """
+        return self.annotations
 
     def getARPackages(self) -> List['ARPackage']:
         """

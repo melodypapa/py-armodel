@@ -6,9 +6,9 @@ py-armodel is a Python library for AUTOSAR model support. AUTOSAR (AUTomotive Op
 
 This project provides a complete ARXML (AUTOSAR XML) file parser and writer, supporting parsing and generation of various AUTOSAR elements. It implements various data structures, interfaces, components, and communication patterns defined in the AUTOSAR standard.
 
-**Current Version**: 1.9.0  
-**Python Requirement**: >= 3.5  
-**License**: MIT  
+**Current Version**: 1.9.0
+**Python Requirement**: >= 3.5
+**License**: MIT
 **Repository**: http://github.com/melodypapa/py-armodel
 
 ## Build, Lint, and Test Commands
@@ -70,6 +70,12 @@ This project provides a complete ARXML (AUTOSAR XML) file parser and writer, sup
 - Error logging via `self.logger.error()` when warning mode enabled
 - Use `self.raiseError()`, `self.notImplemented()`, `self.raiseWarning()` parser methods
 
+### Abstract Base Classes
+- Use `ABC` (Abstract Base Class) from `abc` module for abstract base classes
+- Use `@abstractmethod` decorator for abstract methods
+- Migrated from `ABCMeta` metaclass to `ABC` for better Python 3 compatibility
+- Example: `class MyAbstractClass(ABC):` instead of `class MyAbstractClass(metaclass=ABCMeta):`
+
 ## Architecture
 
 ### Project Structure
@@ -100,8 +106,26 @@ src/armodel/
 │   │   │   ├── ECUCDescriptionTemplate.py
 │   │   │   ├── ECUCParameterDefTemplate.py
 │   │   │   ├── CommonStructure/    # Common structure
+│   │   │   │   ├── ResourceConsumption/
+│   │   │   │   ├── StandardizationTemplate/
+│   │   │   │   ├── Timing/
 │   │   │   ├── BswModuleTemplate/  # BSW module template
+│   │   │   │   ├── BswBehavior.py
+│   │   │   │   ├── BswImplementation.py
+│   │   │   │   ├── BswInterfaces.py
+│   │   │   │   └── BswOverview.py
 │   │   │   ├── SWComponentTemplate/ # Software component template
+│   │   │   │   ├── Components/
+│   │   │   │   ├── Composition/
+│   │   │   │   ├── Datatype/
+│   │   │   │   ├── PortInterface/
+│   │   │   │   ├── SwcInternalBehavior/
+│   │   │   │   ├── Communication.py
+│   │   │   │   ├── EndToEndProtection.py
+│   │   │   │   ├── RPTScenario.py
+│   │   │   │   ├── SoftwareComponentDocumentation.py
+│   │   │   │   ├── SwcImplementation.py
+│   │   │   │   └── SwComponentType.py
 │   │   │   ├── SystemTemplate/     # System template
 │   │   │   ├── EcuResourceTemplate/ # ECU resource template
 │   │   │   ├── GenericStructure/   # Generic structure
@@ -131,12 +155,12 @@ src/armodel/
 - Layered architecture: models/ (M2 structure), parser/, writer/, cli/, lib/, data_models/, transformer/, report/
 - Test structure mirrors source structure (tests/models/ mirrors src/models/)
 - Use singleton pattern for `AUTOSAR` class via `getInstance()`
-- Abstract base classes use ABCMeta metaclass
+- Abstract base classes use `ABC` (Abstract Base Class) from `abc` module
 - Separation of concerns between parser and writer modules
 
 ### Core Modules
 - **parser.arxml_parser**: Main ARXML parser, based on `AbstractARXMLParser`
-- **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**: 
+- **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**:
   - `AUTOSAR` class: Singleton root object
   - `AbstractAUTOSAR` class: Provides basic AUTOSAR functionality
 - **writer.arxml_writer**: ARXML file writer
@@ -237,6 +261,8 @@ src/armodel/
 #### Service Needs
 - **General Service Needs**: ServiceNeeds, ServiceDependency, BswServiceDependency
 - **Specific Needs**: NvBlockNeeds, SupervisedEntityNeeds, ComMgrUserNeeds, EcuStateMgrUserNeeds, CryptoServiceNeeds, DltUserNeeds, SyncTimeBaseMgrUserNeeds, DiagnosticCapabilityElement, FunctionInhibitionNeeds, DoIpServiceNeeds, ErrorTracerNeeds, HardwareTestNeeds
+- **Diagnostic Needs**: DltUserNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds, DiagnosticEventNeeds, DiagnosticEventInfoNeeds, DtcStatusChangeNotificationNeeds
+- **Debounce Algorithms**: DiagEventDebounceAlgorithm, DiagEventDebounceCounterBased, DiagEventDebounceTimeBased, DiagEventDebounceMonitorInternal
 
 #### Miscellaneous
 - **Mode Declaration**: ModeDeclarationGroup, ModeDeclaration, ModeTransition, ModeErrorBehavior
@@ -336,11 +362,33 @@ tests/test_armodel/
 Test uses ARXML files from `test_files/` directory:
 - AUTOSAR_Datatypes.arxml
 - AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_ApplicationDataType_LifeCycle_Standard.arxml
 - AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml
+- AUTOSAR_MOD_AISpecification_Collection_Body_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_Collection_Chassis_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_Collection_MmedTelmHmi_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_Collection_OccptPedSfty_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_Collection_Pt_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_CompuMethod_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_DataConstr_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_DataConstr_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_Keyword_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_KeywordSet_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_PhysicalDimension_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_PhysicalDimension_Standard.arxml
+- AUTOSAR_MOD_AISpecification_PortInterface_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_PortInterface_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_PortPrototypeBlueprint_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_PortPrototypeBlueprint_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_SwComponentTypes_Blueprint.arxml
+- AUTOSAR_MOD_AISpecification_Unit_LifeCycle_Standard.arxml
+- AUTOSAR_MOD_AISpecification_Unit_Standard.arxml
 - BswM_Bswmd.arxml
+- BswMMode.arxml
 - CanSystem.arxml
 - SoftwareComponents.arxml
-- And many more...
+- SwRecordDemo.arxml
 
 ## Important Notes
 
@@ -352,5 +400,113 @@ Test uses ARXML files from `test_files/` directory:
 - Test folder structure must match source folder structure
 - CI supports Python 3.8, 3.9, 3.10, 3.11, and 3.12
 - Use singleton pattern for AUTOSAR class
-- Abstract base classes use ABCMeta metaclass
+- Abstract base classes use `ABC` from `abc` module (migrated from ABCMeta)
 - Separation of concerns between parser and writer modules
+- UUID checking is enabled to detect duplicate UUIDs in ARXML files
+- Same short names with different types can be added and located
+- Float numbers in scientific notation are properly handled
+- Boolean type values should not contain spaces
+
+## Recent Version History
+
+### Version 1.8.7
+- Correct the base class of the BswEvent
+- Export the RunnableEntity class
+- Add the more class support for getDestType
+
+### Version 1.8.6
+- Support NvProvideComSpec and NvRequireComSpec
+- Improve ParameterAccess
+
+### Version 1.8.5
+- Reorganize the SwConnector class
+- Raise error if short name of rootSwCompositionPrototype is invalid
+- Support NvProvideComSpec
+- Fix duplicate short name of ARPackage and other ARElements
+
+### Version 1.8.4
+- Support BSW-SYNCHRONOUS-SERVER-CALL-POINT and RETURN-TYPE
+- Add armodel-uuid-checker CLI tool
+- Remove spaces in boolean type values
+
+### Version 1.8.3
+- Support SHORT-LABEL for VALUE
+- Support MAX-DELTA-COUNTER-INIT, MAX-NO-NEW-OR-REPEATED-DATA, USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS, MASK
+
+### Version 1.8.2
+- Fix AUTOSAR XML schema issue
+
+### Version 1.8.1
+- Support MODE-DECLARATION-MAPPING-SET, MODE-INTERFACE-MAPPING
+- Support ECUC module definitions and parameter definitions
+- Support same short name with different type for adding and locating
+
+### Version 1.8.0
+- Support DLT-USER-NEEDS
+- Improve UUID check
+- Improve AbstractAUTOSAR find method to support dest validation
+- Add findXXX methods (findAtomicSwComponentType, findSystemSignal, etc.)
+
+### Version 1.7.9
+- Improve BSW-MODULE-DESCRIPTION, BSW-INTERNAL-BEHAVIOR, LIFE-CYCLE-INFO-SET, PHYSICAL-DIMENSION
+- Support ACTIVATION-POINTS, CALL-POINTS, LIFE-CYCLE-INFO, COLLECTION, KEYWORD-SET, FIGURE
+- Add API to set AUTOSAR release version and correct schema
+- Fix conversion for float number in scientific notation
+
+### Version 1.7.8
+- Support STATIC-MEMORYS, RECEPTION-POLICYS, VENDOR-API-INFIX, INCLUDED-MODE-DECLARATION-GROUP-SET, HW-ELEMENT, FLEXRAY-FRAME, TYPE-MAPPING, DATA-TRANSFORMATION-SET, FLEXRAY-COMMUNICATION-CONTROLLER, FLEXRAY-COMMUNICATION-CONNECTOR, FLEXRAY-PHYSICAL-CHANNEL, FLEXRAY-CLUSTER, BSW-OPERATION-INVOKED-EVENT
+- Enable Flake8 and fix issues
+- Add CompositionSwComponentType support in AUTOSAR root model
+- Add duplicate UUID check
+
+### Version 1.7.7
+- Support multiple new AUTOSAR elements including UDP-NM-CLUSTER, SECURED-I-PDU, MULTIPLEXED-I-PDU, BSW-BACKGROUND-EVENT, BSW-DATA-RECEIVED-EVENT, BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT, MODE-SWITCHED-ACK-EVENT, BACKGROUND-EVENT
+- Create mapping for Implementation and InternalBehavior
+- Improve Identifiable::setCategory with Raw String
+
+### Version 1.7.6
+- Support PROVIDED-SERVICE-INSTANCE, MAC-MULTICAST-GROUP, ASSOCIATED-COM-I-PDU-GROUP-REF, CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS, CAN-CONTROLLER-FD-REQUIREMENTS
+- Improve multiple AR elements
+
+### Version 1.7.5
+- Support DIAGNOSTIC-CONNECTION, DIAGNOSTIC-SERVICE-TABLE, LIN-MASTER, LIN-COMMUNICATION-CONNECTOR, UDP-NM-CLUSTER, UDP-NM-NODE, MULTIPLEXED-I-PDU, USER-DEFINED-I-PDU, USER-DEFINED-PDU, GENERAL-PURPOSE-I-PDU, GENERAL-PURPOSE-PDU, SECURE-COMMUNICATION-PROPS-SET, SO-AD-ROUTING-GROUP, BUS-OFF-RECOVERY, SCHEDULE-TABLES, INFRASTRUCTURE-SERVICES, GENERIC-TP, TCP-TP, UDP-TP, CONSUMED-SERVICE-INSTANCES
+
+### Version 1.7.4
+- Support DIAGNOSTIC-EVENT-INFO-NEEDS, AR-TYPED-PER-INSTANCE-MEMORYS, USED-DATA-ELEMENT, ETHERNET-COMMUNICATION-CONTROLLER, ETHERNET-COMMUNICATION-CONNECTOR, ETHERNET-PHYSICAL-CHANNEL, PHYSICAL-PROPS, SO-AD-CONFIG
+- Improve MODE-SWITCH-RECEIVER-COM-SPEC, APPLICATION-ARRAY-DATA-TYPE
+
+### Version 1.7.3
+- Support MEM-CLASS-SYMBOL, ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS, STEP-SIZE, BSW-INTERRUPT-ENTITY, FLAT-MAP, VARIABLE-AND-PARAMETER-INTERFACE-MAPPING, PORT-INTERFACE-MAPPING-SET, DATA-MAPPINGS, ECU-STATE-MGR-USER-NEEDS, STACK-USAGES, ROUGH-ESTIMATE-STACK-USAGE
+- Improve PARAMETER-INTERFACE
+
+### Version 1.7.2
+- Fix invalidationPolicy of SenderReceiverInterface
+- Support SW-ADDR-METHOD, DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS, DIAGNOSTIC-ROUTINE-NEEDS, DIAGNOSTIC-VALUE-NEEDS, DIAGNOSTIC-EVENT-NEEDS, CRYPTO-SERVICE-NEEDS, DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL, ROLE-BASED-DATA-TYPE-ASSIGNMENT, ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT, PR-PORT-PROTOTYPE
+
+### Version 1.7.1
+- Support INTRODUCTION, LIST, SW-INTENDED-RESOLUTION, REFERENCE-BASE
+
+### Version 1.7.0
+- Support SWC-TO-ECU-MAPPING, SW-MAPPINGS, ROOT-SOFTWARE-COMPOSITIONS, SPEED, ECU-INSTANCE, COMM-CONTROLLERS, CAN-COMMUNICATION-CONNECTOR, I-PDU-TIMING, DATA-FILTER, EVENT-CONTROLLED-TIMING
+
+### Version 1.6.4
+- Refactor Implementation
+- Fix Binary value
+- Refactor SwComponentType
+
+### Version 1.6.3
+- Change Package structure according to AUTOSAR standard
+
+### Version 1.6.2
+- Change AUTOSAR.clear() to AUTOSAR.new()
+- Fix several refactor methods issue
+
+### Version 1.6.1
+- Organize armodel package
+- Add Get/Set method for several classes
+
+### Version 1.6.0
+- Add annotation support for Identifiable class
+- Support ECUC elements (EcucValueCollection, EcucModuleConfigurationValues, EcucContainerValue, EcucParameterValue, EcucAbstractReferenceValue)
+- Support I-SIGNAL-GROUP, I-SIGNAL-I-PDU-GROUP, NM-CONFIG, NM-NODE, NM-CLUSTER, CAN-NM-MODE, NM-ECU, SECURED-I-PDU, MODE-SWITCH-POINTS
+- Create CLI (armodel-system-signal) to list all system signals

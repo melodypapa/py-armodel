@@ -5,12 +5,12 @@ and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 521 classes with correct hierarchy
+- ✓ **Match**: 522 classes with correct hierarchy
 - ✗ **Missing**: 893 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 110 classes with wrong parent/abstract
+- ⚠ **Hierarchy Mismatch**: 109 classes with wrong parent/abstract
 - + **Extra**: 88 undocumented classes
 - **Total Documented Classes**: 1524
-- **Total Deviations**: 1091
+- **Total Deviations**: 1090
 
 ## Missing Classes (Documented but Not Found)
 
@@ -914,7 +914,6 @@ and the actual Python implementation class hierarchy.
 
 | Status | Class | Hierarchy | Notes |
 |--------|-------|-----------|-------|
-| ⚠ MISMATCH | ARPackage | **Documented:**<br>Parent: CollectableElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected CollectableElement, got Identifiable) |
 | ⚠ MISMATCH | AUTOSAR | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: AbstractAUTOSAR<br>Type: Concrete | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
 | ⚠ MISMATCH | AbstractAccessPoint | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
 | ⚠ MISMATCH | AbstractImplementationDataTypeElement | **Documented:**<br>Parent: AtpStructureElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpStructureElement, got Identifiable) |
