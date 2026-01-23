@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
@@ -20,7 +21,7 @@ class SymbolProps(ImplementationProps):
         super().__init__(parent, short_name)
 
 
-class PortPrototype(Identifiable, ABC):
+class PortPrototype(AtpPrototype, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortPrototype:
             raise TypeError("PortPrototype is an abstract class.")
@@ -236,7 +237,7 @@ class PRPortPrototype(PortPrototype):
         return self
 
 
-class PortGroup(Identifiable):
+class PortGroup(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

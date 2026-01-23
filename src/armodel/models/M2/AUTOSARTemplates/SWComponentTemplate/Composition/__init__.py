@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import RPortInCompositionInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
@@ -22,7 +23,7 @@ class SwComponentPrototype(Identifiable):
         return self
 
 
-class SwConnector(Identifiable, ABC):
+class SwConnector(AtpStructureElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
             raise TypeError("SwConnector is an abstract class.")

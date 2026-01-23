@@ -10,6 +10,7 @@ from typing import List
 
 from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType, AtpFeature
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
@@ -17,8 +18,6 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveT
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -222,7 +221,7 @@ class ApplicationError(Identifiable):
         self.error_code: ARNumerical = None
 
 
-class ClientServerOperation(AtpFeature):
+class ClientServerOperation(AtpStructureElement):
     """
         An operation declared within the scope of a client/server interface.
         Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
@@ -518,7 +517,7 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
         return self
 
 
-class ModeDeclarationMapping(Identifiable):
+class ModeDeclarationMapping(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

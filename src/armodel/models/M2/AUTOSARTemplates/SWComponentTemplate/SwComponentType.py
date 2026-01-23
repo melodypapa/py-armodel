@@ -4,6 +4,7 @@ This module contains the SwComponentType base class for AUTOSAR software compone
 
 from abc import ABC
 from typing import List, TYPE_CHECKING
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
     from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, RPortPrototype, PRPortPrototype, PortPrototype, PortGroup
 
 
-class SwComponentType(ARElement, ABC):
+class SwComponentType(AtpType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwComponentType:
             raise TypeError("SwComponentType is an abstract class.")

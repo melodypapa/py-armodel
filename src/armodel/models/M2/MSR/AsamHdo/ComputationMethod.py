@@ -2,6 +2,7 @@ from typing import List
 from abc import ABC
 
 from ....M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, PositiveUnlimitedInteger, String
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -322,10 +323,10 @@ class CompuScales(CompuContent):
         return self.compuScales
 
 
-class CompuMethod(ARElement):
+class CompuMethod(AtpBlueprintable):
     """
     Represents a computation method for converting between internal and physical values.
-    Base: ARElement
+    Base: AtpBlueprintable
     """
     CATEGORY_TEXTTABLE = "TEXTTABLE"
 

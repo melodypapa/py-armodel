@@ -5,10 +5,10 @@ in software component internal behavior templates.
 
 from abc import ABC
 
-from ...GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ...GenericStructure.AbstractStructure import AtpStructureElement
 from ...GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-class AbstractAccessPoint(Identifiable, ABC):
+class AbstractAccessPoint(AtpStructureElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractAccessPoint:
             raise TypeError("ARObject is an abstract class.")

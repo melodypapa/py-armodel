@@ -1,6 +1,7 @@
 from abc import ABC
 from typing import List
 
+from ....models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Identifier, Limit
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, UnlimitedInteger
 from ....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression, String, VerbatimString
@@ -1309,7 +1310,7 @@ class EcucConditionFormula(ARObject):
         return self
 
 
-class EcucDefinitionCollection(ARObject):
+class EcucDefinitionCollection(AtpBlueprintable):
     """
     Represents an ECUC definition collection in the AUTOSAR model.
 
@@ -1318,8 +1319,8 @@ class EcucDefinitionCollection(ARObject):
     Attributes:
         definitions (List[EcucDefinitionElement]): A list of ECUC definition elements.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
         self.definitions: List[EcucDefinitionElement] = []
 
@@ -1357,7 +1358,7 @@ class EcucDestinationUriDef(Identifiable):
         return self
 
 
-class EcucDestinationUriDefSet(Identifiable):
+class EcucDestinationUriDefSet(AtpBlueprintable):
     """
     Represents an ECUC destination URI definition set in the AUTOSAR model.
 
