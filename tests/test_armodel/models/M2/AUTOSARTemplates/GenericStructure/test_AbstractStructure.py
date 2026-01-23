@@ -4,7 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef, AtpFeature, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef, AtpBlueprintable, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -185,20 +185,20 @@ class TestAnyInstanceRef:
         assert obj.getTargetRef() == ref
 
 
-class TestAtpFeature:
+class TestAtpBlueprintable:
     """
-    Test class for AtpFeature functionality.
+    Test class for AtpBlueprintable functionality.
     """
 
     def test_abstract_initialization(self):
         """
-        Test that AtpFeature cannot be instantiated directly (abstract class).
+        Test that AtpBlueprintable cannot be instantiated directly (abstract class).
         """
         try:
             parent = AUTOSAR.getInstance()
             ar_root = parent.createARPackage("AUTOSAR")
-            obj = AtpFeature(ar_root, "TestAtpFeature")
-            assert False, "AtpFeature should not be instantiable"
+            obj = AtpBlueprintable(ar_root, "TestAtpBlueprintable")
+            assert False, "AtpBlueprintable should not be instantiable"
         except TypeError:
             pass  # Expected behavior
 

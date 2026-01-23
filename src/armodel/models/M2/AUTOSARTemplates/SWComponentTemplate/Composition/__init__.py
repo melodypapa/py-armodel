@@ -1,6 +1,6 @@
 from abc import ABC
 from typing import List
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpPrototype
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import RPortInCompositionInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
@@ -9,7 +9,7 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject i
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
-class SwComponentPrototype(Identifiable):
+class SwComponentPrototype(AtpPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

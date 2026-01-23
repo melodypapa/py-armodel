@@ -1,7 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import PackageableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -97,7 +97,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         prototype = ArgumentDataPrototype(ar_root, "ArgumentDataPrototype")
 
         assert (isinstance(prototype, ARObject))
-        assert (isinstance(prototype, AtpFeature))
+        assert (isinstance(prototype, AtpBlueprintable))
         assert (isinstance(prototype, AtpPrototype))
         assert (isinstance(prototype, AutosarDataPrototype))
         assert (isinstance(prototype, DataPrototype))
@@ -131,7 +131,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         operation = ClientServerOperation(ar_root, "client_server_operation")
         assert (isinstance(operation, ARObject))
         # assert (isinstance(operation, AtpClassifier))
-        assert (isinstance(operation, AtpFeature))
+        assert (isinstance(operation, AtpBlueprintable))
         assert (isinstance(operation, Identifiable))
         assert (isinstance(operation, MultilanguageReferrable))
         assert (isinstance(operation, Referrable))

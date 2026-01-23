@@ -66,7 +66,7 @@ class Test_M2_AUTOSARTemplates_CommonStructure_ImplementationDataTypes:
         assert (isinstance(data_type, ARObject))
         assert (isinstance(data_type, AbstractImplementationDataTypeElement))
         # assert(isinstance(data_type, AtpClassifier))
-        # assert(isinstance(data_type, AtpFeature))
+        # assert(isinstance(data_type, AtpBlueprintable))
         # assert(isinstance(data_type, AtpStructureElement))
         assert (isinstance(data_type, Identifiable))
         assert (isinstance(data_type, MultilanguageReferrable))

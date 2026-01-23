@@ -7,7 +7,7 @@ used to map between different type representations.
 
 from typing import List
 from .....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType, AtpBlueprintable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
@@ -115,7 +115,7 @@ class DataTypeMap(ARObject):
         return self
 
 
-class DataTypeMappingSet(ARElement):
+class DataTypeMappingSet(AtpBlueprintable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

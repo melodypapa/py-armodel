@@ -166,30 +166,7 @@ class AtpType(AtpClassifier, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpFeature(Identifiable, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) feature elements.
-    
-    AtpFeature represents feature elements in the AUTOSAR system. Features
-    are structural elements that provide specific functionality or characteristics
-    to AUTOSAR models.
-    
-    This class extends Identifiable with feature-specific functionality.
-    
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpFeature is the parent of AtpPrototype, which in turn is the parent
-        of various AUTOSAR prototype definitions like PortPrototype, DataPrototype,
-        and SwComponentPrototype.
-    """
-    
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is AtpFeature:
-            raise TypeError("AtpFeature is an abstract class.")
-        super().__init__(parent, short_name)
-
-
-class AtpPrototype(AtpFeature, ABC):
+class AtpPrototype(AtpBlueprintable, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) prototype elements.
     
@@ -198,7 +175,7 @@ class AtpPrototype(AtpFeature, ABC):
     in AUTOSAR models. They serve as templates for creating specific occurrences
     of elements.
     
-    This class extends AtpFeature with prototype-specific functionality.
+    This class extends AtpBlueprintable with prototype-specific functionality.
     
     Note:
         This is an abstract class and cannot be instantiated directly.
@@ -218,15 +195,15 @@ class AtpPrototype(AtpFeature, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpStructureElement(AtpFeature, ABC):
+class AtpStructureElement(AtpBlueprintable, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) structure elements.
-    
+
     AtpStructureElement represents structural elements in the AUTOSAR system.
     These elements provide the fundamental structure for organizing and defining
     AUTOSAR models, including behaviors, operations, and other structural components.
-    
-    This class extends AtpFeature with structure-specific functionality.
+
+    This class extends AtpBlueprintable with structure-specific functionality.
     
     Note:
         This is an abstract class and cannot be instantiated directly.

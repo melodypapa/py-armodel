@@ -8,7 +8,7 @@ from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable, ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String, RevisionLabelString
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -289,7 +289,7 @@ class DependencyOnArtifact(Identifiable):
         return self
 
 
-class Implementation(PackageableElement, ABC):
+class Implementation(ARElement, ABC):
     """
     Abstract base class for implementations in AUTOSAR models.
     This class serves as a base for defining software implementations including code, compilers, dependencies, and resource consumption information.

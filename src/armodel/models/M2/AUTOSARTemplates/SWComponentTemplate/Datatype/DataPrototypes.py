@@ -11,14 +11,7 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveT
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from .....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpFeature
-
-class AtpPrototype(AtpFeature, ABC):
-    def __init__(self, parent:ARObject, short_name: str):
-        if type(self) == AtpPrototype:
-            raise TypeError("AtpPrototype is an abstract class.")
-
-        super().__init__(parent, short_name)
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 
 class DataPrototype(AtpPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
