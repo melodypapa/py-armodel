@@ -13,6 +13,7 @@ Classes:
 from typing import List
 
 from ......M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from ......M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
@@ -78,7 +79,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
         return self
 
 
-class PortPrototypeBlueprint(ARElement):
+class PortPrototypeBlueprint(AtpStructureElement):
     """
     Defines a blueprint for port prototypes in AUTOSAR standardization templates.
     This class provides a template for defining port prototypes that can be reused

@@ -1,4 +1,5 @@
 from typing import List
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Limit, RefType
@@ -41,10 +42,10 @@ class DataConstrRule(ARObject):
         self.physConstrs: PhysConstrs = None
 
 
-class DataConstr(Identifiable):
+class DataConstr(AtpBlueprintable):
     """
     Represents data constraints with multiple rules.
-    Base: Identifiable
+    Base: AtpBlueprintable
     """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

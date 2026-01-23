@@ -3,11 +3,12 @@ This module contains classes for representing AUTOSAR Run-Time Protection (RPT) 
 and access point identification elements in software component templates.
 """
 
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from abc import ABC
 
-class IdentCaption(Identifiable, ABC):
+class IdentCaption(AtpStructureElement, ABC):
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == IdentCaption:

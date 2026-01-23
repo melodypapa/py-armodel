@@ -5,6 +5,7 @@ hierarchies in a flat manner, typically used for code generation purposes.
 """
 
 from typing import List
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
@@ -150,7 +151,7 @@ class FlatInstanceDescriptor(Identifiable):
         return self
 
 
-class FlatMap(ARElement):
+class FlatMap(AtpBlueprintable):
     """
     Represents a flat map in AUTOSAR models.
     This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.

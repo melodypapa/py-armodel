@@ -9,14 +9,14 @@ from ....M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleCli
 from ....M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 from ....M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from ....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from typing import List
 
 
-class BswModuleDescription(ARElement):
+class BswModuleDescription(AtpStructureElement):
     """
     Represents the description of a single BSW module or BSW cluster in AUTOSAR.
     In case it describes a BSW module, the short name of this element equals the name of the BSW module.

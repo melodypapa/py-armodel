@@ -1,5 +1,6 @@
 from abc import ABC
 from typing import List
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String
 from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -9,7 +10,7 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import Autos
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
 
-class AbstractImplementationDataTypeElement(Identifiable, ABC):
+class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
     def __init__(self, parent, short_name: str):
         if type(self) is AbstractImplementationDataTypeElement:
             raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")

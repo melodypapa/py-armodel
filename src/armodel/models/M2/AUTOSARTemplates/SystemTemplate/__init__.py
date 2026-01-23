@@ -3,6 +3,7 @@
 
 from typing import List
 
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from ....M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping
 from ....M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
@@ -312,7 +313,7 @@ class SystemMapping(Identifiable):
         return self
 
 
-class RootSwCompositionPrototype(Identifiable):
+class RootSwCompositionPrototype(AtpPrototype):
     """
     Represents the root software composition prototype in the system,
     defining references to calibration parameter value sets, flat maps,
@@ -367,7 +368,7 @@ class J1939SharedAddressCluster(Identifiable):
         return self
 
 
-class System(ARElement):
+class System(AtpStructureElement):
     """
     Represents the top-level system in the AUTOSAR system template,
     organizing all system-level elements including ECU extractions,

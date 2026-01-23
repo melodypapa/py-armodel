@@ -7,6 +7,7 @@ including dependencies, module entries, and client-server interfaces.
 from typing import List
 from enum import Enum
 
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from ....M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from ....M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -163,7 +164,7 @@ class BswModuleDependency(Identifiable):
         return self
 
 
-class BswModuleEntry(ARElement):
+class BswModuleEntry(AtpBlueprintable):
     """
     Represents an entry point in a BSW module.
     This class defines how BSW module functions can be accessed and executed.

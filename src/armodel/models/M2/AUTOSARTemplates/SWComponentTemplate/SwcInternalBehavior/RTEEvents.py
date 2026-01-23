@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from .....M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
 from .....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
@@ -12,7 +13,7 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveT
 from typing import List
 
 
-class RTEEvent(AbstractEvent, ABC):
+class RTEEvent(AtpStructureElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is RTEEvent:
             raise TypeError("RTEEvent is an abstract class.")

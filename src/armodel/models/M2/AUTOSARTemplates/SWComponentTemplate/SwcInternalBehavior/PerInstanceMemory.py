@@ -3,12 +3,13 @@ This module contains classes for representing AUTOSAR per-instance memory elemen
 in software component internal behavior templates.
 """
 
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
-class PerInstanceMemory(Identifiable):
+class PerInstanceMemory(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

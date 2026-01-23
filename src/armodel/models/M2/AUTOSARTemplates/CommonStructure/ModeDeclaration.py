@@ -7,6 +7,7 @@ that software components or BSW modules can be in, along with transitions betwee
 from typing import List
 from enum import Enum
 
+from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, RefType, TRefType
@@ -117,7 +118,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         return self
 
 
-class ModeDeclaration(Identifiable):
+class ModeDeclaration(AtpStructureElement):
     """
     Represents a mode declaration in AUTOSAR models.
     Mode declarations define specific operational states that components can be in, with associated values.
@@ -224,7 +225,7 @@ class ModeRequestTypeMap(ARObject):
         return self
 
 
-class ModeDeclarationGroup(Identifiable):
+class ModeDeclarationGroup(AtpType):
     """
     Represents a mode declaration group in AUTOSAR models.
     Mode declaration groups define collections of related mode declarations and their initial state.
@@ -328,7 +329,7 @@ class ModeDeclarationGroup(Identifiable):
         return self.onTransitionValue
 
 
-class ModeDeclarationGroupPrototype(Identifiable):
+class ModeDeclarationGroupPrototype(AtpPrototype):
     """
     Represents a mode declaration group prototype in AUTOSAR models.
     The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
