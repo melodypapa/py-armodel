@@ -1,10 +1,11 @@
 from typing import List
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
 
-class Documentation(ARObject):
+class Documentation(ARElement):
     """
     Represents documentation in the AUTOSAR model.
 
@@ -15,8 +16,8 @@ class Documentation(ARObject):
         annotations (List[Annotation]): A list of annotations for the documentation.
         description (String): The description text.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
         self.annotations: List[Annotation] = []
         self.description: String = None

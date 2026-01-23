@@ -10,7 +10,7 @@ from typing import List
 
 from .....M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType, AtpFeature
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType, AtpBlueprintable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
@@ -225,7 +225,7 @@ class ClientServerOperation(AtpStructureElement):
     """
         An operation declared within the scope of a client/server interface.
         Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-        Base: ARObject, AtpClassifier , AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
+        Base: ARObject, AtpClassifier , AtpBlueprintable, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
 
         Attributes:
         -----------
@@ -328,7 +328,7 @@ class ModeSwitchInterface(PortInterface):
         return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name))
 
 
-class PortInterfaceMapping(Identifiable, ABC):
+class PortInterfaceMapping(AtpBlueprintable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterfaceMapping:
             raise TypeError("PortInterfaceMapping is an abstract class.")
@@ -541,7 +541,7 @@ class ModeDeclarationMapping(AtpStructureElement):
         return self
 
 
-class ModeDeclarationMappingSet(ARElement):
+class ModeDeclarationMappingSet(AtpType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -558,7 +558,7 @@ class ModeDeclarationMappingSet(ARElement):
         return self.getElement(short_name)
 
 
-class PortInterfaceMappingSet(ARElement):
+class PortInterfaceMappingSet(AtpBlueprintable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

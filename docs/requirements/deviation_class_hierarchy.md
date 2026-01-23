@@ -5,12 +5,12 @@ and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 553 classes with correct hierarchy
-- ✗ **Missing**: 891 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 80 classes with wrong parent/abstract
+- ✓ **Match**: 557 classes with correct hierarchy
+- ✗ **Missing**: 892 classes documented but not found
+- ⚠ **Hierarchy Mismatch**: 75 classes with wrong parent/abstract
 - + **Extra**: 88 undocumented classes
 - **Total Documented Classes**: 1524
-- **Total Deviations**: 1059
+- **Total Deviations**: 1055
 
 ## Missing Classes (Documented but Not Found)
 
@@ -45,6 +45,7 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | AssignNad | **Documented:**<br>Parent: LinConfigurationEntry<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | AtpBlueprint | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AtpDefinition | **Documented:**<br>Parent: Referrable<br>Type: Abstract | Class not found in source code |
+| ✗ MISSING | AtpFeature | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AttributeValueVariationPoint | **Documented:**<br>Parent: SwSystemconstDependentFormula<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AutosarOperationArgumentInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | AutosarVariableInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
@@ -920,14 +921,14 @@ and the actual Python implementation class hierarchy.
 | ⚠ MISMATCH | ArVariableInImplementationDataInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: AtpInstanceRef<br>Type: Concrete | parent mismatch (expected ARObject, got AtpInstanceRef) |
 | ⚠ MISMATCH | ArrayValueSpecification | **Documented:**<br>Parent: CompositeValueSpecification<br>Type: Concrete<br><br>**Actual:**<br>Parent: ValueSpecification<br>Type: Concrete | parent mismatch (expected CompositeValueSpecification, got ValueSpecification) |
 | ⚠ MISMATCH | AtomicSwComponentType | **Documented:**<br>Parent: SwComponentType<br>Type: Abstract<br><br>**Actual:**<br>Parent: SwComponentType<br>Type: Concrete | abstract mismatch (expected True, got False) |
+| ⚠ MISMATCH | AtpPrototype | **Documented:**<br>Parent: AtpFeature<br>Type: Abstract<br><br>**Actual:**<br>Parent: AtpBlueprintable<br>Type: Abstract | parent mismatch (expected AtpFeature, got AtpBlueprintable) |
+| ⚠ MISMATCH | AtpStructureElement | **Documented:**<br>Parent: AtpFeature<br>Type: Abstract<br><br>**Actual:**<br>Parent: AtpBlueprintable<br>Type: Abstract | parent mismatch (expected AtpFeature, got AtpBlueprintable) |
 | ⚠ MISMATCH | ClientServerInterfaceMapping | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: PortInterfaceMapping<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got PortInterfaceMapping) |
 | ⚠ MISMATCH | CollectableElement | **Documented:**<br>Parent: Identifiable<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARObject<br>Type: Abstract | parent mismatch (expected Identifiable, got ARObject) |
 | ⚠ MISMATCH | CompuScale | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: Compu<br>Type: Concrete | parent mismatch (expected ARObject, got Compu) |
 | ⚠ MISMATCH | CycleRepetition | **Documented:**<br>Parent: None<br>Type: Concrete<br><br>**Actual:**<br>Parent: CommunicationCycle<br>Type: Concrete | parent mismatch (expected None, got CommunicationCycle) |
-| ⚠ MISMATCH | DataTypeMappingSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
 | ⚠ MISMATCH | DiagnosticServiceTable | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected DiagnosticCommonElement, got ARElement) |
 | ⚠ MISMATCH | DiagnosticValueNeeds | **Documented:**<br>Parent: None<br>Type: Concrete<br><br>**Actual:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | parent mismatch (expected None, got DiagnosticCapabilityElement) |
-| ⚠ MISMATCH | Documentation | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected ARElement, got ARObject) |
 | ⚠ MISMATCH | EcucAbstractConfigurationClass | **Documented:**<br>Parent: ARObject<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | abstract mismatch (expected True, got False) |
 | ⚠ MISMATCH | EcucAbstractInternalReferenceDef | **Documented:**<br>Parent: None<br>Type: Abstract<br><br>**Actual:**<br>Parent: EcucAbstractReferenceDef<br>Type: Abstract | parent mismatch (expected None, got EcucAbstractReferenceDef) |
 | ⚠ MISMATCH | EcucChoiceReferenceDef | **Documented:**<br>Parent: EcucAbstractReferenceDef<br>Type: Concrete<br><br>**Actual:**<br>Parent: EcucAbstractInternalReferenceDef<br>Type: Concrete | parent mismatch (expected EcucAbstractReferenceDef, got EcucAbstractInternalReferenceDef) |
@@ -956,13 +957,11 @@ and the actual Python implementation class hierarchy.
 | ⚠ MISMATCH | HwPin | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: HwDescriptionEntity<br>Type: Concrete | parent mismatch (expected Identifiable, got HwDescriptionEntity) |
 | ⚠ MISMATCH | HwPinGroup | **Documented:**<br>Parent: Identifiable<br>Type: Concrete<br><br>**Actual:**<br>Parent: HwDescriptionEntity<br>Type: Concrete | parent mismatch (expected Identifiable, got HwDescriptionEntity) |
 | ⚠ MISMATCH | HwType | **Documented:**<br>Parent: HwDescriptionEntity<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected HwDescriptionEntity, got ARElement) |
-| ⚠ MISMATCH | Implementation | **Documented:**<br>Parent: ARElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: PackageableElement<br>Type: Abstract | parent mismatch (expected ARElement, got PackageableElement) |
 | ⚠ MISMATCH | LLongName | **Documented:**<br>Parent: MixedContentForLongName<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForLongName, got LanguageSpecific) |
 | ⚠ MISMATCH | LOverviewParagraph | **Documented:**<br>Parent: MixedContentForOverviewParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForOverviewParagraph, got LanguageSpecific) |
 | ⚠ MISMATCH | LParagraph | **Documented:**<br>Parent: MixedContentForParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForParagraph, got LanguageSpecific) |
 | ⚠ MISMATCH | LPlainText | **Documented:**<br>Parent: MixedContentForPlainText<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForPlainText, got LanguageSpecific) |
 | ⚠ MISMATCH | MlFormula | **Documented:**<br>Parent: Paginateable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Paginateable, got ARObject) |
-| ⚠ MISMATCH | ModeDeclarationMappingSet | **Documented:**<br>Parent: AtpType<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpType, got ARElement) |
 | ⚠ MISMATCH | ModeInterfaceMapping | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: PortInterfaceMapping<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got PortInterfaceMapping) |
 | ⚠ MISMATCH | ModeSwitchSenderComSpec | **Documented:**<br>Parent: PPortComSpec<br>Type: Concrete<br><br>**Actual:**<br>Parent: RPortComSpec<br>Type: Concrete | parent mismatch (expected PPortComSpec, got RPortComSpec) |
 | ⚠ MISMATCH | MultiLanguageParagraph | **Documented:**<br>Parent: Paginateable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Paginateable, got ARObject) |
@@ -971,8 +970,6 @@ and the actual Python implementation class hierarchy.
 | ⚠ MISMATCH | PackageableElement | **Documented:**<br>Parent: CollectableElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected CollectableElement, got Identifiable) |
 | ⚠ MISMATCH | Paginateable | **Documented:**<br>Parent: DocumentViewSelectable<br>Type: Abstract<br><br>**Actual:**<br>Parent: DocumentViewSelectable<br>Type: Concrete | abstract mismatch (expected True, got False) |
 | ⚠ MISMATCH | ParameterProvideComSpec | **Documented:**<br>Parent: PPortComSpec<br>Type: Concrete<br><br>**Actual:**<br>Parent: RPortComSpec<br>Type: Concrete | parent mismatch (expected PPortComSpec, got RPortComSpec) |
-| ⚠ MISMATCH | PortInterfaceMapping | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected AtpBlueprintable, got Identifiable) |
-| ⚠ MISMATCH | PortInterfaceMappingSet | **Documented:**<br>Parent: AtpBlueprintable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpBlueprintable, got ARElement) |
 | ⚠ MISMATCH | PostBuildVariantCriterion | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARObject) |
 | ⚠ MISMATCH | PredefinedVariant | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected ARElement, got ARObject) |
 | ⚠ MISMATCH | RPortPrototype | **Documented:**<br>Parent: PortPrototype<br>Type: Concrete<br><br>**Actual:**<br>Parent: AbstractRequiredPortPrototype<br>Type: Concrete | parent mismatch (expected PortPrototype, got AbstractRequiredPortPrototype) |
@@ -981,7 +978,6 @@ and the actual Python implementation class hierarchy.
 | ⚠ MISMATCH | ServiceNeeds | **Documented:**<br>Parent: None<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected None, got Identifiable) |
 | ⚠ MISMATCH | SingleLanguageUnitNames | **Documented:**<br>Parent: MixedContentForUnitNames<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARLiteral<br>Type: Concrete | parent mismatch (expected MixedContentForUnitNames, got ARLiteral) |
 | ⚠ MISMATCH | SoAdRoutingGroup | **Documented:**<br>Parent: FibexElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected FibexElement, got Identifiable) |
-| ⚠ MISMATCH | SwComponentPrototype | **Documented:**<br>Parent: AtpPrototype<br>Type: Concrete<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Concrete | parent mismatch (expected AtpPrototype, got Identifiable) |
 | ⚠ MISMATCH | SwSystemconst | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARObject) |
 | ⚠ MISMATCH | SwSystemconstantValueSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected ARElement, got ARObject) |
 | ⚠ MISMATCH | SwcServiceDependency | **Documented:**<br>Parent: None<br>Type: Concrete<br><br>**Actual:**<br>Parent: ServiceDependency<br>Type: Concrete | parent mismatch (expected None, got ServiceDependency) |
