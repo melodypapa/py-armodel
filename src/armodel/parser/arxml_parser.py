@@ -230,10 +230,35 @@ from ..models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTp
 
 from .abstract_arxml_parser import AbstractARXMLParser
 
+# Import specialized parsers
+from .parsers.common_structure_parser import CommonStructureParser
+from .parsers.datatype_parser import DataTypeParser
+from .parsers.port_interface_parser import PortInterfaceParser
+from .parsers.component_parser import ComponentParser
+from .parsers.behavior_parser import BehaviorParser
+from .parsers.bsw_module_parser import BswModuleParser
+from .parsers.system_template_parser import SystemTemplateParser
+from .parsers.ecuc_parser import EcucParser
+from .parsers.network_management_parser import NetworkManagementParser
+
 
 class ARXMLParser(AbstractARXMLParser):
     def __init__(self, options=None) -> None:
         super().__init__(options)
+
+        # Initialize specialized parsers
+        self._common_parser = CommonStructureParser(options)
+        self._datatype_parser = DataTypeParser(options)
+        self._port_interface_parser = PortInterfaceParser(options)
+        self._component_parser = ComponentParser(options)
+        self._behavior_parser = BehaviorParser(options)
+        self._bsw_module_parser = BswModuleParser(options)
+        self._system_template_parser = SystemTemplateParser(options)
+        self._ecuc_parser = EcucParser(options)
+        self._network_management_parser = NetworkManagementParser(options)
+
+        # TODO: Create parser registry for routing (Task 5)
+        self._parser_registry = {}
 
     def getChildElementRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
         child_element = self.find(element, key)
