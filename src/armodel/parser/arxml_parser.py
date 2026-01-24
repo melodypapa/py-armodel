@@ -305,146 +305,84 @@ class ARXMLParser(AbstractARXMLParser):
         return range
 
     def readSd(self, element: ET.Element, sdg: Sdg):
-        for child_element in self.findall(element, "./SD"):
-            sd = Sd()
-            self.readARObjectAttributes(child_element, sd)
-            if 'GID' in child_element.attrib:
-                sd.setGID(child_element.attrib['GID'])
-            sd.setValue(child_element.text)
-            sdg.addSd(sd)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readSd(element, sdg)
 
     def readSdgCaption(self, element: ET.Element, sdg: Sdg):
-        child_element = self.find(element, "SDG-CAPTION")
-        if child_element is not None:
-            sdg.createSdgCaption(self.getShortName(child_element))
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readSdgCaption(element, sdg)
 
     def readSdgSdxRefs(self, element: ET.SubElement, sdg: Sdg):
-        for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
-            sdg.addSdxRef(ref)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readSdgSdxRefs(element, sdg)
 
     def getSdg(self, element: ET.Element) -> Sdg:
-        sdg = Sdg()
-        self.readARObjectAttributes(element, sdg)
-        if 'GID' in element.attrib:
-            sdg.setGID(element.attrib["GID"])
-        self.readSdgCaption(element, sdg)
-        self.readSd(element, sdg)
-        for child_element in self.findall(element, "SDG"):
-            sdg.addSdgContentsType(self.getSdg(child_element))
-        self.readSdgSdxRefs(element, sdg)
-        return sdg
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getSdg(element)
 
     def readAdminDataSdgs(self, element: ET.Element, admin_data: AdminData):
-        for child_element in self.findall(element, "SDGS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "SDG":
-                admin_data.addSdg(self.getSdg(child_element))
-            else:
-                self.notImplemented("Unsupported SDG <%s>" % tag_name)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readAdminDataSdgs(element, admin_data)
 
     def readModification(self, element: ET.Element, modification: Modification):
-        modification.setChange(self.getMultiLanguageOverviewParagraph(element, "CHANGE")) \
-                    .setReason(self.getMultiLanguageOverviewParagraph(element, "REASON"))
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readModification(element, modification)
 
     def readDocRevisionModifications(self, element: ET.Element, revision: DocRevision):
-        for child_element in self.findall(element, "MODIFICATIONS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "MODIFICATION":
-                modification = Modification()
-                self.readModification(child_element, modification)
-                revision.addModification(modification)
-            else:
-                self.notImplemented("Unsupported Modification <%s>" % tag_name)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readDocRevisionModifications(
+            element, revision
+        )
 
     def readDocRevision(self, element: ET.Element, revision: DocRevision):
-        revision.setDate(self.getChildElementOptionalDataTime(element, "DATE")) \
-                .setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY")) \
-                .setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL")) \
-                .setState(self.getChildElementOptionalLiteral(element, "STATE"))
-        
-        self.readDocRevisionModifications(element, revision)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readDocRevision(element, revision)
 
     def readAdminDataDocRevisions(self, element: ET.Element, admin_data: AdminData):
-        for child_element in self.findall(element, "DOC-REVISIONS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "DOC-REVISION":
-                revision = DocRevision()
-                self.readDocRevision(child_element, revision)
-                admin_data.addDocRevision(revision)
-            else:
-                self.notImplemented("Unsupported DocRevision <%s>" % tag_name)
-    
-    def getAdminData(self, element: ET.Element, key: str) -> AdminData:
-        admin_data = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            # self.logger.debug("Read AdminData")
-            admin_data = AdminData()
-            self.readARObjectAttributes(child_element, admin_data)
-            admin_data.setLanguage(self.getChildElementOptionalLiteral(child_element, "LANGUAGE"))
-            admin_data.setUsedLanguages(self.getMultiLanguagePlainText(child_element, "USED-LANGUAGES"))
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readAdminDataDocRevisions(
+            element, admin_data
+        )
 
-            self.readAdminDataSdgs(child_element, admin_data)
-            self.readAdminDataDocRevisions(child_element, admin_data)
-        return admin_data
-    
+    def getAdminData(self, element: ET.Element, key: str) -> AdminData:
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getAdminData(element, key)
+
     def readReferrable(self, element: ET.Element, referrable: Referrable):
-        self.readARObjectAttributes(element, referrable)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readReferrable(element, referrable)
 
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
-        self.readReferrable(element, referrable)
-        referrable.setLongName(self.getMultilanguageLongName(element, "LONG-NAME"))
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readMultilanguageReferrable(
+            element, referrable
+        )
+
     def readIdentifiable(self, element: ET.Element, identifiable: Identifiable):
-        self.readMultilanguageReferrable(element, identifiable)
-
-        for annotation in self.getAnnotations(element):
-            identifiable.addAnnotation(annotation)
-
-        identifiable.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY")) \
-                    .setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC")) \
-                    .setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
-
-        identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readIdentifiable(element, identifiable)
 
     def readARElement(self, element: ET.Element, ar_element: ARElement):
-        self.readIdentifiable(element, ar_element)
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readARElement(element, ar_element)
+
     def readLLongName(self, element: ET.Element, long_name: MultilanguageLongName):
-        for child_element in self.findall(element, "L-4"):
-            l4 = LLongName()
-            self.readARObjectAttributes(child_element, l4)
-            l4.value = child_element.text
-            if 'L' in child_element.attrib:
-                l4.l = child_element.attrib['L']            # noqa: E741
-            long_name.addL4(l4)
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readLLongName(element, long_name)
+
     def getMultilanguageLongName(self, element: ET.Element, key: str) -> MultilanguageLongName:
-        long_name = None
-        child_element = self.find(element, "%s" % key)
-        if child_element is not None:
-            long_name = MultilanguageLongName()
-            self.readARObjectAttributes(child_element, long_name)
-            self.readLLongName(child_element, long_name)
-        return long_name
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getMultilanguageLongName(element, key)
+
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
-        for child_element in self.findall(element, "L-2"):
-            l2 = LOverviewParagraph()
-            self.readARObjectAttributes(child_element, l2)
-            l2.value = child_element.text
-            if 'L' in child_element.attrib:
-                l2.l = child_element.attrib['L']        # noqa: E741
-            paragraph.addL2(l2)
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readLOverviewParagraph(element, paragraph)
+
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
-        paragraph = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            paragraph = MultiLanguageOverviewParagraph()
-            self.readARObjectAttributes(child_element, paragraph)
-            self.readLOverviewParagraph(child_element, paragraph)
-        return paragraph
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getMultiLanguageOverviewParagraph(
+            element, key
+        )
     
     def getVariableInAtomicSWCTypeInstanceRef(self, element: ET.Element) -> VariableInAtomicSWCTypeInstanceRef:
         instance_ref = None
@@ -1698,137 +1636,74 @@ class ARXMLParser(AbstractARXMLParser):
             parent.swPointerTargetProps = sw_pointer_target_props
 
     def readLanguageSpecific(self, element: ET.Element, specific: LanguageSpecific):
-        self.readARObjectAttributes(element, specific)
-        specific.value = element.text
-        if 'L' in element.attrib:
-            specific.l = element.attrib['L']        # noqa E741
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readLanguageSpecific(element, specific)
 
     def getLParagraphs(self, element: ET.Element, key: str) -> List[LParagraph]:
-        results = []
-        for child_element in self.findall(element, key):
-            l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
-            results.append(l1)
-        return results
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getLParagraphs(element, key)
 
     def getMultiLanguageParagraphs(self, element: ET.Element, key: str) -> List[MultiLanguageParagraph]:
-        paragraphs = []
-        for child_element in self.findall(element, key):
-            paragraph = MultiLanguageParagraph()
-            self.readARObjectAttributes(child_element, paragraph)
-            for l1 in self.getLParagraphs(child_element, "L-1"):
-                paragraph.addL1(l1)
-            paragraphs.append(paragraph)
-        return paragraphs
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getMultiLanguageParagraphs(element, key)
+
     def getLPlainTexts(self, element: ET.Element, key: str) -> List[LParagraph]:
-        results = []
-        for child_element in self.findall(element, key):
-            l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
-            results.append(l1)
-        return results
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getLPlainTexts(element, key)
+
     def getListElements(self, element: ET.Element, key: str) -> List[ARList]:
-        '''
-            Read the DocumentationBlock List
-        '''
-        result = []
-        for child_element in self.findall(element, key):
-            list = ARList()
-            if 'TYPE' in child_element.attrib:
-                list.setType(child_element.attrib['TYPE'])
-            for block in self.getDocumentationBlockList(child_element, "ITEM"):
-                list.addItem(block)
-            result.append(list)
-        return result
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getListElements(element, key)
+
     def getGraphic(self, element: ET.Element, key: str) -> Graphic:
-        graphic = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            graphic = Graphic()
-            if "FILENAME" in child_element.attrib:
-                graphic.setFilename(child_element.attrib["FILENAME"])
-        return graphic
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getGraphic(element, key)
+
     def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
-        for child_element in self.findall(element, "L-GRAPHIC"):
-            graphic = LGraphic()
-            if "L" in child_element.attrib:
-                graphic.setL(child_element.attrib["L"])
-            graphic.setGraphic(self.getGraphic(child_element, "GRAPHIC"))
-            figure.addLGraphics(graphic)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readMlFigureLGraphics(element, figure)
 
     def readDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
-        self.readARObjectAttributes(element, selectable)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readDocumentViewSelectable(
+            element, selectable
+        )
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
-        self.readDocumentViewSelectable(element, paginateable)
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readPaginateable(element, paginateable)
+
     def readMlFigure(self, element: ET.Element, figure: MlFigure):
-        self.readPaginateable(element, figure)
-        self.readMlFigureLGraphics(element, figure)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readMlFigure(element, figure)
 
     def getMlFigures(self, element: ET.Element, key: str) -> List[MlFigure]:
-        result = []
-        for child_element in self.findall(element, key):
-            figure = MlFigure()
-            self.readMlFigure(child_element, figure)
-            result.append(figure)
-        return result
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getMlFigures(element, key)
+
     def getMultiLanguagePlainText(self, element: ET.Element, key: str) -> MultiLanguagePlainText:
-        paragraph = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            paragraph = MultiLanguagePlainText()
-            self.readARObjectAttributes(child_element, paragraph)
-            for l10 in self.getLPlainTexts(child_element, "L-10"):
-                paragraph.addL10(l10)
-        return paragraph
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getMultiLanguagePlainText(element, key)
 
     def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
-        self.readARObjectAttributes(element, block)
-        for paragraph in self.getMultiLanguageParagraphs(element, "P"):
-            block.addP(paragraph)
-        for list in self.getListElements(element, "LIST"):
-            block.addList(list)
-        for figure in self.getMlFigures(element, "FIGURE"):
-            block.addFigure(figure)
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readDocumentationBlock(element, block)
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
-        block = None
-        child_element = self.find(element, key)
-        if child_element is not None:
-            block = DocumentationBlock()
-            self.readDocumentationBlock(child_element, block)
-        return block
-    
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getDocumentationBlock(element, key)
+
     def getDocumentationBlockList(self, element: ET.Element, key: str) -> List[DocumentationBlock]:
-        blocks = []
-        for child_element in self.findall(element, key):
-            block = DocumentationBlock()
-            self.readDocumentationBlock(child_element, block)
-            blocks.append(block)
-        return blocks
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getDocumentationBlockList(element, key)
 
     def readGeneralAnnotation(self, element: ET.Element, annotation: GeneralAnnotation):
-        annotation.setAnnotationOrigin(self.getChildElementOptionalLiteral(element, 'ANNOTATION-ORIGIN')) \
-            .setAnnotationText(self.getDocumentationBlock(element, "ANNOTATION-TEXT")) \
-            .setLabel(self.getMultilanguageLongName(element, "LABEL"))
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.readGeneralAnnotation(element, annotation)
 
     def getAnnotations(self, element: ET.Element) -> List[Annotation]:
-        annotations = []
-        for child_element in self.findall(element, "ANNOTATIONS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "ANNOTATION":
-                annotation = Annotation()
-                self.readGeneralAnnotation(child_element, annotation)
-                annotations.append(annotation)
-            else:
-                self.notImplemented("Unsupported Annotation <%s>" % tag_name)
-        return annotations
+        """Delegate to CommonStructureParser."""
+        return self._common_parser.getAnnotations(element)
 
     def getSwAxisIndividual(self, element: ET.Element) -> SwAxisIndividual:
         props = SwAxisIndividual()
