@@ -248,7 +248,7 @@ class ARXMLParser(AbstractARXMLParser):
 
         # Initialize specialized parsers
         self._common_parser = CommonStructureParser(options)
-        self._datatype_parser = DataTypeParser(options)
+        self._datatype_parser = DataTypeParser(options, self)
         self._port_interface_parser = PortInterfaceParser(options)
         self._component_parser = ComponentParser(options)
         self._behavior_parser = BehaviorParser(options)
@@ -264,7 +264,13 @@ class ARXMLParser(AbstractARXMLParser):
             'AR-ARPACKAGE': self._common_parser,
 
             # Data types (populated during migration)
-            # 'APPLICATION-PRIMITIVE-DATA-TYPE': self._datatype_parser,
+            'APPLICATION-PRIMITIVE-DATA-TYPE': self._datatype_parser,
+            'APPLICATION-RECORD-DATA-TYPE': self._datatype_parser,
+            'APPLICATION-ARRAY-DATA-TYPE': self._datatype_parser,
+            'IMPLEMENTATION-DATA-TYPE': self._datatype_parser,
+            'COMPU-METHOD': self._datatype_parser,
+            'DATA-CONSTR': self._datatype_parser,
+            'UNIT': self._datatype_parser,
 
             # Port interfaces (populated during migration)
             # 'SENDER-RECEIVER-INTERFACE': self._port_interface_parser,
@@ -539,10 +545,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.raiseError("Unsupported ModeSenderPolicy type <%s>." % tag_name)
 
     def readDataTypeMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
-        child_element = self.find(element, "DATA-TYPE-MAPPING-REFS")
-        if child_element is not None:
-            for ref in self.getChildElementRefTypeList(child_element, "DATA-TYPE-MAPPING-REF"):
-                behavior.addDataTypeMappingRef(ref)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readDataTypeMappingRefs(element, behavior)
 
     def readInternalBehaviorConstantMemories(self, element: ET.Element, behavior: InternalBehavior):
         for child_element in self.findall(element, "CONSTANT-MEMORYS/*"):
@@ -1778,55 +1782,50 @@ class ARXMLParser(AbstractARXMLParser):
         return sw_data_def_props
 
     def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
-        self.readIdentifiable(element, data_type)
-        data_type.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readAutosarDataType(element, data_type)
 
     def readApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
-        self.logger.debug("Read ApplicationPrimitiveDataType <%s>" % data_type.getShortName())
-        self.readAutosarDataType(element, data_type)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationPrimitiveDataType(
+            element, data_type
+        )
 
     def readApplicationRecordElement(self, element: ET.Element, record_element: ApplicationRecordElement):
-        # self.logger.debug("Read ApplicationRecordElement %s" % record_element.getShortName())
-        self.readApplicationCompositeElementDataPrototype(element, record_element)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationRecordElement(
+            element, record_element
+        )
 
     def readApplicationRecordDataTypeElements(self, element: ET.Element, parent: ApplicationRecordDataType):
-        for child_element in self.findall(element, "ELEMENTS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "APPLICATION-RECORD-ELEMENT":
-                record_element = parent.createApplicationRecordElement(self.getShortName(child_element))
-                self.readApplicationRecordElement(child_element, record_element)
-            else:
-                self.notImplemented("Unsupported ApplicationRecordDataType Element <%s>" % tag_name)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationRecordDataTypeElements(
+            element, parent
+        )
 
     def readApplicationRecordDataType(self, element: ET.Element, data_type: ApplicationRecordDataType):
-        self.logger.debug("Read ApplicationRecordDataType <%s>" % data_type.getShortName())
-        self.readIdentifiable(element, data_type)
-        data_type.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
-        self.readApplicationRecordDataTypeElements(element, data_type)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationRecordDataType(
+            element, data_type
+        )
 
     def readImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: ImplementationDataTypeElement):
-        self.readAutosarDataType(element, impl_data_type_element)
-        impl_data_type_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
-        impl_data_type_element.setArraySizeHandling(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING"))
-        impl_data_type_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS"))
-        self.readImplementationDataTypeSubElements(element, impl_data_type_element)
-    
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readImplementationDataTypeElement(
+            element, impl_data_type_element
+        )
+
     def readImplementationDataTypeSubElements(self, element: ET.Element, parent: ImplementationDataType):
-        for child_element in self.findall(element, "SUB-ELEMENTS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "IMPLEMENTATION-DATA-TYPE-ELEMENT":
-                impl_data_type_element = parent.createImplementationDataTypeElement(self.getShortName(child_element))
-                self.readImplementationDataTypeElement(child_element, impl_data_type_element)
-            else:
-                self.notImplemented("Unsupported ImplementationDataType SubElement <%s>" % tag_name)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readImplementationDataTypeSubElements(
+            element, parent
+        )
 
     def readImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
-        self.logger.debug("Read ImplementationDataType <%s>" % data_type.getShortName())
-        self.readAutosarDataType(element, data_type)
-        data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
-        self.readImplementationDataTypeSubElements(element, data_type)
-        self.readImplementationDataTypeSymbolProps(element, data_type)
-        data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readImplementationDataType(
+            element, data_type
+        )
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
         definition.setBaseTypeSize(self.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE")) \
@@ -2290,10 +2289,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Component <%s>" % tag_name)
 
     def readCompositionSwComponentTypeDataTypeMappingSet(self, element: ET.Element, parent: CompositionSwComponentType):
-        child_element = self.find(element, "DATA-TYPE-MAPPING-REFS")
-        if child_element is not None:
-            for ref in self.getChildElementRefTypeList(child_element, "DATA-TYPE-MAPPING-REF"):
-                parent.addDataTypeMapping(ref)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompositionSwComponentTypeDataTypeMappingSet(
+            element, parent
+        )
 
     def readCompositionSwComponentType(self, element: ET.Element, type: CompositionSwComponentType):
         self.logger.debug("Read CompositionSwComponentType: <%s>" % type.getShortName())
@@ -2304,28 +2303,16 @@ class ARXMLParser(AbstractARXMLParser):
         AUTOSAR.getInstance().addCompositionSwComponentType(type)
 
     def readDataTypeMaps(self, element: ET.Element, parent: DataTypeMappingSet):
-        for child_element in element.findall("./xmlns:DATA-TYPE-MAPS/xmlns:DATA-TYPE-MAP", self.nsmap):
-            data_type_map = DataTypeMap()
-            self.readARObjectAttributes(child_element, data_type_map)
-            data_type_map.applicationDataTypeRef = self.getChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF")
-            data_type_map.implementationDataTypeRef = self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF")
-            parent.addDataTypeMap(data_type_map)
-            # add the data type map to global namespace
-            AUTOSAR.getInstance().addDataTypeMap(data_type_map)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readDataTypeMaps(element, parent)
 
     def readModeRequestTypeMaps(self, element: ET.Element, parent: DataTypeMappingSet):
-        for child_element in element.findall("./xmlns:MODE-REQUEST-TYPE-MAPS/xmlns:MODE-REQUEST-TYPE-MAP", self.nsmap):
-            map = ModeRequestTypeMap()
-            self.readARObjectAttributes(child_element, map)
-            map.implementationDataTypeRef = self.getChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF")
-            map.modeGroupRef = self.getChildElementOptionalRefType(child_element, "MODE-GROUP-REF")
-            parent.addModeRequestTypeMap(map)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readModeRequestTypeMaps(element, parent)
 
     def readDataTypeMappingSet(self, element: ET.Element, mapping_set: DataTypeMappingSet):
-        self.logger.debug("Read DataTypeMappingSet: <%s>" % mapping_set.getShortName())
-        self.readIdentifiable(element, mapping_set)
-        self.readDataTypeMaps(element, mapping_set)
-        self.readModeRequestTypeMaps(element, mapping_set)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readDataTypeMappingSet(element, mapping_set)
 
     def readSenderReceiverInterfaceDataElements(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         for child_element in self.findall(element, "DATA-ELEMENTS/*"):
@@ -2457,46 +2444,26 @@ class ARXMLParser(AbstractARXMLParser):
         return compu_const
 
     def readCompuConst(self, element: ET.Element, parent: CompuScale):
-        child_element = self.find(element, "COMPU-CONST/VT")
-        if (child_element is not None):
-            # self.logger.debug("Read CompuConst VT: %s" % child_element.text)
-            contents = CompuScaleConstantContents()
-            contents.compuConst = CompuConst()
-            contents.compuConst.compuConstContentType = CompuConstTextContent()
-            contents.compuConst.compuConstContentType.vt = ARLiteral()
-            contents.compuConst.compuConstContentType.vt.setValue(child_element.text)
-            parent.compuScaleContents = contents
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompuConst(element, parent)
 
     def readCompuNominatorDenominator(self, element: ET.Element, key: str, parent: CompuNominatorDenominator):
-        for child_element in self.findall(element, "%s/V" % key):
-            # self.logger.debug("Read CompuNominatorDenominator - %s: %s" % (key, child_element.text))
-            parent.add_v(child_element.text)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompuNominatorDenominator(
+            element, key, parent
+        )
 
     def readCompuRationCoeffs(self, element: ET.Element, parent: CompuScale):
-        child_element = self.find(element, "COMPU-RATIONAL-COEFFS")
-        if (child_element is not None):
-            # self.logger.debug("Read CompuRationCoeffs")
-            contents = CompuScaleRationalFormula()
-            contents.compuRationalCoeffs = CompuRationalCoeffs()
-            contents.compuRationalCoeffs.compuDenominator = CompuNominatorDenominator()
-            contents.compuRationalCoeffs.compuNumerator = CompuNominatorDenominator()
-            self.readCompuNominatorDenominator(child_element, "COMPU-DENOMINATOR", contents.compuRationalCoeffs.compuDenominator)
-            self.readCompuNominatorDenominator(child_element, "COMPU-NUMERATOR", contents.compuRationalCoeffs.compuNumerator)
-            parent.compuScaleContents = contents
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompuRationCoeffs(element, parent)
 
     def readCompuScaleContents(self, element: ET.Element, parent: CompuScale):
-        self.readCompuConst(element, parent)
-        self.readCompuRationCoeffs(element, parent)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompuScaleContents(element, parent)
 
     def readCompuScale(self, element: ET.Element, compu_scale: CompuScale):
-        self.readARObjectAttributes(element, compu_scale)
-        compu_scale.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        compu_scale.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
-        compu_scale.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
-        compu_scale.setMask(self.getChildElementOptionalPositiveInteger(element, "MASK"))
-        compu_scale.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
-        compu_scale.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
-        self.readCompuScaleContents(element, compu_scale)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompuScale(element, compu_scale)
 
     def getCompuScales(self, element: ET.Element) -> CompuScales:
         compu_scales = None
@@ -2520,11 +2487,8 @@ class ARXMLParser(AbstractARXMLParser):
         return compu
 
     def readCompuMethod(self, element: ET.Element, compu_method: CompuMethod):
-        self.logger.debug("Read CompuMethod <%s>" % compu_method.getShortName())
-        self.readIdentifiable(element, compu_method)
-        compu_method.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF")) \
-                    .setCompuInternalToPhys(self.getCompu(element, "COMPU-INTERNAL-TO-PHYS")) \
-                    .setCompuPhysToInternal(self.getCompu(element, "COMPU-PHYS-TO-INTERNAL"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readCompuMethod(element, compu_method)
 
     def readSwcBswMappingSwcBswRunnableMappings(self, element: ET.Element, parent: SwcBswMapping):
         for child_element in self.findall(element, "RUNNABLE-MAPPINGS/SWC-BSW-RUNNABLE-MAPPING"):
@@ -2618,46 +2582,24 @@ class ARXMLParser(AbstractARXMLParser):
             spec.setValueSpec(self.getValueSpecification(child_element, self.getTagName(child_element)))
                 
     def readInternalConstrs(self, element: ET.Element, parent: DataConstrRule):
-        child_element = element.find("./xmlns:INTERNAL-CONSTRS", self.nsmap)
-        if child_element is not None:
-            constrs = InternalConstrs()
-            self.readARObjectAttributes(child_element, constrs)
-            constrs.lower_limit = self.getChildLimitElement(child_element, "LOWER-LIMIT")
-            constrs.upper_limit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
-            parent.internalConstrs = constrs
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readInternalConstrs(element, parent)
 
     def readPhysConstrs(self, element: ET.Element, parent: DataConstrRule):
-        child_element = self.find(element, "PHYS-CONSTRS")
-        if child_element is not None:
-            constrs = PhysConstrs()
-            self.readARObjectAttributes(child_element, constrs)
-            constrs.lower_limit = self.getChildLimitElement(child_element, "LOWER-LIMIT")
-            constrs.upper_limit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
-            constrs.unit_ref = self.getChildElementOptionalRefType(child_element, "UNIT-REF")
-            parent.physConstrs = constrs
-                
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readPhysConstrs(element, parent)
+
     def readDataConstrRule(self, element: ET.Element, parent: DataConstr):
-        for child_element in self.findall(element, "DATA-CONSTR-RULES/DATA-CONSTR-RULE"):
-            # self.logger.debug("Read DataConstrRule")
-            rule = DataConstrRule()
-            self.readARObjectAttributes(child_element, rule)
-            rule.constrLevel = self.getChildElementOptionalNumericalValue(child_element, "CONSTR-LEVEL")
-            self.readInternalConstrs(child_element, rule)
-            self.readPhysConstrs(child_element, rule)
-            parent.addDataConstrRule(rule)
-                
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readDataConstrRule(element, parent)
+
     def readDataConstr(self, element: ET.Element, constr: DataConstr):
-        # self.logger.debug("Read DataConstr <%s>" % constr.getShortName())
-        self.readIdentifiable(element, constr)
-        self.readDataConstrRule(element, constr)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readDataConstr(element, constr)
 
     def readUnit(self, element: ET.Element, unit: Unit):
-        self.logger.debug("Read Unit <%s>" % unit.getShortName())
-        self.readIdentifiable(element, unit)
-        unit.setDisplayName(self.getChildElementOptionalLiteral(element, "DISPLAY-NAME")) \
-            .setFactorSiToUnit(self.getChildElementOptionalFloatValue(element, "FACTOR-SI-TO-UNIT")) \
-            .setOffsetSiToUnit(self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT")) \
-            .setPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readUnit(element, unit)
 
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
@@ -2748,47 +2690,46 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEndToEndProtections(element, protection_set)
 
     def readImplementationProps(self, element: ET.Element, props: ImplementationProps):
-        props.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readImplementationProps(element, props)
 
     def readSymbolProps(self, element: ET.Element, props: SymbolProps):
-        self.readImplementationProps(element, props)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readSymbolProps(element, props)
 
     def readImplementationDataTypeSymbolProps(self, element: ET.Element, data_type: ImplementationDataType):
-        child_element = self.find(element, "SYMBOL-PROPS")
-        if child_element is not None:
-            props = data_type.createSymbolProps(self.getShortName(child_element))
-            self.readSymbolProps(child_element, props)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readImplementationDataTypeSymbolProps(
+            element, data_type
+        )
 
     def readApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
-        self.readAutosarDataType(element, data_type)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationDataType(element, data_type)
 
     def readApplicationCompositeDataType(self, element: ET.Element, data_type: ApplicationCompositeDataType):
-        self.readApplicationDataType(element, data_type)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationCompositeDataType(
+            element, data_type
+        )
 
     def readDataPrototype(self, element: ET.Element, prototype: DataPrototype):
-        self.readIdentifiable(element, prototype)
-        prototype.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readDataPrototype(element, prototype)
 
     def readApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
-        self.readDataPrototype(element, prototype)
-        prototype.typeTRef = self.getChildElementOptionalRefType(element, "TYPE-TREF")
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationCompositeElementDataPrototype(
+            element, prototype
+        )
 
     def readApplicationArrayElement(self, element: ET.Element, parent: ApplicationArrayDataType):
-        child_element = self.find(element, "ELEMENT")
-        if child_element is not None:
-            short_name = self.getShortName(child_element)
-            self.logger.debug("Read ApplicationArrayElement %s" % short_name)
-            array_element = parent.createApplicationArrayElement(short_name)
-            self.readApplicationCompositeElementDataPrototype(child_element, array_element)
-            array_element.setArraySizeHandling(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING"))
-            array_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS"))
-            array_element.setMaxNumberOfElements(self.getChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS"))
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationArrayElement(element, parent)
 
     def readApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
-        self.logger.debug("Read ApplicationArrayDataType <%s>" % data_type.getShortName())
-        self.readApplicationCompositeDataType(element, data_type)
-        data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
-        self.readApplicationArrayElement(element, data_type)
+        """Delegate to DataTypeParser."""
+        return self._datatype_parser.readApplicationArrayDataType(element, data_type)
 
     def getSwRecordLayoutV(self, element: ET.Element, key: str) -> SwRecordLayoutV:
         child_element = self.find(element, key)
