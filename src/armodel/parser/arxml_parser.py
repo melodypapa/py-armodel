@@ -273,7 +273,15 @@ class ARXMLParser(AbstractARXMLParser):
             'UNIT': self._datatype_parser,
 
             # Port interfaces (populated during migration)
-            # 'SENDER-RECEIVER-INTERFACE': self._port_interface_parser,
+            'SENDER-RECEIVER-INTERFACE': self._port_interface_parser,
+            'CLIENT-SERVER-INTERFACE': self._port_interface_parser,
+            'MODE-SWITCH-INTERFACE': self._port_interface_parser,
+            'PARAMETER-INTERFACE': self._port_interface_parser,
+            'TRIGGER-INTERFACE': self._port_interface_parser,
+            'DATA-INTERFACE': self._port_interface_parser,
+            'MODE-DECLARATION-GROUP': self._port_interface_parser,
+            'PORT-INTERFACE-MAPPING-SET': self._port_interface_parser,
+            'PORT-PROTOTYPE-BLUEPRINT': self._port_interface_parser,
 
             # Components (populated during migration)
             # 'APPLICATION-SW-COMPONENT-TYPE': self._component_parser,
