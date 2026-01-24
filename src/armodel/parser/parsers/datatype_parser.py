@@ -14,21 +14,11 @@ Handles:
 - SwSystemconst
 """
 import xml.etree.ElementTree as ET
-from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
-    ApplicationPrimitiveDataType,
-    ApplicationRecordDataType,
-    ApplicationRecordElement,
-    ApplicationArrayDataType,
-    ApplicationCompositeDataType,
-    ApplicationDataType,
-    AutosarDataType,
-    DataTypeMap,
-    DataTypeMappingSet,
-    ModeRequestTypeMap,
+from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import (
+    Datatypes,
 )
-from ...models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
-    ImplementationDataType,
-    ImplementationDataTypeElement,
+from ...models.M2.AUTOSARTemplates.CommonStructure import (
+    ImplementationDataTypes,
 )
 from ...models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     InternalBehavior,
@@ -36,9 +26,8 @@ from ...models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
 from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     CompositionSwComponentType,
 )
-from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-    ApplicationCompositeElementDataPrototype,
-    DataPrototype,
+from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import (
+    DataPrototypes,
 )
 from ...models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from ...models.M2.MSR.AsamHdo.ComputationMethod import (
@@ -51,8 +40,8 @@ from ...models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuConstTextContent,
     CompuScaleRationalFormula,
 )
-from ...models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
+from ...models.M2.AUTOSARTemplates.GenericStructure import (
+    GeneralTemplateClasses,
 )
 from ...models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     DataConstr,
@@ -68,6 +57,26 @@ from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SymbolProps as CommonSymbolProps,
 )
 from ..base_arxml_parser import BaseARXMLParser
+
+# Type aliases for imported classes
+ApplicationPrimitiveDataType = Datatypes.ApplicationPrimitiveDataType
+ApplicationRecordDataType = Datatypes.ApplicationRecordDataType
+ApplicationRecordElement = Datatypes.ApplicationRecordElement
+ApplicationArrayDataType = Datatypes.ApplicationArrayDataType
+ApplicationCompositeDataType = \
+    Datatypes.ApplicationCompositeDataType
+ApplicationDataType = Datatypes.ApplicationDataType
+AutosarDataType = Datatypes.AutosarDataType
+DataTypeMap = Datatypes.DataTypeMap
+DataTypeMappingSet = Datatypes.DataTypeMappingSet
+ModeRequestTypeMap = Datatypes.ModeRequestTypeMap
+ImplementationDataType = ImplementationDataTypes.ImplementationDataType
+ImplementationDataTypeElement = \
+    ImplementationDataTypes.ImplementationDataTypeElement
+ApplicationCompositeElementDataPrototype = \
+    DataPrototypes.ApplicationCompositeElementDataPrototype
+DataPrototype = DataPrototypes.DataPrototype
+ARLiteral = GeneralTemplateClasses.PrimitiveTypes.ARLiteral
 
 
 class DataTypeParser(BaseARXMLParser):
@@ -85,11 +94,18 @@ class DataTypeParser(BaseARXMLParser):
         self._parent_parser = parent_parser
 
     # Core DataType Methods
-    def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
+    def readAutosarDataType(
+        self,
+        element: ET.Element,
+        data_type: AutosarDataType
+    ):
         """Read AutosarDataType attributes."""
         self._parent_parser.readIdentifiable(element, data_type)
         data_type.setSwDataDefProps(
-            self._parent_parser.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
+            self._parent_parser.getSwDataDefProps(
+                element,
+                "SW-DATA-DEF-PROPS"
+            )
         )
 
     def readApplicationPrimitiveDataType(
@@ -166,7 +182,8 @@ class DataTypeParser(BaseARXMLParser):
             self.getChildElementOptionalLiteral(element,
                                                 "ARRAY-SIZE-SEMANTICS")
         )
-        self.readImplementationDataTypeSubElements(element, impl_data_type_element)
+        self.readImplementationDataTypeSubElements(element,
+                                                   impl_data_type_element)
 
     def readImplementationDataTypeSubElements(
         self,
@@ -177,9 +194,10 @@ class DataTypeParser(BaseARXMLParser):
         for child_element in self.findall(element, "SUB-ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "IMPLEMENTATION-DATA-TYPE-ELEMENT":
-                impl_data_type_element = parent.createImplementationDataTypeElement(
-                    self.getShortName(child_element)
-                )
+                impl_data_type_element = \
+                    parent.createImplementationDataTypeElement(
+                        self.getShortName(child_element)
+                    )
                 self.readImplementationDataTypeElement(
                     child_element,
                     impl_data_type_element
@@ -337,7 +355,10 @@ class DataTypeParser(BaseARXMLParser):
             self.nsmap
         ):
             data_type_map = DataTypeMap()
-            self._parent_parser.readARObjectAttributes(child_element, data_type_map)
+            self._parent_parser.readARObjectAttributes(
+                child_element,
+                data_type_map
+            )
             data_type_map.applicationDataTypeRef = \
                 self.getChildElementOptionalRefType(
                     child_element,
@@ -471,7 +492,10 @@ class DataTypeParser(BaseARXMLParser):
             self.getChildElementOptionalLiteral(element, "SYMBOL")
         )
         compu_scale.setDesc(
-            self._parent_parser.getMultiLanguageOverviewParagraph(element, "DESC")
+            self._parent_parser.getMultiLanguageOverviewParagraph(
+                element,
+                "DESC"
+            )
         )
         compu_scale.setMask(
             self.getChildElementOptionalPositiveInteger(element, "MASK")
@@ -568,11 +592,20 @@ class DataTypeParser(BaseARXMLParser):
         unit.setDisplayName(
             self.getChildElementOptionalLiteral(element, "DISPLAY-NAME")
         ).setFactorSiToUnit(
-            self.getChildElementOptionalFloatValue(element, "FACTOR-SI-TO-UNIT")
+            self.getChildElementOptionalFloatValue(
+                element,
+                "FACTOR-SI-TO-UNIT"
+            )
         ).setOffsetSiToUnit(
-            self.getChildElementOptionalFloatValue(element, "OFFSET-SI-TO-UNIT")
+            self.getChildElementOptionalFloatValue(
+                element,
+                "OFFSET-SI-TO-UNIT"
+            )
         ).setPhysicalDimensionRef(
-            self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-REF")
+            self.getChildElementOptionalRefType(
+                element,
+                "PHYSICAL-DIMENSION-REF"
+            )
         )
 
     # SymbolProps Methods
