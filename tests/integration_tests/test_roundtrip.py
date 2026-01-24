@@ -91,7 +91,7 @@ def assert_models_equal(
     ignored_attrs = ignored_attrs or ["parent"]
 
     # Check type
-    if type(original) != type(reparsed):
+    if type(original) is not type(reparsed):
         raise AssertionError(
             f"Type mismatch at {path}:\n"
             f"  Expected: {type(original).__name__}\n"
@@ -235,7 +235,7 @@ class TestRoundTrip:
                 step_time = time.time() - step_start
                 print(f"✓ ({package_count} packages, {step_time:.2f}s)")
             except Exception as e:
-                print(f"✗ FAILED")
+                print("✗ FAILED")
                 print(f"    Error: {e}")
                 results["failed"].append((file_path.name, "parse", str(e)))
                 continue
@@ -255,7 +255,7 @@ class TestRoundTrip:
                 step_time = time.time() - step_start
                 print(f"✓ ({file_size:.1f} KB, {step_time:.2f}s)")
             except Exception as e:
-                print(f"✗ FAILED")
+                print("✗ FAILED")
                 print(f"    Error: {e}")
                 results["failed"].append((file_path.name, "write", str(e)))
                 continue
@@ -275,13 +275,13 @@ class TestRoundTrip:
                 step_time = time.time() - step_start
                 print(f"✓ ({package_count} packages, {step_time:.2f}s)")
             except Exception as e:
-                print(f"✗ FAILED")
+                print("✗ FAILED")
                 print(f"    Error: {e}")
                 results["failed"].append((file_path.name, "re-parse", str(e)))
                 continue
 
             # Step 4: Compare packages (the main content)
-            print("  Step 4/4: Comparing models...", end=" ", flush=True)
+            print("  Step 4/5: Comparing models...", end=" ", flush=True)
             step_start = time.time()
 
             try:
@@ -299,14 +299,68 @@ class TestRoundTrip:
                     path=f"RoundTrip({file_path.name})"
                 )
                 step_time = time.time() - step_start
+                print(f"✓ ({step_time:.2f}s)")
+            except AssertionError as e:
+                print("✗ FAILED")
+                print(f"    Error: {e}")
+                print(f"    Temp file: {temp_file}")
+                results["failed"].append((file_path.name, "compare", str(e)))
+                continue
+
+            # Step 5: Compare original file with generated file
+            print("  Step 5/5: Comparing files...", end=" ", flush=True)
+            step_start = time.time()
+
+            try:
+                # Read both files as text for line-by-line comparison
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    original_lines = f.readlines()
+
+                with open(temp_file, 'r', encoding='utf-8') as f:
+                    generated_lines = f.readlines()
+
+                # Compare line by line
+                if len(original_lines) != len(generated_lines):
+                    raise AssertionError(
+                        f"File length mismatch:\n"
+                        f"  Original: {len(original_lines)} lines\n"
+                        f"  Generated: {len(generated_lines)} lines"
+                    )
+
+                # Find first differing line
+                for i, (orig_line, gen_line) in enumerate(zip(original_lines, generated_lines)):
+                    if orig_line != gen_line:
+                        # Show context around the difference
+                        context_start = max(0, i - 2)
+                        context_end = min(len(original_lines), i + 3)
+
+                        diff_context = []
+                        for j in range(context_start, context_end):
+                            prefix = ">>> " if j == i else "    "
+                            line_num = j + 1
+                            if j < len(original_lines):
+                                orig = original_lines[j].rstrip()
+                                diff_context.append(f"{prefix}Original line {line_num}: {orig}")
+                            if j < len(generated_lines):
+                                gen = generated_lines[j].rstrip()
+                                diff_context.append(f"{prefix}Generated line {line_num}: {gen}")
+
+                        raise AssertionError(
+                            f"File content mismatch at line {i + 1}:\n"
+                            f"  Original: {orig_line.rstrip()}\n"
+                            f"  Generated: {gen_line.rstrip()}\n"
+                            f"  Context:\n" + "\n".join(diff_context)
+                        )
+
+                step_time = time.time() - step_start
                 file_time = time.time() - file_start_time
                 print(f"✓ ({step_time:.2f}s, total: {file_time:.2f}s)")
                 results["passed"].append(file_path.name)
             except AssertionError as e:
-                print(f"✗ FAILED")
+                print("✗ FAILED")
                 print(f"    Error: {e}")
                 print(f"    Temp file: {temp_file}")
-                results["failed"].append((file_path.name, "compare", str(e)))
+                results["failed"].append((file_path.name, "file_compare", str(e)))
                 continue
 
         # Print summary
