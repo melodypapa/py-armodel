@@ -15,7 +15,7 @@ from armodel.models import AUTOSAR
 
 def get_test_files_dir() -> Path:
     """Get the default test files directory."""
-    return Path(__file__).parent.parent.parent / "test_files"
+    return Path(__file__).parent / "test_files"
 
 
 def load_config() -> Dict:
