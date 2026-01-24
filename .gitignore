@@ -18,6 +18,8 @@ output*.json
 tests/coverage.md
 tests/coverage.html
 tests/coverage.xml
+tests/integration_tests/custom_files
+tests/integration_tests/failure_files
 
 # IDE
 .vscode/

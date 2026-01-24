@@ -1,12 +1,10 @@
-from typing import Dict, List
+from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 from ....utils.uuid_mgr import UUIDMgr
-from ....M2.MSR.AsamHdo.SpecialData import Sdg
-from ....M2.MSR.AsamHdo import AdminData
 from ....M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from ....M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from ....M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock as DocumentationBlock
 
 from ....M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from ....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
@@ -18,7 +16,7 @@ from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwCompo
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from ....M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from ....M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype, System
+from ....M2.AUTOSARTemplates.SystemTemplate import RootSwCompositionPrototype as RootSwCompositionPrototype, System
 from ....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
 from ....M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
 from ....M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulableEntity, BswCalledEntity
@@ -46,7 +44,11 @@ class AbstractAUTOSAR(CollectableElement):
         self.release_xsd_mappings = {
             "4.0.3": "AUTOSAR_4-0-3.xsd",
             "4.1.0": "AUTOSAR_4-1-0.xsd",
+            "4.1.1": "AUTOSAR_4-1-1.xsd",
+            "4.1.2": "AUTOSAR_4-1-2.xsd",
+            "4.1.3": "AUTOSAR_4-1-3.xsd",
             "4.2.1": "AUTOSAR_4-2-1.xsd",
+            "4.2.2": "AUTOSAR_4-2-2.xsd",
             "4.3.0": "AUTOSAR_00043.xsd",
             "4.3.1": "AUTOSAR_00045.xsd",
             "4.4.0": "AUTOSAR_00047.xsd",

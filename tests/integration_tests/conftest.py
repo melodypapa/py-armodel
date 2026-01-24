@@ -1,5 +1,4 @@
 """Pytest fixtures for integration tests."""
-import os
 from pathlib import Path
 from typing import Dict, Generator, List, Tuple
 
@@ -128,8 +127,9 @@ def arxml_files() -> List[Tuple[Path, str]]:
 
     # Load additional directories from config
     config = load_config()
+    config_dir = Path(__file__).parent
     for dir_config in config.get("additional_directories", []):
-        dir_path = Path(dir_config["path"])
+        dir_path = config_dir / dir_config["path"]
         category = dir_config.get("category", "additional")
         recursive = dir_config.get("recursive", False)
 
@@ -155,16 +155,27 @@ def xsd_to_version_mapping() -> Dict[str, str]:
     return {
         # AUTOSAR 4.x releases
         "AUTOSAR_4-0-3.xsd": "4.0.3",
+        "AUTOSAR_4-1-0.xsd": "4.1.0",
         "AUTOSAR_4-1-1.xsd": "4.1.1",
         "AUTOSAR_4-1-2.xsd": "4.1.2",
         "AUTOSAR_4-1-3.xsd": "4.1.3",
         "AUTOSAR_4-2-1.xsd": "4.2.1",
         "AUTOSAR_4-2-2.xsd": "4.2.2",
         "AUTOSAR_4-3-0.xsd": "4.3.0",
+        "AUTOSAR_4-3-1.xsd": "4.3.1",
+        "AUTOSAR_4-4-0.xsd": "4.4.0",
+        # AUTOSAR R19-11 (CP)
+        "AUTOSAR_00048.xsd": "R19-11",
+        # AUTOSAR R20-11 (CP)
+        "AUTOSAR_00049.xsd": "R20-11",
+        # AUTOSAR R21-11 (CP)
+        "AUTOSAR_00050.xsd": "R21-11",
+        # AUTOSAR R22-11 (CP)
+        "AUTOSAR_00051.xsd": "R22-11",
         # AUTOSAR R23-11 (CP)
-        "AUTOSAR_00046.xsd": "R23-11",
+        "AUTOSAR_00052.xsd": "R23-11",
         # AUTOSAR R24-11 (CP)
-        "AUTOSAR_00049.xsd": "R24-11",
+        "AUTOSAR_00053.xsd": "R24-11",
     }
 
 

@@ -65,6 +65,25 @@ def print_warning(text: str) -> None:
     print(f"{Colors.WARNING}⚠ {text}{Colors.ENDC}")
 
 
+def check_and_install_pyyaml() -> None:
+    """Check if pyyaml is installed, install it if not."""
+    try:
+        import importlib.util
+        importlib.util.find_spec('yaml')
+    except (ImportError, ModuleNotFoundError):
+        print_warning("pyyaml not found, installing...")
+        try:
+            subprocess.run(
+                [sys.executable, "-m", "pip", "install", "pyyaml"],
+                check=True,
+                capture_output=True
+            )
+            print_success("pyyaml installed successfully")
+        except subprocess.CalledProcessError as e:
+            print_error(f"Failed to install pyyaml: {e}")
+            sys.exit(1)
+
+
 def run_command(
     cmd: List[str],
     description: str,
@@ -377,6 +396,9 @@ Examples:
 
 def main() -> int:
     """Main entry point."""
+    # Check and install pyyaml if not available
+    check_and_install_pyyaml()
+
     args = parse_arguments()
 
     # Default to running both if neither is specified
