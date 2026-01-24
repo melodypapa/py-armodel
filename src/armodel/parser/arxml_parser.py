@@ -257,8 +257,43 @@ class ARXMLParser(AbstractARXMLParser):
         self._ecuc_parser = EcucParser(options)
         self._network_management_parser = NetworkManagementParser(options)
 
-        # TODO: Create parser registry for routing (Task 5)
-        self._parser_registry = {}
+        # Create parser registry for element routing
+        # This will be populated incrementally as we migrate methods
+        self._parser_registry = {
+            # Common structure
+            'AR-ARPACKAGE': self._common_parser,
+
+            # Data types (populated during migration)
+            # 'APPLICATION-PRIMITIVE-DATA-TYPE': self._datatype_parser,
+
+            # Port interfaces (populated during migration)
+            # 'SENDER-RECEIVER-INTERFACE': self._port_interface_parser,
+
+            # Components (populated during migration)
+            # 'APPLICATION-SW-COMPONENT-TYPE': self._component_parser,
+
+            # Behaviors (populated during migration)
+            # 'SWC-INTERNAL-BEHAVIOR': self._behavior_parser,
+
+            # BSW modules (populated during migration)
+            # 'BSW-MODULE-DESCRIPTION': self._bsw_module_parser,
+
+            # System (populated during migration)
+            # 'SYSTEM': self._system_template_parser,
+
+            # ECUC (populated during migration)
+            # 'ECUC-VALUE-COLLECTION': self._ecuc_parser,
+
+            # Network management (populated during migration)
+            # 'NM-CONFIG': self._network_management_parser,
+        }
+
+    # Add helper method to get parser by tag
+    def _get_parser_instance(self, tag: str):
+        """Get specialized parser instance for element tag."""
+        if tag in self._parser_registry:
+            return self._parser_registry[tag]
+        return None
 
     def getChildElementRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
         child_element = self.find(element, key)
