@@ -1,0 +1,30 @@
+# Integration Test Configuration
+# This file configures additional ARXML files for round-trip testing
+
+# Additional directories to scan for ARXML files
+# These will be tested in addition to the default test_files/ directory
+additional_directories:
+  # Example: Add production project files
+  # - path: "/path/to/your/project/arxml"
+  #   category: "production"
+  #   description: "Real production ARXML files for validation"
+  #   recursive: true  # Scan subdirectories
+
+  # Example: Add external test files
+  # - path: "../external_files"
+  #   category: "stress-test"
+  #   description: "Large/complex files for performance testing"
+  #   recursive: false  # Only top-level .arxml files
+
+# Optional: Exclude specific files or patterns
+# Uses glob-style matching (e.g., "*/temp/*.arxml" matches any temp subdirectory)
+exclude_patterns:
+  # - "*/temp/*.arxml"
+  # - "*/backup/*.arxml"
+  # - "*_test_backup.arxml"
+  # - "*_draft.arxml"
+
+# Category labels can be used for selective testing:
+# pytest tests/integration_tests/ -k "production"  # Run only production files
+# pytest tests/integration_tests/ -k "stress-test" # Run only stress-test files
+# pytest tests/integration_tests/ -k "default"     # Run only test_files/ (default)

@@ -129,6 +129,10 @@ AUTOSAR model objects maintain bi-directional references:
 ## Development Commands
 
 ### Testing
+- `python scripts/run_tests.py` - Run all tests with colored output and summary (Recommended)
+- `python scripts/run_tests.py --unit` - Run only unit tests
+- `python scripts/run_tests.py --integration` - Run only integration tests
+- `python scripts/run_tests.py --coverage` - Run with coverage reports
 - `pytest` - Run all tests
 - `pytest --cov=armodel --cov-report term-missing` - Run with coverage
 - `pytest tests/test_armodel/parser/test_arxml_parser.py` - Run specific test file
