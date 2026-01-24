@@ -4,6 +4,12 @@
 # Additional directories to scan for ARXML files
 # These will be tested in addition to the default test_files/ directory
 additional_directories:
+  # Customized ARXML files for additional testing scenarios
+  - path: "custom_files"
+    category: "custom"
+    description: "Customized ARXML files for specific test scenarios"
+    recursive: false  # Only top-level .arxml files
+
   # Example: Add production project files
   # - path: "/path/to/your/project/arxml"
   #   category: "production"

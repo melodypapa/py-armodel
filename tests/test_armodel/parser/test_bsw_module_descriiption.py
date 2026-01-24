@@ -1,4 +1,5 @@
 import filecmp
+from pathlib import Path
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 
@@ -11,6 +12,11 @@ from armodel import AUTOSAR
 from armodel import ARXMLParser, ARXMLWriter
 
 import logging
+
+
+def get_test_file_path(filename: str) -> str:
+    """Get absolute path to test file in integration_tests/test_files/."""
+    return str(Path(__file__).parent.parent.parent / "integration_tests" / "test_files" / filename)
 
 
 class TestBswMD:
@@ -28,7 +34,7 @@ class TestBswMD:
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
-        parser.load("test_files/BswM_Bswmd.arxml", document)
+        parser.load(get_test_file_path("BswM_Bswmd.arxml"), document)
 
     def test_ar_packages(self):
         document = AUTOSAR.getInstance()
@@ -200,20 +206,20 @@ class TestBswMD:
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
-        parser.load("test_files/SoftwareComponents.arxml", document)
+        parser.load(get_test_file_path("SoftwareComponents.arxml"), document)
 
         writer = ARXMLWriter()
         writer.save("data/generated.arxml", document)
 
-        assert (filecmp.cmp("test_files/SoftwareComponents.arxml", "data/generated.arxml", shallow=False) is True)
+        assert (filecmp.cmp(get_test_file_path("SoftwareComponents.arxml"), "data/generated.arxml", shallow=False) is True)
     
     def test_bswm_bswmd_arxml_loading_and_saving(self):
         document = AUTOSAR.getInstance()
         document.clear()
         parser = ARXMLParser()
-        parser.load("test_files/BswM_Bswmd.arxml", document)
+        parser.load(get_test_file_path("BswM_Bswmd.arxml"), document)
 
         writer = ARXMLWriter()
         writer.save("data/generated_BswM_Bswmd.arxml", document)
 
-        assert (filecmp.cmp("test_files/BswM_Bswmd.arxml", "data/generated_BswM_Bswmd.arxml", shallow=False) is True)
+        assert (filecmp.cmp(get_test_file_path("BswM_Bswmd.arxml"), "data/generated_BswM_Bswmd.arxml", shallow=False) is True)
