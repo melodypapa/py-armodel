@@ -35,7 +35,10 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    extras_require={'pytest': 'pytest-cov'},
+    extras_require={
+        'pytest': 'pytest-cov',
+        'dev': ['ruff', 'mypy', 'pytest', 'pytest-cov'],
+    },
 
     entry_points={
         'console_scripts': [

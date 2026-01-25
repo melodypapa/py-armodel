@@ -1,0 +1,19 @@
+line-length = 79
+target-version = "py38"
+
+exclude = [
+    ".git",
+    "__pycache__",
+    "*.egg-info",
+    ".pytest_cache",
+    "build",
+    "dist",
+    "venv",
+    "env",
+]
+
+[lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "C4", "SIM"]
+
+[lint.per-file-ignores]
+"tests/*" = ["F401"]
