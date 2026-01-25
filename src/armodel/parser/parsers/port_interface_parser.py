@@ -107,6 +107,7 @@ from ...models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
 from ...models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroup,
     ModeDeclarationGroupPrototype,
+    ModeDeclarationGroupPrototypeMapping,
 )
 from ...models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalBehavior,
@@ -125,6 +126,7 @@ from ...models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunicati
     CanFrameTriggering,
 )
 from ...models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayAbsolutelyScheduledTiming,
     FlexrayFrameTriggering,
 )
 from ...models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
@@ -280,6 +282,38 @@ class PortInterfaceParser(BaseARXMLParser):
         """Delegate to parent parser."""
         return self._parent_parser.getValueSpecification(*args, **kwargs)
 
+    def getCompositeNetworkRepresentation(self, *args, **kwargs):
+        """Delegate to parent parser."""
+        return self._parent_parser.getCompositeNetworkRepresentation(
+            *args, **kwargs
+        )
+
+    def readUserDefinedTransformationComSpecProps(self, *args, **kwargs):
+        """Delegate to parent parser."""
+        return self._parent_parser.readUserDefinedTransformationComSpecProps(
+            *args, **kwargs
+        )
+
+    def readFlexrayAbsolutelyScheduledTiming(self, *args, **kwargs):
+        """Delegate to parent parser."""
+        return self._parent_parser.readFlexrayAbsolutelyScheduledTiming(
+            *args, **kwargs
+        )
+
+    def readCouplingPortDetails(self, *args, **kwargs):
+        """Delegate to parent parser."""
+        return self._parent_parser.readCouplingPortDetails(*args, **kwargs)
+
+    def readEthernetPriorityRegeneration(self, *args, **kwargs):
+        """Delegate to parent parser."""
+        return self._parent_parser.readEthernetPriorityRegeneration(
+            *args, **kwargs
+        )
+
+    def readVlanMembership(self, *args, **kwargs):
+        """Delegate to parent parser."""
+        return self._parent_parser.readVlanMembership(*args, **kwargs)
+
 # readModeDeclarationGroupPrototype
     def readModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
         self.readIdentifiable(element, prototype)
@@ -354,7 +388,7 @@ class PortInterfaceParser(BaseARXMLParser):
     def readModeSwitchPoint(self, element: ET.Element, point: ModeSwitchPoint):
         self.readARObjectAttributes(element, point)
         self.readModeSwitchPointModeGroupIRef(element, point)
-    
+
 
 # readRunnableEntityModeSwitchPoints
     def readRunnableEntityModeSwitchPoints(self, element: ET.Element, parent: RunnableEntity):
@@ -533,7 +567,7 @@ class PortInterfaceParser(BaseARXMLParser):
 # readDataInterface
     def readDataInterface(self, element: ET.Element, interface: DataInterface):
         self.readPortInterface(element, interface)
-    
+
 
 # readParameterInterface
     def readParameterInterface(self, element: ET.Element, interface: ParameterInterface):
@@ -607,7 +641,7 @@ class PortInterfaceParser(BaseARXMLParser):
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
         prototype.setProvidedInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF"))
-        
+
 
 # readRPortPrototype
     def readRPortPrototype(self, element: ET.Element, prototype: RPortPrototype):
@@ -623,7 +657,11 @@ class PortInterfaceParser(BaseARXMLParser):
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
         self.readAbstractProvidedPortPrototype(element, prototype)
-        prototype.setProvidedRequiredInterface(self.getChildElementOptionalRefType(element, "PROVIDED-REQUIRED-INTERFACE-TREF"))
+        prototype.setProvidedRequiredInterface(
+            self.getChildElementOptionalRefType(
+                element, "PROVIDED-REQUIRED-INTERFACE-TREF"
+            )
+        )
 
 
 # readSwComponentTypePorts
@@ -665,7 +703,7 @@ class PortInterfaceParser(BaseARXMLParser):
                 com_spec.addTransformationComSpecProps(props)
             else:
                 self.notImplemented("Unsupported TransformationComSpecProps <%s>" % tag_name)
-    
+
 
 # readPPortComSpec
     def readPPortComSpec(self, element: ET.Element, com_spec: PPortComSpec):
@@ -752,10 +790,14 @@ class PortInterfaceParser(BaseARXMLParser):
 
 # readPPortInCompositionInstanceRef
     def readPPortInCompositionInstanceRef(self, element: ET.Element, p_port_in_composition_instance_ref: PPortInCompositionInstanceRef):
-        p_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")) \
+        p_port_in_composition_instance_ref.setContextComponentRef(
+            self.getChildElementOptionalRefType(
+                element, "CONTEXT-COMPONENT-REF"
+            )
+        ) \
                                           .setTargetPPortRef(self.getChildElementOptionalRefType(element, "TARGET-P-PORT-REF"))
-        
-        
+
+
         '''
         self.logger.debug("PPortInCompositionInstanceRef")
         self.logger.debug("  CONTEXT-COMPONENT-REF DEST: %s, %s"
@@ -769,7 +811,11 @@ class PortInterfaceParser(BaseARXMLParser):
 
 # readRPortInCompositionInstanceRef
     def readRPortInCompositionInstanceRef(self, element, r_port_in_composition_instance_ref: RPortInCompositionInstanceRef):
-        r_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF")) \
+        r_port_in_composition_instance_ref.setContextComponentRef(
+            self.getChildElementOptionalRefType(
+                element, "CONTEXT-COMPONENT-REF"
+            )
+        ) \
                                           .setTargetRPortRef(self.getChildElementOptionalRefType(element, "TARGET-R-PORT-REF"))
 
 
@@ -794,16 +840,16 @@ class PortInterfaceParser(BaseARXMLParser):
                 self.readRPortInCompositionInstanceRef(child_element, r_port_in_composition_instance_ref)
                 parent.setInnerPortIRref(r_port_in_composition_instance_ref)
                 return
-            
-            
+
+
             child_element = self.find(inner_port_iref_element, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
             if (child_element is not None):
                 p_port_in_composition_instance_ref = PPortInCompositionInstanceRef()
                 self.readPPortInCompositionInstanceRef(child_element, p_port_in_composition_instance_ref)
                 parent.setInnerPortIRref(p_port_in_composition_instance_ref)
                 return
-            
-            
+
+
             self.raiseError("Unsupported child element of INNER-PORT-IREF")
 
 
@@ -878,7 +924,12 @@ class PortInterfaceParser(BaseARXMLParser):
         if child_element is not None:
             mode_mapping = ModeDeclarationGroupPrototypeMapping()
             mode_mapping.setFirstModeGroupRef(self.getChildElementOptionalRefType(child_element, "FIRST-MODE-GROUP-REF")) \
-                        .setModeDeclarationMappingSetRef(self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-MAPPING-SET-REF")) \
+                        .setModeDeclarationMappingSetRef(
+                            self.getChildElementOptionalRefType(
+                                child_element,
+                                "MODE-DECLARATION-MAPPING-SET-REF"
+                            )
+                        ) \
                         .setSecondModeGroupRef(self.getChildElementOptionalRefType(child_element, "SECOND-MODE-GROUP-REF"))
             mapping.setModeMapping(mode_mapping)
 
@@ -920,13 +971,17 @@ class PortInterfaceParser(BaseARXMLParser):
         mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
         self.logger.debug("Read SenderReceiverToSignalMapping <%s>" % mapping.getSystemSignalRef().getValue())
-    
+
 
 # readSenderRecRecordElementMapping
     def readSenderRecRecordElementMapping(self, element: ET.Element, mapping: SenderRecRecordElementMapping):
         self.readARObjectAttributes(element, mapping)
         mapping.setApplicationRecordElementRef(self.getChildElementOptionalRefType(element, "APPLICATION-RECORD-ELEMENT-REF"))
-        mapping.setImplementationRecordElementRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-RECORD-ELEMENT-REF"))
+        mapping.setImplementationRecordElementRef(
+            self.getChildElementOptionalRefType(
+                element, "IMPLEMENTATION-RECORD-ELEMENT-REF"
+            )
+        )
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
 
@@ -940,16 +995,20 @@ class PortInterfaceParser(BaseARXMLParser):
                 mapping.addRecordElementMapping(record_element_mapping)
             else:
                 self.notImplemented("Unsupported RecordElementMapping %s" % tag_name)
-    
+
 
 # readSenderRecRecordTypeMapping
     def readSenderRecRecordTypeMapping(self, element: ET.Element, mapping: SenderRecRecordTypeMapping):
         self.readSenderRecCompositeTypeMapping(element, mapping)
         self.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
-    
+
 
 # readSenderReceiverToSignalGroupMappingTypeMapping
-    def readSenderReceiverToSignalGroupMappingTypeMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
+    def readSenderReceiverToSignalGroupMappingTypeMapping(
+        self,
+        element: ET.Element,
+        mapping: SenderReceiverToSignalGroupMapping
+    ):
         child_element = self.find(element, "TYPE-MAPPING/*")
         if child_element is not None:
             tag_name = self.getTagName(child_element)
@@ -996,7 +1055,7 @@ class PortInterfaceParser(BaseARXMLParser):
         self.readFrameTriggering(element, triggering)
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER")) \
                   .setLinChecksum(self.getChildElementOptionalLiteral(element, "LIN-CHECKSUM"))
-        
+
 
 # readFlexrayFrameTriggeringAbsolutelyScheduledTimings
     def readFlexrayFrameTriggeringAbsolutelyScheduledTimings(self, element: ET.Element, triggering: FlexrayFrameTriggering):
@@ -1008,7 +1067,7 @@ class PortInterfaceParser(BaseARXMLParser):
                 triggering.addAbsolutelyScheduledTiming(timing)
             else:
                 self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % tag_name)
-        
+
 
 # readFlexrayFrameTriggering
     def readFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
@@ -1149,7 +1208,11 @@ class PortInterfaceParser(BaseARXMLParser):
 
 
 # readEthernetCommunicationControllerCouplingPorts
-    def readEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
+    def readEthernetCommunicationControllerCouplingPorts(
+        self,
+        element: ET.Element,
+        controller: EthernetCommunicationController
+    ):
         for child_element in self.findall(element, "COUPLING-PORTS/*"):
             tag_name = self.getTagName(child_element)
             if (tag_name == "COUPLING-PORT"):
@@ -1185,7 +1248,11 @@ class PortInterfaceParser(BaseARXMLParser):
 
 
 # readCommunicationConnectorEcuCommPortInstances
-    def readCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
+    def readCommunicationConnectorEcuCommPortInstances(
+        self,
+        element: ET.Element,
+        connector: CommunicationConnector
+    ):
         self.logger.debug("read EcuCommPortInstances of CommunicationConnector %s" % connector.getShortName())
         for child_element in self.findall(element, "ECU-COMM-PORT-INSTANCES/*"):
             tag_name = self.getTagName(child_element)
