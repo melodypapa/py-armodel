@@ -13,36 +13,56 @@ class TestDocumentViewSelectable:
         # Test that DocumentViewSelectable cannot be instantiated directly
         with pytest.raises(TypeError, match="DocumentViewSelectable is an abstract class"):
             DocumentViewSelectable()
-        
-        # Test that a concrete subclass can be instantiated
-        paginateable = Paginateable()
-        assert paginateable is not None
-        assert isinstance(paginateable, DocumentViewSelectable)
+
+        # Test that Paginateable is also abstract
+        with pytest.raises(TypeError, match="Paginateable is an abstract class"):
+            Paginateable()
 
 
 class TestPaginateable:
     """Test class for Paginateable class."""
-    
-    def test_paginateable_initialization(self):
-        """Test that a Paginateable object can be initialized with default values."""
-        paginateable = Paginateable()
-        assert paginateable.chapterBreak is None
-        assert paginateable.keepWithPrevious is None
-    
+
+    def test_paginateable_is_abstract(self):
+        """Test that Paginateable is abstract and cannot be instantiated directly."""
+        with pytest.raises(TypeError, match="Paginateable is an abstract class"):
+            Paginateable()
+
+    def test_paginateable_subclass_can_be_instantiated(self):
+        """Test that a concrete subclass of Paginateable can be instantiated."""
+        # Create a simple concrete subclass for testing
+        class ConcretePaginatable(Paginateable):
+            def __init__(self):
+                super().__init__()
+
+        concrete = ConcretePaginatable()
+        assert concrete is not None
+        assert isinstance(concrete, DocumentViewSelectable)
+        assert isinstance(concrete, Paginateable)
+
     def test_paginateable_break_methods(self):
         """Test the chapterBreak getter and setter."""
-        paginateable = Paginateable()
+        # Create a concrete subclass for testing
+        class ConcretePaginatable(Paginateable):
+            def __init__(self):
+                super().__init__()
+
+        paginateable = ConcretePaginatable()
         chapter_break = "break"
-        
+
         result = paginateable.setBreak(chapter_break)
         assert paginateable.getBreak() == chapter_break
         assert result == paginateable
-    
+
     def test_paginateable_keep_with_previous_methods(self):
         """Test the keepWithPrevious getter and setter."""
-        paginateable = Paginateable()
+        # Create a concrete subclass for testing
+        class ConcretePaginatable(Paginateable):
+            def __init__(self):
+                super().__init__()
+
+        paginateable = ConcretePaginatable()
         keep_with_prev = "keep"
-        
+
         result = paginateable.setKeepWithPrevious(keep_with_prev)
         assert paginateable.getKeepWithPrevious() == keep_with_prev
         assert result == paginateable

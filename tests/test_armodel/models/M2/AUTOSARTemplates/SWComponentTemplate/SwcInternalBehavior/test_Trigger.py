@@ -43,10 +43,12 @@ class TestExternalTriggeringPointIdent:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         ident = ExternalTriggeringPointIdent(ar_root, "TestExternalTriggeringPointIdent")
-        
+
         assert ident.parent == ar_root
         assert ident.short_name == "TestExternalTriggeringPointIdent"
-        assert ident.returnValueProvision is None
+        # ExternalTriggeringPointIdent inherits from IdentCaption, which doesn't have returnValueProvision
+        # That attribute is only on InternalTriggeringPoint (which inherits from AbstractAccessPoint)
+        assert isinstance(ident, IdentCaption)
 
 
 class TestExternalTriggeringPoint:

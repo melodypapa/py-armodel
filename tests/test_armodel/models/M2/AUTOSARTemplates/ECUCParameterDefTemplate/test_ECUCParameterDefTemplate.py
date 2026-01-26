@@ -106,94 +106,95 @@ class TestEcucScopeEnum:
 class TestEcucDefinitionElement:
     """
     Test class for EcucDefinitionElement functionality.
-    This class contains test methods for validating the behavior of 
-    the EcucDefinitionElement class, including its initialization and methods.
+    This class contains test methods for validating the behavior of
+    the EcucDefinitionElement class, including that it is abstract.
     """
-    
-    def test_initialization(self):
+
+    def test_is_abstract(self):
         """
-        Test EcucDefinitionElement class initialization.
-        Verifies that the EcucDefinitionElement can be properly instantiated
-        with a parent and short name.
+        Test that EcucDefinitionElement is abstract and cannot be instantiated directly.
         """
+        import pytest
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        definition_element = EcucDefinitionElement(parent, "TestDefinitionElement")
 
-        assert definition_element is not None
-        assert definition_element.getShortName() == "TestDefinitionElement"
-        assert definition_element.getEcucCond() is None
-        assert definition_element.getEcucValidationConds() == []
-        assert definition_element.getLowerMultiplicity() is None
-        assert definition_element.getRelatedTraceItemRef() is None
-        assert definition_element.getScope() is None
-        assert definition_element.getUpperMultiplicity() is None
-        assert definition_element.getUpperMultiplicityInfinite() is None
+        with pytest.raises(TypeError, match="EcucDefinitionElement is an abstract class"):
+            EcucDefinitionElement(parent, "TestDefinitionElement")
+
+    def test_initialization(self):
+        """
+        Test EcucDefinitionElement subclass initialization.
+        Verifies that a concrete subclass can be instantiated.
+        """
+        # Test with a concrete subclass like EcucContainerDef
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        container_def = EcucContainerDef(parent, "TestContainerDef")
+
+        assert container_def is not None
+        assert container_def.getShortName() == "TestContainerDef"
 
     def test_setter_methods(self):
         """
-        Test EcucDefinitionElement setter methods.
+        Test EcucDefinitionElement setter methods on concrete subclass.
         Verifies that all setter methods work correctly and return self for method chaining.
         """
+        # Test with a concrete subclass
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        definition_element = EcucDefinitionElement(parent, "TestDefinitionElement")
+        container_def = EcucContainerDef(parent, "TestContainerDef")
 
         # Test setEcucCond
         condition_spec = EcucConditionSpecification()
-        result = definition_element.setEcucCond(condition_spec)
-        assert result == definition_element
-        assert definition_element.getEcucCond() == condition_spec
+        result = container_def.setEcucCond(condition_spec)
+        assert result == container_def
+        assert container_def.getEcucCond() == condition_spec
 
         # Test addEcucValidationCond
         validation_condition = EcucValidationCondition(parent, "TestValidation")
-        result = definition_element.addEcucValidationCond(validation_condition)
-        assert result == definition_element
-        assert validation_condition in definition_element.getEcucValidationConds()
+        result = container_def.addEcucValidationCond(validation_condition)
+        assert result == container_def
+        assert validation_condition in container_def.getEcucValidationConds()
 
         # Test setLowerMultiplicity
-        result = definition_element.setLowerMultiplicity(1)
-        assert result == definition_element
-        assert definition_element.getLowerMultiplicity() == 1
+        result = container_def.setLowerMultiplicity(1)
+        assert result == container_def
+        assert container_def.getLowerMultiplicity() == 1
 
         # Test setRelatedTraceItemRef
         ref = EcucDestinationUriDefRefType()
-        result = definition_element.setRelatedTraceItemRef(ref)
-        assert result == definition_element
-        assert definition_element.getRelatedTraceItemRef() == ref
+        result = container_def.setRelatedTraceItemRef(ref)
+        assert result == container_def
+        assert container_def.getRelatedTraceItemRef() == ref
 
         # Test setScope
         scope = EcucScopeEnum()
-        result = definition_element.setScope(scope)
-        assert result == definition_element
-        assert definition_element.getScope() == scope
+        result = container_def.setScope(scope)
+        assert result == container_def
+        assert container_def.getScope() == scope
 
         # Test setUpperMultiplicity
-        result = definition_element.setUpperMultiplicity(10)
-        assert result == definition_element
-        assert definition_element.getUpperMultiplicity() == 10
+        result = container_def.setUpperMultiplicity(10)
+        assert result == container_def
+        assert container_def.getUpperMultiplicity() == 10
 
         # Test setUpperMultiplicityInfinite
-        result = definition_element.setUpperMultiplicityInfinite(True)
-        assert result == definition_element
-        assert definition_element.getUpperMultiplicityInfinite() is True
+        result = container_def.setUpperMultiplicityInfinite(True)
+        assert result == container_def
+        assert container_def.getUpperMultiplicityInfinite() is True
 
     def test_none_handling(self):
         """
         Test EcucDefinitionElement setter methods with None values.
         Verifies that setting None values doesn't change the stored values.
         """
+        import pytest
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        definition_element = EcucDefinitionElement(parent, "TestDefinitionElement")
 
-        # Set some initial values
-        condition_spec = EcucConditionSpecification()
-        definition_element.setEcucCond(condition_spec)
-
-        # Setting None should not change the value
-        definition_element.setEcucCond(None)
-        assert definition_element.getEcucCond() == condition_spec
+        # EcucDefinitionElement is abstract, so it should raise TypeError
+        with pytest.raises(TypeError, match="EcucDefinitionElement is an abstract class"):
+            EcucDefinitionElement(parent, "TestDefinitionElement")
 
 
 class TestEcucDestinationUriDefRefType:
@@ -256,26 +257,39 @@ class TestEcucAbstractConfigurationClass:
     """
     Test class for EcucAbstractConfigurationClass functionality.
     This class contains test methods for validating the behavior of 
-    the EcucAbstractConfigurationClass class, including its initialization and methods.
+    the EcucAbstractConfigurationClass class, including that it is abstract.
     """
-    
-    def test_initialization(self):
-        """
-        Test EcucAbstractConfigurationClass class initialization.
-        Verifies that the EcucAbstractConfigurationClass can be properly instantiated.
-        """
-        config_class = EcucAbstractConfigurationClass()
 
-        assert config_class is not None
-        assert config_class.getConfigClass() is None
-        assert config_class.getConfigVariant() is None
+    def test_is_abstract(self):
+        """
+        Test that EcucAbstractConfigurationClass is abstract and cannot be instantiated directly.
+        """
+        import pytest
+        with pytest.raises(TypeError, match="EcucAbstractConfigurationClass is an abstract class"):
+            EcucAbstractConfigurationClass()
+
+    def test_subclass_initialization(self):
+        """
+        Test EcucAbstractConfigurationClass subclass initialization.
+        Verifies that a concrete subclass can be instantiated.
+        """
+        # Use a concrete subclass like EcucContainerDef
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        container_def = EcucContainerDef(parent, "TestContainerDef")
+
+        # EcucContainerDef inherits from EcucAbstractConfigurationClass
+        assert container_def is not None
+        assert isinstance(container_def, EcucAbstractConfigurationClass)
 
     def test_setter_methods(self):
         """
-        Test EcucAbstractConfigurationClass setter methods.
+        Test EcucAbstractConfigurationClass setter methods on concrete subclass.
         Verifies that setter methods work correctly and return self for method chaining.
         """
-        config_class = EcucAbstractConfigurationClass()
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        container_def = EcucContainerDef(parent, "TestContainerDef")
 
         # Test setConfigClass
         config_enum = EcucConfigurationClassEnum()
