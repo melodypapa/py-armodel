@@ -5,6 +5,7 @@ from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, PositiveInteger, RefType, TimeValue
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 
 class SocketConnection(Describable):
     """
@@ -246,7 +247,7 @@ class SocketConnectionBundle(Referrable):
         self.udpChecksumHandling = value
         return self
 
-class SoAdRoutingGroup(Identifiable):
+class SoAdRoutingGroup(FibexElement):
     """
     Defines a routing group for the Socket Adaptor (SoAd) module,
     specifying how Ethernet communication is organized and controlled

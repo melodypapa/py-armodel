@@ -6,7 +6,7 @@ in the EcuResourceTemplate module.
 from typing import Optional
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
 
 
 class HwAttributeValue(ARElement):
@@ -77,16 +77,16 @@ class HwAttributeValue(ARElement):
         return self
 
 
-class HwAttributeLiteralDef(ARElement):
+class HwAttributeLiteralDef(Identifiable):
     """
     Represents a hardware attribute literal definition in AUTOSAR hardware descriptions.
     This class defines the possible literal values for an enumerated hardware attribute.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwAttributeLiteralDef with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this hardware attribute literal definition
             short_name: The unique short name of this hardware attribute literal definition

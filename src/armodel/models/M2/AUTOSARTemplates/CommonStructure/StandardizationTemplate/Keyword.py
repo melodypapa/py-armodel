@@ -8,6 +8,7 @@ from typing import List
 
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 
 
 class Keyword(Identifiable):
@@ -80,16 +81,16 @@ class Keyword(Identifiable):
         return self
 
 
-class KeywordSet(ARElement):
+class KeywordSet(AtpBlueprintable):
     """
     Represents a set of keywords in AUTOSAR models for standardization and classification purposes.
     This class contains multiple keywords that are grouped together for organizational purposes.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the KeywordSet with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this keyword set
             short_name: The unique short name of this keyword set

@@ -57,7 +57,7 @@ class EcucScopeEnum(AREnum):
 
 class EcucDefinitionElement(Identifiable, ABC):
     """
-    Represents an ECUC (Electronic Control Unit Configuration) definition element 
+    Represents an ECUC (Electronic Control Unit Configuration) definition element
     with various attributes and methods to manage its properties.
     Attributes:
         ecucCond (EcucConditionSpecification): The condition specification for the ECUC element.
@@ -98,6 +98,8 @@ class EcucDefinitionElement(Identifiable, ABC):
             Sets whether the upper multiplicity is infinite.
     """
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is EcucDefinitionElement:
+            raise TypeError("EcucDefinitionElement is an abstract class.")
         super().__init__(parent, short_name)
 
         self.ecucCond: EcucConditionSpecification = None
@@ -211,6 +213,8 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
             Returns the instance for method chaining.
     """
     def __init__(self):
+        if type(self) is EcucAbstractConfigurationClass:
+            raise TypeError("EcucAbstractConfigurationClass is an abstract class.")
         super().__init__()
 
         self.configClass: EcucConfigurationClassEnum = None
@@ -293,6 +297,8 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             Sets whether the container supports multiple configurations.
     """
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is EcucContainerDef:
+            raise TypeError("EcucContainerDef is an abstract class.")
         super().__init__(parent, short_name)
 
         self.destinationUriRef: EcucDestinationUriDefRefType = None
@@ -1024,32 +1030,11 @@ class EcucChoiceContainerDef(EcucContainerDef):
 
 
 class EcucParamConfContainerDef(EcucContainerDef):
-    class EcucParamConfContainerDef:
-        """
-        Represents a configuration container definition in the AUTOSAR ECUC model.
-        This class is used to define a container that can hold parameters, references,
-        and sub-containers as part of the AUTOSAR ECUC configuration.
-        Attributes:
-            parameters (List[EcucParameterDef]): A list of parameter definitions associated with this container.
-            references (List[EcucAbstractReferenceDef]): A list of reference definitions associated with this container.
-            subContainers (List[EcucContainerDef]): A list of sub-container definitions associated with this container.
-        Methods:
-            getParameters() -> List[EcucParameterDef]:
-                Retrieves the list of parameter definitions.
-            addParameter(value: EcucParameterDef):
-                Adds a parameter definition to the container.
-                Returns the current instance for method chaining.
-            getReferences() -> List[EcucAbstractReferenceDef]:
-                Retrieves the list of reference definitions.
-            addReference(value: EcucAbstractReferenceDef):
-                Adds a reference definition to the container.
-                Returns the current instance for method chaining.
-            getSubContainers() -> List[EcucContainerDef]:
-                Retrieves the list of sub-container definitions.
-            addSubContainers(value: EcucContainerDef):
-                Adds a sub-container definition to the container.
-                Returns the current instance for method chaining.
-        """
+    """
+    Represents a configuration container definition in the AUTOSAR ECUC model.
+    This class is used to define a container that can hold parameters, references,
+    and sub-containers as part of the AUTOSAR ECUC configuration.
+    """
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1243,7 +1228,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.subContainers.append(container)
         return self.getElement(short_name)
     
-    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
+    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
         """
         Creates a new ECUC parameter configuration container definition and adds it to the container.
 
@@ -1406,7 +1391,7 @@ class EcucDestinationUriPolicy(ARObject):
         return self
 
 
-class EcucLinkerSymbolDef(Identifiable):
+class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
     """
     Represents an ECUC linker symbol definition in the AUTOSAR model.
 
@@ -1469,7 +1454,7 @@ class EcucParameterDerivationFormula(ARObject):
         return self
 
 
-class EcucQuery(ARObject):
+class EcucQuery(Identifiable):
     """
     Represents an ECUC query in the AUTOSAR model.
 
@@ -1478,8 +1463,8 @@ class EcucQuery(ARObject):
     Attributes:
         queryExpression (EcucQueryExpression): The query expression.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
         self.queryExpression: "EcucQueryExpression" = None
 
@@ -1536,7 +1521,7 @@ class EcucModuleDef(EcucDefinitionElement):
     def getContainers(self) -> List[EcucContainerDef]:
         return self.containers
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
+    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
         if (not self.IsElementExists(short_name)):
             container_def = EcucParamConfContainerDef(self, short_name)
             self.addElement(container_def)

@@ -224,10 +224,10 @@ class CompuNominatorDenominator(ARObject):
         return self.v
 
 
-class CompuScale(Compu):
+class CompuScale(ARObject):
     """
     Represents a single scale in a computation method with limits and content.
-    Base: Compu
+    Base: ARObject
     """
     def __init__(self):
         super().__init__()

@@ -5,7 +5,7 @@ defining end-to-end protection profiles, variables, and protection sets
 used to ensure data integrity in communication systems.
 """
 
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
 from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
 from ..SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
@@ -177,7 +177,7 @@ class EndToEndProtection(Identifiable):
         return self
 
 
-class EndToEndProtectionSet(Identifiable):
+class EndToEndProtectionSet(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

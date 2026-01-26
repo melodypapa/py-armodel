@@ -1,27 +1,22 @@
 ## Class Hierarchy
 
-* GeneralAnnotation (abstract)
-  * Annotation
-  * ClientServerAnnotation
-  * DelegatedPortAnnotation
-  * IoHwAbstractionServerAnnotation
-  * ModePortAnnotation
-  * NvDataPortAnnotation
-  * ParameterPortAnnotation
-  * SenderReceiverAnnotation (abstract)
-    * ReceiverAnnotation
-    * SenderAnnotation
-  * TriggerPortAnnotation
 * ARObject (abstract)
   * AUTOSAR
   * AbstractCanCommunicationControllerAttributes (abstract)
     * CanControllerConfiguration
     * CanControllerConfigurationRequirements
+  * AbstractCondition (abstract)
+    * InvertCondition
+    * TextualCondition
   * AbstractGlobalTimeDomainProps (abstract)
     * CanGlobalTimeDomainProps
     * EthGlobalTimeDomainProps
     * FrGlobalTimeDomainProps
   * AbstractMultiplicityRestriction (abstract)
+    * AttributeCondition (abstract)
+      * AggregationCondition
+      * PrimitiveAttributeCondition
+      * ReferenceCondition
   * AbstractValueRestriction (abstract)
   * AbstractVariationRestriction (abstract)
   * AccessCount
@@ -31,6 +26,8 @@
   * ArParameterInImplementationDataInstanceRef
   * ArVariableInImplementationDataInstanceRef
   * Area
+  * AtpBlueprintMapping (abstract)
+    * BlueprintMapping
   * AtpInstanceRef (abstract)
     * AnyInstanceRef
     * ApplicationCompositeElementInPortInterfaceInstanceRef
@@ -75,10 +72,15 @@
   * AutosarVariableRef
   * BaseTypeDefinition (abstract)
     * BaseTypeDirectDefinition
+  * Baseline
   * BinaryManifestItemValue (abstract)
     * BinaryManifestItemNumericalValue
     * BinaryManifestItemPointerValue
   * BlueprintGenerator
+  * BlueprintPolicy (abstract)
+    * BlueprintPolicyList
+    * BlueprintPolicyNotModifiable
+    * BlueprintPolicySingle
   * Br
   * BswEntryRelationship
   * BswModeReceiverPolicy
@@ -108,13 +110,16 @@
   * ChapterContent
   * ChapterModel
   * ChapterOrMsrQuery
+  * ClassTailoring (abstract)
   * ClientIdRange
   * ClientServerApplicationErrorMapping
+  * ClientServerOperationBlueprintMapping
   * ClientServerOperationMapping
   * Colspec
   * CommunicationControllerMapping
   * CommunicationCycle (abstract)
     * CycleCounter
+    * CycleRepetition
   * CompositeNetworkRepresentation
   * CompositeRuleBasedValueArgument (abstract)
     * ApplicationRuleBasedValueSpecification
@@ -143,6 +148,7 @@
     * DataComProps
   * DataConstrRule
   * DataFilter
+  * DataFormatTailoring
   * DataMapping (abstract)
     * ClientServerToSignalMapping
     * SenderReceiverCompositeElementToSignalMapping
@@ -278,6 +284,8 @@
   * EthTSynSubTlvConfig
   * EventObdReadinessGroup
   * ExternalTriggeringPoint
+  * FMAttributeValue
+  * FMFeatureDecomposition
   * FileInfoComment
   * FirewallRuleProps
   * FlexrayAbsolutelyScheduledTiming
@@ -289,6 +297,8 @@
     * CompuGenericMath
     * EcucConditionFormula
     * EcucParameterDerivationFormula
+    * FMFormulaByFeaturesAndAttributes (abstract)
+      * FMConditionByFeaturesAndAttributes
     * SwSystemconstDependentFormula (abstract)
       * AttributeValueVariationPoint (abstract)
         * AbstractEnumerationValueVariationPoint (abstract)
@@ -301,11 +311,26 @@
         * PositiveIntegerValueVariationPoint
         * TimeValueValueVariationPoint
         * UnlimitedIntegerValueVariationPoint
+      * BlueprintFormula
       * ConditionByFormula
+      * FMFormulaByFeaturesAndSwSystemconsts (abstract)
+        * FMConditionByFeaturesAndSwSystemconsts
     * TDEventOccurrenceExpressionFormula
     * TimingConditionFormula
   * FrameMapping
   * FramePid
+  * GeneralAnnotation (abstract)
+    * Annotation
+    * ClientServerAnnotation
+    * DelegatedPortAnnotation
+    * IoHwAbstractionServerAnnotation
+    * ModePortAnnotation
+    * NvDataPortAnnotation
+    * ParameterPortAnnotation
+    * SenderReceiverAnnotation (abstract)
+      * ReceiverAnnotation
+      * SenderAnnotation
+    * TriggerPortAnnotation
   * GenericModelReference
   * GlobalTimeCorrectionProps
   * GlobalTimeCouplingPortProps
@@ -317,6 +342,8 @@
   * IPduMapping
   * ISignalMapping
   * ISignalProps
+  * IdsmSignatureSupportAp
+  * IdsmSignatureSupportCp
   * ImplementationElementInParameterInstanceRef
   * IncludedDataTypeSet
   * IncludedModeDeclarationGroupSet
@@ -339,6 +366,7 @@
   * Ipv6FragmentationProps
   * Ipv6NdpProps
   * Ipv6Props
+  * J1939ControllerApplicationToJ1939NmNodeMapping
   * J1939NodeName
   * J1939TpPg
   * LanguageSpecific (abstract)
@@ -349,6 +377,7 @@
   * LinErrorResponse
   * LinOrderedConfigurableFrame
   * LinSlaveConfig
+  * MacSecCipherSuiteConfig
   * MacSecCryptoAlgoConfig
   * MacSecLocalKayProps
   * MacSecProps
@@ -424,9 +453,11 @@
   * PlcaProps
   * PortAPIOption
   * PortDefinedArgumentValue
+  * PortPrototypeBlueprintInitValue
   * PostBuildVariantCondition
   * PostBuildVariantCriterionValue
   * PredefinedChapter
+  * PrivacyLevel
   * RPortComSpec (abstract)
     * ClientComSpec
     * ModeSwitchReceiverComSpec
@@ -439,7 +470,6 @@
   * ReferenceBase
   * Referrable (abstract)
     * AtpDefinition (abstract)
-      * EcucModuleDef
       * HwCategory
       * PostBuildVariantCriterion
       * SwSystemconst
@@ -469,7 +499,6 @@
     * LinSlaveConfigIdent
     * MultilanguageReferrable (abstract)
       * Caption
-        * DiagnosticParameterIdent
       * DocumentationContext
       * Identifiable (abstract)
         * <<atpPrototype>> PduToFrameMapping
@@ -491,6 +520,11 @@
               * BswModeSwitchedAckEvent
               * BswOsTaskExecutionEvent
               * BswTimingEvent
+        * AbstractSecurityEventFilter (abstract)
+          * SecurityEventAggregationFilter
+          * SecurityEventOneEveryNFilter
+          * SecurityEventStateFilter
+          * SecurityEventThresholdFilter
         * AbstractServiceInstance (abstract)
           * ConsumedServiceInstance
           * DdsCpServiceInstance (abstract)
@@ -502,6 +536,7 @@
         * ApplicationError
         * ApplicationPartitionToEcuPartitionMapping
         * AtpBlueprint (abstract)
+          * ClientServerInterfaceToBswModuleEntryBlueprintMapping
         * AtpBlueprintable (abstract)
           * AclObjectSet
           * AclOperation
@@ -514,7 +549,6 @@
             * BuildAction
           * BuildActionEnvironment
           * BuildActionManifest
-          * ClientServerInterfaceMapping
           * CompuMethod
           * ConsistencyNeeds
           * DataConstr
@@ -522,14 +556,17 @@
           * EcucDefinitionCollection
           * EcucDestinationUriDefSet
           * FlatMap
+          * ImpositionTime
+          * KeywordSet
           * LifeCycleState
           * LifeCycleStateDefinitionGroup
-          * ModeInterfaceMapping
           * PortInterfaceMapping (abstract)
+            * ClientServerInterfaceMapping
+            * ModeInterfaceMapping
+            * TriggerInterfaceMapping
+            * VariableAndParameterInterfaceMapping
           * PortInterfaceMappingSet
           * SwAddrMethod
-          * TriggerInterfaceMapping
-          * VariableAndParameterInterfaceMapping
         * AtpClassifier (abstract)
           * AtpType (abstract)
             * AutosarDataType (abstract)
@@ -539,10 +576,12 @@
                 * ApplicationCompositeDataType (abstract)
                   * ApplicationArrayDataType
                   * ApplicationRecordDataType
+                * ApplicationDeferredDataType
                 * ApplicationPrimitiveDataType
             * ModeDeclarationGroup
             * ModeDeclarationMappingSet
             * PortInterface (abstract)
+              * ApplicationInterface
               * ClientServerInterface
               * DataInterface (abstract)
                 * NvDataInterface
@@ -563,21 +602,22 @@
               * ParameterSwComponentType
         * AtpFeature (abstract)
           * AtpPrototype (abstract)
-            * AbstractProvidedPortPrototype (abstract)
-            * AbstractRequiredPortPrototype (abstract)
             * DataPrototype (abstract)
               * ApplicationCompositeElementDataPrototype (abstract)
                 * ApplicationArrayElement
                 * ApplicationRecordElement
               * AutosarDataPrototype (abstract)
                 * ArgumentDataPrototype
+                * Field
                 * ParameterDataPrototype
                 * VariableDataPrototype
             * ModeDeclarationGroupPrototype
             * PortPrototype (abstract)
-              * PPortPrototype
-              * PRPortPrototype
-              * RPortPrototype
+              * AbstractProvidedPortPrototype (abstract)
+                * PPortPrototype
+              * AbstractRequiredPortPrototype (abstract)
+                * PRPortPrototype
+                * RPortPrototype
             * RootSwCompositionPrototype
             * SwComponentPrototype
           * AtpStructureElement (abstract)
@@ -597,8 +637,12 @@
             * ClientServerOperation
             * DataPrototypeGroup
             * IdentCaption (abstract)
+              * BswServiceDependencyIdent
+              * DiagnosticParameterIdent
               * ExternalTriggeringPointIdent
               * ModeAccessPointIdent
+            * IdsPlatformInstantiation (abstract)
+              * IdsmModuleInstantiation
             * InternalBehavior (abstract)
               * BswInternalBehavior
               * SwcInternalBehavior
@@ -644,11 +688,13 @@
           * BinaryManifestProvideResource
           * BinaryManifestRequireResource
         * BinaryManifestResourceDefinition
+        * BlockState
         * BswInternalTriggeringPoint
         * BswModuleDependency
         * CanTpAddress
         * CanTpChannel
         * CanTpNode
+        * ClassContentConditional
         * ClientIdDefinition
         * Code
         * CollectableElement (abstract)
@@ -662,6 +708,7 @@
               * CalibrationParameterValueSet
               * ClientIdDefinitionSet
               * Collection
+              * ConsistencyNeedsBlueprintSet
               * ConstantSpecification
               * ConstantSpecificationMappingSet
               * CpSoftwareCluster
@@ -674,12 +721,15 @@
               * CryptoServicePrimitive
               * CryptoServiceQueue
               * CryptoSignatureScheme
+              * DataExchangePoint
               * DataTransformationSet
+              * DdsCpConfig
               * DiagnosticCommonElement (abstract)
                 * DiagnosticAbstractAliasEvent (abstract)
                   * DiagnosticFimAliasEvent
                   * DiagnosticFimAliasEventGroup
                 * DiagnosticAbstractDataIdentifier (abstract)
+                  * DiagnosticDataIdentifier
                   * DiagnosticDynamicDataIdentifier
                 * DiagnosticAccessPermission
                 * DiagnosticAging
@@ -693,6 +743,7 @@
                 * DiagnosticDataIdentifierSet
                 * DiagnosticEcuInstanceProps
                 * DiagnosticEnvironmentalCondition
+                * DiagnosticEvent
                 * DiagnosticExtendedDataRecord
                 * DiagnosticFimEventGroup
                 * DiagnosticFreezeFrame
@@ -739,9 +790,10 @@
                     * DiagnosticServiceSwMapping
                     * DiagnosticStorageConditionPortMapping
                   * DiagnosticTroubleCodeUdsToTroubleCodeObdMapping
+                * DiagnosticMeasurementIdentifier
                 * DiagnosticMemoryDestination (abstract)
-                * DiagnosticMemoryDestinationPrimary
-                * DiagnosticMemoryDestinationUserDefined
+                  * DiagnosticMemoryDestinationPrimary
+                  * DiagnosticMemoryDestinationUserDefined
                 * DiagnosticMemoryIdentifier
                 * DiagnosticOperationCycle
                 * DiagnosticParameterIdentifier
@@ -761,6 +813,7 @@
                   * DiagnosticEcuResetClass
                   * DiagnosticIoControlClass
                   * DiagnosticReadDTCInformationClass
+                  * DiagnosticReadDataByIdentifierClass
                   * DiagnosticReadDataByPeriodicIDClass
                   * DiagnosticReadMemoryByAddressClass
                   * DiagnosticReadScalingDataByIdentifierClass
@@ -768,12 +821,14 @@
                   * DiagnosticRequestCurrentPowertrainDataClass
                   * DiagnosticRequestDownloadClass
                   * DiagnosticRequestEmissionRelatedDTCClass
+                  * DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
                   * DiagnosticRequestFileTransferClass
                   * DiagnosticRequestOnBoardMonitoringTestResultsClass
                   * DiagnosticRequestPowertrainFreezeFrameDataClass
                   * DiagnosticRequestUploadClass
                   * DiagnosticRequestVehicleInfoClass
                   * DiagnosticResponseOnEventClass
+                  * DiagnosticRoutineControlClass
                   * DiagnosticSecurityAccessClass
                   * DiagnosticSessionControlClass
                   * DiagnosticTransferExitClass
@@ -802,16 +857,18 @@
                   * DiagnosticMemoryByAddress (abstract)
                     * DiagnosticDataTransfer
                     * DiagnosticMemoryAddressableRangeAccess (abstract)
-                    * DiagnosticReadMemoryByAddress
-                    * DiagnosticRequestDownload
-                    * DiagnosticRequestUpload
+                      * DiagnosticReadMemoryByAddress
+                      * DiagnosticRequestDownload
+                      * DiagnosticRequestUpload
+                      * DiagnosticWriteMemoryByAddress
                     * DiagnosticTransferExit
-                    * DiagnosticWriteMemoryByAddress
                   * DiagnosticReadDTCInformation
+                  * DiagnosticReadDataByPeriodicID
                   * DiagnosticRequestControlOfOnBoardDevice
                   * DiagnosticRequestCurrentPowertrainData
                   * DiagnosticRequestEmissionRelatedDTC
                   * DiagnosticRequestEmissionRelatedDTCPermanentStatus
+                  * DiagnosticRequestFileTransfer
                   * DiagnosticRequestOnBoardMonitoringTestResults
                   * DiagnosticRequestPowertrainFreezeFrameData
                   * DiagnosticRequestVehicleInfo
@@ -843,6 +900,9 @@
               * EthTcpIpProps
               * EvaluatedVariantSet
               * FMFeature
+              * FMFeatureMap
+              * FMFeatureModel
+              * FMFeatureSelectionSet
               * FirewallRule
               * GeneralPurposeConnection
               * IEEE1722TpConnection (abstract)
@@ -854,11 +914,25 @@
                   * IEEE1722TpRvfConnection
               * IPSecConfigProps
               * IPv6ExtHeaderFilterSet
+              * IdsCommonElement (abstract)
+                * IdsMapping (abstract)
+                  * SecurityEventContextMapping (abstract)
+                    * SecurityEventContextMappingApplication
+                    * SecurityEventContextMappingBswModule
+                    * SecurityEventContextMappingCommConnector
+                    * SecurityEventContextMappingFunctionalCluster
+                * IdsmInstance
+                * IdsmProperties
+                * SecurityEventDefinition
+                * SecurityEventFilterChain
+              * IdsDesign
               * Implementation (abstract)
                 * BswImplementation
                 * SwcImplementation
+              * InterpolationRoutineMappingSet
               * J1939ControllerApplication
               * LifeCycleInfoSet
+              * LogAndTraceMessageCollectionSet
               * MacSecGlobalKayProps
               * MacSecParticipantSet
               * McFunction
@@ -866,11 +940,11 @@
               * OsTaskProxy
               * PhysicalDimension
               * PhysicalDimensionMappingSet
+              * PlatformModuleEthernetEndpointConfiguration
               * PostBuildVariantCriterionValueSet
               * PredefinedVariant
               * RapidPrototypingScenario
               * SdgDef
-              * SecurityEventDefinition
               * SignalServiceTranslationPropsSet
               * SomeipSdClientEventGroupTimingConfig
               * SomeipSdClientServiceInstanceConfig
@@ -885,6 +959,7 @@
               * TDCpSoftwareClusterMappingSet
               * TcpOptionFilterSet
               * TimingExtension (abstract)
+                * BswCompositionTiming
                 * BswModuleTiming
                 * EcuTiming
                 * SwcTiming
@@ -917,6 +992,7 @@
               * EthernetWakeupSleepOnDatalineConfigSet
               * Frame (abstract)
                 * AbstractEthernetFrame (abstract)
+                  * GenericEthernetFrame
                   * Ieee1722TpEthernetFrame
                   * UserDefinedEthernetFrame
                 * CanFrame
@@ -1001,6 +1077,7 @@
         * CpSoftwareClusterToApplicationPartitionMapping
         * CpSoftwareClusterToEcuInstanceMapping
         * CpSoftwareClusterToResourceMapping
+        * CryptoKeySlot
         * CryptoServiceMapping (abstract)
           * SecOcCryptoServiceMapping
           * TlsCryptoServiceMapping
@@ -1044,9 +1121,10 @@
               * EcucAbstractExternalReferenceDef (abstract)
                 * EcucForeignReferenceDef
                 * EcucInstanceReferenceDef
-              * EcucChoiceReferenceDef
-              * EcucReferenceDef
-              * EcucUriReferenceDef
+              * EcucAbstractInternalReferenceDef (abstract)
+                * EcucChoiceReferenceDef
+                * EcucReferenceDef
+                * EcucUriReferenceDef
             * EcucParameterDef (abstract)
               * EcucAbstractStringParamDef (abstract)
                 * EcucFunctionNameDef
@@ -1061,6 +1139,7 @@
           * EcucContainerDef (abstract)
             * EcucChoiceContainerDef
             * EcucParamConfContainerDef
+          * EcucModuleDef
         * EcucDestinationUriDef
         * EcucEnumerationLiteralDef
         * EcucQuery
@@ -1080,6 +1159,13 @@
           * MeasuredExecutionTime
           * RoughEstimateOfExecutionTime
           * SimulatedExecutionTime
+        * FMAttributeDef
+        * FMFeatureMapAssertion
+        * FMFeatureMapCondition
+        * FMFeatureMapElement
+        * FMFeatureRelation
+        * FMFeatureRestriction
+        * FMFeatureSelection
         * FlatInstanceDescriptor
         * FlexrayArTpNode
         * FlexrayTpConnectionControl
@@ -1119,6 +1205,8 @@
         * IPv6ExtHeaderFilterList
         * ISignalToIPduMapping
         * ISignalTriggering
+        * IdsmRateLimitation
+        * IdsmTrafficLimitation
         * J1939SharedAddressCluster
         * J1939TpNode
         * Keyword
@@ -1169,11 +1257,83 @@
         * SecureCommunicationAuthenticationProps
         * SecureCommunicationFreshnessProps
         * SecurityEventContextProps
+        * ServiceNeeds (abstract)
+          * BswMgrNeeds
+          * ComMgrUserNeeds
+          * CryptoKeyManagementNeeds
+          * CryptoServiceJobNeeds
+          * CryptoServiceNeeds
+          * DiagnosticCapabilityElement (abstract)
+            * DiagnosticCommunicationManagerNeeds
+            * DiagnosticComponentNeeds
+            * DiagnosticControlNeeds
+            * DiagnosticEnableConditionNeeds
+            * DiagnosticEventInfoNeeds
+            * DiagnosticEventManagerNeeds
+            * DiagnosticEventNeeds
+            * DiagnosticIoControlNeeds
+            * DiagnosticOperationCycleNeeds
+            * DiagnosticRequestFileTransferNeeds
+            * DiagnosticRoutineNeeds
+            * DiagnosticStorageConditionNeeds
+            * DiagnosticUploadDownloadNeeds
+            * DiagnosticValueNeeds
+            * DiagnosticsCommunicationSecurityNeeds
+            * DtcStatusChangeNotificationNeeds
+            * ObdControlServiceNeeds
+            * ObdInfoServiceNeeds
+            * ObdMonitorServiceNeeds
+            * ObdPidServiceNeeds
+            * ObdRatioDenominatorNeeds
+            * ObdRatioServiceNeeds
+            * WarningIndicatorRequestedBitNeeds
+          * DltUserNeeds
+          * DoIpServiceNeeds (abstract)
+            * DoIpActivationLineNeeds
+            * DoIpGidNeeds
+            * DoIpGidSynchronizationNeeds
+            * DoIpPowerModeStatusNeeds
+            * DoIpRoutingActivationAuthenticationNeeds
+            * DoIpRoutingActivationConfirmationNeeds
+            * FurtherActionByteNeeds
+          * EcuStateMgrUserNeeds
+          * ErrorTracerNeeds
+          * FunctionInhibitionAvailabilityNeeds
+          * FunctionInhibitionNeeds
+          * GlobalSupervisionNeeds
+          * HardwareTestNeeds
+          * IdsMgrCustomTimestampNeeds
+          * IdsMgrNeeds
+          * IndicatorStatusNeeds
+          * J1939DcmDm19Support
+          * J1939RmIncomingRequestServiceNeeds
+          * J1939RmOutgoingRequestServiceNeeds
+          * NvBlockNeeds
+          * SecureOnBoardCommunicationNeeds
+          * SupervisedEntityCheckpointNeeds
+          * SupervisedEntityNeeds
+          * SyncTimeBaseMgrUserNeeds
+          * V2xDataManagerNeeds
+          * V2xFacUserNeeds
+          * V2xMUserNeeds
+          * VendorSpecificServiceNeeds
         * SignalServiceTranslationElementProps
         * SignalServiceTranslationEventProps
         * SignalServiceTranslationProps
         * SocketAddress
         * SomeipTpChannel
+        * SpecElementReference (abstract)
+          * DataFormatElementReference (abstract)
+            * AbstractClassTailoring (abstract)
+          * DocumentElementScope
+          * SpecElementScope (abstract)
+            * DataFormatElementScope (abstract)
+              * AttributeTailoring (abstract)
+                * AggregationTailoring
+                * PrimitiveAttributeTailoring
+                * ReferenceTailoring
+              * ConcreteClassTailoring
+          * SpecificationDocumentScope
         * StackUsage (abstract)
           * MeasuredStackUsage
           * RoughEstimateStackUsage
@@ -1197,6 +1357,8 @@
         * TDCpSoftwareClusterMapping
         * TDCpSoftwareClusterResourceMapping
         * TcpOptionFilterList
+        * TimingClock (abstract)
+          * TDLETZoneClock
         * TimingClockSyncAccuracy
         * TimingCondition
         * TimingDescription (abstract)
@@ -1270,6 +1432,13 @@
     * TimeSyncServerConfiguration
     * TpConnectionIdent
   * RequestResponseDelay
+  * RestrictionWithSeverity (abstract)
+    * ConstraintTailoring
+    * MultiplicityRestrictionWithSeverity
+    * SdgTailoring
+    * UnresolvedReferenceRestrictionWithSeverity
+    * ValueRestrictionWithSeverity
+    * VariationRestrictionWithSeverity
   * RoleBasedBswModuleEntryAssignment
   * RoleBasedDataAssignment
   * RoleBasedDataTypeAssignment
@@ -1304,17 +1473,18 @@
   * Sd
   * Sdf
   * Sdg
-    * SdgPrimitiveAttributeWithVariation
   * SdgContents
   * SdgElementWithGid (abstract)
     * SdgAbstractForeignReference (abstract)
+      * SdgForeignReference
       * SdgForeignReferenceWithVariation
     * SdgAbstractPrimitiveAttribute (abstract)
       * SdgPrimitiveAttribute
+      * SdgPrimitiveAttributeWithVariation
     * SdgAggregationWithVariation
     * SdgClass
-    * SdgForeignReference
   * SecureCommunicationProps
+  * SecurityEventContextData
   * SegmentPosition
   * SenderRecArrayElementMapping
   * SenderRecCompositeTypeMapping (abstract)
@@ -1323,6 +1493,7 @@
   * SenderRecRecordElementMapping
   * ServiceDependency (abstract)
     * BswServiceDependency
+    * SwcServiceDependency
   * ShortNameFragment
   * SignalPathConstraint (abstract)
     * CommonSignalPath
@@ -1333,6 +1504,7 @@
   * SoftwareContext
   * SomeipServiceVersion
   * SomeipTpConnection
+  * SpecificationScope
   * StreamFilterIEEE1722Tp
   * StreamFilterIpv4Address
   * StreamFilterIpv6Address
@@ -1438,89 +1610,10 @@
     * ReferenceValueSpecification
     * TextValueSpecification
   * VariationPoint
+  * VlanMembership
   * WhitespaceControlled (abstract)
     * MixedContentForPlainText (abstract)
       * LPlainText
     * MixedContentForVerbatim (abstract)
       * LVerbatim
   * Xref
-* ServiceNeeds (abstract)
-  * BswMgrNeeds
-  * ComMgrUserNeeds
-  * CryptoKeyManagementNeeds
-  * CryptoServiceJobNeeds
-  * CryptoServiceNeeds
-  * DiagnosticCapabilityElement (abstract)
-    * DiagnosticCommunicationManagerNeeds
-    * DiagnosticComponentNeeds
-    * DiagnosticControlNeeds
-    * DiagnosticEnableConditionNeeds
-    * DiagnosticEventInfoNeeds
-    * DiagnosticEventManagerNeeds
-    * DiagnosticEventNeeds
-    * DiagnosticIoControlNeeds
-    * DiagnosticOperationCycleNeeds
-    * DiagnosticRequestFileTransferNeeds
-    * DiagnosticRoutineNeeds
-    * DiagnosticStorageConditionNeeds
-    * DiagnosticUploadDownloadNeeds
-    * DiagnosticsCommunicationSecurityNeeds
-    * DtcStatusChangeNotificationNeeds
-    * ObdControlServiceNeeds
-    * ObdInfoServiceNeeds
-    * ObdMonitorServiceNeeds
-    * ObdPidServiceNeeds
-    * ObdRatioDenominatorNeeds
-    * ObdRatioServiceNeeds
-    * WarningIndicatorRequestedBitNeeds
-  * DltUserNeeds
-  * DoIpServiceNeeds (abstract)
-    * DoIpActivationLineNeeds
-    * DoIpGidNeeds
-    * DoIpGidSynchronizationNeeds
-    * DoIpPowerModeStatusNeeds
-    * DoIpRoutingActivationAuthenticationNeeds
-    * DoIpRoutingActivationConfirmationNeeds
-    * FurtherActionByteNeeds
-  * EcuStateMgrUserNeeds
-  * ErrorTracerNeeds
-  * FunctionInhibitionAvailabilityNeeds
-  * FunctionInhibitionNeeds
-  * GlobalSupervisionNeeds
-  * HardwareTestNeeds
-  * IdsMgrCustomTimestampNeeds
-  * IdsMgrNeeds
-  * IndicatorStatusNeeds
-  * J1939DcmDm19Support
-  * J1939RmIncomingRequestServiceNeeds
-  * J1939RmOutgoingRequestServiceNeeds
-  * NvBlockNeeds
-  * SecureOnBoardCommunicationNeeds
-  * SupervisedEntityCheckpointNeeds
-  * SupervisedEntityNeeds
-  * SyncTimeBaseMgrUserNeeds
-  * V2xDataManagerNeeds
-  * V2xFacUserNeeds
-  * V2xMUserNeeds
-  * VendorSpecificServiceNeeds
-* DiagnosticValueNeeds
-* BswCompositionTiming
-* SwcServiceDependency
-* InterpolationRoutineMappingSet
-* EcucAbstractInternalReferenceDef (abstract)
-* CycleRepetition
-* VlanMembership
-* DdsCpConfig
-* GenericEthernetFrame
-* MacSecCipherSuiteConfig
-* J1939ControllerApplicationToJ1939NmNodeMapping
-* DiagnosticDataIdentifier
-* DiagnosticEvent
-* DiagnosticMeasurementIdentifier
-* DiagnosticReadDataByIdentifierClass
-* DiagnosticRoutineControlClass
-* DiagnosticReadDataByPeriodicID
-* DiagnosticRequestFileTransfer
-* DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
-* BswServiceDependencyIdent
-* FMFeatureModel

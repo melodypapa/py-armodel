@@ -14,11 +14,11 @@ class HwElementConnector(ARElement):
     Represents a connection between hardware elements in AUTOSAR hardware descriptions.
     This class defines the connections that can exist between different hardware elements in the model.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwElementConnector with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this hardware element connector
             short_name: The unique short name of this hardware element connector

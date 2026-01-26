@@ -8,18 +8,19 @@ from typing import List, Optional
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
+from ....M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
 
 
-class HwType(ARElement):
+class HwType(HwDescriptionEntity):
     """
     Represents a hardware type in AUTOSAR hardware descriptions.
     This class defines the basic structure for hardware types.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwType with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this hardware type
             short_name: The unique short name of this hardware type
