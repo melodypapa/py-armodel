@@ -9,7 +9,7 @@ from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject i
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
-class ArVariableInImplementationDataInstanceRef(AtpInstanceRef):
+class ArVariableInImplementationDataInstanceRef(ARObject):
     def __init__(self):
         super().__init__()
 

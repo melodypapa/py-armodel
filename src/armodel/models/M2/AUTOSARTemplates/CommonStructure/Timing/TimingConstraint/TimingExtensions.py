@@ -13,12 +13,12 @@ Classes:
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from ......M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
 from abc import ABC
 from typing import List
 
 
-class TimingExtension(Identifiable):
+class TimingExtension(ARElement):
     """
     Abstract base class for timing extensions in AUTOSAR.
     This class cannot be instantiated directly and provides common functionality

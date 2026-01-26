@@ -360,7 +360,7 @@ class ModeSwitchedAckRequest(ARObject):
         return self
 
 
-class ModeSwitchSenderComSpec(RPortComSpec):
+class ModeSwitchSenderComSpec(PPortComSpec):
     def __init__(self):
         super().__init__()
 
@@ -398,7 +398,7 @@ class ModeSwitchSenderComSpec(RPortComSpec):
         return self
 
 
-class ParameterProvideComSpec(RPortComSpec):
+class ParameterProvideComSpec(PPortComSpec):
     def __init__(self):
         super().__init__()
 

@@ -1,6 +1,6 @@
 from abc import ABC
 from typing import List
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable, PackageableElement
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean
@@ -9,7 +9,7 @@ from ......M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ......M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
 
 
-class FibexElement(Identifiable, ABC):
+class FibexElement(PackageableElement, ABC):
     """
     Abstract base class for FIBEX (FIBer EXchange) elements in the
     AUTOSAR system, providing a common foundation for all communication
@@ -19,7 +19,7 @@ class FibexElement(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is FibexElement:
             raise TypeError("FibexElement is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
 
@@ -66,7 +66,7 @@ class PduToFrameMapping(Identifiable):
         return self
 
 
-class Frame(Identifiable, ABC):
+class Frame(FibexElement, ABC):
     """
     Abstract base class for communication frames in the AUTOSAR system,
     defining common properties for different types of communication
@@ -75,7 +75,7 @@ class Frame(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
             raise TypeError("Frame is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.frameLength = None
@@ -1226,7 +1226,7 @@ class GeneralPurposeIPdu(IPdu):
         super().__init__(parent, short_name)
 
 
-class SecureCommunicationPropsSet(Identifiable):
+class SecureCommunicationPropsSet(FibexElement):
     """
     Represents a set of secure communication properties that can be grouped
     together to define common security configurations for communication channels.

@@ -9,8 +9,10 @@ class DocumentViewSelectable(ARObject, ABC):
         super().__init__()
 
 
-class Paginateable(DocumentViewSelectable):
+class Paginateable(DocumentViewSelectable, ABC):
     def __init__(self):
+        if type(self) is Paginateable:
+            raise TypeError("Paginateable is an abstract class.")
         super().__init__()
 
         self.chapterBreak = None                                # type: ChapterEnumBreak

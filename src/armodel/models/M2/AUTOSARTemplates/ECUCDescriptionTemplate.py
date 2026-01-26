@@ -7,7 +7,7 @@ from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceR
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical
 from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
-from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ...M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
 
 class EcucValueCollection(ARElement):
@@ -173,9 +173,9 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         return self
 
 
-class EcucContainerValue(ARElement, EcucIndexableValue):
+class EcucContainerValue(Identifiable, EcucIndexableValue):
     def __init__(self, parent: ARObject, short_name: str):
-        ARElement.__init__(self, parent, short_name)
+        Identifiable.__init__(self, parent, short_name)
 
         self.definitionRef = None                   # type: RefType
         self.parameterValues = []                   # type: List[EcucParameterValue]

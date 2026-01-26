@@ -69,11 +69,11 @@ def parse_hierarchy_md(file_path: str) -> Dict[str, Tuple[str, bool]]:
     return hierarchy
 
 
-def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
+def get_class_info_from_file(file_path: str, module_prefix: str = '') -> Dict[str, Tuple[str, bool, str]]:
     """
     Extract class names and their inheritance info from a Python file using AST parsing.
 
-    Returns: {class_name: (parent_class_name, is_abstract)}
+    Returns: {class_name: (parent_class_name, is_abstract, full_qualified_name)}
     """
     # Common base classes to skip (not AUTOSAR classes)
     SKIP_BASES = {'ABC', 'object', 'Enum'}
@@ -158,37 +158,50 @@ def get_class_info_from_file(file_path: str) -> Dict[str, Tuple[str, bool]]:
                                 if is_abstract:
                                     break
 
-                    classes[node.name] = (parent_class, is_abstract)
+                    full_qualified_name = f"{module_prefix}.{node.name}" if module_prefix else node.name
+                    classes[node.name] = (parent_class, is_abstract, full_qualified_name)
     except (SyntaxError, UnicodeDecodeError):
         # Skip files that can't be parsed
         pass
     return classes
 
 
-def scan_python_hierarchy(source_dir: str) -> Dict[str, Tuple[str, bool]]:
+def scan_python_hierarchy(source_dir: str) -> Tuple[Dict[str, Tuple[str, bool]], Dict[str, str]]:
     """
     Scan the Python source code to build a map of class names to their inheritance info.
 
-    Returns: {class_name: (parent_class_name, is_abstract)}
+    Returns: ({class_name: (parent_class_name, is_abstract)}, {class_name: full_qualified_name})
     """
     class_map = {}
+    full_name_map = {}
     m2_path = Path(source_dir) / 'armodel' / 'models' / 'M2'
 
     if not m2_path.exists():
         print(f"Warning: {m2_path} does not exist")
-        return class_map
+        return class_map, full_name_map
 
     for py_file in m2_path.rglob('*.py'):
-        # Extract classes from the file
-        classes = get_class_info_from_file(py_file)
-        class_map.update(classes)
+        if py_file.name == '__init__.py':
+            continue
 
-    return class_map
+        # Build module prefix from file path
+        rel_path = py_file.relative_to(m2_path)
+        module_parts = list(rel_path.with_suffix('').parts)
+        module_prefix = '.'.join(module_parts)
+
+        # Extract classes from the file
+        classes = get_class_info_from_file(py_file, module_prefix)
+        for class_name, (parent, is_abstract, full_name) in classes.items():
+            class_map[class_name] = (parent, is_abstract)
+            full_name_map[class_name] = full_name
+
+    return class_map, full_name_map
 
 
 def check_hierarchy_deviations(
     documented_hierarchy: Dict[str, Tuple[str, bool]],
-    actual_hierarchy: Dict[str, Tuple[str, bool]]
+    actual_hierarchy: Dict[str, Tuple[str, bool]],
+    full_name_map: Dict[str, str]
 ) -> Tuple[List[Dict], int]:
     """
     Check for deviations between documented and actual class hierarchy.
@@ -204,6 +217,7 @@ def check_hierarchy_deviations(
             deviations.append({
                 'status': '✗ MISSING',
                 'class_name': class_name,
+                'full_name': '',
                 'documented_parent': doc_parent,
                 'documented_abstract': doc_abstract,
                 'actual_parent': 'Not Found',
@@ -213,6 +227,7 @@ def check_hierarchy_deviations(
             continue
 
         actual_parent, actual_abstract = actual_hierarchy[class_name]
+        full_name = full_name_map.get(class_name, class_name)
 
         # Check parent match
         parent_match = doc_parent == actual_parent
@@ -232,6 +247,7 @@ def check_hierarchy_deviations(
             deviations.append({
                 'status': '⚠ MISMATCH',
                 'class_name': class_name,
+                'full_name': full_name,
                 'documented_parent': doc_parent,
                 'documented_abstract': doc_abstract,
                 'actual_parent': actual_parent,
@@ -244,7 +260,8 @@ def check_hierarchy_deviations(
 
 def find_extra_classes(
     documented_hierarchy: Dict[str, Tuple[str, bool]],
-    actual_hierarchy: Dict[str, Tuple[str, bool]]
+    actual_hierarchy: Dict[str, Tuple[str, bool]],
+    full_name_map: Dict[str, str]
 ) -> List[Dict]:
     """
     Find classes that exist in source but are not documented.
@@ -252,9 +269,11 @@ def find_extra_classes(
     extra_classes = []
     for class_name, (parent, is_abstract) in actual_hierarchy.items():
         if class_name not in documented_hierarchy:
+            full_name = full_name_map.get(class_name, class_name)
             extra_classes.append({
                 'status': '+ EXTRA',
                 'class_name': class_name,
+                'full_name': full_name,
                 'documented_parent': 'N/A',
                 'documented_abstract': 'N/A',
                 'actual_parent': parent,
@@ -296,6 +315,26 @@ def generate_hierarchy_report(
         missing_classes = [d for d in deviations if d['status'] == '✗ MISSING']
         mismatch_classes = [d for d in deviations if d['status'] == '⚠ MISMATCH']
 
+        # Hierarchy Mismatch Table
+        if mismatch_classes:
+            f.write('## Hierarchy Mismatches\n\n')
+            f.write('| Status | Class | Hierarchy | Notes |\n')
+            f.write('|--------|-------|-----------|-------|\n')
+
+            for d in sorted(mismatch_classes, key=lambda x: x['class_name']):
+                doc_parent = d['documented_parent'] or 'None'
+                doc_abstract = 'Abstract' if d['documented_abstract'] else 'Concrete'
+                act_parent = d['actual_parent'] or 'None'
+                act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
+
+                # Display full qualified name if available
+                class_display = d.get('full_name', d['class_name']) if d.get('full_name') else d['class_name']
+
+                hierarchy = f"**Documented:**<br>Parent: {doc_parent}<br>Type: {doc_abstract}<br><br>**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
+                f.write(f"| {d['status']} | {class_display} | {hierarchy} | {d['notes']} |\n")
+
+            f.write('\n')
+
         # Missing Classes Table
         if missing_classes:
             f.write('## Missing Classes (Documented but Not Found)\n\n')
@@ -310,23 +349,6 @@ def generate_hierarchy_report(
 
             f.write('\n')
 
-        # Hierarchy Mismatch Table
-        if mismatch_classes:
-            f.write('## Hierarchy Mismatches\n\n')
-            f.write('| Status | Class | Hierarchy | Notes |\n')
-            f.write('|--------|-------|-----------|-------|\n')
-
-            for d in sorted(mismatch_classes, key=lambda x: x['class_name']):
-                doc_parent = d['documented_parent'] or 'None'
-                doc_abstract = 'Abstract' if d['documented_abstract'] else 'Concrete'
-                act_parent = d['actual_parent'] or 'None'
-                act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
-
-                hierarchy = f"**Documented:**<br>Parent: {doc_parent}<br>Type: {doc_abstract}<br><br>**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
-                f.write(f"| {d['status']} | {d['class_name']} | {hierarchy} | {d['notes']} |\n")
-
-            f.write('\n')
-
         # Extra Classes Table
         if extra_classes:
             f.write('## Extra Classes (Not Documented)\n\n')
@@ -337,7 +359,11 @@ def generate_hierarchy_report(
                 act_parent = d['actual_parent'] or 'None'
                 act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
                 hierarchy = f"**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
-                f.write(f"| {d['status']} | {d['class_name']} | {hierarchy} | {d['notes']} |\n")
+
+                # Display full qualified name if available
+                class_display = d.get('full_name', d['class_name']) if d.get('full_name') else d['class_name']
+
+                f.write(f"| {d['status']} | {class_display} | {hierarchy} | {d['notes']} |\n")
 
             f.write('\n')
 
@@ -374,18 +400,18 @@ def main():
 
     # Step 2: Scan Python source code
     print("Step 2: Scanning Python source code for class hierarchy...")
-    actual_hierarchy = scan_python_hierarchy(str(source_dir))
+    actual_hierarchy, full_name_map = scan_python_hierarchy(str(source_dir))
     print(f"  Found {len(actual_hierarchy)} classes in source code")
 
     # Step 3: Check for hierarchy deviations
     print("Step 3: Checking for hierarchy deviations...")
-    deviations, match_count = check_hierarchy_deviations(documented_hierarchy, actual_hierarchy)
+    deviations, match_count = check_hierarchy_deviations(documented_hierarchy, actual_hierarchy, full_name_map)
     print(f"  Found {len(deviations)} deviations (missing or mismatched)")
     print(f"  Found {match_count} matches (correct hierarchy)")
 
     # Step 4: Find extra classes
     print("Step 4: Finding extra (undocumented) classes...")
-    extra_classes = find_extra_classes(documented_hierarchy, actual_hierarchy)
+    extra_classes = find_extra_classes(documented_hierarchy, actual_hierarchy, full_name_map)
     print(f"  Found {len(extra_classes)} extra classes")
 
     # Step 5: Generate report

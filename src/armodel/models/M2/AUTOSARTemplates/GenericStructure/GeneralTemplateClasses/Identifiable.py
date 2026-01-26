@@ -116,13 +116,13 @@ class CollectableElement(ARObject, ABC):
     Abstract class for elements that can collect other referrable elements.
     This class provides functionality for managing collections of elements with lookup capabilities.
     """
-    
+
     def __init__(self):
         if type(self) is CollectableElement:
             raise TypeError("CollectableElement is an abstract class.")
-        
-        # super().__init__()
-        
+
+        super().__init__()
+
         self.elements: List[Referrable] = []
         self.element_mappings: Dict[str, List[Referrable]] = {}
 
@@ -223,13 +223,16 @@ class Identifiable(MultilanguageReferrable, CollectableElement, ABC):
     Abstract class for identifiable elements in AUTOSAR models.
     This class combines multilingual referrable functionality with element collection capabilities.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
             raise TypeError("Identifiable is an abstract class.")
-        
+
         MultilanguageReferrable.__init__(self, parent, short_name)
-        CollectableElement.__init__(self)
+        # Don't call CollectableElement.__init__() as it would call ARObject.__init__()
+        # which resets self.parent to None. Instead initialize attributes directly.
+        self.elements: List[Referrable] = []
+        self.element_mappings: Dict[str, List[Referrable]] = {}
 
         self.annotations: List[Annotation] = []
         self.adminData: Optional[AdminData] = None
@@ -365,7 +368,7 @@ class PackageableElement(Identifiable, ABC):
     Abstract class for elements that can be packaged in AUTOSAR models.
     This class extends Identifiable with packaging functionality.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PackageableElement:
             raise TypeError("PackageableElement is an abstract class.")

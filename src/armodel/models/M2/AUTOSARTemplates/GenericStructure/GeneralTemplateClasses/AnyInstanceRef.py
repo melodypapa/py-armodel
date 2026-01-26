@@ -5,10 +5,10 @@ in the GenericStructure module.
 
 from typing import List, Optional
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 
-class AnyInstanceRef(ARObject):
+class AnyInstanceRef(AtpInstanceRef):
     """
     Represents a generic instance reference in AUTOSAR models.
     This class defines the structure for referencing any type of instance.

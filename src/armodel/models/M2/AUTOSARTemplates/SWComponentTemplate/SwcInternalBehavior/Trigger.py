@@ -7,6 +7,7 @@ from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from .....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 
 
 class InternalTriggeringPoint(AbstractAccessPoint):
@@ -24,7 +25,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
         return self
 
 
-class ExternalTriggeringPointIdent(AbstractAccessPoint):
+class ExternalTriggeringPointIdent(IdentCaption):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
