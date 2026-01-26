@@ -129,7 +129,7 @@ class TestEcucDefinitionElement:
         # Test with a concrete subclass like EcucContainerDef
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        container_def = EcucContainerDef(parent, "TestContainerDef")
+        container_def = EcucParamConfContainerDef(parent, "TestContainerDef")
 
         assert container_def is not None
         assert container_def.getShortName() == "TestContainerDef"
@@ -142,7 +142,7 @@ class TestEcucDefinitionElement:
         # Test with a concrete subclass
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        container_def = EcucContainerDef(parent, "TestContainerDef")
+        container_def = EcucParamConfContainerDef(parent, "TestContainerDef")
 
         # Test setEcucCond
         condition_spec = EcucConditionSpecification()
@@ -270,26 +270,29 @@ class TestEcucAbstractConfigurationClass:
 
     def test_subclass_initialization(self):
         """
-        Test EcucAbstractConfigurationClass subclass initialization.
-        Verifies that a concrete subclass can be instantiated.
+        Test that concrete subclasses exist which can use EcucAbstractConfigurationClass methods.
+        Note: EcucAbstractConfigurationClass is a separate abstract base class, not a parent
+        of EcucContainerDef. Classes can use configuration class methods through composition,
+        not inheritance.
         """
-        # Use a concrete subclass like EcucContainerDef
+        # This test verifies that EcucAbstractConfigurationClass methods exist
+        # Concrete classes use these methods independently
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        container_def = EcucContainerDef(parent, "TestContainerDef")
 
-        # EcucContainerDef inherits from EcucAbstractConfigurationClass
-        assert container_def is not None
-        assert isinstance(container_def, EcucAbstractConfigurationClass)
+        # EcucAbstractConfigurationClass is abstract and has its own subclasses
+        # like EcucMultiplicityConfigurationClass and EcucValueConfigurationClass
+        mult_config = EcucMultiplicityConfigurationClass()
+        assert mult_config is not None
+        assert isinstance(mult_config, EcucAbstractConfigurationClass)
 
     def test_setter_methods(self):
         """
         Test EcucAbstractConfigurationClass setter methods on concrete subclass.
         Verifies that setter methods work correctly and return self for method chaining.
         """
-        document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
-        container_def = EcucContainerDef(parent, "TestContainerDef")
+        # Use EcucMultiplicityConfigurationClass which is a concrete subclass
+        config_class = EcucMultiplicityConfigurationClass()
 
         # Test setConfigClass
         config_enum = EcucConfigurationClassEnum()
@@ -333,12 +336,14 @@ class TestEcucContainerDef:
     
     def test_initialization(self):
         """
-        Test EcucContainerDef class initialization.
-        Verifies that the EcucContainerDef can be properly instantiated with a parent and short name.
+        Test EcucContainerDef subclass initialization.
+        Verifies that a concrete subclass of EcucContainerDef can be properly instantiated.
+        EcucContainerDef itself is abstract per AUTOSAR spec.
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        container_def = EcucContainerDef(parent, "TestContainerDef")
+        # Use EcucParamConfContainerDef as it's a concrete subclass of EcucContainerDef
+        container_def = EcucParamConfContainerDef(parent, "TestContainerDef")
 
         assert container_def is not None
         assert container_def.getShortName() == "TestContainerDef"
@@ -356,7 +361,8 @@ class TestEcucContainerDef:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        container_def = EcucContainerDef(parent, "TestContainerDef")
+        # Use EcucParamConfContainerDef as it's a concrete subclass of EcucContainerDef
+        container_def = EcucParamConfContainerDef(parent, "TestContainerDef")
 
         # Test setDestinationUriRef
         uri_ref = EcucDestinationUriDefRefType()
