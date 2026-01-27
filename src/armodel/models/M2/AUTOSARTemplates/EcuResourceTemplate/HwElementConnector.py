@@ -6,24 +6,20 @@ in the EcuResourceTemplate module.
 from typing import Optional
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 
 
-class HwElementConnector(ARElement):
+class HwElementConnector(Describable):
     """
     Represents a connection between hardware elements in AUTOSAR hardware descriptions.
     This class defines the connections that can exist between different hardware elements in the model.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self):
         """
-        Initializes the HwElementConnector with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware element connector
-            short_name: The unique short name of this hardware element connector
+        Initializes the HwElementConnector.
         """
-        super().__init__(parent, short_name)
+        super().__init__()
 
         self.hwElementRef: Optional[RefType] = None
         self.hwPinRef: Optional[RefType] = None

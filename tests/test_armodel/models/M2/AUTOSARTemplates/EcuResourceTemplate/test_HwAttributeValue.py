@@ -11,18 +11,14 @@ def test_hw_attribute_value_init():
     Test initialization of HwAttributeValue class.
     
     Test Steps:
-    1. Create a HwAttributeValue instance with parent and short_name
+    1. Create a HwAttributeValue instance
     2. Verify default attributes are set correctly
     """
-    # Create a mock parent object
-    parent = object()
-    
     # Initialize HwAttributeValue
-    hw_attr_value = HwAttributeValue(parent, "test_hw_attr_value")
+    hw_attr_value = HwAttributeValue()
     
     # Verify initial values
-    assert hw_attr_value.parent == parent
-    assert hw_attr_value.short_name == "test_hw_attr_value"
+    assert hw_attr_value.parent is None
     assert hw_attr_value.hwAttributeDefRef is None
     assert hw_attr_value.value is None
 
@@ -37,7 +33,7 @@ def test_hw_attribute_value_getters_and_setters():
     3. Test setting and getting the value
     4. Verify method chaining (return self)
     """
-    hw_attr_value = HwAttributeValue(None, "test_hw_attr_value")
+    hw_attr_value = HwAttributeValue()
     
     # Test hwAttributeDefRef setter and getter
     test_ref = "test_ref"

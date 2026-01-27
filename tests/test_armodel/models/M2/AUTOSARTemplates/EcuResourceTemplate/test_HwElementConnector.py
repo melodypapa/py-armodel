@@ -11,18 +11,13 @@ def test_hw_element_connector_init():
     Test initialization of HwElementConnector class.
     
     Test Steps:
-    1. Create a HwElementConnector instance with parent and short_name
+    1. Create a HwElementConnector instance
     2. Verify default attributes are set correctly
     """
-    # Create a mock parent object
-    parent = object()
-    
     # Initialize HwElementConnector
-    hw_connector = HwElementConnector(parent, "test_hw_connector")
+    hw_connector = HwElementConnector()
     
     # Verify initial values
-    assert hw_connector.parent == parent
-    assert hw_connector.short_name == "test_hw_connector"
     assert hw_connector.hwElementRef is None
     assert hw_connector.hwPinRef is None
 
@@ -37,7 +32,7 @@ def test_hw_element_connector_getters_and_setters():
     3. Test setting and getting hwPinRef
     4. Verify method chaining (return self)
     """
-    hw_connector = HwElementConnector(None, "test_hw_connector")
+    hw_connector = HwElementConnector()
     
     # Test hwElementRef setter and getter
     test_element_ref = "test_element_ref"
