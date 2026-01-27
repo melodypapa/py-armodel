@@ -5,10 +5,21 @@ in the EcuResourceTemplate module.
 
 from typing import List, Optional
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    RefType,
+)
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+)
+from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import (
+    HwAttributeLiteralDef,
+)
 from ....M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
+from ....M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
+    AtpDefinition,
+)
 
 
 class HwType(HwDescriptionEntity):
@@ -33,11 +44,11 @@ class HwAttributeDef(Identifiable):
     Represents a hardware attribute definition in AUTOSAR hardware descriptions.
     This class defines the attributes that can be assigned to hardware elements.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwAttributeDef with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this hardware attribute definition
             short_name: The unique short name of this hardware attribute definition
@@ -51,7 +62,7 @@ class HwAttributeDef(Identifiable):
     def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
         """
         Gets the list of hardware attribute literals for this definition.
-        
+
         Returns:
             List of HwAttributeLiteralDef instances
         """
@@ -61,10 +72,10 @@ class HwAttributeDef(Identifiable):
         """
         Sets the list of hardware attribute literals for this definition.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of hardware attribute literals to set
-            
+
         Returns:
             self for method chaining
         """
@@ -75,7 +86,7 @@ class HwAttributeDef(Identifiable):
     def getIsRequired(self) -> Optional[Boolean]:
         """
         Gets the required flag for this attribute definition.
-        
+
         Returns:
             Boolean indicating if this attribute is required, or None if not set
         """
@@ -85,10 +96,10 @@ class HwAttributeDef(Identifiable):
         """
         Sets the required flag for this attribute definition.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The required flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -99,7 +110,7 @@ class HwAttributeDef(Identifiable):
     def getUnitRef(self) -> Optional[RefType]:
         """
         Gets the unit reference for this attribute definition.
-        
+
         Returns:
             RefType representing the unit reference, or None if not set
         """
@@ -109,10 +120,10 @@ class HwAttributeDef(Identifiable):
         """
         Sets the unit reference for this attribute definition.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The unit reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -121,44 +132,44 @@ class HwAttributeDef(Identifiable):
         return self
 
 
-class HwCategory(ARElement):
+class HwCategory(AtpDefinition):
     """
     Represents a hardware category in AUTOSAR hardware descriptions.
     This class defines categories of hardware with associated attribute definitions.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwCategory with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this hardware category
             short_name: The unique short name of this hardware category
         """
         super().__init__(parent, short_name)
 
-        self.hwAttributeDefs: List['HwAttributeDef'] = []
+        self.hwAttributeDefs: List["HwAttributeDef"] = []
 
-    def getHwAttributeDefs(self) -> List['HwAttributeDef']:
+    def getHwAttributeDefs(self) -> List["HwAttributeDef"]:
         """
         Gets the list of hardware attribute definitions for this category.
-        
+
         Returns:
             List of HwAttributeDef instances
         """
         return self.hwAttributeDefs
 
-    def createHwAttributeDef(self, short_name: str) -> 'HwAttributeDef':
+    def createHwAttributeDef(self, short_name: str) -> "HwAttributeDef":
         """
         Creates and adds a new hardware attribute definition to this category.
-        
+
         Args:
             short_name: The short name for the new hardware attribute definition
-            
+
         Returns:
             The created HwAttributeDef instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             pin_group = HwAttributeDef(self, short_name)
             self.addElement(pin_group)
             self.hwAttributeDefs.append(pin_group)

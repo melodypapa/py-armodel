@@ -1,10 +1,16 @@
 from abc import ABC
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+)
+from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
-class LEnum (ARLiteral):
+
+class LEnum(ARLiteral):
     def __init__(self):
         super().__init__()
+
 
 class LanguageSpecific(ARObject, ABC):
     def __init__(self):
@@ -13,8 +19,9 @@ class LanguageSpecific(ARObject, ABC):
 
         super().__init__()
 
-        self.l = None                   # type: LEnum
+        self.l = None
         self.value = ""
+
     def getL(self):
         return self.l
 
@@ -29,17 +36,21 @@ class LanguageSpecific(ARObject, ABC):
         self.value = value
         return self
 
+
 class LOverviewParagraph(LanguageSpecific):
     def __init__(self):
         super().__init__()
+
 
 class LParagraph(LanguageSpecific):
     def __init__(self):
         super().__init__()
 
+
 class LLongName(LanguageSpecific):
     def __init__(self):
         super().__init__()
+
 
 class LPlainText(LanguageSpecific):
     def __init__(self):
