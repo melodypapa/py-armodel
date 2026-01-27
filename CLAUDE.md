@@ -166,11 +166,11 @@ Or using npm scripts:
 
 **Adding a new AUTOSAR model class:**
 1. Determine if it should be a leaf package (`.py` file) or non-leaf package (`__init__.py`)
-2. Create the file in appropriate M2 location
-3. Add wildcard import in parent `__init__.py`
-4. Add to `__init__.py` of the module's directory
-5. Create corresponding test in `tests/test_armodel/`
-6. Run tests and linting
+2. Create the file in appropriate M2 location under `src/armodel/models/M2/AUTOSARTemplates/`
+3. Add wildcard import in parent `__init__.py`: `from .my_class import *`
+4. Add import to `src/armodel/models/__init__.py`
+5. Create corresponding test in `tests/test_armodel/models/M2/`
+6. Run tests and linting: `python scripts/run_tests.py`
 
 **Debugging parser issues:**
 - Use `options={"warning": True}` to get warnings instead of exceptions
@@ -199,7 +199,17 @@ Or using npm scripts:
 ## Important Implementation Details
 
 ### Abstract Base Classes
-Many AUTOSAR classes use ABC metaclasses and raise TypeError if directly instantiated. Always check if a class is abstract before attempting to instantiate it (e.g., ARObject, AtpType, Identifiable).
+Many AUTOSAR classes use ABC (Abstract Base Class) from the `abc` module (migrated from ABCMeta metaclass). These raise TypeError if directly instantiated. Always check if a class is abstract before attempting to instantiate it (e.g., ARObject, AtpType, Identifiable).
+
+**Pattern:**
+```python
+from abc import ABC
+
+class MyAbstractClass(ABC):
+    @abstractmethod
+    def my_method(self):
+        pass
+```
 
 ### Parser Options
 ARXMLParser accepts an `options` dict parameter:
@@ -383,6 +393,8 @@ Tests in `tests/test_armodel/` mirror the source structure. Sample ARXML files i
 - Target high test coverage (current focus on increasing coverage)
 - Test both success and error paths
 - Include edge cases and boundary conditions
+- **Integration tests**: 29 ARXML files validated through round-trip testing (parse → write → re-parse → compare)
+- **Test runner script**: Use `python scripts/run_tests.py` for colored output and comprehensive summaries
 
 ## Dependencies
 
@@ -408,18 +420,36 @@ Tests in `tests/test_armodel/` mirror the source structure. Sample ARXML files i
 
 ### Parser Usage
 ```python
+from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
 
+# MUST set AUTOSAR version first
+AUTOSAR.setARRelease('R23-11')
+
+# Get singleton instance and clear
+document = AUTOSAR.getInstance()
+document.clear()
+
+# Parse ARXML file
+parser = ARXMLParser()
+parser.load('example.arxml', document)
+
+# Or with warning mode for development
 parser = ARXMLParser(options={"warning": True})
-autosar_model = parser.parse_from_file('example.arxml')
+parser.load('example.arxml', document)
 ```
 
 ### Writer Usage
 ```python
+from armodel.models import AUTOSAR
 from armodel.writer.arxml_writer import ARXMLWriter
 
+# MUST set AUTOSAR version first
+AUTOSAR.setARRelease('R23-11')
+
+# Write to ARXML file
 writer = ARXMLWriter()
-writer.write_to_file(autosar_model, 'output.arxml')
+writer.save('output.arxml', AUTOSAR.getInstance())
 ```
 
 ## Common Patterns
@@ -471,7 +501,10 @@ assert element.parent == pkg  # Parent is automatically set
 ```python
 # Most AUTOSAR classes follow getter/setter pattern
 element.getShortName()
-element.setShortName("NewName")  # Returns self for chaining
+element.setShortName("NewName")  # Returns self for method chaining
+
+# Method chaining example
+pkg.setShortName("MyPackage").setUUID("12345").addARPackage(child_pkg)
 ```
 
 **Working with collections:**
@@ -519,13 +552,25 @@ The project includes scripts and documentation for tracking deviations from the 
 - `CLAUDE.md` - This file, providing project guidance for Claude Code
 
 ### Slash Commands
-The project includes custom Claude Code slash commands in `.claude/commands/`:
-- `/merge-pr` - Merge pull requests via GitHub CLI (gh)
-- `/gh-workflow` - Automate GitHub workflow (create issue, branch, commit, PR)
+The project includes custom Claude Code slash commands in `.claude/commands/` for development automation:
+
+**Available Commands:**
+- `/test` - Test runner with coverage reporting (all/unit/integration)
 - `/quality` - Run quality checks (flake8, pytest coverage)
+- `/gh-workflow` - Automate GitHub workflow (create issue, branch, commit, PR)
+- `/merge-pr` - Merge pull requests via GitHub CLI (gh)
 - `/req` - Requirement management and documentation
-- `/test` - Test runner with coverage reporting
-- See `.claude/commands/README.md` for complete command documentation
+
+**Usage:**
+```
+/test                    # Run all tests
+/test --unit            # Run only unit tests
+/test --integration     # Run only integration tests
+/quality                # Run all quality checks
+/gh-workflow Add feature X
+```
+
+See `.claude/commands/README.md` for complete command documentation.
 
 ### Requirements Documentation
 - `docs/requirements/deviation.md` - Deviations from AUTOSAR standard (replaced by deviation_package.md)

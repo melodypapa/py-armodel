@@ -218,7 +218,7 @@ class CollectableElement(ARObject, ABC):
         return False
 
 
-class Identifiable(MultilanguageReferrable, CollectableElement, ABC):
+class Identifiable(MultilanguageReferrable, ABC):
     """
     Abstract class for identifiable elements in AUTOSAR models.
     This class combines multilingual referrable functionality with element collection capabilities.
@@ -229,8 +229,7 @@ class Identifiable(MultilanguageReferrable, CollectableElement, ABC):
             raise TypeError("Identifiable is an abstract class.")
 
         MultilanguageReferrable.__init__(self, parent, short_name)
-        # Don't call CollectableElement.__init__() as it would call ARObject.__init__()
-        # which resets self.parent to None. Instead initialize attributes directly.
+
         self.elements: List[Referrable] = []
         self.element_mappings: Dict[str, List[Referrable]] = {}
 
@@ -239,6 +238,96 @@ class Identifiable(MultilanguageReferrable, CollectableElement, ABC):
         self.category: Optional[CategoryString] = None
         self.introduction: Optional[DocumentationBlock] = None
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
+
+    def getTotalElement(self) -> int:
+        """
+        Gets the total number of elements in this collection.
+
+        Returns:
+            The count of elements in the collection
+        """
+        return len(self.elements)
+
+    def removeElement(self, short_name: str, type=None):
+        """
+        Removes an element from this collection.
+
+        Args:
+            short_name: The short name of the element to remove
+            type: The type of element to remove (optional)
+        """
+        if short_name not in self.element_mappings:
+            raise KeyError("Invalid key <%s> for removing element" % short_name)
+        if type is None:
+            item = self.element_mappings[short_name][0]
+        else:
+            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+        if item is not None:
+            self.elements.remove(item)
+            self.element_mappings[short_name].remove(item)
+
+    def getElements(self) -> List[Referrable]:
+        """
+        Gets the list of elements in this collection.
+
+        Returns:
+            List of Referrable instances
+        """
+        return self.elements
+
+    def addElement(self, element: Referrable):
+        """
+        Adds an element to this collection.
+
+        Args:
+            element: The element to add
+
+        Returns:
+            self for method chaining
+        """
+        short_name = element.getShortName()
+        if not self.IsElementExists(short_name, type(element)):
+            self.elements.append(element)
+            if short_name not in self.element_mappings:
+                self.element_mappings[short_name] = []
+            self.element_mappings[short_name].append(element)
+
+    def getElement(self, short_name: str, type=None) -> Optional[Referrable]:
+        """
+        Gets an element from this collection by short name and type.
+
+        Args:
+            short_name: The short name of the element to find
+            type: The type of element to find (optional)
+
+        Returns:
+            The found Referrable instance, or None if not found
+        """
+        if (short_name not in self.element_mappings):
+            return None
+        if type is not None:
+            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            if len(result) == 0:
+                return None
+            return result[0]
+        return self.element_mappings[short_name][0]
+
+    def IsElementExists(self, short_name: str, type=None) -> bool:
+        """
+        Checks if an element with the specified short name and type exists in this collection.
+
+        Args:
+            short_name: The short name of the element to check
+            type: The type of element to check (optional)
+
+        Returns:
+            True if the element exists, False otherwise
+        """
+        if type is None:
+            return short_name in self.element_mappings
+        if short_name in self.element_mappings:
+            return any(isinstance(a, type) for a in self.element_mappings[short_name])
+        return False
 
     def getAdminData(self) -> Optional[AdminData]:
         """
