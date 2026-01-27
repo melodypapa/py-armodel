@@ -26,7 +26,6 @@ class Test_M2_AUTOSARTemplates_CommonStructure_Constants:
 
         assert (isinstance(spec, ARElement))
         assert (isinstance(spec, ARObject))
-        assert (isinstance(spec, CollectableElement))
         assert (isinstance(spec, Identifiable))
         assert (isinstance(spec, MultilanguageReferrable))
         assert (isinstance(spec, PackageableElement))

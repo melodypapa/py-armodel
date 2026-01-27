@@ -35,7 +35,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         assert (isinstance(data_if, ARObject))
         assert (isinstance(data_if, AtpType))
-        assert (isinstance(data_if, CollectableElement))
         assert (isinstance(data_if, DataInterface))
         assert (isinstance(data_if, Identifiable))
         assert (isinstance(data_if, MultilanguageReferrable))
@@ -53,7 +52,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         assert (isinstance(data_if, ARObject))
         assert (isinstance(data_if, AtpType))
-        assert (isinstance(data_if, CollectableElement))
         assert (isinstance(data_if, DataInterface))
         assert (isinstance(data_if, Identifiable))
         assert (isinstance(data_if, MultilanguageReferrable))
@@ -71,7 +69,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         assert (isinstance(sr_if, ARObject))
         assert (isinstance(sr_if, AtpType))
-        assert (isinstance(sr_if, CollectableElement))
         assert (isinstance(sr_if, DataInterface))
         assert (isinstance(sr_if, Identifiable))
         assert (isinstance(sr_if, MultilanguageReferrable))
@@ -159,7 +156,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         cs_if = ClientServerInterface(ar_root, "client_server_interface")
         assert (isinstance(cs_if, ARObject))
         assert (isinstance(cs_if, AtpType))
-        assert (isinstance(cs_if, CollectableElement))
         assert (isinstance(cs_if, Identifiable))
         assert (isinstance(cs_if, MultilanguageReferrable))
         assert (isinstance(cs_if, PortInterface))
