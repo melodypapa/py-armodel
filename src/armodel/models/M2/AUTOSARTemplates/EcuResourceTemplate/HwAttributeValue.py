@@ -6,24 +6,21 @@ in the EcuResourceTemplate module.
 from typing import Optional
 
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class HwAttributeValue(ARElement):
+class HwAttributeValue(ARObject):
     """
     Represents a hardware attribute value in AUTOSAR hardware descriptions.
     This class defines the actual values assigned to hardware attributes in the model.
     """
     
-    def __init__(self, parent, short_name: str):
+    def __init__(self):
         """
-        Initializes the HwAttributeValue with a parent and short name.
-        
-        Args:
-            parent: The parent ARObject that contains this hardware attribute value
-            short_name: The unique short name of this hardware attribute value
+        Initializes the HwAttributeValue.
         """
-        super().__init__(parent, short_name)
+        super().__init__()
 
         self.hwAttributeDefRef: Optional[RefType] = None
         self.value: Optional[str] = None

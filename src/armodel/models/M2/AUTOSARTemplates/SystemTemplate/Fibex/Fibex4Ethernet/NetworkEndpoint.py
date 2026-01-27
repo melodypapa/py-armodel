@@ -4,7 +4,7 @@
 from abc import ABC
 from typing import List
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
 
 class NetworkEndpointAddress(ARObject, ABC):
@@ -223,14 +223,14 @@ class TimeSyncClientConfiguration(ARObject):
         return self
 
 
-class TimeSyncServerConfiguration(ARObject):
+class TimeSyncServerConfiguration(Referrable):
     """
     Configures time synchronization server properties, specifying
     priority, synchronization intervals, and time synchronization
     identifiers for network time coordination services.
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
         self.priority: PositiveInteger = None
         self.syncInterval: TimeValue = None

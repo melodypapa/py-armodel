@@ -5,12 +5,12 @@ and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 521 classes with correct hierarchy
+- ✓ **Match**: 524 classes with correct hierarchy
 - ✗ **Missing**: 1076 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 20 classes with wrong parent/abstract
+- ⚠ **Hierarchy Mismatch**: 17 classes with wrong parent/abstract
 - + **Extra**: 82 undocumented classes
 - **Total Documented Classes**: 1617
-- **Total Deviations**: 1178
+- **Total Deviations**: 1175
 
 ## Hierarchy Mismatches
 
@@ -23,9 +23,7 @@ and the actual Python implementation class hierarchy.
 | ⚠ MISMATCH | AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution.DiagnosticServiceTable | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected DiagnosticCommonElement, got ARElement) |
 | ⚠ MISMATCH | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConditionFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected FormulaExpression, got ARObject) |
 | ⚠ MISMATCH | AUTOSARTemplates.ECUCParameterDefTemplate.EcucParameterDerivationFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected FormulaExpression, got ARObject) |
-| ⚠ MISMATCH | AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue.HwAttributeValue | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected ARObject, got ARElement) |
 | ⚠ MISMATCH | AUTOSARTemplates.EcuResourceTemplate.HwElementCategory.HwCategory | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARElement) |
-| ⚠ MISMATCH | AUTOSARTemplates.EcuResourceTemplate.HwElementConnector.HwElementConnector | **Documented:**<br>Parent: Describable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected Describable, got ARElement) |
 | ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LLongName | **Documented:**<br>Parent: MixedContentForLongName<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForLongName, got LanguageSpecific) |
 | ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LOverviewParagraph | **Documented:**<br>Parent: MixedContentForOverviewParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForOverviewParagraph, got LanguageSpecific) |
 | ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LParagraph | **Documented:**<br>Parent: MixedContentForParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForParagraph, got LanguageSpecific) |
@@ -34,7 +32,6 @@ and the actual Python implementation class hierarchy.
 | ⚠ MISMATCH | AUTOSARTemplates.CommonStructure.ServiceNeeds.ServiceDependency | **Documented:**<br>Parent: ARObject<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected ARObject, got Identifiable) |
 | ⚠ MISMATCH | MSR.AsamHdo.Units.SingleLanguageUnitNames | **Documented:**<br>Parent: MixedContentForUnitNames<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARLiteral<br>Type: Concrete | parent mismatch (expected MixedContentForUnitNames, got ARLiteral) |
 | ⚠ MISMATCH | MSR.DataDictionary.SystemConstant.SwSystemconst | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARObject) |
-| ⚠ MISMATCH | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint.TimeSyncServerConfiguration | **Documented:**<br>Parent: Referrable<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected Referrable, got ARObject) |
 | ⚠ MISMATCH | AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint.TimingConstraint | **Documented:**<br>Parent: Traceable<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected Traceable, got Identifiable) |
 
 ## Missing Classes (Documented but Not Found)

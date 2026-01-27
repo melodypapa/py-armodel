@@ -44,7 +44,7 @@ def test_hw_description_entity_getters_and_setters():
     hw_desc_entity = HwDescriptionEntity(None, "test_hw_desc_entity")
     
     # Test hwAttributeValues setter and getter
-    test_attr_values = [HwAttributeValue(None, "attr1"), HwAttributeValue(None, "attr2")]
+    test_attr_values = [HwAttributeValue(), HwAttributeValue()]
     return_value = hw_desc_entity.setHwAttributeValues(test_attr_values)
     assert return_value == hw_desc_entity  # Verify method chaining
     assert hw_desc_entity.getHwAttributeValues() == test_attr_values
@@ -283,7 +283,7 @@ def test_hw_element_getters_and_setters():
     hw_element = HwElement(None, "test_hw_element")
     
     # Test hwElementConnections setter and getter
-    test_connections = [HwElementConnector(None, "conn1"), HwElementConnector(None, "conn2")]
+    test_connections = [HwElementConnector(), HwElementConnector()]
     return_value = hw_element.setHwElementConnections(test_connections)
     assert return_value == hw_element  # Verify method chaining
     assert hw_element.getHwElementConnections() == test_connections

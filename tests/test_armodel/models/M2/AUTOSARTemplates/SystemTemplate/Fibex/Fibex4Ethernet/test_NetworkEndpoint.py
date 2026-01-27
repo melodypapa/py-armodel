@@ -11,8 +11,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Netw
     InfrastructureServices,
     NetworkEndpoint
 )
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 
 
 class MockParent(ARObject):
@@ -177,11 +178,14 @@ class Test_Fibex4EthernetNetworkEndpoint:
 
     def test_TimeSyncServerConfiguration(self):
         """Test TimeSyncServerConfiguration class functionality."""
-        config = TimeSyncServerConfiguration()
+        autosar = AUTOSAR.getInstance()
+        ar_package = autosar.createARPackage("TEST")
+        config = TimeSyncServerConfiguration(ar_package, "time_sync_config")
 
-        assert isinstance(config, ARObject)
+        assert isinstance(config, Referrable)
         
         # Test default values
+        assert config.getShortName() == "time_sync_config"
         assert config.getPriority() is None
         assert config.getSyncInterval() is None
         assert config.getTimeSyncServerIdentifier() is None
@@ -220,7 +224,9 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert sync.getTimeSyncClient() == client_config
         assert result == sync  # Test method chaining
 
-        server_config = TimeSyncServerConfiguration()
+        autosar = AUTOSAR.getInstance()
+        ar_package = autosar.createARPackage("TEST")
+        server_config = TimeSyncServerConfiguration(ar_package, "time_sync_server")
         result = sync.setTimeSyncServer(server_config)
         assert sync.getTimeSyncServer() == server_config
         assert result == sync  # Test method chaining
