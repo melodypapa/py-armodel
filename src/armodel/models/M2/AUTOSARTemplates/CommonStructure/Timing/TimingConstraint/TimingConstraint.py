@@ -10,13 +10,20 @@ Classes:
     TimingConstraint: Abstract base class for all timing constraints
 """
 
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 from abc import ABC
+from ..Traceable import Traceable
 
 
-class TimingConstraint(Identifiable, ABC):
+class TimingConstraint(Traceable, ABC):
     """
     Abstract base class for all timing constraints in AUTOSAR.
     This class cannot be instantiated directly and serves as the base for concrete
@@ -35,7 +42,7 @@ class TimingConstraint(Identifiable, ABC):
     def timingConditionRef(self) -> RefType:
         """
         Gets the timing condition reference for this constraint.
-        
+
         Returns:
             Reference to the timing condition
         """
@@ -45,7 +52,7 @@ class TimingConstraint(Identifiable, ABC):
     def timingConditionRef(self, ref: RefType):
         """
         Sets the timing condition reference for this constraint.
-        
+
         Args:
             ref: Reference to the timing condition
         """

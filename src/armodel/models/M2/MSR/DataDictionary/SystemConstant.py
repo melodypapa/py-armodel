@@ -1,8 +1,13 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
+    AtpDefinition,
+)
 
 
-class SwSystemconst(ARObject):
+class SwSystemconst(AtpDefinition):
     """
     Represents a software system constant in the AUTOSAR model.
 
@@ -12,8 +17,9 @@ class SwSystemconst(ARObject):
     Attributes:
         value (ValueSpecification): The value of the system constant.
     """
-    def __init__(self):
-        super().__init__()
+
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
 
         self.value: ValueSpecification = None
 

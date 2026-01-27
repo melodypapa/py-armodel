@@ -1,13 +1,24 @@
 from typing import List
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType, ARLiteral
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    ARNumerical,
+    RefType,
+    ARLiteral,
+)
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+)
+
 
 class PhysicalDimension(ARElement):
     """
     Represents a physical dimension with exponents for SI base units.
     Base: ARElement
     """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -68,19 +79,23 @@ class PhysicalDimension(ARElement):
         self.timeExp = value
         return self
 
+
 class SingleLanguageUnitNames(ARLiteral):
     """
     Represents single language unit names.
     Base: ARLiteral
     """
+
     def __init__(self) -> None:
         super().__init__()
+
 
 class Unit(ARElement):
     """
     Represents a unit with display name, conversion factor, and physical dimension reference.
     Base: ARElement
     """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -129,6 +144,7 @@ class UnitGroup(ARElement):
         short_name (str): The short name of the unit group.
         units (List[Unit]): A list of units in the group.
     """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
