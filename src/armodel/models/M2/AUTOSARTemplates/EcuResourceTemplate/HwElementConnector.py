@@ -17,11 +17,7 @@ class HwElementConnector(Describable):
 
     def __init__(self):
         """
-        Initializes the HwElementConnector with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware element connector
-            short_name: The unique short name of this hardware element connector
+        Initializes the HwElementConnector.
         """
         super().__init__()
 
