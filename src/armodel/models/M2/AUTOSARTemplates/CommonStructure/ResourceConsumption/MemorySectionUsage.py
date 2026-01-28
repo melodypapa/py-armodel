@@ -201,3 +201,39 @@ class MemorySection(Identifiable):
             List of ARLiteral options
         """
         return self.options
+
+
+class SectionNamePrefix(ARObject):
+    """
+    Represents a section name prefix in AUTOSAR memory section usage.
+    Defines a prefix for memory section names.
+    """
+
+    def __init__(self):
+        """
+        Initializes the SectionNamePrefix with default values.
+        """
+        super().__init__()
+        self.prefix: str = None
+
+    def getPrefix(self) -> str:
+        """
+        Gets the section name prefix.
+
+        Returns:
+            String representing the prefix
+        """
+        return self.prefix
+
+    def setPrefix(self, value: str):
+        """
+        Sets the section name prefix.
+
+        Args:
+            value: String value to set
+
+        Returns:
+            self for method chaining
+        """
+        self.prefix = value
+        return self

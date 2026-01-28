@@ -216,3 +216,75 @@ class SwcBswMapping(AtpStructureElement):
         """
         self.synchronizedTriggers = value
         return self
+
+
+class SwcBswSynchronizedModeGroupPrototype(ARObject):
+    """
+    Represents a SWC-BSW synchronized mode group prototype in AUTOSAR.
+    Defines a synchronized mode group prototype for SWC-BSW mapping.
+    """
+
+    def __init__(self):
+        """
+        Initializes the SwcBswSynchronizedModeGroupPrototype with default values.
+        """
+        super().__init__()
+        self.modeGroupRef: RefType = None
+
+    def getModeGroupRef(self) -> RefType:
+        """
+        Gets the mode group reference.
+
+        Returns:
+            Reference to the mode group
+        """
+        return self.modeGroupRef
+
+    def setModeGroupRef(self, value: RefType):
+        """
+        Sets the mode group reference.
+
+        Args:
+            value: The mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        self.modeGroupRef = value
+        return self
+
+
+class SwcBswSynchronizedTrigger(ARObject):
+    """
+    Represents a SWC-BSW synchronized trigger in AUTOSAR.
+    Defines a synchronized trigger for SWC-BSW mapping.
+    """
+
+    def __init__(self):
+        """
+        Initializes the SwcBswSynchronizedTrigger with default values.
+        """
+        super().__init__()
+        self.triggerRef: RefType = None
+
+    def getTriggerRef(self) -> RefType:
+        """
+        Gets the trigger reference.
+
+        Returns:
+            Reference to the trigger
+        """
+        return self.triggerRef
+
+    def setTriggerRef(self, value: RefType):
+        """
+        Sets the trigger reference.
+
+        Args:
+            value: The trigger reference to set
+
+        Returns:
+            self for method chaining
+        """
+        self.triggerRef = value
+        return self
