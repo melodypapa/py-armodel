@@ -9,7 +9,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable, ARElement
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String, RevisionLabelString
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String, RevisionLabelString, AREnum
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
@@ -691,3 +691,66 @@ class Implementation(ARElement, ABC):
     
 
     
+
+
+class DependencyUsageEnum(AREnum):
+    """
+    Enumeration for dependency usage.
+    """
+
+    OPTIONAL = "optional"
+    REQUIRED = "required"
+
+    def __init__(self):
+        super().__init__((
+            DependencyUsageEnum.OPTIONAL,
+            DependencyUsageEnum.REQUIRED,
+        ))
+
+
+class Linker(ARObject):
+    """
+    Represents a linker configuration in AUTOSAR.
+    This class defines linker settings for implementation.
+    """
+
+    def __init__(self):
+        """
+        Initializes the Linker with default values.
+        """
+        super().__init__()
+        self.linkerName: str = None
+        self.linkerOptions: str = None
+
+    def getLinkerName(self):
+        return self.linkerName
+
+    def setLinkerName(self, value):
+        self.linkerName = value
+        return self
+
+    def getLinkerOptions(self):
+        return self.linkerOptions
+
+    def setLinkerOptions(self, value):
+        self.linkerOptions = value
+        return self
+
+
+class ProgramminglanguageEnum(AREnum):
+    """
+    Enumeration for programming languages.
+    """
+
+    C = "C"
+    CPP = "C++"
+    JAVA = "Java"
+    PYTHON = "Python"
+
+    def __init__(self):
+        super().__init__((
+            ProgramminglanguageEnum.C,
+            ProgramminglanguageEnum.CPP,
+            ProgramminglanguageEnum.JAVA,
+            ProgramminglanguageEnum.PYTHON,
+        ))

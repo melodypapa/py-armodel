@@ -2,7 +2,7 @@ from abc import ABC
 from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String, AREnum
 from ....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
@@ -304,3 +304,33 @@ class ImplementationDataType(AbstractImplementationDataType):
             SymbolProps: The symbol properties
         """
         return self.symbolProps
+
+
+class ArrayImplPolicyEnum(AREnum):
+    """
+    Enumeration for array implementation policy.
+    """
+
+    DYNAMIC = "dynamic"
+    STATIC = "static"
+
+    def __init__(self):
+        super().__init__((
+            ArrayImplPolicyEnum.DYNAMIC,
+            ArrayImplPolicyEnum.STATIC,
+        ))
+
+
+class ArraySizeSemanticsEnum(AREnum):
+    """
+    Enumeration for array size semantics.
+    """
+
+    FIXED_SIZE = "fixed-size"
+    VARIABLE_SIZE = "variable-size"
+
+    def __init__(self):
+        super().__init__((
+            ArraySizeSemanticsEnum.FIXED_SIZE,
+            ArraySizeSemanticsEnum.VARIABLE_SIZE,
+        ))

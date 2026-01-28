@@ -284,7 +284,7 @@ def find_extra_classes(
     return extra_classes
 
 
-def generate_hierarchy_report(
+def generate_summary_report(
     deviations: List[Dict],
     extra_classes: List[Dict],
     match_count: int,
@@ -292,11 +292,11 @@ def generate_hierarchy_report(
     output_path: str
 ):
     """
-    Generate a markdown hierarchy deviation report.
+    Generate a markdown summary report with overall statistics.
     """
     with open(output_path, 'w', encoding='utf-8') as f:
-        f.write('# Class Hierarchy Deviation Report\n\n')
-        f.write('This report shows deviations between the documented AUTOSAR M2 class hierarchy\n')
+        f.write('# Class Hierarchy Deviation Summary\n\n')
+        f.write('This report provides a summary of deviations between the documented AUTOSAR M2 class hierarchy\n')
         f.write('and the actual Python implementation class hierarchy.\n\n')
 
         f.write('## Summary\n\n')
@@ -315,26 +315,6 @@ def generate_hierarchy_report(
         missing_classes = [d for d in deviations if d['status'] == '✗ MISSING']
         mismatch_classes = [d for d in deviations if d['status'] == '⚠ MISMATCH']
 
-        # Hierarchy Mismatch Table
-        if mismatch_classes:
-            f.write('## Hierarchy Mismatches\n\n')
-            f.write('| Status | Class | Hierarchy | Notes |\n')
-            f.write('|--------|-------|-----------|-------|\n')
-
-            for d in sorted(mismatch_classes, key=lambda x: x['class_name']):
-                doc_parent = d['documented_parent'] or 'None'
-                doc_abstract = 'Abstract' if d['documented_abstract'] else 'Concrete'
-                act_parent = d['actual_parent'] or 'None'
-                act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
-
-                # Display full qualified name if available
-                class_display = d.get('full_name', d['class_name']) if d.get('full_name') else d['class_name']
-
-                hierarchy = f"**Documented:**<br>Parent: {doc_parent}<br>Type: {doc_abstract}<br><br>**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
-                f.write(f"| {d['status']} | {class_display} | {hierarchy} | {d['notes']} |\n")
-
-            f.write('\n')
-
         # Missing Classes Table
         if missing_classes:
             f.write('## Missing Classes (Documented but Not Found)\n\n')
@@ -349,24 +329,7 @@ def generate_hierarchy_report(
 
             f.write('\n')
 
-        # Extra Classes Table
-        if extra_classes:
-            f.write('## Extra Classes (Not Documented)\n\n')
-            f.write('| Status | Class | Hierarchy | Notes |\n')
-            f.write('|--------|-------|-----------|-------|\n')
-
-            for d in sorted(extra_classes, key=lambda x: x['class_name']):
-                act_parent = d['actual_parent'] or 'None'
-                act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
-                hierarchy = f"**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
-
-                # Display full qualified name if available
-                class_display = d.get('full_name', d['class_name']) if d.get('full_name') else d['class_name']
-
-                f.write(f"| {d['status']} | {class_display} | {hierarchy} | {d['notes']} |\n")
-
-            f.write('\n')
-
+        # Result
         if not deviations and not extra_classes:
             f.write('## Result\n\n')
             f.write('✓ No deviations found! All documented classes have correct hierarchy.\n\n')
@@ -376,6 +339,94 @@ def generate_hierarchy_report(
         f.write('- ✗ MISSING: Class documented but not found in source\n')
         f.write('- ⚠ MISMATCH: Class has wrong parent or abstract status\n')
         f.write('- + EXTRA: Class exists but not documented\n')
+        f.write('\n')
+        f.write('## Related Reports\n\n')
+        f.write('- [Hierarchy Mismatches](deviation_class_hierarchy_mismatches.md) - Classes with incorrect parent or abstract status\n')
+        f.write('- [Extra Classes](deviation_class_hierarchy_extra_classes.md) - Classes that exist but are not documented\n')
+
+
+def generate_mismatch_report(
+    deviations: List[Dict],
+    output_path: str
+):
+    """
+    Generate a markdown report for hierarchy mismatches.
+    """
+    mismatch_classes = [d for d in deviations if d['status'] == '⚠ MISMATCH']
+
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write('# Class Hierarchy Mismatches\n\n')
+        f.write('This report shows classes that have incorrect parent or abstract status\n')
+        f.write('compared to the documented AUTOSAR M2 class hierarchy.\n\n')
+
+        f.write(f'## Total Mismatches: {len(mismatch_classes)}\n\n')
+
+        if not mismatch_classes:
+            f.write('No hierarchy mismatches found!\n\n')
+            return
+
+        f.write('| Status | Class | Hierarchy | Notes |\n')
+        f.write('|--------|-------|-----------|-------|\n')
+
+        for d in sorted(mismatch_classes, key=lambda x: x['class_name']):
+            doc_parent = d['documented_parent'] or 'None'
+            doc_abstract = 'Abstract' if d['documented_abstract'] else 'Concrete'
+            act_parent = d['actual_parent'] or 'None'
+            act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
+
+            # Display full qualified name if available
+            class_display = d.get('full_name', d['class_name']) if d.get('full_name') else d['class_name']
+
+            hierarchy = f"**Documented:**<br>Parent: {doc_parent}<br>Type: {doc_abstract}<br><br>**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
+            f.write(f"| {d['status']} | {class_display} | {hierarchy} | {d['notes']} |\n")
+
+        f.write('\n')
+        f.write('## Legend\n\n')
+        f.write('- ⚠ MISMATCH: Class has wrong parent or abstract status\n')
+        f.write('\n')
+        f.write('## Related Reports\n\n')
+        f.write('- [Summary](deviation_class_hierarchy_summary.md) - Overall summary and statistics\n')
+        f.write('- [Extra Classes](deviation_class_hierarchy_extra_classes.md) - Classes that exist but are not documented\n')
+
+
+def generate_extra_classes_report(
+    extra_classes: List[Dict],
+    output_path: str
+):
+    """
+    Generate a markdown report for extra (undocumented) classes.
+    """
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write('# Extra Classes (Not Documented)\n\n')
+        f.write('This report shows classes that exist in the source code but are not documented\n')
+        f.write('in the AUTOSAR M2 class hierarchy documentation.\n\n')
+
+        f.write(f'## Total Extra Classes: {len(extra_classes)}\n\n')
+
+        if not extra_classes:
+            f.write('No extra classes found! All classes are documented.\n\n')
+            return
+
+        f.write('| Status | Class | Hierarchy | Notes |\n')
+        f.write('|--------|-------|-----------|-------|\n')
+
+        for d in sorted(extra_classes, key=lambda x: x['class_name']):
+            act_parent = d['actual_parent'] or 'None'
+            act_abstract = 'Abstract' if d['actual_abstract'] else 'Concrete'
+            hierarchy = f"**Actual:**<br>Parent: {act_parent}<br>Type: {act_abstract}"
+
+            # Display full qualified name if available
+            class_display = d.get('full_name', d['class_name']) if d.get('full_name') else d['class_name']
+
+            f.write(f"| {d['status']} | {class_display} | {hierarchy} | {d['notes']} |\n")
+
+        f.write('\n')
+        f.write('## Legend\n\n')
+        f.write('- + EXTRA: Class exists but not documented\n')
+        f.write('\n')
+        f.write('## Related Reports\n\n')
+        f.write('- [Summary](deviation_class_hierarchy_summary.md) - Overall summary and statistics\n')
+        f.write('- [Hierarchy Mismatches](deviation_class_hierarchy_mismatches.md) - Classes with incorrect parent or abstract status\n')
 
 
 def main():
@@ -384,13 +435,13 @@ def main():
     project_root = script_dir.parent
     hierarchy_file = project_root / 'docs' / 'requirements' / 'autosar_models_hierarchy.md'
     source_dir = project_root / 'src'
-    output_file = project_root / 'docs' / 'requirements' / 'deviation_class_hierarchy.md'
+    output_dir = project_root / 'docs' / 'requirements'
 
     print(f"Py-ARModel Class Hierarchy Deviation Check Script")
     print(f"=" * 50)
     print(f"Hierarchy file: {hierarchy_file}")
     print(f"Source directory: {source_dir}")
-    print(f"Output file: {output_file}")
+    print(f"Output directory: {output_dir}")
     print()
 
     # Step 1: Parse documented hierarchy
@@ -414,10 +465,23 @@ def main():
     extra_classes = find_extra_classes(documented_hierarchy, actual_hierarchy, full_name_map)
     print(f"  Found {len(extra_classes)} extra classes")
 
-    # Step 5: Generate report
-    print("Step 5: Generating hierarchy deviation report...")
-    generate_hierarchy_report(deviations, extra_classes, match_count, len(documented_hierarchy), str(output_file))
-    print(f"  Report written to: {output_file}")
+    # Step 5: Generate reports
+    print("Step 5: Generating hierarchy deviation reports...")
+
+    # Generate summary report
+    summary_file = output_dir / 'deviation_class_hierarchy_summary.md'
+    generate_summary_report(deviations, extra_classes, match_count, len(documented_hierarchy), str(summary_file))
+    print(f"  Summary report written to: {summary_file}")
+
+    # Generate mismatch report
+    mismatch_file = output_dir / 'deviation_class_hierarchy_mismatches.md'
+    generate_mismatch_report(deviations, str(mismatch_file))
+    print(f"  Mismatch report written to: {mismatch_file}")
+
+    # Generate extra classes report
+    extra_file = output_dir / 'deviation_class_hierarchy_extra_classes.md'
+    generate_extra_classes_report(extra_classes, str(extra_file))
+    print(f"  Extra classes report written to: {extra_file}")
 
     print()
     print("=" * 50)

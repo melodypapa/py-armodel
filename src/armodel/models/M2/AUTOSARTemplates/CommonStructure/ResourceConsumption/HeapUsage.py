@@ -26,3 +26,53 @@ class HeapUsage(Identifiable, ABC):
             raise TypeError("HeapUsage is an abstract class.")
         
         super().__init__(parent, short_name)
+
+class MeasuredHeapUsage(HeapUsage):
+    """
+    Represents measured heap usage in AUTOSAR.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.sampleSize: int = None
+
+    def getSampleSize(self):
+        return self.sampleSize
+
+    def setSampleSize(self, value):
+        self.sampleSize = value
+        return self
+
+
+class RoughEstimateHeapUsage(HeapUsage):
+    """
+    Represents rough estimate of heap usage in AUTOSAR.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.confidenceLevel: str = None
+
+    def getConfidenceLevel(self):
+        return self.confidenceLevel
+
+    def setConfidenceLevel(self, value):
+        self.confidenceLevel = value
+        return self
+
+
+class WorstCaseHeapUsage(HeapUsage):
+    """
+    Represents worst case heap usage in AUTOSAR.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.confidenceLevel: str = None
+
+    def getConfidenceLevel(self):
+        return self.confidenceLevel
+
+    def setConfidenceLevel(self, value):
+        self.confidenceLevel = value
+        return self

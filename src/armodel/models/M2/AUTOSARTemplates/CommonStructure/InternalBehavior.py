@@ -10,7 +10,7 @@ from typing import List
 from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
+from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, AREnum
 from ....M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
 
@@ -371,4 +371,60 @@ class AbstractEvent(Identifiable, ABC):
             self for method chaining
         """
         self.activationReasonRepresentationRef = value
+        return self
+
+
+class ApiPrincipleEnum(AREnum):
+    """
+    Enumeration for API principle.
+    """
+
+    CALLEE = "callee"
+    CALLER = "caller"
+
+    def __init__(self):
+        super().__init__((
+            ApiPrincipleEnum.CALLEE,
+            ApiPrincipleEnum.CALLER,
+        ))
+
+
+class ExclusiveAreaNestingOrder(ARObject):
+    """
+    Represents exclusive area nesting order in AUTOSAR.
+    This class defines the nesting order for exclusive areas.
+    """
+
+    def __init__(self):
+        """
+        Initializes the ExclusiveAreaNestingOrder with default values.
+        """
+        super().__init__()
+        self.order: int = None
+
+    def getOrder(self):
+        return self.order
+
+    def setOrder(self, value):
+        self.order = value
+        return self
+
+
+class ExecutableEntityActivationReason(ARObject):
+    """
+    Represents the reason for executable entity activation in AUTOSAR.
+    """
+
+    def __init__(self):
+        """
+        Initializes the ExecutableEntityActivationReason with default values.
+        """
+        super().__init__()
+        self.reason: str = None
+
+    def getReason(self):
+        return self.reason
+
+    def setReason(self, value):
+        self.reason = value
         return self

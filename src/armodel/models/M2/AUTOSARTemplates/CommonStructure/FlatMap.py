@@ -194,3 +194,80 @@ class FlatMap(AtpBlueprintable):
             self.addElement(element)
             self.instances.append(element)
         return self.getElement(short_name)
+
+
+class AliasNameAssignment(ARObject):
+    """
+    Represents an alias name assignment in AUTOSAR.
+    This class defines how aliases are assigned to elements.
+    """
+
+    def __init__(self):
+        """
+        Initializes the AliasNameAssignment with default values.
+        """
+        super().__init__()
+        self.aliasName: str = None
+        self.elementRef: AnyInstanceRef = None
+
+    def getAliasName(self):
+        return self.aliasName
+
+    def setAliasName(self, value):
+        self.aliasName = value
+        return self
+
+    def getElementRef(self):
+        return self.elementRef
+
+    def setElementRef(self, value):
+        self.elementRef = value
+        return self
+
+
+class AliasNameSet(ARObject):
+    """
+    Represents a set of alias name assignments.
+    """
+
+    def __init__(self):
+        """
+        Initializes the AliasNameSet with default values.
+        """
+        super().__init__()
+        self.aliases = []
+
+    def addAlias(self, alias):
+        self.aliases.append(alias)
+
+    def getAliases(self):
+        return self.aliases
+
+
+class RtePluginProps(ARObject):
+    """
+    Represents RTE plugin properties in AUTOSAR.
+    This class defines properties for RTE plugins.
+    """
+
+    def __init__(self):
+        """
+        Initializes the RtePluginProps with default values.
+        """
+        super().__init__()
+        self.pluginName: str = None
+        self.pluginVersion: str = None
+
+    def getPluginName(self):
+        return self.pluginName
+
+    def setPluginName(self, value):
+        self.pluginName = value
+        return self
+
+    def getPluginVersion(self):
+        return self.pluginVersion
+
+    def setPluginVersion(self, value):
+        self.pluginVersion = value
+        return self
