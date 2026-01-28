@@ -1,38 +1,16 @@
-# Class Hierarchy Deviation Report
+# Class Hierarchy Deviation Summary
 
-This report shows deviations between the documented AUTOSAR M2 class hierarchy
+This report provides a summary of deviations between the documented AUTOSAR M2 class hierarchy
 and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 524 classes with correct hierarchy
-- ✗ **Missing**: 1076 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 17 classes with wrong parent/abstract
+- ✓ **Match**: 532 classes with correct hierarchy
+- ✗ **Missing**: 1070 classes documented but not found
+- ⚠ **Hierarchy Mismatch**: 15 classes with wrong parent/abstract
 - + **Extra**: 82 undocumented classes
 - **Total Documented Classes**: 1617
-- **Total Deviations**: 1175
-
-## Hierarchy Mismatches
-
-| Status | Class | Hierarchy | Notes |
-|--------|-------|-----------|-------|
-| ⚠ MISMATCH | AUTOSARTemplates.AutosarTopLevelStructure.AUTOSAR | **Documented:**<br>Parent: ARObject<br>Type: Concrete<br><br>**Actual:**<br>Parent: AbstractAUTOSAR<br>Type: Concrete | parent mismatch (expected ARObject, got AbstractAUTOSAR) |
-| ⚠ MISMATCH | AUTOSARTemplates.GenericStructure.AbstractStructure.AtpPrototype | **Documented:**<br>Parent: AtpFeature<br>Type: Abstract<br><br>**Actual:**<br>Parent: AtpBlueprintable<br>Type: Abstract | parent mismatch (expected AtpFeature, got AtpBlueprintable) |
-| ⚠ MISMATCH | AUTOSARTemplates.GenericStructure.AbstractStructure.AtpStructureElement | **Documented:**<br>Parent: AtpFeature<br>Type: Abstract<br><br>**Actual:**<br>Parent: AtpBlueprintable<br>Type: Abstract | parent mismatch (expected AtpFeature, got AtpBlueprintable) |
-| ⚠ MISMATCH | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.CollectableElement | **Documented:**<br>Parent: Identifiable<br>Type: Abstract<br><br>**Actual:**<br>Parent: ARObject<br>Type: Abstract | parent mismatch (expected Identifiable, got ARObject) |
-| ⚠ MISMATCH | AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution.DiagnosticServiceTable | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected DiagnosticCommonElement, got ARElement) |
-| ⚠ MISMATCH | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConditionFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected FormulaExpression, got ARObject) |
-| ⚠ MISMATCH | AUTOSARTemplates.ECUCParameterDefTemplate.EcucParameterDerivationFormula | **Documented:**<br>Parent: FormulaExpression<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected FormulaExpression, got ARObject) |
-| ⚠ MISMATCH | AUTOSARTemplates.EcuResourceTemplate.HwElementCategory.HwCategory | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARElement<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARElement) |
-| ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LLongName | **Documented:**<br>Parent: MixedContentForLongName<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForLongName, got LanguageSpecific) |
-| ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LOverviewParagraph | **Documented:**<br>Parent: MixedContentForOverviewParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForOverviewParagraph, got LanguageSpecific) |
-| ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LParagraph | **Documented:**<br>Parent: MixedContentForParagraph<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForParagraph, got LanguageSpecific) |
-| ⚠ MISMATCH | MSR.Documentation.TextModel.LanguageDataModel.LPlainText | **Documented:**<br>Parent: MixedContentForPlainText<br>Type: Concrete<br><br>**Actual:**<br>Parent: LanguageSpecific<br>Type: Concrete | parent mismatch (expected MixedContentForPlainText, got LanguageSpecific) |
-| ⚠ MISMATCH | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.PackageableElement | **Documented:**<br>Parent: CollectableElement<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected CollectableElement, got Identifiable) |
-| ⚠ MISMATCH | AUTOSARTemplates.CommonStructure.ServiceNeeds.ServiceDependency | **Documented:**<br>Parent: ARObject<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected ARObject, got Identifiable) |
-| ⚠ MISMATCH | MSR.AsamHdo.Units.SingleLanguageUnitNames | **Documented:**<br>Parent: MixedContentForUnitNames<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARLiteral<br>Type: Concrete | parent mismatch (expected MixedContentForUnitNames, got ARLiteral) |
-| ⚠ MISMATCH | MSR.DataDictionary.SystemConstant.SwSystemconst | **Documented:**<br>Parent: AtpDefinition<br>Type: Concrete<br><br>**Actual:**<br>Parent: ARObject<br>Type: Concrete | parent mismatch (expected AtpDefinition, got ARObject) |
-| ⚠ MISMATCH | AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint.TimingConstraint | **Documented:**<br>Parent: Traceable<br>Type: Abstract<br><br>**Actual:**<br>Parent: Identifiable<br>Type: Abstract | parent mismatch (expected Traceable, got Identifiable) |
+- **Total Deviations**: 1167
 
 ## Missing Classes (Documented but Not Found)
 
@@ -83,10 +61,6 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | AsynchronousServerCallPoint | **Documented:**<br>Parent: ServerCallPoint<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | AsynchronousServerCallResultPoint | **Documented:**<br>Parent: AbstractAccessPoint<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | AtomicSwComponentType | **Documented:**<br>Parent: SwComponentType<br>Type: Abstract | Class not found in source code |
-| ✗ MISSING | AtpBlueprint | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
-| ✗ MISSING | AtpBlueprintMapping | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
-| ✗ MISSING | AtpDefinition | **Documented:**<br>Parent: Referrable<br>Type: Abstract | Class not found in source code |
-| ✗ MISSING | AtpFeature | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AttributeCondition | **Documented:**<br>Parent: AbstractMultiplicityRestriction<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AttributeTailoring | **Documented:**<br>Parent: DataFormatElementScope<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AttributeValueVariationPoint | **Documented:**<br>Parent: SwSystemconstDependentFormula<br>Type: Abstract | Class not found in source code |
@@ -306,7 +280,6 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | DiagnosticComControlClass | **Documented:**<br>Parent: DiagnosticServiceClass<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | DiagnosticComControlSpecificChannel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | DiagnosticComControlSubNodeChannel | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
-| ✗ MISSING | DiagnosticCommonElement | **Documented:**<br>Parent: ARElement<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | DiagnosticCommonProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | DiagnosticComponentNeeds | **Documented:**<br>Parent: DiagnosticCapabilityElement<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | DiagnosticCondition | **Documented:**<br>Parent: DiagnosticCommonElement<br>Type: Abstract | Class not found in source code |
@@ -1053,7 +1026,6 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | TopicContent | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | TopicContentOrMsrQuery | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | TopicOrMsrQuery | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
-| ✗ MISSING | Traceable | **Documented:**<br>Parent: MultilanguageReferrable<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | TraceableText | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | TracedFailure | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | TransformationDescription | **Documented:**<br>Parent: Describable<br>Type: Abstract | Class not found in source code |
@@ -1115,96 +1087,14 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | Xref | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | XrefTarget | **Documented:**<br>Parent: SingleLanguageReferrable<br>Type: Concrete | Class not found in source code |
 
-## Extra Classes (Not Documented)
-
-| Status | Class | Hierarchy | Notes |
-|--------|-------|-----------|-------|
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARBoolean | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.AREnum | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARFloat | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | MSR.Documentation.TextModel.BlockElements.ListElements.ARList | **Actual:**<br>Parent: Paginateable<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARLiteral | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARNumerical | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARPositiveInteger | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARType | **Actual:**<br>Parent: None<br>Type: Abstract | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.AutosarTopLevelStructure.AUTOSARDoc | **Actual:**<br>Parent: AbstractAUTOSAR<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.AutosarTopLevelStructure.AbstractAUTOSAR | **Actual:**<br>Parent: CollectableElement<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ArgumentDirectionEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations.AutoCollectEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Boolean | **Actual:**<br>Parent: ARBoolean<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswApiOptions | **Actual:**<br>Parent: ARObject<br>Type: Abstract | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswCallType | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswDataReceptionPolicy | **Actual:**<br>Parent: BswApiOptions<br>Type: Abstract | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswEntryKindEnum | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswExecutionContext | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptCategory | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswQueuedDataReceptionPolicy | **Actual:**<br>Parent: BswDataReceptionPolicy<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ByteOrderEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.CIdentifier | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.CategoryString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationDirectionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CycleRepetitionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.Filter.DataFilterTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.DateTime | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.DiagRequirementIdString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticAudienceEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticClearDtcNotificationEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticProcessingStyleEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticRoutineTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticServiceRequestCallbackTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticValueAccessEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DtcFormatTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DtcKindEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConfigurationClassEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConfigurationVariantEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriDefRefType | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucScopeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucSymbolicNameReferenceDef | **Actual:**<br>Parent: EcucAbstractInternalReferenceDef<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.FlexrayChannelName | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Float | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | MSR.Documentation.BlockElements.Figure.GraphicFitEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SWComponentTemplate.Communication.HandleInvalidEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.IPduSignalProcessingEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Identifier | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Integer | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Ip4AddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Ip6AddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | MSR.Documentation.TextModel.LanguageDataModel.LEnum | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Limit | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | MSR.Documentation.TextModel.BlockElements.ListElements.ListEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.MacAddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ModeDeclaration.ModeActivationKind | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.NameToken | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.NvBlockNeedsReliabilityEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.NvBlockNeedsWritingPriorityEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.PduToFrameMapping | **Actual:**<br>Parent: Identifiable<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.PncGatewayTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.PositiveInteger | **Actual:**<br>Parent: ARPositiveInteger<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.PositiveUnlimitedInteger | **Actual:**<br>Parent: ARPositiveInteger<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.RamBlockStatusControlEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.InternalBehavior.ReentrancyLevelEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.RefType | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ReferrableSubtypesEnum | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.RegularExpression | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication.ResumePosition | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.RevisionLabelString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology.SdClientConfig | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances.SdServerConfig | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.ServiceDiagnosticRelevanceEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication.SocketConnectionBundle | **Actual:**<br>Parent: Referrable<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication.SocketConnectionIpduIdentifier | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.String | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | MSR.DataDictionary.DataDefProperties.SwDataDefPropsConditional | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | MSR.DataDictionary.DataDefProperties.SwImplPolicyEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.SwServiceImplPolicyEnum | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.TRefType | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.TimeValue | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.UnlimitedInteger | **Actual:**<br>Parent: Integer<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.VerbatimString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
-
 ## Legend
 
 - ✓ MATCH: Class has correct parent and abstract status
 - ✗ MISSING: Class documented but not found in source
 - ⚠ MISMATCH: Class has wrong parent or abstract status
 - + EXTRA: Class exists but not documented
+
+## Related Reports
+
+- [Hierarchy Mismatches](deviation_class_hierarchy_mismatches.md) - Classes with incorrect parent or abstract status
+- [Extra Classes](deviation_class_hierarchy_extra_classes.md) - Classes that exist but are not documented

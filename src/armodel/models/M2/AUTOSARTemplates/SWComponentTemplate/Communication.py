@@ -712,3 +712,73 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def setQueueLength(self, value):
         self.queueLength = value
         return self
+
+
+class HandleOutOfRangeEnum(AREnum):
+    """
+    Enumeration for handle out of range behavior.
+    """
+
+    KEEP_OLD_VALUE = "keep-old-value"
+    REPLACE_WITH_DEFAULT = "replace-with-default"
+    REPLACE_WITH_LIMIT = "replace-with-limit"
+    INVALIDATE = "invalidate"
+
+    def __init__(self):
+        super().__init__((
+            HandleOutOfRangeEnum.KEEP_OLD_VALUE,
+            HandleOutOfRangeEnum.REPLACE_WITH_DEFAULT,
+            HandleOutOfRangeEnum.REPLACE_WITH_LIMIT,
+            HandleOutOfRangeEnum.INVALIDATE,
+        ))
+
+
+class HandleOutOfRangeStatusEnum(AREnum):
+    """
+    Enumeration for handle out of range status.
+    """
+
+    SET_STATUS = "set-status"
+    DO_NOT_SET_STATUS = "do-not-set-status"
+
+    def __init__(self):
+        super().__init__((
+            HandleOutOfRangeStatusEnum.SET_STATUS,
+            HandleOutOfRangeStatusEnum.DO_NOT_SET_STATUS,
+        ))
+
+
+class HandleTimeoutEnum(AREnum):
+    """
+    Enumeration for handle timeout behavior.
+    """
+
+    KEEP_OLD_VALUE = "keep-old-value"
+    REPLACE_WITH_DEFAULT = "replace-with-default"
+    INVALIDATE = "invalidate"
+
+    def __init__(self):
+        super().__init__((
+            HandleTimeoutEnum.KEEP_OLD_VALUE,
+            HandleTimeoutEnum.REPLACE_WITH_DEFAULT,
+            HandleTimeoutEnum.INVALIDATE,
+        ))
+
+
+class TransmissionModeDefinitionEnum(AREnum):
+    """
+    Enumeration for transmission mode definition.
+    """
+
+    PERIODIC = "periodic"
+    ON_CHANGE = "on-change"
+    DIRECT = "direct"
+    MIXED = "mixed"
+
+    def __init__(self):
+        super().__init__((
+            TransmissionModeDefinitionEnum.PERIODIC,
+            TransmissionModeDefinitionEnum.ON_CHANGE,
+            TransmissionModeDefinitionEnum.DIRECT,
+            TransmissionModeDefinitionEnum.MIXED,
+        ))
