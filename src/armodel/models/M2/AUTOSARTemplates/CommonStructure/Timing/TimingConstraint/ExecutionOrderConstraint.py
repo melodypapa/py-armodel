@@ -96,3 +96,98 @@ class ExecutionOrderConstraint(TimingConstraint):
             List of ordered executable entity references
         """
         return self.ordered_elements
+
+
+class EOCEventRef(ARObject):
+    """
+    Represents an event reference in execution order constraints.
+    Defines a reference to an event used in execution order specifications.
+    """
+
+    def __init__(self):
+        """
+        Initializes the EOCEventRef with default values.
+        """
+        super().__init__()
+        self.eventRef: RefType = None
+
+    def getEventRef(self) -> RefType:
+        """
+        Gets the event reference.
+
+        Returns:
+            Reference to the event
+        """
+        return self.eventRef
+
+    def setEventRef(self, value: RefType):
+        """
+        Sets the event reference.
+
+        Args:
+            value: The event reference to set
+
+        Returns:
+            self for method chaining
+        """
+        self.eventRef = value
+        return self
+
+
+class EOCExecutableEntityRefGroup(ARObject):
+    """
+    Represents a group of executable entity references in execution order constraints.
+    Defines a collection of executable entity references that can be ordered as a group.
+    """
+
+    def __init__(self):
+        """
+        Initializes the EOCExecutableEntityRefGroup with default values.
+        """
+        super().__init__()
+        self.entityRefs: List[RefType] = []
+
+    def addEntityRef(self, ref: RefType):
+        """
+        Adds an executable entity reference to this group.
+
+        Args:
+            ref: The executable entity reference to add
+
+        Returns:
+            self for method chaining
+        """
+        self.entityRefs.append(ref)
+        return self
+
+    def getEntityRefs(self) -> List[RefType]:
+        """
+        Gets the list of executable entity references.
+
+        Returns:
+            List of executable entity references
+        """
+        return self.entityRefs
+
+
+class ExecutionOrderConstraintTypeEnum:
+    """
+    Enumeration for execution order constraint types in AUTOSAR.
+    Defines different types of execution order constraints.
+    """
+
+    ENUM_BEFORE = "before"
+    ENUM_AFTER = "after"
+    ENUM_IMMEDIATE = "immediate"
+    ENUM_CONCURRENT = "concurrent"
+
+
+class LetDataExchangeParadigmEnum:
+    """
+    Enumeration for LET (Logical Execution Time) data exchange paradigms in AUTOSAR.
+    Defines different paradigms for data exchange in LET timing.
+    """
+
+    ENUM_BUFFERED = "buffered"
+    ENUM_UNBUFFERED = "unbuffered"
+    ENUM_EVENT_TRIGGERED = "event-triggered"
