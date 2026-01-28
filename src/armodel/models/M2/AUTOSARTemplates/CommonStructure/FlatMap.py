@@ -208,7 +208,7 @@ class AliasNameAssignment(ARObject):
         """
         super().__init__()
         self.aliasName: str = None
-        self.elementRef: RefType = None
+        self.elementRef: AnyInstanceRef = None
 
     def getAliasName(self):
         return self.aliasName
