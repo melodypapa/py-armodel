@@ -1,9 +1,8 @@
 # AUTOSAR M2 Model Classes Implementation Plan
 
 ## Overview
-This plan addresses the deviations identified in the deviation_package.md report, which includes:
-- **859 missing classes** to be implemented
-- **195 path mismatch issues** to be resolved
+This plan addresses the deviations identified in the `docs/requirements/deviation_package.md` report, which includes:
+- run the `python scripts/deviation-package.py` to generate the `deviation_package.md`
 
 ## Implementation Strategy
 
@@ -27,6 +26,7 @@ After adding all missing classes:
 - Stop immediately on any test failure
 - Follow existing code conventions and patterns in the codebase
 - Ensure all new classes integrate properly with existing parser and writer modules
+- Do not create the script to create the missing classes
 
 ## Current Status
 - Refer to `docs/requirements/deviation_package.md` for the complete list of missing classes
