@@ -1,3 +1,4 @@
+import sys
 #!/usr/bin/env python3
 """
 Package Implementation Comparison Script for py-armodel
@@ -20,49 +21,44 @@ import argparse
 import ast
 import json
 import os
-import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional, Any
+from typing import Dict, List, Tuple, Optional, Any
 
 
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
+        prog='compare-package-implementation.py',
         description='Compare AUTOSAR M2 package requirements with Python implementations',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s                                          Compare all packages
-  %(prog)s --package M2::AUTOSARTemplates::BswModuleTemplate  Compare single package
-  %(prog)s -p M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior  Compare subpackage
-  %(prog)s --package M2::AUTOSARTemplates::BswModuleTemplate --fix  Fix issues found
-  %(prog)s --package M2::AUTOSARTemplates::BswModuleTemplate --fix --dry-run  Preview fixes
-        """
+  %(prog)s --all                                    Compare all packages
+  %(prog)s -p M2::xxx::xxx                          Compare single package
+  %(prog)s -p M2::xxx::xxx::xxx                     Compare subpackage
+                """
     )
     parser.add_argument(
         '--package', '-p',
         type=str,
+        metavar='PACKAGE',
         help='Specific package to compare (format: M2::xxx::xxxx)'
+    )
+    parser.add_argument(
+        '--all',
+        action='store_true',
+        help='Compare all packages'
     )
     parser.add_argument(
         '--output', '-o',
         type=str,
+        metavar='OUTPUT',
         help='Output file path (default: docs/requirements/package_comparison.md)'
     )
     parser.add_argument(
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
-    )
-    parser.add_argument(
-        '--fix',
-        action='store_true',
-        help='Automatically fix missing classes and enumeration mismatches'
-    )
-    parser.add_argument(
-        '--dry-run',
-        action='store_true',
-        help='Preview fixes without modifying files (use with --fix)'
     )
     return parser.parse_args()
 
@@ -598,288 +594,6 @@ def compare_packages(
     return comparisons
 
 
-def generate_class_code(class_info: Dict[str, Any], package_path: str) -> str:
-    """Generate Python class code from requirements JSON."""
-    class_name = class_info['name']
-    is_abstract = class_info.get('is_abstract', False)
-    parent = class_info.get('parent', 'ARObject')
-    attributes = class_info.get('attributes', {})
-    
-    # Build import statements
-    imports = [
-        'from typing import List, Optional, Dict',
-    ]
-    
-    # Add ABC import for abstract classes
-    if is_abstract:
-        imports.insert(0, 'from abc import ABC')
-    
-    # Build class declaration
-    bases = [parent]
-    if is_abstract:
-        bases.append('ABC')
-    
-    class_decl = f"class {class_name}({', '.join(bases)}):"
-    
-    # Build __init__ method
-    if is_abstract:
-        init_code = f'''    def __init__(self):
-        if type(self) is {class_name}:
-            raise TypeError("{class_name} is an abstract class.")
-        super().__init__()'''
-    else:
-        init_code = f'''    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)'''
-    
-    # Build attributes
-    attr_code = []
-    for attr_name, attr_info in attributes.items():
-        attr_type = attr_info.get('type', 'Any')
-        multiplicity = attr_info.get('multiplicity', '1')
-        is_ref = attr_info.get('is_ref', False)
-        
-        # Determine Python type
-        if multiplicity == '*':
-            py_type = f'List[{attr_type}]'
-            attr_code.append(f'        self.{attr_name}: {py_type} = []')
-            attr_code.append(f'        self.{attr_name}_mapping: Dict[str, List[{attr_type}]] = {{}}')
-        elif multiplicity == '0..1':
-            py_type = f'Optional[{attr_type}]'
-            attr_code.append(f'        self.{attr_name}: {py_type} = None')
-        else:
-            py_type = attr_type
-            attr_code.append(f'        self.{attr_name}: {py_type}')
-    
-    # Build getter/setter methods
-    methods_code = []
-    for attr_name, attr_info in attributes.items():
-        attr_type = attr_info.get('type', 'Any')
-        multiplicity = attr_info.get('multiplicity', '1')
-        
-        # Getter
-        if multiplicity == '*':
-            getter_code = f'''    def get{attr_name[0].upper()}{attr_name[1:]}(self) -> List[{attr_type}]:
-        return self.{attr_name}'''
-        else:
-            getter_code = f'''    def get{attr_name[0].upper()}{attr_name[1:]}(self) -> {attr_type}:
-        return self.{attr_name}'''
-        
-        methods_code.append(getter_code)
-        
-        # Setter
-        if multiplicity == '*':
-            setter_code = f'''    def set{attr_name[0].upper()}{attr_name[1:]}(self, value: List[{attr_type}]):
-        self.{attr_name} = value
-        return self'''
-        else:
-            setter_code = f'''    def set{attr_name[0].upper()}{attr_name[1:]}(self, value: {attr_type}):
-        self.{attr_name} = value
-        return self'''
-        
-        methods_code.append(setter_code)
-    
-    # Combine all parts
-    code_parts = imports + [''] + [class_decl, init_code, ''] + attr_code + [''] + methods_code
-    
-    return '\n'.join(code_parts)
-
-
-def generate_enum_code(enum_info: Dict[str, Any], package_path: str) -> str:
-    """Generate Python enumeration code from requirements JSON."""
-    enum_name = enum_info['name']
-    literals = enum_info.get('literals', [])
-    
-    # Build import statement
-    imports = [
-        'from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum',
-    ]
-    
-    # Build enum declaration
-    enum_decl = f"class {enum_name}(AREnum):"
-    
-    # Build literal definitions
-    literal_code = []
-    literal_refs = []
-    for literal in literals:
-        literal_name = literal['name'].upper().replace('-', '_')
-        literal_value = literal['name']
-        literal_code.append(f'    {literal_name} = "{literal_value}"')
-        literal_refs.append(f'{enum_name}.{literal_name}')
-    
-    # Build __init__ method
-    literal_refs_str = ',\n            '.join(literal_refs)
-    init_code = f'''    def __init__(self):
-        super().__init__((
-            {literal_refs_str},
-        ))'''
-    
-    # Combine all parts
-    code_parts = imports + [''] + [enum_decl] + literal_code + [''] + [init_code]
-    
-    return '\n'.join(code_parts)
-
-
-def fix_missing_class(class_name: str, class_info: Dict[str, Any], package_path: str, project_root: Path, dry_run: bool = False) -> bool:
-    """Fix a missing class by generating and writing the class code."""
-    print(f"\n[Fix] Generating missing class: {class_name}")
-    
-    # Determine target file location
-    # Remove M2:: prefix
-    if package_path.startswith('M2::'):
-        relative = package_path[4:].replace('::', '/')
-        package_dir = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative
-    
-    # Check if class file exists
-    class_file = package_dir / f'{class_name}.py'
-    
-    # Check if package directory exists
-    if not class_file.exists():
-        if package_dir.is_dir():
-            # Create file in package directory
-            class_file = package_dir / f'{class_name}.py'
-        else:
-            # Create subdirectory for the class
-            class_subdir = package_dir / class_name
-            class_subdir.mkdir(parents=True, exist_ok=True)
-            class_file = class_subdir / f'{class_name}.py'
-    
-    # Generate class code
-    code = generate_class_code(class_info, package_path)
-    
-    if dry_run:
-        print(f"  [Dry Run] Would create file: {class_file.relative_to(project_root)}")
-        print(f"  [Dry Run] Class code preview:")
-        print("  " + "\n  ".join(code.split('\n')[:10]))
-        if len(code.split('\n')) > 10:
-            print("  ...")
-        return True
-    
-    # Write class file
-    try:
-        class_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(class_file, 'w', encoding='utf-8') as f:
-            f.write(code + '\n')
-        print(f"  ✓ Created: {class_file.relative_to(project_root)}")
-        
-        # Update parent __init__.py if needed
-        parent_init = package_dir / '__init__.py'
-        if parent_init.exists():
-            with open(parent_init, 'r', encoding='utf-8') as f:
-                init_content = f.read()
-            
-            if f'from .{class_name} import {class_name}' not in init_content:
-                # Add import
-                with open(parent_init, 'a', encoding='utf-8') as f:
-                    f.write(f'\nfrom .{class_name} import {class_name}\n')
-                print(f"  ✓ Updated: {parent_init.relative_to(project_root)}")
-        
-        return True
-    except Exception as e:
-        print(f"  ✗ Error: {e}")
-        return False
-
-
-def fix_enum_literals(enum_name: str, enum_info: Dict[str, Any], impl_info: Dict[str, Any], package_path: str, project_root: Path, dry_run: bool = False) -> bool:
-    """Fix enumeration literal mismatches."""
-    required_literals = [l['name'] for l in enum_info.get('literals', [])]
-    impl_literals = impl_info.get('implemented_literals', [])
-    
-    print(f"\n[Fix] Fixing enum literals: {enum_name}")
-    print(f"  Required: {', '.join(required_literals)}")
-    print(f"  Current:  {', '.join(impl_literals)}")
-    
-    # Determine target file location
-    location = impl_info.get('location', '')
-    if not location:
-        print(f"  ✗ Error: Cannot determine file location")
-        return False
-    
-    enum_file = project_root / location
-    
-    if dry_run:
-        print(f"  [Dry Run] Would update: {enum_file.relative_to(project_root)}")
-        return True
-    
-    # Generate new enum code
-    code = generate_enum_code(enum_info, package_path)
-    
-    # Write enum file
-    try:
-        # Create backup
-        backup_file = enum_file.with_suffix('.py.bak')
-        if enum_file.exists():
-            with open(enum_file, 'r', encoding='utf-8') as f:
-                original_content = f.read()
-            with open(backup_file, 'w', encoding='utf-8') as f:
-                f.write(original_content)
-            print(f"  ✓ Backup created: {backup_file.relative_to(project_root)}")
-        
-        # Write new code
-        enum_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(enum_file, 'w', encoding='utf-8') as f:
-            f.write(code + '\n')
-        print(f"  ✓ Updated: {enum_file.relative_to(project_root)}")
-        
-        return True
-    except Exception as e:
-        print(f"  ✗ Error: {e}")
-        return False
-
-
-def apply_fixes(comparisons: List[Dict[str, Any]], project_root: Path, requirements_dir: Path, dry_run: bool = False) -> Dict[str, int]:
-    """Apply fixes for missing classes and enum mismatches."""
-    print("\n" + "=" * 60)
-    print("Applying Fixes")
-    print("=" * 60)
-    
-    if dry_run:
-        print("[DRY RUN MODE - No files will be modified]")
-    
-    stats = {
-        'classes_fixed': 0,
-        'enums_fixed': 0,
-        'errors': 0
-    }
-    
-    for comp in comparisons:
-        pkg_name = comp['package']
-        classes = comp['classes']
-        enums = comp['enumerations']
-        required_classes_data = comp.get('required_classes_data', {})
-        required_enums_data = comp.get('required_enums_data', {})
-        
-        print(f"\nPackage: {pkg_name}")
-        
-        # Fix missing classes
-        for cls in classes:
-            if cls['status'] == '❌ Missing':
-                # Get class info from requirements
-                class_info = required_classes_data.get(cls['name'], {})
-                if class_info:
-                    if fix_missing_class(cls['name'], class_info, pkg_name, project_root, dry_run):
-                        stats['classes_fixed'] += 1
-                    else:
-                        stats['errors'] += 1
-                else:
-                    print(f"  ✗ Warning: No class info found for {cls['name']}")
-                    stats['errors'] += 1
-        
-        # Fix enum mismatches
-        for enum in enums:
-            if enum['status'] == '⚠️ Literal Mismatch':
-                # Get enum info from requirements
-                enum_info = required_enums_data.get(enum['name'], {})
-                
-                if enum_info and fix_enum_literals(enum['name'], enum_info, enum, pkg_name, project_root, dry_run):
-                    stats['enums_fixed'] += 1
-                else:
-                    if not enum_info:
-                        print(f"  ✗ Warning: No enum info found for {enum['name']}")
-                    stats['errors'] += 1
-    
-    return stats
-
-
 def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str, verbose: bool = False):
     """Generate a markdown comparison report."""
     with open(output_path, 'w', encoding='utf-8') as f:
@@ -900,12 +614,12 @@ def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str
         
         f.write('## Overall Summary\n\n')
         f.write(f'- **Total Packages**: {total_packages}\n')
-        f.write(f'\n### Classes\n')
+        f.write('\n### Classes\n')
         f.write(f'- **Required**: {total_required_classes}\n')
         f.write(f'- **Implemented**: {total_implemented_classes}\n')
         f.write(f'- **Missing**: {total_missing_classes}\n')
         f.write(f'- **Extra**: {total_extra_classes}\n')
-        f.write(f'\n### Enumerations\n')
+        f.write('\n### Enumerations\n')
         f.write(f'- **Required**: {total_required_enums}\n')
         f.write(f'- **Implemented**: {total_implemented_enums}\n')
         f.write(f'- **Missing**: {total_missing_enums}\n')
@@ -921,7 +635,7 @@ def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str
         else:
             overall_status = '⚠️ Partial'
         
-        f.write(f'\n### Overall Status\n')
+        f.write('\n### Overall Status\n')
         f.write(f'**{overall_status}**\n\n')
         
         # Legend
@@ -990,6 +704,22 @@ def main():
     """Main entry point."""
     args = parse_args()
     
+    # Show help if no arguments provided
+    if len(sys.argv) == 1:
+        parser = argparse.ArgumentParser(
+            prog='compare-package-implementation.py',
+            description='Compare AUTOSAR M2 package requirements with Python implementations',
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog="""
+Examples:
+  %(prog)s --all                                    Compare all packages
+  %(prog)s -p M2::xxx::xxx                          Compare single package
+  %(prog)s -p M2::xxx::xxx::xxx                     Compare subpackage
+                """
+        )
+        parser.print_help()
+        return 0
+    
     # Define paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
@@ -1016,7 +746,7 @@ def main():
     try:
         packages = get_all_packages(requirements_dir, args.package)
         if not packages:
-            print(f"Error: No packages found")
+            print("Error: No packages found")
             if args.package:
                 print(f"  Package '{args.package}' not found in requirements")
             return 1
@@ -1028,7 +758,7 @@ def main():
     # Compare with implementation
     print("Comparing with implementation...")
     comparisons = compare_packages(packages, project_root)
-    print(f"  Comparison complete")
+    print("  Comparison complete")
     
     # Generate report
     print("Generating markdown report...")
@@ -1068,31 +798,12 @@ def main():
     
     total_issues = missing_classes + missing_enums + enum_mismatches
     
-    # Apply fixes if --fix flag is set
-    if args.fix and total_issues > 0:
-        stats = apply_fixes(comparisons, project_root, requirements_dir, args.dry_run)
-        
-        print("\n" + "=" * 60)
-        print("Fix Summary")
-        print("=" * 60)
-        print(f"Classes fixed: {stats['classes_fixed']}")
-        print(f"Enums fixed: {stats['enums_fixed']}")
-        print(f"Errors: {stats['errors']}")
-        
-        if args.dry_run:
-            print("\n[DRY RUN COMPLETE - No files were modified]")
-    
     if total_issues == 0 and extra_classes == 0 and extra_enums == 0:
         print("\n✅ All requirements are satisfied!")
         return 0
     elif total_issues > 0:
-        if args.fix:
-            if args.dry_run:
-                return 1
-            elif stats['classes_fixed'] > 0 or stats['enums_fixed'] > 0:
-                print(f"\n✅ Fixes applied! Run again to verify.")
-                return 0
         print(f"\n❌ {total_issues} issue(s) found")
+        print("  Run 'python scripts/fix-package-implementation.py' to fix them.")
         return 1
     else:
         print(f"\n⚠️ All requirements satisfied, but {extra_classes + extra_enums} extra element(s) found")
