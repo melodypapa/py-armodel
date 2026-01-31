@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "metadata": {
+    "generated_at": "2026-01-31T08:44:42.590406Z",
+    "source_files": [
+      "AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf",
+      "AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf",
+      "AUTOSAR_CP_TPS_ECUConfiguration.pdf",
+      "AUTOSAR_CP_TPS_ECUResourceTemplate.pdf",
+      "AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf",
+      "AUTOSAR_CP_TPS_SystemTemplate.pdf",
+      "AUTOSAR_CP_TPS_TimingExtensions.pdf",
+      "AUTOSAR_FO_TPS_ARXMLSerializationRules.pdf",
+      "AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf",
+      "AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf",
+      "AUTOSAR_FO_TPS_GenericStructureTemplate.pdf",
+      "AUTOSAR_FO_TPS_LogAndTraceExtract.pdf",
+      "AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf",
+      "AUTOSAR_FO_TPS_StandardizationTemplate.pdf"
+    ],
+    "total_packages": 1,
+    "total_classes": 1623,
+    "total_enumerations": 264,
+    "total_primitives": 50
+  },
+  "packages": [
+    {
+      "name": "M2",
+      "file": "packages/M2.json",
+      "class_count": 0,
+      "subpackages": [
+        "AUTOSARTemplates",
+        "MSR"
+      ]
+    }
+  ]
+}

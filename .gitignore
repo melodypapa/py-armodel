@@ -65,6 +65,7 @@ Temporary Items
 # Claude
 .claude/settings.local.json
 docs/**/M2
+docs/**/packages
 
 # Worktrees
 worktrees/
