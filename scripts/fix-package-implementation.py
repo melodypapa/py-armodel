@@ -279,8 +279,6 @@ def _generate_import_path(models_dir: Path, file_rel_path: Path, class_name: str
 
 def find_type_in_codebase_cached(project_root: Path, type_name: str) -> Optional[str]:
     """Find a type in the codebase using cached index."""
-    global _type_index_cache
-
     if _type_index_cache is None:
         build_type_index(project_root)
 
@@ -570,8 +568,6 @@ def create_missing_class_from_json(project_root: Path, requirements_dir: Path, t
 
 def _update_cache_for_new_class(project_root: Path, type_name: str, package_path: str) -> None:
     """Update the type index cache with a newly created class."""
-    global _type_index_cache
-
     if _type_index_cache is None:
         return
 
