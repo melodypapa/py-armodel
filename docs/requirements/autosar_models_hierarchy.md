@@ -23,51 +23,13 @@
   * AccessCountSet
   * AdminData
   * AliasNameAssignment
+  * AnyInstanceRef
+  * ApplicationCompositeElementInPortInterfaceInstanceRef
   * ArParameterInImplementationDataInstanceRef
   * ArVariableInImplementationDataInstanceRef
   * Area
   * AtpBlueprintMapping (abstract)
-    * BlueprintMapping
   * AtpInstanceRef (abstract)
-    * AnyInstanceRef
-    * ApplicationCompositeElementInPortInterfaceInstanceRef
-    * ComponentInCompositionInstanceRef
-    * ComponentInSystemInstanceRef
-    * DataPrototypeInPortInterfaceInstanceRef (abstract)
-      * DataPrototypeInClientServerInterfaceInstanceRef
-      * DataPrototypeInSenderReceiverInterfaceInstanceRef
-    * DataPrototypeInSystemInstanceRef
-    * InnerDataPrototypeGroupInCompositionInstanceRef
-    * InnerPortGroupInCompositionInstanceRef
-    * InnerRunnableEntityGroupInCompositionInstanceRef
-    * InstanceEventInCompositionInstanceRef
-    * ModeGroupInAtomicSwcInstanceRef (abstract)
-      * PModeGroupInAtomicSwcInstanceRef
-      * RModeGroupInAtomicSWCInstanceRef
-    * ModeInBswModuleDescriptionInstanceRef
-    * ModeInSwcInstanceRef
-    * OperationInAtomicSwcInstanceRef (abstract)
-      * POperationInAtomicSwcInstanceRef
-      * ROperationInAtomicSwcInstanceRef
-    * OperationInSystemInstanceRef
-    * PModeInSystemInstanceRef
-    * ParameterInAtomicSWCTypeInstanceRef
-    * PortGroupInSystemInstanceRef
-    * PortInCompositionTypeInstanceRef (abstract)
-      * PPortInCompositionInstanceRef
-      * RPortInCompositionInstanceRef
-    * RModeInAtomicSwcInstanceRef
-    * RunnableEntityInCompositionInstanceRef
-    * SwcServiceDependencyInSystemInstanceRef
-    * TriggerInAtomicSwcInstanceRef (abstract)
-      * PTriggerInAtomicSwcTypeInstanceRef
-      * RTriggerInAtomicSwcInstanceRef
-    * TriggerInSystemInstanceRef
-    * VariableDataPrototypeInCompositionInstanceRef
-    * VariableDataPrototypeInSystemInstanceRef
-    * VariableInAtomicSWCTypeInstanceRef
-    * VariableInAtomicSwcInstanceRef (abstract)
-      * RVariableInAtomicSwcInstanceRef
   * AutosarParameterRef
   * AutosarVariableRef
   * BaseTypeDefinition (abstract)
@@ -77,6 +39,7 @@
     * BinaryManifestItemNumericalValue
     * BinaryManifestItemPointerValue
   * BlueprintGenerator
+  * BlueprintMapping
   * BlueprintPolicy (abstract)
     * BlueprintPolicyList
     * BlueprintPolicyNotModifiable
@@ -107,9 +70,7 @@
   * CanControllerXlConfigurationRequirements
   * CanTpEcu
   * CanXlFrameTriggeringProps
-  * ChapterContent
   * ChapterModel
-  * ChapterOrMsrQuery
   * ClassTailoring (abstract)
   * ClientIdRange
   * ClientServerApplicationErrorMapping
@@ -120,6 +81,8 @@
   * CommunicationCycle (abstract)
     * CycleCounter
     * CycleRepetition
+  * ComponentInCompositionInstanceRef
+  * ComponentInSystemInstanceRef
   * CompositeNetworkRepresentation
   * CompositeRuleBasedValueArgument (abstract)
     * ApplicationRuleBasedValueSpecification
@@ -155,6 +118,10 @@
     * SenderReceiverToSignalGroupMapping
     * SenderReceiverToSignalMapping
     * TriggerToSignalMapping
+  * DataPrototypeInPortInterfaceInstanceRef (abstract)
+    * DataPrototypeInClientServerInterfaceInstanceRef
+    * DataPrototypeInSenderReceiverInterfaceInstanceRef
+  * DataPrototypeInSystemInstanceRef
   * DataPrototypeMapping
   * DataPrototypeReference (abstract)
     * DataPrototypeInPortInterfaceRef
@@ -197,10 +164,6 @@
       * EndToEndTransformationDescription
       * SOMEIPTransformationDescription
       * UserDefinedTransformationDescription
-    * TransformationISignalProps (abstract)
-      * EndToEndTransformationISignalProps
-      * SOMEIPTransformationISignalProps
-      * UserDefinedTransformationISignalProps
   * DhcpServerConfiguration
   * Dhcpv6Props
   * DiagnosticAbstractParameter (abstract)
@@ -208,7 +171,6 @@
   * DiagnosticAuthRoleProxy
   * DiagnosticComControlSpecificChannel
   * DiagnosticComControlSubNodeChannel
-  * DiagnosticCommonProps
   * DiagnosticControlEnableMaskBit
   * DiagnosticEnvConditionFormulaPart (abstract)
     * DiagnosticEnvCompareCondition (abstract)
@@ -251,7 +213,6 @@
       * Table
       * Topic1
       * TraceableText
-  * DocumentationBlock
   * DynamicPartAlternative
   * EcuResourceEstimation
   * EcucAbstractConfigurationClass (abstract)
@@ -268,8 +229,6 @@
       * EcucAddInfoParamValue
       * EcucNumericalParamValue
       * EcucTextualParamValue
-  * EcucQueryExpression
-  * EmphasisText
   * EndToEndDescription
   * EndToEndProtectionISignalIPdu
   * EndToEndProtectionVariablePrototype
@@ -293,30 +252,6 @@
   * FlexrayFifoConfiguration
   * FlexrayFifoRange
   * FlexrayTpEcu
-  * FormulaExpression (abstract)
-    * CompuGenericMath
-    * EcucConditionFormula
-    * EcucParameterDerivationFormula
-    * FMFormulaByFeaturesAndAttributes (abstract)
-      * FMConditionByFeaturesAndAttributes
-    * SwSystemconstDependentFormula (abstract)
-      * AttributeValueVariationPoint (abstract)
-        * AbstractEnumerationValueVariationPoint (abstract)
-        * AbstractNumericalVariationPoint (abstract)
-          * LimitValueVariationPoint
-          * NumericalValueVariationPoint
-        * BooleanValueVariationPoint
-        * FloatValueVariationPoint
-        * IntegerValueVariationPoint
-        * PositiveIntegerValueVariationPoint
-        * TimeValueValueVariationPoint
-        * UnlimitedIntegerValueVariationPoint
-      * BlueprintFormula
-      * ConditionByFormula
-      * FMFormulaByFeaturesAndSwSystemconsts (abstract)
-        * FMConditionByFeaturesAndSwSystemconsts
-    * TDEventOccurrenceExpressionFormula
-    * TimingConditionFormula
   * FrameMapping
   * FramePid
   * GeneralAnnotation (abstract)
@@ -336,7 +271,6 @@
   * GlobalTimeCouplingPortProps
   * HardwareConfiguration
   * HwAttributeValue
-  * HwPinGroupContent
   * HwPortMapping
   * IPSecConfig
   * IPduMapping
@@ -348,10 +282,13 @@
   * IncludedDataTypeSet
   * IncludedModeDeclarationGroupSet
   * IndentSample
-  * IndexEntry
   * IndexedArrayElement
   * InfrastructureServices
   * InitialSdDelayConfig
+  * InnerDataPrototypeGroupInCompositionInstanceRef
+  * InnerPortGroupInCompositionInstanceRef
+  * InnerRunnableEntityGroupInCompositionInstanceRef
+  * InstanceEventInCompositionInstanceRef
   * InstantiationDataDefProps
   * InstantiationRTEEventProps (abstract)
     * InstantiationTimingEventProps
@@ -386,29 +323,20 @@
     * ComponentClustering
     * ComponentSeparation
   * McDataAccessDetails
-  * McFunctionDataRefSet
-  * McGroupDataRefSet
   * McParameterElementGroup
   * McSupportData
   * McSwEmulationMethodSupport
   * MemorySectionLocation
   * MetaDataItem
   * MetaDataItemSet
-  * MixedContentForLongName (abstract)
-    * LLongName
-    * SingleLanguageLongName
-  * MixedContentForOverviewParagraph (abstract)
-    * LOverviewParagraph
-    * SlOverviewParagraph
-  * MixedContentForParagraph (abstract)
-    * LParagraph
-    * SlParagraph
-  * MixedContentForUnitNames (abstract)
-    * SingleLanguageUnitNames
   * ModeAccessPoint
   * ModeDeclarationGroupPrototypeMapping
   * ModeDrivenTransmissionModeCondition
   * ModeErrorBehavior
+  * ModeGroupInAtomicSwcInstanceRef (abstract)
+    * PModeGroupInAtomicSwcInstanceRef
+    * RModeGroupInAtomicSWCInstanceRef
+  * ModeInBswModuleDescriptionInstanceRef
   * ModeRequestTypeMap
   * ModeSwitchEventTriggeredActivity
   * ModeSwitchedAckRequest
@@ -437,7 +365,12 @@
   * NmCoordinator
   * NumericalOrText
   * NvBlockDataMapping
+  * OperationInAtomicSwcInstanceRef (abstract)
+    * POperationInAtomicSwcInstanceRef
+    * ROperationInAtomicSwcInstanceRef
+  * OperationInSystemInstanceRef
   * OrderedMaster
+  * PModeInSystemInstanceRef
   * PPortComSpec (abstract)
     * ModeSwitchSenderComSpec
     * NvProvideComSpec
@@ -446,6 +379,7 @@
       * NonqueuedSenderComSpec
       * QueuedSenderComSpec
     * ServerComSpec
+  * ParameterInAtomicSWCTypeInstanceRef
   * PduMappingDefaultValue
   * PerInstanceMemorySize
   * PhysConstrs
@@ -453,11 +387,16 @@
   * PlcaProps
   * PortAPIOption
   * PortDefinedArgumentValue
+  * PortGroupInSystemInstanceRef
+  * PortInCompositionTypeInstanceRef (abstract)
+    * PPortInCompositionInstanceRef
+    * RPortInCompositionInstanceRef
   * PortPrototypeBlueprintInitValue
   * PostBuildVariantCondition
   * PostBuildVariantCriterionValue
   * PredefinedChapter
   * PrivacyLevel
+  * RModeInAtomicSwcInstanceRef
   * RPortComSpec (abstract)
     * ClientComSpec
     * ModeSwitchReceiverComSpec
@@ -470,9 +409,6 @@
   * ReferenceBase
   * Referrable (abstract)
     * AtpDefinition (abstract)
-      * HwCategory
-      * PostBuildVariantCriterion
-      * SwSystemconst
     * BswDistinguishedPartition
     * BswModuleCallPoint (abstract)
       * BswAsynchronousServerCallPoint
@@ -501,7 +437,15 @@
       * Caption
       * DocumentationContext
       * Identifiable (abstract)
-        * <<atpPrototype>> PduToFrameMapping
+        * AbstractAccessPoint (abstract)
+          * AsynchronousServerCallResultPoint
+          * InternalTriggeringPoint
+          * ModeSwitchPoint
+          * ParameterAccess
+          * ServerCallPoint (abstract)
+            * AsynchronousServerCallPoint
+            * SynchronousServerCallPoint
+          * VariableAccess
         * AbstractDoIpLogicAddressProps (abstract)
           * DoIpLogicTargetAddressProps
           * DoIpLogicTesterAddressProps
@@ -520,6 +464,25 @@
               * BswModeSwitchedAckEvent
               * BswOsTaskExecutionEvent
               * BswTimingEvent
+          * RTEEvent (abstract)
+            * AsynchronousServerCallReturnsEvent
+            * BackgroundEvent
+            * DataReceiveErrorEvent
+            * DataReceivedEvent
+            * DataSendCompletedEvent
+            * DataWriteCompletedEvent
+            * ExternalTriggerOccurredEvent
+            * InitEvent
+            * InternalTriggerOccurredEvent
+            * ModeSwitchedAckEvent
+            * OperationInvokedEvent
+            * OsTaskExecutionEvent
+            * SwcModeManagerErrorEvent
+            * SwcModeSwitchEvent
+            * TimingEvent
+            * TransformerHardErrorEvent
+        * AbstractImplementationDataTypeElement (abstract)
+          * ImplementationDataTypeElement
         * AbstractSecurityEventFilter (abstract)
           * SecurityEventAggregationFilter
           * SecurityEventOneEveryNFilter
@@ -536,148 +499,12 @@
         * ApplicationError
         * ApplicationPartitionToEcuPartitionMapping
         * AtpBlueprint (abstract)
-          * ClientServerInterfaceToBswModuleEntryBlueprintMapping
         * AtpBlueprintable (abstract)
-          * AclObjectSet
-          * AclOperation
-          * AclPermission
-          * AclRole
-          * AliasNameSet
-          * BswEntryRelationshipSet
-          * BswModuleEntry
-          * BuildActionEntity (abstract)
-            * BuildAction
-          * BuildActionEnvironment
-          * BuildActionManifest
-          * CompuMethod
-          * ConsistencyNeeds
-          * DataConstr
-          * DataTypeMappingSet
-          * EcucDefinitionCollection
-          * EcucDestinationUriDefSet
-          * FlatMap
-          * ImpositionTime
-          * KeywordSet
-          * LifeCycleState
-          * LifeCycleStateDefinitionGroup
-          * PortInterfaceMapping (abstract)
-            * ClientServerInterfaceMapping
-            * ModeInterfaceMapping
-            * TriggerInterfaceMapping
-            * VariableAndParameterInterfaceMapping
-          * PortInterfaceMappingSet
-          * SwAddrMethod
         * AtpClassifier (abstract)
-          * AtpType (abstract)
-            * AutosarDataType (abstract)
-              * AbstractImplementationDataType (abstract)
-                * ImplementationDataType
-              * ApplicationDataType (abstract)
-                * ApplicationCompositeDataType (abstract)
-                  * ApplicationArrayDataType
-                  * ApplicationRecordDataType
-                * ApplicationDeferredDataType
-                * ApplicationPrimitiveDataType
-            * ModeDeclarationGroup
-            * ModeDeclarationMappingSet
-            * PortInterface (abstract)
-              * ApplicationInterface
-              * ClientServerInterface
-              * DataInterface (abstract)
-                * NvDataInterface
-                * ParameterInterface
-                * SenderReceiverInterface
-              * ModeSwitchInterface
-              * TriggerInterface
-            * SwComponentType (abstract)
-              * AtomicSwComponentType (abstract)
-                * ApplicationSwComponentType
-                * ComplexDeviceDriverSwComponentType
-                * EcuAbstractionSwComponentType
-                * NvBlockSwComponentType
-                * SensorActuatorSwComponentType
-                * ServiceProxySwComponentType
-                * ServiceSwComponentType
-              * CompositionSwComponentType
-              * ParameterSwComponentType
         * AtpFeature (abstract)
-          * AtpPrototype (abstract)
-            * DataPrototype (abstract)
-              * ApplicationCompositeElementDataPrototype (abstract)
-                * ApplicationArrayElement
-                * ApplicationRecordElement
-              * AutosarDataPrototype (abstract)
-                * ArgumentDataPrototype
-                * Field
-                * ParameterDataPrototype
-                * VariableDataPrototype
-            * ModeDeclarationGroupPrototype
-            * PortPrototype (abstract)
-              * AbstractProvidedPortPrototype (abstract)
-                * PPortPrototype
-              * AbstractRequiredPortPrototype (abstract)
-                * PRPortPrototype
-                * RPortPrototype
-            * RootSwCompositionPrototype
-            * SwComponentPrototype
-          * AtpStructureElement (abstract)
-            * AbstractAccessPoint (abstract)
-              * AsynchronousServerCallResultPoint
-              * InternalTriggeringPoint
-              * ModeSwitchPoint
-              * ParameterAccess
-              * ServerCallPoint (abstract)
-                * AsynchronousServerCallPoint
-                * SynchronousServerCallPoint
-              * VariableAccess
-            * AbstractImplementationDataTypeElement (abstract)
-              * ImplementationDataTypeElement
-            * BswModuleDescription
-            * BulkNvDataDescriptor
-            * ClientServerOperation
-            * DataPrototypeGroup
-            * IdentCaption (abstract)
-              * BswServiceDependencyIdent
-              * DiagnosticParameterIdent
-              * ExternalTriggeringPointIdent
-              * ModeAccessPointIdent
-            * IdsPlatformInstantiation (abstract)
-              * IdsmModuleInstantiation
-            * InternalBehavior (abstract)
-              * BswInternalBehavior
-              * SwcInternalBehavior
-            * ModeDeclaration
-            * ModeDeclarationMapping
-            * ModeTransition
-            * NvBlockDescriptor
-            * PerInstanceMemory
-            * PortGroup
-            * PortPrototypeBlueprint
-            * RTEEvent (abstract)
-              * AsynchronousServerCallReturnsEvent
-              * BackgroundEvent
-              * DataReceiveErrorEvent
-              * DataReceivedEvent
-              * DataSendCompletedEvent
-              * DataWriteCompletedEvent
-              * ExternalTriggerOccurredEvent
-              * InitEvent
-              * InternalTriggerOccurredEvent
-              * ModeSwitchedAckEvent
-              * OperationInvokedEvent
-              * OsTaskExecutionEvent
-              * SwcModeManagerErrorEvent
-              * SwcModeSwitchEvent
-              * TimingEvent
-              * TransformerHardErrorEvent
-            * RunnableEntityGroup
-            * SwConnector (abstract)
-              * AssemblySwConnector
-              * DelegationSwConnector
-              * PassThroughSwConnector
-            * SwcBswMapping
-            * System
-            * Trigger
+        * AtpPrototype (abstract)
+        * AtpStructureElement (abstract)
+        * AtpType (abstract)
         * AutosarOperationArgumentInstance
         * AutosarVariableInstance
         * BinaryManifestAddressableObject (abstract)
@@ -691,23 +518,48 @@
         * BlockState
         * BswInternalTriggeringPoint
         * BswModuleDependency
+        * BuildActionEntity (abstract)
+          * BuildAction
+        * BuildActionEnvironment
+        * BulkNvDataDescriptor
         * CanTpAddress
         * CanTpChannel
         * CanTpNode
         * ClassContentConditional
         * ClientIdDefinition
+        * ClientServerOperation
         * Code
         * CollectableElement (abstract)
           * ARPackage
           * PackageableElement (abstract)
             * ARElement (abstract)
+              * AclObjectSet
+              * AclOperation
+              * AclPermission
+              * AclRole
+              * AliasNameSet
               * ApplicationPartition
+              * AutosarDataType (abstract)
+                * AbstractImplementationDataType (abstract)
+                  * ImplementationDataType
+                * ApplicationDataType (abstract)
+                  * ApplicationCompositeDataType (abstract)
+                    * ApplicationArrayDataType
+                    * ApplicationRecordDataType
+                  * ApplicationDeferredDataType
+                  * ApplicationPrimitiveDataType
               * BaseType (abstract)
                 * SwBaseType
               * BlueprintMappingSet
+              * BswEntryRelationshipSet
+              * BswModuleDescription
+              * BswModuleEntry
+              * BuildActionManifest
               * CalibrationParameterValueSet
               * ClientIdDefinitionSet
+              * ClientServerInterfaceToBswModuleEntryBlueprintMapping
               * Collection
+              * CompuMethod
               * ConsistencyNeedsBlueprintSet
               * ConstantSpecification
               * ConstantSpecificationMappingSet
@@ -721,8 +573,10 @@
               * CryptoServicePrimitive
               * CryptoServiceQueue
               * CryptoSignatureScheme
+              * DataConstr
               * DataExchangePoint
               * DataTransformationSet
+              * DataTypeMappingSet
               * DdsCpConfig
               * DiagnosticCommonElement (abstract)
                 * DiagnosticAbstractAliasEvent (abstract)
@@ -892,6 +746,8 @@
               * DltEcu
               * Documentation
               * E2EProfileCompatibilityProps
+              * EcucDefinitionCollection
+              * EcucDestinationUriDefSet
               * EcucModuleConfigurationValues
               * EcucValueCollection
               * EndToEndProtectionSet
@@ -904,7 +760,9 @@
               * FMFeatureModel
               * FMFeatureSelectionSet
               * FirewallRule
+              * FlatMap
               * GeneralPurposeConnection
+              * HwCategory
               * IEEE1722TpConnection (abstract)
                 * IEEE1722TpAcfConnection
                 * IEEE1722TpAvConnection (abstract)
@@ -931,16 +789,32 @@
                 * SwcImplementation
               * InterpolationRoutineMappingSet
               * J1939ControllerApplication
+              * KeywordSet
               * LifeCycleInfoSet
+              * LifeCycleStateDefinitionGroup
               * LogAndTraceMessageCollectionSet
               * MacSecGlobalKayProps
               * MacSecParticipantSet
               * McFunction
               * McGroup
+              * ModeDeclarationGroup
+              * ModeDeclarationMappingSet
               * OsTaskProxy
               * PhysicalDimension
               * PhysicalDimensionMappingSet
               * PlatformModuleEthernetEndpointConfiguration
+              * PortInterface (abstract)
+                * ApplicationInterface
+                * ClientServerInterface
+                * DataInterface (abstract)
+                  * NvDataInterface
+                  * ParameterInterface
+                  * SenderReceiverInterface
+                * ModeSwitchInterface
+                * TriggerInterface
+              * PortInterfaceMappingSet
+              * PortPrototypeBlueprint
+              * PostBuildVariantCriterion
               * PostBuildVariantCriterionValueSet
               * PredefinedVariant
               * RapidPrototypingScenario
@@ -951,9 +825,24 @@
               * SomeipSdServerEventGroupTimingConfig
               * SomeipSdServerServiceInstanceConfig
               * StateDependentFirewall
+              * SwAddrMethod
               * SwAxisType
+              * SwComponentType (abstract)
+                * AtomicSwComponentType (abstract)
+                  * ApplicationSwComponentType
+                  * ComplexDeviceDriverSwComponentType
+                  * EcuAbstractionSwComponentType
+                  * NvBlockSwComponentType
+                  * SensorActuatorSwComponentType
+                  * ServiceProxySwComponentType
+                  * ServiceSwComponentType
+                * CompositionSwComponentType
+                * ParameterSwComponentType
               * SwRecordLayout
+              * SwSystemconst
               * SwSystemconstantValueSet
+              * SwcBswMapping
+              * System
               * SystemSignal
               * SystemSignalGroup
               * TDCpSoftwareClusterMappingSet
@@ -977,15 +866,6 @@
                 * BusMirrorChannelMappingFlexray
                 * BusMirrorChannelMappingIp
                 * BusMirrorChannelMappingUserDefined
-              * CommunicationCluster (abstract)
-                * AbstractCanCluster (abstract)
-                  * CanCluster
-                  * J1939Cluster
-                  * TtcanCluster
-                * EthernetCluster
-                * FlexrayCluster
-                * LinCluster
-                * UserDefinedCluster
               * ConsumedProvidedServiceInstanceGroup
               * CouplingElement
               * EcuInstance
@@ -1049,17 +929,8 @@
           * FlexrayCommunicationConnector
           * LinCommunicationConnector
           * UserDefinedCommunicationConnector
-        * CommunicationController (abstract)
-          * AbstractCanCommunicationController (abstract)
-            * CanCommunicationController
-            * TtcanCommunicationController
-          * EthernetCommunicationController
-          * FlexrayCommunicationController
-          * LinCommunicationController (abstract)
-            * LinMaster
-            * LinSlave
-          * UserDefinedCommunicationController
         * Compiler
+        * ConsistencyNeeds
         * ConsumedEventGroup
         * CouplingElementAbstractDetails (abstract)
           * CouplingElementSwitchDetails
@@ -1081,6 +952,16 @@
         * CryptoServiceMapping (abstract)
           * SecOcCryptoServiceMapping
           * TlsCryptoServiceMapping
+        * DataPrototype (abstract)
+          * ApplicationCompositeElementDataPrototype (abstract)
+            * ApplicationArrayElement
+            * ApplicationRecordElement
+          * AutosarDataPrototype (abstract)
+            * ArgumentDataPrototype
+            * Field
+            * ParameterDataPrototype
+            * VariableDataPrototype
+        * DataPrototypeGroup
         * DataTransformation
         * DdsCpDomain
         * DdsCpPartition
@@ -1126,11 +1007,6 @@
                 * EcucReferenceDef
                 * EcucUriReferenceDef
             * EcucParameterDef (abstract)
-              * EcucAbstractStringParamDef (abstract)
-                * EcucFunctionNameDef
-                * EcucLinkerSymbolDef
-                * EcucMultilineStringParamDef
-                * EcucStringParamDef
               * EcucAddInfoParamDef
               * EcucBooleanParamDef
               * EcucEnumerationParamDef
@@ -1205,11 +1081,23 @@
         * IPv6ExtHeaderFilterList
         * ISignalToIPduMapping
         * ISignalTriggering
+        * IdentCaption (abstract)
+          * BswServiceDependencyIdent
+          * DiagnosticParameterIdent
+          * ExternalTriggeringPointIdent
+          * ModeAccessPointIdent
+        * IdsPlatformInstantiation (abstract)
+          * IdsmModuleInstantiation
         * IdsmRateLimitation
         * IdsmTrafficLimitation
+        * ImpositionTime
+        * InternalBehavior (abstract)
+          * BswInternalBehavior
+          * SwcInternalBehavior
         * J1939SharedAddressCluster
         * J1939TpNode
         * Keyword
+        * LifeCycleState
         * LinScheduleTable
         * LinTpNode
         * Linker
@@ -1217,6 +1105,10 @@
         * MacSecKayParticipant
         * McDataInstance
         * MemorySection
+        * ModeDeclaration
+        * ModeDeclarationGroupPrototype
+        * ModeDeclarationMapping
+        * ModeTransition
         * NetworkEndpoint
         * NmCluster (abstract)
           * CanNmCluster
@@ -1229,8 +1121,10 @@
           * FlexrayNmNode
           * J1939NmNode
           * UdpNmNode
+        * NvBlockDescriptor
         * PduActivationRoutingGroup
         * PduTriggering
+        * PerInstanceMemory
         * PhysicalChannel (abstract)
           * AbstractCanPhysicalChannel (abstract)
             * CanPhysicalChannel
@@ -1240,7 +1134,20 @@
           * LinPhysicalChannel
           * UserDefinedPhysicalChannel
         * PortElementToCommunicationResourceMapping
+        * PortGroup
+        * PortInterfaceMapping (abstract)
+          * ClientServerInterfaceMapping
+          * ModeInterfaceMapping
+          * TriggerInterfaceMapping
+          * VariableAndParameterInterfaceMapping
+        * PortPrototype (abstract)
+          * AbstractProvidedPortPrototype (abstract)
+            * PPortPrototype
+          * AbstractRequiredPortPrototype (abstract)
+            * PRPortPrototype
+            * RPortPrototype
         * ResourceConsumption
+        * RootSwCompositionPrototype
         * RptComponent
         * RptContainer
         * RptExecutableEntity
@@ -1252,6 +1159,7 @@
         * RteEventInCompositionToOsTaskProxyMapping
         * RteEventInSystemSeparation
         * RteEventInSystemToOsTaskProxyMapping
+        * RunnableEntityGroup
         * SdgAttribute (abstract)
           * SdgReference
         * SecureCommunicationAuthenticationProps
@@ -1339,6 +1247,11 @@
           * RoughEstimateStackUsage
           * WorstCaseStackUsage
         * StaticSocketConnection
+        * SwComponentPrototype
+        * SwConnector (abstract)
+          * AssemblySwConnector
+          * DelegationSwConnector
+          * PassThroughSwConnector
         * SwGenericAxisParamType
         * SwServiceArg
         * SwcToApplicationPartitionMapping
@@ -1402,6 +1315,7 @@
           * SOMEIPTransformationProps
           * UserDefinedTransformationProps
         * TransformationTechnology
+        * Trigger
         * VariationPointProxy
         * ViewMap
         * VlanConfig
@@ -1451,11 +1365,11 @@
   * RptSupportData
   * RptSwPrototypingAccess
   * RtePluginProps
-  * RuleArguments
   * RuleBasedAxisCont
   * RuleBasedValueCont
   * RuleBasedValueSpecification
   * RunnableEntityArgument
+  * RunnableEntityInCompositionInstanceRef
   * RxIdentifierRange
   * ScaleConstr
   * ScheduleTableEntry (abstract)
@@ -1473,7 +1387,6 @@
   * Sd
   * Sdf
   * Sdg
-  * SdgContents
   * SdgElementWithGid (abstract)
     * SdgAbstractForeignReference (abstract)
       * SdgForeignReference
@@ -1527,23 +1440,20 @@
   * SwCalprmRefProxy
   * SwComponentDocumentation
   * SwComponentPrototypeAssignment
-  * SwDataDefProps
   * SwDataDependency
-  * SwDataDependencyArgs
   * SwGenericAxisParam
   * SwPointerTargetProps
   * SwRecordLayoutGroup
-  * SwRecordLayoutGroupContent
   * SwRecordLayoutV
   * SwSystemconstValue
   * SwTextProps
   * SwValueCont
-  * SwValues
   * SwVariableRefProxy
   * SwcBswRunnableMapping
   * SwcBswSynchronizedModeGroupPrototype
   * SwcBswSynchronizedTrigger
   * SwcExclusiveAreaPolicy
+  * SwcServiceDependencyInSystemInstanceRef
   * SwcSupportedFeature (abstract)
     * CommunicationBufferLocking
   * SwcToSwcOperationArguments
@@ -1564,9 +1474,6 @@
   * TimeSynchronization
   * TlsPskIdentity
   * TlvDataIdDefinition
-  * TopicContent
-  * TopicContentOrMsrQuery
-  * TopicOrMsrQuery
   * TpConnection (abstract)
     * CanTpConnection
     * DoIpTpConnection
@@ -1590,12 +1497,15 @@
       * TcpTp
       * UdpTp
   * TriggerIPduSendCondition
+  * TriggerInAtomicSwcInstanceRef (abstract)
+    * PTriggerInAtomicSwcTypeInstanceRef
+    * RTriggerInAtomicSwcInstanceRef
+  * TriggerInSystemInstanceRef
   * TriggerMapping
   * Tt
   * TtcanAbsolutelyScheduledTiming
   * UdpProps
   * ValueGroup
-  * ValueList
   * ValueSpecification (abstract)
     * AbstractRuleBasedValueSpecification (abstract)
       * CompositeRuleBasedValueSpecification
@@ -1609,11 +1519,12 @@
     * NumericalValueSpecification
     * ReferenceValueSpecification
     * TextValueSpecification
+  * VariableDataPrototypeInCompositionInstanceRef
+  * VariableDataPrototypeInSystemInstanceRef
+  * VariableInAtomicSWCTypeInstanceRef
+  * VariableInAtomicSwcInstanceRef (abstract)
+    * RVariableInAtomicSwcInstanceRef
   * VariationPoint
   * VlanMembership
   * WhitespaceControlled (abstract)
-    * MixedContentForPlainText (abstract)
-      * LPlainText
-    * MixedContentForVerbatim (abstract)
-      * LVerbatim
   * Xref
