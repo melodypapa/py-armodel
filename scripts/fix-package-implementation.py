@@ -1,4 +1,3 @@
-import sys
 #!/usr/bin/env python3
 """
 Package Implementation Fix Script for py-armodel
@@ -32,14 +31,14 @@ def parse_args():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s --package M2::xxx::xxx                   Fix single package
-  %(prog)s -p M2::xxx::xxx::xxx                     Fix subpackage
-  %(prog)s --package M2::xxx::xxx --dry-run         Preview fixes
-  %(prog)s --package M2::xxx::xxx --merge           Merge updates into existing classes
+  %(prog)s M2::xxx::xxx                   Fix single package
+  %(prog)s M2::xxx::xxx::xxx             Fix subpackage
+  %(prog)s M2::xxx::xxx --dry-run         Preview fixes
+  %(prog)s M2::xxx::xxx --merge           Merge updates into existing classes
         """
     )
     parser.add_argument(
-        '--package', '-p',
+        'package',
         type=str,
         help='Specific package to fix (format: M2::xxx::xxxx)'
     )
@@ -297,9 +296,11 @@ def generate_imports(class_info: Dict[str, Any], package_path: str, project_root
         imports.add('from abc import ABC')
 
     # Import ARObject if needed for __init__ signature or for attributes
+    # Check if parent class or any of its bases has __init__(parent, short_name) signature
+    has_short_name_init = _has_short_name_in_init(class_info, requirements_dir)
     needs_ar_object = (
         (not is_abstract or (is_abstract and any(attr_info.get('multiplicity') in ['*', '0..1'] for attr_info in attributes.values()))) or
-        _parent_has_init_args(parent)  # parent has (parent, short_name) params
+        has_short_name_init or (parent == 'ARObject')  # ARObject children need short_name
     )
     if needs_ar_object:
         imports.add('from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject')
@@ -328,6 +329,7 @@ def generate_imports(class_info: Dict[str, Any], package_path: str, project_root
     for attr_name, attr_info in attributes.items():
         attr_type = attr_info.get('type', 'Any')
         multiplicity = attr_info.get('multiplicity', '1')
+        is_ref = attr_info.get('is_ref', False)
 
         if multiplicity == '*':
             typing_imports.add('List')
@@ -336,6 +338,10 @@ def generate_imports(class_info: Dict[str, Any], package_path: str, project_root
 
         # Skip self-referencing types (when class has attribute of its own type)
         if attr_type == class_name:
+            continue
+
+        # Skip importing type when it's a reference (RefType is used instead)
+        if is_ref:
             continue
 
         # Try to find type in codebase
@@ -545,7 +551,7 @@ def create_missing_class_from_json(project_root: Path, requirements_dir: Path, t
         test_dir = project_root / 'tests' / 'test_armodel' / 'models' / 'M2' / relative
         test_file = test_dir / f'test_{type_name}.py'
 
-        test_code = generate_test_case(type_name, class_info, package_path, module_path)
+        test_code = generate_test_case(type_name, class_info, package_path, module_path, requirements_dir)
 
         if dry_run_mode:
             print(f"  [Would create test file: {test_file.relative_to(project_root)}]")
@@ -585,57 +591,6 @@ def _update_cache_for_new_class(project_root: Path, type_name: str, package_path
 
     # Update cache
     _type_index_cache[type_name] = import_path
-
-
-# Parent classes that have __init__(parent, short_name) signature
-# Based on comprehensive analysis of the codebase
-_PARENTS_WITH_INIT_ARGS = {
-    # Core AUTOSAR hierarchy (in inheritance order)
-    'ARObject',  # Base - has no-arg __init__, but children override it
-    'Referrable',
-    'MultilanguageReferrable',
-    'Identifiable',
-    'ARElement',
-    'AtpClassifier',
-    'AtpType',
-    'AtpPrototype',
-    'AtpStructureElement',
-    'AtpBlueprintable',
-    # Template classes
-    'ServiceNeeds',
-    # Behavior classes
-    'InternalBehavior',
-    'Implementation',
-    'SwcInternalBehavior',
-    'BswInternalBehavior',
-    'ExecutableEntity',
-    # Component classes
-    'PortInterface',
-    'SwComponentType',
-    'PortPrototype',
-    'AbstractProvidedPortPrototype',
-    'AbstractRequiredPortPrototype',
-    'PPortPrototype',
-    'RPortPrototype',
-    'PRPortPrototype',
-    # Data types
-    'ApplicationDataType',
-    'ImplementationDataType',
-    'AutosarDataType',
-    # Common structure
-    'PackageableElement',
-    'ImplementationProps',
-    'SwcBswMapping',
-    # Container classes
-    'CollectableElement',
-    'ElementCollection',
-    'ARPackage',  # Special container with factory methods
-}
-
-
-def _parent_has_init_args(parent: str) -> bool:
-    """Check if parent class has __init__(parent, short_name) signature."""
-    return parent in _PARENTS_WITH_INIT_ARGS
 
 
 def _is_container_class(class_name: str, parent: str, attributes: Dict[str, Any]) -> bool:
@@ -710,6 +665,126 @@ def _should_have_create_methods(class_name: str, parent: str) -> bool:
     return parent in create_method_parents
 
 
+def _wrap_docstring_line(line: str, indent: str = '    ', max_width: int = 80) -> List[str]:
+    """Wrap a docstring line to stay under max_width characters.
+
+    Args:
+        line: The line to wrap
+        indent: The indentation to use for wrapped lines
+        max_width: Maximum line width (default 80)
+
+    Returns:
+        List of wrapped lines
+    """
+    if len(line) <= max_width:
+        return [line]
+
+    lines = []
+    words = line.split()
+    current_line = indent
+
+    for word in words:
+        if len(current_line) + 1 + len(word) <= max_width:
+            if current_line == indent:
+                current_line += word
+            else:
+                current_line += ' ' + word
+        else:
+            if current_line != indent:
+                lines.append(current_line)
+            current_line = indent + word
+
+    if current_line != indent:
+        lines.append(current_line)
+
+    return lines
+
+
+def _has_short_name_in_init(class_info: Dict[str, Any], requirements_dir: Path) -> bool:
+    """Check if any base class in the hierarchy has __init__(parent, short_name) signature.
+    
+    This checks the bases array in the JSON requirements to see if any base class
+    (or its ancestors) has short_name in its __init__ method.
+    
+    Returns True if any base class has short_name in __init__, False otherwise.
+    """
+    # Classes known to have __init__(parent, short_name) signature
+    classes_with_short_name = {
+        # Core AUTOSAR hierarchy (Referrable lineage)
+        'Referrable',
+        'MultilanguageReferrable',
+        'Identifiable',
+        'ARElement',
+        'PackageableElement',
+        
+        # ATP Blueprintable hierarchy
+        'AtpBlueprintable',
+        'AtpClassifier',
+        'AtpType',
+        'AtpPrototype',
+        'AtpStructureElement',
+        'AtpFeature',
+        
+        # Other classes with short_name
+        'CollectableElement',
+        'ElementCollection',
+        'ARPackage',
+        
+        # Specific component and behavior classes
+        'InternalBehavior',
+        'Implementation',
+        'SwcInternalBehavior',
+        'BswInternalBehavior',
+        'ExecutableEntity',
+        
+        # Component classes
+        'PortInterface',
+        'SwComponentType',
+        'PortPrototype',
+        'AbstractProvidedPortPrototype',
+        'AbstractRequiredPortPrototype',
+        'PPortPrototype',
+        'RPortPrototype',
+        'PRPortPrototype',
+        
+        # Data types
+        'ApplicationDataType',
+        'ImplementationDataType',
+        'AutosarDataType',
+        
+        # Data prototypes
+        'DataPrototype',
+        'AutosarDataPrototype',
+        'VariableDataPrototype',
+        'ApplicationCompositeElementDataPrototype',
+        'ApplicationArrayElement',
+        'ApplicationRecordElement',
+        'ParameterDataPrototype',
+        
+        # Other structure classes
+        'ImplementationProps',
+        'SwcBswMapping',
+        'ServiceNeeds',
+    }
+    
+    # Get all base classes from JSON
+    bases = class_info.get('bases', [])
+    
+    for base_name in bases:
+        # Check if this base class has short_name
+        if base_name in classes_with_short_name:
+            return True
+        
+        # Check the base class's own bases (recursively)
+        base_data = find_class_in_requirements(requirements_dir, base_name)
+        if base_data:
+            base_info = base_data['class_info']
+            if _has_short_name_in_init(base_info, requirements_dir):
+                return True
+    
+    return False
+
+
 def generate_class_code(class_info: Dict[str, Any], package_path: str, project_root: Path, requirements_dir: Path) -> str:
     """Generate Python class code from requirements JSON."""
     class_name = class_info['name']
@@ -720,19 +795,24 @@ def generate_class_code(class_info: Dict[str, Any], package_path: str, project_r
     sources = class_info.get('sources', [])
 
     imports = generate_imports(class_info, package_path, project_root, requirements_dir, class_name)
-    
+
     # Generate docstring
     docstring_lines = []
     docstring_lines.append('    """')
     if note:
-        docstring_lines.append(f'    {note}')
-    
+        # Wrap the note line if it's too long
+        wrapped_note = _wrap_docstring_line(f'    {note}')
+        docstring_lines.extend(wrapped_note)
+
     if sources:
         docstring_lines.append('    ')
         docstring_lines.append('    Sources:')
         for source in sources:
-            docstring_lines.append(f'      - {source.get("pdf_file", "")} (Page {source.get("page_number", "")}, {source.get("autosar_standard", "")} {source.get("standard_release", "")})')
-    
+            source_line = f'      - {source.get("pdf_file", "")} (Page {source.get("page_number", "")}, {source.get("autosar_standard", "")} {source.get("standard_release", "")})'
+            # Wrap the source line if it's too long
+            wrapped_source = _wrap_docstring_line(source_line, indent='      ', max_width=80)
+            docstring_lines.extend(wrapped_source)
+
     docstring_lines.append('    """')
     docstring = '\n'.join(docstring_lines)
     
@@ -742,13 +822,13 @@ def generate_class_code(class_info: Dict[str, Any], package_path: str, project_r
     
     class_decl = f"class {class_name}({', '.join(bases)}):"
 
-    # Check if parent has __init__(parent, short_name)
-    parent_has_args = _parent_has_init_args(parent)
+    # Check if any base class has __init__(parent, short_name) signature
+    has_short_name_init = _has_short_name_in_init(class_info, requirements_dir)
     # ARObject is special: it has no-arg init but children have (parent, short_name)
     is_arobject_child = (parent == 'ARObject')
 
     if is_abstract:
-        if parent_has_args and not is_arobject_child:
+        if has_short_name_init and not is_arobject_child:
             init_code = f'''{docstring}
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is {class_name}:
@@ -769,7 +849,7 @@ def generate_class_code(class_info: Dict[str, Any], package_path: str, project_r
             raise TypeError("{class_name} is an abstract class.")
         super().__init__()'''
     else:
-        if parent_has_args and not is_arobject_child:
+        if has_short_name_init and not is_arobject_child:
             init_code = f'''{docstring}
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)'''
@@ -792,11 +872,28 @@ def generate_class_code(class_info: Dict[str, Any], package_path: str, project_r
         sentences = [s if s.endswith('.') else s + '.' for s in sentences]
 
         if len(sentences) == 1:
-            return f'# {sentences[0]}'
+            # Wrap the single sentence if it's too long
+            wrapped = _wrap_docstring_line(sentences[0], indent='', max_width=77)
+            # Add # prefix to each line
+            wrapped = ['# ' + line if not line.startswith('#') else line for line in wrapped]
+            if len(wrapped) == 1:
+                return wrapped[0]
+            else:
+                # First line is normal, subsequent lines need indent
+                return wrapped[0] + '\n        ' + '\n        '.join(wrapped[1:])
         else:
-            lines = ['#']
+            lines = []
             for sentence in sentences:
-                lines.append(f'# {sentence}')
+                # Wrap each sentence if it's too long
+                wrapped = _wrap_docstring_line(sentence, indent='', max_width=77)
+                # Add # prefix to each line
+                wrapped = ['# ' + line if not line.startswith('#') else line for line in wrapped]
+                if len(wrapped) == 1:
+                    lines.append(wrapped[0])
+                else:
+                    # First line is normal, subsequent lines need indent
+                    lines.append(wrapped[0])
+                    lines.extend(['        ' + line for line in wrapped[1:]])
             return '\n        '.join(lines)
 
     attr_code = []
@@ -986,8 +1083,9 @@ def generate_class_code(class_info: Dict[str, Any], package_path: str, project_r
                 methods_code.append(create_method_code)
             else:
                 # Generate addXxxx method for references or existing objects
-                # Method name uses plural form
-                add_method_code = f'''    def add{method_name[0].upper()}{method_name[1:]}(self, value: {value_type}) -> "{class_name}":
+                # Method name uses singular form since only one object is added
+                singular_attr_name = attr_name if not attr_name.endswith('s') else attr_name[:-1]
+                add_method_code = f'''    def add{singular_attr_name[0].upper()}{singular_attr_name[1:]}(self, value: {value_type}) -> "{class_name}":
         """Adds a value to the {py_attr_name} list."""
         self.{py_attr_name}.append(value)
         return self
@@ -1001,12 +1099,13 @@ def generate_class_code(class_info: Dict[str, Any], package_path: str, project_r
     return '\n'.join(code_parts)
 
 
-def generate_test_case(class_name: str, class_info: Dict[str, Any], package_path: str, module_path: str) -> str:
+def generate_test_case(class_name: str, class_info: Dict[str, Any], package_path: str, module_path: str, requirements_dir: Path) -> str:
     """Generate pytest test case code for a generated class."""
     is_abstract = class_info.get('is_abstract', False)
     attributes = class_info.get('attributes', {})
     parent = class_info.get('parent') or 'ARObject'  # Handle null/None/empty parent
-    parent_has_args = _parent_has_init_args(parent)
+    # Check if parent class or any of its bases has __init__(parent, short_name) signature
+    has_short_name_init = _has_short_name_in_init(class_info, requirements_dir)
 
     test_code = f'''"""
 Auto-generated test cases for {class_name}.
@@ -1023,7 +1122,7 @@ class Test{class_name}:
     """Test cases for {class_name} class."""'''
 
     if is_abstract:
-        if parent_has_args:
+        if has_short_name_init:
             test_code += f'''
 
     def test_abstract_class_cannot_be_instantiated(self):
@@ -1043,7 +1142,7 @@ class Test{class_name}:
             obj = {class_name}()
         assert str(err.value) == "{class_name} is an abstract class."'''
     else:
-        if parent_has_args:
+        if has_short_name_init:
             test_code += f'''
 
     def test_initialization(self):
@@ -1074,7 +1173,7 @@ class Test{class_name}:
                 py_attr_name = attr_name
 
             # Determine object instantiation pattern
-            if parent_has_args:
+            if has_short_name_init:
                 obj_instantiation = f'''        obj = {class_name}(ar_root, "test_{class_name.lower()}")'''
                 setup_code = '''        document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -1122,7 +1221,8 @@ class Test{class_name}:
             result = obj.create{singular_capitalized}("test_value")
             assert result is not None
         else:
-            result = obj.add{py_attr_name[0].upper()}{py_attr_name[1:]}(None)
+            # For add method, also use singular form of attribute name
+            result = obj.add{singular_capitalized}(None)
             assert result == obj
         assert len(obj.get{py_attr_name[0].upper()}{py_attr_name[1:]}()) >= initial_count'''
             else:
@@ -1435,13 +1535,13 @@ def fix_missing_class(class_name: str, class_info: Dict[str, Any], package_path:
         return False
 
     # Validate generated code before writing
-    is_valid, errors = validate_code(code, class_name)
-    if not is_valid:
-        print("  ✗ Validation failed:")
-        for error in errors:
-            print(f"    {error}")
-        generation_report['errors'].append(f"{class_name}: {'; '.join(errors)}")
-        return False
+        is_valid, errors = validate_code(code, class_name)
+        if not is_valid:
+            print("  ✗ Validation failed:")
+            for error in errors:
+                print(f"    {error}")
+            generation_report['errors'].append(f"{class_name}: {'; '.join(errors)}")
+            return False
 
     # Check if file exists and handle merge mode
     if class_file.exists() and merge:
@@ -1504,7 +1604,7 @@ def fix_missing_class(class_name: str, class_info: Dict[str, Any], package_path:
         test_dir = project_root / 'tests' / 'test_armodel' / 'models' / 'M2' / relative
         test_file = test_dir / f'test_{class_name}.py'
         
-        test_code = generate_test_case(class_name, class_info, package_path, module_path)
+        test_code = generate_test_case(class_name, class_info, package_path, module_path, requirements_dir)
         
         if dry_run:
             print(f"  [Dry Run] Would create test file: {test_file.relative_to(project_root)}")
@@ -1646,20 +1746,6 @@ def main():
     """Main entry point."""
     args = parse_args()
     
-    # Show help if no arguments provided
-    if len(sys.argv) == 1:
-        parser = argparse.ArgumentParser(
-            description='Fix missing AUTOSAR M2 package implementations and generate tests',
-            formatter_class=argparse.RawDescriptionHelpFormatter,
-            epilog="""
-Examples:
-  python scripts/fix-package-implementation.py --package M2::xxx::xxx                  Fix single package
-  python scripts/fix-package-implementation.py -p M2::xxx::xxx::xxx                     Fix subpackage
-  python scripts/fix-package-implementation.py --package M2::xxx::xxx --dry-run         Preview fixes
-        """)
-        parser.print_help()
-        return 0
-    
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
     requirements_dir = project_root / 'docs' / 'requirements'
@@ -1669,8 +1755,7 @@ Examples:
     print("=" * 60)
     print(f"Project root: {project_root}")
     print(f"Requirements directory: {requirements_dir}")
-    if args.package:
-        print(f"Package filter: {args.package}")
+    print(f"Package filter: {args.package}")
     print()
     
     print("Loading requirements...")
@@ -1678,8 +1763,7 @@ Examples:
         packages = get_all_packages(requirements_dir, args.package)
         if not packages:
             print("Error: No packages found")
-            if args.package:
-                print(f"  Package '{args.package}' not found in requirements")
+            print(f"  Package '{args.package}' not found in requirements")
             return 1
         print(f"  Found {len(packages)} package(s) to process")
     except FileNotFoundError as e:
@@ -1796,6 +1880,48 @@ Examples:
         print(f"Test files run: {test_stats['tests_run']}")
         print(f"Tests passed: {test_stats['tests_passed']}")
         print(f"Tests failed: {test_stats['tests_failed']}")
+        
+        # Run flake8 check on generated files
+        print("\n" + "=" * 60)
+        print("Flake8 Check")
+        print("=" * 60)
+        
+        generated_files = []
+        for comp in comparisons:
+            pkg_name = comp['package']
+            for cls in comp['classes']:
+                if cls['status'] == '❌ Missing':
+                    # Get the file path for the generated class
+                    if pkg_name.startswith('M2::'):
+                        relative = pkg_name[4:].replace('::', '/')
+                        package_dir = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative
+                        class_file = package_dir / f'{cls["name"]}.py'
+                        if class_file.exists():
+                            generated_files.append(str(class_file))
+        
+        if generated_files:
+            print(f"Running flake8 on {len(generated_files)} generated file(s)...")
+            try:
+                result = subprocess.run(
+                    ['flake8', '--select=E9,F63,F7,F82'] + generated_files,
+                    cwd=project_root,
+                    capture_output=True,
+                    text=True
+                )
+                
+                if result.returncode == 0:
+                    print("✅ Flake8 check passed - no syntax errors")
+                else:
+                    print("⚠️ Flake8 check found issues:")
+                    print(result.stdout)
+                    if result.stderr:
+                        print(result.stderr)
+            except FileNotFoundError:
+                print("⚠️ Flake8 not found - skipping syntax check")
+            except Exception as e:
+                print(f"⚠️ Error running flake8: {e}")
+        else:
+            print("No generated files to check")
         
         if test_stats['tests_failed'] == 0:
             print("\n✅ All fixes applied and tests passed!")
