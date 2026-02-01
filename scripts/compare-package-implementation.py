@@ -1,4 +1,3 @@
-import sys
 #!/usr/bin/env python3
 """
 Package Implementation Comparison Script for py-armodel
@@ -17,6 +16,7 @@ Usage:
     python scripts/compare-package-implementation.py --package M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 """
 
+import sys
 import argparse
 import ast
 import json
@@ -644,6 +644,45 @@ def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str
         f.write('- ❌ Missing: Class/enum is required but not found in implementation\n')
         f.write('- ⚠️ Literal Mismatch: Enum exists but has different literal values\n')
         f.write('- ➕ Extra: Class/enum exists in implementation but not in requirements\n\n')
+        
+        # Packages with problems summary
+        packages_with_problems = [c for c in comparisons if c['summary']['missing_classes'] > 0 or c['summary']['missing_enums'] > 0 or c['summary']['enum_mismatches'] > 0]
+        
+        if packages_with_problems:
+            f.write('## Packages with Problems\n\n')
+            f.write(f'**Total packages with issues**: {len(packages_with_problems)} out of {total_packages}\n\n')
+            
+            # Group packages by category
+            categories = {}
+            for comp in packages_with_problems:
+                pkg_name = comp['package']
+                # Extract category (first two parts after M2::)
+                parts = pkg_name.split('::')
+                if len(parts) >= 3:
+                    category = '::'.join(parts[:3])
+                else:
+                    category = pkg_name
+                
+                if category not in categories:
+                    categories[category] = []
+                categories[category].append(comp)
+            
+            # Sort categories alphabetically
+            for category in sorted(categories.keys()):
+                f.write(f'### {category}\n\n')
+                for comp in categories[category]:
+                    pkg_name = comp['package']
+                    summary = comp['summary']
+                    issues = []
+                    if summary['missing_classes'] > 0:
+                        issues.append(f'{summary["missing_classes"]} missing classes')
+                    if summary['missing_enums'] > 0:
+                        issues.append(f'{summary["missing_enums"]} missing enums')
+                    if summary['enum_mismatches'] > 0:
+                        issues.append(f'{summary["enum_mismatches"]} literal mismatches')
+                    
+                    f.write(f'- **{pkg_name}**: {", ".join(issues)}\n')
+                f.write('\n')
         
         # Package details
         f.write('## Package Details\n\n')
