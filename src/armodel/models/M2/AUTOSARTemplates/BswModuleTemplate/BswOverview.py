@@ -443,3 +443,19 @@ class BswModuleDescription(AtpStructureElement):
             self.addElement(trigger)
             self.requiredTriggers.append(trigger)
         return self.getElement(short_name)
+
+
+class ModeInBswModuleDescriptionInstanceRef(RefType):
+    """
+    Represents a reference to a mode in BSW module description.
+
+    Sources:
+      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 323, Classic Platform
+      R23-11)
+    """
+
+    def __init__(self):
+        """
+        Initializes the ModeInBswModuleDescriptionInstanceRef.
+        """
+        super().__init__()
