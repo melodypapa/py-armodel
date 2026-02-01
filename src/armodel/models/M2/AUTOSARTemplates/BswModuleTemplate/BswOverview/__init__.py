@@ -22,11 +22,11 @@ class BswModuleDescription(AtpStructureElement):
     In case it describes a BSW module, the short name of this element equals the name of the BSW module.
     This is the root element for describing BSW module structure, interfaces, and behavior.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module description with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this BSW module description
             short_name: The unique short name of this BSW module (equals the module name)
@@ -34,38 +34,38 @@ class BswModuleDescription(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # List of dependencies this BSW module has on other modules
-        self.bswModuleDependencies: List[BswModuleDependency] = []                         
+        self.bswModuleDependencies: List[BswModuleDependency] = []
         # Documentation for this BSW module
-        self.bswModuleDocumentation: SwComponentDocumentation = None                      
+        self.bswModuleDocumentation: SwComponentDocumentation = None
         # List of expected entry references that this module expects to be available
-        self.expectedEntryRefs: List[RefType] = []                             
+        self.expectedEntryRefs: List[RefType] = []
         # List of implemented entry references that this module provides
-        self.implementedEntryRefs: List[RefType] = []                          
+        self.implementedEntryRefs: List[RefType] = []
         # List of internal behaviors of this BSW module
-        self.internalBehaviors: List[BswInternalBehavior] = []                             
+        self.internalBehaviors: List[BswInternalBehavior] = []
         # Unique module identifier for this BSW module
-        self.moduleId: PositiveInteger = None                                    
+        self.moduleId: PositiveInteger = None
         # List of client-server entries that this module provides to others
-        self.providedClientServerEntries: List[BswModuleClientServerEntry] = []                   
+        self.providedClientServerEntries: List[BswModuleClientServerEntry] = []
         # List of data prototypes that this module provides to others
-        self.providedDatas: List[VariableDataPrototype] = []                                 
+        self.providedDatas: List[VariableDataPrototype] = []
         # List of mode group prototypes that this module provides to others
-        self.providedModeGroups: List[ModeDeclarationGroupPrototype] = []                            
+        self.providedModeGroups: List[ModeDeclarationGroupPrototype] = []
         # List of triggers that this module releases to others
-        self.releasedTriggers: List[Trigger] = []                              
+        self.releasedTriggers: List[Trigger] = []
         # List of client-server entries that this module requires from others
-        self.requiredClientServerEntries: List[BswModuleClientServerEntry] = []                   
+        self.requiredClientServerEntries: List[BswModuleClientServerEntry] = []
         # List of data prototypes that this module requires from others
-        self.requiredDatas: List[VariableDataPrototype] = []                                 
+        self.requiredDatas: List[VariableDataPrototype] = []
         # List of mode group prototypes that this module requires from others
-        self.requiredModeGroups: List[ModeDeclarationGroupPrototype] = []                            
+        self.requiredModeGroups: List[ModeDeclarationGroupPrototype] = []
         # List of triggers that this module requires from others
-        self.requiredTriggers: List[Trigger] = []                              
+        self.requiredTriggers: List[Trigger] = []
 
     def getBswModuleDependencies(self):
         """
         Gets the list of dependencies this BSW module has on other modules.
-        
+
         Returns:
             List of BswModuleDependency instances
         """
@@ -75,10 +75,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Sets the list of dependencies this BSW module has on other modules.
         Only sets the value if it is not None.
-        
+
         Args:
             value: List of BswModuleDependency instances to set
-            
+
         Returns:
             self for method chaining
         """
@@ -89,7 +89,7 @@ class BswModuleDescription(AtpStructureElement):
     def getBswModuleDocumentation(self):
         """
         Gets the documentation for this BSW module.
-        
+
         Returns:
             SwComponentDocumentation instance containing module documentation
         """
@@ -99,10 +99,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Sets the documentation for this BSW module.
         Only sets the value if it is not None.
-        
+
         Args:
             value: SwComponentDocumentation instance to set
-            
+
         Returns:
             self for method chaining
         """
@@ -114,7 +114,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of expected entry references that this module expects to be available.
         These are entries that the module expects to exist in the system but doesn't implement itself.
-        
+
         Returns:
             List of RefType to expected entries
         """
@@ -124,10 +124,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Sets the list of expected entry references that this module expects to be available.
         Only sets the value if it is not None.
-        
+
         Args:
             value: List of RefType to expected entries to set
-            
+
         Returns:
             self for method chaining
         """
@@ -139,7 +139,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of implemented entry references that this module provides.
         These are the entries that this module actually implements and makes available to others.
-        
+
         Returns:
             List of RefType to implemented entries
         """
@@ -150,10 +150,10 @@ class BswModuleDescription(AtpStructureElement):
         Adds an implemented entry reference to this module's list.
         These are entries that this module implements and makes available to others.
         Only adds the value if it is not None.
-        
+
         Args:
             value: RefType to an implemented entry to add
-            
+
         Returns:
             self for method chaining
         """
@@ -165,7 +165,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of internal behaviors of this BSW module.
         These define how the module behaves internally, including its events and entities.
-        
+
         Returns:
             List of BswInternalBehavior instances
         """
@@ -176,25 +176,25 @@ class BswModuleDescription(AtpStructureElement):
         Sets the list of internal behaviors of this BSW module.
         These define how the module behaves internally, including its events and entities.
         Only sets the value if it is not None.
-        
+
         Args:
             value: List of BswInternalBehavior instances to set
-            
+
         Returns:
             self for method chaining
         """
         if value is not None:
             self.internalBehaviors = value
         return self
-    
+
     def createBswInternalBehavior(self, short_name: str) -> BswInternalBehavior:
         """
         Creates and adds a BSW internal behavior to this module description.
         This defines how the module behaves internally, including its events and entities.
-        
+
         Args:
             short_name: The short name for the new internal behavior
-            
+
         Returns:
             The created BswInternalBehavior instance
         """
@@ -207,7 +207,7 @@ class BswModuleDescription(AtpStructureElement):
     def getModuleId(self):
         """
         Gets the unique module identifier for this BSW module.
-        
+
         Returns:
             Positive integer representing the module ID
         """
@@ -217,10 +217,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Sets the unique module identifier for this BSW module.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The module ID to set
-            
+
         Returns:
             self for method chaining
         """
@@ -232,7 +232,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of client-server entries that this module provides to others.
         These are service interfaces that this module offers to other modules.
-        
+
         Returns:
             List of BswModuleClientServerEntry instances
         """
@@ -242,10 +242,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a client-server entry that this module provides to others.
         This is a service interface that this module offers to other modules.
-        
+
         Args:
             short_name: The short name for the new provided client-server entry
-            
+
         Returns:
             The created BswModuleClientServerEntry instance
         """
@@ -259,7 +259,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of data prototypes that this module provides to others.
         These are data interfaces that this module offers to other modules.
-        
+
         Returns:
             List of VariableDataPrototype instances
         """
@@ -269,10 +269,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a data prototype that this module provides to others.
         This is a data interface that this module offers to other modules.
-        
+
         Args:
             short_name: The short name for the new provided data prototype
-            
+
         Returns:
             The created VariableDataPrototype instance
         """
@@ -286,20 +286,20 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of mode group prototypes that this module provides to others.
         These are mode interfaces that this module offers to other modules for mode management.
-        
+
         Returns:
             List of ModeDeclarationGroupPrototype instances
         """
         return self.providedModeGroups
-    
+
     def createProvidedModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         """
         Creates and adds a mode group prototype that this module provides to others.
         This is a mode interface that this module offers to other modules for mode management.
-        
+
         Args:
             short_name: The short name for the new provided mode group
-            
+
         Returns:
             The created ModeDeclarationGroupPrototype instance
         """
@@ -313,7 +313,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of triggers that this module releases to others.
         These are trigger interfaces that this module can send to other modules.
-        
+
         Returns:
             List of Trigger instances
         """
@@ -323,10 +323,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a trigger that this module releases to others.
         This is a trigger interface that this module can send to other modules.
-        
+
         Args:
             short_name: The short name for the new released trigger
-            
+
         Returns:
             The created Trigger instance
         """
@@ -340,7 +340,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of client-server entries that this module requires from others.
         These are service interfaces that this module needs from other modules.
-        
+
         Returns:
             List of BswModuleClientServerEntry instances
         """
@@ -350,10 +350,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a client-server entry that this module requires from others.
         This is a service interface that this module needs from other modules.
-        
+
         Args:
             short_name: The short name for the new required client-server entry
-            
+
         Returns:
             The created BswModuleClientServerEntry instance
         """
@@ -367,7 +367,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of data prototypes that this module requires from others.
         These are data interfaces that this module needs from other modules.
-        
+
         Returns:
             List of VariableDataPrototype instances
         """
@@ -377,10 +377,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a data prototype that this module requires from others.
         This is a data interface that this module needs from other modules.
-        
+
         Args:
             short_name: The short name for the new required data prototype
-            
+
         Returns:
             The created VariableDataPrototype instance
         """
@@ -394,7 +394,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of mode group prototypes that this module requires from others.
         These are mode interfaces that this module needs from other modules for mode management.
-        
+
         Returns:
             List of ModeDeclarationGroupPrototype instances
         """
@@ -404,10 +404,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a mode group prototype that this module requires from others.
         This is a mode interface that this module needs from other modules for mode management.
-        
+
         Args:
             short_name: The short name for the new required mode group
-            
+
         Returns:
             The created ModeDeclarationGroupPrototype instance
         """
@@ -421,7 +421,7 @@ class BswModuleDescription(AtpStructureElement):
         """
         Gets the list of triggers that this module requires from others.
         These are trigger interfaces that this module needs from other modules.
-        
+
         Returns:
             List of Trigger instances
         """
@@ -431,10 +431,10 @@ class BswModuleDescription(AtpStructureElement):
         """
         Creates and adds a trigger that this module requires from others.
         This is a trigger interface that this module needs from other modules.
-        
+
         Args:
             short_name: The short name for the new required trigger
-            
+
         Returns:
             The created Trigger instance
         """
@@ -443,19 +443,3 @@ class BswModuleDescription(AtpStructureElement):
             self.addElement(trigger)
             self.requiredTriggers.append(trigger)
         return self.getElement(short_name)
-
-
-class ModeInBswModuleDescriptionInstanceRef(RefType):
-    """
-    Represents a reference to a mode in BSW module description.
-
-    Sources:
-      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 323, Classic Platform
-      R23-11)
-    """
-
-    def __init__(self):
-        """
-        Initializes the ModeInBswModuleDescriptionInstanceRef.
-        """
-        super().__init__()

@@ -184,14 +184,19 @@ def _generate_init_code(
     Returns:
         __init__ method code
     """
+    # Determine if __init__ should have (parent, short_name) signature
+    # Only True when the class inherits from a base with short_name (e.g., Referrable)
+    # Classes that only inherit from ARObject should use __init__(self) without parameters
+    needs_parent_short_name = has_short_name_init
+
     if is_abstract:
-        if has_short_name_init and not is_arobject_child:
+        if needs_parent_short_name and not is_arobject_child:
             return f'''{docstring}
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is {class_name}:
             raise TypeError("{class_name} is an abstract class.")
         super().__init__(parent, short_name)'''
-        elif is_arobject_child:
+        elif needs_parent_short_name and is_arobject_child:
             return f'''{docstring}
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is {class_name}:
@@ -206,11 +211,11 @@ def _generate_init_code(
             raise TypeError("{class_name} is an abstract class.")
         super().__init__()'''
     else:
-        if has_short_name_init and not is_arobject_child:
+        if needs_parent_short_name and not is_arobject_child:
             return f'''{docstring}
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)'''
-        elif is_arobject_child:
+        elif needs_parent_short_name and is_arobject_child:
             return f'''{docstring}
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__()
