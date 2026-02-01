@@ -237,38 +237,23 @@ class SwcInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # type: List[VariableDataPrototype]
-        self.arTypedPerInstanceMemories = []
-        # type: List[RTEEvent]
-        self.events = []
-        # type: List[SwcExclusiveAreaPolicy]
-        self.exclusiveAreaPolicies = []
-        # type: List[VariableDataPrototype]
-        self.explicitInterRunnableVariables = []
+        self.arTypedPerInstanceMemories = []                        # type: List[VariableDataPrototype]
+        self.events = []                                            # type: List[RTEEvent]
+        self.exclusiveAreaPolicies = []                             # type: List[SwcExclusiveAreaPolicy]
+        self.explicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
         self.handleTerminationAndRestart = None                     # type: str
-        # type: List[VariableDataPrototype]
-        self.implicitInterRunnableVariables = []
-        # type: List[IncludedDataTypeSet]
-        self.includedDataTypeSets = []
-        # type: List[IncludedModeDeclarationGroupSet]
-        self.includedModeDeclarationGroupSets = []
-        # type: List[InstantiationDataDefProps]
-        self.instantiationDataDefProps = []
-        # type: List[PerInstanceMemory]
-        self.perInstanceMemories = []
-        # type: List[ParameterDataPrototype]
-        self.perInstanceParameters = []
-        # type: List[PortAPIOption]
-        self.portAPIOptions = []
-        # type: List[RunnableEntity]
-        self.runnables = []
-        # type: List[SwcServiceDependency]
-        self.serviceDependencies = []
-        # type: List[ParameterDataPrototype]
-        self.sharedParameters = []
+        self.implicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
+        self.includedDataTypeSets = []                              # type: List[IncludedDataTypeSet]
+        self.includedModeDeclarationGroupSets = []                  # type: List[IncludedModeDeclarationGroupSet]
+        self.instantiationDataDefProps = []                         # type: List[InstantiationDataDefProps]
+        self.perInstanceMemories = []                               # type: List[PerInstanceMemory]
+        self.perInstanceParameters = []                             # type: List[ParameterDataPrototype]
+        self.portAPIOptions = []                                    # type: List[PortAPIOption]
+        self.runnables = []                                         # type: List[RunnableEntity]
+        self.serviceDependencies = []                               # type: List[SwcServiceDependency]
+        self.sharedParameters = []                                  # type: List[ParameterDataPrototype]
         self.supportsMultipleInstantiation = None                   # type: Boolean
-        # type: VariationPointProxy
-        self.variationPointProxies = []
+        self.variationPointProxies = []                             # type: List[VariationPointProxy]
 
     def getArTypedPerInstanceMemories(self) -> List[VariableDataPrototype]:
         return self.arTypedPerInstanceMemories
