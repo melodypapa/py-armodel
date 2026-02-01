@@ -6,7 +6,7 @@ This script checks for deviations between:
 1. The documented AUTOSAR M2 class hierarchy (docs/requirements/autosar_models_hierarchy.md)
 2. The actual Python implementation class hierarchy (src/armodel/models/M2/)
 
-It generates a deviation report in docs/requirements/deviation_class_hierarchy.md
+It generates deviation reports in reports/deviation_class_hierarchy_*.md
 
 The hierarchy checker validates:
 - Parent-child inheritance relationships
@@ -435,7 +435,7 @@ def main():
     project_root = script_dir.parent
     hierarchy_file = project_root / 'docs' / 'requirements' / 'autosar_models_hierarchy.md'
     source_dir = project_root / 'src'
-    output_dir = project_root / 'docs' / 'requirements'
+    output_dir = project_root / 'reports'
 
     print(f"Py-ARModel Class Hierarchy Deviation Check Script")
     print(f"=" * 50)

@@ -6,7 +6,7 @@ This script checks for deviations between:
 1. The documented AUTOSAR M2 model structure (docs/requirements/autosar_models.md)
 2. The actual Python implementation (src/armodel/models/M2/)
 
-It generates a deviation report in docs/requirements/deviation.md
+It generates a deviation report in reports/deviation_package.md
 
 Python Package Structure Rules for py-armodel:
 ==============================================
@@ -337,7 +337,7 @@ def main():
     project_root = script_dir.parent
     requirements_file = project_root / 'docs' / 'requirements' / 'autosar_models.md'
     source_dir = project_root / 'src'
-    output_file = project_root / 'docs' / 'requirements' / 'deviation_package.md'
+    output_file = project_root / 'reports' / 'deviation_package.md'
 
     print(f"Py-ARModel Deviation Check Script")
     print(f"=" * 50)

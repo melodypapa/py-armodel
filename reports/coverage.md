@@ -6,20 +6,20 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-76.7%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-77.6%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23280 | 30368 | **76.66%** |
+| **Lines** | 23281 | 30008 | **77.58%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
 
 | Module | Files | Line Coverage |
 |--------|-------|---------------|
-| **.venv** | 273 | 76.7% |
+| **** | 263 | 77.6% |
 
 ### Files Needing Attention
 
@@ -37,9 +37,7 @@
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
 | `cli/uuid_checker_cli` | 0.0% | 0.0% |
-| `AUTOSARTemplates/AutosarTopLevelStructure` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
-| `CommonStructure/MeasurementCalibrationSupport` | 0.0% | 0.0% |
 | `CommonStructure/ModeDeclarationExtra` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McDataAccessDetails` | 0.0% | 0.0% |
@@ -47,17 +45,8 @@
 | `MeasurementCalibrationSupport/McFunction` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McParameterElementGroup` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McSupportData` | 0.0% | 0.0% |
-
-## Integration Test Coverage
-
-![coverage](https://img.shields.io/badge/integration-77.1%25-yellow)
-
-### Summary
-
-| Metric | Covered | Valid | Percentage |
-|--------|---------|-------|------------|
-| **Lines** | 23409 | 30368 | **77.08%** |
-| **Branches** | 0 | 0 | **0.00%** |
+| `MeasurementCalibrationSupport/McSwEmulationMethodSupport` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
 
 ---
 
