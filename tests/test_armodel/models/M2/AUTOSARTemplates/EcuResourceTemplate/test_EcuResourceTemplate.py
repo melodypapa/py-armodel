@@ -3,9 +3,9 @@ Test cases for the EcuResourceTemplate __init__.py module.
 These tests ensure 100% code coverage for the HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, and HwElement classes.
 """
 
-from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, HwElement
-from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
-from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, HwElement
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
 
 
 def test_hw_description_entity_init():
@@ -171,7 +171,7 @@ def test_hw_pin_group_content_getters_and_setters():
     3. Test setHwPinGroup and getHwPinGroup methods
     4. Verify method chaining (return self)
     """
-    from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroup
+    from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroup
     
     hw_pin_group_content = HwPinGroupContent()
     
@@ -231,7 +231,7 @@ def test_hw_pin_group_getters_and_setters():
     hw_pin_group = HwPinGroup(None, "test_hw_pin_group")
     
     # Test hwPinGroupContent setter and getter
-    from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupContent
+    from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupContent
     test_content = HwPinGroupContent()
     return_value = hw_pin_group.setHwPinGroupContent(test_content)
     assert return_value == hw_pin_group  # Verify method chaining

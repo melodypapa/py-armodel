@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch, Mock
 
-from src.armodel.lib.cli_args_parser import InputFileParser
+from armodel.lib.cli_args_parser import InputFileParser
 
 
 class TestInputFileParser:

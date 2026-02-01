@@ -3,17 +3,17 @@ Test cases for the ECUCDescriptionTemplate module.
 These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemplate module.
 """
 
-from src.armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucValueCollection, EcucIndexableValue, EcucParameterValue,
     EcucAddInfoParamValue, EcucTextualParamValue, EcucNumericalParamValue,
     EcucAbstractReferenceValue, EcucInstanceReferenceValue, EcucReferenceValue,
     EcucContainerValue, EcucModuleConfigurationValues, EcucConditionSpecification,
     EcucConfigurationVariantEnum
 )
-from src.armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
-from src.armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, CIdentifier, Limit
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, CIdentifier, Limit
 
 
 def test_ecuc_value_collection():

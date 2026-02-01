@@ -1,5 +1,5 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
@@ -64,7 +64,7 @@ def perform_format(args):
 
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.description = "arxml-format ver: %s" % version

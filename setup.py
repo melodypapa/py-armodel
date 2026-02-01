@@ -5,9 +5,16 @@ import os
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# Read version from __init__.py
+with open("src/armodel/__init__.py", "r", encoding="utf-8") as f:
+    for line in f:
+        if line.startswith("__version__"):
+            version = line.split("=")[1].strip().strip('"').strip("'")
+            break
+
 setup(
     name='armodel',
-    version='1.9.0',
+    version=version,
     description='the python arxml parser',
 
     url='http://github.com/melodypapa/py-armodel',

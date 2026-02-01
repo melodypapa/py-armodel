@@ -1,5 +1,5 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
@@ -12,7 +12,7 @@ def format_filename(filename, type: str):
     return os.path.join(path, base + "_" + type + ext)
         
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.description = "Parse the folder to generate ARXML file list. <%s>" % version

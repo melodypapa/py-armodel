@@ -1,6 +1,6 @@
 import argparse
 import sys
-import pkg_resources
+from armodel import __version__
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import logging
@@ -46,7 +46,7 @@ def perform_format(args):
         
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.description = "arxml-format ver: %s" % version

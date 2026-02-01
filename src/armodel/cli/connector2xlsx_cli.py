@@ -1,5 +1,5 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
@@ -10,7 +10,7 @@ from armodel.lib import InputFileParser
 from armodel.report import ConnectorXlsReport
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
