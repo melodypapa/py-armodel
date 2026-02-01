@@ -539,8 +539,10 @@ The project maintains detailed documentation of AUTOSAR class hierarchies:
 The project includes scripts and documentation for tracking deviations from the AUTOSAR standard:
 - `scripts/deviation-package.py` - Generate deviation package documentation
 - `scripts/deviation-class-hierarchy.py` - Generate class hierarchy documentation
-- `docs/requirements/deviation_package.md` - Deviation package structure documentation
-- `docs/requirements/deviation_class_hierarchy.md` - Deviation class hierarchy documentation
+- `reports/deviation_package.md` - Deviation package structure documentation
+- `reports/deviation_class_hierarchy_summary.md` - Class hierarchy deviation summary
+- `reports/deviation_class_hierarchy_mismatches.md` - Class hierarchy mismatches detail
+- `reports/deviation_class_hierarchy_extra_classes.md` - Extra classes not in documentation
 - `docs/requirements/software_components.md` - Software component requirements
 
 ### Coding Standards
@@ -574,7 +576,7 @@ The project includes custom Claude Code slash commands in `.claude/commands/` fo
 See `.claude/commands/README.md` for complete command documentation.
 
 ### Requirements Documentation
-- `docs/requirements/deviation.md` - Deviations from AUTOSAR standard (replaced by deviation_package.md)
+- `reports/deviation_package.md` - Deviations from AUTOSAR standard package structure
 - `docs/requirements/software_components.md` - Software component requirements
 
 ## References
