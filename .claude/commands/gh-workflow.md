@@ -7,9 +7,9 @@ Automate the complete GitHub workflow for creating issues, feature branches, com
 When the user runs `/gh-workflow`, perform the following steps in order:
 
 ### 1. Quality Checks (Must Pass Before Proceeding)
-- Run linting: `ruff check src/ tests/`
-- Run type checking: `mypy src/autosar_pdf2txt/`
-- Run unit tests: `python scripts/run_tests.py --unit`
+- Run linting with flake8: `flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics`
+- Run tests with pytest: `pytest`
+- Install package: `pip install -e .`
 - **All checks must pass** before proceeding to next step
 - If any checks fail, report errors and ask user if they want to:
   - Abort the workflow
@@ -19,9 +19,8 @@ When the user runs `/gh-workflow`, perform the following steps in order:
   ```
   Check        Status    Details
   ───────────────────────────────────
-  Ruff         ✅ Pass    No errors
-  Mypy         ✅ Pass    No issues
-  Pytest       ✅ Pass    128/128 tests, 97% coverage
+  Flake8       ✅ Pass    No E9,F63,F7,F82 errors
+  Pytest       ✅ Pass    All tests passed
   ```
 
 ### 2. Analyze Current Changes
