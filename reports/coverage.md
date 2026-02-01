@@ -50,13 +50,13 @@
 
 ## Integration Test Coverage
 
-![coverage](https://img.shields.io/badge/integration-77.7%25-yellow)
+![coverage](https://img.shields.io/badge/integration-51.0%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23436 | 30169 | **77.68%** |
+| **Lines** | 15352 | 30103 | **51.00%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ---

@@ -45,6 +45,58 @@ Package paths use the format `M2::AUTOSARTemplates::<Category>::<Subcategory>...
 - `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior` - Subpackage
 - `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface` - Specific component
 
+### Package Structure Rules
+
+The script follows AUTOSAR M2 package structure rules defined in the requirements:
+
+1. **Leaf Packages** (no subpackages):
+   - Implemented as a single `.py` file
+   - Example: `BswModuleTemplate/BswBehavior.py` contains all classes for BswBehavior package
+   - Import path: `from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import ClassName`
+
+2. **Non-Leaf Packages** (have subpackages):
+   - Implemented as a directory with `__init__.py`
+   - Example: `BswModuleTemplate/BswOverview/` contains multiple class files and subdirectories
+   - Import path: `from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import ClassName`
+
+The script automatically checks the requirements JSON to determine which structure each package should have:
+
+- Reads the `subpackages` field in package JSON files
+- If `subpackages` is non-empty → creates directory structure
+- If `subpackages` is empty → creates single `.py` file
+
+### Hybrid Structure Handling
+
+The script detects and reports **hybrid structures** (where both a `.py` file and a directory with the same name exist):
+
+```
+BswBehavior.py          ← Single file
+BswBehavior/            ← Directory (conflict!)
+  ├── __init__.py
+  ├── Class1.py
+  └── Class2.py
+```
+
+The script will:
+1. Check requirements to determine the correct structure
+2. Report an error if the actual structure doesn't match requirements
+3. Provide guidance on how to fix the mismatch
+
+**Example Error Message:**
+```
+✗ Error: Package 'M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior'
+   should be a directory (has subpackages) but is implemented as a single file: BswBehavior.py
+
+Expected structure: BswBehavior/ (directory with __init__.py)
+Current structure: BswBehavior.py (single file)
+
+To fix this, please migrate to package structure:
+  1. Create directory: BswBehavior/
+  2. Move classes from BswBehavior.py to individual files in BswBehavior/
+  3. Create BswBehavior/__init__.py with imports
+  4. Remove BswBehavior.py
+```
+
 ## Features
 
 ### 1. Class Generation
@@ -228,7 +280,33 @@ The script performs automatic validation:
 - `find_type_in_codebase_cached()`: Fast type lookup using cache
 - `_generate_import_path()`: Generates correct import paths considering wildcard exports
 
-#### 3. Code Generation
+#### 3. Package Structure Determination
+
+- `get_package_has_subpackages()`: Checks requirements JSON to determine if a package has subpackages
+- Package structure logic:
+  - **Leaf packages** (no subpackages): Single `.py` file
+  - **Non-leaf packages** (has subpackages): Directory with `__init__.py`
+- Hybrid structure detection and reporting
+
+The script reads the `subpackages` field from package JSON files to determine the correct structure:
+```json
+{
+  "name": "M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior",
+  "subpackages": []  // Empty → leaf package → single .py file
+}
+
+{
+  "name": "M2::AUTOSARTemplates::BswModuleTemplate::BswOverview",
+  "subpackages": [  // Non-empty → non-leaf package → directory
+    {
+      "name": "InstanceRefs",
+      ...
+    }
+  ]
+}
+```
+
+#### 4. Code Generation
 
 - `generate_class_code()`: Main function for generating class code
 - `generate_imports()`: Generates import statements

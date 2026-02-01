@@ -214,20 +214,66 @@ def get_all_packages(requirements_dir: Path, specific_package: Optional[str] = N
     return packages
 
 
-def package_path_to_python_path(package_path: str, project_root: Path) -> Tuple[Optional[Path], Optional[Path]]:
+def get_package_has_subpackages(requirements_dir: Path, package_path: str) -> bool:
+    """
+    Check if a package has subpackages based on requirements JSON.
+    
+    Args:
+        requirements_dir: Path to requirements directory
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
+    
+    Returns:
+        True if package has subpackages, False otherwise
+    """
+    # Remove M2:: prefix (4 characters)
+    if package_path.startswith('M2::'):
+        package_path = package_path[4:]
+    
+    # Replace :: with _ to match JSON file naming
+    json_name = 'M2_' + package_path.replace('::', '_') + '.json'
+    json_file = requirements_dir / 'packages' / json_name
+    
+    if not json_file.exists():
+        return False
+    
+    try:
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return bool(data.get('subpackages', []))
+    except (json.JSONDecodeError, IOError):
+        return False
+
+
+def package_path_to_python_path(
+    package_path: str,
+    project_root: Path,
+    requirements_dir: Optional[Path] = None
+) -> Tuple[Optional[Path], Optional[Path]]:
     """
     Convert a package path to Python file/directory path.
     
     Returns a tuple of (file_path, directory_path). Either or both may be non-None.
     
+    The function checks requirements to determine the expected package structure:
+    - Packages with subpackages: Should be a directory with __init__.py
+    - Packages without subpackages (leaf packages): Should be a single .py file
+    
+    Args:
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
+        project_root: Root directory of the project
+        requirements_dir: Path to requirements directory (optional, used to check expected structure)
+    
+    Returns:
+        (file_path, directory_path) tuple
+    
     Examples:
-        M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
-        -> (BswBehavior.py file, BswBehavior/ directory) if both exist
-        -> (BswBehavior.py file, None) if only file exists
-        -> (None, BswBehavior/ directory) if only directory exists
+        M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior (leaf package)
+        -> (BswBehavior.py file, None) if file exists
+        -> (None, None) if not found
         
-        M2::AUTOSARTemplates::BswModuleTemplate
-        -> (None, BswModuleTemplate/ directory)
+        M2::AUTOSARTemplates::BswModuleTemplate::BswOverview (has subpackages)
+        -> (None, BswOverview/ directory) if directory exists
+        -> (None, None) if not found
     """
     # Remove M2:: prefix (4 characters)
     if package_path.startswith('M2::'):
@@ -239,12 +285,22 @@ def package_path_to_python_path(package_path: str, project_root: Path) -> Tuple[
     # Build full path
     python_path = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative_path
     
-    # Check if .py file exists (for packages that are single files)
-    py_file = python_path.with_suffix('.py')
-    file_path = py_file if py_file.exists() else None
+    # Check requirements for expected structure if provided
+    has_subpackages = False
+    if requirements_dir:
+        full_package_path = 'M2::' + package_path.replace('/', '::')
+        has_subpackages = get_package_has_subpackages(requirements_dir, full_package_path)
     
-    # Check if directory exists (for packages with multiple files)
-    dir_path = python_path if python_path.is_dir() else None
+    # Based on requirements, determine what to look for
+    if has_subpackages:
+        # Non-leaf package: should be a directory
+        dir_path = python_path if python_path.is_dir() else None
+        file_path = None
+    else:
+        # Leaf package: should be a single .py file
+        py_file = python_path.with_suffix('.py')
+        file_path = py_file if py_file.exists() else None
+        dir_path = None
     
     # Not found
     if not file_path and not dir_path:
@@ -374,9 +430,18 @@ def extract_enums_from_python(file_path: Path, module_prefix: str = '') -> Dict[
     return enums
 
 
-def scan_implementation(project_root: Path, package_path: str) -> Dict[str, Dict[str, Any]]:
+def scan_implementation(
+    project_root: Path,
+    package_path: str,
+    requirements_dir: Optional[Path] = None
+) -> Dict[str, Dict[str, Any]]:
     """
     Scan Python implementation for a given package path.
+    
+    Args:
+        project_root: Root directory of the project
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
+        requirements_dir: Path to requirements directory (used to check expected package structure)
     
     Returns: {
         'classes': {class_name: {is_abstract, bases, line_number, location}},
@@ -388,7 +453,7 @@ def scan_implementation(project_root: Path, package_path: str) -> Dict[str, Dict
         'enumerations': {}
     }
     
-    file_path, dir_path = package_path_to_python_path(package_path, project_root)
+    file_path, dir_path = package_path_to_python_path(package_path, project_root, requirements_dir)
     if not file_path and not dir_path:
         return result
     
@@ -439,10 +504,16 @@ def scan_implementation(project_root: Path, package_path: str) -> Dict[str, Dict
 
 def compare_packages(
     requirements_packages: List[Dict[str, Any]],
-    project_root: Path
+    project_root: Path,
+    requirements_dir: Optional[Path] = None
 ) -> List[Dict[str, Any]]:
     """
     Compare requirements with implementations for all packages.
+    
+    Args:
+        requirements_packages: List of package dictionaries from requirements
+        project_root: Root directory of the project
+        requirements_dir: Path to requirements directory (used to check expected package structure)
     
     Returns list of comparison results.
     """
@@ -454,7 +525,7 @@ def compare_packages(
         required_enums = pkg['enumerations']
         
         # Scan implementation
-        implementation = scan_implementation(project_root, pkg_name)
+        implementation = scan_implementation(project_root, pkg_name, requirements_dir)
         impl_classes = implementation['classes']
         impl_enums = implementation['enumerations']
         
@@ -796,7 +867,7 @@ Examples:
     
     # Compare with implementation
     print("Comparing with implementation...")
-    comparisons = compare_packages(packages, project_root)
+    comparisons = compare_packages(packages, project_root, requirements_dir)
     print("  Comparison complete")
     
     # Generate report

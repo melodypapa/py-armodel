@@ -8,16 +8,16 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### Classes
 - **Required**: 1623
-- **Implemented**: 609
-- **Missing**: 1014
-- **Extra**: 530
+- **Implemented**: 512
+- **Missing**: 1111
+- **Extra**: 519
 
 ### Enumerations
 - **Required**: 264
-- **Implemented**: 55
-- **Missing**: 209
-- **Extra**: 31
-- **Literal Mismatches**: 45
+- **Implemented**: 49
+- **Missing**: 215
+- **Extra**: 28
+- **Literal Mismatches**: 39
 
 ### Overall Status
 **❌ Incomplete**
@@ -31,7 +31,19 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ## Packages with Problems
 
-**Total packages with issues**: 208 out of 257
+**Total packages with issues**: 221 out of 257
+
+### M2::AUTOSARTemplates::AbstractPlatform
+
+- **M2::AUTOSARTemplates::AbstractPlatform**: 2 missing classes
+
+### M2::AUTOSARTemplates::AdaptivePlatform
+
+- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall**: 3 missing classes
+- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment**: 1 missing classes
+- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem**: 2 missing classes
+- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule**: 1 missing classes
+- **M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface**: 1 missing classes
 
 ### M2::AUTOSARTemplates::AutosarTopLevelStructure
 
@@ -39,7 +51,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### M2::AUTOSARTemplates::BswModuleTemplate
 
-- **M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces**: 4 literal mismatches
+- **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview**: 1 missing classes
+- **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs**: 1 missing classes
+- **M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces**: 2 missing classes, 1 missing enums, 3 literal mismatches
+- **M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior**: 9 missing classes
 
 ### M2::AUTOSARTemplates::CommonStructure
 
@@ -48,12 +63,14 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::CommonStructure::Implementation**: 2 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::ResourceConsumption**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime**: 6 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport**: 4 literal mismatches
+- **M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport**: 8 missing classes, 4 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::ServiceNeeds**: 14 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Constants**: 23 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure**: 6 missing classes
+- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure**: 7 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port**: 2 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic**: 1 missing classes
+- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping**: 1 missing classes
+- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw**: 2 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint**: 2 missing classes, 2 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common**: 4 missing classes
@@ -62,9 +79,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintFormula**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes**: 2 literal mismatches
-- **M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation**: 1 literal mismatches
+- **M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation**: 4 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::Filter**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions**: 7 missing classes
+- **M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition**: 6 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription**: 3 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription**: 30 missing classes, 12 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming**: 2 literal mismatches
@@ -72,6 +90,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint**: 2 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster**: 3 missing classes
+- **M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock**: 3 missing classes
 
 ### M2::AUTOSARTemplates::DiagnosticExtract
 
@@ -158,7 +177,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1**: 2 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::GenericStructure::ViewMapSet**: 2 missing classes
 - **M2::AUTOSARTemplates::GenericStructure::FormulaLanguage**: 1 missing classes
-- **M2::AUTOSARTemplates::GenericStructure::RolesAndRights**: 4 missing classes, 1 missing enums
+- **M2::AUTOSARTemplates::GenericStructure::RolesAndRights**: 5 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::GenericStructure::LifeCycles**: 2 missing classes
 - **M2::AUTOSARTemplates::GenericStructure::ImpositionTimes**: 1 missing classes
 
@@ -172,7 +191,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount**: 2 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping**: 1 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall**: 3 missing classes
-- **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements**: 4 missing classes, 1 missing enums
+- **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements**: 6 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs**: 2 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents**: 5 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions**: 2 missing classes, 3 missing enums
@@ -204,7 +223,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::SystemTemplate**: 8 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection**: 3 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology**: 2 missing classes, 1 literal mismatches
-- **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication**: 7 missing classes, 11 missing enums
+- **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication**: 41 missing classes, 11 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing**: 10 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology**: 68 missing classes, 16 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances**: 12 missing classes, 6 missing enums
@@ -236,7 +255,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::SystemTemplate::PncMapping**: 2 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection**: 1 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::DoIP**: 3 missing classes
-- **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols**: 19 missing classes, 4 missing enums
+- **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols**: 32 missing classes, 4 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp**: 4 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv**: 4 missing classes, 9 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf**: 6 missing classes, 1 missing enums
@@ -294,46 +313,45 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview
 
 **Summary:**
-- Classes: 1/1 implemented, 1 extra
+- Classes: 0/1 implemented, 1 missing, 1 extra
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | BswModuleDescription | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview.py | Line 19 |
+| ❌ Missing | BswModuleDescription | - | Not found in implementation |
 | ➕ Extra | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs
 
 **Summary:**
-- Classes: 1/1 implemented
+- Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Line 16 |
+| ❌ Missing | ModeInBswModuleDescriptionInstanceRef | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
 **Summary:**
-- Classes: 5/5 implemented, 5 extra
-- Enums: 4/4 implemented, 4 literal mismatches, 1 extra
+- Classes: 3/5 implemented, 2 missing, 4 extra
+- Enums: 3/4 implemented, 1 missing, 3 literal mismatches, 1 extra
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | BswEntryRelationship | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationship.py | Line 8 |
-| ✅ Implemented | BswEntryRelationshipSet | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationshipSet.py | Line 8 |
 | ✅ Implemented | BswModuleClientServerEntry | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 493 |
 | ✅ Implemented | BswModuleDependency | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 71 |
 | ✅ Implemented | BswModuleEntry | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 167 |
+| ❌ Missing | BswEntryRelationship | - | Not found in implementation |
+| ❌ Missing | BswEntryRelationshipSet | - | Not found in implementation |
 | ➕ Extra | BswCallType | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 | ➕ Extra | BswEntryKindEnum | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
-| ➕ Extra | BswEntryRelationshipEnum | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationshipEnum.py | Not documented in requirements |
 | ➕ Extra | BswExecutionContext | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 | ➕ Extra | SwServiceImplPolicyEnum | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 
@@ -343,15 +361,15 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 |--------|-----------|-------------------|----------------------|----------|-------|
 | ⚠️ Literal Mismatch | BswCallType | callback, callout, interrupt, regular, scheduled | ASYNCHRONOUS, SYNCHRONOUS | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 28; Missing: callback, callout, interrupt, regular, scheduled; Extra: ASYNCHRONOUS, SYNCHRONOUS |
 | ⚠️ Literal Mismatch | BswEntryKindEnum | AUTOSAR, Basic, abstract, concrete | FUNCTION | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 19; Missing: AUTOSAR, Basic, abstract, concrete; Extra: FUNCTION |
-| ⚠️ Literal Mismatch | BswEntryRelationshipEnum | derivedFrom | calls, reads, triggers, writes | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/BswEntryRelationshipEnum.py | Line 8; Missing: derivedFrom; Extra: calls, reads, triggers, writes |
 | ⚠️ Literal Mismatch | BswExecutionContext | hook, interruptCat1, interruptCat2, task, unspecified | HOOK, INTERRUPT-CAT-1, INTERRUPT-CAT-2, TASK, UNSPECIFIED | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 39; Missing: hook, interruptCat1, interruptCat2, task, unspecified; Extra: HOOK, INTERRUPT-CAT-1, INTERRUPT-CAT-2, TASK, UNSPECIFIED |
+| ❌ Missing | BswEntryRelationshipEnum | derivedFrom | - | - | Not found in implementation |
 | ➕ Extra | SwServiceImplPolicyEnum | - | INLINE, INLINE-CONDITIONAL, MACRO, STANDARD | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
 **Summary:**
-- Classes: 37/37 implemented, 2 extra
-- Enums: 1/1 implemented, 3 extra
+- Classes: 28/37 implemented, 9 missing, 2 extra
+- Enums: 1/1 implemented
 
 #### Classes
 
@@ -359,7 +377,6 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 |--------|------------|----------|-------|
 | ✅ Implemented | BswAsynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 74 |
 | ✅ Implemented | BswAsynchronousServerCallResultPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 258 |
-| ✅ Implemented | BswAsynchronousServerCallReturnsEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswAsynchronousServerCallReturnsEvent.py | Line 9 |
 | ✅ Implemented | BswBackgroundEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1177 |
 | ✅ Implemented | BswCalledEntity | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 638 |
 | ✅ Implemented | BswDataReceivedEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 983 |
@@ -367,15 +384,11 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 | ✅ Implemented | BswDirectCallPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 118 |
 | ✅ Implemented | BswDistinguishedPartition | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 344 |
 | ✅ Implemented | BswEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 758 |
-| ✅ Implemented | BswExclusiveAreaPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswExclusiveAreaPolicy.py | Line 8 |
 | ✅ Implemented | BswExternalTriggerOccurredEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1211 |
 | ✅ Implemented | BswInternalBehavior | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1427 |
 | ✅ Implemented | BswInternalTriggerOccurredEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1025 |
 | ✅ Implemented | BswInternalTriggeringPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1383 |
 | ✅ Implemented | BswInterruptEntity | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 692 |
-| ✅ Implemented | BswInterruptEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswInterruptEvent.py | Line 8 |
-| ✅ Implemented | BswModeManagerErrorEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswModeManagerErrorEvent.py | Line 8 |
-| ✅ Implemented | BswModeReceiverPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswModeReceiverPolicy.py | Line 8 |
 | ✅ Implemented | BswModeSenderPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1105 |
 | ✅ Implemented | BswModeSwitchAckRequest | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1067 |
 | ✅ Implemented | BswModeSwitchEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 867 |
@@ -387,13 +400,18 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 | ✅ Implemented | BswQueuedDataReceptionPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1343 |
 | ✅ Implemented | BswSchedulableEntity | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 655 |
 | ✅ Implemented | BswScheduleEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 847 |
-| ✅ Implemented | BswSchedulerNamePrefix | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswSchedulerNamePrefix.py | Line 8 |
-| ✅ Implemented | BswServiceDependency | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswServiceDependency.py | Line 9 |
 | ✅ Implemented | BswSynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 188 |
 | ✅ Implemented | BswTimingEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 927 |
-| ✅ Implemented | BswTriggerDirectImplementation | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswTriggerDirectImplementation.py | Line 9 |
 | ✅ Implemented | BswVariableAccess | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 278 |
-| ✅ Implemented | RoleBasedBswModuleEntryAssignment | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/RoleBasedBswModuleEntryAssignment.py | Line 9 |
+| ❌ Missing | BswAsynchronousServerCallReturnsEvent | - | Not found in implementation |
+| ❌ Missing | BswExclusiveAreaPolicy | - | Not found in implementation |
+| ❌ Missing | BswInterruptEvent | - | Not found in implementation |
+| ❌ Missing | BswModeManagerErrorEvent | - | Not found in implementation |
+| ❌ Missing | BswModeReceiverPolicy | - | Not found in implementation |
+| ❌ Missing | BswSchedulerNamePrefix | - | Not found in implementation |
+| ❌ Missing | BswServiceDependency | - | Not found in implementation |
+| ❌ Missing | BswTriggerDirectImplementation | - | Not found in implementation |
+| ❌ Missing | RoleBasedBswModuleEntryAssignment | - | Not found in implementation |
 | ➕ Extra | BswApiOptions | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
 | ➕ Extra | BswInterruptCategory | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
 
@@ -402,9 +420,6 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
 | ✅ Implemented | BswInterruptCategory | cat1, cat2 | cat1, cat2 | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 672 |
-| ➕ Extra | BswExclusiveAreaPolicy | - | none, internal, external | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswExclusiveAreaPolicy.py | Not documented in requirements |
-| ➕ Extra | BswModeReceiverPolicy | - | none, immediate, deferred | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswModeReceiverPolicy.py | Not documented in requirements |
-| ➕ Extra | BswTriggerDirectImplementation | - | not-allowed, allowed | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswTriggerDirectImplementation.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation
 
@@ -779,18 +794,18 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
 **Summary:**
-- Classes: 1/5 implemented, 4 missing
+- Classes: 0/5 implemented, 5 missing
 - Enums: 0/1 implemented, 1 missing
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | AtpDefinition | src/armodel/models/M2/AUTOSARTemplates/GenericStructure/RolesAndRights/AtpDefinition.py | Line 10 |
 | ❌ Missing | AclObjectSet | - | Not found in implementation |
 | ❌ Missing | AclOperation | - | Not found in implementation |
 | ❌ Missing | AclPermission | - | Not found in implementation |
 | ❌ Missing | AclRole | - | Not found in implementation |
+| ❌ Missing | AtpDefinition | - | Not found in implementation |
 
 #### Enumerations
 
@@ -1059,34 +1074,30 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 
 **Summary:**
-- Classes: 8/8 implemented, 4 extra
-- Enums: 4/4 implemented, 4 literal mismatches
+- Classes: 0/8 implemented, 8 missing
+- Enums: 0/4 implemented, 4 missing
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | McFunctionDataRefSet | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/McFunctionDataRefSet.py | Line 6 |
-| ✅ Implemented | RptComponent | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptComponent.py | Line 4 |
-| ✅ Implemented | RptExecutableEntity | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutableEntity.py | Line 6 |
-| ✅ Implemented | RptExecutableEntityEvent | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutableEntityEvent.py | Line 6 |
-| ✅ Implemented | RptExecutionContext | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutionContext.py | Line 5 |
-| ✅ Implemented | RptServicePoint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptServicePoint.py | Line 6 |
-| ✅ Implemented | RptSupportData | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptSupportData.py | Line 9 |
-| ✅ Implemented | RptSwPrototypingAccess | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptSwPrototypingAccess.py | Line 6 |
-| ➕ Extra | RptAccessEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptAccessEnum.py | Not documented in requirements |
-| ➕ Extra | RptEnablerImplTypeEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptEnablerImplTypeEnum.py | Not documented in requirements |
-| ➕ Extra | RptExecutionControlEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutionControlEnum.py | Not documented in requirements |
-| ➕ Extra | RptPreparationEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptPreparationEnum.py | Not documented in requirements |
+| ❌ Missing | McFunctionDataRefSet | - | Not found in implementation |
+| ❌ Missing | RptComponent | - | Not found in implementation |
+| ❌ Missing | RptExecutableEntity | - | Not found in implementation |
+| ❌ Missing | RptExecutableEntityEvent | - | Not found in implementation |
+| ❌ Missing | RptExecutionContext | - | Not found in implementation |
+| ❌ Missing | RptServicePoint | - | Not found in implementation |
+| ❌ Missing | RptSupportData | - | Not found in implementation |
+| ❌ Missing | RptSwPrototypingAccess | - | Not found in implementation |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
-| ⚠️ Literal Mismatch | RptAccessEnum | enabled, none, protected | read, read-write, write | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptAccessEnum.py | Line 4; Missing: enabled, none, protected; Extra: read, read-write, write |
-| ⚠️ Literal Mismatch | RptEnablerImplTypeEnum | none, rptEnablerRam, rptEnablerRamAndRom, rptEnablerRom | external, internal | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptEnablerImplTypeEnum.py | Line 4; Missing: none, rptEnablerRam, rptEnablerRamAndRom, rptEnablerRom; Extra: external, internal |
-| ⚠️ Literal Mismatch | RptExecutionControlEnum | conditional, none | asynchronous, synchronous | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutionControlEnum.py | Line 4; Missing: conditional, none; Extra: asynchronous, synchronous |
-| ⚠️ Literal Mismatch | RptPreparationEnum | none, original, rptLevel1, rptLevel2, rptLevel3 | prepared, unprepared | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptPreparationEnum.py | Line 4; Missing: none, original, rptLevel1, rptLevel2, rptLevel3; Extra: prepared, unprepared |
+| ❌ Missing | RptAccessEnum | enabled, none, protected | - | - | Not found in implementation |
+| ❌ Missing | RptEnablerImplTypeEnum | none, rptEnablerRam, rptEnablerRamAndRom, rptEnablerRom | - | - | Not found in implementation |
+| ❌ Missing | RptExecutionControlEnum | conditional, none | - | - | Not found in implementation |
+| ❌ Missing | RptPreparationEnum | none, rptLevel1, rptLevel2, rptLevel3, original | - | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
@@ -1284,14 +1295,14 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 
 **Summary:**
-- Classes: 1/7 implemented, 6 missing
+- Classes: 0/7 implemented, 7 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | AtpBlueprint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/AbstractBlueprintStructure/AtpBlueprint.py | Line 10 |
+| ❌ Missing | AtpBlueprint | - | Not found in implementation |
 | ❌ Missing | AtpBlueprintMapping | - | Not found in implementation |
 | ❌ Missing | AtpBlueprintable | - | Not found in implementation |
 | ❌ Missing | BlueprintPolicy | - | Not found in implementation |
@@ -1327,26 +1338,26 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping
 
 **Summary:**
-- Classes: 1/1 implemented
+- Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | BlueprintMappingSet | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintMapping/BlueprintMappingSet.py | Line 5 |
+| ❌ Missing | BlueprintMappingSet | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator
 
 **Summary:**
-- Classes: 1/1 implemented
+- Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | BlueprintGenerator | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintGenerator/BlueprintGenerator.py | Line 4 |
+| ❌ Missing | BlueprintGenerator | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword
 
@@ -1514,24 +1525,23 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
 
 **Summary:**
-- Classes: 4/4 implemented, 1 extra
-- Enums: 1/1 implemented, 1 literal mismatches
+- Classes: 0/4 implemented, 4 missing
+- Enums: 0/1 implemented, 1 missing
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | SignalServiceTranslationElementProps | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationElementProps.py | Line 4 |
-| ✅ Implemented | SignalServiceTranslationEventProps | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationEventProps.py | Line 4 |
-| ✅ Implemented | SignalServiceTranslationProps | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationProps.py | Line 5 |
-| ✅ Implemented | SignalServiceTranslationPropsSet | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationPropsSet.py | Line 5 |
-| ➕ Extra | SignalServiceTranslationControlEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationControlEnum.py | Not documented in requirements |
+| ❌ Missing | SignalServiceTranslationElementProps | - | Not found in implementation |
+| ❌ Missing | SignalServiceTranslationEventProps | - | Not found in implementation |
+| ❌ Missing | SignalServiceTranslationProps | - | Not found in implementation |
+| ❌ Missing | SignalServiceTranslationPropsSet | - | Not found in implementation |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
-| ⚠️ Literal Mismatch | SignalServiceTranslationControlEnum | allPartialNetworksActive, anyPartialNetworkActive, partialNetwork, serviceDiscovery, translationStart | automatic, manual | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationControlEnum.py | Line 4; Missing: allPartialNetworksActive, anyPartialNetworkActive, partialNetwork, serviceDiscovery, translationStart; Extra: automatic, manual |
+| ❌ Missing | SignalServiceTranslationControlEnum | allPartialNetworksActive, anyPartialNetworkActive, partialNetwork, serviceDiscovery, translationStart | - | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::Filter
 
@@ -1573,19 +1583,19 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
 **Summary:**
-- Classes: 6/6 implemented
+- Classes: 0/6 implemented, 6 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ModeInBswInstanceRef | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/ModeInBswInstanceRef.py | Line 4 |
-| ✅ Implemented | ModeInSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/ModeInSwcInstanceRef.py | Line 4 |
-| ✅ Implemented | TimingCondition | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingCondition.py | Line 5 |
-| ✅ Implemented | TimingConditionFormula | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingConditionFormula.py | Line 4 |
-| ✅ Implemented | TimingExtensionResource | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingExtensionResource.py | Line 4 |
-| ✅ Implemented | TimingModeInstance | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingModeInstance.py | Line 5 |
+| ❌ Missing | ModeInBswInstanceRef | - | Not found in implementation |
+| ❌ Missing | ModeInSwcInstanceRef | - | Not found in implementation |
+| ❌ Missing | TimingCondition | - | Not found in implementation |
+| ❌ Missing | TimingConditionFormula | - | Not found in implementation |
+| ❌ Missing | TimingExtensionResource | - | Not found in implementation |
+| ❌ Missing | TimingModeInstance | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription
 
@@ -1861,16 +1871,16 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock
 
 **Summary:**
-- Classes: 3/3 implemented
+- Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | TDLETZoneClock | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TDLETZoneClock.py | Line 5 |
-| ✅ Implemented | TimingClock | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TimingClock.py | Line 4 |
-| ✅ Implemented | TimingClockSyncAccuracy | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TimingClockSyncAccuracy.py | Line 4 |
+| ❌ Missing | TDLETZoneClock | - | Not found in implementation |
+| ❌ Missing | TimingClock | - | Not found in implementation |
+| ❌ Missing | TimingClockSyncAccuracy | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior
 
@@ -1972,19 +1982,19 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements
 
 **Summary:**
-- Classes: 2/6 implemented, 4 missing
+- Classes: 0/6 implemented, 6 missing
 - Enums: 0/1 implemented, 1 missing
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ParameterAccess | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements.py | Line 15 |
-| ✅ Implemented | VariableAccess | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements.py | Line 37 |
 | ❌ Missing | ArParameterInImplementationDataInstanceRef | - | Not found in implementation |
 | ❌ Missing | ArVariableInImplementationDataInstanceRef | - | Not found in implementation |
 | ❌ Missing | AutosarParameterRef | - | Not found in implementation |
 | ❌ Missing | AutosarVariableRef | - | Not found in implementation |
+| ❌ Missing | ParameterAccess | - | Not found in implementation |
+| ❌ Missing | VariableAccess | - | Not found in implementation |
 
 #### Enumerations
 
@@ -3084,55 +3094,54 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication
 
 **Summary:**
-- Classes: 34/41 implemented, 7 missing, 1 extra
+- Classes: 0/41 implemented, 41 missing
 - Enums: 0/11 implemented, 11 missing
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ContainedIPduProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 102 |
-| ✅ Implemented | DcmIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 645 |
-| ✅ Implemented | DynamicPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1117 |
-| ✅ Implemented | DynamicPartAlternative | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1079 |
-| ✅ Implemented | Frame | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 69 |
-| ✅ Implemented | FrameTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 871 |
-| ✅ Implemented | GeneralPurposeIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1220 |
-| ✅ Implemented | GeneralPurposePdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1211 |
-| ✅ Implemented | IPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 294 |
-| ✅ Implemented | IPduTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 663 |
-| ✅ Implemented | ISignal | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 728 |
-| ✅ Implemented | ISignalGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 169 |
-| ✅ Implemented | ISignalIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 690 |
-| ✅ Implemented | ISignalIPduGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 213 |
-| ✅ Implemented | ISignalToIPduMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 528 |
-| ✅ Implemented | ISignalTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 963 |
-| ✅ Implemented | MultiplexedIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1137 |
-| ✅ Implemented | MultiplexedPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1036 |
-| ✅ Implemented | NPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 636 |
-| ✅ Implemented | NmPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 587 |
-| ✅ Implemented | Pdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 264 |
-| ✅ Implemented | PduToFrameMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 26 |
-| ✅ Implemented | PduTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 819 |
-| ✅ Implemented | SecureCommunicationAuthenticationProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1258 |
-| ✅ Implemented | SecureCommunicationFreshnessProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1305 |
-| ✅ Implemented | SecureCommunicationProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 317 |
-| ✅ Implemented | SecureCommunicationPropsSet | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1229 |
-| ✅ Implemented | SecuredIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 454 |
-| ✅ Implemented | SegmentPosition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 998 |
-| ✅ Implemented | StaticPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1059 |
-| ✅ Implemented | SystemSignal | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 909 |
-| ✅ Implemented | SystemSignalGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 936 |
-| ✅ Implemented | UserDefinedIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1249 |
-| ✅ Implemented | UserDefinedPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 1240 |
+| ❌ Missing | ContainedIPduProps | - | Not found in implementation |
 | ❌ Missing | ContainerIPdu | - | Not found in implementation |
+| ❌ Missing | DcmIPdu | - | Not found in implementation |
+| ❌ Missing | DynamicPart | - | Not found in implementation |
+| ❌ Missing | DynamicPartAlternative | - | Not found in implementation |
+| ❌ Missing | Frame | - | Not found in implementation |
 | ❌ Missing | FramePort | - | Not found in implementation |
+| ❌ Missing | FrameTriggering | - | Not found in implementation |
+| ❌ Missing | GeneralPurposeIPdu | - | Not found in implementation |
+| ❌ Missing | GeneralPurposePdu | - | Not found in implementation |
+| ❌ Missing | IPdu | - | Not found in implementation |
 | ❌ Missing | IPduPort | - | Not found in implementation |
+| ❌ Missing | IPduTiming | - | Not found in implementation |
+| ❌ Missing | ISignal | - | Not found in implementation |
+| ❌ Missing | ISignalGroup | - | Not found in implementation |
+| ❌ Missing | ISignalIPdu | - | Not found in implementation |
+| ❌ Missing | ISignalIPduGroup | - | Not found in implementation |
 | ❌ Missing | ISignalPort | - | Not found in implementation |
 | ❌ Missing | ISignalProps | - | Not found in implementation |
+| ❌ Missing | ISignalToIPduMapping | - | Not found in implementation |
+| ❌ Missing | ISignalTriggering | - | Not found in implementation |
 | ❌ Missing | J1939DcmIPdu | - | Not found in implementation |
+| ❌ Missing | MultiplexedIPdu | - | Not found in implementation |
+| ❌ Missing | MultiplexedPart | - | Not found in implementation |
+| ❌ Missing | NPdu | - | Not found in implementation |
+| ❌ Missing | NmPdu | - | Not found in implementation |
+| ❌ Missing | Pdu | - | Not found in implementation |
+| ❌ Missing | PduToFrameMapping | - | Not found in implementation |
+| ❌ Missing | PduTriggering | - | Not found in implementation |
 | ❌ Missing | PdurIPduGroup | - | Not found in implementation |
-| ➕ Extra | FibexElement | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
+| ❌ Missing | SecureCommunicationAuthenticationProps | - | Not found in implementation |
+| ❌ Missing | SecureCommunicationFreshnessProps | - | Not found in implementation |
+| ❌ Missing | SecureCommunicationProps | - | Not found in implementation |
+| ❌ Missing | SecureCommunicationPropsSet | - | Not found in implementation |
+| ❌ Missing | SecuredIPdu | - | Not found in implementation |
+| ❌ Missing | SegmentPosition | - | Not found in implementation |
+| ❌ Missing | StaticPart | - | Not found in implementation |
+| ❌ Missing | SystemSignal | - | Not found in implementation |
+| ❌ Missing | SystemSignalGroup | - | Not found in implementation |
+| ❌ Missing | UserDefinedIPdu | - | Not found in implementation |
+| ❌ Missing | UserDefinedPdu | - | Not found in implementation |
 
 #### Enumerations
 
@@ -4040,26 +4049,21 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
 **Summary:**
-- Classes: 13/32 implemented, 19 missing, 3 extra
+- Classes: 0/32 implemented, 32 missing
 - Enums: 0/4 implemented, 4 missing
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | CanTpAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 35 |
-| ✅ Implemented | CanTpChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 63 |
-| ✅ Implemented | CanTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 369 |
-| ✅ Implemented | CanTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 121 |
-| ✅ Implemented | CanTpEcu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 275 |
-| ✅ Implemented | CanTpNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 303 |
-| ✅ Implemented | DoIpLogicAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 430 |
-| ✅ Implemented | DoIpTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 496 |
-| ✅ Implemented | LinTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 700 |
-| ✅ Implemented | LinTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 544 |
-| ✅ Implemented | LinTpNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 635 |
-| ✅ Implemented | TpAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 526 |
-| ✅ Implemented | TpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 13 |
+| ❌ Missing | CanTpAddress | - | Not found in implementation |
+| ❌ Missing | CanTpChannel | - | Not found in implementation |
+| ❌ Missing | CanTpConfig | - | Not found in implementation |
+| ❌ Missing | CanTpConnection | - | Not found in implementation |
+| ❌ Missing | CanTpEcu | - | Not found in implementation |
+| ❌ Missing | CanTpNode | - | Not found in implementation |
+| ❌ Missing | DoIpLogicAddress | - | Not found in implementation |
+| ❌ Missing | DoIpTpConfig | - | Not found in implementation |
 | ❌ Missing | EthTpConfig | - | Not found in implementation |
 | ❌ Missing | EthTpConnection | - | Not found in implementation |
 | ❌ Missing | FlexrayArTpChannel | - | Not found in implementation |
@@ -4076,12 +4080,14 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 | ❌ Missing | J1939TpConnection | - | Not found in implementation |
 | ❌ Missing | J1939TpNode | - | Not found in implementation |
 | ❌ Missing | J1939TpPg | - | Not found in implementation |
+| ❌ Missing | LinTpConfig | - | Not found in implementation |
+| ❌ Missing | LinTpConnection | - | Not found in implementation |
+| ❌ Missing | LinTpNode | - | Not found in implementation |
 | ❌ Missing | SomeipTpChannel | - | Not found in implementation |
 | ❌ Missing | SomeipTpConfig | - | Not found in implementation |
 | ❌ Missing | SomeipTpConnection | - | Not found in implementation |
-| ➕ Extra | DoIpTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
-| ➕ Extra | TpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
-| ➕ Extra | TpConnectionIdent | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
+| ❌ Missing | TpAddress | - | Not found in implementation |
+| ❌ Missing | TpConfig | - | Not found in implementation |
 
 #### Enumerations
 
@@ -5305,79 +5311,78 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
 
 **Summary:**
-- Classes: 3/3 implemented
+- Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | FirewallRule | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/FirewallRule.py | Line 6 |
-| ✅ Implemented | FirewallRuleProps | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/FirewallRuleProps.py | Line 4 |
-| ✅ Implemented | StateDependentFirewall | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/StateDependentFirewall.py | Line 6 |
+| ❌ Missing | FirewallRule | - | Not found in implementation |
+| ❌ Missing | FirewallRuleProps | - | Not found in implementation |
+| ❌ Missing | StateDependentFirewall | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment
 
 **Summary:**
-- Classes: 1/1 implemented, 1 extra
+- Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | CryptoKeySlot | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/CryptoKeySlot.py | Line 22 |
-| ➕ Extra | CryptoKeySlotContent | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/CryptoKeySlotContent.py | Not documented in requirements |
+| ❌ Missing | CryptoKeySlot | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem
 
 **Summary:**
-- Classes: 2/2 implemented
+- Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | IdsPlatformInstantiation | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/IntrusionDetectionSystem/IdsPlatformInstantiation.py | Line 11 |
-| ✅ Implemented | IdsmModuleInstantiation | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/IntrusionDetectionSystem/IdsmModuleInstantiation.py | Line 9 |
+| ❌ Missing | IdsPlatformInstantiation | - | Not found in implementation |
+| ❌ Missing | IdsmModuleInstantiation | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule
 
 **Summary:**
-- Classes: 1/1 implemented
+- Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | PlatformModuleEthernetEndpointConfiguration | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/AdaptiveModule/PlatformModuleEthernetEndpointConfiguration.py | Line 16 |
+| ❌ Missing | PlatformModuleEthernetEndpointConfiguration | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface
 
 **Summary:**
-- Classes: 1/1 implemented
+- Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | Field | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/ApplicationDesign/PortInterface/Field.py | Line 6 |
+| ❌ Missing | Field | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::AbstractPlatform
 
 **Summary:**
-- Classes: 2/2 implemented
+- Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ApplicationDeferredDataType | src/armodel/models/M2/AUTOSARTemplates/AbstractPlatform/ApplicationDeferredDataType.py | Line 9 |
-| ✅ Implemented | ApplicationInterface | src/armodel/models/M2/AUTOSARTemplates/AbstractPlatform/ApplicationInterface.py | Line 19 |
+| ❌ Missing | ApplicationDeferredDataType | - | Not found in implementation |
+| ❌ Missing | ApplicationInterface | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::FeatureModelTemplate
 

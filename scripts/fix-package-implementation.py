@@ -195,21 +195,26 @@ def create_missing_class_from_json(
 
         update_cache_for_new_class(project_root, type_name, package_path)
 
-        # Update __init__.py
+        # Update or create __init__.py with wildcard import
         parent_init = package_dir / '__init__.py'
         if parent_init.exists():
             with open(parent_init, 'r', encoding='utf-8') as f:
                 init_content = f.read()
-            if f'from .{type_name} import {type_name}' not in init_content:
+            if f'from .{type_name} import *' not in init_content:
                 with open(parent_init, 'a', encoding='utf-8') as f:
-                    f.write(f'\nfrom .{type_name} import {type_name}\n')
+                    f.write(f'from .{type_name} import *\n')
+        else:
+            # Create __init__.py with wildcard import
+            with open(parent_init, 'w', encoding='utf-8') as f:
+                f.write(f'from .{type_name} import *\n')
 
         # Generate test case
-        module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}.{type_name}'
+        # For package directories, import from package (not class module)
+        module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}'
         test_dir = project_root / 'tests' / 'test_armodel' / 'models' / 'M2' / relative
         test_file = test_dir / f'test_{type_name}.py'
 
-        test_code = generate_test_case(type_name, class_info, package_path, module_path, requirements_dir)
+        test_code = generate_test_case(type_name, class_info, package_path, module_path, requirements_dir, project_root)
 
         if dry_run_mode:
             print(f"  [Would create test file: {test_file.relative_to(project_root)}]")
@@ -226,6 +231,37 @@ def create_missing_class_from_json(
         return True
     except Exception as e:
         print(f"  ✗ Error creating class '{type_name}': {e}")
+        return False
+
+
+def get_package_has_subpackages(requirements_dir: Path, package_path: str) -> bool:
+    """Check if a package has subpackages based on requirements JSON.
+
+    Args:
+        requirements_dir: Path to requirements directory
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
+
+    Returns:
+        True if package has subpackages, False otherwise
+    """
+    import json
+
+    # Remove M2:: prefix (4 characters)
+    if package_path.startswith('M2::'):
+        package_path = package_path[4:]
+
+    # Replace :: with _ to match JSON file naming
+    json_name = 'M2_' + package_path.replace('::', '_') + '.json'
+    json_file = requirements_dir / 'packages' / json_name
+
+    if not json_file.exists():
+        return False
+
+    try:
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return bool(data.get('subpackages', []))
+    except (json.JSONDecodeError, IOError):
         return False
 
 
@@ -256,6 +292,7 @@ def fix_missing_class(
 
     print(f"\n[Fix] Generating missing class: {class_name}")
 
+    # Build package paths
     if package_path.startswith('M2::'):
         relative = package_path[4:].replace('::', '/')
         package_dir = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative
@@ -265,14 +302,53 @@ def fix_missing_class(
         package_dir = project_root / 'src' / 'armodel' / 'models' / relative
         package_file = package_dir.parent / f'{package_dir.name}.py'
 
-    # Check if this package is implemented as a single file
-    if package_file.exists():
-        print(f"  ✗ Error: Package is a single file ({package_file.name})")
-        print(f"     Class '{class_name}' should be added to {package_file.relative_to(project_root)}")
-        print("     This requires manual implementation or script enhancement.")
-        return False
+    # Check requirements to determine expected package structure
+    has_subpackages = get_package_has_subpackages(requirements_dir, package_path)
 
-    module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}.{class_name}'
+    # Determine the correct structure based on requirements
+    if has_subpackages:
+        # Non-leaf package: should be a directory with __init__.py
+        if package_file.exists():
+            print(f"  ✗ Error: Package '{package_path}' should be a directory (has subpackages)")
+            print(f"     but is implemented as a single file: {package_file.name}")
+            print(f"     Expected structure: {package_dir.name}/ (directory with __init__.py)")
+            print(f"     Current structure: {package_file.name} (single file)")
+            print()
+            print(f"     To fix this, please migrate to package structure:")
+            print(f"       1. Create directory: {package_dir.name}/")
+            print(f"       2. Move classes from {package_file.name} to individual files in {package_dir.name}/")
+            print(f"       3. Create {package_dir.name}/__init__.py with imports")
+            print(f"       4. Remove {package_file.name}")
+            return False
+
+        # Ensure directory exists
+        if not package_dir.exists():
+            print(f"  ℹ️  Creating package directory: {package_dir.relative_to(project_root)}")
+            package_dir.mkdir(parents=True, exist_ok=True)
+
+        # Check for __init__.py
+        init_file = package_dir / '__init__.py'
+        if not init_file.exists():
+            print(f"  ⚠️  Warning: Creating __init__.py to make it a proper package")
+
+    else:
+        # Leaf package: should be a single .py file
+        if package_dir.exists():
+            print(f"  ✗ Error: Package '{package_path}' should be a single file (no subpackages)")
+            print(f"     but is implemented as a directory: {package_dir.name}/")
+            print(f"     Expected structure: {package_file.name} (single file)")
+            print(f"     Current structure: {package_dir.name}/ (directory)")
+            print()
+            print(f"     To fix this, please consolidate to single file:")
+            print(f"       1. Merge all classes from {package_dir.name}/ into {package_file.name}")
+            print(f"       2. Remove {package_dir.name}/ directory")
+            return False
+
+        # Check if parent directory exists
+        if not package_dir.parent.exists():
+            package_dir.parent.mkdir(parents=True, exist_ok=True)
+
+    module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}'
     class_file = package_dir / f'{class_name}.py'
 
     if not class_file.exists():
@@ -340,22 +416,27 @@ def fix_missing_class(
         else:
             print(f"  ✓ Created: {class_file.relative_to(project_root)}")
 
-        # Update __init__.py
+        # Update or create __init__.py with wildcard import
         parent_init = package_dir / '__init__.py'
         if parent_init.exists():
             with open(parent_init, 'r', encoding='utf-8') as f:
                 init_content = f.read()
 
-            if f'from .{class_name} import {class_name}' not in init_content:
+            if f'from .{class_name} import *' not in init_content:
                 with open(parent_init, 'a', encoding='utf-8') as f:
-                    f.write(f'\nfrom .{class_name} import {class_name}\n')
+                    f.write(f'from .{class_name} import *\n')
                 print(f"  ✓ Updated: {parent_init.relative_to(project_root)}")
+        else:
+            # Create __init__.py with wildcard import
+            with open(parent_init, 'w', encoding='utf-8') as f:
+                f.write(f'from .{class_name} import *\n')
+            print(f"  ✓ Created: {parent_init.relative_to(project_root)}")
 
         # Generate test
         test_dir = project_root / 'tests' / 'test_armodel' / 'models' / 'M2' / relative
         test_file = test_dir / f'test_{class_name}.py'
 
-        test_code = generate_test_case(class_name, class_info, package_path, module_path, requirements_dir)
+        test_code = generate_test_case(class_name, class_info, package_path, module_path, requirements_dir, project_root)
 
         if dry_run:
             print(f"  [Dry Run] Would create test file: {test_file.relative_to(project_root)}")
