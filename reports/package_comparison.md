@@ -8,9 +8,9 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### Classes
 - **Required**: 1623
-- **Implemented**: 610
-- **Missing**: 1013
-- **Extra**: 532
+- **Implemented**: 609
+- **Missing**: 1014
+- **Extra**: 530
 
 ### Enumerations
 - **Required**: 264
@@ -33,9 +33,12 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 **Total packages with issues**: 208 out of 257
 
+### M2::AUTOSARTemplates::AutosarTopLevelStructure
+
+- **M2::AUTOSARTemplates::AutosarTopLevelStructure**: 2 missing classes
+
 ### M2::AUTOSARTemplates::BswModuleTemplate
 
-- **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs**: 1 missing classes
 - **M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces**: 4 literal mismatches
 
 ### M2::AUTOSARTemplates::CommonStructure
@@ -299,19 +302,19 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
 | ✅ Implemented | BswModuleDescription | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview.py | Line 19 |
-| ➕ Extra | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/ModeInBswModuleDescriptionInstanceRef.py | Not documented in requirements |
+| ➕ Extra | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | ModeInBswModuleDescriptionInstanceRef | - | Not found in implementation |
+| ✅ Implemented | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Line 16 |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
@@ -2579,17 +2582,15 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::AutosarTopLevelStructure
 
 **Summary:**
-- Classes: 2/2 implemented, 2 extra
+- Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | AUTOSAR | src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure.py | Line 291 |
-| ✅ Implemented | FileInfoComment | src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure.py | Line 24 |
-| ➕ Extra | AUTOSARDoc | src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure.py | Not documented in requirements |
-| ➕ Extra | AbstractAUTOSAR | src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure.py | Not documented in requirements |
+| ❌ Missing | AUTOSAR | - | Not found in implementation |
+| ❌ Missing | FileInfoComment | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 

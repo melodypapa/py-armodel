@@ -69,3 +69,4 @@ docs/**/packages
 
 # Worktrees
 worktrees/
+coverage_*.xml

@@ -53,7 +53,7 @@ Examples:
         '--output', '-o',
         type=str,
         metavar='OUTPUT',
-        help='Output file path (default: docs/requirements/package_comparison.md)'
+        help='Output file path (default: reports/package_comparison.md)'
     )
     parser.add_argument(
         '--verbose', '-v',
@@ -768,7 +768,7 @@ Examples:
     if args.output:
         output_path = args.output
     else:
-        output_path = str(requirements_dir / 'package_comparison.md')
+        output_path = str(project_root / 'reports' / 'package_comparison.md')
     
     print("=" * 60)
     print("Package Implementation Comparison Script")
@@ -801,6 +801,9 @@ Examples:
     
     # Generate report
     print("Generating markdown report...")
+    # Ensure reports directory exists
+    reports_dir = project_root / 'reports'
+    reports_dir.mkdir(parents=True, exist_ok=True)
     generate_markdown_report(comparisons, output_path, args.verbose)
     print(f"  Report written to: {output_path}")
     
