@@ -125,7 +125,6 @@ def find_type_in_codebase_cached(project_root: Path, type_name: str) -> Optional
     Returns:
         Import statement if found, None otherwise
     """
-    global _type_index_cache
     if _type_index_cache is None:
         build_type_index(project_root)
 
@@ -351,7 +350,6 @@ def generate_imports(
                 class_data = package_loader.find_class_in_requirements(requirements_dir, attr_type)
                 if class_data:
                     # This is a class in the JSON requirements - mark for generation
-                    global _missing_types_to_generate
                     _missing_types_to_generate.add(attr_type)
                     print(f"  ℹ️  Type '{attr_type}' for attribute '{attr_name}' will be generated")
                 else:
@@ -396,7 +394,6 @@ def get_missing_types_to_generate() -> set:
     Returns:
         Set of type names that should be recursively generated
     """
-    global _missing_types_to_generate
     return _missing_types_to_generate.copy()
 
 
@@ -414,7 +411,6 @@ def update_cache_for_new_class(project_root: Path, type_name: str, package_path:
         type_name: Name of the newly created class
         package_path: Full package path (e.g., 'M2::AUTOSARTemplates::...')
     """
-    global _type_index_cache
     if _type_index_cache is None:
         return
 
