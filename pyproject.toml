@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "the python arxml parser"
 readme = "README.md"
 requires-python = ">=3.5"
-license = "MIT"
+license = {text = "MIT"}
 authors = [
     {name = "melodypapa", email = "melodypapa@outlook.com"},
 ]
