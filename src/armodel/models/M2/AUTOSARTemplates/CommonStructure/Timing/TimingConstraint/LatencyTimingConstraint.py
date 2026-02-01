@@ -9,11 +9,11 @@ Classes:
     LatencyConstraintTypeEnum: Enumeration for latency constraint types
 """
 
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     TimeValue,
     AREnum,
 )
-from .TimingConstraint import TimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
 class LatencyConstraintTypeEnum(AREnum):

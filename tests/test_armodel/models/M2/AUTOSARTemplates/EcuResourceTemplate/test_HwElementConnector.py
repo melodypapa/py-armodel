@@ -3,7 +3,7 @@ Test cases for the HwElementConnector module.
 These tests ensure 100% code coverage for the HwElementConnector class.
 """
 
-from src.armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
 
 
 def test_hw_element_connector_init():

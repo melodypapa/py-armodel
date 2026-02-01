@@ -1,6 +1,6 @@
 from typing import List
 from abc import ABC
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
     def __init__(self):

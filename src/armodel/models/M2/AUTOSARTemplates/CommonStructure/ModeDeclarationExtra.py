@@ -2,8 +2,8 @@
 This module defines additional mode declaration classes in AUTOSAR.
 """
 
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, AREnum
 
 
 class ModeTransition(ARObject):

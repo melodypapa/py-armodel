@@ -2,7 +2,7 @@
 This module defines mode in BSW module description instance reference in AUTOSAR.
 """
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class ModeInBswModuleDescriptionInstanceRef(RefType):

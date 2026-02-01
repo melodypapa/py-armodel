@@ -1,15 +1,15 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
 
-from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..parser import ARXMLParser
-from ..lib import InputFileParser, SwComponentAnalyzer
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.parser import ARXMLParser
+from armodel.lib import InputFileParser, SwComponentAnalyzer
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")

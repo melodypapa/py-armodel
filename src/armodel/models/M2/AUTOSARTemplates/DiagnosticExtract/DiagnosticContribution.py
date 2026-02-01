@@ -5,17 +5,17 @@ in the DiagnosticExtract module.
 
 from typing import List, Optional
 
-from .....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     RefType,
 )
-from .....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from .....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
 )
-from .DiagnosticCommonElement import DiagnosticCommonElement
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement import DiagnosticCommonElement
 
 
 class DiagnosticServiceTable(DiagnosticCommonElement):

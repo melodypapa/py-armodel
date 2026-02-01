@@ -6,12 +6,12 @@ used in software components.
 """
 
 from abc import ABC
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .....M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from .....M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 
 class DataPrototype(AtpPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):

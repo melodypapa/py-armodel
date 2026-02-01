@@ -261,7 +261,7 @@ Adding a CLI Tool
 ~~~~~~~~~~~~~~~~~
 
 1. Create the CLI module in ``src/armodel/cli/``
-2. Add entry point in ``setup.py``
+2. Add entry point in ``pyproject.toml`` under [project.scripts]
 3. Add tests
 4. Update documentation
 

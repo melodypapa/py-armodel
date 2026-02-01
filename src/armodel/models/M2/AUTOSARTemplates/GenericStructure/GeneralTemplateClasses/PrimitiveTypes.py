@@ -6,7 +6,7 @@ in the GenericStructure module.
 from abc import ABC
 import re
 from typing import List, Optional, Union, Any
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class ARType(ABC):

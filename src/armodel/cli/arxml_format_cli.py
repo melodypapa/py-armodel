@@ -1,13 +1,13 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
 
-from ..transformer.admin_data import AdminDataTransformer
-from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..parser.arxml_parser import ARXMLParser
-from ..writer import ARXMLWriter
+from armodel.transformer.admin_data import AdminDataTransformer
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer import ARXMLWriter
 
 
 def perform_format(args):
@@ -64,7 +64,7 @@ def perform_format(args):
 
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.description = "arxml-format ver: %s" % version

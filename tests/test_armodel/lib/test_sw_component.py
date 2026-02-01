@@ -4,10 +4,10 @@ These tests ensure 100% code coverage for the software component analysis functi
 """
 
 from unittest.mock import Mock, patch
-from src.armodel.lib.sw_component import SwComponentAnalyzer
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from src.armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from armodel.lib.sw_component import SwComponentAnalyzer
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
 
 
 class TestSwComponentAnalyzer:
@@ -213,7 +213,7 @@ class TestSwComponentAnalyzer:
             
             # For this test, we'll mock the isinstance check within the print_out method context
             # Since the method uses isinstance(), we need to make it return our desired values
-            with patch('src.armodel.lib.sw_component.isinstance') as mock_isinstance:
+            with patch('armodel.lib.sw_component.isinstance') as mock_isinstance:
                 # Configure the mock to return appropriate values for our test case
                 def side_effect(obj, class_info):
                     if class_info.__name__ == 'CompositionSwComponentType':

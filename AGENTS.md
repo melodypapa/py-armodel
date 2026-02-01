@@ -19,8 +19,9 @@ Python library for AUTOSAR model support - ARXML parser and writer for automotiv
 - CI runs both syntax checks and complexity checks with max-line-length=127
 
 ### Building
-- Create distribution: `python setup.py bdist_wheel`
-- Create source and wheel: `python setup.py sdist bdist_wheel --universal`
+- Create distribution: `python -m build`
+- Create source distribution only: `python -m build --sdist`
+- Create wheel distribution only: `python -m build --wheel`
 - Check distribution: `twine check dist/*`
 - Upload to PyPI: `twine upload dist/*`
 

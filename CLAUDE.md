@@ -150,8 +150,9 @@ Or using npm scripts:
 - Project uses 79-character line length (per PEP 8), not 127 (127 is just for CI warnings)
 
 ### Building
-- `python setup.py bdist_wheel` - Create wheel distribution
-- `python setup.py sdist bdist_wheel --universal` - Create source and wheel
+- `python -m build` - Create source and wheel distributions
+- `python -m build --sdist` - Create source distribution only
+- `python -m build --wheel` - Create wheel distribution only
 - `twine check dist/*` - Check distribution
 - `twine upload dist/*` - Upload to PyPI
 

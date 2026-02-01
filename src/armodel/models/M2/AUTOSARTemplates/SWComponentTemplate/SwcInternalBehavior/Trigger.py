@@ -3,11 +3,11 @@ This module contains classes for representing AUTOSAR trigger elements
 in software component internal behavior templates.
 """
 
-from .....M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
-from .....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from .....M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 
 
 class InternalTriggeringPoint(AbstractAccessPoint):

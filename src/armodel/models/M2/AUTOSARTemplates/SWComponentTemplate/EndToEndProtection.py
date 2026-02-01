@@ -5,10 +5,10 @@ defining end-to-end protection profiles, variables, and protection sets
 used to ensure data integrity in communication systems.
 """
 
-from ..GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ..GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
-from ..SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from typing import List
 
 

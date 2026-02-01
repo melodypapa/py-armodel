@@ -6,8 +6,8 @@ and data elements in instance contexts.
 """
 
 from abc import ABC
-from .....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):

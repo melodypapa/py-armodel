@@ -4,8 +4,9 @@ These tests ensure 100% code coverage for the admin data transformer functionali
 """
 
 from unittest.mock import patch, MagicMock
-from src.armodel.transformer.admin_data import AdminDataTransformer
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.transformer.admin_data import AdminDataTransformer
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
 
 
 class TestAdminDataTransformer:
@@ -67,11 +68,10 @@ class TestAdminDataTransformer:
         mock_element.getShortName.return_value = "test_element"
         
         with patch.object(pkg, 'getElements', return_value=[mock_element]), \
-             patch('src.armodel.transformer.admin_data.isinstance') as mock_isinstance, \
+             patch('armodel.transformer.admin_data.isinstance') as mock_isinstance, \
              patch.object(transformer.logger, 'debug'):
             # Mock isinstance to return True for Describable check, False for Identifiable
             def mock_isinstance_func(obj, class_info):
-                from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
                 if class_info == Describable:
                     return True
                 return False
@@ -95,11 +95,10 @@ class TestAdminDataTransformer:
         mock_element.getShortName.return_value = "test_element"
         
         with patch.object(pkg, 'getElements', return_value=[mock_element]), \
-             patch('src.armodel.transformer.admin_data.isinstance') as mock_isinstance, \
+             patch('armodel.transformer.admin_data.isinstance') as mock_isinstance, \
              patch.object(transformer.logger, 'debug'):
             # Mock isinstance to return False for Describable check, True for Identifiable
             def mock_isinstance_func(obj, class_info):
-                from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
                 if class_info == Describable:
                     return False
                 elif class_info == Identifiable:

@@ -5,19 +5,19 @@ in the EcuResourceTemplate module.
 
 from typing import List, Optional
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
 )
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
     Identifiable,
 )
-from ....M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import (
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import (
     HwAttributeLiteralDef,
 )
-from ....M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
-from ....M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
     AtpDefinition,
 )
 

@@ -4,10 +4,10 @@ These tests ensure 100% code coverage for the system signal analysis functionali
 """
 
 from unittest.mock import Mock, patch
-from src.armodel.lib.system_signal import SystemSignalAnalyzer
-from src.armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal
-from src.armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from src.armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.lib.system_signal import SystemSignalAnalyzer
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestSystemSignalAnalyzer:

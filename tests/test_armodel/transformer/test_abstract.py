@@ -3,7 +3,7 @@ Test cases for the AbstractTransformer class.
 These tests ensure 100% code coverage for the abstract transformer functionality.
 """
 
-from src.armodel.transformer.abstract import AbstractTransformer
+from armodel.transformer.abstract import AbstractTransformer
 
 
 class TestAbstractTransformer:

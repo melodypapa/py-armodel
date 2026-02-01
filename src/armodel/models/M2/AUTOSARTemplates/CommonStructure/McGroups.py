@@ -2,7 +2,7 @@
 This module defines measurement and calibration group classes in AUTOSAR.
 """
 
-from ..GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class McGroup(ARObject):

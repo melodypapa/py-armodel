@@ -1,7 +1,7 @@
-from ......M2.MSR.Documentation.BlockElements.Figure import MlFigure
-from ......M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
-from ......M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from typing import List
 
 

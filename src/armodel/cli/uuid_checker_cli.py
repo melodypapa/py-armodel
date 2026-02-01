@@ -1,13 +1,13 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
 
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..parser.arxml_parser import ARXMLParser
-from ..lib.cli_args_parser import InputFileParser
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.lib.cli_args_parser import InputFileParser
 
 
 def perform_uuid_duplicate_check(args):
@@ -75,7 +75,7 @@ def perform_uuid_duplicate_check(args):
 
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.description = "arxml-format ver: %s" % version

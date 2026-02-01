@@ -3,9 +3,9 @@ This module contains classes for representing AUTOSAR software component impleme
 elements in software component templates.
 """
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
-from ....M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 
 class SwcImplementation(Implementation):
     def __init__(self, parent: ARObject, short_name: str) -> None:

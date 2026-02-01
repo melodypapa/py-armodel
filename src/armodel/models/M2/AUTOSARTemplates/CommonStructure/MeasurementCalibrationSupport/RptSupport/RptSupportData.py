@@ -1,8 +1,8 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .RptEnablerImplTypeEnum import RptEnablerImplTypeEnum
-from .RptExecutionControlEnum import RptExecutionControlEnum
-from .RptPreparationEnum import RptPreparationEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptEnablerImplTypeEnum import RptEnablerImplTypeEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptExecutionControlEnum import RptExecutionControlEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptPreparationEnum import RptPreparationEnum
 from typing import List
 
 

@@ -1,16 +1,16 @@
 import argparse
-import pkg_resources
+from armodel import __version__
 import logging
 import sys
 import os.path
 
-from ..writer.arxml_writer import ARXMLWriter
-from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..parser.arxml_parser import ARXMLParser
-from ..parser.connector_xlsx_parser import ConnectorXlsReader
+from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.parser.connector_xlsx_parser import ConnectorXlsReader
 
 def main():
-    version = pkg_resources.require("armodel")[0].version
+    version = __version__
 
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
