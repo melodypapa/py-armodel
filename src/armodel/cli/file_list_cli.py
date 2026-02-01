@@ -4,7 +4,7 @@ import logging
 import sys
 import os.path
 
-from ..parser import FileListParser
+from armodel.parser import FileListParser
 
 def format_filename(filename, type: str):
     path, file = os.path.split(filename)

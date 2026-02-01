@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR software component documen
 elements in software component templates.
 """
 
-from .....models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class SwComponentDocumentation(ARObject):

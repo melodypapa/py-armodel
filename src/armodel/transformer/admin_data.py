@@ -1,8 +1,8 @@
 import logging
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
-from ..models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from ..transformer.abstract import AbstractTransformer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.transformer.abstract import AbstractTransformer
 
 
 class AdminDataTransformer(AbstractTransformer):

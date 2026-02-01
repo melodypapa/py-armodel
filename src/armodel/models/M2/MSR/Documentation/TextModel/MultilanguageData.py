@@ -1,8 +1,8 @@
 from typing import List
-from .....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .....M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
-from .....M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
-from .....M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
 
 class MultiLanguageParagraph(Paginateable):
     def __init__(self):

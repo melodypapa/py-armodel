@@ -4,11 +4,11 @@ in the CommonStructure module. Triggers define events that can initiate specific
 behaviors or actions in AUTOSAR components and systems.
 """
 
-from ....M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from ....M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class Trigger(AtpStructureElement):

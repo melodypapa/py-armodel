@@ -2,7 +2,7 @@
 This module defines BSW interrupt event in AUTOSAR.
 """
 
-from .BswEvent import BswEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswEvent import BswEvent
 
 
 class BswInterruptEvent(BswEvent):

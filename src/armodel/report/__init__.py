@@ -1,1 +1,1 @@
-from .connector_xls_report import ConnectorXlsReport
+from armodel.report.connector_xls_report import ConnectorXlsReport

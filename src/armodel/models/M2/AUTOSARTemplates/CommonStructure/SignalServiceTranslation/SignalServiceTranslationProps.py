@@ -1,5 +1,5 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from .SignalServiceTranslationControlEnum import SignalServiceTranslationControlEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslationControlEnum import SignalServiceTranslationControlEnum
 
 
 class SignalServiceTranslationProps(ARObject):

@@ -1,8 +1,8 @@
-from ..models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from ..models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from .excel_report import ExcelReporter
-from ..models import AUTOSAR
-from ..models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.excel_report import ExcelReporter
+from armodel.models import AUTOSAR
+from armodel.models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 
 class ConnectorXlsReport(ExcelReporter):
     def __init__(self) -> None:

@@ -4,7 +4,7 @@ in the CommonStructure module.
 """
 
 from abc import ABC
-from ....GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class AtpBlueprint(Identifiable, ABC):

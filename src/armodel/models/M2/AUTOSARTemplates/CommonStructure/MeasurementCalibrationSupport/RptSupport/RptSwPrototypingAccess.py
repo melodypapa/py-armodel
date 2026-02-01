@@ -1,6 +1,6 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .RptAccessEnum import RptAccessEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptAccessEnum import RptAccessEnum
 
 
 class RptSwPrototypingAccess(ARObject):

@@ -2,7 +2,7 @@
 This module defines BSW exclusive area policy in AUTOSAR.
 """
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 
 
 class BswExclusiveAreaPolicy(AREnum):

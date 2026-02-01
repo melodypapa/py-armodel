@@ -2,7 +2,7 @@
 This module defines BSW entry relationship set in AUTOSAR.
 """
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class BswEntryRelationshipSet(ARObject):

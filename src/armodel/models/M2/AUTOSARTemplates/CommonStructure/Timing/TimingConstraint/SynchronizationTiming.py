@@ -10,10 +10,10 @@ Classes:
     EventOccurrenceKindEnum: Enumeration for event occurrence kinds
 """
 
-from ......M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-from .TimingConstraint import TimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
 class SynchronizationTypeEnum(AREnum):

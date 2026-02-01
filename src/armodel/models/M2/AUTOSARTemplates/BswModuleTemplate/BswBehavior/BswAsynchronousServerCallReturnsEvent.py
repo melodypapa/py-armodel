@@ -2,8 +2,8 @@
 This module defines BSW asynchronous server call returns event in AUTOSAR.
 """
 
-from ....M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from .BswEvent import BswEvent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswEvent import BswEvent
 
 
 class BswAsynchronousServerCallReturnsEvent(BswEvent):
