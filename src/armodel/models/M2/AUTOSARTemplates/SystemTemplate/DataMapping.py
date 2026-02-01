@@ -174,7 +174,7 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
     def __init__(self):
         super().__init__()
 
-        self.recordElementMappings: List[SenderRecRecordElementMapping] = []                     # type: List[SenderRecRecordElementMapping]
+        self.recordElementMappings = []                                   # type: List[SenderRecRecordElementMapping]
 
     def getRecordElementMappings(self):
         return self.recordElementMappings

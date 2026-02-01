@@ -191,13 +191,13 @@ class AbstractServiceInstance(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractServiceInstance:
             raise TypeError("AbstractServiceInstance is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
-        self.capabilityRecords: List = []      # type: List[TagWithOptionalValue]
-        self.majorVersion: PositiveInteger = None
-        self.methodActivationRoutingGroup = None        # type: PduActivationRoutingGroup
-        self.routingGroupRefs: List[RefType] = []                              # type: List[RefType]
+        self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
+        self.majorVersion = None                                        # type: PositiveInteger
+        self.methodActivationRoutingGroup = None                        # type: PduActivationRoutingGroup
+        self.routingGroupRefs = []                                      # type: List[RefType]
 
     def getCapabilityRecords(self):
         return self.capabilityRecords
@@ -517,13 +517,13 @@ class SdServerConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.capabilityRecords: List = []                             # type: List[TagWithOptionalValue]
-        self.initialOfferBehavior: InitialSdDelayConfig = None
-        self.offerCyclicDelay: TimeValue = None
-        self.requestResponseDelay: RequestResponseDelay = None
-        self.serverServiceMajorVersion: PositiveInteger = None
-        self.serverServiceMinorVersion: PositiveInteger = None
-        self.ttl: PositiveInteger = None
+        self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
+        self.initialOfferBehavior = None                                # type: InitialSdDelayConfig
+        self.offerCyclicDelay = None                                    # type: TimeValue
+        self.requestResponseDelay = None                                # type: RequestResponseDelay
+        self.serverServiceMajorVersion = None                           # type: PositiveInteger
+        self.serverServiceMinorVersion = None                           # type: PositiveInteger
+        self.ttl = None                                                 # type: PositiveInteger
 
     def getCapabilityRecords(self):
         return self.capabilityRecords
@@ -892,9 +892,9 @@ class SoAdConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.connections: List[SocketConnection] = []
-        self.connectionBundles: List[SocketConnectionBundle] = []
-        self.socketAddresses: List[SocketAddress] = []                           # type: List[SocketAddress]
+        self.connections = []                                                   # type: List[SocketConnection]
+        self.connectionBundles = []                                             # type: List[SocketConnectionBundle]
+        self.socketAddresses = []                                               # type: List[SocketAddress]
 
     def getConnections(self):
         return self.connections

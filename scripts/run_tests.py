@@ -5,23 +5,25 @@ Test Runner Script for py-armodel
 This script runs both unit tests and integration tests with coverage reporting.
 
 Usage:
-    python scripts/run_tests.py              # Run all tests
+    python scripts/run_tests.py              # Run all tests with coverage (default)
     python scripts/run_tests.py --unit       # Run only unit tests
     python scripts/run_tests.py --integration # Run only integration tests
-    python scripts/run_tests.py --coverage   # Run with coverage report
+    python scripts/run_tests.py --no-coverage # Run without coverage reports
     python scripts/run_tests.py --verbose    # Verbose output
 
 The script generates:
 1. Console output with test results
-2. Coverage report (HTML and terminal)
+2. Coverage report (HTML, XML, terminal, and markdown) [enabled by default]
 3. Test summary with pass/fail statistics
+4. `coverage.md` with detailed coverage breakdown
 """
 
 import argparse
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
 class Colors:
@@ -133,7 +135,8 @@ def run_command(
 
 def run_unit_tests(
     args: argparse.Namespace,
-    pytest_args: List[str]
+    pytest_args: List[str],
+    run_coverage: bool = True
 ) -> Tuple[bool, int, int, int]:
     """
     Run unit tests (tests/test_armodel/).
@@ -141,6 +144,7 @@ def run_unit_tests(
     Args:
         args: Command line arguments
         pytest_args: Additional pytest arguments
+        run_coverage: Whether to generate coverage reports
 
     Returns:
         Tuple of (success, passed, failed, skipped)
@@ -154,8 +158,8 @@ def run_unit_tests(
         "--tb=short" if not args.verbose else "--tb=long",
     ]
 
-    # Add coverage if requested
-    if args.coverage:
+    # Add coverage if requested (default is True)
+    if run_coverage:
         cmd.extend([
             "--cov=armodel",
             "--cov-report=term-missing",
@@ -205,7 +209,8 @@ def run_unit_tests(
 
 def run_integration_tests(
     args: argparse.Namespace,
-    pytest_args: List[str]
+    pytest_args: List[str],
+    run_coverage: bool = True
 ) -> Tuple[bool, int, int, int]:
     """
     Run integration tests (tests/integration_tests/).
@@ -213,6 +218,7 @@ def run_integration_tests(
     Args:
         args: Command line arguments
         pytest_args: Additional pytest arguments
+        run_coverage: Whether to generate coverage reports
 
     Returns:
         Tuple of (success, passed, failed, skipped)
@@ -227,8 +233,8 @@ def run_integration_tests(
         "--tb=short" if not args.verbose else "--tb=long",
     ]
 
-    # Add coverage if requested
-    if args.coverage:
+    # Add coverage if requested (default is True)
+    if run_coverage:
         cmd.extend([
             "--cov=armodel",
             "--cov-append",
@@ -294,6 +300,243 @@ def generate_combined_coverage_report() -> None:
         print_success(f"Integration test coverage: {integration_dir}/index.html")
 
 
+def parse_coverage_xml(xml_path: Path) -> Optional[Dict]:
+    """
+    Parse coverage XML file and extract coverage data.
+
+    Args:
+        xml_path: Path to coverage XML file
+
+    Returns:
+        Dict with coverage data or None if parsing fails
+    """
+    if not xml_path.exists():
+        return None
+
+    try:
+        tree = ET.parse(xml_path)
+        root = tree.getroot()
+
+        # The root element is <coverage>, not a child
+        if root.tag != 'coverage':
+            print_warning(f"Unexpected root element: {root.tag}")
+            return None
+
+        # Extract overall coverage from root element
+        overall = {
+            'line_rate': float(root.get('line-rate', 0)),
+            'branch_rate': float(root.get('branch-rate', 0)),
+            'lines_covered': int(root.get('lines-covered', 0)),
+            'lines_valid': int(root.get('lines-valid', 0)),
+            'branches_covered': int(root.get('branches-covered', 0)),
+            'branches_valid': int(root.get('branches-valid', 0)),
+        }
+
+        # Extract per-package and per-file coverage
+        # Find all packages and extract class coverage
+        classes_data = []
+
+        for package in root.findall('.//package'):
+            # Find all classes in this package
+            for classes_elem in package.findall('.//classes'):
+                for cls in classes_elem.findall('class'):
+                    class_name = cls.get('name', '')
+                    filename = cls.get('filename', '')
+                    line_rate = float(cls.get('line-rate', 0))
+                    branch_rate = float(cls.get('branch-rate', 0))
+
+                    # Count actual lines from <lines> elements
+                    lines_elem = cls.find('lines')
+                    lines_valid = 0
+                    lines_covered = 0
+
+                    if lines_elem is not None:
+                        for line in lines_elem.findall('line'):
+                            lines_valid += 1
+                            hits = int(line.get('hits', 0))
+                            if hits > 0:
+                                lines_covered += 1
+
+                    class_data = {
+                        'name': class_name,
+                        'filename': filename,
+                        'line_rate': line_rate,
+                        'branch_rate': branch_rate,
+                        'lines_covered': lines_covered,
+                        'lines_valid': lines_valid,
+                    }
+                    classes_data.append(class_data)
+
+        return {
+            'overall': overall,
+            'classes': classes_data
+        }
+
+    except Exception as e:
+        print_warning(f"Failed to parse coverage XML: {e}")
+        return None
+
+
+def generate_coverage_markdown(
+    unit_coverage: Optional[Dict] = None,
+    integration_coverage: Optional[Dict] = None
+) -> None:
+    """
+    Generate a markdown coverage report.
+
+    Args:
+        unit_coverage: Parsed unit test coverage data
+        integration_coverage: Parsed integration test coverage data
+    """
+    report_path = Path("coverage.md")
+
+    try:
+        with open(report_path, 'w') as f:
+            f.write("# Test Coverage Report\n\n")
+            f.write("> Generated by `scripts/run_tests.py` (coverage is enabled by default)\n\n")
+            f.write("---\n\n")
+
+            # Unit Test Coverage
+            if unit_coverage:
+                f.write("## Unit Test Coverage\n\n")
+
+                overall = unit_coverage['overall']
+                line_pct = overall['line_rate'] * 100
+                branch_pct = overall['branch_rate'] * 100
+
+                # Badge
+                badge_color = "brightgreen" if line_pct >= 80 else "yellow" if line_pct >= 50 else "red"
+                f.write(f"![coverage](https://img.shields.io/badge/coverage-{line_pct:.1f}%25-{badge_color})\n\n")
+
+                f.write("### Summary\n\n")
+                f.write(f"| Metric | Covered | Valid | Percentage |\n")
+                f.write(f"|--------|---------|-------|------------|\n")
+                f.write(f"| **Lines** | {overall['lines_covered']} | {overall['lines_valid']} | **{line_pct:.2f}%** |\n")
+                f.write(f"| **Branches** | {overall['branches_covered']} | {overall['branches_valid']} | **{branch_pct:.2f}%** |\n\n")
+
+                # Coverage by module
+                if unit_coverage['classes']:
+                    f.write("### Coverage by Module\n\n")
+
+                    # Group by module (using subdirectory for better granularity)
+                    modules: Dict[str, List[Dict]] = {}
+                    for cls in unit_coverage['classes']:
+                        # Extract module path from filename like "src/armodel/cli/arxml_dump_cli.py"
+                        filename = cls.get('filename', '')
+                        if filename:
+                            parts = filename.split('/')
+                            # Get meaningful module name from path
+                            # e.g., "src/armodel/cli/..." -> "cli"
+                            # e.g., "src/armodel/models/..." -> "models"
+                            # e.g., "src/armodel/lib/..." -> "lib"
+                            if len(parts) > 2 and parts[0] == 'src' and parts[1] == 'armodel':
+                                # Use the third part (subdirectory) as module name
+                                module = parts[2] if len(parts) > 2 else 'armodel'
+                            elif len(parts) > 1 and parts[0] == 'src':
+                                # Fallback to second part
+                                module = parts[1] if len(parts) > 1 else 'other'
+                            else:
+                                module = parts[0] if parts else 'other'
+                        else:
+                            # Fallback to using class name
+                            name = cls.get('name', '')
+                            module = name.split('.')[0] if '.' in name else 'other'
+
+                        if module not in modules:
+                            modules[module] = []
+                        modules[module].append(cls)
+
+                    f.write("| Module | Files | Line Coverage |\n")
+                    f.write("|--------|-------|---------------|\n")
+
+                    # Sort by coverage percentage (descending)
+                    module_stats = []
+                    for module_name, files in modules.items():
+                        total_lines = sum(c['lines_valid'] for c in files)
+                        covered_lines = sum(c['lines_covered'] for c in files)
+                        if total_lines > 0:
+                            coverage_pct = (covered_lines / total_lines) * 100
+                        else:
+                            coverage_pct = 0.0
+                        module_stats.append((module_name, len(files), coverage_pct))
+
+                    # Sort by coverage descending
+                    module_stats.sort(key=lambda x: x[2], reverse=True)
+
+                    for module_name, file_count, coverage_pct in module_stats:
+                        f.write(f"| **{module_name}** | {file_count} | {coverage_pct:.1f}% |\n")
+
+                    f.write("\n")
+
+                    # Files needing attention
+                    f.write("### Files Needing Attention\n\n")
+                    f.write("> Files with less than 80% coverage\n\n")
+
+                    low_coverage_files = [c for c in unit_coverage['classes'] if c['line_rate'] < 0.8]
+                    low_coverage_files.sort(key=lambda x: x['line_rate'])
+
+                    if low_coverage_files:
+                        f.write("| File | Line Coverage | Branch Coverage |\n")
+                        f.write("|------|---------------|-----------------|\n")
+
+                        for cls in low_coverage_files[:20]:  # Limit to top 20
+                            line_pct = cls['line_rate'] * 100
+                            branch_pct = cls['branch_rate'] * 100
+
+                            # Extract readable name from filename
+                            # filename is like "src/armodel/cli/arxml_dump_cli.py"
+                            filename = cls.get('filename', '')
+                            if filename:
+                                # Remove .py extension and get the last two parts for context
+                                parts = filename.replace('.py', '').split('/')
+                                if len(parts) >= 2:
+                                    # Get the last two parts for context (e.g., "cli/arxml_dump_cli")
+                                    short_name = '/'.join(parts[-2:])
+                                else:
+                                    short_name = parts[-1] if parts else cls.get('name', 'unknown')
+                            else:
+                                # Fallback to using the name attribute
+                                name = cls.get('name', 'unknown')
+                                short_name = name.replace('.py', '') if name.endswith('.py') else name
+
+                            f.write(f"| `{short_name}` | {line_pct:.1f}% | {branch_pct:.1f}% |\n")
+                    else:
+                        f.write("✅ All files have 80%+ coverage!\n")
+
+                    f.write("\n")
+
+            # Integration Test Coverage
+            if integration_coverage:
+                f.write("## Integration Test Coverage\n\n")
+
+                overall = integration_coverage['overall']
+                line_pct = overall['line_rate'] * 100
+                branch_pct = overall['branch_rate'] * 100
+
+                # Badge
+                badge_color = "brightgreen" if line_pct >= 80 else "yellow" if line_pct >= 50 else "red"
+                f.write(f"![coverage](https://img.shields.io/badge/integration-{line_pct:.1f}%25-{badge_color})\n\n")
+
+                f.write("### Summary\n\n")
+                f.write(f"| Metric | Covered | Valid | Percentage |\n")
+                f.write(f"|--------|---------|-------|------------|\n")
+                f.write(f"| **Lines** | {overall['lines_covered']} | {overall['lines_valid']} | **{line_pct:.2f}%** |\n")
+                f.write(f"| **Branches** | {overall['branches_covered']} | {overall['branches_valid']} | **{branch_pct:.2f}%** |\n\n")
+
+            # Footer
+            f.write("---\n\n")
+            f.write("### Reports\n\n")
+            f.write("- Detailed HTML coverage reports are available in the `htmlcov/` directory\n")
+            f.write("- XML coverage reports: `coverage_unit.xml`, `coverage_integration.xml`\n")
+            f.write("- Run `python scripts/run_tests.py` to regenerate (coverage is enabled by default)\n")
+            f.write("- Run `python scripts/run_tests.py --no-coverage` to skip coverage reports\n")
+
+        print_success(f"Coverage report: {report_path}")
+
+    except Exception as e:
+        print_warning(f"Failed to generate markdown report: {e}")
+
+
 def print_summary(
     unit_results: Tuple[bool, int, int, int],
     integration_results: Tuple[bool, int, int, int],
@@ -352,10 +595,10 @@ def parse_arguments() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s                    Run all tests
+  %(prog)s                    Run all tests with coverage (default)
   %(prog)s --unit             Run only unit tests
   %(prog)s --integration       Run only integration tests
-  %(prog)s --coverage          Run with coverage report
+  %(prog)s --no-coverage       Run without coverage reports
   %(prog)s --verbose          Verbose output
   %(prog)s -k "test_parser"    Run specific tests
         """
@@ -374,9 +617,9 @@ Examples:
     )
 
     parser.add_argument(
-        "--coverage",
+        "--no-coverage",
         action="store_true",
-        help="Generate coverage reports"
+        help="Disable coverage reports (coverage is enabled by default)"
     )
 
     parser.add_argument(
@@ -405,6 +648,9 @@ def main() -> int:
     run_unit = args.unit or not args.integration
     run_integration = args.integration or not args.unit
 
+    # Coverage is enabled by default unless --no-coverage is specified
+    run_coverage = not args.no_coverage
+
     print_header("py-armodel Test Runner")
 
     # Build pytest arguments
@@ -419,14 +665,33 @@ def main() -> int:
     # Run tests
     try:
         if run_unit:
-            unit_results = run_unit_tests(args, pytest_args)
+            unit_results = run_unit_tests(args, pytest_args, run_coverage)
 
         if run_integration:
-            integration_results = run_integration_tests(args, pytest_args)
+            integration_results = run_integration_tests(args, pytest_args, run_coverage)
 
-        # Generate coverage reports if requested
-        if args.coverage:
+        # Generate coverage reports if coverage is enabled
+        if run_coverage:
             generate_combined_coverage_report()
+
+            # Parse coverage XML files and generate markdown report
+            unit_coverage = None
+            integration_coverage = None
+
+            if run_unit:
+                unit_xml = Path("coverage_unit.xml")
+                if unit_xml.exists():
+                    unit_coverage = parse_coverage_xml(unit_xml)
+
+            if run_integration:
+                integration_xml = Path("coverage_integration.xml")
+                if integration_xml.exists():
+                    integration_coverage = parse_coverage_xml(integration_xml)
+
+            # Generate markdown report
+            if unit_coverage or integration_coverage:
+                print_section("Generating Markdown Coverage Report")
+                generate_coverage_markdown(unit_coverage, integration_coverage)
 
         # Print summary
         print_summary(

@@ -9,8 +9,6 @@ from armodel.parser import ARXMLParser
 from armodel.lib import InputFileParser, SystemSignalAnalyzer
 
 def main():
-    version = __version__
-
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
     ap.add_argument("-f", "--format", required= False, help= "Specify the name format of SW-C. [short|full]")

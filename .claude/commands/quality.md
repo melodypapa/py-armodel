@@ -6,25 +6,24 @@ Run all quality checks (linting, type checking, testing) to ensure code meets pr
 
 When the user runs `/quality`, run the following checks in order:
 
-### 1. Linting with Ruff
+### 1. Linting with Flake8
 ```bash
-ruff check src/ tests/
+flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 ```
-- Expected: All checks pass with no errors or warnings
+- Expected: All checks pass with no E9, F63, F7, F82 errors
 - If failures: Show linting errors and offer to fix
 
-### 2. Type Checking with Mypy
+### 2. Install Package
 ```bash
-mypy src/autosar_pdf2txt/
+pip install -e .
 ```
-- Expected: Success: no issues found in 9 source files
-- If failures: Show type errors and suggest fixes
+- Expected: Package installs successfully
 
-### 3. Testing with Coverage
+### 3. Testing with Pytest
 ```bash
-python scripts/run_tests.py --unit
+pytest
 ```
-- Expected: All tests pass (126 tests) with ≥95% coverage
+- Expected: All tests pass
 - If failures: Identify failing tests and help debug
 
 ### 4. Report Summary
@@ -32,35 +31,29 @@ Display a summary table:
 ```
 Check        Status    Details
 ──────────────────────────────────
-Ruff         ✅ Pass    No errors
-Mypy         ✅ Pass    No issues
-Pytest       ✅ Pass    126/126 tests, 97% coverage
+Flake8       ✅ Pass    No E9,F63,F7,F82 errors
+Pytest       ✅ Pass    All tests passed
 ```
 
 ## Quality Gates
 
 All of the following must pass before committing:
-1. ✅ Ruff linting: No errors
-2. ✅ Mypy type checking: No issues
-3. ✅ Pytest: All tests pass
-4. ✅ Coverage: ≥95%
+1. ✅ Flake8 linting: No E9, F63, F7, F82 errors
+2. ✅ Pytest: All tests pass
 
 ## Arguments
 
 Use `$ARGUMENTS` for specific checks:
 - `--lint-only`: Run only linting
-- `--type-only`: Run only type checking
 - `--test-only`: Run only tests
-- `--fix`: Auto-fix linting issues with `ruff check --fix`
 
 ## Usage Examples
 
 ```
 /quality
-/quality --fix
 /quality --test-only
 ```
 
 ## References
 
-See `docs/development/coding_rules.md` for complete coding standards.
+See `.github/workflows/python-package.yml` for CI/CD configuration.

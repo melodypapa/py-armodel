@@ -10,8 +10,6 @@ from armodel.lib import InputFileParser
 from armodel.report import ConnectorXlsReport
 
 def main():
-    version = __version__
-
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
     ap.add_argument("-w", "--warning", required= False, help= "Skip the error and report it as warning message", action= "store_true")

@@ -269,16 +269,14 @@ class ReceiverComSpec(RPortComSpec, ABC):
             raise TypeError("ReceiverComSpec is an abstract class.")
         super().__init__()
 
-        self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = [
-        ]
-        self.dataElementRef: RefType = None
-        self.networkRepresentation: SwDataDefProps = None
-        self.handleOutOfRange = None                    # type: HandleOutOfRangeEnum
-        # type: HandleOutOfRangeStatusEnum
-        self.handleOutOfRangeStatus = None
-        self.maxDeltaCounterInit: PositiveInteger = None
-        self.maxNoNewOrRepeatedData: PositiveInteger = None
-        self.usesEndToEndProtection: ARBoolean = None
+        self.compositeNetworkRepresentations = []                            # type: List[CompositeNetworkRepresentation]
+        self.dataElementRef = None                                           # type: RefType
+        self.networkRepresentation = None                                    # type: SwDataDefProps
+        self.handleOutOfRange = None                                         # type: HandleOutOfRangeEnum
+        self.handleOutOfRangeStatus = None                                   # type: HandleOutOfRangeStatusEnum
+        self.maxDeltaCounterInit = None                                      # type: PositiveInteger
+        self.maxNoNewOrRepeatedData = None                                   # type: PositiveInteger
+        self.usesEndToEndProtection = None                                   # type: ARBoolean
 
     def getDataElementRef(self):
         return self.dataElementRef
