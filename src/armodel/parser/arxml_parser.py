@@ -1568,7 +1568,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readAsynchronousServerCallReturnsEvent(self, element, event: AsynchronousServerCallReturnsEvent):
         # self.logger.debug("Read AsynchronousServerCallReturnsEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
-        event.setActivationReasonRepresentationRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
+        event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
     def readModeSwitchedAckEvent(self, element, event: ModeSwitchedAckEvent):
         # self.logger.debug("Read ModeSwitchedAckEvent <%s>" % event.getShortName())
