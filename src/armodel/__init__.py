@@ -5,7 +5,7 @@ This library provides ARXML parser and writer functionality for automotive
 ECU software development.
 """
 
-__version__ = "1.9.1"
+__version__ = "1.9.2"
 
 # Import all model classes for direct access
 from armodel.models import *
