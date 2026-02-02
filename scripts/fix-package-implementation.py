@@ -195,21 +195,26 @@ def create_missing_class_from_json(
 
         update_cache_for_new_class(project_root, type_name, package_path)
 
-        # Update __init__.py
+        # Update or create __init__.py with wildcard import
         parent_init = package_dir / '__init__.py'
         if parent_init.exists():
             with open(parent_init, 'r', encoding='utf-8') as f:
                 init_content = f.read()
-            if f'from .{type_name} import {type_name}' not in init_content:
+            if f'from .{type_name} import *' not in init_content:
                 with open(parent_init, 'a', encoding='utf-8') as f:
-                    f.write(f'\nfrom .{type_name} import {type_name}\n')
+                    f.write(f'from .{type_name} import *\n')
+        else:
+            # Create __init__.py with wildcard import
+            with open(parent_init, 'w', encoding='utf-8') as f:
+                f.write(f'from .{type_name} import *\n')
 
         # Generate test case
-        module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}.{type_name}'
+        # For package directories, import from package (not class module)
+        module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}'
         test_dir = project_root / 'tests' / 'test_armodel' / 'models' / 'M2' / relative
         test_file = test_dir / f'test_{type_name}.py'
 
-        test_code = generate_test_case(type_name, class_info, package_path, module_path, requirements_dir)
+        test_code = generate_test_case(type_name, class_info, package_path, module_path, requirements_dir, project_root)
 
         if dry_run_mode:
             print(f"  [Would create test file: {test_file.relative_to(project_root)}]")
@@ -226,6 +231,361 @@ def create_missing_class_from_json(
         return True
     except Exception as e:
         print(f"  ✗ Error creating class '{type_name}': {e}")
+        return False
+
+
+def get_package_has_subpackages(requirements_dir: Path, package_path: str) -> bool:
+    """Check if a package has subpackages based on requirements JSON.
+
+    Args:
+        requirements_dir: Path to requirements directory
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
+
+    Returns:
+        True if package has subpackages, False otherwise
+    """
+    import json
+
+    # Remove M2:: prefix (4 characters)
+    if package_path.startswith('M2::'):
+        package_path = package_path[4:]
+
+    # Replace :: with _ to match JSON file naming
+    json_name = 'M2_' + package_path.replace('::', '_') + '.json'
+    json_file = requirements_dir / 'packages' / json_name
+
+    if not json_file.exists():
+        return False
+
+    try:
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return bool(data.get('subpackages', []))
+    except (json.JSONDecodeError, IOError):
+        return False
+
+
+def determine_package_structure(requirements_dir: Path, package_path: str) -> str:
+    """Determine the expected package structure from requirements.
+
+    Args:
+        requirements_dir: Path to requirements directory
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate)
+
+    Returns:
+        'directory' if package should be a directory, 'file' if single file
+    """
+    has_subpackages = get_package_has_subpackages(requirements_dir, package_path)
+    return 'directory' if has_subpackages else 'file'
+
+
+def detect_current_structure(project_root: Path, package_path: str) -> str:
+    """Detect the current filesystem structure for a package.
+
+    Args:
+        project_root: Root directory of the project
+        package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate)
+
+    Returns:
+        'file', 'directory', 'hybrid', or 'none'
+    """
+    # Remove M2:: prefix
+    if package_path.startswith('M2::'):
+        relative = package_path[4:].replace('::', '/')
+    else:
+        relative = package_path.replace('::', '/')
+
+    python_path = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative
+    py_file = python_path.with_suffix('.py')
+
+    file_exists = py_file.exists()
+    dir_exists = python_path.is_dir()
+
+    if file_exists and dir_exists:
+        return 'hybrid'
+    elif file_exists:
+        return 'file'
+    elif dir_exists:
+        return 'directory'
+    else:
+        return 'none'
+
+
+def create_backup(file_or_dir: Path) -> Path:
+    """Create a backup of a file or directory.
+
+    Args:
+        file_or_dir: Path to file or directory to backup
+
+    Returns:
+        Path to the backup location
+    """
+    import shutil
+
+    if file_or_dir.is_dir():
+        backup_path = file_or_dir.with_suffix('.backup')
+        if backup_path.exists():
+            shutil.rmtree(backup_path)
+        shutil.copytree(file_or_dir, backup_path)
+    else:
+        backup_path = file_or_dir.with_suffix(file_or_dir.suffix + '.backup')
+        shutil.copy2(file_or_dir, backup_path)
+
+    return backup_path
+
+
+def restore_from_backup(file_or_dir: Path) -> bool:
+    """Restore a file or directory from its backup.
+
+    Args:
+        file_or_dir: Path to file or directory to restore
+
+    Returns:
+        True if successful, False otherwise
+    """
+    import shutil
+
+    if file_or_dir.is_dir():
+        backup_path = file_or_dir.with_suffix('.backup')
+        if backup_path.is_dir():
+            if file_or_dir.exists():
+                shutil.rmtree(file_or_dir)
+            shutil.copytree(backup_path, file_or_dir)
+            return True
+    else:
+        backup_path = file_or_dir.with_suffix(file_or_dir.suffix + '.backup')
+        if backup_path.exists():
+            shutil.copy2(backup_path, file_or_dir)
+            return True
+
+    return False
+
+
+def migrate_file_to_directory(file_path: Path, package_path: str, project_root: Path, requirements_dir: Path) -> bool:
+    """Migrate a single .py file to a directory structure.
+
+    Splits a single .py file containing multiple classes into separate files
+    in a directory, with __init__.py providing wildcard imports.
+
+    Args:
+        file_path: Path to the .py file to split
+        package_path: Package path (for creating __init__.py content)
+        project_root: Root directory of the project
+        requirements_dir: Path to requirements directory
+
+    Returns:
+        True if successful, False otherwise
+    """
+    import ast
+    import shutil
+
+    print(f"  [Migrate] Splitting {file_path.name} into directory structure")
+
+    # Create backup
+    backup_path = create_backup(file_path)
+    print(f"  ✓ Backup created: {backup_path.relative_to(project_root)}")
+
+    try:
+        # Parse the Python file
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            tree = ast.parse(content, filename=str(file_path))
+
+        # Extract imports, classes, and module-level docstring
+        imports = []
+        classes = []
+        module_docstring = None
+
+        for node in ast.iter_child_nodes(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    imports.append(ast.unparse(node))
+            elif isinstance(node, ast.ImportFrom):
+                imports.append(ast.unparse(node))
+            elif isinstance(node, ast.ClassDef):
+                classes.append(node)
+            elif isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant):
+                if module_docstring is None and isinstance(node.value.value, str):
+                    module_docstring = node.value.value
+
+        # Create directory
+        dir_path = file_path.parent / file_path.stem
+        dir_path.mkdir(exist_ok=True)
+
+        # Create __init__.py
+        init_path = dir_path / '__init__.py'
+        with open(init_path, 'w', encoding='utf-8') as f:
+            if module_docstring:
+                f.write(f'"""\n{module_docstring}\n"""\n\n')
+            for imp in imports:
+                f.write(imp + '\n')
+            for cls in classes:
+                f.write(f'from .{cls.name} import *\n')
+
+        # Create individual class files
+        for cls in classes:
+            class_file = dir_path / f'{cls.name}.py'
+            with open(class_file, 'w', encoding='utf-8') as f:
+                # Write imports
+                for imp in imports:
+                    f.write(imp + '\n')
+                f.write('\n')
+                # Write class definition
+                f.write(ast.unparse(cls) + '\n')
+
+        # Delete original file
+        file_path.unlink()
+        print(f"  ✓ Deleted original file: {file_path.relative_to(project_root)}")
+        print(f"  ✓ Created directory: {dir_path.relative_to(project_root)}/")
+        print(f"    - {len(classes)} class file(s)")
+        print(f"    - __init__.py with wildcard imports")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Migration failed: {e}")
+        print(f"  ↻ Rolling back...")
+        if restore_from_backup(file_path):
+            print(f"  ✓ Rollback complete")
+        else:
+            print(f"  ✗ Rollback failed - backup may be at: {backup_path}")
+        return False
+
+
+def migrate_directory_to_file(dir_path: Path, package_path: str, project_root: Path) -> bool:
+    """Migrate a directory structure to a single .py file.
+
+    Merges all class files from a directory into a single .py file,
+    then deletes the directory.
+
+    Args:
+        dir_path: Path to the directory to merge
+        package_path: Package path (for documentation)
+        project_root: Root directory of the project
+
+    Returns:
+        True if successful, False otherwise
+    """
+    import ast
+    import shutil
+
+    print(f"  [Migrate] Merging directory {dir_path.name}/ into single file")
+
+    # Create backup
+    backup_path = create_backup(dir_path)
+    print(f"  ✓ Backup created: {backup_path.relative_to(project_root)}")
+
+    try:
+        # Collect all imports and classes
+        all_imports = {}  # Use dict to deduplicate
+        all_classes = []
+
+        for py_file in dir_path.glob('*.py'):
+            if py_file.name == '__init__.py':
+                continue
+
+            with open(py_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                tree = ast.parse(content, filename=str(py_file))
+
+            # Extract imports
+            for node in ast.iter_child_nodes(tree):
+                if isinstance(node, (ast.Import, ast.ImportFrom)):
+                    imp_str = ast.unparse(node)
+                    all_imports[imp_str] = True
+
+            # Extract classes
+            for node in ast.walk(tree):
+                if isinstance(node, ast.ClassDef):
+                    all_classes.append(node)
+
+        # Sort classes by line number for consistent ordering
+        all_classes.sort(key=lambda c: c.lineno)
+
+        # Determine output file path
+        output_file = dir_path.parent / f'{dir_path.name}.py'
+
+        # Create merged file
+        with open(output_file, 'w', encoding='utf-8') as f:
+            # Write deduplicated imports
+            if all_imports:
+                for imp in sorted(all_imports.keys()):
+                    f.write(imp + '\n')
+                f.write('\n')
+
+            # Write all classes
+            for cls in all_classes:
+                f.write('\n')
+                f.write(ast.unparse(cls) + '\n')
+
+        # Delete directory
+        shutil.rmtree(dir_path)
+        print(f"  ✓ Deleted directory: {dir_path.relative_to(project_root)}/")
+        print(f"  ✓ Created file: {output_file.relative_to(project_root)}")
+        print(f"    - {len(all_classes)} class(es)")
+        print(f"    - {len(all_imports)} unique import(s)")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Migration failed: {e}")
+        print(f"  ↻ Rolling back...")
+        if restore_from_backup(dir_path):
+            print(f"  ✓ Rollback complete")
+        else:
+            print(f"  ✗ Rollback failed - backup may be at: {backup_path}")
+        return False
+
+
+def remove_inline_class_from_init(init_file: Path, class_name: str) -> bool:
+    """Remove an inline class definition from __init__.py.
+
+    This is used when a class is being moved from __init__.py to its own file.
+    The function parses the __init__.py, removes the class definition, and
+    rewrites the file without the class.
+
+    Args:
+        init_file: Path to the __init__.py file
+        class_name: Name of the class to remove
+
+    Returns:
+        True if successful, False otherwise
+    """
+    import ast
+
+    try:
+        with open(init_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # Check if class is defined inline
+        if f'class {class_name}(' not in content:
+            return True  # Nothing to remove
+
+        # Parse the file
+        tree = ast.parse(content, filename=str(init_file))
+
+        # Find and remove the class definition
+        new_nodes = []
+        for node in tree.body:
+            if isinstance(node, ast.ClassDef) and node.name == class_name:
+                continue  # Skip this class
+            new_nodes.append(node)
+
+        # Reconstruct the file without the class
+        new_tree = ast.Module(body=new_nodes, type_ignores=[])
+        new_content = ast.unparse(new_tree)
+
+        # Ensure file ends with newline
+        if not new_content.endswith('\n'):
+            new_content += '\n'
+
+        # Write back
+        with open(init_file, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+
+        return True
+    except Exception as e:
+        print(f"  ✗ Error removing class from __init__.py: {e}")
         return False
 
 
@@ -256,6 +616,7 @@ def fix_missing_class(
 
     print(f"\n[Fix] Generating missing class: {class_name}")
 
+    # Build package paths
     if package_path.startswith('M2::'):
         relative = package_path[4:].replace('::', '/')
         package_dir = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative
@@ -265,14 +626,65 @@ def fix_missing_class(
         package_dir = project_root / 'src' / 'armodel' / 'models' / relative
         package_file = package_dir.parent / f'{package_dir.name}.py'
 
-    # Check if this package is implemented as a single file
-    if package_file.exists():
-        print(f"  ✗ Error: Package is a single file ({package_file.name})")
-        print(f"     Class '{class_name}' should be added to {package_file.relative_to(project_root)}")
-        print("     This requires manual implementation or script enhancement.")
-        return False
+    # Check requirements to determine expected package structure
+    expected_structure = determine_package_structure(requirements_dir, package_path)
+    current_structure = detect_current_structure(project_root, package_path)
 
-    module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}.{class_name}'
+    # Auto-migrate if structure doesn't match
+    if current_structure == 'hybrid':
+        print(f"  ⚠️  Hybrid structure detected (both file and directory exist)")
+        print(f"     Expected: {expected_structure} based on requirements")
+        # Choose the correct migration based on expected structure
+        if expected_structure == 'directory':
+            # Keep directory, remove file
+            print(f"  [Migrate] Will keep directory, remove file")
+            file_to_remove = package_file
+            if not dry_run:
+                file_to_remove.unlink()
+                print(f"  ✓ Removed file: {file_to_remove.relative_to(project_root)}")
+        else:
+            # Keep file, remove directory
+            print(f"  [Migrate] Will keep file, remove directory")
+            dir_to_remove = package_dir
+            if not dry_run:
+                import shutil
+                shutil.rmtree(dir_to_remove)
+                print(f"  ✓ Removed directory: {dir_to_remove.relative_to(project_root)}")
+
+    elif expected_structure == 'directory' and current_structure == 'file':
+        print(f"  ⚠️  Structure mismatch: should be directory but is file")
+        if not dry_run:
+            if not migrate_file_to_directory(package_file, package_path, project_root, requirements_dir):
+                print(f"  ✗ Migration failed")
+                return False
+    elif expected_structure == 'file' and current_structure == 'directory':
+        print(f"  ⚠️  Structure mismatch: should be file but is directory")
+        if not dry_run:
+            if not migrate_directory_to_file(package_dir, package_path, project_root):
+                print(f"  ✗ Migration failed")
+                return False
+    else:
+        # Structure matches or nothing exists yet
+        if expected_structure == 'directory':
+            # Ensure directory exists
+            if not package_dir.exists():
+                print(f"  ℹ️  Creating package directory: {package_dir.relative_to(project_root)}")
+                if not dry_run:
+                    package_dir.mkdir(parents=True, exist_ok=True)
+
+            # Check for __init__.py
+            init_file = package_dir / '__init__.py'
+            if not init_file.exists() and not dry_run:
+                print(f"  ✓ Creating __init__.py to make it a proper package")
+                with open(init_file, 'w', encoding='utf-8') as f:
+                    f.write('')
+        else:
+            # Ensure parent directory exists
+            if not package_dir.parent.exists():
+                if not dry_run:
+                    package_dir.parent.mkdir(parents=True, exist_ok=True)
+
+    module_path = f'armodel.models.M2.{package_path[4:].replace("::", ".")}'
     class_file = package_dir / f'{class_name}.py'
 
     if not class_file.exists():
@@ -340,22 +752,34 @@ def fix_missing_class(
         else:
             print(f"  ✓ Created: {class_file.relative_to(project_root)}")
 
-        # Update __init__.py
+        # Update or create __init__.py with wildcard import
         parent_init = package_dir / '__init__.py'
         if parent_init.exists():
+            # First, remove inline class definition if it exists
+            remove_inline_class_from_init(parent_init, class_name)
+
             with open(parent_init, 'r', encoding='utf-8') as f:
                 init_content = f.read()
 
-            if f'from .{class_name} import {class_name}' not in init_content:
+            if f'from .{class_name} import *' not in init_content:
+                # Ensure file ends with newline before appending
+                if init_content and not init_content.endswith('\n'):
+                    with open(parent_init, 'a', encoding='utf-8') as f:
+                        f.write('\n')
                 with open(parent_init, 'a', encoding='utf-8') as f:
-                    f.write(f'\nfrom .{class_name} import {class_name}\n')
+                    f.write(f'from .{class_name} import *\n')
                 print(f"  ✓ Updated: {parent_init.relative_to(project_root)}")
+        else:
+            # Create __init__.py with wildcard import
+            with open(parent_init, 'w', encoding='utf-8') as f:
+                f.write(f'from .{class_name} import *\n')
+            print(f"  ✓ Created: {parent_init.relative_to(project_root)}")
 
         # Generate test
         test_dir = project_root / 'tests' / 'test_armodel' / 'models' / 'M2' / relative
         test_file = test_dir / f'test_{class_name}.py'
 
-        test_code = generate_test_case(class_name, class_info, package_path, module_path, requirements_dir)
+        test_code = generate_test_case(class_name, class_info, package_path, module_path, requirements_dir, project_root)
 
         if dry_run:
             print(f"  [Dry Run] Would create test file: {test_file.relative_to(project_root)}")

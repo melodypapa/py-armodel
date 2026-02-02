@@ -125,6 +125,74 @@ def _wrap_docstring_line(line: str, indent: str = '    ', max_width: int = 80) -
     return lines
 
 
+def _is_multiple_multiplicity(multiplicity: str) -> bool:
+    """Check if multiplicity allows multiple values.
+
+    Args:
+        multiplicity: Attribute multiplicity string (e.g., '*', '0..1', '1')
+
+    Returns:
+        True if multiplicity allows multiple values, False otherwise
+    """
+    return multiplicity == '*'
+
+
+def _pluralize_attr_name(attr_name: str) -> str:
+    """Convert an attribute name to plural form.
+
+    This handles common English pluralization patterns:
+    - Words ending with 'y' → replace with 'ies' (e.g., 'entity' → 'entities')
+    - Words ending with 's', 'x', 'z', 'ch', 'sh' → add 'es' (e.g., 'class' → 'classes', 'bus' → 'buses')
+    - For other cases, add 's' (e.g., 'item' → 'items')
+
+    Args:
+        attr_name: Singular attribute name
+
+    Returns:
+        Plural form of the attribute name
+    """
+    # Handle 'y' → 'ies' (e.g., entity/entities, priority/priorities)
+    if attr_name.endswith('y'):
+        return attr_name[:-1] + 'ies'
+    # Handle 's', 'x', 'z', 'ch', 'sh' → add 'es' (e.g., class/classes, bus/buses)
+    if attr_name.endswith(('s', 'x', 'z', 'ch', 'sh')):
+        return attr_name + 'es'
+    # For other cases, just add 's'
+    return attr_name + 's'
+
+
+def _singularize_attr_name(attr_name: str) -> str:
+    """Convert a plural attribute name to singular form.
+
+    This handles common English pluralization patterns:
+    - Words ending with 'ies' → replace with 'y' (e.g., 'entities' → 'entity')
+    - Words ending with 'ses' → remove 'es' (e.g., 'buses' → 'bus')
+    - Words ending with 'es' (not 'ses') → remove 'es' (e.g., 'classes' → 'class')
+    - Words ending with 's' → remove 's' (e.g., 'items' → 'item')
+    - For other cases, return as-is
+
+    Args:
+        attr_name: Plural attribute name
+
+    Returns:
+        Singular form of the attribute name
+    """
+    # Handle 'ies' → 'y' (e.g., entity/entities, priority/priorities)
+    if attr_name.endswith('ies'):
+        return attr_name[:-3] + 'y'
+    # Handle 'ses' → 's' (e.g., buses/bus, status/status)
+    if attr_name.endswith('ses'):
+        return attr_name[:-2]
+    # Handle 'es' → '' (e.g., class/classes, box/boxes)
+    if attr_name.endswith('es'):
+        return attr_name[:-2]
+    # Handle simple 's' → '' (e.g., item/items, element/elements)
+    if attr_name.endswith('s'):
+        return attr_name[:-1]
+    # Return as-is if no known pattern
+    return attr_name
+
+
 def _format_attr_comment(note: str) -> str:
     """Format attribute note as multi-line comment based on periods.
 
@@ -227,15 +295,17 @@ def _generate_init_code(
         super().__init__()'''
 
 
-def _generate_docstring(class_info: Dict[str, Any]) -> str:
+def _generate_docstring(class_info: Dict[str, Any], package_path: str = '') -> str:
     """Generate class docstring from requirements.
 
     Args:
         class_info: Class information dictionary from requirements
+        package_path: Full package path (e.g., 'M2::AUTOSARTemplates::...')
 
     Returns:
         Formatted docstring
     """
+    class_name = class_info.get('name', '')
     note = class_info.get('note', '')
     sources = class_info.get('sources', [])
 
@@ -246,6 +316,10 @@ def _generate_docstring(class_info: Dict[str, Any]) -> str:
         # Wrap the note line if it's too long
         wrapped_note = _wrap_docstring_line(f'    {note}')
         docstring_lines.extend(wrapped_note)
+
+    if package_path:
+        docstring_lines.append('    ')
+        docstring_lines.append(f'    Package: {package_path}::{class_name}')
 
     if sources:
         docstring_lines.append('    ')
@@ -303,11 +377,10 @@ def _generate_attribute_initialization(
                 attr_note = f"Type: {original_type}"
 
         # Determine Python attribute name (plural for lists)
-        py_attr_name = (
-            attr_name + 's' if not attr_name.endswith('s') else attr_name
-            if multiplicity == '*'
-            else attr_name
-        )
+        if _is_multiple_multiplicity(multiplicity):
+            py_attr_name = _pluralize_attr_name(attr_name)
+        else:
+            py_attr_name = attr_name
 
         if multiplicity == '*':
             if is_ref:
@@ -446,7 +519,7 @@ def _generate_add_create_method(
     """
     if should_use_create:
         # Generate createXxxx method for owned child objects
-        singular_attr_name = attr_name if not attr_name.endswith('s') else attr_name[:-1]
+        singular_attr_name = _singularize_attr_name(py_attr_name)
         child_type = actual_type if '[' not in actual_type else actual_type.split('[')[0].strip('"')
 
         return f'''    def create{singular_attr_name[0].upper()}{singular_attr_name[1:]}(self, short_name: str) -> {child_type}:
@@ -462,7 +535,7 @@ def _generate_add_create_method(
 '''
     else:
         # Generate addXxxx method for references or existing objects
-        singular_attr_name = attr_name if not attr_name.endswith('s') else attr_name[:-1]
+        singular_attr_name = _singularize_attr_name(py_attr_name)
 
         if is_ref:
             value_type = 'RefType'
@@ -505,11 +578,10 @@ def _generate_methods(
         is_self_reference = (attr_type == class_name)
 
         # Determine Python attribute name (plural for lists)
-        py_attr_name = (
-            attr_name + 's' if not attr_name.endswith('s') else attr_name
-            if multiplicity == '*'
-            else attr_name
-        )
+        if _is_multiple_multiplicity(multiplicity):
+            py_attr_name = _pluralize_attr_name(attr_name)
+        else:
+            py_attr_name = attr_name
 
         # Map is_ref to RefType
         if is_ref:
@@ -530,9 +602,11 @@ def _generate_methods(
         # Add add or create method for list attributes based on kind
         if multiplicity == '*':
             attr_kind = attr_info.get('kind', 'attribute')
+            # Only use create method if type is not Any (cannot instantiate Any)
             should_use_create = (
                 attr_kind == 'attribute' and
                 not is_ref and
+                actual_type != 'Any' and
                 _should_have_create_methods(class_name, parent)
             )
 
@@ -570,7 +644,7 @@ def generate_class_code(
     imports = type_resolver.generate_imports(class_info, package_path, project_root, requirements_dir, class_name)
 
     # Generate docstring
-    docstring = _generate_docstring(class_info)
+    docstring = _generate_docstring(class_info, package_path)
 
     # Class declaration
     bases = [parent]

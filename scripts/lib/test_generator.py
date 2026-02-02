@@ -8,13 +8,17 @@ This module handles generation of pytest test cases for AUTOSAR classes.
 from pathlib import Path
 from typing import Dict, List, Any
 
+# Import pluralization helper from code_generator
+from . import code_generator
+
 
 def generate_test_case(
     class_name: str,
     class_info: Dict[str, Any],
     package_path: str,
     module_path: str,
-    requirements_dir: Path
+    requirements_dir: Path,
+    project_root: Path
 ) -> str:
     """Generate pytest test case code for a generated class.
 
@@ -24,6 +28,7 @@ def generate_test_case(
         package_path: Full package path (e.g., 'M2::AUTOSARTemplates::...')
         module_path: Python module path for import
         requirements_dir: Path to requirements directory
+        project_root: Root directory of the project
 
     Returns:
         Generated test code
@@ -64,12 +69,11 @@ class Test{class_name}:
             attr_type = attr_info.get('type', 'Any')
             multiplicity = attr_info.get('multiplicity', '1')
 
-            # Determine Python attribute name
-            py_attr_name = (
-                attr_name + 's' if not attr_name.endswith('s') else attr_name
-                if multiplicity == '*'
-                else attr_name
-            )
+            # Determine Python attribute name using helper function
+            if code_generator._is_multiple_multiplicity(multiplicity):
+                py_attr_name = code_generator._pluralize_attr_name(attr_name)
+            else:
+                py_attr_name = attr_name
 
             # Determine object instantiation pattern
             if has_short_name_init:
@@ -83,7 +87,7 @@ class Test{class_name}:
 
             if multiplicity == '*':
                 test_code += _generate_list_attribute_tests(
-                    class_name, attr_name, py_attr_name, attr_info, parent, setup_code, obj_instantiation
+                    class_name, attr_name, py_attr_name, attr_info, parent, setup_code, obj_instantiation, requirements_dir, project_root
                 )
             else:
                 test_code += _generate_single_attribute_tests(
@@ -160,7 +164,9 @@ def _generate_list_attribute_tests(
     attr_info: Dict[str, Any],
     parent: str,
     setup_code: str,
-    obj_instantiation: str
+    obj_instantiation: str,
+    requirements_dir: Path,
+    project_root: Path
 ) -> str:
     """Generate tests for list-type attributes.
 
@@ -172,34 +178,36 @@ def _generate_list_attribute_tests(
         parent: Parent class name
         setup_code: Setup code for AUTOSAR document
         obj_instantiation: Object instantiation code
+        requirements_dir: Path to requirements directory
+        project_root: Root directory of the project
 
     Returns:
         Test method code
     """
-    from . import code_generator
+    from . import code_generator, type_resolver
 
     # Compute singular form for create/add method names
-    singular_attr = attr_name if not attr_name.endswith('s') else attr_name[:-1]
+    singular_attr = code_generator._singularize_attr_name(py_attr_name)
     singular_capitalized = singular_attr[0].upper() + singular_attr[1:]
 
-    return f'''
-    def test_get_{attr_name}(self):
-        """Test getting {attr_name} list."""
-{setup_code}{obj_instantiation}
+    # Get the actual type to check if it's Any or will be downgraded to Any
+    attr_type = attr_info.get('type', 'Any')
+    is_ref = attr_info.get('is_ref', False)
 
-        result = obj.get{py_attr_name[0].upper()}{py_attr_name[1:]}()
-        assert isinstance(result, list)
+    # Check if type exists in codebase or requirements
+    # If not, it will be downgraded to Any and we should skip the add/create test
+    type_exists = (
+        attr_type == 'Any' or
+        is_ref or
+        type_resolver.find_type_in_codebase_cached(project_root, attr_type) is not None
+    )
 
-    def test_set_{attr_name}(self):
-        """Test setting {attr_name} list."""
-{setup_code}{obj_instantiation}
+    # Check if we should skip the add/create test (when type doesn't exist or is Any)
+    should_skip_add_test = not type_exists
 
-        test_value = []
-        result = obj.set{py_attr_name[0].upper()}{py_attr_name[1:]}(test_value)
-
-        assert result == obj
-        assert obj.get{py_attr_name[0].upper()}{py_attr_name[1:]}() == test_value
-
+    add_test = ''
+    if not should_skip_add_test:
+        add_test = f'''
     def test_add_{attr_name}(self):
         """Test adding/creating {attr_name}."""
 {setup_code}{obj_instantiation}
@@ -220,6 +228,25 @@ def _generate_list_attribute_tests(
             assert result == obj
         assert len(obj.get{py_attr_name[0].upper()}{py_attr_name[1:]}()) >= initial_count
 '''
+
+    return f'''
+    def test_get_{attr_name}(self):
+        """Test getting {attr_name} list."""
+{setup_code}{obj_instantiation}
+
+        result = obj.get{py_attr_name[0].upper()}{py_attr_name[1:]}()
+        assert isinstance(result, list)
+
+    def test_set_{attr_name}(self):
+        """Test setting {attr_name} list."""
+{setup_code}{obj_instantiation}
+
+        test_value = []
+        result = obj.set{py_attr_name[0].upper()}{py_attr_name[1:]}(test_value)
+
+        assert result == obj
+        assert obj.get{py_attr_name[0].upper()}{py_attr_name[1:]}() == test_value
+{add_test}'''
 
 
 def _generate_single_attribute_tests(
