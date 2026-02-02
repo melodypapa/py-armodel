@@ -6,20 +6,20 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-77.2%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-71.6%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23307 | 30169 | **77.25%** |
+| **Lines** | 23375 | 32654 | **71.58%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
 
 | Module | Files | Line Coverage |
 |--------|-------|---------------|
-| **.venv** | 266 | 77.3% |
+| **.venv** | 301 | 71.6% |
 
 ### Files Needing Attention
 
@@ -37,6 +37,7 @@
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
 | `cli/uuid_checker_cli` | 0.0% | 0.0% |
+| `AUTOSARTemplates/AutosarTopLevelStructure` | 0.0% | 0.0% |
 | `BswModuleTemplate/BswOverview` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
 | `CommonStructure/ModeDeclarationExtra` | 0.0% | 0.0% |
@@ -46,17 +47,16 @@
 | `MeasurementCalibrationSupport/McFunction` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McParameterElementGroup` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McSupportData` | 0.0% | 0.0% |
-| `MeasurementCalibrationSupport/McSwEmulationMethodSupport` | 0.0% | 0.0% |
 
 ## Integration Test Coverage
 
-![coverage](https://img.shields.io/badge/integration-77.7%25-yellow)
+![coverage](https://img.shields.io/badge/integration-71.6%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23436 | 30169 | **77.68%** |
+| **Lines** | 23375 | 32654 | **71.58%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ---
