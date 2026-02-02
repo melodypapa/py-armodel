@@ -8,8 +8,8 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### Classes
 - **Required**: 1623
-- **Implemented**: 512
-- **Missing**: 1111
+- **Implemented**: 513
+- **Missing**: 1110
 - **Extra**: 519
 
 ### Enumerations
@@ -31,7 +31,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ## Packages with Problems
 
-**Total packages with issues**: 221 out of 257
+**Total packages with issues**: 220 out of 257
 
 ### M2::AUTOSARTemplates::AbstractPlatform
 
@@ -51,7 +51,6 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### M2::AUTOSARTemplates::BswModuleTemplate
 
-- **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview**: 1 missing classes
 - **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs**: 1 missing classes
 - **M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces**: 2 missing classes, 1 missing enums, 3 literal mismatches
 - **M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior**: 9 missing classes
@@ -313,14 +312,14 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing, 1 extra
+- Classes: 1/1 implemented, 1 extra
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | BswModuleDescription | - | Not found in implementation |
+| ✅ Implemented | BswModuleDescription | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/BswModuleDescription.py | Line 22 |
 | ➕ Extra | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs
@@ -328,6 +327,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InstanceRefs/
 
 #### Classes
 
@@ -340,6 +343,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 3/5 implemented, 2 missing, 4 extra
 - Enums: 3/4 implemented, 1 missing, 3 literal mismatches, 1 extra
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both BswInterfaces.py and BswInterfaces/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -370,6 +377,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 28/37 implemented, 9 missing, 2 extra
 - Enums: 1/1 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -439,6 +450,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/0 implemented, 33 extra
 - Enums: 2/4 implemented, 2 missing, 1 literal mismatches
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both PrimitiveTypes.py and PrimitiveTypes/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -505,6 +520,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory MultidimensionalTime/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -516,6 +535,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 2/4 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ARPackage.py and ARPackage/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -531,6 +554,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 4/6 implemented, 2 missing, 3 extra
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Identifiable.py and Identifiable/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -564,6 +591,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory GeneralAnnotation/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -576,6 +607,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TagWithOptionalValue/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -587,6 +622,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 1/2 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ElementCollection.py and ElementCollection/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -606,6 +645,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/12 implemented, 12 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SpecialDataDef/
 
 #### Classes
 
@@ -629,6 +672,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ModelRestrictionTypes/
 
 #### Classes
 
@@ -661,6 +708,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/8 implemented, 8 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory BuildActionManifest/
 
 #### Classes
 
@@ -710,6 +761,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/13 implemented, 13 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory AttributeValueVariationPoints/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -733,6 +788,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DocumentationOnM1/
 
 #### Classes
 
@@ -772,6 +831,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ViewMapSet/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -785,6 +848,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory FormulaLanguage/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -796,6 +863,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/5 implemented, 5 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory RolesAndRights/
 
 #### Classes
 
@@ -818,6 +889,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 3/5 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both LifeCycles.py and LifeCycles/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -846,6 +921,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 5/7 implemented, 2 missing, 1 extra
 - Enums: 1/2 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ModeDeclaration.py and ModeDeclaration/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -1020,6 +1099,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ExecutionTime/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1076,6 +1159,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/8 implemented, 8 missing
 - Enums: 0/4 implemented, 4 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory RptSupport/
 
 #### Classes
 
@@ -1264,6 +1351,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/23 implemented, 23 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Constants/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1298,6 +1389,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/7 implemented, 7 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory AbstractBlueprintStructure/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1315,6 +1410,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Port/
 
 #### Classes
 
@@ -1341,6 +1440,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory BlueprintMapping/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1352,6 +1455,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory BlueprintGenerator/
 
 #### Classes
 
@@ -1528,6 +1635,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SignalServiceTranslation/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1568,6 +1679,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/7 implemented, 7 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TimingExtensions/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1585,6 +1700,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TimingCondition/
 
 #### Classes
 
@@ -1616,6 +1735,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/30 implemented, 30 missing
 - Enums: 0/12 implemented, 12 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TimingDescription/
 
 #### Classes
 
@@ -1860,6 +1983,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TimingCpSoftwareCluster/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1873,6 +2000,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TimingClock/
 
 #### Classes
 
@@ -1936,6 +2067,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/3 implemented, 2 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both AccessCount.py and AccessCount/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1970,6 +2105,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/4 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ServerCall.py and ServerCall/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -1984,6 +2123,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both DataElements.py and DataElements/ exist. Requirements say this is a non-leaf package. Expected: directory.
 
 #### Classes
 
@@ -2021,6 +2164,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 2/2 implemented, 1 extra
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Trigger.py and Trigger/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2035,6 +2182,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 3/3 implemented
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ModeDeclarationGroup.py and ModeDeclarationGroup/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2048,6 +2199,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 13/18 implemented, 5 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both RTEEvents.py and RTEEvents/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -2077,6 +2232,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 2/4 implemented, 2 missing
 - Enums: 0/3 implemented, 3 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both PortAPIOptions.py and PortAPIOptions/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -2137,6 +2296,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both IncludedDataTypes.py and IncludedDataTypes/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2148,6 +2311,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory VariantHandling/
 
 #### Classes
 
@@ -2179,6 +2346,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 8/8 implemented
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Datatypes.py and Datatypes/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2203,6 +2374,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 2/9 implemented, 7 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both RPTScenario.py and RPTScenario/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -2229,6 +2404,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory NvBlockComponent/
 
 #### Classes
 
@@ -2385,6 +2564,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/2 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both SwcImplementation.py and SwcImplementation/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2442,6 +2625,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 21/23 implemented, 2 missing, 6 extra
 - Enums: 5/5 implemented, 5 literal mismatches
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Communication.py and Communication/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2491,6 +2678,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/10 implemented, 10 missing
 - Enums: 0/5 implemented, 5 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ApplicationAttributes/
 
 #### Classes
 
@@ -2553,6 +2744,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InstanceRef/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2568,6 +2763,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InterpolationRoutine/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2582,6 +2781,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CalibrationParameter/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2594,6 +2797,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory AutosarTopLevelStructure/
 
 #### Classes
 
@@ -2943,6 +3150,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/4 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both DiagnosticConnection.py and DiagnosticConnection/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3048,6 +3259,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 8/10 implemented, 2 missing, 18 extra
 - Enums: 2/2 implemented, 1 literal mismatches, 3 extra
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both CoreTopology.py and CoreTopology/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3096,6 +3311,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/41 implemented, 41 missing
 - Enums: 0/11 implemented, 11 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both CoreCommunication.py and CoreCommunication/ exist. Requirements say this is a non-leaf package. Expected: directory.
 
 #### Classes
 
@@ -3165,6 +3384,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/10 implemented, 10 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Timing/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3185,6 +3408,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 11/79 implemented, 68 missing, 3 extra
 - Enums: 0/16 implemented, 16 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both EthernetTopology.py and EthernetTopology/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3300,6 +3527,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 8/20 implemented, 12 missing, 8 extra
 - Enums: 0/6 implemented, 6 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ServiceInstances.py and ServiceInstances/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3350,6 +3581,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/25 implemented, 25 missing
 - Enums: 0/7 implemented, 7 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Dds/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3398,6 +3633,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory IPv6HeaderFilterList/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3411,6 +3650,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TcpOptionFilterSet/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3423,6 +3666,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 2/5 implemented, 3 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both EthernetFrame.py and EthernetFrame/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3440,6 +3687,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ObsoleteModel/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3452,6 +3703,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 10/17 implemented, 7 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both CanTopology.py and CanTopology/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3481,6 +3736,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 3/4 implemented, 1 missing
 - Enums: 0/3 implemented, 3 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both CanCommunication.py and CanCommunication/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3504,6 +3763,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TtcanTopology/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3518,6 +3781,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory TtcanCommunication/
 
 #### Classes
 
@@ -3536,6 +3803,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 3/6 implemented, 3 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both FlexrayTopology.py and FlexrayTopology/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3574,6 +3845,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 3/10 implemented, 7 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both LinTopology.py and LinTopology/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3594,6 +3869,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 8/20 implemented, 12 missing, 1 extra
 - Enums: 1/3 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both LinCommunication.py and LinCommunication/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3634,6 +3913,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CddSupport/
 
 #### Classes
 
@@ -3703,6 +3986,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/12 implemented, 12 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory BinaryManifest/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3725,6 +4012,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 3/22 implemented, 19 missing
 - Enums: 0/13 implemented, 13 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both SecureCommunication.py and SecureCommunication/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3776,6 +4067,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 21/23 implemented, 2 missing
 - Enums: 0/3 implemented, 3 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both NetworkManagement.py and NetworkManagement/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3864,6 +4159,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InstanceRef/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3878,6 +4177,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 9/12 implemented, 3 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both DataMapping.py and DataMapping/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3908,6 +4211,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory EndToEndProtection/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3919,6 +4226,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 1/3 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ECUResourceMapping.py and ECUResourceMapping/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3933,6 +4244,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 2/12 implemented, 10 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both SWmapping.py and SWmapping/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -3963,6 +4278,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/6 implemented, 5 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both RteEventToOsTaskMapping.py and RteEventToOsTaskMapping/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -3985,6 +4304,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/7 implemented, 7 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SignalPaths/
 
 #### Classes
 
@@ -4010,6 +4333,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory PncMapping/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4023,6 +4350,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory GeneralPurposeConnection/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4034,6 +4365,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 3/6 implemented, 3 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both DoIP.py and DoIP/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -4051,6 +4386,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/32 implemented, 32 missing
 - Enums: 0/4 implemented, 4 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both TransportProtocols.py and TransportProtocols/ exist. Requirements say this is a non-leaf package. Expected: directory.
 
 #### Classes
 
@@ -4119,6 +4458,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/9 implemented, 9 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory IEEE1722TpAv/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4148,6 +4491,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory IEEE1722TpAcf/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4170,6 +4517,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/9 implemented, 9 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory BusMirror/
 
 #### Classes
 
@@ -4196,6 +4547,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Dlt/
 
 #### Classes
 
@@ -4244,6 +4599,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CAN/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4257,6 +4616,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ETH/
 
 #### Classes
 
@@ -4282,6 +4645,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory FR/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4295,6 +4662,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory UserDefined/
 
 #### Classes
 
@@ -4325,6 +4696,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/18 implemented, 18 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CommonDiagnostics/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4354,6 +4729,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/4 implemented, 3 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both DiagnosticContribution.py and DiagnosticContribution/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4375,6 +4754,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/3 implemented, 3 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticCommonProps/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4394,6 +4777,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/8 implemented, 8 missing
 - Enums: 0/6 implemented, 6 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticTroubleCode/
 
 #### Classes
 
@@ -4425,6 +4812,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/8 implemented, 8 missing
 - Enums: 0/5 implemented, 5 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticEvent/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4454,6 +4845,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/4 implemented, 4 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticMemoryDestination/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4477,6 +4872,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticExtendedDataRecord/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4488,6 +4887,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticFreezeFrame/
 
 #### Classes
 
@@ -4507,6 +4910,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticCondition/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4520,6 +4927,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticDebouncingAlgorithm/
 
 #### Classes
 
@@ -4539,6 +4950,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticConditionGroup/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4552,6 +4967,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticOperationCycle/
 
 #### Classes
 
@@ -4571,6 +4990,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticAging/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4582,6 +5005,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticIndicator/
 
 #### Classes
 
@@ -4600,6 +5027,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticTestResult/
 
 #### Classes
 
@@ -4643,6 +5074,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CommonService/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4657,6 +5092,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CustomServiceInstance/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4668,6 +5107,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SessionControl/
 
 #### Classes
 
@@ -4682,6 +5125,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SecurityAccess/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4694,6 +5141,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/9 implemented, 9 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Authentication/
 
 #### Classes
 
@@ -4715,6 +5166,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory EcuReset/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4734,6 +5189,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CommunicationControl/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4749,6 +5208,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ControlDTCSetting/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4761,6 +5224,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/7 implemented, 7 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DataByIdentifier/
 
 #### Classes
 
@@ -4780,6 +5247,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory IOControl/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4794,6 +5265,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory RoutineControl/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4806,6 +5281,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DynamicallyDefineDataIdentifier/
 
 #### Classes
 
@@ -4820,6 +5299,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/0 implemented
 - Enums: 0/2 implemented, 2 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DynamicallyDefineData/
+
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
@@ -4832,6 +5315,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ReadDataByPeriodicID/
 
 #### Classes
 
@@ -4852,6 +5339,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ResponseOnEvent/
 
 #### Classes
 
@@ -4874,6 +5365,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ReadDTCInformation/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4887,6 +5382,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ClearDiagnosticInfo/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4899,6 +5398,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/15 implemented, 15 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory MemoryByAddress/
 
 #### Classes
 
@@ -4926,6 +5429,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory RequestFileTransfer/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4938,6 +5445,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/10 implemented, 10 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory EnvironmentalCondition/
 
 #### Classes
 
@@ -4967,6 +5478,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x01_RequestCurrentPowertrain/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -4979,6 +5494,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x02_RequestPowertrainFreeze/
 
 #### Classes
 
@@ -4994,6 +5513,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x03_0x07_RequestEmission/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5006,6 +5529,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x04_ClearResetEmission/
 
 #### Classes
 
@@ -5020,6 +5547,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x06_RequestOnBoard/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5032,6 +5563,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x08_RequestControlOfOnBoard/
 
 #### Classes
 
@@ -5047,6 +5582,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x09_RequestVehicleInformation/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5059,6 +5598,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Mode_0x0A_RequestEmissionRelated/
 
 #### Classes
 
@@ -5101,6 +5644,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/8 implemented, 8 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ServiceMapping/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5120,6 +5667,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory FimMapping/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5132,6 +5683,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DiagnosticJ1939Mapping/
 
 #### Classes
 
@@ -5147,6 +5702,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CpSoftwareCluster/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5161,6 +5720,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Fim/
 
 #### Classes
 
@@ -5185,6 +5748,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory J1939/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5200,6 +5767,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InstanceRefs/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5213,6 +5784,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/24 implemented, 24 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SecurityExtractTemplate/
 
 #### Classes
 
@@ -5280,6 +5855,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 3/5 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both HwElementCategory.py and HwElementCategory/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5295,6 +5874,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/7 implemented, 7 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory LogAndTraceExtract/
 
 #### Classes
 
@@ -5314,6 +5897,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Firewall/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5328,6 +5915,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CryptoDeployment/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5339,6 +5930,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory IntrusionDetectionSystem/
 
 #### Classes
 
@@ -5353,6 +5948,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory AdaptiveModule/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5364,6 +5963,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory PortInterface/
 
 #### Classes
 
@@ -5377,6 +5980,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory AbstractPlatform/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5389,6 +5996,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/17 implemented, 17 missing
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory FeatureModelTemplate/
 
 #### Classes
 
@@ -5424,6 +6035,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 1/1 implemented
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ServiceProcessTask.py and ServiceProcessTask/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5441,6 +6056,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 4/7 implemented, 3 missing, 2 extra
 - Enums: 1/3 implemented, 2 missing, 1 literal mismatches
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both DataDefProperties.py and DataDefProperties/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5469,6 +6088,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 1/1 implemented
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both AuxillaryObjects.py and AuxillaryObjects/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5501,6 +6124,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 3/3 implemented
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both CalibrationParameter.py and CalibrationParameter/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5521,6 +6148,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 4/6 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Axis.py and Axis/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5537,6 +6168,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory DatadictionaryProxies/
 
 #### Classes
 
@@ -5565,6 +6200,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 15/16 implemented, 1 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both ComputationMethod.py and ComputationMethod/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5608,6 +6247,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 4/5 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both GlobalConstraints.py and GlobalConstraints/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5624,6 +6267,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 3/5 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both SpecialData.py and SpecialData/ exist. Requirements say this is a leaf package. Expected: single file.
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5639,6 +6286,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 3/5 implemented, 2 missing, 1 extra
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Units.py and Units/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5695,6 +6346,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/3 implemented, 3 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory RequirementsTracing/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5709,6 +6364,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Formula/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5720,6 +6379,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/7 implemented, 7 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ListElements/
 
 #### Classes
 
@@ -5745,6 +6408,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 4/5 implemented, 1 missing, 1 extra
 - Enums: 1/4 implemented, 3 missing, 1 literal mismatches
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both Figure.py and Figure/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5772,6 +6439,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/1 implemented, 1 missing
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Note/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5789,6 +6460,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/2 implemented, 2 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory PaginationAndView/
 
 #### Classes
 
@@ -5809,6 +6484,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/5 implemented, 5 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory OasisExchangeTable/
 
 #### Classes
 
@@ -5837,6 +6516,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory GerneralParameters/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5848,6 +6531,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 4/5 implemented, 1 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both MultilanguageData.py and MultilanguageData/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5864,6 +6551,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 5/7 implemented, 2 missing, 1 extra
 - Enums: 0/1 implemented, 1 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both LanguageDataModel.py and LanguageDataModel/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -5890,6 +6581,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory SingleLanguageData/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5904,6 +6599,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InlineTextModel/
 
 #### Classes
 
@@ -5921,6 +6620,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/9 implemented, 9 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InlineTextElements/
 
 #### Classes
 
@@ -5941,6 +6644,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 0/0 implemented
 - Enums: 0/12 implemented, 12 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InlineAttributeEnums/
 
 #### Enumerations
 
@@ -5978,6 +6685,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/9 implemented, 9 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Chapters/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -5998,6 +6709,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - Classes: 0/8 implemented, 8 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory MsrQuery/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -6016,6 +6731,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 **Summary:**
 - Classes: 2/4 implemented, 2 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Hybrid structure: both CalibrationValue.py and CalibrationValue/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 

@@ -53,3 +53,59 @@ where = ["src"]
 
 [tool.setuptools.dynamic]
 version = {attr = "armodel.__version__"}
+
+[tool.ruff]
+# Exclude common directories
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+# Line length to match coding standards (79 chars per PEP 8)
+# CI warns at 127 but standard is 79 per CODING_RULE_LAYOUT_00002
+line-length = 79
+
+# Target Python version (ruff minimum is py37, project requires >=3.5)
+target-version = "py37"
+
+[tool.ruff.lint]
+# Enable rules based on coding standards
+# E: pycodestyle errors
+# W: pycodestyle warnings
+# F: Pyflakes
+# I: isort (import sorting)
+# N: pep8-naming (except N802 for AUTOSAR camelCase methods)
+# B: flake8-bugbear
+# C4: flake8-comprehensions
+# SIM: flake8-simplify
+select = ["E", "W", "F", "I", "N", "B", "C4", "SIM"]
+
+# Ignore wildcard import violations for M2 model structure
+# This is intentional per project coding rules (CODING_RULE_STYLE_00008)
+# Also ignore AUTOSAR camelCase methods (N802) - they follow AUTOSAR standard
+# Also ignore module naming (N999) - AUTOSAR modules use PascalCase
+# Also ignore pyupgrade (UP) - project requires Python 3.5+ compatibility
+ignore = [
+    "F403",  # Wildcard import used; unable to detect undefined names
+    "F405",  # Names used from wildcard import without being defined
+    "N802",  # AUTOSAR methods use camelCase (not snake_case)
+    "N999",  # AUTOSAR modules use PascalCase (not lowercase_with_underscores)
+    "UP",    # Pyupgrade suggestions - project maintains 3.5+ compatibility
+]
+
+# Configure specific rule settings
+[tool.ruff.lint.per-file-ignores]
+# Allow unused imports in __init__.py files (wildcard export pattern)
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.isort]
+# Import order: Standard library → Third-party → Local (CODING_RULE_IMPORT_00001)
+known-first-party = ["armodel"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.pycodestyle]
+# Max docstring length: 72 characters (CODING_RULE_LAYOUT_00002)
+max-doc-length = 72

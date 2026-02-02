@@ -2,6 +2,7 @@ import pytest
 import tempfile
 import os
 import xml.etree.cElementTree as ET
+from unittest.mock import patch
 
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -361,13 +362,13 @@ class TestAbstractARXMLWriter:
         packages = ET.SubElement(root, "AR-PACKAGES")
         pkg = ET.SubElement(packages, "AR-PACKAGE", {"UUID": "pkg-uuid"})
         ET.SubElement(pkg, "SHORT-NAME").text = "TestPackage"
-        
+
         with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.arxml') as tmp:
             tmp_path = tmp.name
-        
+
         try:
             writer.saveToFile(tmp_path, root)
-            
+
             with open(tmp_path, 'r', encoding='utf-8') as f:
                 content = f.read()
             assert 'TestPackage' in content
@@ -375,6 +376,37 @@ class TestAbstractARXMLWriter:
         finally:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
+
+    def test_save_to_file_python_3_9_branch(self):
+        """Test saveToFile uses Python 3.9 branch (line 135) for version <= 3.9
+
+        This test ensures the branch at line 134-135 is covered. Since Python 3.9.6
+        satisfies (3,9,6) <= (3,9), the first branch is taken.
+        """
+        import sys
+        original_version_info = sys.version_info
+
+        # Mock version_info to simulate Python 3.9.x
+        with patch.object(sys, 'version_info', (3, 9, 0, 'final', 0)):
+            writer = ConcreteARXMLWriter()
+            root = ET.Element("TEST")
+            ET.SubElement(root, "CHILD").text = "content"
+
+            with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.arxml') as tmp:
+                tmp_path = tmp.name
+
+                try:
+                    writer.saveToFile(tmp_path, root)
+
+                    # Verify file was created and has content
+                    assert os.path.exists(tmp_path)
+                    with open(tmp_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    assert '<TEST>' in content
+                    assert '<CHILD>content</CHILD>' in content
+                finally:
+                    if os.path.exists(tmp_path):
+                        os.remove(tmp_path)
 
 
 class TestARXMLWriterIntegration:

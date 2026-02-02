@@ -251,27 +251,27 @@ def package_path_to_python_path(
 ) -> Tuple[Optional[Path], Optional[Path]]:
     """
     Convert a package path to Python file/directory path.
-    
+
     Returns a tuple of (file_path, directory_path). Either or both may be non-None.
-    
-    The function checks requirements to determine the expected package structure:
-    - Packages with subpackages: Should be a directory with __init__.py
-    - Packages without subpackages (leaf packages): Should be a single .py file
-    
+
+    This function scans what ACTUALLY exists on the filesystem, regardless of
+    what the requirements say the structure should be. Structure mismatch detection
+    is handled separately in scan_implementation().
+
     Args:
         package_path: Package path (e.g., M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior)
         project_root: Root directory of the project
-        requirements_dir: Path to requirements directory (optional, used to check expected structure)
-    
+        requirements_dir: Path to requirements directory (optional, used for structure mismatch detection)
+
     Returns:
         (file_path, directory_path) tuple
-    
+
     Examples:
-        M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior (leaf package)
-        -> (BswBehavior.py file, None) if file exists
+        M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior (implemented as directory)
+        -> (None, BswBehavior/ directory) if directory exists
         -> (None, None) if not found
-        
-        M2::AUTOSARTemplates::BswModuleTemplate::BswOverview (has subpackages)
+
+        M2::AUTOSARTemplates::BswModuleTemplate::BswOverview (implemented as directory)
         -> (None, BswOverview/ directory) if directory exists
         -> (None, None) if not found
     """
@@ -284,23 +284,22 @@ def package_path_to_python_path(
     
     # Build full path
     python_path = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative_path
-    
-    # Check requirements for expected structure if provided
-    has_subpackages = False
+
+    # Check what actually exists on the filesystem
+    # This is the primary check - we scan whatever is actually implemented
+    py_file = python_path.with_suffix('.py')
+    file_path = py_file if py_file.exists() else None
+    dir_path = python_path if python_path.is_dir() else None
+
+    # If requirements_dir is provided, check for expected structure for reporting
+    # But don't let it prevent us from scanning what actually exists
+    expected_has_subpackages = None
     if requirements_dir:
         full_package_path = 'M2::' + package_path.replace('/', '::')
-        has_subpackages = get_package_has_subpackages(requirements_dir, full_package_path)
-    
-    # Based on requirements, determine what to look for
-    if has_subpackages:
-        # Non-leaf package: should be a directory
-        dir_path = python_path if python_path.is_dir() else None
-        file_path = None
-    else:
-        # Leaf package: should be a single .py file
-        py_file = python_path.with_suffix('.py')
-        file_path = py_file if py_file.exists() else None
-        dir_path = None
+        expected_has_subpackages = get_package_has_subpackages(requirements_dir, full_package_path)
+
+    # Note: Structure mismatch detection is done in scan_implementation()
+    # This function just returns what actually exists
     
     # Not found
     if not file_path and not dir_path:
@@ -445,7 +444,8 @@ def scan_implementation(
     
     Returns: {
         'classes': {class_name: {is_abstract, bases, line_number, location}},
-        'enumerations': {enum_name: {literals, line_number, location}}
+        'enumerations': {enum_name: {literals, line_number, location}},
+        'structure_mismatch': str (optional) - description of structure mismatch if any
     }
     """
     result = {
@@ -454,6 +454,39 @@ def scan_implementation(
     }
     
     file_path, dir_path = package_path_to_python_path(package_path, project_root, requirements_dir)
+    
+    # Check for structure mismatch
+    if requirements_dir:
+        # Remove M2:: prefix (4 characters)
+        pkg_path_check = package_path[4:] if package_path.startswith('M2::') else package_path
+        relative_path = pkg_path_check.replace('::', '/')
+        python_path = project_root / 'src' / 'armodel' / 'models' / 'M2' / relative_path
+        
+        py_file = python_path.with_suffix('.py')
+        py_file_exists = py_file.exists()
+        dir_exists = python_path.is_dir()
+        
+        has_subpackages = get_package_has_subpackages(requirements_dir, package_path)
+        
+        # Check for hybrid structure (both file and directory exist)
+        if py_file_exists and dir_exists:
+            result['structure_mismatch'] = (
+                f"Hybrid structure: both {py_file.name} and {python_path.name}/ exist. "
+                f"Requirements say this is a {'non-leaf' if has_subpackages else 'leaf'} package. "
+                f"Expected: {'directory' if has_subpackages else 'single file'}."
+            )
+        # Check for wrong structure
+        elif has_subpackages and py_file_exists and not dir_exists:
+            result['structure_mismatch'] = (
+                f"Wrong structure: Package should be a directory (has subpackages) "
+                f"but is implemented as a single file {py_file.name}"
+            )
+        elif not has_subpackages and dir_exists and not py_file_exists:
+            result['structure_mismatch'] = (
+                f"Wrong structure: Package should be a single file (no subpackages) "
+                f"but is implemented as a directory {python_path.name}/"
+            )
+    
     if not file_path and not dir_path:
         return result
     
@@ -649,6 +682,7 @@ def compare_packages(
             'enumerations': enum_comparisons,
             'required_classes_data': required_classes,
             'required_enums_data': required_enums,
+            'structure_mismatch': implementation.get('structure_mismatch'),
             'summary': {
                 'required_classes': len(required_classes),
                 'implemented_classes': sum(1 for c in class_comparisons if c['implemented'] and c['required']),
@@ -780,6 +814,11 @@ def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str
             if summary['extra_enums'] > 0:
                 f.write(f', {summary["extra_enums"]} extra')
             f.write('\n\n')
+            
+            # Structure mismatch warning
+            if comp.get('structure_mismatch'):
+                f.write('⚠️ **Structure Mismatch Warning**\n\n')
+                f.write(f"{comp['structure_mismatch']}\n\n")
             
             # Classes table
             if comp['classes']:
