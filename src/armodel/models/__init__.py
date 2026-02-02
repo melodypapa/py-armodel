@@ -84,3 +84,72 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import *
+# Additional MSR imports
+from armodel.models.M2.MSR.CalibrationData import *
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import *
+from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import *
+from armodel.models.M2.MSR.DataDictionary.Axis import *
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import *
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import *
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import *
+from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import *
+from armodel.models.M2.MSR.DataDictionary.SystemConstant import *
+from armodel.models.M2.MSR.Documentation.BlockElements import *
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import *
+# Additional CommonStructure imports
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.SoftwareContext import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import *
+# Additional DiagnosticExtract imports
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement import *
+# ECUCParameterDefTemplate
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *
+# Additional EcuResourceTemplate imports
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import *
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import *
+# GenericStructure imports
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import *
+# Additional SWComponentTemplate imports
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import *
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import *
+# Additional SystemTemplate imports
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import *
+# utils
+from armodel.models.utils import *
+from armodel.models.utils.uuid_mgr import *
+
+# NOTE: Some classes in subdirectories with name collisions cannot be directly imported:
+# - BswBehavior/*.py files (9 classes)
+# - BswInterfaces/*.py files (3 classes)
+# - BswOverview/InstanceRefs/*.py files (1 class)
+# These are accessible via their full import paths, e.g.:
+# from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswAsynchronousServerCallReturnsEvent
+
+# Define __all__ to enable re-export of wildcard imports
+# This collects all public names (not starting with _) for re-export
+__all__ = [name for name in globals() if not name.startswith('_')]
