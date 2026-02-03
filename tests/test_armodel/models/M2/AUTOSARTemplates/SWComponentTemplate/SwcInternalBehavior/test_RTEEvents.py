@@ -205,7 +205,7 @@ class TestOperationInvokedEvent:
         assert event.operationIRef is None
         
         # Test operationIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef
         iref = POperationInAtomicSwcInstanceRef()
         event.setOperationIRef(iref)
         assert event.getOperationIRef() == iref

@@ -46,7 +46,7 @@ class TestServerCallPoint:
         # Test getOperationIRef and setOperationIRef to cover lines 20, 23-24
         assert call_point.getOperationIRef() is None
 
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ROperationInAtomicSwcInstanceRef
         operation_ref = ROperationInAtomicSwcInstanceRef()
         call_point.setOperationIRef(operation_ref)
         assert call_point.getOperationIRef() == operation_ref
