@@ -4,7 +4,7 @@ These tests ensure 100% code coverage for the HwDescriptionEntity, HwPin, HwPinG
 """
 
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, HwElement
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
 
 

@@ -2222,3 +2222,225 @@ class BswInternalBehavior(InternalBehavior):
         return self.includedDataTypeSets
 
     
+
+# ========== Classes from subdirectory files ==========
+
+"""
+This module defines BSW asynchronous server call returns event in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+class BswAsynchronousServerCallReturnsEvent(BswEvent):
+    """
+    Represents a BSW asynchronous server call returns event in AUTOSAR.
+    This event occurs when an asynchronous server call returns.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswAsynchronousServerCallReturnsEvent with default values.
+        """
+        super().__init__()
+        self.serverCallPointRef: RefType = None
+
+    def getServerCallPointRef(self):
+        return self.serverCallPointRef
+
+    def setServerCallPointRef(self, value):
+        self.serverCallPointRef = value
+        return self
+
+"""
+This module defines BSW exclusive area policy in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
+
+class BswExclusiveAreaPolicy(AREnum):
+    """
+    Enumeration for BSW exclusive area policy.
+    """
+
+    NONE = "none"
+    INTERNAL = "internal"
+    EXTERNAL = "external"
+
+    def __init__(self):
+        super().__init__((
+            BswExclusiveAreaPolicy.NONE,
+            BswExclusiveAreaPolicy.INTERNAL,
+            BswExclusiveAreaPolicy.EXTERNAL,
+        ))
+
+"""
+This module defines BSW interrupt event in AUTOSAR.
+"""
+
+
+class BswInterruptEvent(BswEvent):
+    """
+    Represents a BSW interrupt event in AUTOSAR.
+    This event occurs when an interrupt is triggered.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswInterruptEvent with default values.
+        """
+        super().__init__()
+
+"""
+This module defines BSW mode manager error event in AUTOSAR.
+"""
+
+
+class BswModeManagerErrorEvent(BswEvent):
+    """
+    Represents a BSW mode manager error event in AUTOSAR.
+    This event occurs when a mode manager error is detected.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswModeManagerErrorEvent with default values.
+        """
+        super().__init__()
+
+"""
+This module defines BSW mode receiver policy in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
+
+class BswModeReceiverPolicy(AREnum):
+    """
+    Enumeration for BSW mode receiver policy.
+    """
+
+    NONE = "none"
+    IMMEDIATE = "immediate"
+    DEFERRED = "deferred"
+
+    def __init__(self):
+        super().__init__((
+            BswModeReceiverPolicy.NONE,
+            BswModeReceiverPolicy.IMMEDIATE,
+            BswModeReceiverPolicy.DEFERRED,
+        ))
+
+"""
+This module defines BSW scheduler name prefix in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+
+class BswSchedulerNamePrefix(ARObject):
+    """
+    Represents a BSW scheduler name prefix in AUTOSAR.
+    This class defines the prefix used for scheduler names.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswSchedulerNamePrefix with default values.
+        """
+        super().__init__()
+        self.prefix: str = None
+
+    def getPrefix(self):
+        return self.prefix
+
+    def setPrefix(self, value):
+        self.prefix = value
+        return self
+
+"""
+This module defines BSW service dependency in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+
+class BswServiceDependency(ARObject):
+    """
+    Represents a BSW service dependency in AUTOSAR.
+    This class defines dependencies between BSW services.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswServiceDependency with default values.
+        """
+        super().__init__()
+        self.requiredServiceRef: RefType = None
+
+    def getRequiredServiceRef(self):
+        return self.requiredServiceRef
+
+    def setRequiredServiceRef(self, value):
+        self.requiredServiceRef = value
+        return self
+
+"""
+This module defines BSW trigger direct implementation in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
+
+class BswTriggerDirectImplementation(AREnum):
+    """
+    Enumeration for BSW trigger direct implementation.
+    """
+
+    NOT_ALLOWED = "not-allowed"
+    ALLOWED = "allowed"
+
+    def __init__(self):
+        super().__init__((
+            BswTriggerDirectImplementation.NOT_ALLOWED,
+            BswTriggerDirectImplementation.ALLOWED,
+        ))
+
+"""
+This module defines role-based BSW module entry assignment in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+
+
+class RoleBasedBswModuleEntryAssignment(ARObject):
+    """
+    Represents a role-based BSW module entry assignment in AUTOSAR.
+    This class defines how BSW module entries are assigned based on their role.
+    """
+
+    def __init__(self):
+        """
+        Initializes the RoleBasedBswModuleEntryAssignment with default values.
+        """
+        super().__init__()
+        self.role: ARLiteral = None
+        self.usedModuleEntryRef: RefType = None
+
+    def getRole(self):
+        return self.role
+
+    def setRole(self, value):
+        self.role = value
+        return self
+
+    def getUsedModuleEntryRef(self):
+        return self.usedModuleEntryRef
+
+    def setUsedModuleEntryRef(self, value):
+        self.usedModuleEntryRef = value
+        return self
+

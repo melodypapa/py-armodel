@@ -15,7 +15,7 @@ The script generates:
 1. Console output with test results
 2. Coverage report (HTML, XML, terminal, and markdown) [enabled by default]
 3. Test summary with pass/fail statistics
-4. `reports/coverage.md` with detailed coverage breakdown
+4. `reports/run_tests_report.md` with detailed test execution results
 """
 
 import argparse
@@ -388,7 +388,7 @@ def generate_coverage_markdown(
         unit_coverage: Parsed unit test coverage data
         integration_coverage: Parsed integration test coverage data
     """
-    report_path = Path("reports/coverage.md")
+    report_path = Path("reports/run_tests_report.md")
 
     try:
         with open(report_path, 'w') as f:

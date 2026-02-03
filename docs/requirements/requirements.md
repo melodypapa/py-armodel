@@ -161,6 +161,25 @@ All existing requirements in this document are currently at maturity level **acc
 
 ### 1.3 M2 AUTOSARTemplates
 
+#### SWR_MODEL_00012A
+**Title**: AUTOSAR Class Mapping Compliance
+
+**Maturity**: accept
+
+**Description**: The system shall ensure all AUTOSAR model classes are importable from the module path specified in `docs/requirements/mapping.json`. Each class MUST be defined in the module file that corresponds to its AUTOSAR package path as specified in the mapping.
+
+**Rationale**: The AUTOSAR standard defines a specific package hierarchy (M2 model) for each class. To maintain alignment with the AUTOSAR standard, classes must be importable from their mapped locations. This enables:
+- Compliance with AUTOSAR specifications
+- Predictable import paths for all users
+- Automated verification through integration tests
+
+**Verification**: Run the class mapping integration test to verify all classes are at their correct locations:
+```bash
+pytest tests/integration_tests/test_class_mapping.py::TestClassMapping::test_all_types_combined -v
+```
+
+---
+
 #### SWR_MODEL_00012
 **Title**: CommonStructure Elements
 
