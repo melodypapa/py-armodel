@@ -187,15 +187,16 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
         return self
 
 
-class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
+class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
+        if type(self) == OperationInAtomicSwcInstanceRef:
+            raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
+        
         super().__init__()
 
         self.baseRef: RefType = None
-        self.contextDataPrototypeRefs: List[RefType] = []
-        self.portPrototypeRef: RefType = None
-        self.rootVariableDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.contextPortRef: RefType = None
+        self.targetOperationRef: RefType = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -204,77 +205,64 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         self.baseRef = value
         return self
 
-    def getContextDataPrototypeRefs(self):
-        return self.contextDataPrototypeRefs
+    def getContextPortRef(self):
+        return self.contextPortRef
 
-    def addContextDataPrototypeRef(self, value):
-        self.contextDataPrototypeRefs.append(value)
+    def setContextPortRef(self, value):
+        self.contextPortRef = value
         return self
 
-    def getPortPrototypeRef(self):
-        return self.portPrototypeRef
+    def getTargetOperationRef(self):
+        return self.targetOperationRef
 
-    def setPortPrototypeRef(self, value):
-        self.portPrototypeRef = value
-        return self
-
-    def getRootVariableDataPrototypeRef(self):
-        return self.rootVariableDataPrototypeRef
-
-    def setRootVariableDataPrototypeRef(self, value):
-        self.rootVariableDataPrototypeRef = value
-        return self
-
-    def getTargetDataPrototypeRef(self):
-        return self.targetDataPrototypeRef
-
-    def setTargetDataPrototypeRef(self, value):
-        self.targetDataPrototypeRef = value
+    def setTargetOperationRef(self, value):
+        self.targetOperationRef = value
         return self
 
 
-class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
+class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextDataPrototypeRef: RefType = None
-        self.portPrototypeRef: RefType = None
-        self.rootParameterDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.contextPPortRef: RefType = None
+        self.targetProvidedOperationRef: RefType = None
 
-    def getBaseRef(self):
-        return self.baseRef
+    def getContextPPortRef(self):
+        return self.contextPPortRef
 
-    def setBaseRef(self, value):
-        self.baseRef = value
+    def setContextPPortRef(self, value):
+        self.contextPPortRef = value
         return self
 
-    def getContextDataPrototypeRef(self):
-        return self.contextDataPrototypeRef
+    def getTargetProvidedOperationRef(self):
+        return self.targetProvidedOperationRef
 
-    def setContextDataPrototypeRef(self, value):
-        self.contextDataPrototypeRef = value
+    def setTargetProvidedOperationRef(self, value):
+        self.targetProvidedOperationRef = value
         return self
 
-    def getPortPrototypeRef(self):
-        return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value):
-        self.portPrototypeRef = value
+class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
+    def __init__(self):
+        super().__init__()
+
+        self.contextRPortRef: RefType = None
+        self.targetRequiredOperationRef: RefType = None
+
+    def getContextRPortRef(self):
+        return self.contextRPortRef
+
+    def setContextRPortRef(self, value):
+        self.contextRPortRef = value
         return self
 
-    def getRootParameterDataPrototypeRef(self):
-        return self.rootParameterDataPrototypeRef
+    def getTargetRequiredOperationRef(self):
+        return self.targetRequiredOperationRef
 
-    def setRootParameterDataPrototypeRef(self, value):
-        self.rootParameterDataPrototypeRef = value
+    def setTargetRequiredOperationRef(self, value):
+        self.targetRequiredOperationRef = value
         return self
 
-    def getTargetDataPrototypeRef(self):
-        return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value):
-        self.targetDataPrototypeRef = value
-        return self
+
 

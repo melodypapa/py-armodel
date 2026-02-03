@@ -30,7 +30,7 @@ class TestParameterAccess:
         assert param_access.getReturnValueProvision() == return_prov
         
         # Test accessedParameter methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
         param_ref = AutosarParameterRef()
         param_access.setAccessedParameter(param_ref)
         assert param_access.getAccessedParameter() == param_ref
@@ -57,7 +57,7 @@ class TestVariableAccess:
         assert var_access.scope is None
         
         # Test accessedVariableRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
         var_ref = AutosarVariableRef()
         var_access.setAccessedVariableRef(var_ref)
         assert var_access.getAccessedVariableRef() == var_ref

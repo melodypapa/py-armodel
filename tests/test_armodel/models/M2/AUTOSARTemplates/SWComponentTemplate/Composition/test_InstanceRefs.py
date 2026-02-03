@@ -6,8 +6,11 @@ Tests cover all classes and methods in the InstanceRefs.py file to achieve 100% 
 import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
     PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef,
-    RPortInCompositionInstanceRef, OperationInAtomicSwcInstanceRef,
-    POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
+    RPortInCompositionInstanceRef
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef,
+    ROperationInAtomicSwcInstanceRef
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 

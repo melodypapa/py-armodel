@@ -3,7 +3,7 @@
 This report shows classes that exist in the source code but are not documented
 in the AUTOSAR M2 class hierarchy documentation.
 
-## Total Extra Classes: 149
+## Total Extra Classes: 129
 
 | Status | Class | Hierarchy | Notes |
 |--------|-------|-----------|-------|
@@ -15,8 +15,6 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARNumerical | **Actual:**<br>Parent: ARType<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARPositiveInteger | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.ARType | **Actual:**<br>Parent: None<br>Type: Abstract | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.AutosarTopLevelStructure.AUTOSARDoc | **Actual:**<br>Parent: AbstractAUTOSAR<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.AutosarTopLevelStructure.AbstractAUTOSAR | **Actual:**<br>Parent: CollectableElement<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.AbstractCanCluster | **Actual:**<br>Parent: CommunicationCluster<br>Type: Abstract | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology.AbstractCanCommunicationController | **Actual:**<br>Parent: CommunicationController<br>Type: Abstract | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.InternalBehavior.ApiPrincipleEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
@@ -29,8 +27,8 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswCallType | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswDataReceptionPolicy | **Actual:**<br>Parent: BswApiOptions<br>Type: Abstract | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswEntryKindEnum | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswEntryRelationshipEnum.BswEntryRelationshipEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswExclusiveAreaPolicy.BswExclusiveAreaPolicy | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswEntryRelationshipEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswExclusiveAreaPolicy | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswInterfaces.BswExecutionContext | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptCategory | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswQueuedDataReceptionPolicy | **Actual:**<br>Parent: BswDataReceptionPolicy<br>Type: Concrete | Class exists but not documented |
@@ -42,6 +40,7 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationCluster | **Actual:**<br>Parent: FibexElement<br>Type: Abstract | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationController | **Actual:**<br>Parent: Identifiable<br>Type: Abstract | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationDirectionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment.CryptoKeySlotContent.CryptoKeySlotContent | **Actual:**<br>Parent: Identifiable<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CycleRepetitionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Filter.DataFilterTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.DateTime | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
@@ -57,19 +56,6 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DiagnosticValueAccessEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DtcFormatTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.DtcKindEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucAbstractStringParamDef | **Actual:**<br>Parent: EcucParameterDef<br>Type: Abstract | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConditionFormula | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConfigurationClassEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucConfigurationVariantEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucDestinationUriDefRefType | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucFunctionNameDef | **Actual:**<br>Parent: EcucAbstractStringParamDef<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucLinkerSymbolDef | **Actual:**<br>Parent: EcucAbstractStringParamDef<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucMultilineStringParamDef | **Actual:**<br>Parent: EcucAbstractStringParamDef<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucParameterDerivationFormula | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucQueryExpression | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucScopeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucStringParamDef | **Actual:**<br>Parent: EcucAbstractStringParamDef<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.ECUCParameterDefTemplate.EcucSymbolicNameReferenceDef | **Actual:**<br>Parent: EcucAbstractInternalReferenceDef<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology.EthernetCluster | **Actual:**<br>Parent: CommunicationCluster<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology.EthernetCommunicationController | **Actual:**<br>Parent: CommunicationController<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.EventAcceptanceStatusEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
@@ -81,10 +67,6 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology.FlexrayCommunicationController | **Actual:**<br>Parent: CommunicationController<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Float | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | MSR.Documentation.BlockElements.Figure.GraphicFitEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SWComponentTemplate.Communication.HandleInvalidEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SWComponentTemplate.Communication.HandleOutOfRangeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SWComponentTemplate.Communication.HandleOutOfRangeStatusEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SWComponentTemplate.Communication.HandleTimeoutEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.IPduSignalProcessingEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Identifier | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Integer | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
@@ -107,7 +89,7 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.McFunctionDataRefSet.McFunctionDataRefSet | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.McGroups.McGroupDataRefSet | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.ModeDeclaration.ModeActivationKind | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.CommonStructure.ModeDeclarationExtra.ModeErrorReactionPolicyEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AUTOSARTemplates.CommonStructure.ModeDeclaration.ModeErrorReactionPolicyEnum | **Actual:**<br>Parent: str<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Timing.TimingCondition.ModeInBswInstanceRef.ModeInBswInstanceRef | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Timing.TimingCondition.ModeInSwcInstanceRef.ModeInSwcInstanceRef | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.NameToken | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
@@ -115,7 +97,6 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.NvBlockNeedsWritingPriorityEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.ObdRatioConnectionKindEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.ServiceNeeds.OperationCycleTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.PduToFrameMapping | **Actual:**<br>Parent: Identifiable<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.PncGatewayTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.PositiveInteger | **Actual:**<br>Parent: ARPositiveInteger<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.PositiveUnlimitedInteger | **Actual:**<br>Parent: ARPositiveInteger<br>Type: Concrete | Class exists but not documented |
@@ -151,7 +132,6 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.TRefType | **Actual:**<br>Parent: RefType<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.TimeValue | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingConditionFormula.TimingConditionFormula | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SWComponentTemplate.Communication.TransmissionModeDefinitionEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.UnlimitedInteger | **Actual:**<br>Parent: Integer<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | MSR.DataDictionary.DataDefProperties.ValueList | **Actual:**<br>Parent: ARObject<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.VerbatimString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
