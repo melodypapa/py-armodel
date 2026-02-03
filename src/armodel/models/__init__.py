@@ -83,7 +83,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import *
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import *
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import *
 # Additional MSR imports
 from armodel.models.M2.MSR.CalibrationData import *
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import *
@@ -107,7 +107,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import *
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement import *
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import *
 # ECUCParameterDefTemplate
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *
 # Additional EcuResourceTemplate imports

@@ -6,26 +6,26 @@
 ## Overall Summary
 
 - **Total Types in mapping.json**: 1937
-- **Existing in Codebase**: 784 (40.5%)
-- **Verified Correct Location**: 705 (36.4%)
-- **Wrong Location (Fixable)**: 79
-- **Not Implemented (Deferred)**: 1153
+- **Existing in Codebase**: 564 (29.1%)
+- **Verified Correct Location**: 526 (27.2%)
+- **Wrong Location (Fixable)**: 38
+- **Not Implemented (Deferred)**: 1373
 
 ## Summary by Type
 
 ### Class
 - **Total**: 1623
-- **Existing**: 696 (42.9%)
-- **Passed**: 623 (38.4%)
-- **Wrong Location**: 73
-- **Not Implemented**: 927
+- **Existing**: 486 (29.9%)
+- **Passed**: 451 (27.8%)
+- **Wrong Location**: 35
+- **Not Implemented**: 1137
 
 ### Enumeration
 - **Total**: 264
-- **Existing**: 66 (25.0%)
-- **Passed**: 60 (22.7%)
-- **Wrong Location**: 6
-- **Not Implemented**: 198
+- **Existing**: 56 (21.2%)
+- **Passed**: 53 (20.1%)
+- **Wrong Location**: 3
+- **Not Implemented**: 208
 
 ### Primitive
 - **Total**: 50
@@ -38,68 +38,39 @@
 
 *Classes that exist in the codebase but are not at the expected mapped location*
 
-### Class (73 classes)
+### Class (35 classes)
 
-#### Module Not Found (21)
+#### Module Not Found (9)
 
 | Class Name | Expected Module |
 |------------|-----------------|
-| `AbstractDoIpLogicAddressProps` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP` |
-| `CyclicTiming` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `DiagnosticCommonElement` | `armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics` |
-| `DoIpLogicTargetAddressProps` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP` |
-| `DoIpLogicTesterAddressProps` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP` |
 | `EndToEndProtectionISignalIPdu` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection` |
-| `EventControlledTiming` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
-| `ModeDrivenTransmissionModeCondition` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `ParameterInAtomicSWCTypeInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs` |
 | `PortPrototypeBlueprint` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Port` |
 | `PortPrototypeBlueprintInitValue` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Port` |
 | `RunnableEntityArgument` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntity` |
-| `SoAdRoutingGroup` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
-| `SocketConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
 | `SwcTiming` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
-| `TimeRangeType` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `TimingExtension` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
-| `TransmissionModeCondition` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
-| `TransmissionModeDeclaration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
-| `TransmissionModeTiming` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `VariableInAtomicSWCTypeInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs` |
 
-#### Class Not Found in Module (52)
+#### Class Not Found in Module (26)
 
 | Class Name | Expected Module |
 |------------|-----------------|
 | `ARElement` | `armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage` |
-| `AbstractCanCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
-| `AbstractCanPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
-| `ApplicationEndpoint` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `ArVariableInImplementationDataInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements` |
 | `AsynchronousServerCallPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
 | `AsynchronousServerCallResultPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
 | `AtpBlueprintMapping` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
 | `AtpBlueprintable` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
-| `CanCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
-| `CanClusterBusOffRecovery` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
-| `CanPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `CollectableElement` | `armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection` |
 | `DoIpEntity` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `DoIpTpConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
-| `EcuInstance` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `EndToEndTransformationComSpecProps` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer` |
-| `EthernetPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `ExternalTriggeringPointIdent` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario` |
-| `FibexElement` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore` |
-| `FlexrayPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
-| `FramePort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
-| `GenericTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `IPduPort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
-| `ISignalPort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `InfrastructureServices` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `Ipv4Configuration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `Ipv6Configuration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `LinCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
-| `LinPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `ModeErrorBehavior` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration` |
 | `ModeTransition` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration` |
 | `NetworkEndpoint` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -109,21 +80,12 @@
 | `PackageableElement` | `armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage` |
 | `ROperationInAtomicSwcInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `RoleBasedDataTypeAssignment` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping` |
-| `SwcToEcuMapping` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `SynchronousServerCallPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
-| `TcpTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `TcpUdpConfig` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TimeSyncClientConfiguration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TimeSyncServerConfiguration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TimeSynchronization` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `TpConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
-| `TpConnectionIdent` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
-| `TpPort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `TransportProtocolConfiguration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `UdpTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `VlanConfig` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 
-### Enumeration (6 classes)
+### Enumeration (3 classes)
 
 #### Module Not Found (1)
 
@@ -131,13 +93,10 @@
 |------------|-----------------|
 | `RamBlockStatusControlEnum` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent` |
 
-#### Class Not Found in Module (5)
+#### Class Not Found in Module (2)
 
 | Class Name | Expected Module |
 |------------|-----------------|
-| `CommunicationDirectionType` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
-| `FlexrayChannelName` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
-| `IPduSignalProcessingEnum` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ModeErrorReactionPolicyEnum` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration` |
 | `SwServiceImplPolicyEnum` | `armodel.models.M2.MSR.DataDictionary.ServiceProcessTask` |
 
@@ -145,18 +104,28 @@
 
 *Classes in mapping.json that haven't been implemented yet*
 
-### Class (927 classes)
+### Class (1137 classes)
 
 | Class Name | Expected Module |
 |------------|-----------------|
+| `ARPackage` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage` |
+| `AUTOSAR` | `M2.AUTOSARTemplates.AutosarTopLevelStructure` |
 | `AbsoluteTolerance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
+| `AbstractCanCluster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `AbstractCanCommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `AbstractCanCommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `AbstractCanCommunicationControllerAttributes` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `AbstractCanPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `AbstractClassTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `AbstractCondition` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
+| `AbstractDoIpLogicAddressProps` | `M2.AUTOSARTemplates.SystemTemplate.DoIP` |
 | `AbstractEnumerationValueVariationPoint` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints` |
+| `AbstractEthernetFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame` |
 | `AbstractGlobalTimeDomainProps` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime` |
 | `AbstractMultiplicityRestriction` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes` |
 | `AbstractNumericalVariationPoint` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints` |
 | `AbstractSecurityEventFilter` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
+| `AbstractServiceInstance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `AbstractValueRestriction` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes` |
 | `AbstractVariationRestriction` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ModelRestrictionTypes` |
 | `AccessCount` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount` |
@@ -169,8 +138,14 @@
 | `AggregationCondition` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `AggregationTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `Annotation` | `M2.MSR.Documentation.Annotation` |
+| `AppOsTaskProxyToEcuTaskProxyMapping` | `M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping` |
 | `ApplicationCompositeDataTypeSubElementRef` | `M2.AUTOSARTemplates.SWComponentTemplate.PortInterface` |
+| `ApplicationDeferredDataType` | `M2.AUTOSARTemplates.AbstractPlatform` |
+| `ApplicationEndpoint` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `ApplicationEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `ApplicationInterface` | `M2.AUTOSARTemplates.AbstractPlatform` |
 | `ApplicationPartition` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
+| `ApplicationPartitionToEcuPartitionMapping` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `ArParameterInImplementationDataInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements` |
 | `Area` | `M2.MSR.Documentation.BlockElements.Figure` |
 | `AssignFrameId` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
@@ -198,6 +173,7 @@
 | `BinaryManifestResourceDefinition` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest` |
 | `BlockState` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `BlueprintFormula` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintFormula` |
+| `BlueprintGenerator` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator` |
 | `BlueprintMapping` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Generic` |
 | `BlueprintMappingSet` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping` |
 | `BlueprintPolicy` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
@@ -209,6 +185,7 @@
 | `BswCompositionTiming` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
 | `BswModuleTiming` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
 | `BswServiceDependencyIdent` | `M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping` |
+| `BufferProperties` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `BuildAction` | `M2.AUTOSARTemplates.GenericStructure.BuildActionManifest` |
 | `BuildActionEntity` | `M2.AUTOSARTemplates.GenericStructure.BuildActionManifest` |
 | `BuildActionEnvironment` | `M2.AUTOSARTemplates.GenericStructure.BuildActionManifest` |
@@ -226,10 +203,33 @@
 | `BusMirrorChannelMappingIp` | `M2.AUTOSARTemplates.SystemTemplate.BusMirror` |
 | `BusMirrorChannelMappingUserDefined` | `M2.AUTOSARTemplates.SystemTemplate.BusMirror` |
 | `BusMirrorLinPidToCanIdMapping` | `M2.AUTOSARTemplates.SystemTemplate.BusMirror` |
+| `BusspecificNmEcu` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
 | `CalibrationParameterValue` | `M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.CalibrationParameter` |
 | `CalibrationParameterValueSet` | `M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.CalibrationParameter` |
+| `CanCluster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanClusterBusOffRecovery` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanCommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanCommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `CanControllerConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanControllerConfigurationRequirements` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanControllerFdConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanControllerFdConfigurationRequirements` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanControllerXlConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanControllerXlConfigurationRequirements` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication` |
+| `CanFrameTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication` |
 | `CanGlobalTimeDomainProps` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.CAN` |
+| `CanNmCluster` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `CanNmClusterCoupling` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `CanNmEcu` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `CanNmNode` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `CanPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
+| `CanTpAddress` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `CanTpChannel` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `CanTpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `CanTpConnection` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `CanTpEcu` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `CanTpNode` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `CanXlFrameTriggeringProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication` |
 | `Caption` | `M2.MSR.Documentation.BlockElements` |
 | `Chapter` | `M2.MSR.Documentation.Chapters` |
@@ -247,9 +247,15 @@
 | `ClientServerOperationComProps` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
 | `ClientServerToSignalMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
 | `Colspec` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
+| `ComManagementMapping` | `M2.AUTOSARTemplates.SystemTemplate` |
+| `CommConnectorPort` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `CommonSignalPath` | `M2.AUTOSARTemplates.SystemTemplate.SignalPaths` |
 | `CommunicationBufferLocking` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions` |
+| `CommunicationCluster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
+| `CommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
+| `CommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `CommunicationControllerMapping` | `M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping` |
+| `CommunicationCycle` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `ComponentClustering` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `ComponentInCompositionInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs` |
 | `ComponentSeparation` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
@@ -275,16 +281,24 @@
 | `ConsistencyNeeds` | `M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior` |
 | `ConsistencyNeedsBlueprintSet` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Blueprint` |
 | `ConstraintTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
+| `ConsumedEventGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `ConsumedProvidedServiceInstanceGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
+| `ConsumedServiceInstance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
+| `ContainedIPduProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ContainerIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `CouplingElement` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingElementAbstractDetails` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingElementSwitchDetails` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `CouplingPort` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingPortAsynchronousTrafficShaper` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingPortConnection` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingPortCreditBasedShaper` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `CouplingPortDetails` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `CouplingPortFifo` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingPortRatePolicy` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `CouplingPortScheduler` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingPortShaper` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `CouplingPortStructuralElement` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CouplingPortTrafficClassAssignment` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `CpSoftwareCluster` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
 | `CpSoftwareClusterBinaryManifestDescriptor` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.BinaryManifest` |
@@ -305,9 +319,13 @@
 | `CryptoEllipticCurveProps` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoServiceCertificate` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoServiceKey` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
+| `CryptoServiceMapping` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoServicePrimitive` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoServiceQueue` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoSignatureScheme` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
+| `CycleCounter` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
+| `CycleRepetition` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
+| `CyclicTiming` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `DataComProps` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
 | `DataConstr` | `M2.MSR.AsamHdo.Constraints.GlobalConstraints` |
 | `DataConstrRule` | `M2.MSR.AsamHdo.Constraints.GlobalConstraints` |
@@ -316,6 +334,7 @@
 | `DataFormatElementReference` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common` |
 | `DataFormatElementScope` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `DataFormatTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
+| `DataMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
 | `DataPrototypeGroup` | `M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior` |
 | `DataPrototypeInClientServerInterfaceInstanceRef` | `M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef` |
 | `DataPrototypeInPortInterfaceInstanceRef` | `M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef` |
@@ -324,6 +343,9 @@
 | `DataPrototypeInSystemInstanceRef` | `M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs` |
 | `DataPrototypeReference` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `DataPrototypeTransformationProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `DataTransformation` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `DataTransformationSet` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `DcmIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `DdsCpConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds` |
 | `DdsCpConsumedServiceInstance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds` |
 | `DdsCpDomain` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds` |
@@ -351,6 +373,7 @@
 | `DdsTransportPriority` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds` |
 | `DefItem` | `M2.MSR.Documentation.BlockElements.ListElements` |
 | `DefList` | `M2.MSR.Documentation.BlockElements.ListElements` |
+| `DefaultValueElement` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
 | `DelegatedPortAnnotation` | `M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes` |
 | `DhcpServerConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `Dhcpv6Props` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -379,6 +402,7 @@
 | `DiagnosticCondition` | `M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticCondition` |
 | `DiagnosticConditionGroup` | `M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticConditionGroup` |
 | `DiagnosticConnectedIndicator` | `M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticEvent` |
+| `DiagnosticConnection` | `M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
 | `DiagnosticContributionSet` | `M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution` |
 | `DiagnosticControlDTCSetting` | `M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.ControlDTCSetting` |
 | `DiagnosticControlDTCSettingClass` | `M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.ControlDTCSetting` |
@@ -555,17 +579,28 @@
 | `DltMessage` | `M2.AUTOSARTemplates.LogAndTraceExtract` |
 | `DoIpConfig` | `M2.AUTOSARTemplates.SystemTemplate.DoIP` |
 | `DoIpInterface` | `M2.AUTOSARTemplates.SystemTemplate.DoIP` |
+| `DoIpLogicAddress` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `DoIpLogicTargetAddressProps` | `M2.AUTOSARTemplates.SystemTemplate.DoIP` |
+| `DoIpLogicTesterAddressProps` | `M2.AUTOSARTemplates.SystemTemplate.DoIP` |
 | `DoIpRoutingActivation` | `M2.AUTOSARTemplates.SystemTemplate.DoIP` |
+| `DoIpTpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `DoIpTpConnection` | `M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
 | `DocRevision` | `M2.MSR.AsamHdo.AdminData` |
 | `DocumentElementScope` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchange` |
 | `DocumentViewSelectable` | `M2.MSR.Documentation.BlockElements.PaginationAndView` |
 | `DocumentationBlock` | `M2.MSR.Documentation.BlockElements` |
 | `DocumentationContext` | `M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1` |
+| `DynamicPart` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `DynamicPartAlternative` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `E2EProfileCompatibilityProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `ECUMapping` | `M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping` |
+| `EcuInstance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `EcuPartition` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `EcuResourceEstimation` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `EcuTiming` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
 | `EmphasisText` | `M2.MSR.Documentation.TextModel.InlineTextElements` |
+| `EndToEndTransformationDescription` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `EndToEndTransformationISignalProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `Entry` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
 | `EnumerationMappingEntry` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints` |
 | `EnumerationMappingTable` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints` |
@@ -578,10 +613,17 @@
 | `EthTcpIpProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EthTpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `EthTpConnection` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `EthernetCluster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `EthernetCommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `EthernetCommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EthernetFrameTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame` |
+| `EthernetPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `EthernetPriorityRegeneration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EthernetWakeupSleepOnDatalineConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EthernetWakeupSleepOnDatalineConfigSet` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EvaluatedVariantSet` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling` |
+| `EventControlledTiming` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
+| `EventHandler` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `EventObdReadinessGroup` | `M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticTroubleCode` |
 | `ExternalTriggerOccurredEvent` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents` |
 | `FMAttributeDef` | `M2.AUTOSARTemplates.FeatureModelTemplate` |
@@ -601,12 +643,25 @@
 | `FMFeatureSelectionSet` | `M2.AUTOSARTemplates.FeatureModelTemplate` |
 | `FMFormulaByFeaturesAndAttributes` | `M2.AUTOSARTemplates.FeatureModelTemplate` |
 | `FMFormulaByFeaturesAndSwSystemconsts` | `M2.AUTOSARTemplates.FeatureModelTemplate` |
+| `FibexElement` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore` |
+| `FileInfoComment` | `M2.AUTOSARTemplates.AutosarTopLevelStructure` |
+| `FlexrayAbsolutelyScheduledTiming` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication` |
 | `FlexrayArTpChannel` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `FlexrayArTpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `FlexrayArTpConnection` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `FlexrayArTpNode` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `FlexrayCluster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
+| `FlexrayCommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
+| `FlexrayCommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `FlexrayFifoConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `FlexrayFifoRange` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
+| `FlexrayFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication` |
+| `FlexrayFrameTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication` |
+| `FlexrayNmCluster` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `FlexrayNmClusterCoupling` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `FlexrayNmEcu` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `FlexrayNmNode` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `FlexrayPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `FlexrayTpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `FlexrayTpConnection` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `FlexrayTpConnectionControl` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
@@ -617,11 +672,21 @@
 | `ForbiddenSignalPath` | `M2.AUTOSARTemplates.SystemTemplate.SignalPaths` |
 | `FormulaExpression` | `M2.AUTOSARTemplates.GenericStructure.FormulaLanguage` |
 | `FrGlobalTimeDomainProps` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.FR` |
+| `Frame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `FrameMapping` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
 | `FramePid` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `FramePort` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `FrameTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `FreeFormat` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `FreeFormatEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `Gateway` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
 | `GeneralAnnotation` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.GeneralAnnotation` |
 | `GeneralPurposeConnection` | `M2.AUTOSARTemplates.SystemTemplate.GeneralPurposeConnection` |
+| `GeneralPurposeIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `GeneralPurposePdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `GenericEthernetFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame` |
 | `GenericModelReference` | `M2.AUTOSARTemplates.GenericStructure.BuildActionManifest` |
+| `GenericTp` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `GlobalTimeCanMaster` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.CAN` |
 | `GlobalTimeCanSlave` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.CAN` |
 | `GlobalTimeCorrectionProps` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime` |
@@ -656,9 +721,21 @@
 | `IPSecConfig` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `IPSecConfigProps` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `IPSecRule` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
+| `IPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `IPduMapping` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
+| `IPduPort` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `IPduTiming` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `IPv6ExtHeaderFilterList` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList` |
 | `IPv6ExtHeaderFilterSet` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList` |
+| `ISignal` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `ISignalGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `ISignalIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `ISignalIPduGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `ISignalMapping` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
+| `ISignalPort` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ISignalProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `ISignalToIPduMapping` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `ISignalTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `IdsCommonElement` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `IdsDesign` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `IdsMapping` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
@@ -676,6 +753,8 @@
 | `ImpositionTime` | `M2.AUTOSARTemplates.GenericStructure.ImpositionTimes` |
 | `IndentSample` | `M2.MSR.Documentation.BlockElements.ListElements` |
 | `IndexEntry` | `M2.MSR.Documentation.TextModel.InlineTextElements` |
+| `IndexedArrayElement` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `InitialSdDelayConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `InnerDataPrototypeGroupInCompositionInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef` |
 | `InnerRunnableEntityGroupInCompositionInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef` |
 | `InstanceEventInCompositionInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs` |
@@ -703,7 +782,11 @@
 | `J1939ControllerApplication` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `J1939ControllerApplicationToJ1939NmNodeMapping` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `J1939DcmIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `J1939NmCluster` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `J1939NmEcu` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `J1939NmNode` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
 | `J1939NodeName` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `J1939SharedAddressCluster` | `M2.AUTOSARTemplates.SystemTemplate` |
 | `J1939TpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `J1939TpConnection` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `J1939TpNode` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
@@ -720,17 +803,31 @@
 | `LifeCycleState` | `M2.AUTOSARTemplates.GenericStructure.LifeCycles` |
 | `LifeCycleStateDefinitionGroup` | `M2.AUTOSARTemplates.GenericStructure.LifeCycles` |
 | `LimitValueVariationPoint` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints` |
+| `LinCluster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
+| `LinCommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
+| `LinCommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `LinConfigurableFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
+| `LinConfigurationEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `LinErrorResponse` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `LinEventTriggeredFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `LinFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `LinFrameTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `LinMaster` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `LinOrderedConfigurableFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
+| `LinPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
+| `LinScheduleTable` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `LinSlave` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `LinSlaveConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `LinSlaveConfigIdent` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `LinSporadicFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
+| `LinTpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `LinTpConnection` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `LinTpNode` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `LinUnconditionalFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `List` | `M2.MSR.Documentation.BlockElements.ListElements` |
 | `LogAndTraceMessageCollectionSet` | `M2.AUTOSARTemplates.LogAndTraceExtract` |
 | `MacMulticastConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `MacMulticastGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `MacSecCipherSuiteConfig` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `MacSecCryptoAlgoConfig` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `MacSecGlobalKayProps` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
@@ -755,6 +852,7 @@
 | `MixedContentForVerbatim` | `M2.MSR.Documentation.TextModel.InlineTextModel` |
 | `MlFigure` | `M2.MSR.Documentation.BlockElements.Figure` |
 | `MlFormula` | `M2.MSR.Documentation.BlockElements.Formula` |
+| `ModeDrivenTransmissionModeCondition` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `ModeInBswInstanceRef` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition` |
 | `ModeInSwcInstanceRef` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition` |
 | `ModePortAnnotation` | `M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes` |
@@ -774,9 +872,18 @@
 | `MultiLanguageVerbatim` | `M2.MSR.Documentation.TextModel.MultilanguageData` |
 | `MultidimensionalTime` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime` |
 | `MultilanguageLongName` | `M2.MSR.Documentation.TextModel.MultilanguageData` |
+| `MultiplexedIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `MultiplexedPart` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `MultiplicityRestrictionWithSeverity` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
+| `NPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `NetworkSegmentIdentification` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime` |
+| `NmCluster` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `NmClusterCoupling` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `NmConfig` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
 | `NmCoordinator` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `NmEcu` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `NmNode` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `NmPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `Note` | `M2.MSR.Documentation.BlockElements.Note` |
 | `NvBlockDataMapping` | `M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent` |
 | `NvBlockDescriptor` | `M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent` |
@@ -790,11 +897,16 @@
 | `Paginateable` | `M2.MSR.Documentation.BlockElements.PaginationAndView` |
 | `ParameterPortAnnotation` | `M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes` |
 | `ParameterSwComponentType` | `M2.AUTOSARTemplates.SWComponentTemplate.Components` |
+| `Pdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `PduActivationRoutingGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
+| `PduMappingDefaultValue` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
+| `PduToFrameMapping` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `PduTriggering` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `PdurIPduGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `PerInstanceMemorySize` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation` |
 | `PermissibleSignalPath` | `M2.AUTOSARTemplates.SystemTemplate.SignalPaths` |
 | `PhysConstrs` | `M2.MSR.AsamHdo.Constraints.GlobalConstraints` |
+| `PhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `PhysicalDimension` | `M2.MSR.AsamHdo.Units` |
 | `PhysicalDimensionMapping` | `M2.MSR.AsamHdo.Units` |
 | `PhysicalDimensionMappingSet` | `M2.MSR.AsamHdo.Units` |
@@ -811,16 +923,20 @@
 | `PrimitiveAttributeTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `PrivacyLevel` | `M2.AUTOSARTemplates.LogAndTraceExtract` |
 | `Prms` | `M2.MSR.Documentation.BlockElements.GerneralParameters` |
+| `ProvidedServiceInstance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `RTriggerInAtomicSwcInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `RapidPrototypingScenario` | `M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario` |
 | `ReceiverAnnotation` | `M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes` |
 | `ReceptionComSpecProps` | `M2.AUTOSARTemplates.SWComponentTemplate.Communication` |
+| `ReferenceBase` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage` |
 | `ReferenceCondition` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `ReferenceTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `RelativeTolerance` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
+| `RequestResponseDelay` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `RestrictionWithSeverity` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common` |
 | `RoleBasedMcDataAssignment` | `M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport` |
 | `RoleBasedResourceDependency` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
+| `RootSwCompositionPrototype` | `M2.AUTOSARTemplates.SystemTemplate` |
 | `Row` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
 | `RptComponent` | `M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport` |
 | `RptContainer` | `M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario` |
@@ -841,11 +957,13 @@
 | `RtpTp` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `RunnableEntityGroup` | `M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior` |
 | `RunnableEntityInCompositionInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef` |
+| `RxIdentifierRange` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication` |
 | `SOMEIPTransformationDescription` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `SOMEIPTransformationISignalProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `SOMEIPTransformationProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `SaveConfigurationEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `ScaleConstr` | `M2.MSR.AsamHdo.Constraints.GlobalConstraints` |
+| `ScheduleTableEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `Sd` | `M2.MSR.AsamHdo.SpecialData` |
 | `Sdf` | `M2.MSR.AsamHdo.SpecialData` |
 | `Sdg` | `M2.MSR.AsamHdo.SpecialData` |
@@ -864,6 +982,12 @@
 | `SdgPrimitiveAttributeWithVariation` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef` |
 | `SdgReference` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef` |
 | `SdgTailoring` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
+| `SecOcCryptoServiceMapping` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
+| `SecureCommunicationAuthenticationProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `SecureCommunicationFreshnessProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `SecureCommunicationProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `SecureCommunicationPropsSet` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `SecuredIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `SecurityEventAggregationFilter` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `SecurityEventContextData` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `SecurityEventContextMapping` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
@@ -877,9 +1001,17 @@
 | `SecurityEventOneEveryNFilter` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `SecurityEventStateFilter` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
 | `SecurityEventThresholdFilter` | `M2.AUTOSARTemplates.SecurityExtractTemplate` |
+| `SegmentPosition` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `SenderAnnotation` | `M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes` |
+| `SenderRecArrayElementMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `SenderRecArrayTypeMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `SenderRecCompositeTypeMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `SenderRecRecordElementMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `SenderRecRecordTypeMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
 | `SenderReceiverAnnotation` | `M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes` |
 | `SenderReceiverCompositeElementToSignalMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `SenderReceiverToSignalGroupMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
+| `SenderReceiverToSignalMapping` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
 | `SeparateSignalPath` | `M2.AUTOSARTemplates.SystemTemplate.SignalPaths` |
 | `ServiceInstanceCollectionSet` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `ShortNameFragment` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable` |
@@ -893,7 +1025,11 @@
 | `SingleLanguageUnitNames` | `M2.MSR.Documentation.TextModel.SingleLanguageData` |
 | `SlOverviewParagraph` | `M2.MSR.Documentation.TextModel.SingleLanguageData` |
 | `SlParagraph` | `M2.MSR.Documentation.TextModel.SingleLanguageData` |
+| `SoAdConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
+| `SoAdRoutingGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
 | `SoConIPduIdentifier` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
+| `SocketAddress` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
+| `SocketConnection` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
 | `SocketConnectionIpduIdentifierSet` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `SomeipSdClientEventGroupTimingConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `SomeipSdClientServiceInstanceConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
@@ -907,6 +1043,7 @@
 | `SpecElementScope` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common` |
 | `SpecificationDocumentScope` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchange` |
 | `SpecificationScope` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchange` |
+| `StaticPart` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `StaticSocketConnection` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `Std` | `M2.MSR.Documentation.TextModel.InlineTextElements` |
 | `StreamFilterIEEE1722Tp` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -955,6 +1092,8 @@
 | `SwcServiceDependencyInSystemInstanceRef` | `M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs` |
 | `SwcSupportedFeature` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions` |
 | `SwcToApplicationPartitionMapping` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
+| `SwcToEcuMapping` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
+| `SwcToImplMapping` | `M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `SwcToSwcOperationArguments` | `M2.AUTOSARTemplates.SystemTemplate.SignalPaths` |
 | `SwcToSwcSignal` | `M2.AUTOSARTemplates.SystemTemplate.SignalPaths` |
 | `SwitchAsynchronousTrafficShaperGroupEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -964,6 +1103,10 @@
 | `SwitchStreamFilterRule` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `SwitchStreamGateEntry` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `SwitchStreamIdentification` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `System` | `M2.AUTOSARTemplates.SystemTemplate` |
+| `SystemMapping` | `M2.AUTOSARTemplates.SystemTemplate` |
+| `SystemSignal` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `SystemSignalGroup` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `SystemSignalGroupToCommunicationResourceMapping` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
 | `SystemSignalToCommunicationResourceMapping` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
 | `SystemTiming` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
@@ -1001,15 +1144,19 @@
 | `TDLETZoneClock` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock` |
 | `Table` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
 | `TagWithOptionalValue` | `M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue` |
+| `TargetIPduRef` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform` |
 | `Tbody` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
 | `TcpIpIcmpv4Props` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TcpIpIcmpv6Props` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TcpOptionFilterList` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet` |
 | `TcpOptionFilterSet` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet` |
 | `TcpProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `TcpTp` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `TcpUdpConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TextTableValuePair` | `M2.AUTOSARTemplates.SWComponentTemplate.PortInterface` |
 | `TextualCondition` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Data` |
 | `Tgroup` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
+| `TimeRangeType` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `TimeValueValueVariationPoint` | `M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints` |
 | `TimingClock` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock` |
 | `TimingClockSyncAccuracy` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock` |
@@ -1022,6 +1169,7 @@
 | `TimingModeInstance` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition` |
 | `TlsCryptoCipherSuite` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `TlsCryptoCipherSuiteProps` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
+| `TlsCryptoServiceMapping` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `TlsPskIdentity` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `TlvDataIdDefinition` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `TlvDataIdDefinitionSet` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
@@ -1029,11 +1177,23 @@
 | `TopicContent` | `M2.MSR.Documentation.Chapters` |
 | `TopicContentOrMsrQuery` | `M2.MSR.Documentation.Chapters` |
 | `TopicOrMsrQuery` | `M2.MSR.Documentation.Chapters` |
+| `TpAddress` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `TpConfig` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
+| `TpConnection` | `M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
+| `TpConnectionIdent` | `M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
+| `TpPort` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TraceableText` | `M2.MSR.Documentation.BlockElements.RequirementsTracing` |
+| `TransformationDescription` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `TransformationISignalProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `TransformationProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `TransformationPropsSet` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
+| `TransformationTechnology` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `TransformerHardErrorEvent` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents` |
 | `TransmissionComSpecProps` | `M2.AUTOSARTemplates.SWComponentTemplate.Communication` |
+| `TransmissionModeCondition` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
+| `TransmissionModeDeclaration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
+| `TransmissionModeTiming` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
+| `TransportProtocolConfiguration` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TriggerIPduSendCondition` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `TriggerInAtomicSwcInstanceRef` | `M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `TriggerInSystemInstanceRef` | `M2.AUTOSARTemplates.SystemTemplate.InstanceRefs` |
@@ -1045,7 +1205,12 @@
 | `TtcanCommunicationConnector` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanTopology` |
 | `TtcanCommunicationController` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanTopology` |
 | `TtcanPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanTopology` |
+| `UdpNmCluster` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `UdpNmClusterCoupling` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `UdpNmEcu` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
+| `UdpNmNode` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
 | `UdpProps` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `UdpTp` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `UnassignFrameId` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `Unit` | `M2.MSR.AsamHdo.Units` |
 | `UnitGroup` | `M2.MSR.AsamHdo.Units` |
@@ -1057,6 +1222,8 @@
 | `UserDefinedEthernetFrame` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame` |
 | `UserDefinedGlobalTimeMaster` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.UserDefined` |
 | `UserDefinedGlobalTimeSlave` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.UserDefined` |
+| `UserDefinedIPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `UserDefinedPdu` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `UserDefinedPhysicalChannel` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport` |
 | `UserDefinedTransformationDescription` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `UserDefinedTransformationISignalProps` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
@@ -1070,6 +1237,8 @@
 | `VfbTiming` | `M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
 | `ViewMap` | `M2.AUTOSARTemplates.GenericStructure.ViewMapSet` |
 | `ViewMapSet` | `M2.AUTOSARTemplates.GenericStructure.ViewMapSet` |
+| `VlanConfig` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `VlanMembership` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `WaitPoint` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents` |
 | `WhitespaceControlled` | `M2.MSR.Documentation.TextModel.LanguageDataModel` |
 | `Xdoc` | `M2.MSR.Documentation.TextModel.InlineTextElements` |
@@ -1077,7 +1246,7 @@
 | `Xref` | `M2.MSR.Documentation.TextModel.InlineTextElements` |
 | `XrefTarget` | `M2.MSR.Documentation.TextModel.InlineTextElements` |
 
-### Enumeration (198 classes)
+### Enumeration (208 classes)
 
 | Class Name | Expected Module |
 |------------|-----------------|
@@ -1095,6 +1264,7 @@
 | `CanFrameTxBehaviorEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication` |
 | `CanTpAddressingFormatType` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols` |
 | `ChapterEnumBreak` | `M2.MSR.Documentation.BlockElements.PaginationAndView` |
+| `CommunicationDirectionType` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ContainedIPduCollectionSemanticsEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ContainerIPduHeaderTypeEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ContainerIPduTriggerEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
@@ -1104,9 +1274,12 @@
 | `CryptoCertificateAlgorithmFamilyEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoCertificateFormatEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `CryptoServiceKeyGenerationEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
+| `CycleRepetitionType` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `DataConsistencyPolicyEnum` | `M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster` |
 | `DataExchangePointKind` | `M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint` |
+| `DataIdModeEnum` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `DataTransformationErrorHandlingEnum` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions` |
+| `DataTransformationKindEnum` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `DataTransformationStatusForwardingEnum` | `M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions` |
 | `DataTypePolicyEnum` | `M2.AUTOSARTemplates.SystemTemplate.DataMapping` |
 | `DdsDestinationOrderKindEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds` |
@@ -1158,6 +1331,7 @@
 | `EEnum` | `M2.MSR.Documentation.TextModel.InlineAttributeEnums` |
 | `EEnumFont` | `M2.MSR.Documentation.TextModel.InlineAttributeEnums` |
 | `EcucDestinationUriNestingContractEnum` | `M2.AUTOSARTemplates.ECUCParameterDefTemplate` |
+| `EndToEndProfileBehaviorEnum` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `EthGlobalTimeMessageFormatEnum` | `M2.AUTOSARTemplates.SystemTemplate.GlobalTime.ETH` |
 | `EthernetConnectionNegotiationEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EthernetCouplingPortSchedulerEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -1167,6 +1341,7 @@
 | `EthernetSwitchVlanIngressTagEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `EventGroupControlTypeEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `FMFeatureSelectionState` | `M2.AUTOSARTemplates.FeatureModelTemplate` |
+| `FlexrayChannelName` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `FlexrayNmScheduleVariant` | `M2.AUTOSARTemplates.SystemTemplate.NetworkManagement` |
 | `FloatEnum` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
 | `FlowMeteringColorModeEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -1190,6 +1365,7 @@
 | `IEEE1722TpRvfFrameRateEnum` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv` |
 | `IEEE1722TpRvfPixelDepthEnum` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv` |
 | `IEEE1722TpRvfPixelFormatEnum` | `M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv` |
+| `IPduSignalProcessingEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `IPsecDpdActionEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `IPsecHeaderTypeEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `IPsecIpProtocolEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
@@ -1225,7 +1401,9 @@
 | `PduCollectionSemanticsEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `PduCollectionTriggerEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |
 | `PgwideEnum` | `M2.MSR.Documentation.BlockElements.OasisExchangeTable` |
+| `PncGatewayTypeEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
 | `ResolutionPolicyEnum` | `M2.MSR.Documentation.TextModel.InlineAttributeEnums` |
+| `ResumePosition` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication` |
 | `RptAccessEnum` | `M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport` |
 | `RptEnablerImplTypeEnum` | `M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport` |
 | `RptExecutionControlEnum` | `M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport` |
@@ -1274,6 +1452,7 @@
 | `TimeSyncTechnologyEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TlsVersionEnum` | `M2.AUTOSARTemplates.SystemTemplate.SecureCommunication` |
 | `TransferPropertyEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
+| `TransformerClassEnum` | `M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `TriggerMode` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `TtcanTriggerType` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication` |
 | `UdpChecksumCalculationEnum` | `M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances` |

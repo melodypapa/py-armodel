@@ -1,5 +1,5 @@
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     ModeDrivenTransmissionModeCondition,
     TransmissionModeCondition,
     TimeRangeType,

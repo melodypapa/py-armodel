@@ -1,8 +1,10 @@
 from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+
 
 class ModeDrivenTransmissionModeCondition(ARObject):
     def __init__(self):
@@ -16,6 +18,7 @@ class ModeDrivenTransmissionModeCondition(ARObject):
     def setModeDeclarationRef(self, value):
         self.modeDeclarationRef = value
         return self
+
 
 class TransmissionModeCondition(ARObject):
     def __init__(self):
@@ -126,6 +129,7 @@ class TransmissionModeTiming(ARObject):
         self.eventControlledTiming = value
         return self
 
+
 class TransmissionModeDeclaration(ARObject):
     def __init__(self):
         super().__init__()
@@ -170,3 +174,14 @@ class TransmissionModeDeclaration(ARObject):
     def setTransmissionModeTrueTiming(self, value):
         self.transmissionModeTrueTiming = value
         return self
+
+
+__all__ = [
+    'ModeDrivenTransmissionModeCondition',
+    'TransmissionModeCondition',
+    'TimeRangeType',
+    'CyclicTiming',
+    'EventControlledTiming',
+    'TransmissionModeTiming',
+    'TransmissionModeDeclaration',
+]

@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
 )
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement import DiagnosticCommonElement
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 
 
 class DiagnosticServiceTable(DiagnosticCommonElement):
