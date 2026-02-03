@@ -476,7 +476,14 @@ class TestClassMapping:
         This test provides a combined report of all type verification results.
         Only verifies classes that exist in the codebase. Unimplemented classes
         are tracked separately in the report.
+
+        Note: This test is skipped in CI if existing_classes.json is not available.
+        Run `python scripts/scan_existing_classes.py` first to generate it.
         """
+        # Skip test if existing_classes.json is not available (e.g., in CI)
+        if not existing_classes:
+            pytest.skip("existing_classes.json not found. Run 'python scripts/scan_existing_classes.py' first.")
+
         total_types = len(all_types)
         print(f"\n=== Comprehensive Test: {total_types} total types in mapping.json ===")
         print(f"Existing classes in codebase: {sum(len(c) for c in existing_classes.values())}")
