@@ -7,8 +7,8 @@
 
 - **Total Types in mapping.json**: 1937
 - **Existing in Codebase**: 784 (40.5%)
-- **Verified Correct Location**: 715 (36.9%)
-- **Wrong Location (Fixable)**: 69
+- **Verified Correct Location**: 725 (37.4%)
+- **Wrong Location (Fixable)**: 59
 - **Not Implemented (Deferred)**: 1153
 
 ## Summary by Type
@@ -16,15 +16,15 @@
 ### Class
 - **Total**: 1623
 - **Existing**: 696 (42.9%)
-- **Passed**: 633 (39.0%)
-- **Wrong Location**: 63
+- **Passed**: 642 (39.6%)
+- **Wrong Location**: 54
 - **Not Implemented**: 927
 
 ### Enumeration
 - **Total**: 264
 - **Existing**: 66 (25.0%)
-- **Passed**: 60 (22.7%)
-- **Wrong Location**: 6
+- **Passed**: 61 (23.1%)
+- **Wrong Location**: 5
 - **Not Implemented**: 198
 
 ### Primitive
@@ -38,22 +38,13 @@
 
 *Classes that exist in the codebase but are not at the expected mapped location*
 
-### Class (63 classes)
+### Class (54 classes)
 
-#### Module Not Found (11)
+#### Module Not Found (2)
 
 | Class Name | Expected Module |
 |------------|-----------------|
-| `EndToEndProtectionISignalIPdu` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection` |
 | `ParameterInAtomicSWCTypeInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs` |
-| `PortPrototypeBlueprint` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Port` |
-| `PortPrototypeBlueprintInitValue` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Port` |
-| `RunnableEntityArgument` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntity` |
-| `SoAdRoutingGroup` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
-| `SocketConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
-| `SwcTiming` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
-| `TimingExtension` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions` |
-| `Traceable` | `armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing` |
 | `VariableInAtomicSWCTypeInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs` |
 
 #### Class Not Found in Module (52)
@@ -64,9 +55,6 @@
 | `AbstractCanCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `AbstractCanPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `ApplicationEndpoint` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `ArVariableInImplementationDataInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements` |
-| `AsynchronousServerCallPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
-| `AsynchronousServerCallResultPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
 | `AtpBlueprintMapping` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
 | `AtpBlueprintable` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
 | `CanCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
@@ -76,6 +64,7 @@
 | `DoIpEntity` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `DoIpTpConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
 | `EcuInstance` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology` |
+| `EndToEndProtectionISignalIPdu` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection` |
 | `EndToEndTransformationComSpecProps` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer` |
 | `EthernetPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `ExternalTriggeringPointIdent` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario` |
@@ -90,17 +79,18 @@
 | `Ipv6Configuration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `LinCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
 | `LinPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology` |
-| `ModeErrorBehavior` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration` |
-| `ModeTransition` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration` |
 | `NetworkEndpoint` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `NetworkEndpointAddress` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `OperationInAtomicSwcInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `POperationInAtomicSwcInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `PackageableElement` | `armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage` |
+| `PortPrototypeBlueprint` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Port` |
+| `PortPrototypeBlueprintInitValue` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.Port` |
 | `ROperationInAtomicSwcInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `RoleBasedDataTypeAssignment` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping` |
+| `SoAdRoutingGroup` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
+| `SocketConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel` |
 | `SwcToEcuMapping` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
-| `SynchronousServerCallPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
 | `TcpTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TcpUdpConfig` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `TimeSyncClientConfiguration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -109,17 +99,12 @@
 | `TpConnection` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
 | `TpConnectionIdent` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection` |
 | `TpPort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
+| `Traceable` | `armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing` |
 | `TransportProtocolConfiguration` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `UdpTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `VlanConfig` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 
-### Enumeration (6 classes)
-
-#### Module Not Found (1)
-
-| Class Name | Expected Module |
-|------------|-----------------|
-| `RamBlockStatusControlEnum` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent` |
+### Enumeration (5 classes)
 
 #### Class Not Found in Module (5)
 
@@ -128,7 +113,7 @@
 | `CommunicationDirectionType` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `FlexrayChannelName` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `IPduSignalProcessingEnum` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
-| `ModeErrorReactionPolicyEnum` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration` |
+| `RamBlockStatusControlEnum` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent` |
 | `SwServiceImplPolicyEnum` | `armodel.models.M2.MSR.DataDictionary.ServiceProcessTask` |
 
 ## Not Implemented (Deferred)

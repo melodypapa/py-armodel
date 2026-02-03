@@ -14,62 +14,16 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, ARBoolean
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint, AsynchronousServerCallPoint, SynchronousServerCallPoint, AsynchronousServerCallResultPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeSwitchPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, InternalTriggeringPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntity import RunnableEntity, RunnableEntityArgument
 
 
-class RunnableEntityArgument(ARObject):
-    def __init__(self):
-        super().__init__()
-
-        self.symbol = None                                      # type: ARLiteral
-
-    def getSymbol(self):
-        return self.symbol
-
-    def setSymbol(self, value):
-        self.symbol = value
-        return self
-
-
-class AsynchronousServerCallResultPoint(AbstractAccessPoint):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.asynchronousServerCallPointRef = None              # type: RefType
-
-    def getAsynchronousServerCallPointRef(self):
-        return self.asynchronousServerCallPointRef
-
-    def setAsynchronousServerCallPointRef(self, value):
-        self.asynchronousServerCallPointRef = value
-        return self
-
-
-class AsynchronousServerCallPoint(ServerCallPoint):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-
-class SynchronousServerCallPoint(ServerCallPoint):
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.calledFromWithinExclusiveAreaRef = None            # type: RefType
-
-    def getCalledFromWithinExclusiveAreaRef(self):
-        return self.calledFromWithinExclusiveAreaRef
-
-    def setCalledFromWithinExclusiveAreaRef(self, value):
-        self.calledFromWithinExclusiveAreaRef = value
-        return self
-
-
-class RunnableEntity(ExecutableEntity):
+class SwcInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

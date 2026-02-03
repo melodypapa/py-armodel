@@ -103,7 +103,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Soft
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import *
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import *
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import *
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import *
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *
