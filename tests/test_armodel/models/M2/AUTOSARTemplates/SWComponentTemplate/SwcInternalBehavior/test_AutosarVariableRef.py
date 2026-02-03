@@ -3,7 +3,7 @@ This module contains comprehensive tests for the AutosarVariableRef module in SW
 Tests cover all classes and methods in the AutosarVariableRef.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import (
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
     AutosarVariableRef
 )
 
@@ -20,13 +20,13 @@ class TestAutosarVariableRef:
         assert var_ref.localVariableRef is None
         
         # Test autosarVariableIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import VariableInAtomicSWCTypeInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs import VariableInAtomicSWCTypeInstanceRef
         iref = VariableInAtomicSWCTypeInstanceRef()
         var_ref.setAutosarVariableIRef(iref)
         assert var_ref.getAutosarVariableIRef() == iref
         
         # Test autosarVariableInImplDatatype methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import ArVariableInImplementationDataInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef
         impl_datatype = ArVariableInImplementationDataInstanceRef()
         var_ref.setAutosarVariableInImplDatatype(impl_datatype)
         assert var_ref.getAutosarVariableInImplDatatype() == impl_datatype

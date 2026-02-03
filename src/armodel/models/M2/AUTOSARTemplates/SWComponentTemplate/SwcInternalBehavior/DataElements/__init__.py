@@ -5,13 +5,64 @@ in software component internal behavior templates.
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+
+
+class AutosarVariableRef(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.autosarVariableIRef: 'VariableInAtomicSWCTypeInstanceRef' = None
+        self.autosarVariableInImplDatatype: 'ArVariableInImplementationDataInstanceRef' = None
+        self.localVariableRef: 'VariableInAtomicSWCTypeInstanceRef' = None
+
+    def getAutosarVariableIRef(self) -> 'VariableInAtomicSWCTypeInstanceRef':
+        return self.autosarVariableIRef
+
+    def setAutosarVariableIRef(self, value):
+        self.autosarVariableIRef = value
+        return self
+
+    def getAutosarVariableInImplDatatype(self) -> 'ArVariableInImplementationDataInstanceRef':
+        """Get the autosarVariableInImplDatatype attribute."""
+        return self.autosarVariableInImplDatatype
+
+    def setAutosarVariableInImplDatatype(self, value):
+        self.autosarVariableInImplDatatype = value
+        return self
+
+    def getLocalVariableRef(self):
+        return self.localVariableRef
+
+    def setLocalVariableRef(self, value):
+        self.localVariableRef = value
+        return self
+
+
+class AutosarParameterRef(ARObject):
+    def __init__(self):
+        super().__init__()
+
+        self.autosarParameterIRef: 'ParameterInAtomicSWCTypeInstanceRef' = None
+        self.localParameterRef: 'RefType' = None
+
+    def getAutosarParameterIRef(self):
+        return self.autosarParameterIRef
+
+    def setAutosarParameterIRef(self, value):
+        self.autosarParameterIRef = value
+        return self
+
+    def getLocalParameterRef(self):
+        return self.localParameterRef
+
+    def setLocalParameterRef(self, value):
+        self.localParameterRef = value
+        return self
 
 
 class ParameterAccess(AbstractAccessPoint):

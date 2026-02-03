@@ -8,16 +8,16 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### Classes
 - **Required**: 1623
-- **Implemented**: 513
-- **Missing**: 1110
-- **Extra**: 519
+- **Implemented**: 504
+- **Missing**: 1119
+- **Extra**: 432
 
 ### Enumerations
 - **Required**: 264
-- **Implemented**: 49
-- **Missing**: 215
-- **Extra**: 28
-- **Literal Mismatches**: 39
+- **Implemented**: 48
+- **Missing**: 216
+- **Extra**: 30
+- **Literal Mismatches**: 38
 
 ### Overall Status
 **❌ Incomplete**
@@ -31,19 +31,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ## Packages with Problems
 
-**Total packages with issues**: 220 out of 257
-
-### M2::AUTOSARTemplates::AbstractPlatform
-
-- **M2::AUTOSARTemplates::AbstractPlatform**: 2 missing classes
-
-### M2::AUTOSARTemplates::AdaptivePlatform
-
-- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall**: 3 missing classes
-- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment**: 1 missing classes
-- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem**: 2 missing classes
-- **M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule**: 1 missing classes
-- **M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface**: 1 missing classes
+**Total packages with issues**: 210 out of 257
 
 ### M2::AUTOSARTemplates::AutosarTopLevelStructure
 
@@ -51,25 +39,22 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### M2::AUTOSARTemplates::BswModuleTemplate
 
-- **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs**: 1 missing classes
-- **M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces**: 2 missing classes, 1 missing enums, 3 literal mismatches
-- **M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior**: 9 missing classes
+- **M2::AUTOSARTemplates::BswModuleTemplate::BswOverview**: 1 missing classes
+- **M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces**: 4 literal mismatches
 
 ### M2::AUTOSARTemplates::CommonStructure
 
-- **M2::AUTOSARTemplates::CommonStructure::ModeDeclaration**: 2 missing classes, 1 missing enums
+- **M2::AUTOSARTemplates::CommonStructure::ModeDeclaration**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::InternalBehavior**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Implementation**: 2 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::ResourceConsumption**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime**: 6 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport**: 8 missing classes, 4 missing enums
+- **M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport**: 4 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::ServiceNeeds**: 14 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Constants**: 23 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure**: 7 missing classes
+- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure**: 6 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Port**: 2 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::Generic**: 1 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping**: 1 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::ClientServerInterfaceToBsw**: 2 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint**: 2 missing classes, 2 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExchangePoint::Common**: 4 missing classes
@@ -78,10 +63,9 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintFormula**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Blueprint**: 1 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes**: 2 literal mismatches
-- **M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation**: 4 missing classes, 1 missing enums
+- **M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Filter**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions**: 7 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition**: 6 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription**: 3 missing classes
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescription**: 30 missing classes, 12 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming**: 2 literal mismatches
@@ -89,11 +73,10 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint**: 2 missing enums
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint**: 1 literal mismatches
 - **M2::AUTOSARTemplates::CommonStructure::Timing::TimingCpSoftwareCluster**: 3 missing classes
-- **M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock**: 3 missing classes
 
 ### M2::AUTOSARTemplates::DiagnosticExtract
 
-- **M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics**: 18 missing classes
+- **M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics**: 17 missing classes
 - **M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticContribution**: 3 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonProps**: 1 missing classes, 3 missing enums
 - **M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticTroubleCode**: 8 missing classes, 6 missing enums
@@ -146,14 +129,18 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::DiagnosticExtract::J1939**: 4 missing classes
 - **M2::AUTOSARTemplates::DiagnosticExtract::InstanceRefs**: 3 missing classes
 
+### M2::AUTOSARTemplates::ECUCDescriptionTemplate
+
+- **M2::AUTOSARTemplates::ECUCDescriptionTemplate**: 11 missing classes
+
 ### M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
-- **M2::AUTOSARTemplates::ECUCParameterDefTemplate**: 1 missing enums, 3 literal mismatches
+- **M2::AUTOSARTemplates::ECUCParameterDefTemplate**: 40 missing classes, 4 missing enums
 
 ### M2::AUTOSARTemplates::EcuResourceTemplate
 
 - **M2::AUTOSARTemplates::EcuResourceTemplate**: 7 missing classes
-- **M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory**: 2 missing classes
+- **M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory**: 1 missing classes
 
 ### M2::AUTOSARTemplates::FeatureModelTemplate
 
@@ -176,7 +163,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1**: 2 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::GenericStructure::ViewMapSet**: 2 missing classes
 - **M2::AUTOSARTemplates::GenericStructure::FormulaLanguage**: 1 missing classes
-- **M2::AUTOSARTemplates::GenericStructure::RolesAndRights**: 5 missing classes, 1 missing enums
+- **M2::AUTOSARTemplates::GenericStructure::RolesAndRights**: 4 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::GenericStructure::LifeCycles**: 2 missing classes
 - **M2::AUTOSARTemplates::GenericStructure::ImpositionTimes**: 1 missing classes
 
@@ -186,15 +173,13 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 ### M2::AUTOSARTemplates::SWComponentTemplate
 
-- **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior**: 3 missing classes
+- **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior**: 2 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount**: 2 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping**: 1 missing classes
-- **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall**: 3 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements**: 6 missing classes, 1 missing enums
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefs**: 2 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents**: 5 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::PortAPIOptions**: 2 missing classes, 3 missing enums
-- **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity**: 1 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstantiationDataDefProps**: 1 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling**: 1 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes**: 1 missing enums
@@ -206,8 +191,9 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation**: 1 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::Composition**: 8 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs**: 2 missing classes
-- **M2::AUTOSARTemplates::SWComponentTemplate::Communication**: 2 missing classes, 5 literal mismatches
+- **M2::AUTOSARTemplates::SWComponentTemplate::Communication**: 23 missing classes, 5 missing enums
 - **M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes**: 10 missing classes, 5 missing enums
+- **M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection**: 4 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior**: 3 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef**: 4 missing classes
 - **M2::AUTOSARTemplates::SWComponentTemplate::MeasurementAndCalibration::InterpolationRoutine**: 3 missing classes
@@ -221,6 +207,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 
 - **M2::AUTOSARTemplates::SystemTemplate**: 8 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection**: 3 missing classes
+- **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore**: 1 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology**: 2 missing classes, 1 literal mismatches
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication**: 41 missing classes, 11 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing**: 10 missing classes
@@ -254,7 +241,7 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 - **M2::AUTOSARTemplates::SystemTemplate::PncMapping**: 2 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::GeneralPurposeConnection**: 1 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::DoIP**: 3 missing classes
-- **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols**: 32 missing classes, 4 missing enums
+- **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols**: 19 missing classes, 4 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp**: 4 missing classes
 - **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAv**: 4 missing classes, 9 missing enums
 - **M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::IEEE1722TpAcf**: 6 missing classes, 1 missing enums
@@ -312,20 +299,20 @@ This report compares AUTOSAR M2 package requirements with actual Python implemen
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview
 
 **Summary:**
-- Classes: 1/1 implemented, 1 extra
+- Classes: 0/1 implemented, 1 missing, 1 extra
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | BswModuleDescription | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/BswModuleDescription.py | Line 22 |
+| ❌ Missing | BswModuleDescription | - | Not found in implementation |
 | ➕ Extra | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -336,29 +323,26 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | ModeInBswModuleDescriptionInstanceRef | - | Not found in implementation |
+| ✅ Implemented | ModeInBswModuleDescriptionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py | Line 16 |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces
 
 **Summary:**
-- Classes: 3/5 implemented, 2 missing, 4 extra
-- Enums: 3/4 implemented, 1 missing, 3 literal mismatches, 1 extra
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both BswInterfaces.py and BswInterfaces/ exist. Requirements say this is a leaf package. Expected: single file.
+- Classes: 5/5 implemented, 5 extra
+- Enums: 4/4 implemented, 4 literal mismatches, 1 extra
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
+| ✅ Implemented | BswEntryRelationship | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 597 |
+| ✅ Implemented | BswEntryRelationshipSet | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 649 |
 | ✅ Implemented | BswModuleClientServerEntry | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 493 |
 | ✅ Implemented | BswModuleDependency | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 71 |
 | ✅ Implemented | BswModuleEntry | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 167 |
-| ❌ Missing | BswEntryRelationship | - | Not found in implementation |
-| ❌ Missing | BswEntryRelationshipSet | - | Not found in implementation |
 | ➕ Extra | BswCallType | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 | ➕ Extra | BswEntryKindEnum | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
+| ➕ Extra | BswEntryRelationshipEnum | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 | ➕ Extra | BswExecutionContext | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 | ➕ Extra | SwServiceImplPolicyEnum | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 
@@ -368,19 +352,15 @@ Hybrid structure: both BswInterfaces.py and BswInterfaces/ exist. Requirements s
 |--------|-----------|-------------------|----------------------|----------|-------|
 | ⚠️ Literal Mismatch | BswCallType | callback, callout, interrupt, regular, scheduled | ASYNCHRONOUS, SYNCHRONOUS | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 28; Missing: callback, callout, interrupt, regular, scheduled; Extra: ASYNCHRONOUS, SYNCHRONOUS |
 | ⚠️ Literal Mismatch | BswEntryKindEnum | AUTOSAR, Basic, abstract, concrete | FUNCTION | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 19; Missing: AUTOSAR, Basic, abstract, concrete; Extra: FUNCTION |
+| ⚠️ Literal Mismatch | BswEntryRelationshipEnum | derivedFrom | calls, reads, triggers, writes | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 624; Missing: derivedFrom; Extra: calls, reads, triggers, writes |
 | ⚠️ Literal Mismatch | BswExecutionContext | hook, interruptCat1, interruptCat2, task, unspecified | HOOK, INTERRUPT-CAT-1, INTERRUPT-CAT-2, TASK, UNSPECIFIED | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Line 39; Missing: hook, interruptCat1, interruptCat2, task, unspecified; Extra: HOOK, INTERRUPT-CAT-1, INTERRUPT-CAT-2, TASK, UNSPECIFIED |
-| ❌ Missing | BswEntryRelationshipEnum | derivedFrom | - | - | Not found in implementation |
 | ➕ Extra | SwServiceImplPolicyEnum | - | INLINE, INLINE-CONDITIONAL, MACRO, STANDARD | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior
 
 **Summary:**
-- Classes: 28/37 implemented, 9 missing, 2 extra
-- Enums: 1/1 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say this is a leaf package. Expected: single file.
+- Classes: 37/37 implemented, 2 extra
+- Enums: 1/1 implemented, 3 extra
 
 #### Classes
 
@@ -388,6 +368,7 @@ Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say t
 |--------|------------|----------|-------|
 | ✅ Implemented | BswAsynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 74 |
 | ✅ Implemented | BswAsynchronousServerCallResultPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 258 |
+| ✅ Implemented | BswAsynchronousServerCallReturnsEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2234 |
 | ✅ Implemented | BswBackgroundEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1177 |
 | ✅ Implemented | BswCalledEntity | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 638 |
 | ✅ Implemented | BswDataReceivedEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 983 |
@@ -395,11 +376,15 @@ Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say t
 | ✅ Implemented | BswDirectCallPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 118 |
 | ✅ Implemented | BswDistinguishedPartition | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 344 |
 | ✅ Implemented | BswEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 758 |
+| ✅ Implemented | BswExclusiveAreaPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2261 |
 | ✅ Implemented | BswExternalTriggerOccurredEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1211 |
 | ✅ Implemented | BswInternalBehavior | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1427 |
 | ✅ Implemented | BswInternalTriggerOccurredEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1025 |
 | ✅ Implemented | BswInternalTriggeringPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1383 |
 | ✅ Implemented | BswInterruptEntity | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 692 |
+| ✅ Implemented | BswInterruptEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2282 |
+| ✅ Implemented | BswModeManagerErrorEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2299 |
+| ✅ Implemented | BswModeReceiverPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2318 |
 | ✅ Implemented | BswModeSenderPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1105 |
 | ✅ Implemented | BswModeSwitchAckRequest | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1067 |
 | ✅ Implemented | BswModeSwitchEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 867 |
@@ -411,18 +396,13 @@ Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say t
 | ✅ Implemented | BswQueuedDataReceptionPolicy | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 1343 |
 | ✅ Implemented | BswSchedulableEntity | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 655 |
 | ✅ Implemented | BswScheduleEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 847 |
+| ✅ Implemented | BswSchedulerNamePrefix | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2341 |
+| ✅ Implemented | BswServiceDependency | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2369 |
 | ✅ Implemented | BswSynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 188 |
 | ✅ Implemented | BswTimingEvent | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 927 |
+| ✅ Implemented | BswTriggerDirectImplementation | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2397 |
 | ✅ Implemented | BswVariableAccess | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 278 |
-| ❌ Missing | BswAsynchronousServerCallReturnsEvent | - | Not found in implementation |
-| ❌ Missing | BswExclusiveAreaPolicy | - | Not found in implementation |
-| ❌ Missing | BswInterruptEvent | - | Not found in implementation |
-| ❌ Missing | BswModeManagerErrorEvent | - | Not found in implementation |
-| ❌ Missing | BswModeReceiverPolicy | - | Not found in implementation |
-| ❌ Missing | BswSchedulerNamePrefix | - | Not found in implementation |
-| ❌ Missing | BswServiceDependency | - | Not found in implementation |
-| ❌ Missing | BswTriggerDirectImplementation | - | Not found in implementation |
-| ❌ Missing | RoleBasedBswModuleEntryAssignment | - | Not found in implementation |
+| ✅ Implemented | RoleBasedBswModuleEntryAssignment | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 2419 |
 | ➕ Extra | BswApiOptions | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
 | ➕ Extra | BswInterruptCategory | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
 
@@ -431,6 +411,9 @@ Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say t
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
 | ✅ Implemented | BswInterruptCategory | cat1, cat2 | cat1, cat2 | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Line 672 |
+| ➕ Extra | BswExclusiveAreaPolicy | - | none, internal, external | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
+| ➕ Extra | BswModeReceiverPolicy | - | none, immediate, deferred | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
+| ➕ Extra | BswTriggerDirectImplementation | - | not-allowed, allowed | src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation
 
@@ -449,10 +432,6 @@ Hybrid structure: both BswBehavior.py and BswBehavior/ exist. Requirements say t
 **Summary:**
 - Classes: 0/0 implemented, 33 extra
 - Enums: 2/4 implemented, 2 missing, 1 literal mismatches
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both PrimitiveTypes.py and PrimitiveTypes/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -861,7 +840,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::GenericStructure::RolesAndRights
 
 **Summary:**
-- Classes: 0/5 implemented, 5 missing
+- Classes: 1/5 implemented, 4 missing
 - Enums: 0/1 implemented, 1 missing
 
 ⚠️ **Structure Mismatch Warning**
@@ -872,11 +851,11 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
+| ✅ Implemented | AtpDefinition | src/armodel/models/M2/AUTOSARTemplates/GenericStructure/RolesAndRights/AtpDefinition.py | Line 10 |
 | ❌ Missing | AclObjectSet | - | Not found in implementation |
 | ❌ Missing | AclOperation | - | Not found in implementation |
 | ❌ Missing | AclPermission | - | Not found in implementation |
 | ❌ Missing | AclRole | - | Not found in implementation |
-| ❌ Missing | AtpDefinition | - | Not found in implementation |
 
 #### Enumerations
 
@@ -889,10 +868,6 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 **Summary:**
 - Classes: 3/5 implemented, 2 missing
 - Enums: 0/0 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both LifeCycles.py and LifeCycles/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -919,12 +894,8 @@ Hybrid structure: both LifeCycles.py and LifeCycles/ exist. Requirements say thi
 ### Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration
 
 **Summary:**
-- Classes: 5/7 implemented, 2 missing, 1 extra
-- Enums: 1/2 implemented, 1 missing
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both ModeDeclaration.py and ModeDeclaration/ exist. Requirements say this is a leaf package. Expected: single file.
+- Classes: 7/7 implemented, 2 extra
+- Enums: 2/2 implemented, 1 literal mismatches
 
 #### Classes
 
@@ -934,17 +905,18 @@ Hybrid structure: both ModeDeclaration.py and ModeDeclaration/ exist. Requiremen
 | ✅ Implemented | ModeDeclarationGroup | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 228 |
 | ✅ Implemented | ModeDeclarationGroupPrototype | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 332 |
 | ✅ Implemented | ModeDeclarationGroupPrototypeMapping | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 29 |
+| ✅ Implemented | ModeErrorBehavior | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 427 |
 | ✅ Implemented | ModeRequestTypeMap | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 164 |
-| ❌ Missing | ModeErrorBehavior | - | Not found in implementation |
-| ❌ Missing | ModeTransition | - | Not found in implementation |
+| ✅ Implemented | ModeTransition | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 448 |
 | ➕ Extra | ModeActivationKind | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Not documented in requirements |
+| ➕ Extra | ModeErrorReactionPolicyEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Not documented in requirements |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
+| ⚠️ Literal Mismatch | ModeErrorReactionPolicyEnum | defaultMode, lastMode | keep-mode, transition-to-default-mode, transition-to-safe-mode | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 477; Missing: defaultMode, lastMode; Extra: keep-mode, transition-to-default-mode, transition-to-safe-mode |
 | ✅ Implemented | ModeActivationKind | onEntry, onExit, onTransition | onEntry, onExit, onTransition | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py | Line 16 |
-| ❌ Missing | ModeErrorReactionPolicyEnum | defaultMode, lastMode | - | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration
 
@@ -1157,8 +1129,8 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport
 
 **Summary:**
-- Classes: 0/8 implemented, 8 missing
-- Enums: 0/4 implemented, 4 missing
+- Classes: 8/8 implemented, 4 extra
+- Enums: 4/4 implemented, 4 literal mismatches
 
 ⚠️ **Structure Mismatch Warning**
 
@@ -1168,23 +1140,27 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | McFunctionDataRefSet | - | Not found in implementation |
-| ❌ Missing | RptComponent | - | Not found in implementation |
-| ❌ Missing | RptExecutableEntity | - | Not found in implementation |
-| ❌ Missing | RptExecutableEntityEvent | - | Not found in implementation |
-| ❌ Missing | RptExecutionContext | - | Not found in implementation |
-| ❌ Missing | RptServicePoint | - | Not found in implementation |
-| ❌ Missing | RptSupportData | - | Not found in implementation |
-| ❌ Missing | RptSwPrototypingAccess | - | Not found in implementation |
+| ✅ Implemented | McFunctionDataRefSet | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/McFunctionDataRefSet.py | Line 6 |
+| ✅ Implemented | RptComponent | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptComponent.py | Line 4 |
+| ✅ Implemented | RptExecutableEntity | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutableEntity.py | Line 6 |
+| ✅ Implemented | RptExecutableEntityEvent | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutableEntityEvent.py | Line 6 |
+| ✅ Implemented | RptExecutionContext | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutionContext.py | Line 5 |
+| ✅ Implemented | RptServicePoint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptServicePoint.py | Line 6 |
+| ✅ Implemented | RptSupportData | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptSupportData.py | Line 9 |
+| ✅ Implemented | RptSwPrototypingAccess | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptSwPrototypingAccess.py | Line 6 |
+| ➕ Extra | RptAccessEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptAccessEnum.py | Not documented in requirements |
+| ➕ Extra | RptEnablerImplTypeEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptEnablerImplTypeEnum.py | Not documented in requirements |
+| ➕ Extra | RptExecutionControlEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutionControlEnum.py | Not documented in requirements |
+| ➕ Extra | RptPreparationEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptPreparationEnum.py | Not documented in requirements |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
-| ❌ Missing | RptAccessEnum | enabled, none, protected | - | - | Not found in implementation |
-| ❌ Missing | RptEnablerImplTypeEnum | none, rptEnablerRam, rptEnablerRamAndRom, rptEnablerRom | - | - | Not found in implementation |
-| ❌ Missing | RptExecutionControlEnum | conditional, none | - | - | Not found in implementation |
-| ❌ Missing | RptPreparationEnum | none, rptLevel1, rptLevel2, rptLevel3, original | - | - | Not found in implementation |
+| ⚠️ Literal Mismatch | RptAccessEnum | enabled, none, protected | read, read-write, write | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptAccessEnum.py | Line 4; Missing: enabled, none, protected; Extra: read, read-write, write |
+| ⚠️ Literal Mismatch | RptEnablerImplTypeEnum | none, rptEnablerRam, rptEnablerRamAndRom, rptEnablerRom | external, internal | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptEnablerImplTypeEnum.py | Line 4; Missing: none, rptEnablerRam, rptEnablerRamAndRom, rptEnablerRom; Extra: external, internal |
+| ⚠️ Literal Mismatch | RptExecutionControlEnum | conditional, none | asynchronous, synchronous | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutionControlEnum.py | Line 4; Missing: conditional, none; Extra: asynchronous, synchronous |
+| ⚠️ Literal Mismatch | RptPreparationEnum | none, original, rptLevel1, rptLevel2, rptLevel3 | prepared, unprepared | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptPreparationEnum.py | Line 4; Missing: none, original, rptLevel1, rptLevel2, rptLevel3; Extra: prepared, unprepared |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::FlatMap
 
@@ -1386,7 +1362,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure
 
 **Summary:**
-- Classes: 0/7 implemented, 7 missing
+- Classes: 1/7 implemented, 6 missing
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -1397,7 +1373,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | AtpBlueprint | - | Not found in implementation |
+| ✅ Implemented | AtpBlueprint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/AbstractBlueprintStructure/AtpBlueprint.py | Line 10 |
 | ❌ Missing | AtpBlueprintMapping | - | Not found in implementation |
 | ❌ Missing | AtpBlueprintable | - | Not found in implementation |
 | ❌ Missing | BlueprintPolicy | - | Not found in implementation |
@@ -1437,7 +1413,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -1448,12 +1424,12 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | BlueprintMappingSet | - | Not found in implementation |
+| ✅ Implemented | BlueprintMappingSet | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintMapping/BlueprintMappingSet.py | Line 5 |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -1464,7 +1440,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | BlueprintGenerator | - | Not found in implementation |
+| ✅ Implemented | BlueprintGenerator | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/BlueprintGenerator/BlueprintGenerator.py | Line 4 |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword
 
@@ -1632,8 +1608,8 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
 
 **Summary:**
-- Classes: 0/4 implemented, 4 missing
-- Enums: 0/1 implemented, 1 missing
+- Classes: 4/4 implemented, 1 extra
+- Enums: 1/1 implemented, 1 literal mismatches
 
 ⚠️ **Structure Mismatch Warning**
 
@@ -1643,16 +1619,17 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | SignalServiceTranslationElementProps | - | Not found in implementation |
-| ❌ Missing | SignalServiceTranslationEventProps | - | Not found in implementation |
-| ❌ Missing | SignalServiceTranslationProps | - | Not found in implementation |
-| ❌ Missing | SignalServiceTranslationPropsSet | - | Not found in implementation |
+| ✅ Implemented | SignalServiceTranslationElementProps | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationElementProps.py | Line 4 |
+| ✅ Implemented | SignalServiceTranslationEventProps | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationEventProps.py | Line 4 |
+| ✅ Implemented | SignalServiceTranslationProps | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationProps.py | Line 5 |
+| ✅ Implemented | SignalServiceTranslationPropsSet | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationPropsSet.py | Line 5 |
+| ➕ Extra | SignalServiceTranslationControlEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationControlEnum.py | Not documented in requirements |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
-| ❌ Missing | SignalServiceTranslationControlEnum | allPartialNetworksActive, anyPartialNetworkActive, partialNetwork, serviceDiscovery, translationStart | - | - | Not found in implementation |
+| ⚠️ Literal Mismatch | SignalServiceTranslationControlEnum | allPartialNetworksActive, anyPartialNetworkActive, partialNetwork, serviceDiscovery, translationStart | automatic, manual | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/SignalServiceTranslationControlEnum.py | Line 4; Missing: allPartialNetworksActive, anyPartialNetworkActive, partialNetwork, serviceDiscovery, translationStart; Extra: automatic, manual |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::Filter
 
@@ -1698,7 +1675,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition
 
 **Summary:**
-- Classes: 0/6 implemented, 6 missing
+- Classes: 6/6 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -1709,12 +1686,12 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | ModeInBswInstanceRef | - | Not found in implementation |
-| ❌ Missing | ModeInSwcInstanceRef | - | Not found in implementation |
-| ❌ Missing | TimingCondition | - | Not found in implementation |
-| ❌ Missing | TimingConditionFormula | - | Not found in implementation |
-| ❌ Missing | TimingExtensionResource | - | Not found in implementation |
-| ❌ Missing | TimingModeInstance | - | Not found in implementation |
+| ✅ Implemented | ModeInBswInstanceRef | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/ModeInBswInstanceRef.py | Line 4 |
+| ✅ Implemented | ModeInSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/ModeInSwcInstanceRef.py | Line 4 |
+| ✅ Implemented | TimingCondition | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingCondition.py | Line 5 |
+| ✅ Implemented | TimingConditionFormula | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingConditionFormula.py | Line 4 |
+| ✅ Implemented | TimingExtensionResource | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingExtensionResource.py | Line 4 |
+| ✅ Implemented | TimingModeInstance | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingModeInstance.py | Line 5 |
 
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription
 
@@ -1795,7 +1772,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint
 
 **Summary:**
-- Classes: 1/1 implemented, 26 extra
+- Classes: 1/1 implemented, 24 extra
 - Enums: 0/0 implemented, 4 extra
 
 #### Classes
@@ -1824,11 +1801,9 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | OffsetTimingConstraint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/OffsetConstraint.py | Not documented in requirements |
 | ➕ Extra | PeriodicEventTriggering | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py | Not documented in requirements |
 | ➕ Extra | SporadicEventTriggering | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py | Not documented in requirements |
-| ➕ Extra | SwcTiming | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/TimingExtensions.py | Not documented in requirements |
 | ➕ Extra | SynchronizationPointConstraint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/SynchronizationPointConstraint.py | Not documented in requirements |
 | ➕ Extra | SynchronizationTimingConstraint | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/SynchronizationTiming.py | Not documented in requirements |
 | ➕ Extra | SynchronizationTypeEnum | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/SynchronizationTiming.py | Not documented in requirements |
-| ➕ Extra | TimingExtension | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/TimingExtensions.py | Not documented in requirements |
 
 #### Enumerations
 
@@ -1998,7 +1973,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock
 
 **Summary:**
-- Classes: 0/3 implemented, 3 missing
+- Classes: 3/3 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -2009,25 +1984,27 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | TDLETZoneClock | - | Not found in implementation |
-| ❌ Missing | TimingClock | - | Not found in implementation |
-| ❌ Missing | TimingClockSyncAccuracy | - | Not found in implementation |
+| ✅ Implemented | TDLETZoneClock | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TDLETZoneClock.py | Line 5 |
+| ✅ Implemented | TimingClock | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TimingClock.py | Line 4 |
+| ✅ Implemented | TimingClockSyncAccuracy | src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TimingClockSyncAccuracy.py | Line 4 |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior
 
 **Summary:**
-- Classes: 0/3 implemented, 3 missing, 34 extra
+- Classes: 1/3 implemented, 2 missing, 34 extra
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | RunnableEntity | - | Not found in implementation |
+| ✅ Implemented | RunnableEntity | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RunnableEntity.py | Line 32 |
 | ❌ Missing | SwcExclusiveAreaPolicy | - | Not found in implementation |
 | ❌ Missing | SwcInternalBehavior | - | Not found in implementation |
 | ➕ Extra | AbstractAccessPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py | Not documented in requirements |
 | ➕ Extra | ArVariableInImplementationDataInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstanceRefsUsage.py | Not documented in requirements |
+| ➕ Extra | AsynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Not documented in requirements |
+| ➕ Extra | AsynchronousServerCallResultPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Not documented in requirements |
 | ➕ Extra | AsynchronousServerCallReturnsEvent | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py | Not documented in requirements |
 | ➕ Extra | AutosarParameterRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstanceRefsUsage.py | Not documented in requirements |
 | ➕ Extra | AutosarVariableRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AutosarVariableRef.py | Not documented in requirements |
@@ -2047,29 +2024,23 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | ModeSwitchPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ModeDeclarationGroup.py | Not documented in requirements |
 | ➕ Extra | ModeSwitchedAckEvent | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py | Not documented in requirements |
 | ➕ Extra | OperationInvokedEvent | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py | Not documented in requirements |
-| ➕ Extra | ParameterAccess | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements.py | Not documented in requirements |
-| ➕ Extra | ParameterInAtomicSWCTypeInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstanceRefsUsage.py | Not documented in requirements |
 | ➕ Extra | PerInstanceMemory | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/PerInstanceMemory.py | Not documented in requirements |
 | ➕ Extra | PortAPIOption | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/PortAPIOptions.py | Not documented in requirements |
 | ➕ Extra | PortDefinedArgumentValue | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/PortAPIOptions.py | Not documented in requirements |
 | ➕ Extra | RTEEvent | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py | Not documented in requirements |
 | ➕ Extra | RoleBasedPortAssignment | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py | Not documented in requirements |
+| ➕ Extra | RunnableEntityArgument | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RunnableEntity.py | Not documented in requirements |
 | ➕ Extra | ServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Not documented in requirements |
 | ➕ Extra | SwcModeSwitchEvent | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py | Not documented in requirements |
 | ➕ Extra | SwcServiceDependency | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py | Not documented in requirements |
+| ➕ Extra | SynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Not documented in requirements |
 | ➕ Extra | TimingEvent | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py | Not documented in requirements |
-| ➕ Extra | VariableAccess | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements.py | Not documented in requirements |
-| ➕ Extra | VariableInAtomicSWCTypeInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstanceRefsUsage.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount
 
 **Summary:**
 - Classes: 1/3 implemented, 2 missing
 - Enums: 0/1 implemented, 1 missing
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both AccessCount.py and AccessCount/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -2102,31 +2073,23 @@ Hybrid structure: both AccessCount.py and AccessCount/ exist. Requirements say t
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall
 
 **Summary:**
-- Classes: 1/4 implemented, 3 missing
+- Classes: 4/4 implemented
 - Enums: 0/0 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both ServerCall.py and ServerCall/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Line 11 |
-| ❌ Missing | AsynchronousServerCallPoint | - | Not found in implementation |
-| ❌ Missing | AsynchronousServerCallResultPoint | - | Not found in implementation |
-| ❌ Missing | SynchronousServerCallPoint | - | Not found in implementation |
+| ✅ Implemented | AsynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Line 37 |
+| ✅ Implemented | AsynchronousServerCallResultPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Line 57 |
+| ✅ Implemented | ServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Line 12 |
+| ✅ Implemented | SynchronousServerCallPoint | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py | Line 42 |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements
 
 **Summary:**
 - Classes: 0/6 implemented, 6 missing
 - Enums: 0/1 implemented, 1 missing
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both DataElements.py and DataElements/ exist. Requirements say this is a non-leaf package. Expected: directory.
 
 #### Classes
 
@@ -2151,6 +2114,10 @@ Hybrid structure: both DataElements.py and DataElements/ exist. Requirements say
 - Classes: 0/2 implemented, 2 missing
 - Enums: 0/0 implemented
 
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory InstanceRefs/
+
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2163,10 +2130,6 @@ Hybrid structure: both DataElements.py and DataElements/ exist. Requirements say
 **Summary:**
 - Classes: 2/2 implemented, 1 extra
 - Enums: 0/0 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both Trigger.py and Trigger/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -2182,10 +2145,6 @@ Hybrid structure: both Trigger.py and Trigger/ exist. Requirements say this is a
 - Classes: 3/3 implemented
 - Enums: 0/0 implemented
 
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both ModeDeclarationGroup.py and ModeDeclarationGroup/ exist. Requirements say this is a leaf package. Expected: single file.
-
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2199,10 +2158,6 @@ Hybrid structure: both ModeDeclarationGroup.py and ModeDeclarationGroup/ exist. 
 **Summary:**
 - Classes: 13/18 implemented, 5 missing
 - Enums: 0/0 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both RTEEvents.py and RTEEvents/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
@@ -2233,10 +2188,6 @@ Hybrid structure: both RTEEvents.py and RTEEvents/ exist. Requirements say this 
 - Classes: 2/4 implemented, 2 missing
 - Enums: 0/3 implemented, 3 missing
 
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both PortAPIOptions.py and PortAPIOptions/ exist. Requirements say this is a leaf package. Expected: single file.
-
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2257,14 +2208,15 @@ Hybrid structure: both PortAPIOptions.py and PortAPIOptions/ exist. Requirements
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented, 1 extra
 - Enums: 0/0 implemented
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | RunnableEntityArgument | - | Not found in implementation |
+| ✅ Implemented | RunnableEntityArgument | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RunnableEntity.py | Line 18 |
+| ➕ Extra | RunnableEntity | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RunnableEntity.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstantiationDataDefProps
 
@@ -2296,10 +2248,6 @@ Hybrid structure: both PortAPIOptions.py and PortAPIOptions/ exist. Requirements
 - Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both IncludedDataTypes.py and IncludedDataTypes/ exist. Requirements say this is a leaf package. Expected: single file.
-
 #### Classes
 
 | Status | Class Name | Location | Notes |
@@ -2311,10 +2259,6 @@ Hybrid structure: both IncludedDataTypes.py and IncludedDataTypes/ exist. Requir
 **Summary:**
 - Classes: 0/1 implemented, 1 missing
 - Enums: 0/0 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory VariantHandling/
 
 #### Classes
 
@@ -2532,13 +2476,13 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | InnerPortGroupInCompositionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 158 |
-| ✅ Implemented | ModeGroupInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 12 |
-| ✅ Implemented | PModeGroupInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 46 |
-| ✅ Implemented | RModeGroupInAtomicSWCInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 67 |
-| ✅ Implemented | RModeInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 89 |
-| ✅ Implemented | RVariableInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 137 |
-| ✅ Implemented | VariableInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 126 |
+| ✅ Implemented | InnerPortGroupInCompositionInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 160 |
+| ✅ Implemented | ModeGroupInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 14 |
+| ✅ Implemented | PModeGroupInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 48 |
+| ✅ Implemented | RModeGroupInAtomicSWCInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 69 |
+| ✅ Implemented | RModeInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 91 |
+| ✅ Implemented | RVariableInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 139 |
+| ✅ Implemented | VariableInAtomicSwcInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py | Line 128 |
 | ❌ Missing | OperationInAtomicSwcInstanceRef | - | Not found in implementation |
 | ❌ Missing | POperationInAtomicSwcInstanceRef | - | Not found in implementation |
 | ❌ Missing | PTriggerInAtomicSwcTypeInstanceRef | - | Not found in implementation |
@@ -2622,56 +2566,50 @@ Hybrid structure: both SwcImplementation.py and SwcImplementation/ exist. Requir
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
 **Summary:**
-- Classes: 21/23 implemented, 2 missing, 6 extra
-- Enums: 5/5 implemented, 5 literal mismatches
+- Classes: 0/23 implemented, 23 missing
+- Enums: 0/5 implemented, 5 missing
 
 ⚠️ **Structure Mismatch Warning**
 
-Hybrid structure: both Communication.py and Communication/ exist. Requirements say this is a leaf package. Expected: single file.
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory Communication/
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | ClientComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 175 |
-| ✅ Implemented | CompositeNetworkRepresentation | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 71 |
-| ✅ Implemented | ModeSwitchReceiverComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 189 |
-| ✅ Implemented | ModeSwitchSenderComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 361 |
-| ✅ Implemented | ModeSwitchedAckRequest | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 346 |
-| ✅ Implemented | NonqueuedReceiverComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 631 |
-| ✅ Implemented | NonqueuedSenderComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 161 |
-| ✅ Implemented | NvProvideComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 598 |
-| ✅ Implemented | NvRequireComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 219 |
-| ✅ Implemented | PPortComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 36 |
-| ✅ Implemented | ParameterProvideComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 399 |
-| ✅ Implemented | ParameterRequireComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 243 |
-| ✅ Implemented | QueuedReceiverComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 701 |
-| ✅ Implemented | QueuedSenderComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 156 |
-| ✅ Implemented | RPortComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 53 |
-| ✅ Implemented | ReceiverComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 265 |
-| ✅ Implemented | SenderComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 100 |
-| ✅ Implemented | ServerComSpec | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 567 |
-| ✅ Implemented | TransformationComSpecProps | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 404 |
-| ✅ Implemented | TransmissionAcknowledgementRequest | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 93 |
-| ✅ Implemented | UserDefinedTransformationComSpecProps | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 562 |
+| ❌ Missing | ClientComSpec | - | Not found in implementation |
+| ❌ Missing | CompositeNetworkRepresentation | - | Not found in implementation |
+| ❌ Missing | ModeSwitchReceiverComSpec | - | Not found in implementation |
+| ❌ Missing | ModeSwitchSenderComSpec | - | Not found in implementation |
+| ❌ Missing | ModeSwitchedAckRequest | - | Not found in implementation |
+| ❌ Missing | NonqueuedReceiverComSpec | - | Not found in implementation |
+| ❌ Missing | NonqueuedSenderComSpec | - | Not found in implementation |
+| ❌ Missing | NvProvideComSpec | - | Not found in implementation |
+| ❌ Missing | NvRequireComSpec | - | Not found in implementation |
+| ❌ Missing | PPortComSpec | - | Not found in implementation |
+| ❌ Missing | ParameterProvideComSpec | - | Not found in implementation |
+| ❌ Missing | ParameterRequireComSpec | - | Not found in implementation |
+| ❌ Missing | QueuedReceiverComSpec | - | Not found in implementation |
+| ❌ Missing | QueuedSenderComSpec | - | Not found in implementation |
+| ❌ Missing | RPortComSpec | - | Not found in implementation |
+| ❌ Missing | ReceiverComSpec | - | Not found in implementation |
 | ❌ Missing | ReceptionComSpecProps | - | Not found in implementation |
+| ❌ Missing | SenderComSpec | - | Not found in implementation |
+| ❌ Missing | ServerComSpec | - | Not found in implementation |
+| ❌ Missing | TransformationComSpecProps | - | Not found in implementation |
+| ❌ Missing | TransmissionAcknowledgementRequest | - | Not found in implementation |
 | ❌ Missing | TransmissionComSpecProps | - | Not found in implementation |
-| ➕ Extra | EndToEndTransformationComSpecProps | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Not documented in requirements |
-| ➕ Extra | HandleInvalidEnum | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Not documented in requirements |
-| ➕ Extra | HandleOutOfRangeEnum | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Not documented in requirements |
-| ➕ Extra | HandleOutOfRangeStatusEnum | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Not documented in requirements |
-| ➕ Extra | HandleTimeoutEnum | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeDefinitionEnum | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Not documented in requirements |
+| ❌ Missing | UserDefinedTransformationComSpecProps | - | Not found in implementation |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
-| ⚠️ Literal Mismatch | HandleInvalidEnum | dontInvalidate, external, keep, replace | dontInvalidate, externalReplacement, keep, replace | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 21; Missing: external; Extra: externalReplacement |
-| ⚠️ Literal Mismatch | HandleOutOfRangeEnum | default, externalReplacement, ignore, invalid, none, saturate | invalidate, keep-old-value, replace-with-default, replace-with-limit | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 715; Missing: default, externalReplacement, ignore, invalid, none, saturate; Extra: invalidate, keep-old-value, replace-with-default, replace-with-limit |
-| ⚠️ Literal Mismatch | HandleOutOfRangeStatusEnum | indicate, silent | do-not-set-status, set-status | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 734; Missing: indicate, silent; Extra: do-not-set-status, set-status |
-| ⚠️ Literal Mismatch | HandleTimeoutEnum | none, replace, replaceByTimeoutSubstitutionValue | invalidate, keep-old-value, replace-with-default | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 749; Missing: none, replace, replaceByTimeoutSubstitutionValue; Extra: invalidate, keep-old-value, replace-with-default |
-| ⚠️ Literal Mismatch | TransmissionModeDefinitionEnum | cyclic, cyclicAndOn, triggered | direct, mixed, on-change, periodic | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py | Line 766; Missing: cyclic, cyclicAndOn, triggered; Extra: direct, mixed, on-change, periodic |
+| ❌ Missing | HandleInvalidEnum | dontInvalidate, external, keep, replace | - | - | Not found in implementation |
+| ❌ Missing | HandleOutOfRangeEnum | default, externalReplacement, ignore, invalid, none, saturate | - | - | Not found in implementation |
+| ❌ Missing | HandleOutOfRangeStatusEnum | indicate, silent | - | - | Not found in implementation |
+| ❌ Missing | HandleTimeoutEnum | none, replace, replaceByTimeoutSubstitutionValue | - | - | Not found in implementation |
+| ❌ Missing | TransmissionModeDefinitionEnum | cyclic, cyclicAndOn, triggered | - | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes
 
@@ -2711,18 +2649,21 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection
 
 **Summary:**
-- Classes: 4/4 implemented, 1 extra
+- Classes: 0/4 implemented, 4 missing
 - Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory EndToEndProtection/
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | EndToEndDescription | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py | Line 15 |
-| ✅ Implemented | EndToEndProtection | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py | Line 147 |
-| ✅ Implemented | EndToEndProtectionSet | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py | Line 180 |
-| ✅ Implemented | EndToEndProtectionVariablePrototype | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py | Line 102 |
-| ➕ Extra | EndToEndProtectionISignalIPdu | src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py | Not documented in requirements |
+| ❌ Missing | EndToEndDescription | - | Not found in implementation |
+| ❌ Missing | EndToEndProtection | - | Not found in implementation |
+| ❌ Missing | EndToEndProtectionSet | - | Not found in implementation |
+| ❌ Missing | EndToEndProtectionVariablePrototype | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior
 
@@ -2812,102 +2753,97 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::ECUCDescriptionTemplate
 
 **Summary:**
-- Classes: 11/11 implemented, 2 extra
-- Enums: 0/0 implemented, 1 extra
+- Classes: 0/11 implemented, 11 missing
+- Enums: 0/0 implemented
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ECUCDescriptionTemplate/
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | EcucAbstractReferenceValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 115 |
-| ✅ Implemented | EcucAddInfoParamValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 76 |
-| ✅ Implemented | EcucContainerValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 176 |
-| ✅ Implemented | EcucIndexableValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 35 |
-| ✅ Implemented | EcucInstanceReferenceValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 148 |
-| ✅ Implemented | EcucModuleConfigurationValues | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 217 |
-| ✅ Implemented | EcucNumericalParamValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 102 |
-| ✅ Implemented | EcucParameterValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 43 |
-| ✅ Implemented | EcucReferenceValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 162 |
-| ✅ Implemented | EcucTextualParamValue | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 89 |
-| ✅ Implemented | EcucValueCollection | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Line 13 |
-| ➕ Extra | EcucConditionSpecification | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Not documented in requirements |
-| ➕ Extra | EcucConfigurationVariantEnum | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Not documented in requirements |
-
-#### Enumerations
-
-| Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
-|--------|-----------|-------------------|----------------------|----------|-------|
-| ➕ Extra | EcucConfigurationVariantEnum | - | - | src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py | Not documented in requirements |
+| ❌ Missing | EcucAbstractReferenceValue | - | Not found in implementation |
+| ❌ Missing | EcucAddInfoParamValue | - | Not found in implementation |
+| ❌ Missing | EcucContainerValue | - | Not found in implementation |
+| ❌ Missing | EcucIndexableValue | - | Not found in implementation |
+| ❌ Missing | EcucInstanceReferenceValue | - | Not found in implementation |
+| ❌ Missing | EcucModuleConfigurationValues | - | Not found in implementation |
+| ❌ Missing | EcucNumericalParamValue | - | Not found in implementation |
+| ❌ Missing | EcucParameterValue | - | Not found in implementation |
+| ❌ Missing | EcucReferenceValue | - | Not found in implementation |
+| ❌ Missing | EcucTextualParamValue | - | Not found in implementation |
+| ❌ Missing | EcucValueCollection | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::ECUCParameterDefTemplate
 
 **Summary:**
-- Classes: 40/40 implemented, 5 extra
-- Enums: 3/4 implemented, 1 missing, 3 literal mismatches
+- Classes: 0/40 implemented, 40 missing
+- Enums: 0/4 implemented, 4 missing
+
+⚠️ **Structure Mismatch Warning**
+
+Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory ECUCParameterDefTemplate/
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | EcucAbstractConfigurationClass | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 196 |
-| ✅ Implemented | EcucAbstractExternalReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 640 |
-| ✅ Implemented | EcucAbstractInternalReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 610 |
-| ✅ Implemented | EcucAbstractReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 578 |
-| ✅ Implemented | EcucAbstractStringParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 747 |
-| ✅ Implemented | EcucAddInfoParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1248 |
-| ✅ Implemented | EcucBooleanParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 553 |
-| ✅ Implemented | EcucChoiceContainerDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1005 |
-| ✅ Implemented | EcucChoiceReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 663 |
-| ✅ Implemented | EcucCommonAttributes | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 375 |
-| ✅ Implemented | EcucConditionFormula | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1274 |
-| ✅ Implemented | EcucConditionSpecification | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 14 |
-| ✅ Implemented | EcucContainerDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 257 |
-| ✅ Implemented | EcucDefinitionCollection | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1298 |
-| ✅ Implemented | EcucDefinitionElement | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 58 |
-| ✅ Implemented | EcucDerivationSpecification | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 481 |
-| ✅ Implemented | EcucDestinationUriDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1321 |
-| ✅ Implemented | EcucDestinationUriDefSet | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1346 |
-| ✅ Implemented | EcucDestinationUriPolicy | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1371 |
-| ✅ Implemented | EcucEnumerationLiteralDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 884 |
-| ✅ Implemented | EcucEnumerationParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 927 |
-| ✅ Implemented | EcucFloatParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 972 |
-| ✅ Implemented | EcucForeignReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 708 |
-| ✅ Implemented | EcucFunctionNameDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 836 |
-| ✅ Implemented | EcucInstanceReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 732 |
-| ✅ Implemented | EcucIntegerParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 851 |
-| ✅ Implemented | EcucLinkerSymbolDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1394 |
-| ✅ Implemented | EcucModuleDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1503 |
-| ✅ Implemented | EcucMultilineStringParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1419 |
-| ✅ Implemented | EcucMultiplicityConfigurationClass | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 240 |
-| ✅ Implemented | EcucParamConfContainerDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1032 |
-| ✅ Implemented | EcucParameterDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 492 |
-| ✅ Implemented | EcucParameterDerivationFormula | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1434 |
-| ✅ Implemented | EcucQuery | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1457 |
-| ✅ Implemented | EcucQueryExpression | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 1480 |
-| ✅ Implemented | EcucReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 678 |
-| ✅ Implemented | EcucStringParamDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 821 |
-| ✅ Implemented | EcucUriReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 693 |
-| ✅ Implemented | EcucValidationCondition | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 38 |
-| ✅ Implemented | EcucValueConfigurationClass | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 360 |
-| ➕ Extra | EcucConfigurationClassEnum | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Not documented in requirements |
-| ➕ Extra | EcucConfigurationVariantEnum | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Not documented in requirements |
-| ➕ Extra | EcucDestinationUriDefRefType | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Not documented in requirements |
-| ➕ Extra | EcucScopeEnum | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Not documented in requirements |
-| ➕ Extra | EcucSymbolicNameReferenceDef | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Not documented in requirements |
+| ❌ Missing | EcucAbstractConfigurationClass | - | Not found in implementation |
+| ❌ Missing | EcucAbstractExternalReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucAbstractInternalReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucAbstractReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucAbstractStringParamDef | - | Not found in implementation |
+| ❌ Missing | EcucAddInfoParamDef | - | Not found in implementation |
+| ❌ Missing | EcucBooleanParamDef | - | Not found in implementation |
+| ❌ Missing | EcucChoiceContainerDef | - | Not found in implementation |
+| ❌ Missing | EcucChoiceReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucCommonAttributes | - | Not found in implementation |
+| ❌ Missing | EcucConditionFormula | - | Not found in implementation |
+| ❌ Missing | EcucConditionSpecification | - | Not found in implementation |
+| ❌ Missing | EcucContainerDef | - | Not found in implementation |
+| ❌ Missing | EcucDefinitionCollection | - | Not found in implementation |
+| ❌ Missing | EcucDefinitionElement | - | Not found in implementation |
+| ❌ Missing | EcucDerivationSpecification | - | Not found in implementation |
+| ❌ Missing | EcucDestinationUriDef | - | Not found in implementation |
+| ❌ Missing | EcucDestinationUriDefSet | - | Not found in implementation |
+| ❌ Missing | EcucDestinationUriPolicy | - | Not found in implementation |
+| ❌ Missing | EcucEnumerationLiteralDef | - | Not found in implementation |
+| ❌ Missing | EcucEnumerationParamDef | - | Not found in implementation |
+| ❌ Missing | EcucFloatParamDef | - | Not found in implementation |
+| ❌ Missing | EcucForeignReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucFunctionNameDef | - | Not found in implementation |
+| ❌ Missing | EcucInstanceReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucIntegerParamDef | - | Not found in implementation |
+| ❌ Missing | EcucLinkerSymbolDef | - | Not found in implementation |
+| ❌ Missing | EcucModuleDef | - | Not found in implementation |
+| ❌ Missing | EcucMultilineStringParamDef | - | Not found in implementation |
+| ❌ Missing | EcucMultiplicityConfigurationClass | - | Not found in implementation |
+| ❌ Missing | EcucParamConfContainerDef | - | Not found in implementation |
+| ❌ Missing | EcucParameterDef | - | Not found in implementation |
+| ❌ Missing | EcucParameterDerivationFormula | - | Not found in implementation |
+| ❌ Missing | EcucQuery | - | Not found in implementation |
+| ❌ Missing | EcucQueryExpression | - | Not found in implementation |
+| ❌ Missing | EcucReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucStringParamDef | - | Not found in implementation |
+| ❌ Missing | EcucUriReferenceDef | - | Not found in implementation |
+| ❌ Missing | EcucValidationCondition | - | Not found in implementation |
+| ❌ Missing | EcucValueConfigurationClass | - | Not found in implementation |
 
 #### Enumerations
 
 | Status | Enum Name | Required Literals | Implemented Literals | Location | Notes |
 |--------|-----------|-------------------|----------------------|----------|-------|
-| ⚠️ Literal Mismatch | EcucConfigurationClassEnum | Link, PostBuild, PreCompile, Published | - | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 186; Missing: Link, PostBuild, PreCompile, Published |
-| ⚠️ Literal Mismatch | EcucConfigurationVariantEnum | AUTOSAR, PreconfiguredConfiguration, RecommendedConfiguration, VariantLinkTime, VariantPostBuild, VariantPreCompile | - | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 191; Missing: AUTOSAR, PreconfiguredConfiguration, RecommendedConfiguration, VariantLinkTime, VariantPostBuild, VariantPreCompile |
-| ⚠️ Literal Mismatch | EcucScopeEnum | ECU, local | - | src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py | Line 53; Missing: ECU, local |
+| ❌ Missing | EcucConfigurationClassEnum | Link, PostBuild, PreCompile, Published | - | - | Not found in implementation |
+| ❌ Missing | EcucConfigurationVariantEnum | PreconfiguredConfiguration, AUTOSAR, RecommendedConfiguration, VariantLinkTime, VariantPostBuild, VariantPreCompile | - | - | Not found in implementation |
 | ❌ Missing | EcucDestinationUriNestingContractEnum | leafOfTarget, targetContainer, vertexOfTarget | - | - | Not found in implementation |
+| ❌ Missing | EcucScopeEnum | ECU, local | - | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::SystemTemplate
 
 **Summary:**
-- Classes: 0/8 implemented, 8 missing, 210 extra
+- Classes: 0/8 implemented, 8 missing, 168 extra
 - Enums: 0/0 implemented, 6 extra
 
 #### Classes
@@ -2927,7 +2863,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | AbstractCanCommunicationController | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py | Not documented in requirements |
 | ➕ Extra | AbstractCanCommunicationControllerAttributes | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py | Not documented in requirements |
 | ➕ Extra | AbstractCanPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | AbstractDoIpLogicAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIp.py | Not documented in requirements |
+| ➕ Extra | AbstractDoIpLogicAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Not documented in requirements |
 | ➕ Extra | AbstractEthernetFrame | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetFrame.py | Not documented in requirements |
 | ➕ Extra | AbstractServiceInstance | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
 | ➕ Extra | AppOsTaskProxyToEcuTaskProxyMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/RteEventToOsTaskMapping.py | Not documented in requirements |
@@ -2966,7 +2902,6 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | ComponentInSystemInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/InstanceRefs.py | Not documented in requirements |
 | ➕ Extra | ConsumedEventGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
 | ➕ Extra | ConsumedServiceInstance | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
-| ➕ Extra | ContainedIPduProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | CouplingPort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
 | ➕ Extra | CouplingPortDetails | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
 | ➕ Extra | CouplingPortFifo | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
@@ -2976,19 +2911,15 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | CycleCounter | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CycleRepetition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CycleRepetitionType | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | CyclicTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
 | ➕ Extra | DataMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py | Not documented in requirements |
-| ➕ Extra | DcmIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | DefaultValueElement | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
 | ➕ Extra | DiagnosticConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py | Not documented in requirements |
 | ➕ Extra | DoIpEntity | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
 | ➕ Extra | DoIpLogicAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
-| ➕ Extra | DoIpLogicTargetAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIp.py | Not documented in requirements |
-| ➕ Extra | DoIpLogicTesterAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIp.py | Not documented in requirements |
+| ➕ Extra | DoIpLogicTargetAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Not documented in requirements |
+| ➕ Extra | DoIpLogicTesterAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Not documented in requirements |
 | ➕ Extra | DoIpTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
 | ➕ Extra | DoIpTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
-| ➕ Extra | DynamicPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | DynamicPartAlternative | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | ECUMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/ECUResourceMapping.py | Not documented in requirements |
 | ➕ Extra | EcuInstance | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py | Not documented in requirements |
 | ➕ Extra | EthernetCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
@@ -2996,9 +2927,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | EthernetCommunicationController | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
 | ➕ Extra | EthernetPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | EthernetPriorityRegeneration | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
-| ➕ Extra | EventControlledTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
 | ➕ Extra | EventHandler | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
-| ➕ Extra | FibexElement | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | FlexrayAbsolutelyScheduledTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayCommunication.py | Not documented in requirements |
 | ➕ Extra | FlexrayChannelName | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | FlexrayCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py | Not documented in requirements |
@@ -3011,29 +2940,17 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | FlexrayNmEcu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | FlexrayNmNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | FlexrayPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | Frame | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | FrameMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
 | ➕ Extra | FramePort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | FrameTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | FreeFormatEntry | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py | Not documented in requirements |
 | ➕ Extra | Gateway | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
-| ➕ Extra | GeneralPurposeIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | GeneralPurposePdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | GenericEthernetFrame | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetFrame.py | Not documented in requirements |
 | ➕ Extra | GenericTp | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
-| ➕ Extra | IPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | IPduMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
 | ➕ Extra | IPduPort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | IPduSignalProcessingEnum | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | IPduTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignal | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalIPduGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | ISignalMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
 | ➕ Extra | ISignalPort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | ISignalToIPduMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | IndexedArrayElement | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py | Not documented in requirements |
 | ➕ Extra | InfrastructureServices | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
 | ➕ Extra | InitialSdDelayConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
@@ -3056,10 +2973,6 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | LinTpNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
 | ➕ Extra | LinUnconditionalFrame | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py | Not documented in requirements |
 | ➕ Extra | MacMulticastGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
-| ➕ Extra | ModeDrivenTransmissionModeCondition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | MultiplexedIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | MultiplexedPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | NPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | NetworkEndpoint | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
 | ➕ Extra | NetworkEndpointAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
 | ➕ Extra | NmCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
@@ -3067,11 +2980,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | NmConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | NmEcu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | NmNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
-| ➕ Extra | NmPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | Pdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | PduMappingDefaultValue | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
-| ➕ Extra | PduToFrameMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | PduTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | PhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | PncGatewayTypeEnum | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | ProvidedServiceInstance | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
@@ -3082,12 +2991,6 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | SdClientConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
 | ➕ Extra | SdServerConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
 | ➕ Extra | SecOcCryptoServiceMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationAuthenticationProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationFreshnessProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationPropsSet | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecuredIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SegmentPosition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | SenderRecArrayElementMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py | Not documented in requirements |
 | ➕ Extra | SenderRecArrayTypeMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py | Not documented in requirements |
 | ➕ Extra | SenderRecCompositeTypeMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py | Not documented in requirements |
@@ -3101,14 +3004,10 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | SocketConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py | Not documented in requirements |
 | ➕ Extra | SocketConnectionBundle | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py | Not documented in requirements |
 | ➕ Extra | SocketConnectionIpduIdentifier | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py | Not documented in requirements |
-| ➕ Extra | StaticPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | SwcToImplMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/SWmapping.py | Not documented in requirements |
-| ➕ Extra | SystemSignal | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SystemSignalGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | TargetIPduRef | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py | Not documented in requirements |
 | ➕ Extra | TcpTp | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
 | ➕ Extra | TcpUdpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
-| ➕ Extra | TimeRangeType | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
 | ➕ Extra | TimeSyncClientConfiguration | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
 | ➕ Extra | TimeSyncServerConfiguration | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
 | ➕ Extra | TimeSynchronization | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py | Not documented in requirements |
@@ -3118,17 +3017,12 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ➕ Extra | TpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
 | ➕ Extra | TpConnectionIdent | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
 | ➕ Extra | TpPort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeCondition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeDeclaration | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
 | ➕ Extra | TransportProtocolConfiguration | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
 | ➕ Extra | UdpNmCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | UdpNmClusterCoupling | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | UdpNmEcu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | UdpNmNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py | Not documented in requirements |
 | ➕ Extra | UdpTp | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py | Not documented in requirements |
-| ➕ Extra | UserDefinedIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | UserDefinedPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | VariableDataPrototypeInSystemInstanceRef | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/InstanceRefs.py | Not documented in requirements |
 | ➕ Extra | VlanConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | VlanMembership | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py | Not documented in requirements |
@@ -3166,14 +3060,14 @@ Hybrid structure: both DiagnosticConnection.py and DiagnosticConnection/ exist. 
 ### Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore
 
 **Summary:**
-- Classes: 1/1 implemented, 68 extra
+- Classes: 0/1 implemented, 1 missing, 27 extra
 - Enums: 0/0 implemented, 5 extra
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | FibexElement | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Line 12 |
+| ❌ Missing | FibexElement | - | Not found in implementation |
 | ➕ Extra | AbstractCanCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | AbstractCanPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CanCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
@@ -3185,62 +3079,21 @@ Hybrid structure: both DiagnosticConnection.py and DiagnosticConnection/ exist. 
 | ➕ Extra | CommunicationController | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CommunicationCycle | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CommunicationDirectionType | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | ContainedIPduProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | CycleCounter | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CycleRepetition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | CycleRepetitionType | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | CyclicTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | DcmIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | DynamicPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | DynamicPartAlternative | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | EcuInstance | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py | Not documented in requirements |
 | ➕ Extra | EthernetPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | EventControlledTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
 | ➕ Extra | FlexrayChannelName | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | FlexrayPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | Frame | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | FramePort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | FrameTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | GeneralPurposeIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | GeneralPurposePdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | IPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | IPduPort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | IPduSignalProcessingEnum | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | IPduTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignal | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalIPduGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | ISignalPort | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | ISignalToIPduMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | ISignalTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | LinCluster | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | LinPhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | ModeDrivenTransmissionModeCondition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | MultiplexedIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | MultiplexedPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | NPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | NmPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | Pdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | PduToFrameMapping | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | PduTriggering | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | PhysicalChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 | ➕ Extra | PncGatewayTypeEnum | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationAuthenticationProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationFreshnessProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecureCommunicationPropsSet | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SecuredIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SegmentPosition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | StaticPart | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SystemSignal | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | SystemSignalGroup | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | TimeRangeType | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeCondition | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeDeclaration | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | TransmissionModeTiming | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py | Not documented in requirements |
-| ➕ Extra | UserDefinedIPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
-| ➕ Extra | UserDefinedPdu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py | Not documented in requirements |
 | ➕ Extra | VlanConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py | Not documented in requirements |
 
 #### Enumerations
@@ -3311,10 +3164,6 @@ Hybrid structure: both CoreTopology.py and CoreTopology/ exist. Requirements say
 **Summary:**
 - Classes: 0/41 implemented, 41 missing
 - Enums: 0/11 implemented, 11 missing
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both CoreCommunication.py and CoreCommunication/ exist. Requirements say this is a non-leaf package. Expected: directory.
 
 #### Classes
 
@@ -4374,9 +4223,9 @@ Hybrid structure: both DoIP.py and DoIP/ exist. Requirements say this is a leaf 
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | AbstractDoIpLogicAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Line 10 |
-| ✅ Implemented | DoIpLogicTargetAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Line 22 |
-| ✅ Implemented | DoIpLogicTesterAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Line 31 |
+| ✅ Implemented | AbstractDoIpLogicAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Line 11 |
+| ✅ Implemented | DoIpLogicTargetAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Line 24 |
+| ✅ Implemented | DoIpLogicTesterAddressProps | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIP.py | Line 34 |
 | ❌ Missing | DoIpConfig | - | Not found in implementation |
 | ❌ Missing | DoIpInterface | - | Not found in implementation |
 | ❌ Missing | DoIpRoutingActivation | - | Not found in implementation |
@@ -4384,7 +4233,7 @@ Hybrid structure: both DoIP.py and DoIP/ exist. Requirements say this is a leaf 
 ### Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols
 
 **Summary:**
-- Classes: 0/32 implemented, 32 missing
+- Classes: 13/32 implemented, 19 missing, 3 extra
 - Enums: 0/4 implemented, 4 missing
 
 ⚠️ **Structure Mismatch Warning**
@@ -4395,14 +4244,19 @@ Hybrid structure: both TransportProtocols.py and TransportProtocols/ exist. Requ
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | CanTpAddress | - | Not found in implementation |
-| ❌ Missing | CanTpChannel | - | Not found in implementation |
-| ❌ Missing | CanTpConfig | - | Not found in implementation |
-| ❌ Missing | CanTpConnection | - | Not found in implementation |
-| ❌ Missing | CanTpEcu | - | Not found in implementation |
-| ❌ Missing | CanTpNode | - | Not found in implementation |
-| ❌ Missing | DoIpLogicAddress | - | Not found in implementation |
-| ❌ Missing | DoIpTpConfig | - | Not found in implementation |
+| ✅ Implemented | CanTpAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 35 |
+| ✅ Implemented | CanTpChannel | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 63 |
+| ✅ Implemented | CanTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 369 |
+| ✅ Implemented | CanTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 121 |
+| ✅ Implemented | CanTpEcu | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 275 |
+| ✅ Implemented | CanTpNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 303 |
+| ✅ Implemented | DoIpLogicAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 430 |
+| ✅ Implemented | DoIpTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 496 |
+| ✅ Implemented | LinTpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 700 |
+| ✅ Implemented | LinTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 544 |
+| ✅ Implemented | LinTpNode | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 635 |
+| ✅ Implemented | TpAddress | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 526 |
+| ✅ Implemented | TpConfig | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Line 13 |
 | ❌ Missing | EthTpConfig | - | Not found in implementation |
 | ❌ Missing | EthTpConnection | - | Not found in implementation |
 | ❌ Missing | FlexrayArTpChannel | - | Not found in implementation |
@@ -4419,14 +4273,12 @@ Hybrid structure: both TransportProtocols.py and TransportProtocols/ exist. Requ
 | ❌ Missing | J1939TpConnection | - | Not found in implementation |
 | ❌ Missing | J1939TpNode | - | Not found in implementation |
 | ❌ Missing | J1939TpPg | - | Not found in implementation |
-| ❌ Missing | LinTpConfig | - | Not found in implementation |
-| ❌ Missing | LinTpConnection | - | Not found in implementation |
-| ❌ Missing | LinTpNode | - | Not found in implementation |
 | ❌ Missing | SomeipTpChannel | - | Not found in implementation |
 | ❌ Missing | SomeipTpConfig | - | Not found in implementation |
 | ❌ Missing | SomeipTpConnection | - | Not found in implementation |
-| ❌ Missing | TpAddress | - | Not found in implementation |
-| ❌ Missing | TpConfig | - | Not found in implementation |
+| ➕ Extra | DoIpTpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
+| ➕ Extra | TpConnection | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
+| ➕ Extra | TpConnectionIdent | src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py | Not documented in requirements |
 
 #### Enumerations
 
@@ -4693,20 +4545,20 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics
 
 **Summary:**
-- Classes: 0/18 implemented, 18 missing
+- Classes: 1/18 implemented, 17 missing
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
 
-Wrong structure: Package should be a single file (no subpackages) but is implemented as a directory CommonDiagnostics/
+Hybrid structure: both CommonDiagnostics.py and CommonDiagnostics/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
+| ✅ Implemented | DiagnosticCommonElement | src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/CommonDiagnostics.py | Line 8 |
 | ❌ Missing | DiagnosticAbstractDataIdentifier | - | Not found in implementation |
 | ❌ Missing | DiagnosticAbstractParameter | - | Not found in implementation |
-| ❌ Missing | DiagnosticCommonElement | - | Not found in implementation |
 | ❌ Missing | DiagnosticDataElement | - | Not found in implementation |
 | ❌ Missing | DiagnosticDataIdentifier | - | Not found in implementation |
 | ❌ Missing | DiagnosticDynamicDataIdentifier | - | Not found in implementation |
@@ -5845,29 +5697,25 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 | ❌ Missing | HwPinGroupContent | - | Not found in implementation |
 | ➕ Extra | HwAttributeDef | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Not documented in requirements |
 | ➕ Extra | HwAttributeLiteralDef | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwAttributeValue.py | Not documented in requirements |
-| ➕ Extra | HwAttributeValue | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwAttributeValue.py | Not documented in requirements |
+| ➕ Extra | HwAttributeValue | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Not documented in requirements |
 | ➕ Extra | HwCategory | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Not documented in requirements |
 | ➕ Extra | HwType | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
 **Summary:**
-- Classes: 3/5 implemented, 2 missing
+- Classes: 4/5 implemented, 1 missing
 - Enums: 0/0 implemented
-
-⚠️ **Structure Mismatch Warning**
-
-Hybrid structure: both HwElementCategory.py and HwElementCategory/ exist. Requirements say this is a leaf package. Expected: single file.
 
 #### Classes
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ✅ Implemented | HwAttributeDef | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 42 |
-| ✅ Implemented | HwCategory | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 135 |
-| ✅ Implemented | HwType | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 25 |
+| ✅ Implemented | HwAttributeDef | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 108 |
+| ✅ Implemented | HwAttributeValue | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 27 |
+| ✅ Implemented | HwCategory | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 201 |
+| ✅ Implemented | HwType | src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py | Line 91 |
 | ❌ Missing | HwAttributeLiteralDef | - | Not found in implementation |
-| ❌ Missing | HwAttributeValue | - | Not found in implementation |
 
 ### Package: M2::AUTOSARTemplates::LogAndTraceExtract
 
@@ -5894,7 +5742,7 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
 
 **Summary:**
-- Classes: 0/3 implemented, 3 missing
+- Classes: 3/3 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -5905,14 +5753,14 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | FirewallRule | - | Not found in implementation |
-| ❌ Missing | FirewallRuleProps | - | Not found in implementation |
-| ❌ Missing | StateDependentFirewall | - | Not found in implementation |
+| ✅ Implemented | FirewallRule | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/FirewallRule.py | Line 6 |
+| ✅ Implemented | FirewallRuleProps | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/FirewallRuleProps.py | Line 4 |
+| ✅ Implemented | StateDependentFirewall | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/StateDependentFirewall.py | Line 6 |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented, 1 extra
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -5923,12 +5771,13 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | CryptoKeySlot | - | Not found in implementation |
+| ✅ Implemented | CryptoKeySlot | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/CryptoKeySlot.py | Line 22 |
+| ➕ Extra | CryptoKeySlotContent | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/CryptoKeySlotContent.py | Not documented in requirements |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem
 
 **Summary:**
-- Classes: 0/2 implemented, 2 missing
+- Classes: 2/2 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -5939,13 +5788,13 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | IdsPlatformInstantiation | - | Not found in implementation |
-| ❌ Missing | IdsmModuleInstantiation | - | Not found in implementation |
+| ✅ Implemented | IdsPlatformInstantiation | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/IntrusionDetectionSystem/IdsPlatformInstantiation.py | Line 11 |
+| ✅ Implemented | IdsmModuleInstantiation | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/IntrusionDetectionSystem/IdsmModuleInstantiation.py | Line 9 |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -5956,12 +5805,12 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | PlatformModuleEthernetEndpointConfiguration | - | Not found in implementation |
+| ✅ Implemented | PlatformModuleEthernetEndpointConfiguration | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/AdaptiveModule/PlatformModuleEthernetEndpointConfiguration.py | Line 16 |
 
 ### Package: M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface
 
 **Summary:**
-- Classes: 0/1 implemented, 1 missing
+- Classes: 1/1 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -5972,12 +5821,12 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | Field | - | Not found in implementation |
+| ✅ Implemented | Field | src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/ApplicationDesign/PortInterface/Field.py | Line 6 |
 
 ### Package: M2::AUTOSARTemplates::AbstractPlatform
 
 **Summary:**
-- Classes: 0/2 implemented, 2 missing
+- Classes: 2/2 implemented
 - Enums: 0/0 implemented
 
 ⚠️ **Structure Mismatch Warning**
@@ -5988,8 +5837,8 @@ Wrong structure: Package should be a single file (no subpackages) but is impleme
 
 | Status | Class Name | Location | Notes |
 |--------|------------|----------|-------|
-| ❌ Missing | ApplicationDeferredDataType | - | Not found in implementation |
-| ❌ Missing | ApplicationInterface | - | Not found in implementation |
+| ✅ Implemented | ApplicationDeferredDataType | src/armodel/models/M2/AUTOSARTemplates/AbstractPlatform/ApplicationDeferredDataType.py | Line 9 |
+| ✅ Implemented | ApplicationInterface | src/armodel/models/M2/AUTOSARTemplates/AbstractPlatform/ApplicationInterface.py | Line 19 |
 
 ### Package: M2::AUTOSARTemplates::FeatureModelTemplate
 

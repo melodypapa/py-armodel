@@ -3,10 +3,8 @@ This module contains comprehensive tests for the InstanceRefsUsage module in SWC
 Tests cover all classes and methods in the InstanceRefsUsage.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import (
-    ArVariableInImplementationDataInstanceRef, VariableInAtomicSWCTypeInstanceRef,
-    ParameterInAtomicSWCTypeInstanceRef, AutosarParameterRef
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarParameterRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs import VariableInAtomicSWCTypeInstanceRef, ParameterInAtomicSWCTypeInstanceRef
 
 
 class TestArVariableInImplementationDataInstanceRef:
@@ -148,7 +146,7 @@ class TestAutosarParameterRef:
         assert param_ref.localParameterRef is None
         
         # Test autosarParameterIRef methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs import ParameterInAtomicSWCTypeInstanceRef
         iref = ParameterInAtomicSWCTypeInstanceRef()
         param_ref.setAutosarParameterIRef(iref)
         assert param_ref.getAutosarParameterIRef() == iref
