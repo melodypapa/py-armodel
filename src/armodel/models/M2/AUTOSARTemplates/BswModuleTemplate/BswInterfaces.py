@@ -584,3 +584,83 @@ class BswModuleClientServerEntry(Referrable):
         if value is not None:
             self.isSynchronous = value
         return self
+
+# ========== Classes from subdirectory files ==========
+
+"""
+This module defines BSW entry relationship in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+
+class BswEntryRelationship(ARObject):
+    """
+    Represents a BSW entry relationship in AUTOSAR.
+    This class defines relationships between BSW entries.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswEntryRelationship with default values.
+        """
+        super().__init__()
+        self.relationType: str = None
+
+    def getRelationType(self):
+        return self.relationType
+
+    def setRelationType(self, value):
+        self.relationType = value
+        return self
+
+"""
+This module defines BSW entry relationship enum in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
+
+class BswEntryRelationshipEnum(AREnum):
+    """
+    Enumeration for BSW entry relationship types.
+    """
+
+    READS = "reads"
+    WRITES = "writes"
+    CALLS = "calls"
+    TRIGGERS = "triggers"
+
+    def __init__(self):
+        super().__init__((
+            BswEntryRelationshipEnum.READS,
+            BswEntryRelationshipEnum.WRITES,
+            BswEntryRelationshipEnum.CALLS,
+            BswEntryRelationshipEnum.TRIGGERS,
+        ))
+
+"""
+This module defines BSW entry relationship set in AUTOSAR.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+
+class BswEntryRelationshipSet(ARObject):
+    """
+    Represents a set of BSW entry relationships in AUTOSAR.
+    """
+
+    def __init__(self):
+        """
+        Initializes the BswEntryRelationshipSet with default values.
+        """
+        super().__init__()
+        self.relationships = []
+
+    def addRelationship(self, relationship):
+        self.relationships.append(relationship)
+
+    def getRelationships(self):
+        return self.relationships
+

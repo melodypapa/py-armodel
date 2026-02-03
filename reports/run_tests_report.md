@@ -6,28 +6,20 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-78.0%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-71.6%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23429 | 30033 | **78.01%** |
+| **Lines** | 23375 | 32654 | **71.58%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
 
 | Module | Files | Line Coverage |
 |--------|-------|---------------|
-| **__init__.py** | 1 | 100.0% |
-| **data_models** | 2 | 100.0% |
-| **lib** | 4 | 100.0% |
-| **transformer** | 3 | 100.0% |
-| **models** | 232 | 93.2% |
-| **parser** | 6 | 55.7% |
-| **writer** | 3 | 52.0% |
-| **cli** | 11 | 6.0% |
-| **report** | 3 | 0.0% |
+| **.venv** | 301 | 71.6% |
 
 ### Files Needing Attention
 
@@ -40,10 +32,13 @@
 | `cli/connector2xlsx_cli` | 0.0% | 0.0% |
 | `cli/connector_update_cli` | 0.0% | 0.0% |
 | `cli/file_list_cli` | 0.0% | 0.0% |
+| `cli/format_xml_cli` | 0.0% | 0.0% |
 | `cli/memory_section_cli` | 0.0% | 0.0% |
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
 | `cli/uuid_checker_cli` | 0.0% | 0.0% |
+| `AUTOSARTemplates/AutosarTopLevelStructure` | 0.0% | 0.0% |
+| `BswModuleTemplate/BswOverview` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
 | `CommonStructure/ModeDeclarationExtra` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef` | 0.0% | 0.0% |
@@ -52,19 +47,16 @@
 | `MeasurementCalibrationSupport/McFunction` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McParameterElementGroup` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McSupportData` | 0.0% | 0.0% |
-| `MeasurementCalibrationSupport/McSwEmulationMethodSupport` | 0.0% | 0.0% |
-| `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
-| `MeasurementCalibrationSupport/__init__` | 0.0% | 0.0% |
 
 ## Integration Test Coverage
 
-![coverage](https://img.shields.io/badge/integration-78.4%25-yellow)
+![coverage](https://img.shields.io/badge/integration-47.2%25-red)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23558 | 30033 | **78.44%** |
+| **Lines** | 15423 | 32654 | **47.23%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ---

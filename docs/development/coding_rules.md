@@ -890,6 +890,80 @@ AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
   (contains ImplementationDataType class)
 ```
 
+### CODING_RULE_STYLE_00009: Class Organization per AUTOSAR Mapping
+
+**Maturity**: accept
+
+**Classes MUST be importable from the module path specified in `docs/requirements/mapping.json`.**
+
+The AUTOSAR mapping specification (derived from AUTOSAR standard) defines the exact package path where each class should be located. Classes MUST be importable from their mapped module path.
+
+**Definition Location:**
+- Classes should be defined in the module file corresponding to their mapped package path
+- If a class is mapped to `M2::AUTOSARTemplates::Package::SubPackage`, it MUST be importable from `armodel.models.M2.AUTOSARTemplates.Package.SubPackage`
+
+**Import Path Verification:**
+```python
+# Given mapping entry:
+# {
+#   "name": "HwAttributeValue",
+#   "type": "Class",
+#   "package_path": "M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory"
+# }
+
+# CORRECT - Import from mapped location:
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
+
+# WRONG - Import from non-mapped location:
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue  # DO NOT USE
+```
+
+**Implementation Guidelines:**
+1. Define the class in the correct module file based on the mapping
+2. Do NOT create redundant files named after classes if they don't match the package structure
+3. Use forward references or `TYPE_CHECKING` to avoid circular imports when necessary
+4. Run `test_class_mapping.py` integration test to verify compliance
+
+**Example - Correct Implementation:**
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py
+# This module contains classes defined in the HwElementCategory package per AUTOSAR mapping
+
+from typing import Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+class HwAttributeValue(ARObject):
+    """Hardware attribute value class - defined here per mapping.json specification."""
+    def __init__(self):
+        super().__init__()
+        self.hwAttributeDefRef: Optional[RefType] = None
+        self.value: Optional[str] = None
+    # ... methods
+```
+
+**Example - Incorrect Implementation:**
+```python
+# WRONG - Do NOT create separate file just for the class name
+# File: src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwAttributeValue.py
+class HwAttributeValue(ARObject):
+    pass  # This violates the mapping specification
+
+# Import will fail:
+# from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
+# ImportError: cannot import name 'HwAttributeValue' from 'HwElementCategory'
+```
+
+**Related Rules:**
+- CODING_RULE_STYLE_00008: Python Package Structure
+- CODING_RULE_TYPE_00004: Forward References
+
+**Verification:**
+Run the class mapping integration test to verify all classes are at their correct locations:
+```bash
+pytest tests/integration_tests/test_class_mapping.py::TestClassMapping::test_all_types_combined -v
+```
+
 ---
 
 ## Error Handling
