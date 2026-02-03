@@ -1,6 +1,6 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
     AbstractDoIpLogicAddressProps,
     DoIpLogicTargetAddressProps,
     DoIpLogicTesterAddressProps

@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
+
 class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     """
     Abstract base class for DoIP (Diagnostics over IP) logic address properties.
@@ -16,8 +17,9 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractDoIpLogicAddressProps:
             raise TypeError("AbstractDoIpLogicAddressProps is an abstract class.")
-        
+
         super().__init__(parent, short_name)
+
 
 class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """
@@ -27,6 +29,7 @@ class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
+
 
 class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     """
@@ -46,3 +49,10 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
         if value is not None:
             self.doIpTesterRoutingActivationRef = value
         return self
+
+
+__all__ = [
+    'AbstractDoIpLogicAddressProps',
+    'DoIpLogicTargetAddressProps',
+    'DoIpLogicTesterAddressProps',
+]

@@ -819,11 +819,6 @@
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection": [
       "DiagnosticConnection"
     ],
-    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp": [
-      "AbstractDoIpLogicAddressProps",
-      "DoIpLogicTargetAddressProps",
-      "DoIpLogicTesterAddressProps"
-    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping": [
       "ECUMapping"
     ],
@@ -891,6 +886,11 @@
       "SwcToEcuMapping",
       "System",
       "SystemMapping"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP.__init__": [
+      "AbstractDoIpLogicAddressProps",
+      "DoIpLogicTargetAddressProps",
+      "DoIpLogicTesterAddressProps"
     ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform": [
       "DefaultValueElement",

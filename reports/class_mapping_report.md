@@ -7,8 +7,8 @@
 
 - **Total Types in mapping.json**: 1937
 - **Existing in Codebase**: 784 (40.5%)
-- **Verified Correct Location**: 692 (35.7%)
-- **Wrong Location (Fixable)**: 92
+- **Verified Correct Location**: 705 (36.4%)
+- **Wrong Location (Fixable)**: 79
 - **Not Implemented (Deferred)**: 1153
 
 ## Summary by Type
@@ -16,15 +16,15 @@
 ### Class
 - **Total**: 1623
 - **Existing**: 696 (42.9%)
-- **Passed**: 611 (37.6%)
-- **Wrong Location**: 85
+- **Passed**: 623 (38.4%)
+- **Wrong Location**: 73
 - **Not Implemented**: 927
 
 ### Enumeration
 - **Total**: 264
 - **Existing**: 66 (25.0%)
-- **Passed**: 59 (22.3%)
-- **Wrong Location**: 7
+- **Passed**: 60 (22.7%)
+- **Wrong Location**: 6
 - **Not Implemented**: 198
 
 ### Primitive
@@ -38,7 +38,7 @@
 
 *Classes that exist in the codebase but are not at the expected mapped location*
 
-### Class (85 classes)
+### Class (73 classes)
 
 #### Module Not Found (21)
 
@@ -66,7 +66,7 @@
 | `TransmissionModeTiming` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing` |
 | `VariableInAtomicSWCTypeInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs` |
 
-#### Class Not Found in Module (64)
+#### Class Not Found in Module (52)
 
 | Class Name | Expected Module |
 |------------|-----------------|
@@ -79,16 +79,6 @@
 | `AsynchronousServerCallResultPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
 | `AtpBlueprintMapping` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
 | `AtpBlueprintable` | `armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure` |
-| `BswAsynchronousServerCallReturnsEvent` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswEntryRelationship` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces` |
-| `BswEntryRelationshipSet` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces` |
-| `BswExclusiveAreaPolicy` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswInterruptEvent` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswModeManagerErrorEvent` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswModeReceiverPolicy` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswSchedulerNamePrefix` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswServiceDependency` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
-| `BswTriggerDirectImplementation` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
 | `CanCluster` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `CanClusterBusOffRecovery` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
 | `CanPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology` |
@@ -103,7 +93,6 @@
 | `FlexrayPhysicalChannel` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `FramePort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `GenericTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
-| `HwAttributeValue` | `armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory` |
 | `IPduPort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `ISignalPort` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `InfrastructureServices` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
@@ -119,7 +108,6 @@
 | `POperationInAtomicSwcInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
 | `PackageableElement` | `armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage` |
 | `ROperationInAtomicSwcInstanceRef` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs` |
-| `RoleBasedBswModuleEntryAssignment` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior` |
 | `RoleBasedDataTypeAssignment` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping` |
 | `SwcToEcuMapping` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping` |
 | `SynchronousServerCallPoint` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall` |
@@ -135,7 +123,7 @@
 | `UdpTp` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 | `VlanConfig` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology` |
 
-### Enumeration (7 classes)
+### Enumeration (6 classes)
 
 #### Module Not Found (1)
 
@@ -143,11 +131,10 @@
 |------------|-----------------|
 | `RamBlockStatusControlEnum` | `armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent` |
 
-#### Class Not Found in Module (6)
+#### Class Not Found in Module (5)
 
 | Class Name | Expected Module |
 |------------|-----------------|
-| `BswEntryRelationshipEnum` | `armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces` |
 | `CommunicationDirectionType` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |
 | `FlexrayChannelName` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology` |
 | `IPduSignalProcessingEnum` | `armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication` |

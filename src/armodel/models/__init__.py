@@ -59,7 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import *
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import *
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import *
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *
