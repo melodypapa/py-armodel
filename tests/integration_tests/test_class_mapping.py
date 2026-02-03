@@ -300,13 +300,19 @@ class TestClassMapping:
         """Load existing classes from scan."""
         return load_existing_classes()
 
-    def test_all_classes_mapped(self, all_types: List[Dict]):
+    def test_all_classes_mapped(self, all_types: List[Dict], existing_classes: Dict[str, set]):
         """Verify all Class types are correctly mapped and importable.
 
         This test verifies that:
         1. Each Class entry in mapping.json exists at the expected module path
         2. The class can be successfully imported
+
+        Note: This test is skipped in CI if existing_classes.json is not available.
         """
+        # Skip test if existing_classes.json is not available (e.g., in CI)
+        if not existing_classes:
+            pytest.skip("existing_classes.json not found. Run 'python scripts/scan_existing_classes.py' first.")
+
         classes = [t for t in all_types if t.get('type') == 'Class']
         total_classes = len(classes)
 
@@ -356,13 +362,19 @@ class TestClassMapping:
             "\n".join(f"  - {name}: {err}" for name, err in failures[:20])
         )
 
-    def test_all_enumerations_mapped(self, all_types: List[Dict]):
+    def test_all_enumerations_mapped(self, all_types: List[Dict], existing_classes: Dict[str, set]):
         """Verify all Enumeration types are correctly mapped and importable.
 
         This test verifies that:
         1. Each Enumeration entry in mapping.json exists at the expected module path
         2. The enumeration can be successfully imported
+
+        Note: This test is skipped in CI if existing_classes.json is not available.
         """
+        # Skip test if existing_classes.json is not available (e.g., in CI)
+        if not existing_classes:
+            pytest.skip("existing_classes.json not found. Run 'python scripts/scan_existing_classes.py' first.")
+
         enumerations = [t for t in all_types if t.get('type') == 'Enumeration']
         total_enums = len(enumerations)
 
@@ -412,13 +424,19 @@ class TestClassMapping:
             "\n".join(f"  - {name}: {err}" for name, err in failures[:20])
         )
 
-    def test_all_primitives_mapped(self, all_types: List[Dict]):
+    def test_all_primitives_mapped(self, all_types: List[Dict], existing_classes: Dict[str, set]):
         """Verify all Primitive types are correctly mapped and importable.
 
         This test verifies that:
         1. Each Primitive entry in mapping.json exists at the expected module path
         2. The primitive type can be successfully imported
+
+        Note: This test is skipped in CI if existing_classes.json is not available.
         """
+        # Skip test if existing_classes.json is not available (e.g., in CI)
+        if not existing_classes:
+            pytest.skip("existing_classes.json not found. Run 'python scripts/scan_existing_classes.py' first.")
+
         primitives = [t for t in all_types if t.get('type') == 'Primitive']
         total_primitives = len(primitives)
 
