@@ -13,5 +13,5 @@ class DiagnosticCommonElement(ARElement, ABC):
 
 
 __all__ = [
-    'DiagnosticCommonElement',
+    "DiagnosticCommonElement",
 ]

@@ -1,5 +1,13 @@
 {
   "classes": {
+    "armodel.models.M2.AUTOSARTemplates.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.AbstractPlatform.ApplicationDeferredDataType": [
+      "ApplicationDeferredDataType"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.AbstractPlatform.ApplicationInterface": [
+      "ApplicationInterface"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.AbstractPlatform.__init__": [],
     "armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.__init__": [],
     "armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface.Field": [
       "Field"
@@ -34,6 +42,12 @@
       "IdsPlatformInstantiation"
     ],
     "armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure.__init__": [
+      "AUTOSAR",
+      "AUTOSARDoc",
+      "AbstractAUTOSAR",
+      "FileInfoComment"
+    ],
     "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior": [
       "BswApiOptions",
       "BswAsynchronousServerCallPoint",
@@ -332,6 +346,10 @@
       "PortPrototypeBlueprintInitValue"
     ],
     "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator": [
+      "BlueprintGenerator"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.__init__": [],
     "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable": [
       "Traceable"
     ],
@@ -384,7 +402,7 @@
       "TimingExtension"
     ],
     "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__": [],
-    "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement": [
+    "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics": [
       "DiagnosticCommonElement"
     ],
     "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution": [
@@ -496,6 +514,10 @@
     ],
     "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject": [
       "ARObject"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage": [
+      "ARPackage",
+      "ReferenceBase"
     ],
     "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection": [
       "Collection"
@@ -783,12 +805,147 @@
       "SwcInternalBehavior",
       "SynchronousServerCallPoint"
     ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping": [
+      "DataMapping",
+      "IndexedArrayElement",
+      "SenderRecArrayElementMapping",
+      "SenderRecArrayTypeMapping",
+      "SenderRecCompositeTypeMapping",
+      "SenderRecRecordElementMapping",
+      "SenderRecRecordTypeMapping",
+      "SenderReceiverToSignalGroupMapping",
+      "SenderReceiverToSignalMapping"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection": [
+      "DiagnosticConnection"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP": [
+      "AbstractDoIpLogicAddressProps",
+      "DoIpLogicTargetAddressProps",
+      "DoIpLogicTesterAddressProps"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping": [
+      "ECUMapping"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs": [
       "ComponentInSystemInstanceRef",
       "VariableDataPrototypeInSystemInstanceRef"
     ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement": [
+      "BusspecificNmEcu",
+      "CanNmCluster",
+      "CanNmClusterCoupling",
+      "CanNmEcu",
+      "CanNmNode",
+      "FlexrayNmCluster",
+      "FlexrayNmClusterCoupling",
+      "FlexrayNmEcu",
+      "FlexrayNmNode",
+      "J1939NmCluster",
+      "J1939NmEcu",
+      "J1939NmNode",
+      "NmCluster",
+      "NmClusterCoupling",
+      "NmConfig",
+      "NmEcu",
+      "NmNode",
+      "UdpNmCluster",
+      "UdpNmClusterCoupling",
+      "UdpNmEcu",
+      "UdpNmNode"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping": [
+      "AppOsTaskProxyToEcuTaskProxyMapping"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication": [
+      "CryptoServiceMapping",
+      "SecOcCryptoServiceMapping",
+      "TlsCryptoServiceMapping"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping": [
+      "ApplicationPartitionToEcuPartitionMapping",
+      "SwcToImplMapping"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols": [
+      "CanTpAddress",
+      "CanTpChannel",
+      "CanTpConfig",
+      "CanTpConnection",
+      "CanTpEcu",
+      "CanTpNode",
+      "DoIpLogicAddress",
+      "DoIpTpConfig",
+      "DoIpTpConnection",
+      "LinTpConfig",
+      "LinTpConnection",
+      "LinTpNode",
+      "TpAddress",
+      "TpConfig",
+      "TpConnection",
+      "TpConnectionIdent"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.__init__": [
+      "ComManagementMapping",
+      "J1939SharedAddressCluster",
+      "RootSwCompositionPrototype",
+      "SwcToEcuMapping",
+      "System",
+      "SystemMapping"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform": [
+      "DefaultValueElement",
+      "FrameMapping",
+      "Gateway",
+      "IPduMapping",
+      "ISignalMapping",
+      "PduMappingDefaultValue",
+      "TargetIPduRef"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication": [
+      "CanFrame",
+      "CanFrameTriggering",
+      "RxIdentifierRange"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology": [
+      "AbstractCanCommunicationConnector",
+      "AbstractCanCommunicationController",
+      "AbstractCanCommunicationControllerAttributes",
+      "CanCommunicationConnector",
+      "CanCommunicationController",
+      "CanControllerConfigurationRequirements",
+      "CanControllerFdConfiguration",
+      "CanControllerFdConfigurationRequirements",
+      "CanControllerXlConfiguration",
+      "CanControllerXlConfigurationRequirements"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication": [
+      "SoAdRoutingGroup",
+      "SocketConnection",
+      "SocketConnectionBundle",
+      "SocketConnectionIpduIdentifier"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame": [
+      "AbstractEthernetFrame",
+      "GenericEthernetFrame"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology": [
+      "CouplingPort",
+      "CouplingPortDetails",
+      "CouplingPortFifo",
+      "CouplingPortScheduler",
+      "CouplingPortStructuralElement",
+      "EthernetCluster",
+      "EthernetCommunicationConnector",
+      "EthernetCommunicationController",
+      "EthernetPriorityRegeneration",
+      "InitialSdDelayConfig",
+      "MacMulticastGroup",
+      "RequestResponseDelay",
+      "SdClientConfig",
+      "VlanMembership"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint": [
       "DoIpEntity",
       "InfrastructureServices",
@@ -800,13 +957,148 @@
       "TimeSyncServerConfiguration",
       "TimeSynchronization"
     ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances": [
+      "AbstractServiceInstance",
+      "ApplicationEndpoint",
+      "ConsumedEventGroup",
+      "ConsumedServiceInstance",
+      "EventHandler",
+      "GenericTp",
+      "InitialSdDelayConfig",
+      "ProvidedServiceInstance",
+      "SdServerConfig",
+      "SoAdConfig",
+      "SocketAddress",
+      "TcpTp",
+      "TcpUdpConfig",
+      "TpPort",
+      "TransportProtocolConfiguration",
+      "UdpTp"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication": [
+      "FlexrayAbsolutelyScheduledTiming",
+      "FlexrayFrame",
+      "FlexrayFrameTriggering"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology": [
+      "FlexrayCluster",
+      "FlexrayCommunicationConnector",
+      "FlexrayCommunicationController"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication": [
+      "ApplicationEntry",
+      "FreeFormatEntry",
+      "LinConfigurationEntry",
+      "LinFrame",
+      "LinFrameTriggering",
+      "LinScheduleTable",
+      "LinUnconditionalFrame",
+      "ResumePosition",
+      "ScheduleTableEntry"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology": [
+      "LinCommunicationConnector",
+      "LinCommunicationController",
+      "LinMaster"
+    ],
     "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.__init__": [],
-    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__": []
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology": [
+      "AbstractCanCluster",
+      "AbstractCanPhysicalChannel",
+      "CanCluster",
+      "CanClusterBusOffRecovery",
+      "CanPhysicalChannel",
+      "CommConnectorPort",
+      "CommunicationCluster",
+      "CommunicationConnector",
+      "CommunicationController",
+      "CommunicationCycle",
+      "CommunicationDirectionType",
+      "CycleCounter",
+      "CycleRepetition",
+      "CycleRepetitionType",
+      "EthernetPhysicalChannel",
+      "FlexrayChannelName",
+      "FlexrayPhysicalChannel",
+      "FramePort",
+      "IPduPort",
+      "IPduSignalProcessingEnum",
+      "ISignalPort",
+      "LinCluster",
+      "LinPhysicalChannel",
+      "PhysicalChannel",
+      "PncGatewayTypeEnum",
+      "VlanConfig"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance": [
+      "EcuInstance"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__": [],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__": [
+      "ContainedIPduProps",
+      "DcmIPdu",
+      "DynamicPart",
+      "DynamicPartAlternative",
+      "FibexElement",
+      "Frame",
+      "FrameTriggering",
+      "GeneralPurposeIPdu",
+      "GeneralPurposePdu",
+      "IPdu",
+      "IPduTiming",
+      "ISignal",
+      "ISignalGroup",
+      "ISignalIPdu",
+      "ISignalIPduGroup",
+      "ISignalToIPduMapping",
+      "ISignalTriggering",
+      "MultiplexedIPdu",
+      "MultiplexedPart",
+      "NPdu",
+      "NmPdu",
+      "Pdu",
+      "PduToFrameMapping",
+      "PduTriggering",
+      "SecureCommunicationAuthenticationProps",
+      "SecureCommunicationFreshnessProps",
+      "SecureCommunicationProps",
+      "SecureCommunicationPropsSet",
+      "SecuredIPdu",
+      "SegmentPosition",
+      "StaticPart",
+      "SystemSignal",
+      "SystemSignalGroup",
+      "UserDefinedIPdu",
+      "UserDefinedPdu"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing.__init__": [
+      "CyclicTiming",
+      "EventControlledTiming",
+      "ModeDrivenTransmissionModeCondition",
+      "TimeRangeType",
+      "TransmissionModeCondition",
+      "TransmissionModeDeclaration",
+      "TransmissionModeTiming"
+    ],
+    "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__": [
+      "BufferProperties",
+      "DataIdModeEnum",
+      "DataTransformation",
+      "DataTransformationKindEnum",
+      "DataTransformationSet",
+      "EndToEndProfileBehaviorEnum",
+      "EndToEndTransformationDescription",
+      "EndToEndTransformationISignalProps",
+      "TransformationDescription",
+      "TransformationISignalProps",
+      "TransformationTechnology",
+      "TransformerClassEnum"
+    ]
   },
-  "total_classes": 581,
+  "total_classes": 808,
   "total_modules": 200,
-  "successful_modules": 125,
-  "failed_modules": 75
+  "successful_modules": 159,
+  "failed_modules": 41
 }

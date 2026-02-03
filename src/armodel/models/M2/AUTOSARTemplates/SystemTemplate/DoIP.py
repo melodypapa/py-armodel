@@ -52,7 +52,7 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
 
 
 __all__ = [
-    'AbstractDoIpLogicAddressProps',
-    'DoIpLogicTargetAddressProps',
-    'DoIpLogicTesterAddressProps',
+    "AbstractDoIpLogicAddressProps",
+    "DoIpLogicTargetAddressProps",
+    "DoIpLogicTesterAddressProps",
 ]

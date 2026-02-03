@@ -177,11 +177,11 @@ class TransmissionModeDeclaration(ARObject):
 
 
 __all__ = [
-    'ModeDrivenTransmissionModeCondition',
-    'TransmissionModeCondition',
-    'TimeRangeType',
-    'CyclicTiming',
-    'EventControlledTiming',
-    'TransmissionModeTiming',
-    'TransmissionModeDeclaration',
+    "ModeDrivenTransmissionModeCondition",
+    "TransmissionModeCondition",
+    "TimeRangeType",
+    "CyclicTiming",
+    "EventControlledTiming",
+    "TransmissionModeTiming",
+    "TransmissionModeDeclaration",
 ]
