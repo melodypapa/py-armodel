@@ -278,11 +278,16 @@ def is_class_in_existing_classes(
     return False
 
 
+@pytest.mark.skip(reason="Class mapping tests require existing_classes.json - run 'python scripts/scan_existing_classes.py' first")
 class TestClassMapping:
     """Test suite for verifying model class mappings against mapping.json.
 
     Only verifies classes that exist in the codebase. Classes that haven't
     been implemented yet are tracked separately in the report as "Not Implemented".
+
+    These tests are skipped by default. To run them:
+    1. Generate existing_classes.json: python scripts/scan_existing_classes.py
+    2. Run tests with: pytest tests/integration_tests/test_class_mapping.py -m 'not skip'
     """
 
     @pytest.fixture
