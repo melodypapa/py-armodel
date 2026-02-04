@@ -266,28 +266,3 @@ class AtpStructureElement(AtpBlueprintable, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpBlueprintMapping(ARObject, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) blueprint mapping elements.
-    
-    AtpBlueprintMapping represents mapping elements in the AUTOSAR system that
-    define relationships between blueprints and their implementations or instances.
-    Mappings provide the mechanism to connect abstract blueprint definitions
-    with concrete implementations.
-    
-    This class extends ARObject with mapping-specific functionality for managing
-    blueprint mapping relationships.
-    
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpBlueprintMapping is the parent of various AUTOSAR mapping elements:
-        - BlueprintMapping (generic blueprint to implementation mapping)
-    
-    Attributes:
-        Inherits all attributes from ARObject including uuid and adminData.
-    """
-    
-    def __init__(self):
-        if type(self) is AtpBlueprintMapping:
-            raise TypeError("AtpBlueprintMapping is an abstract class.")
-        super().__init__()
