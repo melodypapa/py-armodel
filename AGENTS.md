@@ -2,7 +2,7 @@
 
 ## Project Overview
 Python library for AUTOSAR model support - ARXML parser and writer for automotive ECU software development.
-**Version**: 1.9.2 | **Python**: >= 3.5 | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
+**Version**: 1.9.2 | **Python**: >= 3.5 (CI supports 3.8-3.13) | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
 
 ## Build, Lint, and Test Commands
 
@@ -31,7 +31,6 @@ python scripts/run_tests.py --verbose
 ```bash
 # Run all tests with coverage
 pytest --cov=armodel --cov-report term-missing
-npm run pytest-cov
 
 # Run only unit tests
 pytest tests/test_armodel/
@@ -80,7 +79,6 @@ ruff check --show-source .
 #### Legacy Linter: Flake8
 ```bash
 # Run flake8 for critical errors only
-npm run flake8
 flake8 --select=E9,F63,F7,F82 .
 ```
 
@@ -103,6 +101,16 @@ twine check dist/*
 # Upload to PyPI
 twine upload dist/*
 ```
+
+### Development Scripts
+The `scripts/` directory contains utility scripts for development:
+- `run_tests.py`: Comprehensive test runner with colored output
+- `scan_existing_classes.py`: Scan and catalog existing classes
+- `compare-package-implementation.py`: Compare package structure
+- `deviation-class-hierarchy.py`: Generate class hierarchy deviation reports
+- `deviation-package.py`: Generate package structure deviation reports
+- `fix-package-implementation.py`: Fix package structure issues
+- `lib/`: Support library for scripts (code_generator, code_utils, package_loader, test_generator, type_resolver)
 
 ## Code Style Guidelines
 
@@ -156,11 +164,88 @@ For detailed coding standards, see: `docs/development/coding_rules.md`
 - Migrated from `ABCMeta` metaclass to `ABC` for better Python 3 compatibility
 - Example: `class MyAbstractClass(ABC):` instead of `class MyAbstractClass(metaclass=ABCMeta):`
 
-### Package Structure
-Follow AUTOSAR M2 model hierarchy:
-- **Leaf packages** (no subdirectories): Classes defined in single `.py` file
-- **Non-leaf packages** (have subdirectories): Classes defined in `__init__.py`
-- Classes MUST be importable from module path specified in `docs/requirements/mapping.json`
+### Package Structure (CRITICAL)
+Follow AUTOSAR M2 model hierarchy with strict conventions:
+
+**Leaf Packages (no subdirectories):**
+- Classes defined in a single `.py` file
+- Package name = filename (without `.py` extension)
+- File name typically matches the primary class name or package concept
+- Import path includes the filename as the package name
+
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
+# This is a leaf package (no subdirectories)
+
+from abc import ABCMeta
+from typing import List
+
+class AbstractImplementationDataTypeElement(Identifiable):
+    """Base class for implementation data type elements."""
+    pass
+
+class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+    """Implementation data type element class."""
+    pass
+
+class ImplementationDataType(AbstractImplementationDataType):
+    """Implementation data type class."""
+    pass
+
+# Import statement:
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+```
+
+**Non-Leaf Packages (have subdirectories):**
+- Classes defined in `__init__.py` of the directory
+- Package name = directory name
+- May contain multiple subdirectories with their own classes
+
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/CommonStructure/__init__.py
+# This is a non-leaf package (has subdirectories)
+
+from abc import ABCMeta
+from typing import List
+
+class ValueSpecification(ARObject, metaclass=ABCMeta):
+    """Value specification base class."""
+    pass
+
+class ConstantSpecification(ARElement):
+    """Constant specification class."""
+    pass
+
+# Import statement:
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+```
+
+**Package Structure Decision Tree:**
+```
+Does the package contain subdirectories?
+│
+├── YES → Non-Leaf Package
+│   - Create directory with __init__.py
+│   - Define classes in __init__.py
+│   - Package name = directory name
+│
+└── NO  → Leaf Package
+    - Create single .py file
+    - Define all classes in that .py file
+    - Package name = filename (without .py)
+```
+
+**Class Mapping Compliance:**
+- Classes MUST be importable from the module path specified in `docs/requirements/mapping.json`
+- Run `test_class_mapping.py` integration test to verify compliance
+- Deviation reports are generated in `reports/deviation_*.md`
+
+**Current Deviation Status (as of v1.9.2):**
+- ✓ **Match**: 604 classes correctly implemented
+- ✗ **Missing**: 1189 classes documented but not found
+- ⚠ **Path Mismatch**: 93 classes in wrong location
+- + **Extra**: 207 undocumented classes
+- See `reports/deviation_package.md` for detailed deviation tracking
 
 ## Architecture
 
@@ -235,7 +320,7 @@ src/armodel/
 ## Important Notes
 
 ### Development Guidelines
-- Python >= 3.5 required, CI supports 3.8, 3.9, 3.10, 3.11, 3.12
+- Python >= 3.5 required, CI supports 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
 - Do NOT add comments unless asked
 - Follow PEP 8 coding conventions
 - When modifying code, check that ruff/flake8 passes (especially E9,F63,F7,F82 errors)
@@ -247,6 +332,7 @@ src/armodel/
 - Same short names with different types can be added and located
 - Float numbers in scientific notation are properly handled
 - Boolean type values should not contain spaces
+- Package structure migration is ongoing (see docs/plans/2026-02-01-package-structure-migration-design.md)
 
 ### AUTOSAR Singleton Management
 ```python
@@ -267,6 +353,31 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 - Parse → Write → Re-parse → Compare cycle
 - Auto-detects AUTOSAR version from XSD schema (4.0.3 to R24-11)
 - Extensible via `tests/integration_tests/config.yaml`
+
+### Development Activities
+
+#### Package Structure Migration (Ongoing)
+- **Design Document**: `docs/plans/2026-02-01-package-structure-migration-design.md`
+- **Goal**: Align Python package structure with AUTOSAR M2 model hierarchy
+- **Status**: Ongoing - addressing path mismatches and missing classes
+- **Tools**:
+  - `scripts/scan_existing_classes.py`: Scan and catalog existing classes
+  - `scripts/compare-package-implementation.py`: Compare package structure
+  - `scripts/fix-package-implementation.py`: Fix package structure issues
+- **Reports**: Generated in `reports/deviation_*.md`
+
+#### Deviation Tracking
+The project maintains comprehensive deviation tracking between documented AUTOSAR M2 model and actual implementation:
+- **Package Deviations**: `reports/deviation_package.md` (604 match, 1189 missing, 93 path mismatch, 207 extra)
+- **Class Hierarchy**: `reports/deviation_class_hierarchy_*.md`
+- **Class Mapping**: `reports/class_mapping_report.md`
+- Run `python scripts/deviation-package.py` to regenerate reports
+
+#### AUTOSAR M2 Class Generation
+- **Design Document**: `docs/plans/2025-01-31-autosar-m2-class-generation-design.md`
+- **Implementation Document**: `docs/plans/2025-01-31-autosar-m2-class-generation-implementation.md`
+- **Goal**: Automated generation of AUTOSAR M2 model classes from specification documents
+- **Status**: Partially implemented - ongoing development
 
 ## CLI Tools
 
@@ -289,6 +400,9 @@ The library provides 10 command-line tools:
 - Ongoing test coverage enhancement across all modules
 - Package structure refactoring for case-sensitivity issues
 - Improved deviation tracking and documentation
+- Python 3.13 support added to CI
+- Enhanced class mapping validation and reporting
+- Development scripts added for package structure analysis and fixes
 
 ### Version 1.9.1
 - Package Structure Refactoring
