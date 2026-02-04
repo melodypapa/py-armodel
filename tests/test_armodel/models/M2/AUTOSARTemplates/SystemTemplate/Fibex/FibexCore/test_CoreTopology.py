@@ -1,5 +1,7 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayChannelName
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType, IPduSignalProcessingEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     CommunicationCycle,
     CycleCounter,
@@ -11,7 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     LinPhysicalChannel,
     VlanConfig,
     EthernetPhysicalChannel,
-    FlexrayChannelName,
     FlexrayPhysicalChannel,
     CommunicationCluster,
     CanClusterBusOffRecovery,
@@ -20,10 +21,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     LinCluster,
     CommunicationController,
     PncGatewayTypeEnum,
-    CommunicationDirectionType,
     CommConnectorPort,
     FramePort,
-    IPduSignalProcessingEnum,
     IPduPort,
     ISignalPort,
     CommunicationConnector

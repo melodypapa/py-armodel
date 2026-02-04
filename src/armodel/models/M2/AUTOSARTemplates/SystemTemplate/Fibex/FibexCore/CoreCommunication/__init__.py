@@ -1,12 +1,37 @@
 from abc import ABC
 from typing import List
+from enum import Enum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable, PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger, AREnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import TransmissionModeDeclaration
+
+
+class CommunicationDirectionType(AREnum):
+    """
+    Enumeration defining communication direction types,
+    specifying whether communication is inbound or outbound.
+    """
+    ENUM_IN = "in"
+    ENUM_OUT = "out"
+
+    def __init__(self):
+        super().__init__([
+            CommunicationDirectionType.ENUM_IN,
+            CommunicationDirectionType.ENUM_OUT
+        ])
+
+
+class IPduSignalProcessingEnum(Enum):
+    """
+    Enumeration defining types of IPDU signal processing,
+    specifying whether signal processing is deferred or immediate.
+    """
+    ENUM_DEFERRED = "deferred"
+    ENUM_IMMEDIATE = "immediate"
 
 
 class FibexElement(PackageableElement, ABC):

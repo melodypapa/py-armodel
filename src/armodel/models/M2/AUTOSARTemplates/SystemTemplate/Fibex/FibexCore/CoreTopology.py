@@ -16,8 +16,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector, FlexrayCommunicationController
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector, FlexrayCommunicationController, FlexrayChannelName
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType, IPduSignalProcessingEnum
 
 
 class CommunicationCycle(ARObject, ABC):
@@ -280,22 +281,6 @@ class EthernetPhysicalChannel(PhysicalChannel):
         return self.getElement(short_name)
 
 
-class FlexrayChannelName(AREnum):
-    """
-    Enumeration defining names for FlexRay channels,
-    specifying the available channel designations
-    in FlexRay communication systems.
-    """
-    CHANNEL_A = "channelA"
-    channel_B = "channelB"
-
-    def __init__(self):
-        super().__init__([
-            FlexrayChannelName.CHANNEL_A,
-            FlexrayChannelName.channel_B
-        ])
-
-
 class FlexrayPhysicalChannel(PhysicalChannel):
     """
     Represents a FlexRay physical channel in the communication system,
@@ -305,7 +290,7 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.channelName = None                                     # type: FlexrayChannelName
+        self.channelName = None                                     # type: "FlexrayChannelName"
 
     def getChannelName(self):
         return self.channelName
@@ -558,21 +543,6 @@ class PncGatewayTypeEnum(AREnum):
         ])
 
 
-class CommunicationDirectionType(AREnum):
-    """
-    Enumeration defining communication direction types,
-    specifying whether communication is inbound or outbound.
-    """
-    ENUM_IN = "in"
-    ENUM_OUT = "out"
-
-    def __init__(self):
-        super().__init__([
-            CommunicationDirectionType.ENUM_IN,
-            CommunicationDirectionType.ENUM_OUT
-        ])
-
-
 class CommConnectorPort(Identifiable, ABC):
     """
     Abstract base class for communication connector ports,
@@ -605,15 +575,6 @@ class FramePort(CommConnectorPort):
         super().__init__(parent, short_name)
 
 
-class IPduSignalProcessingEnum(Enum):
-    """
-    Enumeration defining types of IPDU signal processing,
-    specifying whether signal processing is deferred or immediate.
-    """
-    ENUM_DEFERRED = "deferred"
-    ENUM_IMMEDIATE = "immediate"
-
-
 class IPduPort(CommConnectorPort):
     """
     Represents an IPDU port for communication connectors,
@@ -623,7 +584,7 @@ class IPduPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.iPduSignalProcessing: IPduSignalProcessingEnum = None
+        self.iPduSignalProcessing: "IPduSignalProcessingEnum" = None
         self.keyId: PositiveInteger = None
         self.rxSecurityVerification: Boolean = None
         self.timestampRxAcceptanceWindow: TimeValue = None
