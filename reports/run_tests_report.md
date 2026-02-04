@@ -6,20 +6,28 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-71.6%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-77.8%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23375 | 32654 | **71.58%** |
+| **Lines** | 23620 | 30365 | **77.79%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
 
 | Module | Files | Line Coverage |
 |--------|-------|---------------|
-| **.venv** | 301 | 71.6% |
+| **__init__.py** | 1 | 100.0% |
+| **data_models** | 2 | 100.0% |
+| **lib** | 4 | 100.0% |
+| **transformer** | 3 | 100.0% |
+| **models** | 233 | 92.6% |
+| **parser** | 6 | 55.7% |
+| **writer** | 3 | 52.0% |
+| **cli** | 11 | 6.0% |
+| **report** | 3 | 0.0% |
 
 ### Files Needing Attention
 
@@ -32,32 +40,21 @@
 | `cli/connector2xlsx_cli` | 0.0% | 0.0% |
 | `cli/connector_update_cli` | 0.0% | 0.0% |
 | `cli/file_list_cli` | 0.0% | 0.0% |
-| `cli/format_xml_cli` | 0.0% | 0.0% |
 | `cli/memory_section_cli` | 0.0% | 0.0% |
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
 | `cli/uuid_checker_cli` | 0.0% | 0.0% |
-| `AUTOSARTemplates/AutosarTopLevelStructure` | 0.0% | 0.0% |
-| `BswModuleTemplate/BswOverview` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
-| `CommonStructure/ModeDeclarationExtra` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McDataAccessDetails` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McDataInstance` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McFunction` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McParameterElementGroup` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McSupportData` | 0.0% | 0.0% |
-
-## Integration Test Coverage
-
-![coverage](https://img.shields.io/badge/integration-47.2%25-red)
-
-### Summary
-
-| Metric | Covered | Valid | Percentage |
-|--------|---------|-------|------------|
-| **Lines** | 15423 | 32654 | **47.23%** |
-| **Branches** | 0 | 0 | **0.00%** |
+| `MeasurementCalibrationSupport/McSwEmulationMethodSupport` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/__init__` | 0.0% | 0.0% |
+| `RptSupport/McFunctionDataRefSet` | 0.0% | 0.0% |
 
 ---
 

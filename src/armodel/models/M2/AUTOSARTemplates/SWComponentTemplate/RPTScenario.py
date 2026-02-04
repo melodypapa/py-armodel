@@ -20,3 +20,8 @@ class IdentCaption(AtpStructureElement, ABC):
 class ModeAccessPointIdent(IdentCaption):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+class ExternalTriggeringPointIdent(IdentCaption):
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
