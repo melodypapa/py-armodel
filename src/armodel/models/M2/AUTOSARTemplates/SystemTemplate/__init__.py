@@ -9,54 +9,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
 
-
-class SwcToEcuMapping(Identifiable):
-    """
-    Represents the mapping between software components and ECU instances
-    in the system, defining how components are assigned to specific
-    ECUs including hardware element and processing unit references.
-    """
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.componentIRefs: List[ComponentInSystemInstanceRef] = []
-        self.controlledHwElementRef: RefType = None
-        self.ecuInstanceRef: RefType = None
-        self.processingUnitRef: RefType = None
-
-    def getComponentIRefs(self):
-        return self.componentIRefs
-
-    def addComponentIRef(self, value):
-        self.componentIRefs.append(value)
-        return self
-
-    def getControlledHwElementRef(self):
-        return self.controlledHwElementRef
-
-    def setControlledHwElementRef(self, value):
-        self.controlledHwElementRef = value
-        return self
-
-    def getEcuInstanceRef(self):
-        return self.ecuInstanceRef
-
-    def setEcuInstanceRef(self, value):
-        self.ecuInstanceRef = value
-        return self
-
-    def getProcessingUnitRef(self):
-        return self.processingUnitRef
-
-    def setProcessingUnitRef(self, value):
-        self.processingUnitRef = value
-        return self
 
 
 class ComManagementMapping(Identifiable):
