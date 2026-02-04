@@ -535,6 +535,94 @@ def scan_implementation(
     return result
 
 
+def detect_duplicates(
+    comparisons: List[Dict[str, Any]]
+) -> Dict[str, Any]:
+    """
+    Detect duplicate class and enum definitions across different package paths.
+    
+    This validates CODING_RULE_STYLE_00009: Classes MUST be importable from only
+    one module path (their mapped location). Finding a class in multiple package
+    paths indicates a violation.
+    
+    Args:
+        comparisons: List of comparison results from compare_packages()
+    
+    Returns: {
+        'duplicate_classes': {class_name: [{package, location, full_name}, ...]},
+        'duplicate_enums': {enum_name: [{package, location, full_name}, ...]},
+        'summary': {
+            'total_duplicate_classes': int,
+            'total_duplicate_enums': int,
+            'affected_packages': set of package names
+        }
+    }
+    """
+    result = {
+        'duplicate_classes': {},
+        'duplicate_enums': {},
+        'summary': {
+            'total_duplicate_classes': 0,
+            'total_duplicate_enums': 0,
+            'affected_packages': set()
+        }
+    }
+    
+    # Track all classes and enums across packages
+    class_registry: Dict[str, List[Dict[str, Any]]] = {}
+    enum_registry: Dict[str, List[Dict[str, Any]]] = {}
+    
+    for comp in comparisons:
+        pkg_name = comp['package']
+        
+        # Collect implemented classes
+        for cls in comp['classes']:
+            if cls['implemented']:
+                cls_name = cls['name']
+                if cls_name not in class_registry:
+                    class_registry[cls_name] = []
+                
+                class_registry[cls_name].append({
+                    'package': pkg_name,
+                    'location': cls['location'],
+                    'full_name': f"armodel.models.M2.{pkg_name[4:].replace('::', '.')}.{cls_name}" if pkg_name.startswith('M2::') else f"{pkg_name.replace('::', '.')}.{cls_name}"
+                })
+        
+        # Collect implemented enums
+        for enum in comp['enumerations']:
+            if enum['implemented']:
+                enum_name = enum['name']
+                if enum_name not in enum_registry:
+                    enum_registry[enum_name] = []
+                
+                enum_registry[enum_name].append({
+                    'package': pkg_name,
+                    'location': enum['location'],
+                    'full_name': f"armodel.models.M2.{pkg_name[4:].replace('::', '.')}.{enum_name}" if pkg_name.startswith('M2::') else f"{pkg_name.replace('::', '.')}.{enum_name}"
+                })
+    
+    # Find duplicate classes (defined in more than one package)
+    for cls_name, locations in class_registry.items():
+        if len(locations) > 1:
+            result['duplicate_classes'][cls_name] = locations
+            result['summary']['total_duplicate_classes'] += 1
+            for loc in locations:
+                result['summary']['affected_packages'].add(loc['package'])
+    
+    # Find duplicate enums (defined in more than one package)
+    for enum_name, locations in enum_registry.items():
+        if len(locations) > 1:
+            result['duplicate_enums'][enum_name] = locations
+            result['summary']['total_duplicate_enums'] += 1
+            for loc in locations:
+                result['summary']['affected_packages'].add(loc['package'])
+    
+    # Convert set to list for JSON serialization
+    result['summary']['affected_packages'] = sorted(result['summary']['affected_packages'])
+    
+    return result
+
+
 def compare_packages(
     requirements_packages: List[Dict[str, Any]],
     project_root: Path,
@@ -731,8 +819,20 @@ def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str
         f.write(f'- **Extra**: {total_extra_enums}\n')
         f.write(f'- **Literal Mismatches**: {total_enum_mismatches}\n')
         
+        # Detect duplicates
+        duplicates = detect_duplicates(comparisons)
+        
+        # Add duplicate counts to summary
+        total_duplicate_classes = duplicates['summary']['total_duplicate_classes']
+        total_duplicate_enums = duplicates['summary']['total_duplicate_enums']
+        
+        if total_duplicate_classes > 0 or total_duplicate_enums > 0:
+            f.write('\n### Duplicates (CODING_RULE_STYLE_00009 Violation)\n')
+            f.write(f'- **Duplicate Classes**: {total_duplicate_classes}\n')
+            f.write(f'- **Duplicate Enums**: {total_duplicate_enums}\n')
+        
         # Determine overall status
-        total_issues = total_missing_classes + total_missing_enums + total_enum_mismatches
+        total_issues = total_missing_classes + total_missing_enums + total_enum_mismatches + total_duplicate_classes + total_duplicate_enums
         if total_issues == 0 and total_extra_classes == 0 and total_extra_enums == 0:
             overall_status = '✅ Complete'
         elif total_missing_classes > 0 or total_missing_enums > 0:
@@ -748,7 +848,44 @@ def generate_markdown_report(comparisons: List[Dict[str, Any]], output_path: str
         f.write('- ✅ Implemented: Class/enum is implemented and matches requirements\n')
         f.write('- ❌ Missing: Class/enum is required but not found in implementation\n')
         f.write('- ⚠️ Literal Mismatch: Enum exists but has different literal values\n')
-        f.write('- ➕ Extra: Class/enum exists in implementation but not in requirements\n\n')
+        f.write('- ➕ Extra: Class/enum exists in implementation but not in requirements\n')
+        f.write('- 🔄 Duplicate: Class/enum is defined in multiple package paths (CODING_RULE_STYLE_00009 violation)\n\n')
+        
+        # Duplicate definitions report
+        if duplicates['summary']['total_duplicate_classes'] > 0 or duplicates['summary']['total_duplicate_enums'] > 0:
+            f.write('## 🔄 Duplicate Definitions (CODING_RULE_STYLE_00009 Violation)\n\n')
+            f.write('**Note**: Classes and enums should only be importable from their mapped module path. ')
+            f.write('Finding duplicates in multiple package paths indicates a violation of the package structure convention.\n\n')
+            
+            f.write(f'- **Duplicate Classes**: {duplicates["summary"]["total_duplicate_classes"]}\n')
+            f.write(f'- **Duplicate Enums**: {duplicates["summary"]["total_duplicate_enums"]}\n')
+            f.write(f'- **Affected Packages**: {len(duplicates["summary"]["affected_packages"])}\n\n')
+            
+            if duplicates['duplicate_classes']:
+                f.write('### Duplicate Classes\n\n')
+                for cls_name in sorted(duplicates['duplicate_classes'].keys()):
+                    locations = duplicates['duplicate_classes'][cls_name]
+                    f.write(f'#### {cls_name}\n\n')
+                    f.write(f'Found in **{len(locations)}** locations:\n\n')
+                    f.write('| Package | Location | Full Import Path |\n')
+                    f.write('|---------|----------|------------------|\n')
+                    for loc in locations:
+                        f.write(f"| {loc['package']} | {loc['location']} | `{loc['full_name']}` |\n")
+                    f.write('\n')
+            
+            if duplicates['duplicate_enums']:
+                f.write('### Duplicate Enums\n\n')
+                for enum_name in sorted(duplicates['duplicate_enums'].keys()):
+                    locations = duplicates['duplicate_enums'][enum_name]
+                    f.write(f'#### {enum_name}\n\n')
+                    f.write(f'Found in **{len(locations)}** locations:\n\n')
+                    f.write('| Package | Location | Full Import Path |\n')
+                    f.write('|---------|----------|------------------|\n')
+                    for loc in locations:
+                        f.write(f"| {loc['package']} | {loc['location']} | `{loc['full_name']}` |\n")
+                    f.write('\n')
+            
+            f.write('---\n\n')
         
         # Packages with problems summary
         packages_with_problems = [c for c in comparisons if c['summary']['missing_classes'] > 0 or c['summary']['missing_enums'] > 0 or c['summary']['enum_mismatches'] > 0]
@@ -948,7 +1085,20 @@ Examples:
     if extra_enums > 0:
         print(f"  ➕ {extra_enums} extra")
     
-    total_issues = missing_classes + missing_enums + enum_mismatches
+    # Detect and report duplicates
+    duplicates = detect_duplicates(comparisons)
+    total_duplicate_classes = duplicates['summary']['total_duplicate_classes']
+    total_duplicate_enums = duplicates['summary']['total_duplicate_enums']
+    
+    if total_duplicate_classes > 0 or total_duplicate_enums > 0:
+        print("\n🔄 Duplicate Definitions (CODING_RULE_STYLE_00009 Violation):")
+        if total_duplicate_classes > 0:
+            print(f"  ❌ {total_duplicate_classes} class(es) defined in multiple locations")
+        if total_duplicate_enums > 0:
+            print(f"  ❌ {total_duplicate_enums} enum(s) defined in multiple locations")
+        print("  See the report for detailed location information")
+    
+    total_issues = missing_classes + missing_enums + enum_mismatches + total_duplicate_classes + total_duplicate_enums
     
     if total_issues == 0 and extra_classes == 0 and extra_enums == 0:
         print("\n✅ All requirements are satisfied!")
