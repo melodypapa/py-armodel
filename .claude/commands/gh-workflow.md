@@ -8,6 +8,8 @@ When the user runs `/gh-workflow`, perform the following steps in order:
 
 ### 1. Quality Checks (Must Pass Before Proceeding)
 - Run linting with flake8: `flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics`
+- Run ruff for V2 models: `ruff check src/armodel/models_v2/`
+- Run mypy for V2 models: `mypy src/armodel/models_v2/`
 - Run tests with pytest: `pytest`
 - Install package: `pip install -e .`
 - **All checks must pass** before proceeding to next step
@@ -20,6 +22,8 @@ When the user runs `/gh-workflow`, perform the following steps in order:
   Check        Status    Details
   ───────────────────────────────────
   Flake8       ✅ Pass    No E9,F63,F7,F82 errors
+  Ruff (V2)    ✅ Pass    No ruff errors in models_v2
+  MyPy (V2)    ✅ Pass    No type errors in models_v2
   Pytest       ✅ Pass    All tests passed
   ```
 

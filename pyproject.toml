@@ -109,3 +109,34 @@ section-order = ["future", "standard-library", "third-party", "first-party", "lo
 [tool.ruff.lint.pycodestyle]
 # Max docstring length: 72 characters (CODING_RULE_LAYOUT_00002)
 max-doc-length = 72
+
+[tool.mypy]
+# MyPy configuration for V2 models type checking
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Set to true for stricter checking in future
+disallow_incomplete_defs = false  # Set to true for stricter checking in future
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+follow_imports = "normal"  # or "skip" for stub-less packages
+ignore_missing_imports = false
+
+# Per-module mypy configuration
+[[tool.mypy.overrides]]
+module = [
+    "armodel.models_v2.*",
+]
+disallow_untyped_defs = false  # V2 models should have type hints but allow gradual adoption
+check_untyped_defs = true
+
+# Ignore specific modules or directories
+[[tool.mypy.overrides]]
+module = [
+    "tests.*",
+    "scripts.*",
+]
+ignore_errors = false  # Set to true to skip type checking in tests temporarily
