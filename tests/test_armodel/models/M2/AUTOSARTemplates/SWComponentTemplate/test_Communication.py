@@ -10,10 +10,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     NonqueuedSenderComSpec, ClientComSpec, ModeSwitchReceiverComSpec,
     NvRequireComSpec, ParameterRequireComSpec, ReceiverComSpec,
     ModeSwitchedAckRequest, ModeSwitchSenderComSpec, ParameterProvideComSpec,
-    TransformationComSpecProps, EndToEndTransformationComSpecProps,
-    UserDefinedTransformationComSpecProps, ServerComSpec, NvProvideComSpec,
+    TransformationComSpecProps, UserDefinedTransformationComSpecProps, ServerComSpec, NvProvideComSpec,
     NonqueuedReceiverComSpec, QueuedReceiverComSpec
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType, ARBoolean, PositiveInteger, TimeValue, ARPositiveInteger, ARNumerical
 )

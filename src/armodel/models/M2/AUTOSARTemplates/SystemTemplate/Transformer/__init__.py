@@ -2,13 +2,18 @@
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
 from abc import ABC
-from typing import List
+from typing import List, TYPE_CHECKING
 
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuScale
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
+
+if TYPE_CHECKING:
+    pass
 
 
 class DataTransformationKindEnum(AREnum):
@@ -107,6 +112,161 @@ class TransformationDescription(Describable, ABC):
         if type(self) is TransformationDescription:
             raise TypeError("TransformationDescription is an abstract class.")
         super().__init__()
+
+
+class EndToEndTransformationComSpecProps(TransformationComSpecProps):
+    """
+    Defines end-to-end transformation communication properties,
+    specifying timing and counter configurations for
+    end-to-end protection in communication system.
+    """
+    def __init__(self):
+        super().__init__()
+
+        self.clearFromValidToInvalid: Boolean = None
+        self.disableEndToEndCheck: Boolean = None
+        self.disableEndToEndStateMachine: Boolean = None
+        self.e2eProfileCompatibilityPropsRef: RefType = None
+        self.maxDeltaCounter: PositiveInteger = None
+        self.maxErrorStateInit: PositiveInteger = None
+        self.maxErrorStateInvalid: PositiveInteger = None
+        self.maxErrorStateValid: PositiveInteger = None
+        self.maxNoNewOrRepeatedData: PositiveInteger = None
+        self.minOkStateInit: PositiveInteger = None
+        self.minOkStateInvalid: PositiveInteger = None
+        self.minOkStateValid: PositiveInteger = None
+        self.syncCounterInit: PositiveInteger = None
+        self.windowSizeInit: PositiveInteger = None
+        self.windowSizeInvalid: PositiveInteger = None
+        self.windowSizeValid: PositiveInteger = None
+
+    def getClearFromValidToInvalid(self):
+        return self.clearFromValidToInvalid
+
+    def setClearFromValidToInvalid(self, value: Boolean):
+        if value is not None:
+            self.clearFromValidToInvalid = value
+        return self
+
+    def getDisableEndToEndCheck(self):
+        return self.disableEndToEndCheck
+
+    def setDisableEndToEndCheck(self, value: Boolean):
+        if value is not None:
+            self.disableEndToEndCheck = value
+        return self
+
+    def getDisableEndToEndStateMachine(self):
+        return self.disableEndToEndStateMachine
+
+    def setDisableEndToEndStateMachine(self, value: Boolean):
+        if value is not None:
+            self.disableEndToEndStateMachine = value
+        return self
+
+    def getE2eProfileCompatibilityPropsRef(self):
+        return self.e2eProfileCompatibilityPropsRef
+
+    def setE2eProfileCompatibilityPropsRef(self, value: RefType):
+        if value is not None:
+            self.e2eProfileCompatibilityPropsRef = value
+        return self
+
+    def getMaxDeltaCounter(self):
+        return self.maxDeltaCounter
+
+    def setMaxDeltaCounter(self, value: PositiveInteger):
+        if value is not None:
+            self.maxDeltaCounter = value
+        return self
+
+    def getMaxErrorStateInit(self):
+        return self.maxErrorStateInit
+
+    def setMaxErrorStateInit(self, value: PositiveInteger):
+        if value is not None:
+            self.maxErrorStateInit = value
+        return self
+
+    def getMaxErrorStateInvalid(self):
+        return self.maxErrorStateInvalid
+
+    def setMaxErrorStateInvalid(self, value: PositiveInteger):
+        if value is not None:
+            self.maxErrorStateInvalid = value
+        return self
+
+    def getMaxErrorStateValid(self):
+        return self.maxErrorStateValid
+
+    def setMaxErrorStateValid(self, value: PositiveInteger):
+        if value is not None:
+            self.maxErrorStateValid = value
+        return self
+
+    def getMaxNoNewOrRepeatedData(self):
+        return self.maxNoNewOrRepeatedData
+
+    def setMaxNoNewOrRepeatedData(self, value: PositiveInteger):
+        if value is not None:
+            self.maxNoNewOrRepeatedData = value
+        return self
+
+    def getMinOkStateInit(self):
+        return self.minOkStateInit
+
+    def setMinOkStateInit(self, value: PositiveInteger):
+        if value is not None:
+            self.minOkStateInit = value
+        return self
+
+    def getMinOkStateInvalid(self):
+        return self.minOkStateInvalid
+
+    def setMinOkStateInvalid(self, value: PositiveInteger):
+        if value is not None:
+            self.minOkStateInvalid = value
+        return self
+
+    def getMinOkStateValid(self):
+        return self.minOkStateValid
+
+    def setMinOkStateValid(self, value: PositiveInteger):
+        if value is not None:
+            self.minOkStateValid = value
+        return self
+
+    def getSyncCounterInit(self):
+        return self.syncCounterInit
+
+    def setSyncCounterInit(self, value: PositiveInteger):
+        if value is not None:
+            self.syncCounterInit = value
+        return self
+
+    def getWindowSizeInit(self):
+        return self.windowSizeInit
+
+    def setWindowSizeInit(self, value: PositiveInteger):
+        if value is not None:
+            self.windowSizeInit = value
+        return self
+
+    def getWindowSizeInvalid(self):
+        return self.windowSizeInvalid
+
+    def setWindowSizeInvalid(self, value: PositiveInteger):
+        if value is not None:
+            self.windowSizeInvalid = value
+        return self
+
+    def getWindowSizeValid(self):
+        return self.windowSizeValid
+
+    def setWindowSizeValid(self, value: PositiveInteger):
+        if value is not None:
+            self.windowSizeValid = value
+        return self
 
 
 class DataIdModeEnum(AREnum):
