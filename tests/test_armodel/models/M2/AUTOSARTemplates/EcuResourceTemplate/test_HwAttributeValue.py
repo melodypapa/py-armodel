@@ -3,8 +3,10 @@ Test cases for the HwAttributeValue module.
 These tests ensure 100% code coverage for the HwAttributeValue and HwAttributeLiteralDef classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
+    HwAttributeValue,
+    HwAttributeLiteralDef,
+)
 
 
 def test_hw_attribute_value_init():
