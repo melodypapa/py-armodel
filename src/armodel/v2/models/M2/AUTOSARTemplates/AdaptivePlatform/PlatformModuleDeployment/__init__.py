@@ -3,6 +3,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploy
 )
 from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (  # noqa: F401
     CryptoKeySlot,
+    CryptoKeySlotContent,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (  # noqa: F401
     FirewallRule,
@@ -17,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploy
 __all__ = [
     'PlatformModuleEthernetEndpointConfiguration',
     'CryptoKeySlot',
+    'CryptoKeySlotContent',
     'FirewallRule',
     'FirewallRuleProps',
     'StateDependentFirewall',

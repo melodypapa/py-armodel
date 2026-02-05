@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import TYPE_CHECKING, List
+from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
@@ -42,12 +42,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition impor
     SwComponentPrototype,
     SwConnector,
 )
-
-# SwcInternalBehavior import moved to TYPE_CHECKING to avoid circular import
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-        SwcInternalBehavior,
-    )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
     SwComponentType,
 )
