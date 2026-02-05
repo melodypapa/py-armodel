@@ -1,5 +1,6 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 
 class SwServiceArg(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
@@ -29,3 +30,26 @@ class SwServiceArg(Identifiable):
     def setSwDataDefProps(self, value):
         self.swDataDefProps = value
         return self
+
+
+class SwServiceImplPolicyEnum(AREnum):
+    """
+    Enumeration for SW Service Implementation Policy values.
+    Defines how software service implementations should be generated in code.
+    """
+    # Implementation should be inlined
+    INLINE = "INLINE"
+    # Implementation should be inlined conditionally based on configuration
+    INLINE_CONDITIONAL = "INLINE-CONDITIONAL"
+    # Implementation should be generated as a macro
+    MACRO = "MACRO"
+    # Standard implementation (not inlined)
+    STANDARD = "STANDARD"
+
+    def __init__(self):
+        super().__init__((
+            SwServiceImplPolicyEnum.INLINE,
+            SwServiceImplPolicyEnum.INLINE_CONDITIONAL,
+            SwServiceImplPolicyEnum.MACRO,
+            SwServiceImplPolicyEnum.STANDARD,
+        ))
