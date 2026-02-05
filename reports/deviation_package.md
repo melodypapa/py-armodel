@@ -1364,8 +1364,8 @@ and the actual Python implementation.
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure.AtpStructureElement | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure.AtpType | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject.ARObject | Class exists but not documented |
+| + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection.CollectableElement | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.ARElement | Class exists but not documented |
-| + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.CollectableElement | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.Describable | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.MultilanguageReferrable | Class exists but not documented |
 | + EXTRA | M2: Not Documented<br>Expected: N/A<br>Actual: armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable.PackageableElement | Class exists but not documented |
