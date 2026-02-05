@@ -30,6 +30,14 @@ When the user runs `/gh-workflow`, perform the following steps in order:
 ### 2. Analyze Current Changes
 - Run `git status` to see modified files
 - Run `git diff` to review unstaged changes
+- Check current branch: `git branch --show-current`
+- **IMPORTANT**: If on main branch with unpushed commits:
+  - Check for unpushed commits: `git log origin/main..HEAD --oneline`
+  - If commits exist, ask user for feature branch name
+  - Create feature branch from main: `git checkout -b feature/<name>`
+  - Reset main to origin/main: `git checkout main && git reset --hard origin/main`
+  - Checkout feature branch again: `git checkout feature/<name>`
+  - Inform user that commits are now on feature branch
 - Ask the user for a brief summary of the changes if not clear from the diff
 
 ### 3. Create GitHub Issue
@@ -39,9 +47,10 @@ When the user runs `/gh-workflow`, perform the following steps in order:
 - Capture the issue number (e.g., #20)
 
 ### 4. Create Feature Branch
-- Create and checkout a new feature branch
+- **If not already created in step 2**: Create and checkout a new feature branch
 - Branch naming convention: `feature/<requirement-id>-short-description` or `feature/<type>-short-description`
 - Example: `feature/swr-writer-00006-class-file-structure` or `feature/add-new-parser`
+- Verify we're on a feature branch (not main) before proceeding
 
 ### 5. Stage and Commit Changes
 - Stage all relevant modified files
@@ -96,8 +105,10 @@ Use `$ARGUMENTS` to accept optional context:
 
 ## Notes
 
+- **CRITICAL**: Never commit directly to main branch. If commits are on main, the workflow will move them to a feature branch.
 - Always confirm with the user before executing destructive operations
 - Show progress updates at each step
 - Report any errors and ask for guidance
 - Provide links to the created issue and pull request
 - Update the todo list to track progress
+- When moving commits from main to feature branch, main is reset to origin/main (clean state)
