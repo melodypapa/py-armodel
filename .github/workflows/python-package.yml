@@ -30,7 +30,6 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         python -m pip install colorama
-        python -m pip install ruff mypy
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Install package
       run: |
@@ -41,18 +40,6 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Lint V2 models with ruff
-      run: |
-        # Check V2 models with ruff for code quality and style
-        # Exit-zero treats warnings as acceptable (gradual adoption)
-        ruff check src/armodel/models_v2/ --exit-zero
-        # Ruff format check (optional - can be enabled later)
-        # ruff format --check src/armodel/models_v2/
-    - name: Type check V2 models with mypy
-      run: |
-        # Type check V2 models with mypy
-        # Exit-zero treats warnings as acceptable (gradual adoption)
-        mypy src/armodel/models_v2/ --exit-zero
     - name: Test with pytest
       run: |
         pytest --ignore=tests/integration_tests/test_class_mapping.py

@@ -12,9 +12,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.models_v2.M2.MSR.Documentation.Annotation import Annotation
 
 
-
-__all__ = []
-
 class Documentation(ARElement):
     """
     Represents documentation in the AUTOSAR model.
@@ -47,3 +44,6 @@ class Documentation(ARElement):
         if value is not None:
             self.description = value
         return self
+
+
+__all__ = []

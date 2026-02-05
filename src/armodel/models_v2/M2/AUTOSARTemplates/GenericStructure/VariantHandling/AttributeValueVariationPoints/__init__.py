@@ -2,9 +2,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-
-__all__ = []
-
     Float,
 )
 
@@ -41,3 +38,6 @@ class NumericalValueVariationPoint(ARObject):
         if value is not None:
             self.variantValue = value
         return self
+
+
+__all__ = []

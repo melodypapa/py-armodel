@@ -4,7 +4,8 @@
 Python library for AUTOSAR model support - ARXML parser and writer for automotive ECU software development.
 **Version**: 1.9.2 | **Python**: >= 3.5 (CI supports 3.8-3.13) | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
 
-**Current Git Status**: Clean working directory | **Latest Commit**: e8ae4d2 - Update CollectableElement location in deviation report
+**Current Git Branch**: feat/v2-coding-rules-compliance
+**Latest Commit**: 9e58876 - feat(v2): Apply V2 coding rules compliance and fix imports
 
 ## Build, Lint, and Test Commands
 
@@ -78,13 +79,22 @@ ruff check --fix .
 ruff check --show-source .
 ```
 
+#### Type Checking: MyPy
+```bash
+# Run mypy type checking
+mypy src/armodel/models_v2/
+
+# Run mypy with specific configuration
+mypy --config-file pyproject.toml src/armodel/models_v2/
+```
+
 #### Legacy Linter: Flake8
 ```bash
 # Run flake8 for critical errors only
 flake8 --select=E9,F63,F7,F82 .
 ```
 
-**Note**: CI runs ruff with comprehensive rules. Line length is 79 characters (PEP 8 standard), with CI warnings at 127.
+**Note**: CI runs ruff and mypy with comprehensive rules. Line length is 79 characters (PEP 8 standard), with CI warnings at 127.
 
 ### Building
 ```bash
@@ -112,12 +122,41 @@ The `scripts/` directory contains utility scripts for development:
 - `deviation-class-hierarchy.py`: Generate class hierarchy deviation reports
 - `deviation-package.py`: Generate package structure deviation reports
 - `fix-package-implementation.py`: Fix package structure issues
+- `check_v2_coding_rules.py`: Check V2 models against coding rules
+- `fix_v2_coding_rules.py`: Auto-fix V2 coding rule violations
+- `validate_v2.py`: Validate V2 model structure
+- `refactor_commonstructure_v2.py`: Refactor CommonStructure for V2
+- `add_all_declarations.py`: Add __all__ declarations
+- `add_init_all.py`: Add __init__.py files
+- `fix_models_v2_imports.py`: Fix imports in V2 models
+- `fix_relative_imports.py`: Fix relative imports
+- `create_v2_structure.py`: Create V2 directory structure
 - `lib/`: Support library for scripts (code_generator, code_utils, package_loader, test_generator, type_resolver)
 
 ## Code Style Guidelines
 
 ### Comprehensive Reference
 For detailed coding standards, see: `docs/development/coding_rules.md`
+
+### V2-Specific Coding Rules
+
+The project is migrating to a V2 model structure with enhanced coding standards. Key differences:
+
+#### V2 Model Structure
+- **Location**: `src/armodel/models_v2/`
+- **Purpose**: Refactored AUTOSAR M2 model with improved code organization
+- **Status**: Active development on `feat/v2-coding-rules-compliance` branch
+- **Key Features**:
+  - Enhanced type hints with strict mypy checking
+  - Improved import organization
+  - Better separation of concerns
+  - Comprehensive deviation tracking
+
+#### V2 Coding Rules (CODING_RULE_V2_*)
+- **CODING_RULE_V2_00001**: V2 models must use strict type hints
+- **CODING_RULE_V2_00002**: V2 models must pass mypy checks
+- **CODING_RULE_V2_00003**: V2 models must follow ruff configuration
+- See `docs/development/coding_rules.md` for complete V2-specific rules
 
 ### Imports
 - Standard library first (typing, xml, os, logging, getopt, re)
@@ -345,7 +384,7 @@ src/armodel/
 ├── cli/                    # Command line tools (10 CLI utilities)
 ├── data_models/            # Data model definitions
 ├── lib/                    # Library functions
-├── models/                 # AUTOSAR model definitions (M2 structure)
+├── models/                 # AUTOSAR model definitions (V1 - legacy)
 │   ├── M2/
 │   │   ├── AUTOSARTemplates/  # AUTOSAR templates
 │   │   │   ├── AbstractPlatform/
@@ -366,6 +405,12 @@ src/armodel/
 │   │   ├── MSR/              # Meta-model semantic rules
 │   │   └── N/                # Naming conventions
 │   └── utils/                # Utility classes
+├── models_v2/              # AUTOSAR model definitions (V2 - refactored)
+│   ├── M2/
+│   │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
+│   │   ├── MSR/              # Meta-model semantic rules (V2)
+│   │   └── N/                # Naming conventions (V2)
+│   └── utils/                # Utility classes (V2)
 ├── parser/                 # Parser implementation
 ├── report/                 # Report generation
 ├── transformer/            # Transformer
@@ -379,12 +424,15 @@ src/armodel/
 - Use singleton pattern for `AUTOSAR` class via `getInstance()`
 - Abstract base classes use `ABC` from `abc` module
 - Separation of concerns between parser and writer modules
+- V2 models represent a refactored architecture with improved code organization
 
 ### Core Modules
 - **parser.arxml_parser**: Main ARXML parser, based on `AbstractARXMLParser`
 - **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**: `AUTOSAR` class (singleton root), `AbstractAUTOSAR` class
+- **models_v2.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (in development)
 - **writer.arxml_writer**: ARXML file writer
-- **models/**: Contains all AUTOSAR data model classes
+- **models/**: Contains all AUTOSAR data model classes (V1 - legacy)
+- **models_v2/**: Contains refactored AUTOSAR data model classes (V2 - active development)
 
 ## AUTOSAR Specifics
 
@@ -427,6 +475,7 @@ src/armodel/
 - **Class Location**: Follow CODING_RULE_STYLE_00008 for proper class placement in package structure
 - **Class Export**: Follow CODING_RULE_STYLE_00009 for proper class exports and module organization
 - **Duplicate Detection**: Run deviation tracking to identify duplicate class names before committing
+- **V2 Development**: Currently developing V2 models on `feat/v2-coding-rules-compliance` branch with enhanced coding standards
 
 ### AUTOSAR Singleton Management
 ```python
@@ -449,6 +498,30 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 - Extensible via `tests/integration_tests/config.yaml`
 
 ### Recent Refactoring Activities
+
+#### V2 Model Development (Current - 2026)
+**Purpose**: Refactor AUTOSAR M2 model structure with enhanced coding standards and better organization.
+
+**Status**: Active development on `feat/v2-coding-rules-compliance` branch
+
+**Key Features**:
+- Enhanced type hints with strict mypy checking
+- Improved import organization following ruff configuration
+- Better separation of concerns
+- Comprehensive deviation tracking
+- Automated coding rule validation
+
+**Related Files**:
+- `src/armodel/models_v2/`: V2 model structure
+- `docs/development/coding_rules.md`: V2-specific coding rules
+- `scripts/check_v2_coding_rules.py`: Validate V2 against coding rules
+- `scripts/fix_v2_coding_rules.py`: Auto-fix V2 coding rule violations
+- `scripts/validate_v2.py`: Validate V2 model structure
+
+**Recent Commits**:
+- 9e58876: feat(v2): Apply V2 coding rules compliance and fix imports
+- 9c18565: style(v2): Auto-fix ruff import formatting in V2 models
+- f251580: docs(v2): Add V2-specific coding rules to coding_rules.md
 
 #### Enum to AREnum Conversion (v1.9.2)
 **Purpose**: Improve AUTOSAR compliance by replacing Python's standard `enum.Enum` with a custom `AREnum` base class.
@@ -508,6 +581,17 @@ class BswEntryKindEnum(AREnum):
 - Run `ruff check .` to ensure code quality
 
 ### Development Activities
+
+#### V2 Model Development (Current)
+- **Goal**: Refactor AUTOSAR M2 model with enhanced coding standards
+- **Status**: Active development on `feat/v2-coding-rules-compliance` branch
+- **Changes**:
+  - Enhanced type hints with strict mypy checking
+  - Improved import organization following ruff configuration
+  - Better separation of concerns
+  - Comprehensive deviation tracking
+  - Automated coding rule validation
+- **Related Commits**: 9e58876, 9c18565, f251580
 
 #### Enum Refactoring (v1.9.2)
 - **Goal**: Convert Python Enum to AUTOSAR AREnum for better AUTOSAR compliance
@@ -623,3 +707,86 @@ The library provides 10 command-line tools:
 - Support BSW-SYNCHRONOUS-SERVER-CALL-POINT and RETURN-TYPE
 - Add armodel-uuid-checker CLI tool
 - Remove space in boolean type
+
+## V2 Migration Guide
+
+The project is migrating to a V2 model structure with enhanced coding standards. This section provides guidance for working with V2 models.
+
+### Key Differences
+
+#### V1 Models (Legacy)
+- **Location**: `src/armodel/models/`
+- **Type Hints**: Basic, no strict checking
+- **Import Organization**: Manual, less consistent
+- **Linting**: Flake8 for critical errors only
+- **Status**: Stable, in production use
+
+#### V2 Models (In Development)
+- **Location**: `src/armodel/models_v2/`
+- **Type Hints**: Comprehensive, strict mypy checking
+- **Import Organization**: Automated via ruff, highly consistent
+- **Linting**: Ruff + mypy for comprehensive quality checks
+- **Status**: Active development on `feat/v2-coding-rules-compliance` branch
+
+### Working with V2 Models
+
+#### Checking V2 Coding Rules
+```bash
+# Run V2 coding rules checker
+python scripts/check_v2_coding_rules.py
+
+# Run mypy type checking
+mypy src/armodel/models_v2/
+
+# Run ruff linting
+ruff check src/armodel/models_v2/
+```
+
+#### Fixing V2 Coding Rules
+```bash
+# Auto-fix V2 coding rule violations
+python scripts/fix_v2_coding_rules.py
+
+# Auto-fix ruff issues
+ruff check --fix src/armodel/models_v2/
+```
+
+#### Validating V2 Structure
+```bash
+# Validate V2 model structure
+python scripts/validate_v2.py
+```
+
+### V2-Specific Coding Rules
+
+See `docs/development/coding_rules.md` for complete V2-specific coding rules:
+
+- **CODING_RULE_V2_00001**: V2 models must use strict type hints
+- **CODING_RULE_V2_00002**: V2 models must pass mypy checks
+- **CODING_RULE_V2_00003**: V2 models must follow ruff configuration
+
+### Branch Management
+
+- **Main Branch**: Contains V1 models (stable, production)
+- **feat/v2-coding-rules-compliance Branch**: Contains V2 models (in development)
+
+When working on V2 features:
+1. Create feature branches from `feat/v2-coding-rules-compliance`
+2. Follow V2 coding rules strictly
+3. Run `check_v2_coding_rules.py` before committing
+4. Ensure mypy and ruff checks pass
+5. Update documentation as needed
+
+### Future Plans
+
+The V2 migration is ongoing. Key milestones:
+
+- [ ] Complete V2 model structure refactoring
+- [ ] Achieve 100% coding rules compliance in V2
+- [ ] Migrate all tests to V2
+- [ ] Merge V2 into main branch
+- [ ] Deprecate V1 models
+
+For detailed migration plans, see:
+- `docs/plans/2026-02-01-package-structure-migration-design.md`
+- `docs/development/coding_rules.md`

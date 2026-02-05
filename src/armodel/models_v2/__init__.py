@@ -75,8 +75,9 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import *
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate import *
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import *
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import *
 
+# Components wildcard import removed to avoid circular import with InternalBehavior
+# from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import *
 # Additional SWComponentTemplate imports
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import *
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Composition import *

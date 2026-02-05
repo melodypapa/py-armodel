@@ -20,7 +20,9 @@ from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import 
 from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import (
     ConstantSpecification,
 )
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
+    FlatMap,
+)
 from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
@@ -180,7 +182,9 @@ from armodel.models_v2.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     DataConstr,
 )
 from armodel.models_v2.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models_v2.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from armodel.models_v2.M2.MSR.DataDictionary.AuxillaryObjects import (
+    SwAddrMethod,
+)
 from armodel.models_v2.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
 from armodel.models_v2.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (

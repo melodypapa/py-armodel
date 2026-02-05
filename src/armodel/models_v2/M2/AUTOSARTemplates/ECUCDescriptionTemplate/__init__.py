@@ -20,9 +20,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.models_v2.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
-
-__all__ = []
-
     DocumentationBlock,
 )
 
@@ -300,3 +297,6 @@ class EcucConditionSpecification(ARObject):
 class EcucConfigurationVariantEnum(AREnum):
     def __init__(self):
         super().__init__([])
+
+
+__all__ = []

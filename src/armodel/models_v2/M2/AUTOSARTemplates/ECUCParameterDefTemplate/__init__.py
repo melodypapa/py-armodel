@@ -11,9 +11,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-
-__all__ = []
-
     AREnum,
     Boolean,
     CIdentifier,
@@ -1578,3 +1575,6 @@ class EcucModuleDef(EcucDefinitionElement):
             self.supportedConfigVariants.append(value)
         return self
 
+
+
+__all__ = []

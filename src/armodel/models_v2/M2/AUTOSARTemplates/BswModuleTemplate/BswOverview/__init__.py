@@ -33,9 +33,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataProt
     VariableDataPrototype,
 )
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
-
-__all__ = []
-
     SwComponentDocumentation,
 )
 
@@ -467,3 +464,6 @@ class BswModuleDescription(AtpStructureElement):
             self.addElement(trigger)
             self.requiredTriggers.append(trigger)
         return self.getElement(short_name)
+
+
+__all__ = []

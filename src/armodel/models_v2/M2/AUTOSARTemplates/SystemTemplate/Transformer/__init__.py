@@ -27,9 +27,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication imp
 from armodel.models_v2.M2.MSR.AsamHdo.ComputationMethod import CompuScale
 
 
-
-__all__ = []
-
 class DataTransformationKindEnum(AREnum):
     """
     Enumeration defining types of data transformations,
@@ -746,3 +743,6 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
         if value is not None:
             self.sourceId = value
         return self
+
+
+__all__ = []

@@ -37,9 +37,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication im
     CryptoServiceMapping,
 )
 from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
-
-__all__ = []
-
     ApplicationPartitionToEcuPartitionMapping,
     SwcToEcuMapping,
     SwcToImplMapping,
@@ -478,3 +475,6 @@ class System(AtpStructureElement):
     def setSystemVersion(self, value):
         self.systemVersion = value
         return self
+
+
+__all__ = []

@@ -21,9 +21,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARElement,
 )
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-
-__all__ = []
-
     Integer,
     RefType,
     String,
@@ -414,3 +411,6 @@ class HwElement(HwDescriptionEntity):
         if value is not None:
             self.nestedElementRefs = value
         return self
+
+
+__all__ = []

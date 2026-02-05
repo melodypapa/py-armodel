@@ -1,5 +1,6 @@
 from typing import List
 
+from armodel.models.utils.uuid_mgr import UUIDMgr
 from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswCalledEntity,
     BswSchedulableEntity,
@@ -61,11 +62,7 @@ from armodel.models_v2.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock as DocumentationBlock,
 )
-from armodel.models.utils.uuid_mgr import UUIDMgr
 
-
-
-__all__ = []
 
 class FileInfoComment(ARObject):
     def __init__(self):
@@ -362,3 +359,10 @@ class AUTOSAR (AbstractAUTOSAR):
 class AUTOSARDoc(AbstractAUTOSAR):
     def __init__(self):
         super().__init__()
+
+
+__all__ = [
+    'AbstractAUTOSAR',
+    'AUTOSAR',
+    'AUTOSARDoc',
+]

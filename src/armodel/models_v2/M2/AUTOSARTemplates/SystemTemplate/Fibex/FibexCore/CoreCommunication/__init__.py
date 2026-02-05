@@ -29,9 +29,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
     TransmissionModeDeclaration,
 )
 from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import (
-
-__all__ = []
-
     SwDataDefProps,
 )
 
@@ -1425,3 +1422,6 @@ class SecureCommunicationFreshnessProps(Identifiable):
         if value is not None:
             self.securedComFreshnessType = value
         return self
+
+
+__all__ = []

@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
@@ -42,9 +42,12 @@ from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Composition impor
     SwComponentPrototype,
     SwConnector,
 )
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    SwcInternalBehavior,
-)
+
+# SwcInternalBehavior import moved to TYPE_CHECKING to avoid circular import
+if TYPE_CHECKING:
+    from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+        SwcInternalBehavior,
+    )
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
     SwComponentType,
 )
@@ -289,13 +292,16 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.internalBehavior: SwcInternalBehavior = None
+        self.internalBehavior: "SwcInternalBehavior" = None
         self.symbolProps: SymbolProps = None
 
     def getInternalBehavior(self):
         return self.internalBehavior
 
-    def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
+    def createSwcInternalBehavior(self, short_name) -> "SwcInternalBehavior":
+        from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+            SwcInternalBehavior,
+        )
         if (not self.IsElementExists(short_name, SwcInternalBehavior)):
             behavior = SwcInternalBehavior(self, short_name)
             self.addElement(behavior)
@@ -312,8 +318,8 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
     '''
     @property
-    def internal_behavior(self) -> SwcInternalBehavior:
-        return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements))
+    def internal_behavior(self) -> "SwcInternalBehavior":
+        return next(filter(lambda e: isinstance(e, "SwcInternalBehavior"), self.elements))
     '''
 
 
