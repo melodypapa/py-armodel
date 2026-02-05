@@ -5,7 +5,6 @@ from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models_v2.M2.MSR.Documentation.BlockElements.Figure import MlFigure
-from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
 from typing import List
 
 
