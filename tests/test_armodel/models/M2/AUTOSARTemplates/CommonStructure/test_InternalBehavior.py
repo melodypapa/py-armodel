@@ -8,14 +8,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class TestReentrancyLevelEnum:
     def test_enum_values(self):
         """Test ReentrancyLevelEnum values"""
-        assert ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT.value == "multicoreReentrant"
-        assert ReentrancyLevelEnum.ENUM_NON_REENTRANT.value == "nonReentrant"
-        assert ReentrancyLevelEnum.ENUM_SINGLE_CORE_REENTRANT.value == "singleCoreReentrant"
+        assert ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT == "multicoreReentrant"
+        assert ReentrancyLevelEnum.ENUM_NON_REENTRANT == "nonReentrant"
+        assert ReentrancyLevelEnum.ENUM_SINGLE_CORE_REENTRANT == "singleCoreReentrant"
 
     def test_enum_usage(self):
         """Test using ReentrancyLevelEnum values"""
         reentrant_level = ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT
-        assert reentrant_level.value == "multicoreReentrant"
+        assert reentrant_level == "multicoreReentrant"
 
 
 class TestExclusiveArea:

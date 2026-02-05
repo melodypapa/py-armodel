@@ -5,18 +5,17 @@ including dependencies, module entries, and client-server interfaces.
 """
 
 from typing import List
-from enum import Enum
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
+from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg, SwServiceImplPolicyEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Identifier, NameToken, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, AREnum, Boolean, Identifier, NameToken, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 
 
-class BswEntryKindEnum(str, Enum):
+class BswEntryKindEnum(AREnum):
     """
     Enumeration for BSW Entry Kind values.
     Defines the types of entries that can exist in BSW modules.
@@ -24,8 +23,13 @@ class BswEntryKindEnum(str, Enum):
     # Function entry type for BSW module entries
     FUNCTION = "FUNCTION"
 
+    def __init__(self):
+        super().__init__((
+            BswEntryKindEnum.FUNCTION,
+        ))
 
-class BswCallType(str, Enum):
+
+class BswCallType(AREnum):
     """
     Enumeration for BSW Call Type values.
     Defines how BSW module entries can be called (synchronously or asynchronously).
@@ -35,8 +39,14 @@ class BswCallType(str, Enum):
     # Asynchronous call type - caller does not wait for completion
     ASYNCHRONOUS = "ASYNCHRONOUS"
 
+    def __init__(self):
+        super().__init__((
+            BswCallType.SYNCHRONOUS,
+            BswCallType.ASYNCHRONOUS,
+        ))
 
-class BswExecutionContext(str, Enum):
+
+class BswExecutionContext(AREnum):
     """
     Enumeration for BSW Execution Context values.
     Defines where BSW module entries can execute in the system.
@@ -52,20 +62,14 @@ class BswExecutionContext(str, Enum):
     # Execution context is unspecified
     UNSPECIFIED = "UNSPECIFIED"
 
-
-class SwServiceImplPolicyEnum(str, Enum):
-    """
-    Enumeration for SW Service Implementation Policy values.
-    Defines how software service implementations should be generated in code.
-    """
-    # Implementation should be inlined
-    INLINE = "INLINE"
-    # Implementation should be inlined conditionally based on configuration
-    INLINE_CONDITIONAL = "INLINE-CONDITIONAL"
-    # Implementation should be generated as a macro
-    MACRO = "MACRO"
-    # Standard implementation (not inlined)
-    STANDARD = "STANDARD"
+    def __init__(self):
+        super().__init__((
+            BswExecutionContext.HOOK,
+            BswExecutionContext.INTERRUPT_CAT_1,
+            BswExecutionContext.INTERRUPT_CAT_2,
+            BswExecutionContext.TASK,
+            BswExecutionContext.UNSPECIFIED,
+        ))
 
 
 class BswModuleDependency(Identifiable):

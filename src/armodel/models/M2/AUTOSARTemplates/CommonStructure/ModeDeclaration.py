@@ -5,15 +5,14 @@ that software components or BSW modules can be in, along with transitions betwee
 """
 
 from typing import List
-from enum import Enum
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, PositiveInteger, RefType, TRefType
 
 
-class ModeActivationKind(str, Enum):
+class ModeActivationKind(AREnum):
     """
     Enumeration for mode activation kind values.
     Defines the kind of mode switch condition used for activation of an event.
@@ -24,6 +23,13 @@ class ModeActivationKind(str, Enum):
     ON_EXIT = "onExit"
     # On transition of the 1st referred mode to the 2nd referred mode
     ON_TRANSITION = "onTransition"
+
+    def __init__(self):
+        super().__init__((
+            ModeActivationKind.ON_ENTRY,
+            ModeActivationKind.ON_EXIT,
+            ModeActivationKind.ON_TRANSITION,
+        ))
 
 
 class ModeDeclarationGroupPrototypeMapping(ARObject):
@@ -474,7 +480,7 @@ class ModeTransition(ARObject):
         return self
 
 
-class ModeErrorReactionPolicyEnum(str, Enum):
+class ModeErrorReactionPolicyEnum(AREnum):
     """
     Enumeration for mode error reaction policy.
     """
@@ -482,3 +488,10 @@ class ModeErrorReactionPolicyEnum(str, Enum):
     KEEP_MODE = "keep-mode"
     TRANSITION_TO_DEFAULT_MODE = "transition-to-default-mode"
     TRANSITION_TO_SAFE_MODE = "transition-to-safe-mode"
+
+    def __init__(self):
+        super().__init__((
+            ModeErrorReactionPolicyEnum.KEEP_MODE,
+            ModeErrorReactionPolicyEnum.TRANSITION_TO_DEFAULT_MODE,
+            ModeErrorReactionPolicyEnum.TRANSITION_TO_SAFE_MODE,
+        ))

@@ -5,16 +5,15 @@ exclusive areas, and event handling mechanisms within AUTOSAR components and BSW
 """
 
 from abc import ABC
-from enum import Enum
 from typing import List
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, AREnum, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
 
-class ReentrancyLevelEnum(Enum):
+class ReentrancyLevelEnum(AREnum):
     """
     Enumeration for reentrancy levels in AUTOSAR executable entities.
     Defines whether an executable entity can be executed concurrently from multiple contexts.
@@ -25,6 +24,13 @@ class ReentrancyLevelEnum(Enum):
     ENUM_NON_REENTRANT = "nonReentrant"
     # Enum value for single core reentrant executable entities
     ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
+
+    def __init__(self):
+        super().__init__((
+            ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT,
+            ReentrancyLevelEnum.ENUM_NON_REENTRANT,
+            ReentrancyLevelEnum.ENUM_SINGLE_CORE_REENTRANT,
+        ))
 
 
 class ExclusiveArea(Identifiable):
