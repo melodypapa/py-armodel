@@ -9,7 +9,7 @@ from abc import ABC
 from typing import List
 
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, ARPositiveInteger, Boolean

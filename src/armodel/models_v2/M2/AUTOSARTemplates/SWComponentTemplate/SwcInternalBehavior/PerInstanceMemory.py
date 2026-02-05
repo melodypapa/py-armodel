@@ -7,7 +7,7 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure im
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 class PerInstanceMemory(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):

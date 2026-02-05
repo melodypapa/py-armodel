@@ -13,7 +13,7 @@ from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class AutosarVariableRef(ARObject):

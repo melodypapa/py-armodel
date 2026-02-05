@@ -13,7 +13,7 @@ from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from abc import ABC
 
 
