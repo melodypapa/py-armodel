@@ -7,7 +7,8 @@ used to map between different type representations.
 
 from typing import List
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType, AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String

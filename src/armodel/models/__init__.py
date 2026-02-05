@@ -110,7 +110,6 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics impo
 # ECUCParameterDefTemplate
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *
 # Additional EcuResourceTemplate imports
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import *
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import *
 # GenericStructure imports
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *

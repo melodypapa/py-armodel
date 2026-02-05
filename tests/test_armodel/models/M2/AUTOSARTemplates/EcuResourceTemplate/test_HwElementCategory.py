@@ -3,8 +3,12 @@ Test cases for the HwElementCategory module.
 These tests ensure 100% code coverage for the HwType, HwAttributeDef, and HwCategory classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwType, HwAttributeDef, HwCategory
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeLiteralDef
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
+    HwType,
+    HwAttributeDef,
+    HwCategory,
+    HwAttributeLiteralDef,
+)
 
 
 def test_hw_type_init():

@@ -6,6 +6,7 @@ in the GenericStructure module.
 
 from abc import ABC
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -92,29 +93,6 @@ class AtpInstanceRef(ARObject, ABC):
         """
         self.atpTargetRef = value
         return self
-
-
-class AtpBlueprintable(Identifiable, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
-    
-    AtpBlueprintable represents elements that can be used as blueprints in the AUTOSAR
-    template system. These elements provide reusable definitions that can be instantiated
-    or referenced in the model.
-    
-    This class extends Identifiable with blueprint-specific functionality for managing
-    template-based elements in AUTOSAR models.
-    
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        Concrete implementations include BswModuleEntry, CompuMethod, DataConstr,
-        and other blueprintable AUTOSAR elements.
-    """
-    
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is AtpBlueprintable:
-            raise TypeError("AtpBlueprintable is an abstract class.")
-        super().__init__(parent, short_name)
 
 
 class AtpClassifier(Identifiable, ABC):
