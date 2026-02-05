@@ -6,12 +6,25 @@ used in software components.
 """
 
 from abc import ABC
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
+
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import (
+    ValueSpecification,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpPrototype,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
+    RefType,
+    TRefType,
+)
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
+
 
 class DataPrototype(AtpPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
@@ -28,7 +41,7 @@ class DataPrototype(AtpPrototype, ABC):
     def setSwDataDefProps(self, value):
         self.swDataDefProps = value
         return self
-    
+
 class AutosarDataPrototype(DataPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) == AutosarDataPrototype:
@@ -115,7 +128,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         if value is not None:
             self.maxNumberOfElements = value
         return self
-    
+
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -6,11 +6,25 @@ exclusive areas, and event handling mechanisms within AUTOSAR components and BSW
 
 from abc import ABC
 from typing import List
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, AREnum, RefType
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpStructureElement,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARFloat,
+    RefType,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
 
 
 class ReentrancyLevelEnum(AREnum):
@@ -39,7 +53,7 @@ class ExclusiveArea(Identifiable):
     Exclusive areas define critical sections that must not be executed concurrently,
     typically used for protecting shared resources in multithreaded environments.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ExclusiveArea with a parent and short name.
@@ -57,7 +71,7 @@ class ExecutableEntity(Identifiable, ABC):
     Executable entities represent pieces of executable code that can be triggered by events
     and may have specific execution requirements like exclusive areas or reentrancy levels.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ExecutableEntity with a parent and short name.
@@ -73,15 +87,15 @@ class ExecutableEntity(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         # List of activation reasons for this executable entity
-        self.activationReasons: List = []                 
+        self.activationReasons: List = []
         # List of references to exclusive areas this entity can enter
-        self.canEnterExclusiveAreaRefs: List[RefType] = []         
+        self.canEnterExclusiveAreaRefs: List[RefType] = []
         # Minimum interval between consecutive starts of this entity (in seconds)
-        self.minimumStartInterval: ARFloat = None            
+        self.minimumStartInterval: ARFloat = None
         # Reentrancy level of this executable entity
-        self.reentrancyLevel: ReentrancyLevelEnum = None                 
+        self.reentrancyLevel: ReentrancyLevelEnum = None
         # Reference to the software address method for this entity
-        self.swAddrMethodRef: RefType = None                 
+        self.swAddrMethodRef: RefType = None
 
     def getActivationReasons(self):
         """
@@ -212,7 +226,7 @@ class InternalBehavior(AtpStructureElement, ABC):
     Internal behavior defines the internal structure of software components or BSW modules,
     including executable entities, memory areas, and data type mappings.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the InternalBehavior with a parent and short name.
@@ -227,17 +241,17 @@ class InternalBehavior(AtpStructureElement, ABC):
         super().__init__(parent, short_name)
 
         # List of constant memories (parameter data prototypes) in this internal behavior
-        self.constantMemories: List[ParameterDataPrototype] = []                          
+        self.constantMemories: List[ParameterDataPrototype] = []
         # List of constant value mapping references for this internal behavior
-        self.constantValueMappingRefs: List[RefType] = []                  
+        self.constantValueMappingRefs: List[RefType] = []
         # List of data type mapping references for this internal behavior
-        self.dataTypeMappingRefs: List[RefType] = []                       
+        self.dataTypeMappingRefs: List[RefType] = []
         # List of exclusive areas defined in this internal behavior
-        self.exclusiveAreas: List['ExclusiveArea'] = []                            
+        self.exclusiveAreas: List['ExclusiveArea'] = []
         # List of exclusive area nesting orders for this internal behavior
-        self.exclusiveAreaNestingOrders: List = []               
+        self.exclusiveAreaNestingOrders: List = []
         # List of static memories (variable data prototypes) in this internal behavior
-        self.staticMemories: List[VariableDataPrototype] = []                            
+        self.staticMemories: List[VariableDataPrototype] = []
 
     def createConstantMemory(self, short_name: str) -> ParameterDataPrototype:
         """
@@ -306,7 +320,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             List of ExclusiveArea instances
         """
         return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements))
-    
+
     def getStaticMemories(self):
         """
         Gets the list of static memories (variable data prototypes) in this internal behavior.
@@ -354,7 +368,7 @@ class AbstractEvent(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         # Reference to activation reason representation for this event
-        self.activationReasonRepresentationRef: RefType = None                       
+        self.activationReasonRepresentationRef: RefType = None
 
     def getActivationReasonRepresentationRef(self):
         """

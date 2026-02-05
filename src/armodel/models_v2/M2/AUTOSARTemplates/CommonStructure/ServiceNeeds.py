@@ -6,13 +6,29 @@ services such as NV block management, diagnostic services, cryptographic service
 
 from abc import ABC
 from typing import List
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARLiteral,
+    Boolean,
+    DiagRequirementIdString,
+    Identifier,
+    Integer,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+    AutosarParameterRef,
+    AutosarVariableRef,
+)
 
 
 class RoleBasedDataAssignment(ARObject):
@@ -20,7 +36,7 @@ class RoleBasedDataAssignment(ARObject):
     Represents a role-based data assignment in AUTOSAR models.
     This class defines how data elements are assigned based on their role in service interactions.
     """
-    
+
     def __init__(self):
         """
         Initializes the RoleBasedDataAssignment with default values.
@@ -28,13 +44,13 @@ class RoleBasedDataAssignment(ARObject):
         super().__init__()
 
         # Role identifier for this data assignment
-        self.role: ARLiteral = None                    
+        self.role: ARLiteral = None
         # Used data element reference for this assignment
-        self.usedDataElement: AutosarVariableRef = None         
+        self.usedDataElement: AutosarVariableRef = None
         # Used parameter element reference for this assignment
-        self.usedParameterElement: AutosarParameterRef = None    
+        self.usedParameterElement: AutosarParameterRef = None
         # Reference to the PIM (Port Interface Mapping) for this assignment
-        self.usedPimRef: RefType = None              
+        self.usedPimRef: RefType = None
 
     def getRole(self):
         """
@@ -134,7 +150,7 @@ class ServiceNeeds(Identifiable, ABC):
     Abstract base class for service needs in AUTOSAR models.
     Service needs define requirements for various services such as NV block management, diagnostic services, etc.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ServiceNeeds with a parent and short name.
@@ -222,7 +238,7 @@ class NvBlockNeeds(ServiceNeeds):
     This class defines requirements for managing non-volatile memory blocks including
     CRC calculation, write protection, and various storage strategies.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the NvBlockNeeds with a parent and short name.
@@ -234,47 +250,47 @@ class NvBlockNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
         # Flag indicating whether to calculate CRC for RAM blocks
-        self.calcRamBlockCrc: Boolean = None                     
+        self.calcRamBlockCrc: Boolean = None
         # Flag indicating whether to check static block ID
-        self.checkStaticBlockId: Boolean = None                  
+        self.checkStaticBlockId: Boolean = None
         # Period for cyclic writing operations
-        self.cyclicWritingPeriod: TimeValue = None                 
+        self.cyclicWritingPeriod: TimeValue = None
         # Number of data sets for this NV block
-        self.nDataSets: PositiveInteger = None                           
+        self.nDataSets: PositiveInteger = None
         # Number of ROM blocks for this NV block
-        self.nRomBlocks: PositiveInteger = None                          
+        self.nRomBlocks: PositiveInteger = None
         # Method for controlling RAM block status
-        self.ramBlockStatusControl: RamBlockStatusControlEnum = None               
+        self.ramBlockStatusControl: RamBlockStatusControlEnum = None
         # Flag indicating if this block is read-only
-        self.readonly: Boolean = None                            
+        self.readonly: Boolean = None
         # Reliability level for this NV block
-        self.reliability: NvBlockNeedsReliabilityEnum = None                         
+        self.reliability: NvBlockNeedsReliabilityEnum = None
         # Flag indicating resistance to changed software
-        self.resistantToChangedSw: Boolean = None                
+        self.resistantToChangedSw: Boolean = None
         # Flag indicating whether to restore at start
-        self.restoreAtStart: Boolean = None                      
+        self.restoreAtStart: Boolean = None
         # Flag indicating whether to select block for first init all
-        self.selectBlockForFirstInitAll: Boolean = None          
+        self.selectBlockForFirstInitAll: Boolean = None
         # Flag indicating whether to store at shutdown
-        self.storeAtShutdown: Boolean = None                     
+        self.storeAtShutdown: Boolean = None
         # Flag indicating whether to store cyclically
-        self.storeCyclic: Boolean = None                         
+        self.storeCyclic: Boolean = None
         # Flag indicating whether to store in emergency situations
-        self.storeEmergency: Boolean = None                     
+        self.storeEmergency: Boolean = None
         # Flag indicating whether to store immediately
-        self.storeImmediate: Boolean = None                     
+        self.storeImmediate: Boolean = None
         # Flag indicating whether to store on change
-        self.storeOnChange: Boolean = None                       
+        self.storeOnChange: Boolean = None
         # Flag indicating whether to use auto-validation at shutdown
-        self.useAutoValidationAtShutDown: Boolean = None         
+        self.useAutoValidationAtShutDown: Boolean = None
         # Flag indicating whether to use CRC comparison mechanism
-        self.useCRCCompMechanism: Boolean = None                 
+        self.useCRCCompMechanism: Boolean = None
         # Flag indicating whether to write only once
-        self.writeOnlyOnce: Boolean = None                       
+        self.writeOnlyOnce: Boolean = None
         # Flag indicating whether to verify writes
-        self.writeVerification: Boolean = None                   
+        self.writeVerification: Boolean = None
         # Frequency for writing operations
-        self.writingFrequency: PositiveInteger = None                    
+        self.writingFrequency: PositiveInteger = None
         # Priority for writing operations
         self.writingPriority: NvBlockNeedsWritingPriorityEnum = None
 
@@ -438,7 +454,7 @@ class RoleBasedDataTypeAssignment(ARObject):
     Represents a role-based data type assignment in AUTOSAR models.
     This class defines how implementation data types are assigned based on their role in service interactions.
     """
-    
+
     def __init__(self):
         """
         Initializes the RoleBasedDataTypeAssignment with default values.
@@ -446,9 +462,9 @@ class RoleBasedDataTypeAssignment(ARObject):
         super().__init__()
 
         # Role identifier for this data type assignment
-        self.role: Identifier = None                                
+        self.role: Identifier = None
         # Reference to the used implementation data type
-        self.usedImplementationDataTypeRef: RefType = None       
+        self.usedImplementationDataTypeRef: RefType = None
 
     def getRole(self):
         """
@@ -502,13 +518,13 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
     Enumeration for service diagnostic relevance in AUTOSAR models.
     Defines the diagnostic relevance of services (currently empty as per specification).
     """
-    
+
     def __init__(self):
         """
         Initializes the ServiceDiagnosticRelevanceEnum with empty values list.
         """
         super().__init__([])
-    
+
 
 class ServiceDependency(Identifiable, ABC):
     """
@@ -530,11 +546,11 @@ class ServiceDependency(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         # List of role-based data type assignments for this service dependency
-        self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []                                 
+        self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []
         # Diagnostic relevance of this service dependency
-        self.diagnosticRelevance: ServiceDiagnosticRelevanceEnum = None                             
+        self.diagnosticRelevance: ServiceDiagnosticRelevanceEnum = None
         # Symbolic name properties for this service dependency
-        self.symbolicNameProps = None                               
+        self.symbolicNameProps = None
 
     def getAssignedDataTypes(self):
         """
@@ -659,7 +675,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     Abstract base class for diagnostic capability elements in AUTOSAR models.
     This class defines common properties for diagnostic capabilities including audiences, requirements, and security access levels.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticCapabilityElement with a parent and short name.
@@ -671,15 +687,15 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         if type(self) is DiagnosticCapabilityElement:
             raise TypeError("DiagnosticCapabilityElement is an abstract class.")
-    
+
         super().__init__(parent, short_name)
-       
+
         # List of audiences for this diagnostic capability
-        self.audiences: List[DiagnosticAudienceEnum] = []                         
+        self.audiences: List[DiagnosticAudienceEnum] = []
         # Diagnostic requirement ID string for this capability
-        self.diagRequirement: DiagRequirementIdString = None                 
+        self.diagRequirement: DiagRequirementIdString = None
         # Security access level for this diagnostic capability
-        self.securityAccessLevel: PositiveInteger = None             
+        self.securityAccessLevel: PositiveInteger = None
 
     def getAudiences(self):
         """
@@ -775,7 +791,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     Represents diagnostic communication manager needs in AUTOSAR models.
     This class defines requirements for the diagnostic communication manager including callback types.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticCommunicationManagerNeeds with a parent and short name.
@@ -787,7 +803,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Type of service request callback for this diagnostic communication manager
-        self.serviceRequestCallbackType: DiagnosticServiceRequestCallbackTypeEnum = None                                  
+        self.serviceRequestCallbackType: DiagnosticServiceRequestCallbackTypeEnum = None
 
     def getServiceRequestCallbackType(self):
         """
@@ -818,7 +834,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     Represents diagnostic routine needs in AUTOSAR models.
     This class defines requirements for diagnostic routines including their execution type and RID number.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticRoutineNeeds with a parent and short name.
@@ -830,9 +846,9 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Type of diagnostic routine (synchronous or asynchronous)
-        self.diagRoutineType: DiagnosticRoutineTypeEnum = None                                            
+        self.diagRoutineType: DiagnosticRoutineTypeEnum = None
         # RID (Routine ID) number for this diagnostic routine
-        self.RidNumber: PositiveInteger = None                                                  
+        self.RidNumber: PositiveInteger = None
 
     def getDiagRoutineType(self):
         """
@@ -856,7 +872,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         """
         self.diagRoutineType = value
         return self
-    
+
     def getRidNumber(self):
         """
         Gets the RID (Routine ID) number for this diagnostic routine.
@@ -932,7 +948,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     Represents diagnostic value needs in AUTOSAR models.
     This class defines requirements for diagnostic values including access permissions, length, and processing style.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticValueNeeds with a parent and short name.
@@ -944,15 +960,15 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Data length for this diagnostic value
-        self.dataLength: PositiveInteger = None                                      
+        self.dataLength: PositiveInteger = None
         # Access permissions for this diagnostic value
-        self.diagnosticValueAccess: DiagnosticValueAccessEnum = None                           
+        self.diagnosticValueAccess: DiagnosticValueAccessEnum = None
         # DID (Data ID) number for this diagnostic value
-        self.DidNumber: Integer = None                                       
+        self.DidNumber: Integer = None
         # Flag indicating if this diagnostic value has fixed length
-        self.fixedLength: Boolean = None                                     
+        self.fixedLength: Boolean = None
         # Processing style for this diagnostic value
-        self.processingStyle: DiagnosticProcessingStyleEnum = None                                
+        self.processingStyle: DiagnosticProcessingStyleEnum = None
 
     def getDataLength(self):
         """
@@ -999,7 +1015,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         self.diagnosticValueAccess = value
         return self
-    
+
     def getDidNumber(self):
         """
         Gets the DID (Data ID) number for this diagnostic value.
@@ -1075,7 +1091,7 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
     Abstract base class for diagnostic event debounce algorithms in AUTOSAR models.
     This class defines the base structure for algorithms that debounce diagnostic events to prevent false triggers.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceAlgorithm with a parent and short name.
@@ -1096,7 +1112,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     Represents a counter-based diagnostic event debounce algorithm in AUTOSAR models.
     This class defines debounce algorithms based on counters that increment/decrement to detect fault conditions.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceCounterBased with a parent and short name.
@@ -1108,21 +1124,21 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         super().__init__(parent, short_name)
 
         # Counter-based FDC (Fault Detection Counter) threshold storage value
-        self.counterBasedFdcThresholdStorageValue: Integer = None                   
+        self.counterBasedFdcThresholdStorageValue: Integer = None
         # Counter decrement step size for this debounce algorithm
-        self.counterDecrementStepSize: Integer = None                               
+        self.counterDecrementStepSize: Integer = None
         # Counter threshold for failed state detection
-        self.counterFailedThreshold: Integer = None                                 
+        self.counterFailedThreshold: Integer = None
         # Counter increment step size for this debounce algorithm
-        self.counterIncrementStepSize: Integer = None                               
+        self.counterIncrementStepSize: Integer = None
         # Counter value to jump down to when conditions are met
-        self.counterJumpDown: Integer = None                                        
+        self.counterJumpDown: Integer = None
         # Value to set counter to when jumping down
-        self.counterJumpDownValue: Integer = None                                   
+        self.counterJumpDownValue: Integer = None
         # Counter value to jump up to when conditions are met
-        self.counterJumpUp: Integer = None                                          
+        self.counterJumpUp: Integer = None
         # Value to set counter to when jumping up
-        self.counterJumpUpValue: Integer = None                                     
+        self.counterJumpUpValue: Integer = None
         # Counter threshold for passed state detection
         self.counterPassedThreshold: Integer = None
 
@@ -1195,7 +1211,7 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     Represents an internal monitor-based diagnostic event debounce algorithm in AUTOSAR models.
     This class defines debounce algorithms based on internal monitoring mechanisms rather than counters or time thresholds.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceMonitorInternal with a parent and short name.
@@ -1212,7 +1228,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     Represents a time-based diagnostic event debounce algorithm in AUTOSAR models.
     This class defines debounce algorithms based on time thresholds to detect and handle diagnostic events.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceTimeBased with a parent and short name.
@@ -1224,9 +1240,9 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         super().__init__(parent, short_name)
 
         # Time-based FDC (Fault Detection Counter) threshold storage value
-        self.timeBasedFdcThresholdStorageValue: TimeValue = None                       
+        self.timeBasedFdcThresholdStorageValue: TimeValue = None
         # Time threshold for failed state detection
-        self.timeFailedThreshold: TimeValue = None                                     
+        self.timeFailedThreshold: TimeValue = None
         # Time threshold for passed state detection
         self.timePassedThreshold: TimeValue = None
 
@@ -1257,7 +1273,7 @@ class DtcKindEnum(AREnum):
     Enumeration for DTC (Diagnostic Trouble Code) kinds in AUTOSAR models.
     Defines the type of diagnostic trouble codes used (currently empty as per specification).
     """
-    
+
     def __init__(self):
         """
         Initializes the DtcKindEnum with empty values list.
@@ -1270,7 +1286,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     Represents diagnostic event information needs in AUTOSAR models.
     This class defines requirements for diagnostic events including DTC information and numbering schemes.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEventInfoNeeds with a parent and short name.
@@ -1282,11 +1298,11 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Type of diagnostic trouble code (DTC) for this event
-        self.dtcKind: DtcKindEnum = None                             
+        self.dtcKind: DtcKindEnum = None
         # OBD (On-Board Diagnostics) DTC number for this event
-        self.obdDtcNumber: PositiveInteger = None                       
+        self.obdDtcNumber: PositiveInteger = None
         # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: PositiveInteger = None                       
+        self.udsDtcNumber: PositiveInteger = None
 
     def getDtcKind(self):
         """
@@ -1366,7 +1382,7 @@ class DiagnosticClearDtcNotificationEnum(AREnum):
     Enumeration for diagnostic clear DTC notification types in AUTOSAR models.
     Defines the timing for notification when DTCs are cleared (currently empty as per specification).
     """
-    
+
     def __init__(self):
         """
         Initializes the DiagnosticClearDtcNotificationEnum with empty values list.
@@ -1379,7 +1395,7 @@ class DtcFormatTypeEnum(AREnum):
     Enumeration for DTC format types in AUTOSAR models.
     Defines the format used for diagnostic trouble codes (currently empty as per specification).
     """
-    
+
     def __init__(self):
         """
         Initializes the DtcFormatTypeEnum with empty values list.
@@ -1392,7 +1408,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     Represents DTC status change notification needs in AUTOSAR models.
     This class defines requirements for notifications when DTC status changes occur.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the DtcStatusChangeNotificationNeeds with a parent and short name.
@@ -1405,9 +1421,9 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Format type for DTC used in notifications
-        self.dtcFormatType: DtcFormatTypeEnum = None                                                   
+        self.dtcFormatType: DtcFormatTypeEnum = None
         # Notification timing for when DTCs are cleared
-        self.notificationTime: DiagnosticClearDtcNotificationEnum = None                                               
+        self.notificationTime: DiagnosticClearDtcNotificationEnum = None
 
     def getDtcFormatType(self):
         """
@@ -1463,7 +1479,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     Represents diagnostic event needs in AUTOSAR models.
     This class defines requirements for diagnostic events including debounce algorithms, FID references, and DTC information.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEventNeeds with a parent and short name.
@@ -1475,21 +1491,21 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # List of FID (Function Identifier) references for deferring this diagnostic event
-        self.deferringFidRefs: List[RefType] = []                                     
+        self.deferringFidRefs: List[RefType] = []
         # Debounce algorithm for this diagnostic event
-        self.diagEventDebounceAlgorithm: DiagEventDebounceAlgorithm = None                         
+        self.diagEventDebounceAlgorithm: DiagEventDebounceAlgorithm = None
         # FID reference for inhibiting this diagnostic event
-        self.inhibitingFidRef: RefType = None                                   
+        self.inhibitingFidRef: RefType = None
         # Secondary FID reference for inhibiting this diagnostic event
-        self.inhibitingSecondaryFidRef: RefType = None                           
+        self.inhibitingSecondaryFidRef: RefType = None
         # Flag indicating if prestored freeze frame is stored in NVM
-        self.prestoredFreezeframeStoredInNvm: Boolean = None                     
+        self.prestoredFreezeframeStoredInNvm: Boolean = None
         # Flag indicating if this event uses monitor data
-        self.usesMonitorData: Boolean = None                                     
+        self.usesMonitorData: Boolean = None
         # Type of diagnostic trouble code (DTC) for this event (as ARLiteral)
-        self.dtcKind: ARLiteral = None                                             
+        self.dtcKind: ARLiteral = None
         # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: Integer = None                                        
+        self.udsDtcNumber: Integer = None
 
     def getDeferringFidRefs(self):
         """
@@ -1512,7 +1528,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         self.deferringFidRefs.append(value)
         return self
-    
+
     def getDiagEventDebounceAlgorithm(self):
         """
         Gets the debounce algorithm for this diagnostic event.
@@ -1537,7 +1553,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             self.addElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
         return self.getElement(short_name)
-    
+
     def createDiagEventDebounceMonitorInternal(self, short_name: str):
         """
         Creates and adds an internal monitor-based debounce algorithm for this diagnostic event.
@@ -1569,7 +1585,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             self.addElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
         return self.getElement(short_name)
-    
+
     def getInhibitingFidRef(self):
         """
         Gets the FID reference for inhibiting this diagnostic event.
@@ -1714,7 +1730,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     Represents cryptographic service needs in AUTOSAR models.
     This class defines requirements for cryptographic services including algorithm information and key management.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the CryptoServiceNeeds with a parent and short name.
@@ -1724,15 +1740,15 @@ class CryptoServiceNeeds(ServiceNeeds):
             short_name: The unique short name of this cryptographic service needs
         """
         super().__init__(parent, short_name)
-        
+
         # Algorithm family used by this cryptographic service
-        self.algorithmFamily: String = None                                 
+        self.algorithmFamily: String = None
         # Algorithm mode used by this cryptographic service
-        self.algorithmMode: String = None                                   
+        self.algorithmMode: String = None
         # Description of the cryptographic key used by this service
-        self.cryptoKeyDescription: String = None                            
+        self.cryptoKeyDescription: String = None
         # Maximum length of keys supported by this cryptographic service
-        self.maximumKeyLength: PositiveInteger = None                        
+        self.maximumKeyLength: PositiveInteger = None
 
     def getAlgorithmFamily(self):
         """
@@ -1832,7 +1848,7 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
     Represents ECU state manager user needs in AUTOSAR models.
     This class defines requirements for components that use the ECU state manager service.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the EcuStateMgrUserNeeds with a parent and short name.
@@ -1849,7 +1865,7 @@ class DltUserNeeds(ServiceNeeds):
     Represents DLT (Diagnostic Log and Trace) user needs in AUTOSAR models.
     This class defines requirements for components that use the DLT service for logging and tracing.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DltUserNeeds with a parent and short name.
@@ -1866,7 +1882,7 @@ class BswMgrNeeds(ServiceNeeds):
     Represents BSW Manager needs in AUTOSAR models.
     This class defines requirements for Basic Software Manager services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswMgrNeeds with a parent and short name.
@@ -1883,7 +1899,7 @@ class ComMgrUserNeeds(ServiceNeeds):
     Represents Communication Manager user needs in AUTOSAR models.
     This class defines requirements for Communication Manager services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ComMgrUserNeeds with a parent and short name.
@@ -1900,7 +1916,7 @@ class CryptoKeyManagementNeeds(ServiceNeeds):
     Represents Cryptographic Key Management needs in AUTOSAR models.
     This class defines requirements for cryptographic key management services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the CryptoKeyManagementNeeds with a parent and short name.
@@ -1917,7 +1933,7 @@ class CryptoServiceJobNeeds(ServiceNeeds):
     Represents Cryptographic Service Job needs in AUTOSAR models.
     This class defines requirements for cryptographic service job operations.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the CryptoServiceJobNeeds with a parent and short name.
@@ -1934,7 +1950,7 @@ class DevelopmentError(ARObject):
     Represents a development error in AUTOSAR models.
     This class defines information about development errors for error handling.
     """
-    
+
     def __init__(self):
         """
         Initializes the DevelopmentError with default values.
@@ -1963,7 +1979,7 @@ class DiagnosticComponentNeeds(ServiceNeeds):
     Represents Diagnostic Component needs in AUTOSAR models.
     This class defines requirements for diagnostic component services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticComponentNeeds with a parent and short name.
@@ -1980,7 +1996,7 @@ class DiagnosticControlNeeds(ServiceNeeds):
     Represents Diagnostic Control needs in AUTOSAR models.
     This class defines requirements for diagnostic control services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticControlNeeds with a parent and short name.
@@ -1996,7 +2012,7 @@ class DiagnosticDenominatorConditionEnum(AREnum):
     """
     Enumeration for diagnostic denominator condition types.
     """
-    
+
     DENOMINATOR_OFF = "denominator-off"
     DENOMINATOR_ON = "denominator-on"
 
@@ -2012,7 +2028,7 @@ class DiagnosticEnableConditionNeeds(ServiceNeeds):
     Represents Diagnostic Enable Condition needs in AUTOSAR models.
     This class defines requirements for diagnostic enable condition services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEnableConditionNeeds with a parent and short name.
@@ -2029,7 +2045,7 @@ class DiagnosticEventManagerNeeds(ServiceNeeds):
     Represents Diagnostic Event Manager needs in AUTOSAR models.
     This class defines requirements for diagnostic event manager services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEventManagerNeeds with a parent and short name.
@@ -2046,7 +2062,7 @@ class DiagnosticIoControlNeeds(ServiceNeeds):
     Represents Diagnostic I/O Control needs in AUTOSAR models.
     This class defines requirements for diagnostic input/output control services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticIoControlNeeds with a parent and short name.
@@ -2062,7 +2078,7 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
     """
     Enumeration for diagnostic monitor update kinds.
     """
-    
+
     IMMEDIATE = "immediate"
     ON_REQUEST = "on-request"
 
@@ -2078,7 +2094,7 @@ class DiagnosticOperationCycleNeeds(ServiceNeeds):
     Represents Diagnostic Operation Cycle needs in AUTOSAR models.
     This class defines requirements for diagnostic operation cycle services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticOperationCycleNeeds with a parent and short name.
@@ -2095,7 +2111,7 @@ class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
     Represents Diagnostic Request File Transfer needs in AUTOSAR models.
     This class defines requirements for diagnostic file transfer services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticRequestFileTransferNeeds with a parent and short name.
@@ -2112,7 +2128,7 @@ class DiagnosticStorageConditionNeeds(ServiceNeeds):
     Represents Diagnostic Storage Condition needs in AUTOSAR models.
     This class defines requirements for diagnostic storage condition services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticStorageConditionNeeds with a parent and short name.
@@ -2129,7 +2145,7 @@ class DiagnosticUploadDownloadNeeds(ServiceNeeds):
     Represents Diagnostic Upload/Download needs in AUTOSAR models.
     This class defines requirements for diagnostic upload and download services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticUploadDownloadNeeds with a parent and short name.
@@ -2146,7 +2162,7 @@ class DiagnosticsCommunicationSecurityNeeds(ServiceNeeds):
     Represents Diagnostics Communication Security needs in AUTOSAR models.
     This class defines requirements for secure diagnostic communication services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticsCommunicationSecurityNeeds with a parent and short name.
@@ -2163,7 +2179,7 @@ class DoIpActivationLineNeeds(ServiceNeeds):
     Represents DoIP Activation Line needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) activation line services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpActivationLineNeeds with a parent and short name.
@@ -2180,7 +2196,7 @@ class DoIpGidNeeds(ServiceNeeds):
     Represents DoIP GID needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) GID services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpGidNeeds with a parent and short name.
@@ -2197,7 +2213,7 @@ class DoIpGidSynchronizationNeeds(ServiceNeeds):
     Represents DoIP GID Synchronization needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) GID synchronization services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpGidSynchronizationNeeds with a parent and short name.
@@ -2214,7 +2230,7 @@ class DoIpPowerModeStatusNeeds(ServiceNeeds):
     Represents DoIP Power Mode Status needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) power mode status services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpPowerModeStatusNeeds with a parent and short name.
@@ -2231,7 +2247,7 @@ class DoIpRoutingActivationAuthenticationNeeds(ServiceNeeds):
     Represents DoIP Routing Activation Authentication needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) routing activation authentication services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpRoutingActivationAuthenticationNeeds with a parent and short name.
@@ -2248,7 +2264,7 @@ class DoIpRoutingActivationConfirmationNeeds(ServiceNeeds):
     Represents DoIP Routing Activation Confirmation needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) routing activation confirmation services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpRoutingActivationConfirmationNeeds with a parent and short name.
@@ -2265,7 +2281,7 @@ class DoIpServiceNeeds(ServiceNeeds):
     Represents DoIP Service needs in AUTOSAR models.
     This class defines requirements for DoIP (Diagnostics over IP) services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpServiceNeeds with a parent and short name.
@@ -2282,7 +2298,7 @@ class ErrorTracerNeeds(ServiceNeeds):
     Represents Error Tracer needs in AUTOSAR models.
     This class defines requirements for error tracing services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ErrorTracerNeeds with a parent and short name.
@@ -2298,7 +2314,7 @@ class EventAcceptanceStatusEnum(AREnum):
     """
     Enumeration for event acceptance status types.
     """
-    
+
     ACCEPTED = "accepted"
     REJECTED = "rejected"
 
@@ -2314,7 +2330,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     Represents Function Inhibition Availability needs in AUTOSAR models.
     This class defines requirements for function inhibition availability services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FunctionInhibitionAvailabilityNeeds with a parent and short name.
@@ -2331,7 +2347,7 @@ class FunctionInhibitionNeeds(ServiceNeeds):
     Represents Function Inhibition needs in AUTOSAR models.
     This class defines requirements for function inhibition services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FunctionInhibitionNeeds with a parent and short name.
@@ -2348,7 +2364,7 @@ class FurtherActionByteNeeds(ServiceNeeds):
     Represents Further Action Byte needs in AUTOSAR models.
     This class defines requirements for further action byte services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FurtherActionByteNeeds with a parent and short name.
@@ -2365,7 +2381,7 @@ class GlobalSupervisionNeeds(ServiceNeeds):
     Represents Global Supervision needs in AUTOSAR models.
     This class defines requirements for global supervision services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the GlobalSupervisionNeeds with a parent and short name.
@@ -2382,7 +2398,7 @@ class HardwareTestNeeds(ServiceNeeds):
     Represents Hardware Test needs in AUTOSAR models.
     This class defines requirements for hardware test services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the HardwareTestNeeds with a parent and short name.
@@ -2399,7 +2415,7 @@ class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     Represents IDS Manager Custom Timestamp needs in AUTOSAR models.
     This class defines requirements for IDS (Intrusion Detection System) manager custom timestamp services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the IdsMgrCustomTimestampNeeds with a parent and short name.
@@ -2416,7 +2432,7 @@ class IdsMgrNeeds(ServiceNeeds):
     Represents IDS Manager needs in AUTOSAR models.
     This class defines requirements for IDS (Intrusion Detection System) manager services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the IdsMgrNeeds with a parent and short name.
@@ -2433,7 +2449,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
     Represents Indicator Status needs in AUTOSAR models.
     This class defines requirements for indicator status services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the IndicatorStatusNeeds with a parent and short name.
@@ -2450,7 +2466,7 @@ class J1939DcmDm19Support(ServiceNeeds):
     Represents J1939 DCM DM19 Support needs in AUTOSAR models.
     This class defines requirements for J1939 diagnostic communication manager DM19 support.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the J1939DcmDm19Support with a parent and short name.
@@ -2467,7 +2483,7 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     Represents J1939 RM Incoming Request Service needs in AUTOSAR models.
     This class defines requirements for J1939 request manager incoming request services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the J1939RmIncomingRequestServiceNeeds with a parent and short name.
@@ -2484,7 +2500,7 @@ class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     Represents J1939 RM Outgoing Request Service needs in AUTOSAR models.
     This class defines requirements for J1939 request manager outgoing request services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the J1939RmOutgoingRequestServiceNeeds with a parent and short name.
@@ -2500,7 +2516,7 @@ class MaxCommModeEnum(AREnum):
     """
     Enumeration for maximum communication mode types.
     """
-    
+
     FULL_COMMUNICATION = "full-communication"
     NO_COMMUNICATION = "no-communication"
     SILENT_COMMUNICATION = "silent-communication"
@@ -2518,7 +2534,7 @@ class ObdControlServiceNeeds(ServiceNeeds):
     Represents OBD Control Service needs in AUTOSAR models.
     This class defines requirements for On-Board Diagnostics control services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdControlServiceNeeds with a parent and short name.
@@ -2535,7 +2551,7 @@ class ObdInfoServiceNeeds(ServiceNeeds):
     Represents OBD Info Service needs in AUTOSAR models.
     This class defines requirements for On-Board Diagnostics information services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdInfoServiceNeeds with a parent and short name.
@@ -2552,7 +2568,7 @@ class ObdMonitorServiceNeeds(ServiceNeeds):
     Represents OBD Monitor Service needs in AUTOSAR models.
     This class defines requirements for On-Board Diagnostics monitor services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdMonitorServiceNeeds with a parent and short name.
@@ -2569,7 +2585,7 @@ class ObdPidServiceNeeds(ServiceNeeds):
     Represents OBD PID Service needs in AUTOSAR models.
     This class defines requirements for On-Board Diagnostics PID (Parameter ID) services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdPidServiceNeeds with a parent and short name.
@@ -2585,7 +2601,7 @@ class ObdRatioConnectionKindEnum(AREnum):
     """
     Enumeration for OBD ratio connection kind types.
     """
-    
+
     LOGICAL_AND = "logical-and"
     LOGICAL_OR = "logical-or"
 
@@ -2601,7 +2617,7 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
     Represents OBD Ratio Denominator needs in AUTOSAR models.
     This class defines requirements for On-Board Diagnostics ratio denominator services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdRatioDenominatorNeeds with a parent and short name.
@@ -2618,7 +2634,7 @@ class ObdRatioServiceNeeds(ServiceNeeds):
     Represents OBD Ratio Service needs in AUTOSAR models.
     This class defines requirements for On-Board Diagnostics ratio services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdRatioServiceNeeds with a parent and short name.
@@ -2634,7 +2650,7 @@ class OperationCycleTypeEnum(AREnum):
     """
     Enumeration for operation cycle type.
     """
-    
+
     ALL_CYCLES = "all-cycles"
     IGNITION_CYCLE = "ignition-cycle"
     POWER_CYCLE = "power-cycle"
@@ -2652,7 +2668,7 @@ class RuntimeError(ARObject):
     Represents a runtime error in AUTOSAR models.
     This class defines information about runtime errors for error handling.
     """
-    
+
     def __init__(self):
         """
         Initializes the RuntimeError with default values.
@@ -2681,7 +2697,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     Represents Secure On-Board Communication needs in AUTOSAR models.
     This class defines requirements for secure on-board communication services (SecOC).
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SecureOnBoardCommunicationNeeds with a parent and short name.
@@ -2697,7 +2713,7 @@ class ServiceProviderEnum(AREnum):
     """
     Enumeration for service provider types.
     """
-    
+
     BSW = "bsw"
     RTE = "rte"
     SWC = "swc"
@@ -2714,7 +2730,7 @@ class StorageConditionStatusEnum(AREnum):
     """
     Enumeration for storage condition status types.
     """
-    
+
     CONDITION_FALSE = "condition-false"
     CONDITION_TRUE = "condition-true"
 
@@ -2730,7 +2746,7 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     Represents Supervised Entity Checkpoint needs in AUTOSAR models.
     This class defines requirements for supervised entity checkpoint services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SupervisedEntityCheckpointNeeds with a parent and short name.
@@ -2747,7 +2763,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
     Represents Supervised Entity needs in AUTOSAR models.
     This class defines requirements for supervised entity services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SupervisedEntityNeeds with a parent and short name.
@@ -2764,7 +2780,7 @@ class SymbolicNameProps(ARObject):
     Represents Symbolic Name properties in AUTOSAR models.
     This class defines symbolic name properties for elements.
     """
-    
+
     def __init__(self):
         """
         Initializes the SymbolicNameProps with default values.
@@ -2785,7 +2801,7 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     Represents Synchronized Time Base Manager User needs in AUTOSAR models.
     This class defines requirements for synchronized time base manager user services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SyncTimeBaseMgrUserNeeds with a parent and short name.
@@ -2802,7 +2818,7 @@ class TracedFailure(ARObject):
     Represents a Traced Failure in AUTOSAR models.
     This class defines information about traced failures for error handling.
     """
-    
+
     def __init__(self):
         """
         Initializes the TracedFailure with default values.
@@ -2831,7 +2847,7 @@ class TransientFault(ARObject):
     Represents a Transient Fault in AUTOSAR models.
     This class defines information about transient faults for error handling.
     """
-    
+
     def __init__(self):
         """
         Initializes the TransientFault with default values.
@@ -2860,7 +2876,7 @@ class V2xDataManagerNeeds(ServiceNeeds):
     Represents V2X Data Manager needs in AUTOSAR models.
     This class defines requirements for Vehicle-to-Everything data manager services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the V2xDataManagerNeeds with a parent and short name.
@@ -2877,7 +2893,7 @@ class V2xFacUserNeeds(ServiceNeeds):
     Represents V2X Functional Application Cluster User needs in AUTOSAR models.
     This class defines requirements for V2X functional application cluster user services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the V2xFacUserNeeds with a parent and short name.
@@ -2894,7 +2910,7 @@ class V2xMUserNeeds(ServiceNeeds):
     Represents V2X Manager User needs in AUTOSAR models.
     This class defines requirements for V2X manager user services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the V2xMUserNeeds with a parent and short name.
@@ -2911,7 +2927,7 @@ class VendorSpecificServiceNeeds(ServiceNeeds):
     Represents Vendor Specific Service needs in AUTOSAR models.
     This class defines requirements for vendor-specific services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the VendorSpecificServiceNeeds with a parent and short name.
@@ -2927,7 +2943,7 @@ class VerificationStatusIndicationModeEnum(AREnum):
     """
     Enumeration for verification status indication mode types.
     """
-    
+
     DIRECT = "direct"
     INDIRECT = "indirect"
 
@@ -2943,7 +2959,7 @@ class WarningIndicatorRequestedBitNeeds(ServiceNeeds):
     Represents Warning Indicator Requested Bit needs in AUTOSAR models.
     This class defines requirements for warning indicator requested bit services.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the WarningIndicatorRequestedBitNeeds with a parent and short name.

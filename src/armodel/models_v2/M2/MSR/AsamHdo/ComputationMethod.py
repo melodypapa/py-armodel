@@ -1,13 +1,24 @@
-from typing import List
 from abc import ABC
+from typing import List
 
-from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, PositiveUnlimitedInteger, String
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CIdentifier,
+    Identifier,
+    Limit,
+    PositiveUnlimitedInteger,
+    RefType,
+    String,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageOverviewParagraph,
+)
+
 
 class CompuContent(ARObject, ABC):
     """

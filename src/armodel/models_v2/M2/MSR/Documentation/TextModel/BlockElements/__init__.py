@@ -1,11 +1,25 @@
-from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, Item, ListEnum
-from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+from typing import List
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.MSR.Documentation.BlockElements.Figure import (
+    MlFigure,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (
+    ARList,
+    Item,
+    ListEnum,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
+    DocumentViewSelectable,
+    Paginateable,
+)
 
 # DocumentationBlock is defined in this file below
-from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.MSR.Documentation.BlockElements.Figure import MlFigure
-from typing import List
+from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageParagraph,
+)
 
 
 class DocumentationBlock(ARObject):

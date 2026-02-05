@@ -4,11 +4,27 @@
 from abc import ABC
 from typing import List
 
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Describable,
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    Boolean,
+    Integer,
+    NameToken,
+    PositiveInteger,
+    RefType,
+    String,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    TransformationComSpecProps,
+)
 from armodel.models_v2.M2.MSR.AsamHdo.ComputationMethod import CompuScale
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger, RefType, String
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
 
 
 class DataTransformationKindEnum(AREnum):
@@ -57,7 +73,7 @@ class DataTransformation(Identifiable):
         if value is not None:
             self.transformerChainRefs.append(value)
         return self
-    
+
 
 class BufferProperties(ARObject):
     """
@@ -95,8 +111,8 @@ class BufferProperties(ARObject):
         if value is not None:
             self.inPlace = value
         return self
-    
-    
+
+
 class TransformationDescription(Describable, ABC):
     """
     Abstract base class for transformation descriptions,
@@ -502,7 +518,7 @@ class EndToEndTransformationDescription(TransformationDescription):
 
 
 class TransformerClassEnum(AREnum):
-    
+
     CUSTOM = "custom"
     SAFETY = "safety"
     SECURITY = "security"

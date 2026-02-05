@@ -4,15 +4,21 @@ heap memory usage in AUTOSAR resource consumption models.
 """
 
 from abc import ABC
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class HeapUsage(Identifiable, ABC):
     """
     Abstract base class for representing heap usage in AUTOSAR models.
     This class defines the basic structure for heap memory consumption tracking.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the HeapUsage with a parent and short name.
@@ -24,7 +30,7 @@ class HeapUsage(Identifiable, ABC):
         """
         if type(self) == HeapUsage:
             raise TypeError("HeapUsage is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
 class MeasuredHeapUsage(HeapUsage):

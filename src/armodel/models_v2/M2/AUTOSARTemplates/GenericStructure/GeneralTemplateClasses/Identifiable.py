@@ -3,15 +3,24 @@ This module contains classes for representing identifiable elements in AUTOSAR m
 in the GenericStructure module.
 """
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from abc import ABC
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CategoryString,
+)
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+    MultiLanguageOverviewParagraph,
+)
 
 
 class Referrable(ARObject, ABC):
@@ -19,11 +28,11 @@ class Referrable(ARObject, ABC):
     Abstract class for elements that can be referenced by other elements in AUTOSAR models.
     This class provides basic functionality for managing short names and parent-child relationships.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
             raise TypeError("Referrable is an abstract class.")
-        
+
         ARObject.__init__(self)
 
         self.parent = parent
@@ -46,7 +55,7 @@ class Referrable(ARObject, ABC):
             The short name of this element
         """
         return self.short_name
-    
+
     def getParent(self) -> ARObject:
         """
         Gets the parent of this referrable element.
@@ -78,7 +87,7 @@ class MultilanguageReferrable(Referrable, ABC):
     Abstract class for referrable elements that support multilingual text.
     This class extends Referrable with multilingual support functionality.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is MultilanguageReferrable:
             raise TypeError("MultilanguageReferrable is an abstract class.")
@@ -246,7 +255,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         if value is not None:
             self.adminData = value
         return self
-    
+
     def removeAdminData(self):
         """
         Removes the administrative data for this identifiable element.
@@ -300,7 +309,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         else:
             self.category = value
         return self
-    
+
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this identifiable element.
@@ -363,7 +372,7 @@ class ARElement(PackageableElement, ABC):
     Abstract class for AUTOSAR elements.
     This class represents the basic structure for all AUTOSAR model elements.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ARElement:
             raise TypeError("ARElement is an abstract class.")
@@ -375,7 +384,7 @@ class Describable(ARObject, ABC):
     Abstract class for elements that can be described in AUTOSAR models.
     This class provides basic description functionality for AUTOSAR elements.
     """
-    
+
     def __init__(self):
         if type(self) is Describable:
             raise TypeError("Describable is an abstract class.")
@@ -458,7 +467,7 @@ class Describable(ARObject, ABC):
         if value is not None:
             self.adminData = value
         return self
-    
+
     def removeAdminData(self):
         """
         Removes the administrative data for this describable element.
@@ -490,4 +499,4 @@ class Describable(ARObject, ABC):
         return self
 
 
-    
+

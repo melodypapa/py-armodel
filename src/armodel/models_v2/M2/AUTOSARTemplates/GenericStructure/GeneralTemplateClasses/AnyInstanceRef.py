@@ -4,8 +4,13 @@ in the GenericStructure module.
 """
 
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class AnyInstanceRef(AtpInstanceRef):

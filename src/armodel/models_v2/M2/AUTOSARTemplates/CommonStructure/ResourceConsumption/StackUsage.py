@@ -4,18 +4,31 @@ It includes abstract base classes and concrete implementations for different typ
 """
 
 from abc import ABC
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import SoftwareContext
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import HardwareConfiguration
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
+    SoftwareContext,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import (
+    HardwareConfiguration,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
+    RefType,
+)
+
 
 class StackUsage(Identifiable, ABC):
     """
     Abstract base class for representing stack usage in AUTOSAR models.
     This class defines the basic structure for stack memory consumption tracking with hardware and software context.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the StackUsage with a parent and short name.
@@ -27,17 +40,17 @@ class StackUsage(Identifiable, ABC):
         """
         if type(self) == StackUsage:
             raise TypeError("StackUsage is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         # Reference to the executable entity for which stack usage is measured
-        self.executableEntityRef: RefType = None                 
+        self.executableEntityRef: RefType = None
         # Hardware configuration associated with this stack usage
-        self.hardwareConfiguration: HardwareConfiguration = None               
+        self.hardwareConfiguration: HardwareConfiguration = None
         # Reference to hardware element for this stack usage
-        self.hwElementRef: RefType = None                        
+        self.hwElementRef: RefType = None
         # Software context for this stack usage
-        self.softwareContext: SoftwareContext = None                     
+        self.softwareContext: SoftwareContext = None
 
     def getExecutableEntityRef(self):
         """
@@ -132,7 +145,7 @@ class MeasuredStackUsage(StackUsage):
     Represents measured stack usage in AUTOSAR models.
     This class provides concrete measurements of stack consumption under specific conditions.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the MeasuredStackUsage with a parent and short name.
@@ -144,9 +157,9 @@ class MeasuredStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Average memory consumption measured for this stack usage
-        self.averageMemoryConsumption: PositiveInteger = None            
+        self.averageMemoryConsumption: PositiveInteger = None
         # Maximum memory consumption measured for this stack usage
-        self.maximumMemoryConsumption: PositiveInteger = None            
+        self.maximumMemoryConsumption: PositiveInteger = None
 
     def getAverageMemoryConsumption(self):
         """
@@ -197,7 +210,7 @@ class RoughEstimateStackUsage(StackUsage):
     Represents rough estimate stack usage in AUTOSAR models.
     This class provides estimated values for stack consumption when exact measurements are not available.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the RoughEstimateStackUsage with a parent and short name.
@@ -209,7 +222,7 @@ class RoughEstimateStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Estimated memory consumption for this stack usage
-        self.memoryConsumption: PositiveInteger = None                   
+        self.memoryConsumption: PositiveInteger = None
 
     def getMemoryConsumption(self):
         """
@@ -238,7 +251,7 @@ class WorstCaseStackUsage(StackUsage):
     Represents worst case stack usage in AUTOSAR models.
     This class provides the worst-case scenario analysis for stack consumption under maximum load conditions.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the WorstCaseStackUsage with a parent and short name.
@@ -250,7 +263,7 @@ class WorstCaseStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Memory consumption in worst case scenario for this stack usage
-        self.memoryConsumption: PositiveInteger = None                   
+        self.memoryConsumption: PositiveInteger = None
 
     def getMemoryConsumption(self):
         """

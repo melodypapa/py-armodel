@@ -9,12 +9,13 @@ Classes:
     ExecutionTimeTypeEnum: Enumeration for execution time constraint types
 """
 
-from abc import ABC
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    TimeValue,
-    AREnum,
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
 )
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    TimeValue,
+)
 
 
 class ExecutionTimeTypeEnum(AREnum):

@@ -5,11 +5,24 @@ defining end-to-end protection profiles, variables, and protection sets
 used to ensure data integrity in communication systems.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
-from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from typing import List
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+    NameToken,
+    PositiveInteger,
+    RefType,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    VariableDataPrototypeInSystemInstanceRef,
+)
 
 
 class EndToEndDescription(ARObject):
@@ -170,7 +183,7 @@ class EndToEndProtection(Identifiable):
 
     def getEndToEndProtectionVariablePrototypes(self) -> List[EndToEndProtectionVariablePrototype]:
         return self.endToEndProtectionVariablePrototypes
-    
+
     def addEndToEndProtectionVariablePrototype(self, value: EndToEndProtectionVariablePrototype):
         if value is not None:
             self.endToEndProtectionVariablePrototypes.append(value)

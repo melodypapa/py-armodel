@@ -5,14 +5,19 @@ in software component internal behavior templates.
 
 from abc import ABC
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpStructureElement,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class AbstractAccessPoint(AtpStructureElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == AbstractAccessPoint:
             raise TypeError("ARObject is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.returnValueProvision = None

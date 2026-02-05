@@ -1,4 +1,6 @@
-from .ImplementationElementInParameterInstanceRef import ImplementationElementInParameterInstanceRef
+from .ImplementationElementInParameterInstanceRef import (
+    ImplementationElementInParameterInstanceRef,
+)
 from .McDataAccessDetails import McDataAccessDetails
 from .McDataInstance import McDataInstance
 from .McFunction import McFunction

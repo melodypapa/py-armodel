@@ -6,6 +6,7 @@ various configuration and behavior options throughout the AUTOSAR model.
 
 from enum import Enum
 
+
 class AutoCollectEnum(Enum):
     """
     Enumeration for auto-collect settings in AUTOSAR collections.

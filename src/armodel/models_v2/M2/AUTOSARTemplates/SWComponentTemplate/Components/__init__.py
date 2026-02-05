@@ -1,19 +1,53 @@
 from abc import ABC
 from typing import List
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ServerComSpec
+
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ImplementationProps,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpPrototype,
+    AtpStructureElement,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    RefType,
+    TRefType,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    ClientComSpec,
+    ModeSwitchReceiverComSpec,
+    ModeSwitchSenderComSpec,
+    NonqueuedReceiverComSpec,
+    NonqueuedSenderComSpec,
+    ParameterRequireComSpec,
+    PPortComSpec,
+    QueuedReceiverComSpec,
+    QueuedSenderComSpec,
+    RPortComSpec,
+    ServerComSpec,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    InnerPortGroupInCompositionInstanceRef,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    AssemblySwConnector,
+    DelegationSwConnector,
+    SwComponentPrototype,
+    SwConnector,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    SwcInternalBehavior,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
 
 
 class SymbolProps(ImplementationProps):
@@ -109,11 +143,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
             if com_spec.dataElementRef.dest != "VARIABLE-DATA-PROTOTYPE":
                 raise ValueError(
                     "Invalid operation dest of NonqueuedSenderComSpec")
-        elif isinstance(com_spec, ServerComSpec):
-            pass
-        elif isinstance(com_spec, QueuedSenderComSpec):
-            pass
-        elif isinstance(com_spec, ModeSwitchSenderComSpec):
+        elif isinstance(com_spec, ServerComSpec) or isinstance(com_spec, QueuedSenderComSpec) or isinstance(com_spec, ModeSwitchSenderComSpec):
             pass
         else:
             raise ValueError("Unsupported com spec")
@@ -146,9 +176,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
             if com_spec.getDataElementRef() is not None:
                 if com_spec.getDataElementRef().getDest() != "VARIABLE-DATA-PROTOTYPE":
                     raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
-        elif isinstance(com_spec, QueuedReceiverComSpec):
-            pass
-        elif isinstance(com_spec, ModeSwitchReceiverComSpec):
+        elif isinstance(com_spec, QueuedReceiverComSpec) or isinstance(com_spec, ModeSwitchReceiverComSpec):
             pass
         elif isinstance(com_spec, ParameterRequireComSpec):
             if com_spec.getParameterRef() is not None:
@@ -205,7 +233,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setRequiredInterfaceTRef(self, value):
         self.requiredInterfaceTRef = value
         return self
-    
+
 
 class PRPortPrototype(PortPrototype):
     def __init__(self, parent, short_name):
@@ -249,7 +277,7 @@ class PortGroup(AtpStructureElement):
 
     def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
         return self._inner_group_iref
-    
+
     def addOuterPortRef(self, ref: RefType):
         self._outer_port_ref.append(ref)
 

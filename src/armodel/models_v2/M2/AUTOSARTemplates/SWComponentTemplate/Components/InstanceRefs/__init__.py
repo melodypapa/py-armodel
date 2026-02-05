@@ -8,15 +8,20 @@ and data elements in instance contexts.
 from abc import ABC
 from typing import List
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpInstanceRef,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
-        
+
         if type(self) == ModeGroupInAtomicSwcInstanceRef:
             raise TypeError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
-        
+
         super().__init__()
 
         self.baseRef: RefType = None
@@ -124,7 +129,7 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     def setTargetModeDeclarationRef(self, value):
         self.targetModeDeclarationRef = value
         return self
-    
+
 class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         if type(self) == VariableInAtomicSwcInstanceRef:
@@ -191,7 +196,7 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
         if type(self) == OperationInAtomicSwcInstanceRef:
             raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
-        
+
         super().__init__()
 
         self.baseRef: RefType = None

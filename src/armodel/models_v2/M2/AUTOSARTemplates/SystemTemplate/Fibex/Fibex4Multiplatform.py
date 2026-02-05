@@ -1,10 +1,20 @@
 from typing import List
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARPositiveInteger,
+    Integer,
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    FibexElement,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
+
 
 class FrameMapping(ARObject):
     def __init__(self):
@@ -63,7 +73,7 @@ class ISignalMapping(ARObject):
     def setTargetSignalRef(self, value):
         self.targetSignalRef = value
         return self
-    
+
 class DefaultValueElement(ARObject):
     def __init__(self):
         super().__init__()
@@ -86,7 +96,7 @@ class DefaultValueElement(ARObject):
         if value is not None:
             self.elementPosition = value
         return self
-    
+
 class PduMappingDefaultValue(ARObject):
     def __init__(self):
         super().__init__()
@@ -166,7 +176,7 @@ class IPduMapping(ARObject):
         return self
 
 
-    
+
 class Gateway(FibexElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -175,7 +185,7 @@ class Gateway(FibexElement):
         self.frameMappings: List[FrameMapping] = []
         self.iPduMappings: List[IPduMapping] = []
         self.signalMappings: List[ISignalMapping] = []
-    
+
     def getEcuRef(self):
         return self.ecuRef
 

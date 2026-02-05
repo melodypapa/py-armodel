@@ -1,6 +1,10 @@
-from typing import List
 from abc import ABC
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
     def __init__(self):
@@ -19,7 +23,7 @@ class SwCalprmAxis(ARObject):
 
         self.category = None                        # type: CalprmAxisCategoryEnum
         self.displayFormat = None                   # type: DisplayFormatString
-        self.sw_axis_index = None                   # type: AxisIndexType   
+        self.sw_axis_index = None                   # type: AxisIndexType
         self.swCalibrationAccess = None             # type: SwCalibrationAccessEnum
         self.sw_calprm_axis_type_props = None       # type: SwCalprmAxisTypeProps
 

@@ -3,10 +3,15 @@ This module contains classes for representing AUTOSAR engineering objects
 in the GenericStructure module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from abc import ABC
-from typing import Optional, Any
+from typing import Any, Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+)
 
 
 class EngineeringObject(ARObject, ABC):
@@ -14,7 +19,7 @@ class EngineeringObject(ARObject, ABC):
     Abstract class for AUTOSAR engineering objects.
     This class defines the basic structure for engineering objects in AUTOSAR models.
     """
-    
+
     def __init__(self):
         if type(self) == EngineeringObject:
             raise TypeError("EngineeringObject is an abstract class.")
@@ -125,6 +130,6 @@ class AutosarEngineeringObject(EngineeringObject):
     Represents an AUTOSAR engineering object.
     This class extends EngineeringObject with AUTOSAR-specific functionality.
     """
-    
+
     def __init__(self):
         super().__init__()

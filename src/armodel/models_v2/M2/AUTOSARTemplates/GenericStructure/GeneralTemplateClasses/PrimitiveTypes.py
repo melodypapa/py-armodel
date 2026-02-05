@@ -10,10 +10,13 @@ V2 Implementation:
 Compatible with V1 API.
 """
 
-from abc import ABC
 import re
-from typing import List, Optional, Union, Any
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Any, List, Optional, Union
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
 
 class ARType(ABC):
@@ -21,7 +24,7 @@ class ARType(ABC):
     Abstract base class for all AUTOSAR types.
     This class provides the basic structure for all AUTOSAR type definitions.
     """
-    
+
     def __init__(self) -> None:
         self.timestamp: Optional[str] = None
         self.uuid: Optional[str] = None
@@ -75,7 +78,7 @@ class ARNumerical(ARType):
     Base class for numerical AUTOSAR types.
     This class provides functionality for numerical values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -134,7 +137,7 @@ class ARNumerical(ARType):
             return self._text
         else:
             return str(self._value)
-        
+
     def getValue(self) -> Optional[Union[int, float]]:
         """
         Gets the numerical value of this type.
@@ -158,7 +161,7 @@ class ARNumerical(ARType):
         if val is not None:
             self.shortLabel = val
         return self
-    
+
     def getShortLabel(self) -> Optional[str]:
         """
         Gets the short label of this numerical type.
@@ -167,14 +170,14 @@ class ARNumerical(ARType):
             The short label, or None if not set
         """
         return self.shortLabel
-    
+
 
 class ARFloat(ARNumerical):
     """
     Base class for floating-point AUTOSAR types.
     This class provides functionality for floating-point values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -233,7 +236,7 @@ class ARLiteral(ARType):
     Base class for literal AUTOSAR types.
     This class provides functionality for literal values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -269,10 +272,10 @@ class AREnum(ARLiteral):
     Base class for enumeration AUTOSAR types.
     This class provides functionality for enumeration values in AUTOSAR models.
     """
-    
+
     def __init__(self, enum_values: List[str]):
         super().__init__()
-        
+
         self.enumValues: List[str] = enum_values
 
     def getEnumValues(self) -> List[str]:
@@ -317,7 +320,7 @@ class String(ARLiteral):
     Represents a string AUTOSAR type.
     This class provides functionality for string values in AUTOSAR models.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -326,7 +329,7 @@ class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -336,7 +339,7 @@ class ARPositiveInteger(ARNumerical):
     Base class for positive integer AUTOSAR types.
     This class provides functionality for positive integer values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -363,7 +366,7 @@ class ARBoolean(ARType):
     Base class for boolean AUTOSAR types.
     This class provides functionality for boolean values in AUTOSAR models.
     """
-    
+
     def __init__(self) -> None:
         super().__init__()
 
@@ -608,13 +611,13 @@ class RevisionLabelString(ARLiteral):
             * 4.0.0;12
     '''
 
-    
+
 class Limit(ARObject):
     """
     Represents a limit in AUTOSAR models.
     This class defines limits with interval type and value.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -671,7 +674,7 @@ class RefType(ARObject):
     Represents a reference type in AUTOSAR models.
     This class defines references with base, destination and value properties.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -768,7 +771,7 @@ class TRefType(RefType):
     Represents a typed reference type in AUTOSAR models.
     This class extends RefType with additional type-specific functionality.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -864,7 +867,7 @@ class ByteOrderEnum(AREnum):
     """
     Enumeration for byte order in AUTOSAR models.
     """
-    
+
     def __init__(self):
         super().__init__([])
 
@@ -894,7 +897,7 @@ class VerbatimString(ARLiteral):
     Represents a verbatim string in AUTOSAR models.
     This class is used for strings that should be preserved exactly as written.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -904,6 +907,6 @@ class RegularExpression(ARLiteral):
     Represents a regular expression in AUTOSAR models.
     This class is used for storing and handling regular expression patterns.
     """
-    
+
     def __init__(self):
         super().__init__()

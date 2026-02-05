@@ -3,13 +3,22 @@ This module contains classes for representing AUTOSAR life cycle information
 in the GenericStructure module.
 """
 
-from typing import List, Optional
 from datetime import datetime
+from typing import List, Optional
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    RevisionLabelString,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
 
 
 class LifeCyclePeriod(ARObject):
@@ -17,7 +26,7 @@ class LifeCyclePeriod(ARObject):
         This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
         or end point, in which a specific life cycle state is valid/applies to.
     '''
-    
+
     def __init__(self):
         super().__init__()
 
@@ -103,7 +112,7 @@ class LifeCycleInfo(ARObject):
     Represents life cycle information in AUTOSAR models.
     This class defines information about the life cycle of AUTOSAR elements.
     """
-    
+
     def __init__(self):
         super().__init__()
 
@@ -264,7 +273,7 @@ class LifeCycleInfoSet(ARElement):
     Represents a set of life cycle information in AUTOSAR models.
     This class organizes and manages multiple life cycle information entries.
     """
-    
+
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 

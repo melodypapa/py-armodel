@@ -5,16 +5,32 @@ implementation data types, as well as datatype mapping classes
 used to map between different type representations.
 """
 
-from typing import List
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement, ApplicationRecordElement
-from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from abc import ABC
+from typing import List
+
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeRequestTypeMap,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpType,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    String,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    ApplicationArrayElement,
+    ApplicationRecordElement,
+)
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
 
 
 class AutosarDataType(AtpType, ABC):

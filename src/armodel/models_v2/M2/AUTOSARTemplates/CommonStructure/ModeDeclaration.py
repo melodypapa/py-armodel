@@ -6,10 +6,21 @@ that software components or BSW modules can be in, along with transitions betwee
 
 from typing import List
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, PositiveInteger, RefType, TRefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpPrototype,
+    AtpStructureElement,
+    AtpType,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARNumerical,
+    PositiveInteger,
+    RefType,
+    TRefType,
+)
 
 
 class ModeActivationKind(AREnum):
@@ -37,7 +48,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     Represents a mapping between mode declaration group prototypes in AUTOSAR models.
     This class defines relationships between different mode declaration group prototypes across system boundaries.
     """
-    
+
     def __init__(self):
         """
         Initializes the ModeDeclarationGroupPrototypeMapping with default values.
@@ -45,11 +56,11 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         super().__init__()
 
         # Reference to the first mode group in the mapping
-        self.firstModeGroupRef: RefType = None                           
+        self.firstModeGroupRef: RefType = None
         # Reference to the mode declaration mapping set
-        self.modeDeclarationMappingSetRef: RefType = None                
+        self.modeDeclarationMappingSetRef: RefType = None
         # Reference to the second mode group in the mapping
-        self.secondModeGroupRef: RefType = None                          
+        self.secondModeGroupRef: RefType = None
 
     def getFirstModeGroupRef(self):
         """
@@ -129,7 +140,7 @@ class ModeDeclaration(AtpStructureElement):
     Represents a mode declaration in AUTOSAR models.
     Mode declarations define specific operational states that components can be in, with associated values.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ModeDeclaration with a parent and short name.
@@ -141,7 +152,7 @@ class ModeDeclaration(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # Value associated with this mode declaration
-        self.value: ARNumerical = None                                               
+        self.value: ARNumerical = None
 
     def setValue(self, value):
         """
@@ -172,7 +183,7 @@ class ModeRequestTypeMap(ARObject):
     Represents a mapping between mode requests and implementation data types in AUTOSAR models.
     This class defines how mode requests are mapped to specific implementation data types.
     """
-    
+
     def __init__(self):
         """
         Initializes the ModeRequestTypeMap with default values.
@@ -180,9 +191,9 @@ class ModeRequestTypeMap(ARObject):
         super().__init__()
 
         # Reference to the implementation data type for mode requests
-        self.implementationDataTypeRef: RefType = None               
+        self.implementationDataTypeRef: RefType = None
         # Reference to the mode group for this mapping
-        self.modeGroupRef: RefType = None                            
+        self.modeGroupRef: RefType = None
 
     def getImplementationDataTypeRef(self):
         """
@@ -236,7 +247,7 @@ class ModeDeclarationGroup(AtpType):
     Represents a mode declaration group in AUTOSAR models.
     Mode declaration groups define collections of related mode declarations and their initial state.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ModeDeclarationGroup with a parent and short name.
@@ -248,17 +259,17 @@ class ModeDeclarationGroup(AtpType):
         super().__init__(parent, short_name)
 
         # Reference to the initial mode of this group
-        self.initialModeRef: RefType = None                          
+        self.initialModeRef: RefType = None
         # List of mode declarations in this group
-        self.modeDeclarations: List['ModeDeclaration'] = []                          
+        self.modeDeclarations: List['ModeDeclaration'] = []
         # Error behavior for the mode manager
-        self.modeManagerErrorBehavior = None                
+        self.modeManagerErrorBehavior = None
         # Mode transition behavior for this group
-        self.modeTransition = None                          
+        self.modeTransition = None
         # Error behavior for the mode user
-        self.modeUserErrorBehavior = None                   
+        self.modeUserErrorBehavior = None
         # Value used on mode transitions
-        self.onTransitionValue: PositiveInteger = None                       
+        self.onTransitionValue: PositiveInteger = None
 
     def createModeDeclaration(self, short_name: str) -> 'ModeDeclaration':
         """
@@ -282,7 +293,7 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             List of ModeDeclaration instances sorted by short name
         """
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name)
 
     def setInitialModeRef(self, ref: RefType):
         """
@@ -352,9 +363,9 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         super().__init__(parent, short_name)
 
         # Private storage for software calibration access setting
-        self._swCalibrationAccess: str = None       
+        self._swCalibrationAccess: str = None
         # Type reference to the mode declaration group
-        self.typeTRef: TRefType = None                    
+        self.typeTRef: TRefType = None
 
     @property
     def sw_calibration_access(self):

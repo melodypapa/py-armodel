@@ -11,6 +11,6 @@ from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtectio
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import *  # noqa: F401, F403
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import *  # noqa: F401, F403
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import *  # noqa: F401, F403
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *  # noqa: F401, F403
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import *  # noqa: F401, F403
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import *  # noqa: F401, F403
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *  # noqa: F401, F403

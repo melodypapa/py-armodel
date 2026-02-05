@@ -4,11 +4,27 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Integer,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import (
+    AbstractDoIpLogicAddressProps,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    FibexElement,
+)
+
 
 class TpConfig(FibexElement, ABC):
     """
@@ -19,7 +35,7 @@ class TpConfig(FibexElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == TpConfig:
             raise TypeError("TpConfig is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.communicationClusterRef: RefType = None
@@ -31,7 +47,7 @@ class TpConfig(FibexElement, ABC):
         if value is not None:
             self.communicationClusterRef = value
         return self
-    
+
 class CanTpAddress(Identifiable):
     """
     Represents a CAN transport protocol address in the system,
@@ -59,7 +75,7 @@ class CanTpAddress(Identifiable):
         if value is not None:
             self.tpAddressExtensionValue = value
         return self
-    
+
 class CanTpChannel(Identifiable):
     """
     Represents a CAN transport protocol channel in the system,
@@ -94,7 +110,7 @@ class TpConnectionIdent(Referrable):
     connections in the communication system.
     """
     def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)    
+        super().__init__(parent, short_name)
 
 class TpConnection(ARObject, ABC):
     """
@@ -105,7 +121,7 @@ class TpConnection(ARObject, ABC):
     def __init__(self):
         if type(self) == TpConnection:
             raise TypeError("TpConnection is an abstract class.")
-        
+
         super().__init__()
 
         self.ident: TpConnectionIdent = None
@@ -213,7 +229,7 @@ class CanTpConnection(TpConnection):
 
     def addReceiverRef(self, value):
         if value is not None:
-            self.receiverRefs.append(value) 
+            self.receiverRefs.append(value)
         return self
 
     def getTaType(self):
@@ -299,7 +315,7 @@ class CanTpEcu(ARObject):
         if value is not None:
             self.ecuInstanceRef = value
         return self
-    
+
 class CanTpNode(Identifiable):
     """
     Represents a CAN transport protocol node in the system,
@@ -347,7 +363,7 @@ class CanTpNode(Identifiable):
         if value is not None:
             self.timeoutAr = value
         return self
-    
+
     def getTimeoutAs(self):
         return self.timeoutAs
 
@@ -355,7 +371,7 @@ class CanTpNode(Identifiable):
         if value is not None:
             self.timeoutAs = value
         return self
-    
+
     def getTpAddressRef(self):
         return self.tpAddressRef
 
@@ -403,7 +419,7 @@ class CanTpConfig(TpConfig):
 
     def getTpConnections(self):
         return self.tpConnections
-    
+
     def addTpConnection(self, value):
         if value is not None:
             self.tpConnections.append(value)
@@ -426,7 +442,7 @@ class CanTpConfig(TpConfig):
             self.addElement(address)
             self.tpNodes.append(address)
         return self.getElement(short_name)
-    
+
 class DoIpLogicAddress(Identifiable):
     """
     Represents a DoIP (Diagnostics over IP) logic address in the system,
@@ -522,7 +538,7 @@ class DoIpTpConfig(TpConfig):
         if value is not None:
             self.tpConnections.append(value)
         return self
-        
+
 class TpAddress(Identifiable):
     """
     Represents a generic transport protocol address in the system,
@@ -540,7 +556,7 @@ class TpAddress(Identifiable):
         if value is not None:
             self.tpAddress = value
         return self
-    
+
 class LinTpConnection(TpConnection):
     """
     Represents a LIN transport protocol connection in the system,
@@ -696,7 +712,7 @@ class LinTpNode(Identifiable):
             self.tpAddressRef = value
         return self
 
- 
+
 class LinTpConfig(TpConfig):
     """
     Represents LIN transport protocol configuration in the system,
@@ -730,7 +746,7 @@ class LinTpConfig(TpConfig):
 
     def getTpNodes(self):
         return self.tpNodes
-    
+
     def createLinTpNode(self, short_name: str):
         if (not self.IsElementExists(short_name)):
             address = LinTpNode(self, short_name)

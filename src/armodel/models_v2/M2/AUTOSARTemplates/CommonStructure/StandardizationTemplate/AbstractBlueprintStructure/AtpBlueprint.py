@@ -4,8 +4,13 @@ in the CommonStructure module.
 """
 
 from abc import ABC
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
 
 
 class AtpBlueprintable(Identifiable, ABC):
@@ -49,7 +54,7 @@ class AtpBlueprint(Identifiable, ABC):
     Attributes:
         Inherits all attributes from Identifiable including shortName and adminData.
     """
-    
+
     def __init__(self, parent, short_name: str):
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")

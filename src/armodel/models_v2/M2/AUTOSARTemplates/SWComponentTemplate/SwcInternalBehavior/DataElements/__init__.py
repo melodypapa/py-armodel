@@ -5,15 +5,26 @@ in software component internal behavior templates.
 
 from typing import List
 
-from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    RefType,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
+    AbstractAccessPoint,
+)
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefs import (
     ParameterInAtomicSWCTypeInstanceRef,
     VariableInAtomicSWCTypeInstanceRef,
 )
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
-from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
 
 
 class AutosarVariableRef(ARObject):

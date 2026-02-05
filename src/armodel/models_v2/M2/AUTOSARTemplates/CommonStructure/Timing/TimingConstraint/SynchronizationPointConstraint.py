@@ -8,10 +8,12 @@ Classes:
     SynchronizationPointConstraint: Specifies synchronization point requirements
 """
 
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
 from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 
 
 class SynchronizationPointConstraint(TimingConstraint):

@@ -6,11 +6,29 @@ including code descriptors, compilers, dependencies, and resource consumption in
 
 from abc import ABC
 from typing import List
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable, ARElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String, RevisionLabelString, AREnum
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
+    ResourceConsumption,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
+    AutosarEngineeringObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+    Identifiable,
+    Referrable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARLiteral,
+    PositiveInteger,
+    RefType,
+    RevisionLabelString,
+    String,
+)
 
 
 class ImplementationProps(Referrable, ABC):
@@ -30,11 +48,11 @@ class ImplementationProps(Referrable, ABC):
         """
         if type(self) is ImplementationProps:
             raise TypeError("ImplementationProps is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         # Symbol associated with this implementation properties
-        self.symbol: ARLiteral = None                         
+        self.symbol: ARLiteral = None
 
     def getSymbol(self):
         """
@@ -64,7 +82,7 @@ class Code(Identifiable):
     Represents code descriptor in AUTOSAR models.
     This class contains information about code artifacts and their properties used in implementations.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Code with a parent and short name.
@@ -76,9 +94,9 @@ class Code(Identifiable):
         super().__init__(parent, short_name)
 
         # List of artifact descriptors for this code
-        self.artifactDescriptors: List[AutosarEngineeringObject] = []          
+        self.artifactDescriptors: List[AutosarEngineeringObject] = []
         # List of callback header references for this code
-        self.callbackHeaderRefs: List[RefType] = []            
+        self.callbackHeaderRefs: List[RefType] = []
 
     def addArtifactDescriptor(self, desc: AutosarEngineeringObject):
         """
@@ -114,7 +132,7 @@ class Compiler(Identifiable):
     Represents a compiler in AUTOSAR models.
     This class contains information about compiler configuration used in implementations.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Compiler with a parent and short name.
@@ -126,13 +144,13 @@ class Compiler(Identifiable):
         super().__init__(parent, short_name)
 
         # Name of the compiler
-        self.name: String = None                                    
+        self.name: String = None
         # Options used with the compiler
-        self.options: String = None                                 
+        self.options: String = None
         # Vendor information for the compiler
-        self.vendor: String = None                                  
+        self.vendor: String = None
         # Version of the compiler
-        self.version: String = None                                 
+        self.version: String = None
 
     def getName(self):
         """
@@ -228,7 +246,7 @@ class DependencyOnArtifact(Identifiable):
     Represents a dependency on an artifact in AUTOSAR models.
     This class defines dependencies on artifacts required by implementations such as compilers, linkers, etc.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DependencyOnArtifact with a parent and short name.
@@ -242,7 +260,7 @@ class DependencyOnArtifact(Identifiable):
         # Artifact descriptor that this dependency references
         self.artifactDescriptor: AutosarEngineeringObject = None
         # Usage type of this dependency
-        self.usage = None                                   
+        self.usage = None
 
     def getArtifactDescriptor(self):
         """
@@ -310,35 +328,35 @@ class Implementation(ARElement, ABC):
         super().__init__(parent, short_name)
 
         # Reference to the build action manifest for this implementation
-        self.buildActionManifestRef: RefType = None                 
+        self.buildActionManifestRef: RefType = None
         # List of code descriptors for this implementation
-        self.codeDescriptors: List['Code'] = []                           
+        self.codeDescriptors: List['Code'] = []
         # List of compilers used in this implementation
-        self.compilers: List['Compiler'] = []                                 
+        self.compilers: List['Compiler'] = []
         # List of generated artifacts for this implementation
-        self.generatedArtifacts: List['DependencyOnArtifact'] = []                        
+        self.generatedArtifacts: List['DependencyOnArtifact'] = []
         # List of hardware element references for this implementation
-        self.hwElementRefs: List[RefType] = []                             
+        self.hwElementRefs: List[RefType] = []
         # List of linkers used in this implementation
-        self.linkers: List = []                                   
+        self.linkers: List = []
         # Microcontroller support information for this implementation
         self.mcSupport = None
         # Programming language used in this implementation
-        self.programmingLanguage = None                     
+        self.programmingLanguage = None
         # List of required artifacts for this implementation
-        self.requiredArtifacts: List['DependencyOnArtifact'] = []                         
+        self.requiredArtifacts: List['DependencyOnArtifact'] = []
         # List of required generator tools for this implementation
-        self.requiredGeneratorTools: List['DependencyOnArtifact'] = []                    
+        self.requiredGeneratorTools: List['DependencyOnArtifact'] = []
         # Resource consumption information for this implementation
-        self.resourceConsumption: ResourceConsumption = None                     
+        self.resourceConsumption: ResourceConsumption = None
         # Reference to software component/BSW mapping for this implementation
-        self.swcBswMappingRef: RefType = None                        
+        self.swcBswMappingRef: RefType = None
         # Software version information for this implementation
-        self.swVersion: List[RevisionLabelString] = []                                 
+        self.swVersion: List[RevisionLabelString] = []
         # Code generator used for this implementation
-        self.usedCodeGenerator: String = None                       
+        self.usedCodeGenerator: String = None
         # Vendor ID for this implementation
-        self.vendorId: PositiveInteger = 0                                   
+        self.vendorId: PositiveInteger = 0
 
     def getBuildActionManifestRef(self):
         """
@@ -688,9 +706,9 @@ class Implementation(ARElement, ABC):
         return self
 
 
-    
 
-    
+
+
 
 
 class DependencyUsageEnum(AREnum):

@@ -1,22 +1,33 @@
-from armodel.models_v2.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models_v2.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, LGraphic, Map, MlFigure
-from armodel.models_v2.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models_v2.M2.MSR.Documentation.Annotation import (
+    Annotation,
+    GeneralAnnotation,
+)
+from armodel.models_v2.M2.MSR.Documentation.BlockElements.Figure import (
+    Graphic,
+    GraphicFitEnum,
+    LGraphic,
+    Map,
+    MlFigure,
+)
+from armodel.models_v2.M2.MSR.Documentation.BlockElements.Formula import (
+    MlFormula,
+)
 from armodel.models_v2.M2.MSR.Documentation.TextModel import (
     ARList,
-    DocumentViewSelectable,
     DocumentationBlock,
+    DocumentViewSelectable,
     Item,
+    LanguageSpecific,
     LEnum,
+    ListEnum,
     LLongName,
     LOverviewParagraph,
     LParagraph,
     LPlainText,
-    LanguageSpecific,
-    ListEnum,
+    MultilanguageLongName,
     MultiLanguageOverviewParagraph,
     MultiLanguageParagraph,
     MultiLanguagePlainText,
-    MultilanguageLongName,
     Paginateable,
 )
 

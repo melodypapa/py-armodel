@@ -10,8 +10,8 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     StateDependentFirewall,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem import (  # noqa: F401
-    IdsPlatformInstantiation,
     IdsmModuleInstantiation,
+    IdsPlatformInstantiation,
 )
 
 __all__ = [

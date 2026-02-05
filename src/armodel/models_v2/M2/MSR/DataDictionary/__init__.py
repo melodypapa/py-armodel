@@ -1,4 +1,6 @@
-from armodel.models_v2.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from armodel.models_v2.M2.MSR.DataDictionary.AuxillaryObjects import (
+    SwAddrMethod,
+)
 from armodel.models_v2.M2.MSR.DataDictionary.Axis import (
     SwAxisGeneric,
     SwAxisGrouped,
@@ -25,10 +27,12 @@ from armodel.models_v2.M2.MSR.DataDictionary.RecordLayout import (
     SwRecordLayoutV,
 )
 from armodel.models_v2.M2.MSR.DataDictionary.ServiceProcessTask import (
-    SwServiceImplPolicyEnum,
     SwServiceArg,
+    SwServiceImplPolicyEnum,
 )
-from armodel.models_v2.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
+from armodel.models_v2.M2.MSR.DataDictionary.SystemConstant import (
+    SwSystemconst,
+)
 
 __all__ = [
     # AuxillaryObjects

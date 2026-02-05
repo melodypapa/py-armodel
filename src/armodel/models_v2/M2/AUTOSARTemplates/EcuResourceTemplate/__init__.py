@@ -8,11 +8,23 @@ and connections between hardware elements.
 
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
+    HwAttributeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import (
+    HwElementConnector,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+    RefType,
+    String,
+)
 
 
 class HwDescriptionEntity(ARElement):
@@ -20,7 +32,7 @@ class HwDescriptionEntity(ARElement):
     Abstract base class for hardware description entities in AUTOSAR.
     This class defines common properties for hardware elements including attribute values and type references.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwDescriptionEntity with a parent and short name.
@@ -30,7 +42,7 @@ class HwDescriptionEntity(ARElement):
             short_name: The unique short name of this hardware description entity
         """
         super().__init__(parent, short_name)
-        
+
         self.hwAttributeValues: List[HwAttributeValue] = []
         self.hwCategoryRefs: List[RefType] = []
         self.hwTypeRef: Optional[RefType] = None
@@ -106,14 +118,14 @@ class HwDescriptionEntity(ARElement):
         if value is not None:
             self.hwTypeRef = value
         return self
-    
+
 
 class HwPin(HwDescriptionEntity):
     """
     Represents a hardware pin in AUTOSAR hardware descriptions.
     This class defines the properties of individual hardware pins including function names and pin numbers.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwPin with a parent and short name.
@@ -206,7 +218,7 @@ class HwPinGroupContent(ARObject):
     Represents the content of a hardware pin group in AUTOSAR.
     This class links individual pins and pin groups together to form complex pin structures.
     """
-    
+
     def __init__(self):
         """
         Initializes the HwPinGroupContent with default values.
@@ -269,7 +281,7 @@ class HwPinGroup(HwDescriptionEntity):
     Represents a group of hardware pins in AUTOSAR hardware descriptions.
     This class defines collections of related hardware pins with associated content.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwPinGroup with a parent and short name.
@@ -312,7 +324,7 @@ class HwElement(HwDescriptionEntity):
     Represents a hardware element in AUTOSAR hardware descriptions.
     This class defines complete hardware components with connections, pin groups, and nested elements.
     """
-    
+
     def __init__(self, parent, short_name: str):
         """
         Initializes the HwElement with a parent and short name.

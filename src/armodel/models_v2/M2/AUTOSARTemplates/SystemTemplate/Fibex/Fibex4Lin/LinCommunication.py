@@ -1,11 +1,25 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, Integer, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARLiteral,
+    ARNumerical,
+    Integer,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    Frame,
+    FrameTriggering,
+)
+
 
 class LinFrame(Frame, ABC):
     """
@@ -16,7 +30,7 @@ class LinFrame(Frame, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == LinFrame:
             raise TypeError("LinFrame is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
 class LinUnconditionalFrame(LinFrame):
@@ -77,10 +91,10 @@ class ScheduleTableEntry(ARObject, ABC):
     including timing, position, and documentation properties.
     """
     def __init__(self):
-        
+
         if type(self) == ScheduleTableEntry:
             raise TypeError("ScheduleTableEntry is an abstract class.")
-        
+
         super().__init__()
 
         self.delay: TimeValue = None
@@ -151,7 +165,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
 
         if type(self) == LinConfigurationEntry:
             raise TypeError("LinConfigurationEntry is an abstract class.")
-        
+
         super().__init__()
 
 
@@ -183,7 +197,7 @@ class LinScheduleTable(Identifiable):
         if value is not None:
             self.runMode = value
         return self
-    
+
     def getTableEntries(self):
         return self.tableEntries
 

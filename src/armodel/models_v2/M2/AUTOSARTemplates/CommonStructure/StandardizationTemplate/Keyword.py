@@ -6,9 +6,15 @@ and classification purposes in AUTOSAR models.
 
 from typing import List
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import AtpBlueprintable
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
+    AtpBlueprintable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    NameToken,
+)
 
 
 class Keyword(Identifiable):
@@ -16,7 +22,7 @@ class Keyword(Identifiable):
     Represents a keyword in AUTOSAR models for standardization and classification purposes.
     Keywords can have abbreviated names and classifications for organizing and categorizing elements.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the Keyword with a parent and short name.
@@ -28,9 +34,9 @@ class Keyword(Identifiable):
         super().__init__(parent, short_name)
 
         # Abbreviated name for this keyword
-        self.abbrName: NameToken = None                                
+        self.abbrName: NameToken = None
         # List of classifications for this keyword
-        self.classifications: List[NameToken] = []                           
+        self.classifications: List[NameToken] = []
 
     def getAbbrName(self):
         """
@@ -98,7 +104,7 @@ class KeywordSet(AtpBlueprintable):
         super().__init__(parent, short_name)
 
         # List of keywords in this keyword set
-        self.keywords: List[Keyword] = []                                 
+        self.keywords: List[Keyword] = []
 
     def getKeywords(self):
         """

@@ -12,18 +12,44 @@ These classes are used to model:
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ExecutableEntity, InternalBehavior
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    AbstractEvent,
+    ExecutableEntity,
+    InternalBehavior,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeActivationKind,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    AREnum,
+    ARFloat,
+    ARNumerical,
+    Boolean,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    VariableDataPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import (
+    IncludedDataTypeSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
+    IncludedModeDeclarationGroupSet,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwImplPolicyEnum,
+)
 
 
 class BswModuleCallPoint(Referrable, ABC):
@@ -76,7 +102,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     Represents an asynchronous server call point in a BSW module.
     This call point is used when the server operation is executed asynchronously.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswAsynchronousServerCallPoint with a parent and short name.
@@ -120,7 +146,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
     Represents a direct call point in a BSW module.
     This call point is used for direct synchronous calls to BSW module entries.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswDirectCallPoint with a parent and short name.
@@ -183,14 +209,14 @@ class BswDirectCallPoint(BswModuleCallPoint):
         if value is not None:
             self.calledFromWithinExclusiveAreaRef = value
         return self
-    
+
 
 class BswSynchronousServerCallPoint(BswModuleCallPoint):
     """
     Represents a synchronous server call point in a BSW module.
     This call point is used when the server operation is executed synchronously.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswSynchronousServerCallPoint with a parent and short name.
@@ -260,7 +286,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     Represents a result point for an asynchronous server call in a BSW module.
     This defines where the result of the asynchronous call is handled.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswAsynchronousServerCallResultPoint with a parent and short name.
@@ -280,7 +306,7 @@ class BswVariableAccess(Referrable):
     Represents access to a variable by a BSW module entity.
     This class defines how a BSW module accesses variables during execution.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswVariableAccess with a parent and short name.
@@ -349,7 +375,7 @@ class BswDistinguishedPartition(Referrable):
     per partition, for example to behave either as a master or satellite in a multicore 
     ECU with shared BSW code.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswDistinguishedPartition with a parent and short name.
@@ -366,7 +392,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
     Abstract base class for BSW module entities.
     A BSW module entity represents an executable piece of code in a BSW module.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module entity with a parent and short name.
@@ -471,7 +497,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.addElement(access)
             self.callPoints.append(access)
         return self.getElement(short_name)
-    
+
     def createBswSynchronousServerCallPoint(self, short_name):
         """
         Creates and adds a BswSynchronousServerCallPoint to this entity.
@@ -640,7 +666,7 @@ class BswCalledEntity(BswModuleEntity):
     Represents a BSW module entity that can be called by other entities.
     This is typically used for BSW service functions that can be invoked.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswCalledEntity with a parent and short name.
@@ -657,7 +683,7 @@ class BswSchedulableEntity(BswModuleEntity):
     Represents a BSW module entity that can be scheduled for execution.
     This is typically used for BSW functions that can be scheduled by the OS.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswSchedulableEntity with a parent and short name.
@@ -694,7 +720,7 @@ class BswInterruptEntity(BswModuleEntity):
     Represents an interrupt entity in a BSW module.
     This defines how interrupt service routines are handled in the BSW module.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswInterruptEntity with a parent and short name.
@@ -760,7 +786,7 @@ class BswEvent(AbstractEvent, ABC):
     Abstract base class for BSW events.
     BSW events trigger the execution of BSW module entities.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW event with a parent and short name.
@@ -805,7 +831,7 @@ class BswOperationInvokedEvent(BswEvent):
     Represents an event that is triggered when a BSW operation is invoked.
     This event occurs when a client calls a BSW service function.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswOperationInvokedEvent with a parent and short name.
@@ -849,7 +875,7 @@ class BswScheduleEvent(BswEvent, ABC):
     Abstract base class for BSW scheduled events.
     These events are scheduled for execution at specific times or conditions.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW schedule event with a parent and short name.
@@ -869,7 +895,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
     Represents an event that is triggered when a mode switch occurs.
     This event handles changes in system modes within BSW modules.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswModeSwitchEvent with a parent and short name.
@@ -929,7 +955,7 @@ class BswTimingEvent(BswScheduleEvent):
     Represents a timing event in a BSW module.
     This event is triggered based on timing constraints (e.g., periodic execution).
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswTimingEvent with a parent and short name.
@@ -985,7 +1011,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
     Represents an event that is triggered when data is received by a BSW module.
     This event handles data reception from other modules or communication interfaces.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswDataReceivedEvent with a parent and short name.
@@ -1027,7 +1053,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     Represents an event that is triggered by an internal trigger in a BSW module.
     This event occurs when a BSW module internally generates a trigger.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswInternalTriggerOccurredEvent with a parent and short name.
@@ -1062,14 +1088,14 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
         """
         self.eventSourceRef = value
         return self
-    
+
 
 class BswModeSwitchAckRequest(ARObject):
     """
     Represents an acknowledgment request for a mode switch operation.
     This is used in BSW modules to handle mode switch acknowledgments.
     """
-    
+
     def __init__(self):
         """
         Initializes the BswModeSwitchAckRequest.
@@ -1107,7 +1133,7 @@ class BswModeSenderPolicy(ARObject):
     Represents the policy for a BSW mode sender.
     This defines how mode changes are sent and acknowledged in BSW modules.
     """
-    
+
     def __init__(self):
         """
         Initializes the BswModeSenderPolicy.
@@ -1179,7 +1205,7 @@ class BswBackgroundEvent(BswScheduleEvent):
     Represents a background event in a BSW module.
     This event runs in the background, typically with lower priority.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the BswBackgroundEvent with a parent and short name.
@@ -1196,7 +1222,7 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
     Represents an OS task execution event in a BSW module.
     This event is triggered when an OS task is executed.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the BswOsTaskExecutionEvent with a parent and short name.
@@ -1213,7 +1239,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     Represents an event that is triggered by an external trigger in a BSW module.
     This event occurs when an external source generates a trigger.
     """
-    
+
     def __init__(self, parent, short_name):
         """
         Initializes the BswExternalTriggerOccurredEvent with a parent and short name.
@@ -1251,13 +1277,13 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
             self.triggerRef = value
         return self
 
-    
+
 class BswApiOptions(ARObject, ABC):
     """
     Abstract base class for BSW API options.
     Defines common options for BSW API implementations.
     """
-    
+
     def __init__(self):
         """
         Initializes the BSW API options.
@@ -1301,7 +1327,7 @@ class BswDataReceptionPolicy(BswApiOptions, ABC):
     Abstract base class for BSW data reception policies.
     Defines how BSW modules receive data.
     """
-    
+
     def __init__(self):
         """
         Initializes the BSW data reception policy.
@@ -1345,7 +1371,7 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     Represents a queued data reception policy in a BSW module.
     This policy handles data reception using a queue mechanism.
     """
-    
+
     def __init__(self):
         """
         Initializes the BswQueuedDataReceptionPolicy.
@@ -1385,7 +1411,7 @@ class BswInternalTriggeringPoint(Identifiable):
     Represents an internal triggering point in a BSW module's internal behavior.
     This is used to define points from which triggers can be issued internally.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswInternalTriggeringPoint with a parent and short name.
@@ -1430,7 +1456,7 @@ class BswInternalBehavior(InternalBehavior):
     This class contains all the entities, events, policies, and other behavioral elements
     that define how a BSW module operates internally.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswInternalBehavior with a parent and short name.
@@ -1894,7 +1920,7 @@ class BswInternalBehavior(InternalBehavior):
         if value is not None:
             self.variationPointProxies = value
         return self
-    
+
     def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
         """
         Adds a BSW mode sender policy to the list.
@@ -1966,7 +1992,7 @@ class BswInternalBehavior(InternalBehavior):
             List of BswSchedulableEntity instances
         """
         return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements))
-    
+
     def createBswInterruptEntity(self, short_name: str) -> BswInterruptEntity:
         """
         Creates and adds a BswInterruptEntity to this internal behavior.
@@ -2091,7 +2117,7 @@ class BswInternalBehavior(InternalBehavior):
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name)
-    
+
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         """
         Gets all BswInternalTriggerOccurredEvent instances from the elements list.
@@ -2100,7 +2126,7 @@ class BswInternalBehavior(InternalBehavior):
             List of BswInternalTriggerOccurredEvent instances
         """
         return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements))
-    
+
     def createBswExternalTriggerOccurredEvent(self, short_name: str) -> BswExternalTriggerOccurredEvent:
         """
         Creates and adds a BswExternalTriggerOccurredEvent to this internal behavior.
@@ -2116,7 +2142,7 @@ class BswInternalBehavior(InternalBehavior):
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name)
-    
+
     def getBswOperationInvokedEvents(self) -> List[BswOperationInvokedEvent]:
         """
         Gets all BswOperationInvokedEvent instances from the elements list.
@@ -2125,7 +2151,7 @@ class BswInternalBehavior(InternalBehavior):
             List of BswOperationInvokedEvent instances
         """
         return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.elements))
-    
+
     def createBswOperationInvokedEvent(self, short_name: str) -> BswOperationInvokedEvent:
         """
         Creates and adds a BswOperationInvokedEvent to this internal behavior.
@@ -2141,7 +2167,7 @@ class BswInternalBehavior(InternalBehavior):
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name)
-    
+
     def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
         """
         Gets all BswExternalTriggerOccurredEvent instances from the elements list.
@@ -2150,7 +2176,7 @@ class BswInternalBehavior(InternalBehavior):
             List of BswExternalTriggerOccurredEvent instances
         """
         return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.elements))
-    
+
     def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
         """
         Creates and adds a BswBackgroundEvent to this internal behavior.
@@ -2166,7 +2192,7 @@ class BswInternalBehavior(InternalBehavior):
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name)
-    
+
     def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
         """
         Gets all BswBackgroundEvent instances from the elements list.
@@ -2221,7 +2247,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.includedDataTypeSets
 
-    
+
 
 # ========== Classes from subdirectory files ==========
 
@@ -2229,7 +2255,10 @@ class BswInternalBehavior(InternalBehavior):
 This module defines BSW asynchronous server call returns event in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+
 
 class BswAsynchronousServerCallReturnsEvent(BswEvent):
     """
@@ -2255,7 +2284,9 @@ class BswAsynchronousServerCallReturnsEvent(BswEvent):
 This module defines BSW exclusive area policy in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
 
 
 class BswExclusiveAreaPolicy(AREnum):
@@ -2312,7 +2343,9 @@ class BswModeManagerErrorEvent(BswEvent):
 This module defines BSW mode receiver policy in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
 
 
 class BswModeReceiverPolicy(AREnum):
@@ -2335,7 +2368,9 @@ class BswModeReceiverPolicy(AREnum):
 This module defines BSW scheduler name prefix in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
 
 class BswSchedulerNamePrefix(ARObject):
@@ -2362,8 +2397,12 @@ class BswSchedulerNamePrefix(ARObject):
 This module defines BSW service dependency in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class BswServiceDependency(ARObject):
@@ -2390,8 +2429,12 @@ class BswServiceDependency(ARObject):
 This module defines BSW trigger direct implementation in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
 
 
 class BswTriggerDirectImplementation(AREnum):
@@ -2412,8 +2455,13 @@ class BswTriggerDirectImplementation(AREnum):
 This module defines role-based BSW module entry assignment in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    RefType,
+)
 
 
 class RoleBasedBswModuleEntryAssignment(ARObject):

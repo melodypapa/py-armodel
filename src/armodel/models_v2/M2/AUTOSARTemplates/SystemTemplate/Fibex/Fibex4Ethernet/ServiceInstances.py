@@ -4,11 +4,23 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    SocketConnectionBundle,
+)
+
 
 class TransportProtocolConfiguration(ARObject, ABC):
     """
@@ -20,7 +32,7 @@ class TransportProtocolConfiguration(ARObject, ABC):
     def __init__(self):
         if type(self) == TransportProtocolConfiguration:
             raise TypeError("TransportProtocolConfiguration is an abstract class.")
-        
+
         super().__init__()
 
 class GenericTp(TransportProtocolConfiguration):
@@ -59,7 +71,7 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     def __init__(self):
         if type(self) == TcpUdpConfig:
             raise TypeError("TcpUdpConfig is an abstract class.")
-        
+
         super().__init__()
 
 class TpPort(ARObject):
@@ -181,7 +193,7 @@ class TcpTp(TcpUdpConfig):
     def setTcpTpPort(self, value):
         self.tcpTpPort = value
         return self
-    
+
 class AbstractServiceInstance(Identifiable, ABC):
     """
     Abstract base class for service instances, defining common properties
@@ -230,7 +242,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         if value is not None:
             self.routingGroupRefs.append(value)
         return self
-    
+
 class ConsumedEventGroup(Identifiable):
     """
     Defines a consumed event group for service-oriented communication,
@@ -345,7 +357,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.sdClientConfig = None
         self.sdClientTimerConfigRef: RefType = None
         self.serviceIdentifier: PositiveInteger = None
-        self.versionDrivenFindBehavior = None     
+        self.versionDrivenFindBehavior = None
 
     def getAllowedServiceProviderRefs(self):
         return self.allowedServiceProviderRefs
@@ -460,7 +472,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         if value is not None:
             self.versionDrivenFindBehavior = value
         return self
-    
+
 class InitialSdDelayConfig(ARObject):
     """
     Configures initial delay parameters for Service Discovery (SD)
@@ -507,7 +519,7 @@ class InitialSdDelayConfig(ARObject):
             self.initialRepetitionsMax = value
         return self
 
-    
+
 class SdServerConfig(ARObject):
     """
     Configures Service Discovery (SD) server properties, specifying
@@ -581,7 +593,7 @@ class SdServerConfig(ARObject):
             self.ttl = value
         return self
 
-    
+
 class EventHandler(Identifiable):
     """
     Defines an event handler for service-oriented communication,
@@ -753,7 +765,7 @@ class ApplicationEndpoint(Identifiable):
             self.addElement(instance)
             self.providedServiceInstances.append(instance)
         return self.getElement(short_name)
-    
+
     def getTlsCryptoMappingRef(self):
         return self.tlsCryptoMappingRef
 
@@ -861,7 +873,7 @@ class SocketAddress(Identifiable):
     def setPduCollectionTimeout(self, value):
         self.pduCollectionTimeout = value
         return self
-    
+
     def getPortAddress(self):
         return self.portAddress
 
@@ -905,7 +917,7 @@ class SoAdConfig(ARObject):
 
     def getConnectionBundles(self):
         return self.connectionBundles
-    
+
     def createSocketConnectionBundle(self, short_name:str) -> SocketConnectionBundle:
         bundle = SocketConnectionBundle(self, short_name)
         self.connectionBundles.append(bundle)

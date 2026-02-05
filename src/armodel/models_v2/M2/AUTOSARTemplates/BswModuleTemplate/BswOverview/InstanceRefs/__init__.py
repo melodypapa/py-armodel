@@ -1,3 +1,5 @@
-from .ModeInBswModuleDescriptionInstanceRef import ModeInBswModuleDescriptionInstanceRef
+from .ModeInBswModuleDescriptionInstanceRef import (
+    ModeInBswModuleDescriptionInstanceRef,
+)
 
 __all__ = ['ModeInBswModuleDescriptionInstanceRef']

@@ -4,11 +4,22 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Integer,
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    TextTableMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommunicationDirectionType,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    VariableDataPrototypeInSystemInstanceRef,
+)
 
 
 class DataMapping(ARObject, ABC):
@@ -21,7 +32,7 @@ class DataMapping(ARObject, ABC):
     def __init__(self):
         if type(self) is DataMapping:
             raise TypeError("DataMapping is an abstract class.")
-        
+
         super().__init__()
 
         self.introduction = None
@@ -95,7 +106,7 @@ class SenderRecCompositeTypeMapping(ARObject, ABC):
     def __init__(self):
         if type(self) is SenderRecCompositeTypeMapping:
             raise TypeError("SenderRecCompositeTypeMapping is an abstract class.")
-        
+
         super().__init__()
 
 
@@ -221,7 +232,7 @@ class IndexedArrayElement(ARObject):
         if value is not None:
             self.index = value
         return self
-        
+
 
 class SenderRecArrayElementMapping(ARObject):
     """

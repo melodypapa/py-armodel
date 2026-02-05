@@ -1,8 +1,16 @@
 from typing import List
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
-from armodel.models_v2.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
-from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
+    Paginateable,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LLongName,
+    LOverviewParagraph,
+)
+
 
 class MultiLanguageParagraph(Paginateable):
     def __init__(self):
@@ -44,7 +52,7 @@ class MultilanguageLongName(ARObject):
 
     def getL4s(self) -> List[LLongName]:
         return self.l4
-    
+
 class MultiLanguagePlainText(ARObject):
     def __init__(self):
         super().__init__()

@@ -4,8 +4,14 @@ in the CommonStructure module. Data filters are used to define conditions for
 data processing, such as when to update values based on filters or limits.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, UnlimitedInteger
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    PositiveInteger,
+    UnlimitedInteger,
+)
 
 
 class DataFilterTypeEnum(AREnum):
@@ -36,7 +42,7 @@ class DataFilterTypeEnum(AREnum):
         super().__init__((
             DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD,
             DataFilterTypeEnum.MASKED_NEW_DIFFERS_X,
-            DataFilterTypeEnum.MASKED_NEW_EQUALS_X, 
+            DataFilterTypeEnum.MASKED_NEW_EQUALS_X,
             DataFilterTypeEnum.NEVER,
             DataFilterTypeEnum.NEW_IS_OUTSIDE,
             DataFilterTypeEnum.NEW_IS_WITHIN,
@@ -49,7 +55,7 @@ class DataFilter(ARObject):
     Represents a data filter configuration in AUTOSAR models.
     This class defines conditions and parameters for filtering data updates in AUTOSAR systems.
     """
-    
+
     def __init__(self):
         """
         Initializes the DataFilter with default values.
@@ -57,19 +63,19 @@ class DataFilter(ARObject):
         super().__init__()
 
         # Type of data filtering to apply
-        self.dataFilterType: DataFilterTypeEnum = None                  
+        self.dataFilterType: DataFilterTypeEnum = None
         # Bit mask for masked filtering operations
-        self.mask: UnlimitedInteger = None                            
+        self.mask: UnlimitedInteger = None
         # Maximum threshold value for range-based filtering
-        self.max: UnlimitedInteger = None                             
+        self.max: UnlimitedInteger = None
         # Minimum threshold value for range-based filtering
-        self.min: UnlimitedInteger = None                             
+        self.min: UnlimitedInteger = None
         # Offset value for filtering calculations
-        self.offset: PositiveInteger = None                          
+        self.offset: PositiveInteger = None
         # Period for periodic filtering operations (e.g., oneEveryN)
-        self.period: PositiveInteger = None                          
+        self.period: PositiveInteger = None
         # Reference value X used in comparison-based filtering
-        self.x: UnlimitedInteger = None                               
+        self.x: UnlimitedInteger = None
 
     def getDataFilterType(self):
         """
@@ -240,4 +246,4 @@ class DataFilter(ARObject):
         return self
 
 
-    
+

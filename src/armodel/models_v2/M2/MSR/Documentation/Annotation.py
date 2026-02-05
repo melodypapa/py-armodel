@@ -1,8 +1,18 @@
-from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from abc import ABC
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
+from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+)
+
 
 class GeneralAnnotation(ARObject, ABC):
     def __init__(self):

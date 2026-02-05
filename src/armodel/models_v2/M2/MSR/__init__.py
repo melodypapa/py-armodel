@@ -7,10 +7,12 @@ This module contains the V2 implementations of MSR classes with:
 - Explicit __all__ exports (CODING_RULE_V2_00003)
 """
 
-from armodel.models_v2.M2.MSR import AsamHdo
-from armodel.models_v2.M2.MSR import DataDictionary
-from armodel.models_v2.M2.MSR import Documentation
-from armodel.models_v2.M2.MSR import CalibrationData
+from armodel.models_v2.M2.MSR import (
+    AsamHdo,
+    CalibrationData,
+    DataDictionary,
+    Documentation,
+)
 
 __all__ = [
     'AsamHdo',

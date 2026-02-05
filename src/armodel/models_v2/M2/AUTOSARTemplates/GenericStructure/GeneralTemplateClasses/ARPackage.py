@@ -6,77 +6,190 @@ primary organizational unit for grouping related AUTOSAR model elements such as
 components, interfaces, data types, and other packages.
 """
 
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
+    BswImplementation,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswModuleEntry,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+    BswModuleDescription,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ConstantSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    Implementation,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    ImplementationDataType,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclarationGroup,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import (
+    KeywordSet,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
+    SwcBswMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    SwcTiming,
+)
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import (
+    DiagnosticServiceTable,
+)
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucModuleConfigurationValues,
+    EcucValueCollection,
+)
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucModuleDef,
+)
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
+    HwCategory,
+    HwType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    CollectableElement,
+    Collection,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    CategoryString,
+    Identifier,
+    ReferrableSubtypesEnum,
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
+    LifeCycleInfoSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    ApplicationSwComponentType,
+    AtomicSwComponentType,
+    ComplexDeviceDriverSwComponentType,
+    EcuAbstractionSwComponentType,
+    SensorActuatorSwComponentType,
+    ServiceSwComponentType,
+    SwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationArrayDataType,
+    ApplicationDataType,
+    ApplicationPrimitiveDataType,
+    ApplicationRecordDataType,
+    DataTypeMappingSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
+    EndToEndProtectionSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerInterface,
+    ModeDeclarationMappingSet,
+    ModeSwitchInterface,
+    ParameterInterface,
+    PortInterfaceMappingSet,
+    SenderReceiverInterface,
+    TriggerInterface,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
+    SwcImplementation,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    DiagnosticConnection,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    SoAdRoutingGroup,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import (
+    GenericEthernetFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthernetCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinUnconditionalFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (
+    Gateway,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    DcmIPdu,
+    GeneralPurposeIPdu,
+    GeneralPurposePdu,
+    ISignal,
+    ISignalGroup,
+    ISignalIPdu,
+    ISignalIPduGroup,
+    MultiplexedIPdu,
+    NmPdu,
+    NPdu,
+    SecureCommunicationPropsSet,
+    SecuredIPdu,
+    SystemSignal,
+    SystemSignalGroup,
+    UserDefinedIPdu,
+    UserDefinedPdu,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CanCluster,
+    EcuInstance,
+    LinCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmConfig,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    DataTransformationSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    CanTpConfig,
+    DoIpTpConfig,
+    LinTpConfig,
+)
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
+    DataConstr,
+)
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
-
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
-from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory, HwType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType, SwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeDeclarationMappingSet, ModeSwitchInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, GeneralPurposeIPdu, GeneralPurposePdu, ISignal
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, MultiplexedIPdu
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NPdu, NmPdu, SecureCommunicationPropsSet, SecuredIPdu
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster, EcuInstance, LinCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+    MultiLanguageOverviewParagraph,
+)
 
 
 class ReferenceBase(ARObject):
@@ -85,7 +198,7 @@ class ReferenceBase(ARObject):
     how elements in one package can reference elements in other packages.
     They are used to establish relationships between different AUTOSAR packages.
     """
-    
+
     def __init__(self):
         """
         Initializes a ReferenceBase instance with default values for 
@@ -173,7 +286,7 @@ class ReferenceBase(ARObject):
         """
         self.isDefault = value
         return self
-    
+
     def getIsGlobal(self) -> Optional[Boolean]:
         """
         Returns whether this reference base is global.
@@ -195,7 +308,7 @@ class ReferenceBase(ARObject):
         """
         self.isGlobal = value
         return self
-    
+
     def getBaseIsThisPackage(self) -> Optional[Boolean]:
         """
         Returns whether this reference base belongs to the current package.
@@ -273,7 +386,7 @@ class ARPackage(CollectableElement):
     ARPackages form a tree-like structure where each package can contain
     sub-packages as well as various AUTOSAR elements.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes an ARPackage instance with the specified parent and short name.
@@ -321,7 +434,7 @@ class ARPackage(CollectableElement):
             The short name of this ARPackage
         """
         return self.short_name
-    
+
     def getParent(self) -> ARObject:
         """
         Gets the parent of this ARPackage.
@@ -392,7 +505,7 @@ class ARPackage(CollectableElement):
         if value is not None:
             self.adminData = value
         return self
-    
+
     def removeAdminData(self) -> None:
         """
         Removes the administrative data for this ARPackage.
@@ -446,7 +559,7 @@ class ARPackage(CollectableElement):
         else:
             self.category = value
         return self
-    
+
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this ARPackage.
@@ -499,7 +612,7 @@ class ARPackage(CollectableElement):
         Returns:
             List of ARPackage instances sorted by short name
         """
-        return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
+        return sorted(self.arPackages.values(), key=lambda a: a.short_name)
         # return list(filter(lambda e: isinstance(e, ARPackage), self.elements))
 
     def createARPackage(self, short_name: str) -> 'ARPackage':
@@ -610,19 +723,19 @@ class ARPackage(CollectableElement):
             sr_interface = ParameterInterface(self, short_name)
             self.addElement(sr_interface)
         return self.getElement(short_name, ParameterInterface)
-    
+
     def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
         if not self.IsElementExists(short_name, GenericEthernetFrame):
             frame = GenericEthernetFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, GenericEthernetFrame)
-    
+
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
         if not self.IsElementExists(short_name, LifeCycleInfoSet):
             set = LifeCycleInfoSet(self, short_name)
             self.addElement(set)
         return self.getElement(short_name, LifeCycleInfoSet)
-    
+
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
         if not self.IsElementExists(short_name, ClientServerInterface):
             cs_interface = ClientServerInterface(self, short_name)
@@ -842,7 +955,7 @@ class ARPackage(CollectableElement):
             element = CanTpConfig(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, CanTpConfig)
-    
+
     def createLinTpConfig(self, short_name: str) -> LinTpConfig:
         if not self.IsElementExists(short_name, LinTpConfig):
             element = LinTpConfig(self, short_name)
@@ -943,7 +1056,7 @@ class ARPackage(CollectableElement):
             element = EcucModuleConfigurationValues(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucModuleConfigurationValues)
-    
+
     def createEcucModuleDef(self, short_name: str) -> EcucModuleDef:
         if not self.IsElementExists(short_name, EcucModuleDef):
             element = EcucModuleDef(self, short_name)
@@ -973,31 +1086,31 @@ class ARPackage(CollectableElement):
             element = System(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, System)
-    
+
     def createFlatMap(self, short_name: str) -> FlatMap:
         if not self.IsElementExists(short_name, FlatMap):
             map = FlatMap(self, short_name)
             self.addElement(map)
         return self.getElement(short_name, FlatMap)
-    
+
     def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
         if not self.IsElementExists(short_name, PortInterfaceMappingSet):
             map_set = PortInterfaceMappingSet(self, short_name)
             self.addElement(map_set)
         return self.getElement(short_name, PortInterfaceMappingSet)
-    
+
     def createEthernetCluster(self, short_name: str) -> EthernetCluster:
         if not self.IsElementExists(short_name, EthernetCluster):
             cluster = EthernetCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name, EthernetCluster)
-    
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
         if not self.IsElementExists(short_name, DiagnosticConnection):
             connection = DiagnosticConnection(self, short_name)
             self.addElement(connection)
         return self.getElement(short_name, DiagnosticConnection)
-    
+
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
         Creates a new Diagnostic Service Table with the given short name,
@@ -1017,109 +1130,109 @@ class ARPackage(CollectableElement):
             table = DiagnosticServiceTable(self, short_name)
             self.addElement(table)
         return self.getElement(short_name, DiagnosticServiceTable)
-    
+
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
         if not self.IsElementExists(short_name, MultiplexedIPdu):
             ipdu = MultiplexedIPdu(self, short_name)
             self.addElement(ipdu)
         return self.getElement(short_name, MultiplexedIPdu)
-    
+
     def createUserDefinedIPdu(self, short_name: str) -> UserDefinedIPdu:
         if not self.IsElementExists(short_name, UserDefinedIPdu):
             ipdu = UserDefinedIPdu(self, short_name)
             self.addElement(ipdu)
         return self.getElement(short_name, UserDefinedIPdu)
-    
+
     def createUserDefinedPdu(self, short_name: str) -> UserDefinedPdu:
         if not self.IsElementExists(short_name, UserDefinedPdu):
             pdu = UserDefinedPdu(self, short_name)
             self.addElement(pdu)
         return self.getElement(short_name, UserDefinedPdu)
-    
+
     def createGeneralPurposeIPdu(self, short_name: str) -> GeneralPurposeIPdu:
         if not self.IsElementExists(short_name, GeneralPurposeIPdu):
             i_pdu = GeneralPurposeIPdu(self, short_name)
             self.addElement(i_pdu)
         return self.getElement(short_name, GeneralPurposeIPdu)
-    
+
     def createGeneralPurposePdu(self, short_name: str) -> GeneralPurposePdu:
         if not self.IsElementExists(short_name, GeneralPurposePdu):
             pdu = GeneralPurposePdu(self, short_name)
             self.addElement(pdu)
         return self.getElement(short_name, GeneralPurposePdu)
-    
+
     def createSecureCommunicationPropsSet(self, short_name: str) -> SecureCommunicationPropsSet:
         if not self.IsElementExists(short_name, SecureCommunicationPropsSet):
             props_set = SecureCommunicationPropsSet(self, short_name)
             self.addElement(props_set)
         return self.getElement(short_name, SecureCommunicationPropsSet)
-    
+
     def createSoAdRoutingGroup(self, short_name: str) -> SoAdRoutingGroup:
         if not self.IsElementExists(short_name, SoAdRoutingGroup):
             group = SoAdRoutingGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, SoAdRoutingGroup)
-    
+
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
         if not self.IsElementExists(short_name, DoIpTpConfig):
             tp_config = DoIpTpConfig(self, short_name)
             self.addElement(tp_config)
         return self.getElement(short_name, DoIpTpConfig)
-    
+
     def createHwElement(self, short_name: str) -> HwElement:
         if not self.IsElementExists(short_name, HwElement):
             hw_element = HwElement(self, short_name)
             self.addElement(hw_element)
         return self.getElement(short_name, HwElement)
-    
+
     def createHwCategory(self, short_name: str) -> HwCategory:
         if not self.IsElementExists(short_name, HwCategory):
             hw_category = HwCategory(self, short_name)
             self.addElement(hw_category)
         return self.getElement(short_name, HwCategory)
-    
+
     def createHwType(self, short_name: str) -> HwType:
         if not self.IsElementExists(short_name, HwType):
             hw_category = HwType(self, short_name)
             self.addElement(hw_category)
         return self.getElement(short_name, HwType)
-    
+
     def createFlexrayFrame(self, short_name: str) -> FlexrayFrame:
         if not self.IsElementExists(short_name, FlexrayFrame):
             frame = FlexrayFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, FlexrayFrame)
-    
+
     def createFlexrayCluster(self, short_name: str) -> FlexrayCluster:
         if not self.IsElementExists(short_name, FlexrayCluster):
             frame = FlexrayCluster(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, FlexrayCluster)
-    
+
     def createDataTransformationSet(self, short_name: str) -> DataTransformationSet:
         if not self.IsElementExists(short_name, DataTransformationSet):
             transform_set = DataTransformationSet(self, short_name)
             self.addElement(transform_set)
         return self.getElement(short_name, DataTransformationSet)
-    
+
     def createCollection(self, short_name: str) -> Collection:
         if not self.IsElementExists(short_name, Collection):
             collection = Collection(self, short_name)
             self.addElement(collection)
         return self.getElement(short_name, Collection)
-    
+
     def createKeywordSet(self, short_name: str) -> KeywordSet:
         if not self.IsElementExists(short_name, KeywordSet):
             keyword_set = KeywordSet(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name, KeywordSet)
-    
+
     def createPortPrototypeBlueprint(self, short_name: str) -> PortPrototypeBlueprint:
         if not self.IsElementExists(short_name, PortPrototypeBlueprint):
             keyword_set = PortPrototypeBlueprint(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name, PortPrototypeBlueprint)
-    
+
     def createModeDeclarationMappingSet(self, short_name: str) -> ModeDeclarationMappingSet:
         if not self.IsElementExists(short_name, ModeDeclarationMappingSet):
             mapping_set = ModeDeclarationMappingSet(self, short_name)
@@ -1127,13 +1240,13 @@ class ARPackage(CollectableElement):
         return self.getElement(short_name, ModeDeclarationMappingSet)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
-        return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name)
 
     def getApplicationDataType(self) -> List[ApplicationDataType]:
-        return list(sorted(filter(lambda a: isinstance(a, ApplicationDataType), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, ApplicationDataType), self.elements), key=lambda o: o.short_name)
 
     def getImplementationDataTypes(self) -> List[ImplementationDataType]:
-        return list(sorted(filter(lambda a: isinstance(a, ImplementationDataType), self.elements), key=lambda o: o.short_name))
+        return sorted(filter(lambda a: isinstance(a, ImplementationDataType), self.elements), key=lambda o: o.short_name)
 
     def getSwBaseTypes(self) -> List[SwBaseType]:
         return list(filter(lambda a: isinstance(a, SwBaseType), self.elements))
@@ -1151,19 +1264,19 @@ class ARPackage(CollectableElement):
         return list(filter(lambda a: isinstance(a, CompositionSwComponentType), self.elements))
 
     def getComplexDeviceDriverSwComponentTypes(self) -> List[ComplexDeviceDriverSwComponentType]:
-        return list(sorted(filter(lambda a: isinstance(a, ComplexDeviceDriverSwComponentType), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ComplexDeviceDriverSwComponentType), self.elements), key=lambda a: a.short_name)
 
     def getSenderReceiverInterfaces(self) -> List[SenderReceiverInterface]:
-        return list(sorted(filter(lambda a: isinstance(a, SenderReceiverInterface), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SenderReceiverInterface), self.elements), key=lambda a: a.short_name)
 
     def getParameterInterfaces(self) -> List[ParameterInterface]:
-        return list(sorted(filter(lambda a: isinstance(a, ParameterInterface), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ParameterInterface), self.elements), key=lambda a: a.short_name)
 
     def getClientServerInterfaces(self) -> List[ClientServerInterface]:
-        return list(sorted(filter(lambda a: isinstance(a, ClientServerInterface), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ClientServerInterface), self.elements), key=lambda a: a.short_name)
 
     def getDataTypeMappingSets(self) -> List[DataTypeMappingSet]:
-        return list(sorted(filter(lambda a: isinstance(a, DataTypeMappingSet), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, DataTypeMappingSet), self.elements), key=lambda a: a.short_name)
 
     def getCompuMethods(self) -> List[CompuMethod]:
         return list(filter(lambda a: isinstance(a, CompuMethod), self.elements))
@@ -1196,116 +1309,116 @@ class ARPackage(CollectableElement):
         return list(filter(lambda a: isinstance(a, Unit), self.elements))
 
     def getApplicationArrayDataTypes(self) -> List[ApplicationArrayDataType]:
-        return list(sorted(filter(lambda a: isinstance(a, ApplicationArrayDataType), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ApplicationArrayDataType), self.elements), key=lambda a: a.short_name)
 
     def getSwRecordLayouts(self) -> List[SwRecordLayout]:
-        return list(sorted(filter(lambda a: isinstance(a, SwRecordLayout), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SwRecordLayout), self.elements), key=lambda a: a.short_name)
 
     def getSwAddrMethods(self) -> List[SwAddrMethod]:
-        return list(sorted(filter(lambda a: isinstance(a, SwAddrMethod), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SwAddrMethod), self.elements), key=lambda a: a.short_name)
 
     def getTriggerInterfaces(self) -> List[TriggerInterface]:
-        return list(sorted(filter(lambda a: isinstance(a, TriggerInterface), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, TriggerInterface), self.elements), key=lambda a: a.short_name)
 
     def getModeDeclarationGroups(self) -> List[ModeDeclarationGroup]:
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationGroup), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ModeDeclarationGroup), self.elements), key=lambda a: a.short_name)
 
     def getModeSwitchInterfaces(self) -> List[ModeSwitchInterface]:
-        return list(sorted(filter(lambda a: isinstance(a, ModeSwitchInterface), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ModeSwitchInterface), self.elements), key=lambda a: a.short_name)
 
     def getSwcTimings(self) -> List[SwcTiming]:
-        return list(sorted(filter(lambda a: isinstance(a, SwcTiming), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SwcTiming), self.elements), key=lambda a: a.short_name)
 
     def getLinClusters(self) -> List[LinCluster]:
-        return list(sorted(filter(lambda a: isinstance(a, LinCluster), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, LinCluster), self.elements), key=lambda a: a.short_name)
 
     def getCanClusters(self) -> List[CanCluster]:
-        return list(sorted(filter(lambda a: isinstance(a, CanCluster), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, CanCluster), self.elements), key=lambda a: a.short_name)
 
     def getLinUnconditionalFrames(self) -> List[LinUnconditionalFrame]:
-        return list(sorted(filter(lambda a: isinstance(a, LinUnconditionalFrame), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, LinUnconditionalFrame), self.elements), key=lambda a: a.short_name)
 
     def getNmPdus(self) -> List[NmPdu]:
-        return list(sorted(filter(lambda a: isinstance(a, NmPdu), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, NmPdu), self.elements), key=lambda a: a.short_name)
 
     def getNPdus(self) -> List[NPdu]:
-        return list(sorted(filter(lambda a: isinstance(a, NPdu), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, NPdu), self.elements), key=lambda a: a.short_name)
 
     def getDcmIPdus(self) -> List[DcmIPdu]:
-        return list(sorted(filter(lambda a: isinstance(a, DcmIPdu), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, DcmIPdu), self.elements), key=lambda a: a.short_name)
 
     def getSecuredIPdus(self) -> List[SecuredIPdu]:
-        return list(sorted(filter(lambda a: isinstance(a, SecuredIPdu), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SecuredIPdu), self.elements), key=lambda a: a.short_name)
 
     def getNmConfigs(self) -> List[NmConfig]:
-        return list(sorted(filter(lambda a: isinstance(a, NmConfig), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, NmConfig), self.elements), key=lambda a: a.short_name)
 
     def getCanTpConfigs(self) -> List[CanTpConfig]:
-        return list(sorted(filter(lambda a: isinstance(a, CanTpConfig), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, CanTpConfig), self.elements), key=lambda a: a.short_name)
 
     def getCanFrames(self) -> List[CanFrame]:
-        return list(sorted(filter(lambda a: isinstance(a, CanFrame), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, CanFrame), self.elements), key=lambda a: a.short_name)
 
     def getEcuInstances(self) -> List[EcuInstance]:
-        return list(sorted(filter(lambda a: isinstance(a, EcuInstance), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, EcuInstance), self.elements), key=lambda a: a.short_name)
 
     def getGateways(self) -> List[Gateway]:
-        return list(sorted(filter(lambda a: isinstance(a, Gateway), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, Gateway), self.elements), key=lambda a: a.short_name)
 
     def getISignals(self) -> List[ISignal]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignal), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ISignal), self.elements), key=lambda a: a.short_name)
 
     def getEcucValueCollections(self) -> List[EcucValueCollection]:
-        return list(sorted(filter(lambda a: isinstance(a, EcucValueCollection), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, EcucValueCollection), self.elements), key=lambda a: a.short_name)
 
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
-        return list(sorted(filter(lambda a: isinstance(a, EcucModuleConfigurationValues), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, EcucModuleConfigurationValues), self.elements), key=lambda a: a.short_name)
+
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
-        return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements), key=lambda a: a.short_name)
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
-        return list(sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.elements), key=lambda a: a.short_name)
 
     def getISignalGroups(self) -> List[ISignalGroup]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalGroup), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ISignalGroup), self.elements), key=lambda a: a.short_name)
 
     def getSystemSignals(self) -> List[SystemSignal]:
-        return list(sorted(filter(lambda a: isinstance(a, SystemSignal), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SystemSignal), self.elements), key=lambda a: a.short_name)
 
     def getSystemSignalGroups(self) -> List[SystemSignalGroup]:
-        return list(sorted(filter(lambda a: isinstance(a, SystemSignalGroup), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, SystemSignalGroup), self.elements), key=lambda a: a.short_name)
 
     def getISignalIPdus(self) -> List[ISignalIPdu]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalIPdu), self.elements), key=lambda a: a.short_name))
+        return sorted(filter(lambda a: isinstance(a, ISignalIPdu), self.elements), key=lambda a: a.short_name)
 
     def getSystems(self) -> List[System]:
-        return list(sorted(filter(lambda a: isinstance(a, System), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, System), self.elements), key=lambda a: a.short_name)
+
     def getHwElements(self) -> List[HwElement]:
-        return list(sorted(filter(lambda a: isinstance(a, HwElement), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, HwElement), self.elements), key=lambda a: a.short_name)
+
     def getHwCategories(self) -> List[HwCategory]:
-        return list(sorted(filter(lambda a: isinstance(a, HwCategory), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, HwCategory), self.elements), key=lambda a: a.short_name)
+
     def getFlexrayFrames(self) -> List[FlexrayFrame]:
-        return list(sorted(filter(lambda a: isinstance(a, FlexrayFrame), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, FlexrayFrame), self.elements), key=lambda a: a.short_name)
+
     def getDataTransformationSets(self) -> List[DataTransformationSet]:
-        return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements), key=lambda a: a.short_name)
+
     def getCollections(self) -> List[Collection]:
-        return list(sorted(filter(lambda a: isinstance(a, Collection), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, Collection), self.elements), key=lambda a: a.short_name)
+
     def getKeywordSets(self) -> List[KeywordSet]:
-        return list(sorted(filter(lambda a: isinstance(a, KeywordSet), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, KeywordSet), self.elements), key=lambda a: a.short_name)
+
     def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
-        return list(sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.elements), key=lambda a: a.short_name)
+
     def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
-        return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name))
-    
+        return sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name)
+
     def getReferenceBases(self):
         return self.referenceBases
 

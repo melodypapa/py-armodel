@@ -6,13 +6,32 @@ including dependencies, module entries, and client-server interfaces.
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg, SwServiceImplPolicyEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, AREnum, Boolean, Identifier, NameToken, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ServiceNeeds,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARNumerical,
+    Boolean,
+    Identifier,
+    NameToken,
+    PositiveInteger,
+    RefType,
+)
+from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import (
+    SwServiceArg,
+    SwServiceImplPolicyEnum,
+)
 
 
 class BswEntryKindEnum(AREnum):
@@ -77,7 +96,7 @@ class BswModuleDependency(Identifiable):
     Represents a dependency relationship between BSW modules.
     This class defines how one BSW module depends on services from another module.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module dependency with a parent and short name.
@@ -89,11 +108,11 @@ class BswModuleDependency(Identifiable):
         super().__init__(parent, short_name)
 
         # List of service needs that this dependency requires
-        self.serviceItems: List[ServiceNeeds] = []                      
+        self.serviceItems: List[ServiceNeeds] = []
         # Unique identifier for the target module in the dependency
-        self.targetModuleId: PositiveInteger = None                  
+        self.targetModuleId: PositiveInteger = None
         # Reference to the target module in the dependency
-        self.targetModuleRef: RefType = None                 
+        self.targetModuleRef: RefType = None
 
     def getServiceItems(self):
         """
@@ -173,7 +192,7 @@ class BswModuleEntry(AtpBlueprintable):
     Represents an entry point in a BSW module.
     This class defines how BSW module functions can be accessed and executed.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module entry with a parent and short name.
@@ -185,27 +204,27 @@ class BswModuleEntry(AtpBlueprintable):
         super().__init__(parent, short_name)
 
         # List of arguments for this module entry
-        self.arguments: List[SwServiceArg] = []                         
+        self.arguments: List[SwServiceArg] = []
         # Kind of BSW entry (e.g., FUNCTION)
-        self.bswEntryKind: BswEntryKindEnum = None                    
+        self.bswEntryKind: BswEntryKindEnum = None
         # Call type (synchronous or asynchronous)
-        self.callType: BswCallType = None                        
+        self.callType: BswCallType = None
         # Execution context where this entry runs
-        self.executionContext: BswExecutionContext = None               
+        self.executionContext: BswExecutionContext = None
         # Function prototype emitter name token
-        self.functionPrototypeEmitter: NameToken = None        
+        self.functionPrototypeEmitter: NameToken = None
         # Flag indicating if this entry is reentrant (can be called concurrently)
-        self.isReentrant: Boolean = None                     
+        self.isReentrant: Boolean = None
         # Flag indicating if this entry is synchronous
-        self.isSynchronous: Boolean = None                   
+        self.isSynchronous: Boolean = None
         # Return type of this entry
-        self.returnType: SwServiceArg = None                     
+        self.returnType: SwServiceArg = None
         # Role identifier for this entry
-        self.role: Identifier = None                           
+        self.role: Identifier = None
         # Service identifier for this entry
-        self.serviceId: ARNumerical = None                       
+        self.serviceId: ARNumerical = None
         # Software service implementation policy
-        self.swServiceImplPolicy: SwServiceImplPolicyEnum = None              
+        self.swServiceImplPolicy: SwServiceImplPolicyEnum = None
 
     def getArguments(self):
         """
@@ -499,7 +518,7 @@ class BswModuleClientServerEntry(Referrable):
     Represents a client-server entry in a BSW module.
     This class defines how BSW modules implement client-server communication patterns.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module client-server entry with a parent and short name.
@@ -511,11 +530,11 @@ class BswModuleClientServerEntry(Referrable):
         super().__init__(parent, short_name)
 
         # Reference to the encapsulated entry that this client-server entry wraps
-        self.encapsulatedEntryRef: RefType = None                        
+        self.encapsulatedEntryRef: RefType = None
         # Flag indicating if this client-server entry is reentrant
-        self.isReentrant: Boolean = None                                
+        self.isReentrant: Boolean = None
         # Flag indicating if this client-server entry is synchronous
-        self.isSynchronous: Boolean = None                              
+        self.isSynchronous: Boolean = None
 
     def getEncapsulatedEntryRef(self):
         """
@@ -595,7 +614,9 @@ class BswModuleClientServerEntry(Referrable):
 This module defines BSW entry relationship in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
 
 class BswEntryRelationship(ARObject):
@@ -622,7 +643,9 @@ class BswEntryRelationship(ARObject):
 This module defines BSW entry relationship enum in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
 
 
 class BswEntryRelationshipEnum(AREnum):
@@ -647,7 +670,9 @@ class BswEntryRelationshipEnum(AREnum):
 This module defines BSW entry relationship set in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 
 
 class BswEntryRelationshipSet(ARObject):

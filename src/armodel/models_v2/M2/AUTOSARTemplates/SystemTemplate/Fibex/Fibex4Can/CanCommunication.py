@@ -1,9 +1,17 @@
 # This module contains AUTOSAR System Template classes for CAN communication
 # It defines CAN frames, frame triggering, and related communication elements for CAN networks
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARPositiveInteger,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    Frame,
+    FrameTriggering,
+)
+
 
 class RxIdentifierRange(ARObject):
     """
@@ -49,7 +57,7 @@ class CanFrameTriggering(FrameTriggering):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.absolutelyScheduledTimings = []                    
+        self.absolutelyScheduledTimings = []
         self.canAddressingMode = None
         self.canFdFrameSupport = None
         self.canFrameRxBehavior = None
@@ -74,7 +82,7 @@ class CanFrameTriggering(FrameTriggering):
     def setCanAddressingMode(self, value):
         self.canAddressingMode = value
         return self
-    
+
     def getCanFdFrameSupport(self):
         return self.canFdFrameSupport
 

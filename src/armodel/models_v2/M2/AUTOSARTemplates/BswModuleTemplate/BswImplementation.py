@@ -4,10 +4,20 @@ BSW implementation describes how BSW modules are implemented, including their be
 configuration options, and version information.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, RevisionLabelString
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from typing import List
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    Implementation,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    RefType,
+    RevisionLabelString,
+)
+
 
 class BswImplementation(Implementation):
     """
@@ -15,7 +25,7 @@ class BswImplementation(Implementation):
     This class defines the implementation details of a BSW module, including version information,
     behavior references, configuration options, and vendor-specific definitions.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW implementation with a parent and short name.
@@ -27,17 +37,17 @@ class BswImplementation(Implementation):
         super().__init__(parent, short_name)
 
         # AUTOSAR release version for this implementation
-        self.arReleaseVersion: RevisionLabelString = None                        
+        self.arReleaseVersion: RevisionLabelString = None
         # Reference to the behavior associated with this implementation
-        self.behaviorRef: RefType = None                             
+        self.behaviorRef: RefType = None
         # List of references to preconfigured configurations for this implementation
-        self.preconfiguredConfigurationRefs: List[RefType] = []            
+        self.preconfiguredConfigurationRefs: List[RefType] = []
         # List of references to recommended configurations for this implementation
-        self.recommendedConfigurationRefs: List[RefType] = []              
+        self.recommendedConfigurationRefs: List[RefType] = []
         # Vendor-specific API infix used in naming conventions
-        self.vendorApiInfix: Identifier = None                          
+        self.vendorApiInfix: Identifier = None
         # List of references to vendor-specific module definitions
-        self.vendorSpecificModuleDefRefs: List[RefType] = []               
+        self.vendorSpecificModuleDefRefs: List[RefType] = []
 
     def getArReleaseVersion(self):
         """

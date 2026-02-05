@@ -2,23 +2,48 @@
 This module contains timing constraint-related classes for AUTOSAR models.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRefAbstract, EOCExecutableEntityRef, ExecutionOrderConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension, SwcTiming
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import ExecutionTimeConstraint, ExecutionTimeTypeEnum
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import LatencyTimingConstraint, LatencyConstraintTypeEnum
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import SynchronizationTimingConstraint, SynchronizationTypeEnum, EventOccurrenceKindEnum
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import (
+    AgeConstraint,
+)
 from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
-    EventTriggeringConstraint,
-    PeriodicEventTriggering,
-    SporadicEventTriggering,
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
     ConcretePatternEventTriggering,
     ConfidenceInterval,
+    EventTriggeringConstraint,
+    PeriodicEventTriggering,
+    SporadicEventTriggering,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefAbstract,
+    ExecutionOrderConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
+    ExecutionTimeConstraint,
+    ExecutionTimeTypeEnum,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import (
+    LatencyConstraintTypeEnum,
+    LatencyTimingConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import (
+    OffsetTimingConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import (
+    SynchronizationPointConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
+    EventOccurrenceKindEnum,
+    SynchronizationTimingConstraint,
+    SynchronizationTypeEnum,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    SwcTiming,
+    TimingExtension,
 )
 
 __all__ = [

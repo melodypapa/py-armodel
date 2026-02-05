@@ -4,11 +4,18 @@ in the CommonStructure module. Triggers define events that can initiate specific
 behaviors or actions in AUTOSAR components and systems.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpStructureElement,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import (
+    SwImplPolicyEnum,
+)
 
 
 class Trigger(AtpStructureElement):
@@ -16,7 +23,7 @@ class Trigger(AtpStructureElement):
     Represents a trigger in AUTOSAR models.
     Triggers define events that can initiate specific behaviors or actions in AUTOSAR components and systems.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Trigger with a parent and short name.
@@ -30,7 +37,7 @@ class Trigger(AtpStructureElement):
         # Software implementation policy for this trigger
         self.swImplPolicy: SwImplPolicyEnum = None
         # Period for this trigger (MultidimensionalTime type)
-        self.triggerPeriod = None                               
+        self.triggerPeriod = None
 
     def getSwImplPolicy(self):
         """
@@ -86,7 +93,7 @@ class TriggerMapping(ARObject):
     Represents a mapping between triggers in AUTOSAR models.
     This class defines relationships between different triggers across system boundaries or components.
     """
-    
+
     def __init__(self):
         """
         Initializes the TriggerMapping with default values.
@@ -94,9 +101,9 @@ class TriggerMapping(ARObject):
         super().__init__()
 
         # Reference to the first trigger in the mapping
-        self.firstTriggerRef: RefType = None                             
+        self.firstTriggerRef: RefType = None
         # Reference to the second trigger in the mapping
-        self.secondTriggerRef: RefType = None                            
+        self.secondTriggerRef: RefType = None
 
     def getFirstTriggerRef(self):
         """

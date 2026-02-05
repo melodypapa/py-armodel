@@ -2,15 +2,24 @@
 This module contains timing-related classes for AUTOSAR models.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRefAbstract, EOCExecutableEntityRef, ExecutionOrderConstraint
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import TimingExtension, SwcTiming
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefAbstract,
+    ExecutionOrderConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+    SwcTiming,
+    TimingExtension,
+)
 
 __all__ = [
     'TimingConstraint',
-    'EOCExecutableEntityRefAbstract', 
-    'EOCExecutableEntityRef', 
+    'EOCExecutableEntityRefAbstract',
+    'EOCExecutableEntityRef',
     'ExecutionOrderConstraint',
-    'TimingExtension', 
+    'TimingExtension',
     'SwcTiming'
 ]

@@ -3,15 +3,20 @@ This module contains the SoftwareContext class for representing
 software execution context information in AUTOSAR resource consumption models.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    String,
+)
+
 
 class SoftwareContext(ARObject):
     """
     Represents software execution context information in AUTOSAR models.
     This class defines the input conditions and execution state for resource consumption analysis.
     """
-    
+
     def __init__(self):
         """
         Initializes the SoftwareContext with default values.
@@ -19,9 +24,9 @@ class SoftwareContext(ARObject):
         super().__init__()
 
         # Input information for this software context
-        self.input: String = None                       
+        self.input: String = None
         # Execution state for this software context
-        self.state: String = None                       
+        self.state: String = None
 
     def getInput(self):
         """

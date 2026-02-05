@@ -1,24 +1,24 @@
 from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
     ARList,
-    DocumentViewSelectable,
     DocumentationBlock,
+    DocumentViewSelectable,
     Item,
     ListEnum,
     Paginateable,
 )
 from armodel.models_v2.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
     LEnum,
     LLongName,
     LOverviewParagraph,
     LParagraph,
     LPlainText,
-    LanguageSpecific,
 )
 from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
     MultiLanguageOverviewParagraph,
     MultiLanguageParagraph,
     MultiLanguagePlainText,
-    MultilanguageLongName,
 )
 
 __all__ = [

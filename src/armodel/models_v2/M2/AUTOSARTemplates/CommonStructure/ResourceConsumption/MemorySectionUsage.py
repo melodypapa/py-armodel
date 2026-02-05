@@ -3,17 +3,26 @@ This module contains the MemorySection class for representing
 memory section usage in AUTOSAR resource consumption models.
 """
 
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 from typing import List
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    RefType,
+)
+
 
 class MemorySection(Identifiable):
     """
     Represents a memory section in AUTOSAR models.
     This class defines memory section properties including alignment, size, and addressing methods.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the MemorySection with a parent and short name.
@@ -25,17 +34,17 @@ class MemorySection(Identifiable):
         super().__init__(parent, short_name)
 
         # Private alignment value for this memory section
-        self._alignment: ARLiteral = None              
+        self._alignment: ARLiteral = None
         # Memory class symbol for this memory section
-        self.memClassSymbol: ARLiteral = None          
+        self.memClassSymbol: ARLiteral = None
         # Size of this memory section
         self.size = None
         # List of options for this memory section
-        self.options: List[ARLiteral] = []                   
+        self.options: List[ARLiteral] = []
         # Reference to the software address method for this memory section
-        self.swAddrMethodRef: RefType = None         
+        self.swAddrMethodRef: RefType = None
         # Symbol name for this memory section
-        self.symbol: ARLiteral = None                  
+        self.symbol: ARLiteral = None
 
     def getAlignment(self):
         """
@@ -58,7 +67,7 @@ class MemorySection(Identifiable):
         """
         self.alignment = value
         return self
-    
+
     def getMemClassSymbol(self):
         """
         Gets the memory class symbol for this memory section.

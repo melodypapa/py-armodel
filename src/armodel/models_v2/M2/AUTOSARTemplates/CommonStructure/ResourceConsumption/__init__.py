@@ -9,12 +9,27 @@ __all__ = [
 ]
 
 
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import HeapUsage
-from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from typing import List
+
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import (
+    HeapUsage,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import (
+    MemorySection,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import (
+    MeasuredStackUsage,
+    RoughEstimateStackUsage,
+    StackUsage,
+    WorstCaseStackUsage,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+
 
 class ResourceConsumption(Identifiable):
     """
@@ -22,7 +37,7 @@ class ResourceConsumption(Identifiable):
     This class aggregates various types of resource consumption including memory sections,
     stack usage, heap usage, execution times, and other resource metrics.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ResourceConsumption with a parent and short name.
@@ -34,17 +49,17 @@ class ResourceConsumption(Identifiable):
         super().__init__(parent, short_name)
 
         # List of access count sets for resource consumption analysis
-        self.accessCountSets: List = []                               
+        self.accessCountSets: List = []
         # List of execution time measurements for resource consumption analysis
-        self.executionTimes: List = []                                
+        self.executionTimes: List = []
         # List of heap usage measurements for resource consumption analysis
-        self.heapUsages: List[HeapUsage] = []                                    
+        self.heapUsages: List[HeapUsage] = []
         # List of memory sections for resource consumption analysis
         self.memorySections = []
         # List of section name prefixes for resource consumption analysis
-        self.sectionNamePrefixs: List = []                            
+        self.sectionNamePrefixs: List = []
         # List of stack usage measurements for resource consumption analysis
-        self.stackUsages: List[StackUsage] = []                                   
+        self.stackUsages: List[StackUsage] = []
 
     def createMemorySection(self, short_name: str) -> MemorySection:
         """
@@ -69,7 +84,7 @@ class ResourceConsumption(Identifiable):
         Returns:
             List of MemorySection instances sorted by short name
         """
-        return list(sorted(filter(lambda a: isinstance(a, MemorySection), self.elements), key= lambda o:o.short_name))
+        return sorted(filter(lambda a: isinstance(a, MemorySection), self.elements), key= lambda o:o.short_name)
 
     def getMemorySection(self, short_name: str) -> MemorySection:
         """
@@ -82,7 +97,7 @@ class ResourceConsumption(Identifiable):
             MemorySection instance with the specified short name, or None if not found
         """
         return next(filter(lambda o: isinstance(o, MemorySection) and (o.short_name == short_name), self.elements), None)
-    
+
     def createMeasuredStackUsage(self, short_name: str) -> MeasuredStackUsage:
         """
         Creates and adds a MeasuredStackUsage to this resource consumption object.
@@ -98,7 +113,7 @@ class ResourceConsumption(Identifiable):
             self.addElement(section)
             self.stackUsages.append(section)
         return self.getElement(short_name)
-    
+
     def createRoughEstimateStackUsage(self, short_name: str) -> RoughEstimateStackUsage:
         """
         Creates and adds a RoughEstimateStackUsage to this resource consumption object.
@@ -114,7 +129,7 @@ class ResourceConsumption(Identifiable):
             self.addElement(section)
             self.stackUsages.append(section)
         return self.getElement(short_name)
-    
+
     def createWorstCaseStackUsage(self, short_name: str) -> WorstCaseStackUsage:
         """
         Creates and adds a WorstCaseStackUsage to this resource consumption object.
@@ -130,7 +145,7 @@ class ResourceConsumption(Identifiable):
             self.addElement(section)
             self.stackUsages.append(section)
         return self.getElement(short_name)
-    
+
     def getStackUsages(self) -> List[StackUsage]:
         """
         Gets all StackUsage instances from the elements list, sorted by short name.
@@ -138,4 +153,4 @@ class ResourceConsumption(Identifiable):
         Returns:
             List of StackUsage instances sorted by short name
         """
-        return list(sorted(filter(lambda a: isinstance(a, StackUsage), self.elements), key= lambda o:o.short_name))
+        return sorted(filter(lambda a: isinstance(a, StackUsage), self.elements), key= lambda o:o.short_name)

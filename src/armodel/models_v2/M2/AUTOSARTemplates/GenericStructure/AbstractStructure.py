@@ -6,10 +6,19 @@ in the GenericStructure module.
 
 from abc import ABC
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class AtpInstanceRef(ARObject, ABC):
@@ -17,7 +26,7 @@ class AtpInstanceRef(ARObject, ABC):
     Abstract class for AUTOSAR Template Parameter (ATP) instance references.
     This class defines the structure for referencing ATP instances.
     """
-    
+
     def __init__(self):
         if type(self) == AtpInstanceRef:
             raise TypeError("AtpInstanceRef is an abstract class.")
@@ -111,7 +120,7 @@ class AtpClassifier(Identifiable, ABC):
         of various AUTOSAR type definitions like AutosarDataType, PortInterface,
         and SwComponentType.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpClassifier:
             raise TypeError("AtpClassifier is an abstract class.")
@@ -140,7 +149,7 @@ class AtpFeature(Identifiable, ABC):
     Attributes:
         Inherits all attributes from Identifiable including shortName and adminData.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpFeature:
             raise TypeError("AtpFeature is an abstract class.")
@@ -166,7 +175,7 @@ class AtpType(AtpClassifier, ABC):
         - PortInterface (including ClientServerInterface, SenderReceiverInterface, etc.)
         - SwComponentType (including AtomicSwComponentType, CompositionSwComponentType, etc.)
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpType:
             raise TypeError("AtpType is an abstract class.")
@@ -195,7 +204,7 @@ class AtpPrototype(AtpBlueprintable, ABC):
         - RootSwCompositionPrototype
         - SwComponentPrototype
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpPrototype:
             raise TypeError("AtpPrototype is an abstract class.")
@@ -237,7 +246,7 @@ class AtpStructureElement(AtpBlueprintable, ABC):
         - System
         - Trigger
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpStructureElement:
             raise TypeError("AtpStructureElement is an abstract class.")

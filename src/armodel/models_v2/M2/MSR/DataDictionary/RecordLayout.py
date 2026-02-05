@@ -1,5 +1,10 @@
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+)
+
 
 class SwRecordLayoutV(ARObject):
     def __init__(self):
@@ -114,7 +119,7 @@ class SwRecordLayoutGroup(ARObject):
         self.swRecordLayoutGroupFrom = None             # type: ARLiteral
         self.swRecordLayoutGroupIndex = None            # type: ARLiteral
         self.swRecordLayoutGroupStep = None             # type: Integer
-        self.swRecordLayoutGroupTo = None               # type: ARLiteral 
+        self.swRecordLayoutGroupTo = None               # type: ARLiteral
 
     def getCategory(self):
         return self.category

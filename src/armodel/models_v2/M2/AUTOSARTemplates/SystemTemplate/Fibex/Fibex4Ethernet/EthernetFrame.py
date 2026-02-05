@@ -2,8 +2,13 @@
 # It defines Ethernet frame structures for network communication
 
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    Frame,
+)
 
 
 class AbstractEthernetFrame(Frame, ABC):
@@ -16,7 +21,7 @@ class AbstractEthernetFrame(Frame, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractEthernetFrame:
             raise TypeError("AbstractEthernetFrame is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
 

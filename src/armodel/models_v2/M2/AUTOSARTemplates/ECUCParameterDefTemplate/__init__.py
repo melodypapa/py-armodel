@@ -1,13 +1,29 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Identifier, Limit
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, UnlimitedInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression, String, VerbatimString
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    Boolean,
+    CIdentifier,
+    Float,
+    Identifier,
+    Limit,
+    PositiveInteger,
+    RefType,
+    RegularExpression,
+    String,
+    UnlimitedInteger,
+    VerbatimString,
+)
 
 # class EcucConditionFormula(FormulaExpression)
 
@@ -356,7 +372,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.multipleConfigurationContainer = value
         return self
 
-    
+
 class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
     """
     EcucValueConfigurationClass is a subclass of EcucAbstractConfigurationClass.
@@ -568,7 +584,7 @@ class EcucBooleanParamDef(EcucParameterDef):
 
     def getDefaultValue(self) -> Boolean:
         return self.defaultValue
-    
+
     def setDefaultValue(self, value: Boolean):
         if value is not None:
             self.defaultValue = value
@@ -641,7 +657,7 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
-        
+
         super().__init__(parent, short_name)
 
 
@@ -777,7 +793,7 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractStringParamDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
-        
+
         super().__init__(parent, short_name)
 
         self.defaultValue: VerbatimString = None
@@ -1077,7 +1093,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
         """
         Creates an ECUC string parameter definition with the given short name.
@@ -1094,7 +1110,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
         """
         Creates an ECUC integer parameter definition with the given short name.
@@ -1111,7 +1127,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
         """
         Creates an ECUC float parameter definition with the given short name.
@@ -1128,7 +1144,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
         """
         Creates an ECUC enumeration parameter definition with the given short name.
@@ -1145,7 +1161,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
         """
         Creates a new ECUC function name definition and adds it to the container.
@@ -1161,7 +1177,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.parameters.append(ref)
         return self.getElement(short_name)
-    
+
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
         Retrieves the list of ECUC abstract reference definitions.
@@ -1170,7 +1186,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             List[EcucAbstractReferenceDef]: A list of ECUC abstract reference definitions.
         """
         return self.references
-    
+
     def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
         """
         Creates a new ECUC symbolic name reference definition and adds it to the container.
@@ -1186,7 +1202,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name)
-    
+
     def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
         """
         Creates a new ECUC reference definition and adds it to the container.
@@ -1202,7 +1218,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name)
-    
+
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
         Retrieves the list of ECUC container definitions.
@@ -1211,7 +1227,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             List[EcucContainerDef]: A list of ECUC container definitions.
         """
         return self.subContainers
-    
+
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
         """
         Creates a new ECUC choice container definition and adds it to the container.
@@ -1227,7 +1243,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(container)
             self.subContainers.append(container)
         return self.getElement(short_name)
-    
+
     def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
         """
         Creates a new ECUC parameter configuration container definition and adds it to the container.
