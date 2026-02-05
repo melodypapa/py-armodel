@@ -8,3 +8,6 @@ needed to represent diagnostic information in AUTOSAR models.
 Classes:
     DiagnosticServiceTable - Represents a diagnostic service table with connections and service instances
 """
+
+
+__all__ = []

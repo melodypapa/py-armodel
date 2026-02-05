@@ -6,13 +6,13 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-61.5%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-49.9%25-red)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 30724 | 49957 | **61.50%** |
+| **Lines** | 23654 | 47445 | **49.86%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
@@ -26,8 +26,8 @@
 | **models** | 232 | 92.5% |
 | **parser** | 6 | 55.7% |
 | **writer** | 3 | 52.0% |
-| **models_v2** | 230 | 36.2% |
 | **cli** | 11 | 6.0% |
+| **models_v2** | 221 | 0.1% |
 | **report** | 3 | 0.0% |
 
 ### Files Needing Attention
@@ -56,17 +56,6 @@
 | `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/__init__` | 0.0% | 0.0% |
 | `RptSupport/McFunctionDataRefSet` | 0.0% | 0.0% |
-
-## Integration Test Coverage
-
-![coverage](https://img.shields.io/badge/integration-61.8%25-yellow)
-
-### Summary
-
-| Metric | Covered | Valid | Percentage |
-|--------|---------|-------|------------|
-| **Lines** | 30853 | 49957 | **61.76%** |
-| **Branches** | 0 | 0 | **0.00%** |
 
 ---
 

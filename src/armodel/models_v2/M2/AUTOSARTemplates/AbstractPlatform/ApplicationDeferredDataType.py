@@ -1,7 +1,7 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationDataType,
 )
 

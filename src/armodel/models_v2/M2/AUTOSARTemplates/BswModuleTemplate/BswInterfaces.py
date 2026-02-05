@@ -6,20 +6,20 @@ including dependencies, module entries, and client-server interfaces.
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ServiceNeeds,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     Referrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARNumerical,
     Boolean,
@@ -28,7 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
 )
-from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import (
+from armodel.models_v2.M2.MSR.DataDictionary.ServiceProcessTask import (
     SwServiceArg,
     SwServiceImplPolicyEnum,
 )
@@ -614,7 +614,7 @@ class BswModuleClientServerEntry(Referrable):
 This module defines BSW entry relationship in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 
@@ -643,7 +643,7 @@ class BswEntryRelationship(ARObject):
 This module defines BSW entry relationship enum in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
 
@@ -670,7 +670,7 @@ class BswEntryRelationshipEnum(AREnum):
 This module defines BSW entry relationship set in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 

@@ -3,40 +3,40 @@
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpPrototype,
     AtpStructureElement,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
     Identifiable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ByteOrderEnum,
     PositiveInteger,
     RefType,
     RevisionLabelString,
     TRefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
     ECUMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
     AppOsTaskProxyToEcuTaskProxyMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartitionToEcuPartitionMapping,
     SwcToEcuMapping,
     SwcToImplMapping,
@@ -475,3 +475,6 @@ class System(AtpStructureElement):
     def setSystemVersion(self, value):
         self.systemVersion = value
         return self
+
+
+__all__ = []

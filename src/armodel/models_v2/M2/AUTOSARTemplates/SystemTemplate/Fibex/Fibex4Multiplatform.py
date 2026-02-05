@@ -1,17 +1,17 @@
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARPositiveInteger,
     Integer,
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     FibexElement,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
 

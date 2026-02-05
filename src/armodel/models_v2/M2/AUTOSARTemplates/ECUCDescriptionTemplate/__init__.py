@@ -1,25 +1,25 @@
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
     AnyInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
     Identifiable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
     AREnum,
     ARLiteral,
     ARNumerical,
     RefType,
 )
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+from armodel.models_v2.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
 
@@ -297,3 +297,6 @@ class EcucConditionSpecification(ARObject):
 class EcucConfigurationVariantEnum(AREnum):
     def __init__(self):
         super().__init__([])
+
+
+__all__ = []

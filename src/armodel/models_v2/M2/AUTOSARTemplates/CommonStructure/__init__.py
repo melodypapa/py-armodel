@@ -15,3 +15,16 @@ from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Constants import (
     TextValueSpecification,
     ValueSpecification,
 )
+
+__all__ = [
+    "ApplicationValueSpecification",
+    "ArrayValueSpecification",
+    "CompositeRuleBasedValueArgument",
+    "CompositeValueSpecification",
+    "ConstantReference",
+    "ConstantSpecification",
+    "NumericalValueSpecification",
+    "RecordValueSpecification",
+    "TextValueSpecification",
+    "ValueSpecification",
+]

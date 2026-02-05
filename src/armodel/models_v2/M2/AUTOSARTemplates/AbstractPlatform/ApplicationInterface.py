@@ -1,15 +1,15 @@
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface.Field import (
+from armodel.models_v2.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface.Field import (
     Field,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperation,
     PortInterface,
 )

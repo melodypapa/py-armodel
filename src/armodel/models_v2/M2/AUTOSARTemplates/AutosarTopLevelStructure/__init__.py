@@ -1,67 +1,67 @@
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+from armodel.models.utils.uuid_mgr import UUIDMgr
+from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswCalledEntity,
     BswSchedulableEntity,
 )
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleEntry,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
     ImplementationDataType,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     InternalBehavior,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARPackage,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
     CollectableElement,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
     Referrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     AtomicSwComponentType,
     PortPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     CompositionSwComponentType,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     VariableDataPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationDataType,
     DataTypeMap,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntity,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate import (
     RootSwCompositionPrototype as RootSwCompositionPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate import System
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     SystemSignal,
     SystemSignalGroup,
 )
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+from armodel.models_v2.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock as DocumentationBlock,
 )
-from armodel.models.utils.uuid_mgr import UUIDMgr
 
 
 class FileInfoComment(ARObject):
@@ -359,3 +359,10 @@ class AUTOSAR (AbstractAUTOSAR):
 class AUTOSARDoc(AbstractAUTOSAR):
     def __init__(self):
         super().__init__()
+
+
+__all__ = [
+    'AbstractAUTOSAR',
+    'AUTOSAR',
+    'AUTOSARDoc',
+]

@@ -1,15 +1,15 @@
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
     BswModuleDescription,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclaration,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 
