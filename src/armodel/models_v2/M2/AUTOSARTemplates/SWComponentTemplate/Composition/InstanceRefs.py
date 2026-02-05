@@ -5,8 +5,8 @@ operations within compositions and atomic SWC instances.
 """
 
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):

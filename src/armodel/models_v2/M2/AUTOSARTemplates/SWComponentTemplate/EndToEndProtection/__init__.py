@@ -5,10 +5,10 @@ defining end-to-end protection profiles, variables, and protection sets
 used to ensure data integrity in communication systems.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, NameToken, PositiveInteger, RefType
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from typing import List
 
 
@@ -189,3 +189,12 @@ class EndToEndProtectionSet(ARElement):
 
     def getEndToEndProtections(self) -> List[EndToEndProtection]:
         return sorted(filter(lambda c: isinstance(c, EndToEndProtection), self.elements), key=lambda e: e.short_name)
+
+
+__all__ = [
+    'EndToEndDescription',
+    'EndToEndProtectionVariablePrototype',
+    'EndToEndProtectionISignalIPdu',
+    'EndToEndProtection',
+    'EndToEndProtectionSet',
+]

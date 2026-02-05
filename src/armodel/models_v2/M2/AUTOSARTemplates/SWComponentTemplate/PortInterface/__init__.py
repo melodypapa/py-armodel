@@ -8,18 +8,18 @@ parameter interfaces, as well as mapping classes for interface mappings.
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype, AutosarDataPrototype
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class PortInterface(AtpType, ABC):
@@ -646,3 +646,33 @@ class TextTableMapping(ARObject):
         if value is not None:
             self.valuePairs = value
         return self
+
+
+__all__ = [
+    'PortInterface',
+    'DataInterface',
+    'NvDataInterface',
+    'ParameterInterface',
+    'InvalidationPolicy',
+    'MetaDataItem',
+    'MetaDataItemSet',
+    'SenderReceiverInterface',
+    'ArgumentDataPrototype',
+    'ApplicationError',
+    'ClientServerOperation',
+    'ClientServerInterface',
+    'TriggerInterface',
+    'ModeSwitchInterface',
+    'PortInterfaceMapping',
+    'ClientServerApplicationErrorMapping',
+    'ClientServerOperationMapping',
+    'DataPrototypeMapping',
+    'ClientServerInterfaceMapping',
+    'VariableAndParameterInterfaceMapping',
+    'ModeInterfaceMapping',
+    'TriggerInterfaceMapping',
+    'ModeDeclarationMapping',
+    'ModeDeclarationMappingSet',
+    'PortInterfaceMappingSet',
+    'TextTableMapping',
+]

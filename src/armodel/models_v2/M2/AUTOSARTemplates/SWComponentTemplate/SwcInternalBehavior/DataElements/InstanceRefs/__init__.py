@@ -4,8 +4,8 @@ This module contains instance reference classes for data elements in AUTOSAR sof
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
@@ -98,3 +98,8 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def setTargetDataPrototypeRef(self, value):
         self.targetDataPrototypeRef = value
         return self
+
+__all__ = [
+    'VariableInAtomicSWCTypeInstanceRef',
+    'ParameterInAtomicSWCTypeInstanceRef',
+]

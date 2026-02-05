@@ -2,7 +2,7 @@
 This module contains application attribute classes for AUTOSAR software components.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 
 
 class DataLimitKindEnum(AREnum):

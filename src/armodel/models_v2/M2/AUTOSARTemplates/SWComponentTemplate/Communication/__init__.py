@@ -8,14 +8,14 @@ and mode switching communications, as well as non-volatile and parameter communi
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, ARPositiveInteger, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, ARPositiveInteger, Boolean
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class HandleInvalidEnum(AREnum):
@@ -630,3 +630,33 @@ class TransmissionModeDefinitionEnum(AREnum):
             TransmissionModeDefinitionEnum.DIRECT,
             TransmissionModeDefinitionEnum.MIXED,
         ))
+
+
+__all__ = [
+    'HandleInvalidEnum',
+    'PPortComSpec',
+    'RPortComSpec',
+    'CompositeNetworkRepresentation',
+    'TransmissionAcknowledgementRequest',
+    'SenderComSpec',
+    'QueuedSenderComSpec',
+    'NonqueuedSenderComSpec',
+    'ClientComSpec',
+    'ModeSwitchReceiverComSpec',
+    'NvRequireComSpec',
+    'ParameterRequireComSpec',
+    'ReceiverComSpec',
+    'ModeSwitchedAckRequest',
+    'ModeSwitchSenderComSpec',
+    'ParameterProvideComSpec',
+    'TransformationComSpecProps',
+    'UserDefinedTransformationComSpecProps',
+    'ServerComSpec',
+    'NvProvideComSpec',
+    'NonqueuedReceiverComSpec',
+    'QueuedReceiverComSpec',
+    'HandleOutOfRangeEnum',
+    'HandleOutOfRangeStatusEnum',
+    'HandleTimeoutEnum',
+    'TransmissionModeDefinitionEnum',
+]

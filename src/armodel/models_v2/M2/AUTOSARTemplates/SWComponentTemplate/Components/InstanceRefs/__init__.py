@@ -8,8 +8,8 @@ and data elements in instance contexts.
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
@@ -266,3 +266,17 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
 
 
 
+
+
+__all__ = [
+    'ModeGroupInAtomicSwcInstanceRef',
+    'PModeGroupInAtomicSwcInstanceRef',
+    'RModeGroupInAtomicSWCInstanceRef',
+    'RModeInAtomicSwcInstanceRef',
+    'VariableInAtomicSwcInstanceRef',
+    'RVariableInAtomicSwcInstanceRef',
+    'InnerPortGroupInCompositionInstanceRef',
+    'OperationInAtomicSwcInstanceRef',
+    'POperationInAtomicSwcInstanceRef',
+    'ROperationInAtomicSwcInstanceRef',
+]

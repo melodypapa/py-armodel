@@ -4,8 +4,8 @@ in port interface contexts. These classes are used for referencing data
 elements within port interfaces and compositions.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
     def __init__(self):
