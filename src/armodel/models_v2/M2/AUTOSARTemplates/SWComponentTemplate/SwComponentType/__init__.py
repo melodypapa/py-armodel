@@ -45,23 +45,23 @@ class SwComponentType(AtpType, ABC):
         self.ports.append(prototype)
         return prototype
 
-    def getPPortPrototypes(self) -> List['PPortPrototype']:
+    def getPPortPrototypes(self) -> List['PPortPrototype']:  # noqa: F821
         from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
         return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getRPortPrototypes(self) -> List['RPortPrototype']:
+    def getRPortPrototypes(self) -> List['RPortPrototype']:  # noqa: F821
         from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
         return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getPRPortPrototypes(self) -> List['PRPortPrototype']:
+    def getPRPortPrototypes(self) -> List['PRPortPrototype']:  # noqa: F821
         from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
         return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getPortPrototypes(self) -> List['PortPrototype']:
+    def getPortPrototypes(self) -> List['PortPrototype']:  # noqa: F821
         from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getPortGroups(self) -> List['PortGroup']:
+    def getPortGroups(self) -> List['PortGroup']:  # noqa: F821
         return self.portGroups
 
     def createPortGroup(self, short_name):

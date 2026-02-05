@@ -4,6 +4,8 @@
 Python library for AUTOSAR model support - ARXML parser and writer for automotive ECU software development.
 **Version**: 1.9.2 | **Python**: >= 3.5 (CI supports 3.8-3.13) | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
 
+**Current Git Status**: Clean working directory | **Latest Commit**: e8ae4d2 - Update CollectableElement location in deviation report
+
 ## Build, Lint, and Test Commands
 
 ### Testing
@@ -235,15 +237,103 @@ Does the package contain subdirectories?
     - Package name = filename (without .py)
 ```
 
+**CODING_RULE_STYLE_00008: Class Location and Package Structure**
+
+**Maturity**: accept
+
+**Rule**: Classes must be located in the correct package according to AUTOSAR M2 model hierarchy.
+
+**Key Principles:**
+- **Leaf Package Pattern**: When a package contains only a single primary class (or a small set of closely related classes), create a leaf package with a `.py` file named after the class
+- **Non-Leaf Package Pattern**: When a package contains multiple subdirectories or serves as a namespace for multiple classes, define classes in `__init__.py`
+- **Module Naming**: Leaf package modules should NOT use the class name as a subdirectory; the class should be defined directly in the module file
+
+**Examples:**
+
+**Correct - Leaf Package:**
+```
+src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
+# Defines: ImplementationDataType, AbstractImplementationDataTypeElement, etc.
+# Import: from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+```
+
+**Incorrect - Avoid double nesting:**
+```
+src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes/ImplementationDataTypes.py
+# This creates unnecessary nesting and violates the leaf package pattern
+```
+
+**CODING_RULE_STYLE_00009: Class Export and Module Organization**
+
+**Maturity**: accept
+
+**Rule**: Classes must be properly exported from their modules and be importable via the expected AUTOSAR M2 path.
+
+**Key Principles:**
+- **Proper Export**: All classes defined in a module must be exportable via `__all__` or direct import
+- **Duplicate Detection**: No duplicate class names should exist across the codebase (enforced by deviation tracking)
+- **Mapping Compliance**: Classes MUST be importable from the module path specified in `docs/requirements/mapping.json`
+
+**Module Export Pattern:**
+
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
+
+from abc import ABCMeta
+from typing import List
+
+class AbstractImplementationDataTypeElement(Identifiable):
+    """Base class for implementation data type elements."""
+    pass
+
+class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+    """Implementation data type element class."""
+    pass
+
+class ImplementationDataType(AbstractImplementationDataType):
+    """Implementation data type class."""
+    pass
+
+# Export all classes
+__all__ = [
+    'AbstractImplementationDataTypeElement',
+    'ImplementationDataTypeElement',
+    'ImplementationDataType',
+]
+```
+
+**Package Export Pattern (for non-leaf packages):**
+
+```python
+# File: src/armodel/models/M2/AUTOSARTemplates/CommonStructure/__init__.py
+
+from abc import ABCMeta
+from typing import List
+
+class ValueSpecification(ARObject, metaclass=ABCMeta):
+    """Value specification base class."""
+    pass
+
+# Import and re-export from submodules
+from .ImplementationDataTypes import ImplementationDataType
+from .SwDataDefProps import SwDataDefProps
+
+__all__ = [
+    'ValueSpecification',
+    'ImplementationDataType',
+    'SwDataDefProps',
+]
+```
+
 **Class Mapping Compliance:**
 - Classes MUST be importable from the module path specified in `docs/requirements/mapping.json`
 - Run `test_class_mapping.py` integration test to verify compliance
 - Deviation reports are generated in `reports/deviation_*.md`
 
 **Current Deviation Status (as of v1.9.2):**
-- ✓ **Match**: 604 classes correctly implemented
+- ✓ **Match**: 610 classes correctly implemented
 - ✗ **Missing**: 1189 classes documented but not found
-- ⚠ **Path Mismatch**: 93 classes in wrong location
+- ⚠ **Path Mismatch**: 87 classes in wrong location
 - + **Extra**: 207 undocumented classes
 - See `reports/deviation_package.md` for detailed deviation tracking
 
@@ -333,6 +423,10 @@ src/armodel/
 - Float numbers in scientific notation are properly handled
 - Boolean type values should not contain spaces
 - Package structure migration is ongoing (see docs/plans/2026-02-01-package-structure-migration-design.md)
+- **Enum Usage**: Use AREnum base class instead of Python enum.Enum for AUTOSAR compliance
+- **Class Location**: Follow CODING_RULE_STYLE_00008 for proper class placement in package structure
+- **Class Export**: Follow CODING_RULE_STYLE_00009 for proper class exports and module organization
+- **Duplicate Detection**: Run deviation tracking to identify duplicate class names before committing
 
 ### AUTOSAR Singleton Management
 ```python
@@ -354,12 +448,87 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 - Auto-detects AUTOSAR version from XSD schema (4.0.3 to R24-11)
 - Extensible via `tests/integration_tests/config.yaml`
 
+### Recent Refactoring Activities
+
+#### Enum to AREnum Conversion (v1.9.2)
+**Purpose**: Improve AUTOSAR compliance by replacing Python's standard `enum.Enum` with a custom `AREnum` base class.
+
+**Benefits**:
+- Better alignment with AUTOSAR M2 model specifications
+- Enhanced serialization and deserialization for ARXML files
+- Improved type safety and validation
+- Consistent enum handling across the codebase
+
+**Impact**:
+- All enum definitions migrated to use `AREnum` base class
+- Parser and writer updated to handle AREnum instances
+- Test suite updated to validate enum conversions
+- Backward compatibility maintained where possible
+
+**Example**:
+```python
+# Before (Python Enum)
+from enum import Enum
+
+class BswEntryKindEnum(Enum):
+    PROVIDED = "PROVIDED"
+    REQUIRED = "REQUIRED"
+
+# After (AUTOSAR AREnum)
+from armodel.models.base import AREnum
+
+class BswEntryKindEnum(AREnum):
+    PROVIDED = "PROVIDED"
+    REQUIRED = "REQUIRED"
+```
+
+#### Class Relocation for Coding Rule Compliance (v1.9.2)
+**Purpose**: Ensure all classes are properly located according to AUTOSAR M2 model hierarchy and coding rules.
+
+**Affected Classes**:
+- `CollectableElement`: Relocated to proper module location
+- `EndToEndTransformationComSpecProps`: Fixed module path
+- `FlexrayChannelName`, `CommunicationDirectionType`, `IPduSignalProcessingEnum`: Enumeration relocation
+- `ExternalTriggeringPointIdent`, `AtpBlueprintMapping`: Class relocation
+- `EcuInstance`, `SwcToEcuMapping`: Class relocation
+- `PackageableElement`: Added to ARPackage module exports
+
+**Process**:
+1. Identify classes violating CODING_RULE_STYLE_00008 or CODING_RULE_STYLE_00009
+2. Create new module structure following AUTOSAR M2 hierarchy
+3. Move classes to correct locations
+4. Update imports across the codebase
+5. Run tests to ensure no regressions
+6. Update deviation reports
+7. Commit with descriptive message
+
+**Verification**:
+- Run `python scripts/deviation-package.py` to check for path mismatches
+- Run `pytest tests/integration_tests/test_class_mapping.py` to verify class mapping
+- Run `ruff check .` to ensure code quality
+
 ### Development Activities
 
-#### Package Structure Migration (Ongoing)
+#### Enum Refactoring (v1.9.2)
+- **Goal**: Convert Python Enum to AUTOSAR AREnum for better AUTOSAR compliance
+- **Status**: Completed
+- **Changes**:
+  - Replaced Python `enum.Enum` with custom `AREnum` base class
+  - Updated all enum-related code to use AREnum
+  - Improved compatibility with AUTOSAR standards
+- **Related Commits**: 3c86ebf, 16fcd79
+
+#### Package Structure Refactoring (Ongoing)
 - **Design Document**: `docs/plans/2026-02-01-package-structure-migration-design.md`
 - **Goal**: Align Python package structure with AUTOSAR M2 model hierarchy
 - **Status**: Ongoing - addressing path mismatches and missing classes
+- **Recent Changes**:
+  - Relocated CollectableElement to comply with coding rules
+  - Fixed EndToEndTransformationComSpecProps location
+  - Fixed FlexrayChannelName, CommunicationDirectionType, IPduSignalProcessingEnum
+  - Fixed ExternalTriggeringPointIdent and AtpBlueprintMapping
+  - Fixed EcuInstance and SwcToEcuMapping
+  - Added PackageableElement to ARPackage module exports
 - **Tools**:
   - `scripts/scan_existing_classes.py`: Scan and catalog existing classes
   - `scripts/compare-package-implementation.py`: Compare package structure
@@ -368,7 +537,7 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 
 #### Deviation Tracking
 The project maintains comprehensive deviation tracking between documented AUTOSAR M2 model and actual implementation:
-- **Package Deviations**: `reports/deviation_package.md` (604 match, 1189 missing, 93 path mismatch, 207 extra)
+- **Package Deviations**: `reports/deviation_package.md` (610 match, 1189 missing, 87 path mismatch, 207 extra)
 - **Class Hierarchy**: `reports/deviation_class_hierarchy_*.md`
 - **Class Mapping**: `reports/class_mapping_report.md`
 - Run `python scripts/deviation-package.py` to regenerate reports
@@ -397,28 +566,38 @@ The library provides 10 command-line tools:
 ## Recent Version History
 
 ### Version 1.9.2 (Current)
-- Ongoing test coverage enhancement across all modules
-- Package structure refactoring for case-sensitivity issues
-- Improved deviation tracking and documentation
-- Python 3.13 support added to CI
-- Enhanced class mapping validation and reporting
-- Development scripts added for package structure analysis and fixes
+- **Enum Refactoring**
+  - Convert Python Enum to AUTOSAR AREnum for better AUTOSAR compliance
+  - Refactor all enum-related code to use AREnum base class
+- **Package Structure Refactoring**
+  - Relocate classes to comply with CODING_RULE_STYLE_00008 and CODING_RULE_STYLE_00009
+  - Fix CollectableElement location in deviation report
+  - Clarify connection between CODING_RULE_STYLE_00008 and CODING_RULE_STYLE_00009
+- **Test Coverage Enhancement**
+  - Ongoing test coverage enhancement across all modules
+  - Enhanced class mapping validation and reporting
+- **Documentation Improvements**
+  - Updated AGENTS.md with detailed coding rules explanations
+  - Improved deviation tracking and documentation
+- **Development Tools**
+  - Added duplicate detection for CODING_RULE_STYLE_00009 compliance
+  - Development scripts added for package structure analysis and fixes
 
 ### Version 1.9.1
-- Package Structure Refactoring
+- **Package Structure Refactoring**
   - Fixed case-sensitivity issues with Components/ vs Components directories
   - Reorganized ECUC module imports to resolve ImportError
   - Improved AnyInstanceRef and CompositionSwComponentType package structure
-- Test Coverage Enhancement
+- **Test Coverage Enhancement**
   - Ongoing effort to increase test coverage across all modules
   - Added tests for SwcInternalBehavior and NetworkManagement
-- Documentation Improvements
+- **Documentation Improvements**
   - Added comprehensive deviation documentation
   - Enhanced class hierarchy documentation
   - Improved coding rules documentation
 
 ### Version 1.9.0
-- Testing Infrastructure
+- **Testing Infrastructure**
   - Added comprehensive integration test suite with round-trip validation
   - Added test runner script (`scripts/run_tests.py`) with colored output
   - Added pytest configuration (`pytest.ini`) with custom markers

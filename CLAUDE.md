@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XML (ARXML) files. It follows the AUTOSAR standard specifications and supports versions from 4.0.3 to R24-11, with particular focus on CP R23-11 standard compliance.
 
-**Current Version**: 1.9.0
-**Python Requirements**: >= 3.5 (CI tests on 3.8-3.12)
+**Current Version**: 1.9.2
+**Python Requirements**: >= 3.5 (CI tests on 3.8-3.13)
 **License**: MIT
 **Repository**: http://github.com/melodypapa/py-armodel
 
@@ -140,14 +140,54 @@ AUTOSAR model objects maintain bi-directional references:
 - `pytest -v` - Verbose output
 - `pytest -s` - Show print output
 
+#### Test Markers
+Tests are organized with custom markers for selective execution:
+- `integration`: Integration tests (slower, requires full parse/write cycle)
+- `slow`: Slow-running tests (can be skipped with `-m "not slow"`)
+- `datatypes`: Tests related to AUTOSAR data types
+- `components`: Tests related to software components
+- `bsw`: Tests related to BSW modules
+- `system`: Tests related to system configuration
+- `blueprint`: Tests for blueprint specification files
+- `lifecycle`: Tests for lifecycle-related files
+
+**Example:**
+```bash
+# Run only integration tests
+pytest -m integration
+
+# Run tests but skip slow ones
+pytest -m "not slow"
+
+# Run datatype-related tests
+pytest -m datatypes
+```
+
 Or using npm scripts:
 - `npm run pytest` - Run all tests
 - `npm run pytest-cov` - Run tests with coverage
 
 ### Linting
-- `npm run flake8` - Run syntax checks (E9, F63, F7, F82)
-- CI also runs complexity checks: `--max-complexity=10 --max-line-length=127`
-- Project uses 79-character line length (per PEP 8), not 127 (127 is just for CI warnings)
+
+#### Primary Linter: Ruff
+```bash
+# Run ruff (configured in pyproject.toml)
+ruff check .
+
+# Auto-fix issues
+ruff check --fix .
+
+# Show detailed rule violations
+ruff check --show-source .
+```
+
+#### Legacy Linter: Flake8
+```bash
+# Run flake8 for critical errors only
+flake8 --select=E9,F63,F7,F82 .
+```
+
+**Note**: CI runs ruff with comprehensive rules. Line length is 79 characters (PEP 8 standard), with CI warnings at 127.
 
 ### Building
 - `python -m build` - Create source and wheel distributions
@@ -163,15 +203,42 @@ Or using npm scripts:
 - `cd docs && make html` - Build with Sphinx
 - `mkdocs build` or `mkdocs serve` - Build with MkDocs
 
+### Development Scripts
+
+**Package Structure Analysis:**
+- `python scripts/deviation-package.py` - Generate package deviation reports
+- `python scripts/deviation-class-hierarchy.py` - Generate class hierarchy reports
+- `python scripts/scan_existing_classes.py` - Scan and catalog existing classes
+- `python scripts/compare-package-implementation.py` - Compare package structure
+- `python scripts/fix-package-implementation.py` - Fix package structure issues
+
+**Test Runner:**
+- `python scripts/run_tests.py` - Run all tests with colored output and summary
+- `python scripts/run_tests.py --unit` - Run only unit tests
+- `python scripts/run_tests.py --integration` - Run only integration tests
+- `python scripts/run_tests.py --coverage` - Run with coverage reports
+
 ### Common Development Tasks
 
 **Adding a new AUTOSAR model class:**
 1. Determine if it should be a leaf package (`.py` file) or non-leaf package (`__init__.py`)
+   - **Leaf package**: Single `.py` file when package has no subdirectories
+   - **Non-leaf package**: Directory with `__init__.py` when package has subdirectories
 2. Create the file in appropriate M2 location under `src/armodel/models/M2/AUTOSARTemplates/`
 3. Add wildcard import in parent `__init__.py`: `from .my_class import *`
 4. Add import to `src/armodel/models/__init__.py`
 5. Create corresponding test in `tests/test_armodel/models/M2/`
 6. Run tests and linting: `python scripts/run_tests.py`
+7. Verify package structure compliance: `python scripts/deviation-package.py`
+
+**Class relocation for coding rule compliance:**
+When moving classes to comply with CODING_RULE_STYLE_00008 or CODING_RULE_STYLE_00009:
+1. Identify the correct AUTOSAR M2 package location
+2. Move class to proper module (leaf package `.py` or non-leaf `__init__.py`)
+3. Update all imports across the codebase
+4. Run `ruff check .` to verify no import errors
+5. Run `python scripts/deviation-package.py` to verify path compliance
+6. Run tests to ensure no regressions
 
 **Debugging parser issues:**
 - Use `options={"warning": True}` to get warnings instead of exceptions
@@ -183,6 +250,7 @@ Or using npm scripts:
 - Sample ARXML files in `tests/test_files/`
 - Use existing files as templates for new test cases
 - Ensure test files cover supported AUTOSAR versions
+- Integration tests auto-detect version from XSD schema (4.0.3 to R24-11)
 
 ## CLI Tools (console_scripts)
 
@@ -204,13 +272,38 @@ Many AUTOSAR classes use ABC (Abstract Base Class) from the `abc` module (migrat
 
 **Pattern:**
 ```python
-from abc import ABC
+from abc import ABC, abstractmethod
 
 class MyAbstractClass(ABC):
     @abstractmethod
     def my_method(self):
         pass
 ```
+
+### Enum Usage: AREnum vs Python Enum
+**CRITICAL**: Use `AREnum` base class instead of Python's `enum.Enum` for AUTOSAR compliance.
+
+```python
+# Correct - Use AREnum for AUTOSAR enums
+from armodel.models.base import AREnum
+
+class BswEntryKindEnum(AREnum):
+    PROVIDED = "PROVIDED"
+    REQUIRED = "REQUIRED"
+
+# Incorrect - Do NOT use Python Enum
+from enum import Enum  # Don't do this
+class MyEnum(Enum):   # Violates AUTOSAR compliance
+    VALUE = "value"
+```
+
+**Why AREnum?**
+- Better alignment with AUTOSAR M2 model specifications
+- Enhanced serialization and deserialization for ARXML files
+- Improved type safety and validation
+- Consistent enum handling across the codebase
+
+**Recent Migration (v1.9.2)**: All enum definitions have been migrated from Python `enum.Enum` to `AREnum`. When adding new enums, always use `AREnum` as the base class.
 
 ### Parser Options
 ARXMLParser accepts an `options` dict parameter:
@@ -240,10 +333,25 @@ ARXMLWriter serializes the AUTOSAR model back to ARXML format, respecting the AU
 - Check that wildcard imports in `__init__.py` files include new classes
 - Leaf packages use `.py` files, non-leaf packages use `__init__.py`
 
-**Package Structure:**
+**Package Structure (CODING_RULE_STYLE_00008):**
+- **Leaf packages**: Create `.py` file (e.g., `ImplementationDataTypes.py`)
+- **Non-leaf packages**: Create directory with `__init__.py`
+- **Never** create double nesting like `ImplementationDataTypes/ImplementationDataTypes.py`
 - Recent refactoring fixed issues with Components/ vs Components
 - Always verify package exists before adding classes
 - Use proper import paths: `from armodel.models.M2.AUTOSARTemplates...`
+
+**Class Export (CODING_RULE_STYLE_00009):**
+- All classes must be properly exported from their modules
+- Use `__all__` lists in modules for explicit exports
+- Run `python scripts/deviation-package.py` to verify compliance
+- Check for duplicate class names before committing
+- Classes MUST be importable from paths in `docs/requirements/mapping.json`
+
+**Enum Usage:**
+- Always use `AREnum` base class, never Python's `enum.Enum`
+- Import from `armodel.models.base import AREnum`
+- Parser and writer expect AREnum instances for proper serialization
 
 **UUID Management:**
 - UUIDs are managed through `UUIDMgr` utility
@@ -522,10 +630,18 @@ runnables = behavior.getRunnableEntities()
 ## CI/CD
 
 GitHub Actions (`.github/workflows/python-package.yml`):
-- Python versions: 3.8, 3.9, 3.10, 3.11, 3.12
-- Linting: `flake8 --select=E9,F63,F7,F82` (syntax errors) and `--max-complexity=10 --max-line-length=127` (complexity warnings)
+- Python versions: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+- Linting: `ruff check .` with comprehensive rules (E, W, F, I, N, B, C4, SIM)
+- Ignores: F403/F405 (wildcard imports), N802 (AUTOSAR camelCase), N999 (AUTOSAR PascalCase modules)
 - Steps: Install dependencies → Lint → Test
 - All lint and test checks must pass before merge
+
+### Ruff Configuration
+- Line length: 79 characters (PEP 8 standard)
+- Max docstring length: 72 characters
+- Import order: Standard library → Third-party → Local
+- Wildcard imports allowed for M2 model structure (intentional per coding rules)
+- AUTOSAR camelCase methods exempt from snake_case naming convention
 
 ## Additional Documentation
 
@@ -591,3 +707,26 @@ See `.claude/commands/README.md` for complete command documentation.
 - **IFLOW.md** - 项目指南 (Chinese language project guide with architecture overview)
 - **AGENTS.md** - Agent Guidelines (English language guidelines for AI agents)
 - **CLAUDE.md** - This file (Claude Code guidance in English)
+
+## Recent Version History
+
+### Version 1.9.2 (Current)
+- **Enum Refactoring**: Converted Python `enum.Enum` to `AREnum` for better AUTOSAR compliance
+- **Package Structure Refactoring**: Relocated classes to comply with CODING_RULE_STYLE_00008 and CODING_RULE_STYLE_00009
+  - Fixed CollectableElement, EndToEndTransformationComSpecProps, FlexrayChannelName
+  - Fixed CommunicationDirectionType, IPduSignalProcessingEnum, ExternalTriggeringPointIdent
+  - Fixed AtpBlueprintMapping, EcuInstance, SwcToEcuMapping
+  - Added PackageableElement to ARPackage module exports
+- **Test Coverage Enhancement**: Ongoing effort to increase test coverage across all modules
+- **Documentation Improvements**: Updated AGENTS.md with detailed coding rules explanations
+
+### Version 1.9.1
+- **Package Structure Refactoring**: Fixed case-sensitivity issues, reorganized ECUC module imports
+- **Test Coverage Enhancement**: Added tests for SwcInternalBehavior and NetworkManagement
+- **Documentation Improvements**: Enhanced deviation tracking and documentation
+
+### Version 1.9.0
+- **Testing Infrastructure**: Added comprehensive integration test suite with round-trip validation
+- **Test Runner**: Added `scripts/run_tests.py` with colored output and comprehensive summaries
+- **Pytest Configuration**: Added `pytest.ini` with custom markers for test organization
+- **Coverage Reporting**: Support for 2205+ unit tests and 29 integration test files

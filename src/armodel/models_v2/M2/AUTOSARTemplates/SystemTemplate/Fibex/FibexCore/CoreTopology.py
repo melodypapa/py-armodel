@@ -1,24 +1,17 @@
 from abc import ABC
 from enum import Enum
-from typing import TYPE_CHECKING, List
+from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
-
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector, FlexrayCommunicationController, FlexrayChannelName
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType, IPduSignalProcessingEnum
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
+from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
 
 
 class CommunicationCycle(ARObject, ABC):
@@ -552,10 +545,10 @@ class CommConnectorPort(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
             raise TypeError("CommConnectorPort is an abstract class.")
-        
+
         super().__init__(parent, short_name)
-        
-        self.communicationDirection: CommunicationDirectionType = None
+
+        self.communicationDirection: "CommunicationDirectionType" = None  # noqa: F821
 
     def getCommunicationDirection(self):
         return self.communicationDirection
@@ -584,7 +577,7 @@ class IPduPort(CommConnectorPort):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
-        self.iPduSignalProcessing: "IPduSignalProcessingEnum" = None
+        self.iPduSignalProcessing: "IPduSignalProcessingEnum" = None  # noqa: F821
         self.keyId: PositiveInteger = None
         self.rxSecurityVerification: Boolean = None
         self.timestampRxAcceptanceWindow: TimeValue = None
@@ -864,30 +857,30 @@ class EcuInstance(FibexElement):
     def getCommControllers(self):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key= lambda o:o.short_name))
 
-    def createCanCommunicationController(self, short_name: str) -> "CanCommunicationController":
+    def createCanCommunicationController(self, short_name: str) -> "CanCommunicationController":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
             controller = CanCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
-    def createEthernetCommunicationController(self, short_name: str) -> "EthernetCommunicationController":
+
+    def createEthernetCommunicationController(self, short_name: str) -> "EthernetCommunicationController":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
-    def createLinMaster(self, short_name: str) -> "LinMaster":
+
+    def createLinMaster(self, short_name: str) -> "LinMaster":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinMaster
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinMaster
             controller = LinMaster(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
-    def createFlexrayCommunicationController(self, short_name: str) -> "FlexrayCommunicationController":
+
+    def createFlexrayCommunicationController(self, short_name: str) -> "FlexrayCommunicationController":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
             controller = FlexrayCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
@@ -895,30 +888,30 @@ class EcuInstance(FibexElement):
     def getConnectors(self):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key= lambda o:o.short_name))
 
-    def createCanCommunicationConnector(self, short_name: str) -> "CanCommunicationConnector":
+    def createCanCommunicationConnector(self, short_name: str) -> "CanCommunicationConnector":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
             connector = CanCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
-    def createEthernetCommunicationConnector(self, short_name: str) -> "EthernetCommunicationConnector":
+
+    def createEthernetCommunicationConnector(self, short_name: str) -> "EthernetCommunicationConnector":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector
             connector = EthernetCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
-    def createLinCommunicationConnector(self, short_name: str) -> "LinCommunicationConnector":
+
+    def createLinCommunicationConnector(self, short_name: str) -> "LinCommunicationConnector":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector
             connector = LinCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
-    def createFlexrayCommunicationConnector(self, short_name: str) -> "FlexrayCommunicationConnector":
+
+    def createFlexrayCommunicationConnector(self, short_name: str) -> "FlexrayCommunicationConnector":  # noqa: F821
         if (not self.IsElementExists(short_name)):
-            from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector
+            from armodel.models_v2.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector
             connector = FlexrayCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
