@@ -6,33 +6,36 @@ including their dependencies, behaviors, and data exchanges with other modules.
 
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalBehavior,
 )
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+from armodel.models_v2.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleClientServerEntry,
     BswModuleDependency,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroupPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import (
     Trigger,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     VariableDataPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
+
+__all__ = []
+
     SwComponentDocumentation,
 )
 

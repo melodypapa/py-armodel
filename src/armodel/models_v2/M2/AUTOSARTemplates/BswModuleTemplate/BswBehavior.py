@@ -12,22 +12,22 @@ These classes are used to model:
 from abc import ABC
 from typing import List
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     AbstractEvent,
     ExecutableEntity,
     InternalBehavior,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeActivationKind,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     Referrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
     AREnum,
     ARFloat,
@@ -38,16 +38,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     VariableDataPrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import (
     IncludedDataTypeSet,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
+from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
     IncludedModeDeclarationGroupSet,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import (
     SwImplPolicyEnum,
 )
 
@@ -2255,7 +2255,7 @@ class BswInternalBehavior(InternalBehavior):
 This module defines BSW asynchronous server call returns event in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 
@@ -2284,7 +2284,7 @@ class BswAsynchronousServerCallReturnsEvent(BswEvent):
 This module defines BSW exclusive area policy in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
 
@@ -2343,7 +2343,7 @@ class BswModeManagerErrorEvent(BswEvent):
 This module defines BSW mode receiver policy in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
 
@@ -2368,7 +2368,7 @@ class BswModeReceiverPolicy(AREnum):
 This module defines BSW scheduler name prefix in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 
@@ -2397,10 +2397,10 @@ class BswSchedulerNamePrefix(ARObject):
 This module defines BSW service dependency in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 
@@ -2429,10 +2429,10 @@ class BswServiceDependency(ARObject):
 This module defines BSW trigger direct implementation in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
 
@@ -2455,10 +2455,10 @@ class BswTriggerDirectImplementation(AREnum):
 This module defines role-based BSW module entry assignment in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     RefType,
 )

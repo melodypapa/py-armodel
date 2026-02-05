@@ -2,7 +2,7 @@
 RolesAndRights module for AUTOSAR M2 models.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
     AtpDefinition,
 )
 

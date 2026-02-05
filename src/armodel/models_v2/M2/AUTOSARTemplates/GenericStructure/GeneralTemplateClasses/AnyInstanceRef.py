@@ -5,10 +5,10 @@ in the GenericStructure module.
 
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 

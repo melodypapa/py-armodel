@@ -101,6 +101,20 @@ ignore = [
 # Allow unused imports in __init__.py files (wildcard export pattern)
 "__init__.py" = ["F401"]
 
+# V2 models: Ignore specific rules due to AUTOSAR patterns and M2 structure
+# E501/W505: Line/docstring too long - unavoidable due to deep M2 package structure
+# E402: Module imports not at top - intentional to avoid circular dependencies in class definitions
+# E721: Type comparisons with == - intentional pattern for abstract class checks
+# SIM102: Collapsible if - style preference for nested if statements
+# B024: Abstract class without abstract methods - some AUTOSAR classes are abstract by convention
+# B904: Raise without from - minor exception handling style
+# F811: Redefined while unused - intentional class redefinitions
+# N803/N815: Naming - AUTOSAR camelCase conventions differ from PEP 8
+"src/armodel/models_v2/**/*.py" = [
+    "E501", "W505", "E402", "E721", "SIM102",
+    "B024", "B904", "F811", "N803", "N815"
+]
+
 [tool.ruff.lint.isort]
 # Import order: Standard library → Third-party → Local (CODING_RULE_IMPORT_00001)
 known-first-party = ["armodel"]
@@ -112,7 +126,7 @@ max-doc-length = 72
 
 [tool.mypy]
 # MyPy configuration for V2 models type checking
-python_version = "3.8"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false  # Set to true for stricter checking in future

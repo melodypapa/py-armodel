@@ -2,6 +2,9 @@
 SWComponentTemplate module for AUTOSAR software component templates.
 """
 
+"""V2 module."""
+__all__ = ["__doc__"]
+
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import *  # noqa: F401, F403
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import *  # noqa: F401, F403
 from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import *  # noqa: F401, F403
