@@ -1,3 +1,3 @@
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMappingSet import BlueprintMappingSet
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping.BlueprintMappingSet import BlueprintMappingSet
 
 __all__ = ['BlueprintMappingSet']

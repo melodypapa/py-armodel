@@ -2,8 +2,18 @@
 This module defines execution time resource consumption classes in AUTOSAR.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+__all__ = [
+    'AnalyzedExecutionTime',
+    'ExecutionTime',
+    'MeasuredExecutionTime',
+    'MemorySectionLocation',
+    'RoughEstimateOfExecutionTime',
+    'SimulatedExecutionTime',
+]
+
+
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
 
 
 class AnalyzedExecutionTime(ARObject):

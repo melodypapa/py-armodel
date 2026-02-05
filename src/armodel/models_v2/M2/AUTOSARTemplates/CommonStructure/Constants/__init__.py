@@ -5,12 +5,39 @@ for initializing data objects in AUTOSAR models, including various forms like
 numerical, text, array, record, and application-specific value specifications.
 """
 
+__all__ = [
+    'AbstractRuleBasedValueSpecification',
+    'ApplicationRuleBasedValueSpecification',
+    'ApplicationValueSpecification',
+    'ArrayValueSpecification',
+    'CompositeRuleBasedValueArgument',
+    'CompositeRuleBasedValueSpecification',
+    'CompositeValueSpecification',
+    'ConstantReference',
+    'ConstantSpecification',
+    'ConstantSpecificationMapping',
+    'ConstantSpecificationMappingSet',
+    'NotAvailableValueSpecification',
+    'NumericalOrText',
+    'NumericalRuleBasedValueSpecification',
+    'NumericalValueSpecification',
+    'RecordValueSpecification',
+    'ReferenceValueSpecification',
+    'RuleArguments',
+    'RuleBasedAxisCont',
+    'RuleBasedValueCont',
+    'RuleBasedValueSpecification',
+    'TextValueSpecification',
+    'ValueSpecification',
+]
+
+
 from abc import ABC
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum
 
 
 class ValueSpecification(ARObject, ABC):

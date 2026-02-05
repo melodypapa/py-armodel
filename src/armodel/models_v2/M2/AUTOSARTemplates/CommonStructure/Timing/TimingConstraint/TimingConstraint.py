@@ -10,17 +10,17 @@ Classes:
     TimingConstraint: Abstract base class for all timing constraints
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import Traceable
+from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import Traceable
 
 
 class TimingConstraint(Traceable, ABC):
