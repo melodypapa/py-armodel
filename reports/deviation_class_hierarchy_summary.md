@@ -5,12 +5,12 @@ and the actual Python implementation class hierarchy.
 
 ## Summary
 
-- ✓ **Match**: 423 classes with correct hierarchy
-- ✗ **Missing**: 995 classes documented but not found
-- ⚠ **Hierarchy Mismatch**: 110 classes with wrong parent/abstract
-- + **Extra**: 129 undocumented classes
+- ✓ **Match**: 416 classes with correct hierarchy
+- ✗ **Missing**: 1007 classes documented but not found
+- ⚠ **Hierarchy Mismatch**: 105 classes with wrong parent/abstract
+- + **Extra**: 127 undocumented classes
 - **Total Documented Classes**: 1528
-- **Total Deviations**: 1234
+- **Total Deviations**: 1239
 
 ## Missing Classes (Documented but Not Found)
 
@@ -43,6 +43,7 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | ApplicationSwComponentType | **Documented:**<br>Parent: AtomicSwComponentType<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ApplicationValueSpecification | **Documented:**<br>Parent: ValueSpecification<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ArParameterInImplementationDataInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ArVariableInImplementationDataInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | Area | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ArgumentDataPrototype | **Documented:**<br>Parent: AutosarDataPrototype<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ArrayValueSpecification | **Documented:**<br>Parent: CompositeValueSpecification<br>Type: Concrete | Class not found in source code |
@@ -54,7 +55,9 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | AttributeCondition | **Documented:**<br>Parent: AbstractMultiplicityRestriction<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AttributeTailoring | **Documented:**<br>Parent: DataFormatElementScope<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | AutosarOperationArgumentInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AutosarParameterRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | AutosarVariableInstance | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | AutosarVariableRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | Baseline | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | BinaryManifestAddressableObject | **Documented:**<br>Parent: Identifiable<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | BinaryManifestItem | **Documented:**<br>Parent: BinaryManifestAddressableObject<br>Type: Concrete | Class not found in source code |
@@ -610,6 +613,7 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | ImpositionTime | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | IndentSample | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | InnerDataPrototypeGroupInCompositionInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | InnerPortGroupInCompositionInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | InnerRunnableEntityGroupInCompositionInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | InstanceEventInCompositionInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | InstantiationDataDefProps | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
@@ -669,6 +673,7 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | ModeDeclarationMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ModeDeclarationMappingSet | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ModeDrivenTransmissionModeCondition | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ModeGroupInAtomicSwcInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | ModeInterfaceMapping | **Documented:**<br>Parent: PortInterfaceMapping<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ModePortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ModeSwitchEventTriggeredActivity | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
@@ -707,11 +712,14 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | NvDataPortAnnotation | **Documented:**<br>Parent: GeneralAnnotation<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | NvProvideComSpec | **Documented:**<br>Parent: PPortComSpec<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | NvRequireComSpec | **Documented:**<br>Parent: RPortComSpec<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | OperationInAtomicSwcInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | OperationInSystemInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | OrderedMaster | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | OsTaskExecutionEvent | **Documented:**<br>Parent: RTEEvent<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | OsTaskProxy | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | PModeGroupInAtomicSwcInstanceRef | **Documented:**<br>Parent: ModeGroupInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | PModeInSystemInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | POperationInAtomicSwcInstanceRef | **Documented:**<br>Parent: OperationInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | PPortComSpec | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | PPortPrototype | **Documented:**<br>Parent: AbstractProvidedPortPrototype<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | PRPortPrototype | **Documented:**<br>Parent: AbstractRequiredPortPrototype<br>Type: Concrete | Class not found in source code |
@@ -754,9 +762,13 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | Prms | **Documented:**<br>Parent: Paginateable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | QueuedReceiverComSpec | **Documented:**<br>Parent: ReceiverComSpec<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | QueuedSenderComSpec | **Documented:**<br>Parent: SenderComSpec<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RModeGroupInAtomicSWCInstanceRef | **Documented:**<br>Parent: ModeGroupInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RModeInAtomicSwcInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | ROperationInAtomicSwcInstanceRef | **Documented:**<br>Parent: OperationInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | RPortComSpec | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | RPortPrototype | **Documented:**<br>Parent: AbstractRequiredPortPrototype<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | RTriggerInAtomicSwcInstanceRef | **Documented:**<br>Parent: TriggerInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | RVariableInAtomicSwcInstanceRef | **Documented:**<br>Parent: VariableInAtomicSwcInstanceRef<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | RapidPrototypingScenario | **Documented:**<br>Parent: ARElement<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ReceiverAnnotation | **Documented:**<br>Parent: SenderReceiverAnnotation<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | ReceiverComSpec | **Documented:**<br>Parent: RPortComSpec<br>Type: Abstract | Class not found in source code |
@@ -884,7 +896,6 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | SwcSupportedFeature | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | SwcTiming | **Documented:**<br>Parent: TimingExtension<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | SwcToApplicationPartitionMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
-| ✗ MISSING | SwcToEcuMapping | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | SwcToSwcOperationArguments | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | SwcToSwcSignal | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | SwitchAsynchronousTrafficShaperGroupEntry | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
@@ -999,6 +1010,7 @@ and the actual Python implementation class hierarchy.
 | ✗ MISSING | VariableAndParameterInterfaceMapping | **Documented:**<br>Parent: PortInterfaceMapping<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | VariableDataPrototypeInCompositionInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | VariableInAtomicSWCTypeInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
+| ✗ MISSING | VariableInAtomicSwcInstanceRef | **Documented:**<br>Parent: ARObject<br>Type: Abstract | Class not found in source code |
 | ✗ MISSING | VariationPoint | **Documented:**<br>Parent: ARObject<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | VariationPointProxy | **Documented:**<br>Parent: Identifiable<br>Type: Concrete | Class not found in source code |
 | ✗ MISSING | VariationRestrictionWithSeverity | **Documented:**<br>Parent: RestrictionWithSeverity<br>Type: Concrete | Class not found in source code |

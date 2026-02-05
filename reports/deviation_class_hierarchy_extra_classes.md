@@ -3,7 +3,7 @@
 This report shows classes that exist in the source code but are not documented
 in the AUTOSAR M2 class hierarchy documentation.
 
-## Total Extra Classes: 129
+## Total Extra Classes: 127
 
 | Status | Class | Hierarchy | Notes |
 |--------|-------|-----------|-------|
@@ -39,7 +39,6 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.CategoryString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationCluster | **Actual:**<br>Parent: FibexElement<br>Type: Abstract | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationController | **Actual:**<br>Parent: Identifiable<br>Type: Abstract | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CommunicationDirectionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment.CryptoKeySlotContent.CryptoKeySlotContent | **Actual:**<br>Parent: Identifiable<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.CycleRepetitionType | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Filter.DataFilterTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
@@ -62,12 +61,11 @@ in the AUTOSAR M2 class hierarchy documentation.
 | + EXTRA | AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming.EventOccurrenceKindEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint.ExecutionOrderConstraintTypeEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint.ExecutionTimeTypeEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.FlexrayChannelName | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
+| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology.FlexrayChannelName | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology.FlexrayCluster | **Actual:**<br>Parent: CommunicationCluster<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology.FlexrayCommunicationController | **Actual:**<br>Parent: CommunicationController<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Float | **Actual:**<br>Parent: ARFloat<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | MSR.Documentation.BlockElements.Figure.GraphicFitEnum | **Actual:**<br>Parent: AREnum<br>Type: Concrete | Class exists but not documented |
-| + EXTRA | AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology.IPduSignalProcessingEnum | **Actual:**<br>Parent: None<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Identifier | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Integer | **Actual:**<br>Parent: ARNumerical<br>Type: Concrete | Class exists but not documented |
 | + EXTRA | AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes.Ip4AddressString | **Actual:**<br>Parent: ARLiteral<br>Type: Concrete | Class exists but not documented |
