@@ -1,7 +1,11 @@
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, Item, ListEnum
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+# DocumentationBlock is defined in this file below
+from armodel.models_v2.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.MSR.Documentation.BlockElements.Figure import MlFigure
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
 from typing import List
 
 
@@ -34,7 +38,7 @@ class DocumentationBlock(ARObject):
 
     def addFigure(self, value):
         if value is not None:
-            self.figures.append(value)  
+            self.figures.append(value)
         return self
 
     def getFormula(self):
@@ -108,3 +112,13 @@ class DocumentationBlock(ARObject):
         if value is not None:
             self.verbatim = value
         return self
+
+
+__all__ = [
+    'ARList',
+    'DocumentViewSelectable',
+    'DocumentationBlock',
+    'Item',
+    'ListEnum',
+    'Paginateable',
+]

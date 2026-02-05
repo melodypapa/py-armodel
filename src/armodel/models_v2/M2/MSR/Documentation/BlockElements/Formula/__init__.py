@@ -1,5 +1,5 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
 
 class MlFormula(ARObject):
@@ -24,3 +24,6 @@ class MlFormula(ARObject):
         if value is not None:
             self.formula = value
         return self
+
+
+__all__ = ['MlFormula']

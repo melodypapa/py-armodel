@@ -1,6 +1,6 @@
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models_v2.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 
 
 class ListEnum(AREnum):
