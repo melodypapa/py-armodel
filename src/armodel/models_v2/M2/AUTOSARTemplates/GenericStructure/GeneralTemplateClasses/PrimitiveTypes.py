@@ -1,12 +1,19 @@
 """
 This module contains primitive type classes for AUTOSAR models
 in the GenericStructure module.
+
+V2 Implementation:
+- Absolute imports only
+- No TYPE_CHECKING
+- String annotations for forward references
+
+Compatible with V1 API.
 """
 
 from abc import ABC
 import re
 from typing import List, Optional, Union, Any
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class ARType(ABC):
