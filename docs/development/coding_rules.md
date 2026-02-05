@@ -898,6 +898,49 @@ AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
 
 The AUTOSAR mapping specification (derived from AUTOSAR standard) defines the exact package path where each class should be located. Classes MUST be importable from their mapped module path.
 
+**IMPORTANT: Always check CODING_RULE_STYLE_00008 and CODING_RULE_STYLE_00009 together.**
+
+These two rules are interconnected:
+- **CODING_RULE_STYLE_00008** defines the FILE structure (`.py` file vs `__init__.py`)
+- **CODING_RULE_STYLE_00009** defines the IMPORT path from AUTOSAR mapping
+
+When a class violates both rules, you'll see PATH_MISMATCH errors where the actual import path includes redundant directory levels.
+
+**Example of PATH_MISMATCH violation:**
+```
+Expected: armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McFunction
+Actual:   armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McFunction.McFunction
+```
+
+This happens when:
+1. A class `McFunction` is placed in `McFunction.py` (file)
+2. But `McFunction` directory also exists with `__init__.py`
+3. This creates `McFunction.McFunction` double-naming
+4. Per CODING_RULE_STYLE_00008, if the package has subdirectories, use `__init__.py`
+5. Per CODING_RULE_STYLE_00009, the import path must match the AUTOSAR mapping
+
+**How to verify both rules together:**
+
+```bash
+# 1. Check the mapping.json to see where the class should be
+grep "McFunction" docs/requirements/mapping.json
+
+# 2. Check if the package is a leaf or non-leaf package
+ls -la src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/
+
+# 3. If it's a non-leaf package (has subdirs):
+#    - Classes should be in __init__.py
+#    - NOT in separate .py files
+#    - Import from parent package only
+
+# 4. If it's a leaf package (no subdirs):
+#    - Classes should be in PackageName.py
+#    - Import includes the filename
+
+# 5. Verify the import works
+python -c "from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction"
+```
+
 **Definition Location:**
 - Classes should be defined in the module file corresponding to their mapped package path
 - If a class is mapped to `M2::AUTOSARTemplates::Package::SubPackage`, it MUST be importable from `armodel.models.M2.AUTOSARTemplates.Package.SubPackage`
@@ -955,14 +998,30 @@ class HwAttributeValue(ARObject):
 ```
 
 **Related Rules:**
-- CODING_RULE_STYLE_00008: Python Package Structure
+- **CODING_RULE_STYLE_00008: Python Package Structure** - ALWAYS check together with CODING_RULE_STYLE_00009
+  - These two rules must be verified together to avoid PATH_MISMATCH violations
+  - CODING_RULE_STYLE_00008 defines file structure (.py vs __init__.py)
+  - CODING_RULE_STYLE_00009 defines import path from AUTOSAR mapping
+  - When both rules are followed, classes are in the correct location and importable from the expected path
 - CODING_RULE_TYPE_00004: Forward References
 
 **Verification:**
-Run the class mapping integration test to verify all classes are at their correct locations:
-```bash
-pytest tests/integration_tests/test_class_mapping.py::TestClassMapping::test_all_types_combined -v
-```
+1. Run the deviation check to identify PATH_MISMATCH violations:
+   ```bash
+   python scripts/deviation-package.py
+   grep "PATH_MISMATCH" reports/deviation_package.md
+   ```
+
+2. Run the class mapping integration test to verify all classes are at their correct locations:
+   ```bash
+   pytest tests/integration_tests/test_class_mapping.py::TestClassMapping::test_all_types_combined -v
+   ```
+
+3. Check specific classes:
+   ```bash
+   # Check if a class is importable from its expected location
+   python -c "from armodel.models.M2.AUTOSARTemplates.PackageName import ClassName"
+   ```
 
 ---
 
