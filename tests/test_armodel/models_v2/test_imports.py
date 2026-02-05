@@ -8,10 +8,10 @@ class TestV2Imports:
 
     def test_import_top_level(self):
         """Test importing top-level V2 models."""
-        from armodel.models_v2 import AUTOSAR
-        from armodel.models_v2 import ARObject
-        from armodel.models_v2 import Identifiable
-        from armodel.models_v2 import __version__
+        from armodel.v2.models import AUTOSAR
+        from armodel.v2.models import ARObject
+        from armodel.v2.models import Identifiable
+        from armodel.v2.models import __version__
 
         assert __version__ == "2.0.0"
         assert AUTOSAR is not None
@@ -20,10 +20,10 @@ class TestV2Imports:
 
     def test_import_msr_modules(self):
         """Test importing MSR modules."""
-        from armodel.models_v2.M2.MSR import AsamHdo
-        from armodel.models_v2.M2.MSR import DataDictionary
-        from armodel.models_v2.M2.MSR import Documentation
-        from armodel.models_v2.M2.MSR import CalibrationData
+        from armodel.v2.models.M2.MSR import AsamHdo
+        from armodel.v2.models.M2.MSR import DataDictionary
+        from armodel.v2.models.M2.MSR import Documentation
+        from armodel.v2.models.M2.MSR import CalibrationData
 
         assert AsamHdo is not None
         assert DataDictionary is not None
@@ -32,10 +32,10 @@ class TestV2Imports:
 
     def test_import_common_structure(self):
         """Test importing CommonStructure modules."""
-        from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import (
+        from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
             Implementation
         )
-        from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure import (
+        from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
             InternalBehavior
         )
 
@@ -44,13 +44,13 @@ class TestV2Imports:
 
     def test_import_sw_component_template(self):
         """Test importing SWComponentTemplate modules."""
-        from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate import (
+        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import (
             SwComponentType
         )
-        from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate import (
+        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import (
             PPortPrototype
         )
-        from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate import (
+        from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import (
             ClientServerInterface
         )
 

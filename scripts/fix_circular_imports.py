@@ -11,13 +11,13 @@ with open(internal_behavior_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
 # Remove the import statement
-old_import = """from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+old_import = """from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ParameterDataPrototype,
     VariableDataPrototype,
 )"""
 
 new_import = """# Lazy imports to avoid circular dependency
-# from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+# from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
 #     ParameterDataPrototype,
 #     VariableDataPrototype,
 # )"""
@@ -28,7 +28,7 @@ content = content.replace(old_import, new_import)
 lazy_import_helper = '''
 def _get_data_prototype_classes():
     """Lazy import to avoid circular dependency."""
-    from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
         ParameterDataPrototype,
         VariableDataPrototype,
     )

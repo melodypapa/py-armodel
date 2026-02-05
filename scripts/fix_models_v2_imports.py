@@ -18,10 +18,10 @@ def fix_imports_in_file(file_path: Path, dry_run: bool = False) -> int:
 
     original_content = content
 
-    # Replace 'from armodel.models.M2' with 'from armodel.models_v2.M2'
-    # But NOT if it's already 'from armodel.models_v2'
+    # Replace 'from armodel.models.M2' with 'from armodel.v2.models.M2'
+    # But NOT if it's already 'from armodel.v2.models'
     pattern = r'from armodel\.models\.M2'
-    replacement = 'from armodel.models_v2.M2'
+    replacement = 'from armodel.v2.models.M2'
 
     content = re.sub(pattern, replacement, content)
 

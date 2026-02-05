@@ -5,7 +5,7 @@ Fix all relative imports in models_v2.
 Converts:
   from .SiblingModule import ClassName
 To:
-  from armodel.models_v2.M2.AUTOSARTemplates.ParentModule.SiblingModule import ClassName
+  from armodel.v2.models.M2.AUTOSARTemplates.ParentModule.SiblingModule import ClassName
 """
 
 import os
