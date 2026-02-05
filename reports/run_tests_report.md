@@ -12,7 +12,7 @@
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23621 | 30366 | **77.79%** |
+| **Lines** | 23627 | 30372 | **77.79%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
