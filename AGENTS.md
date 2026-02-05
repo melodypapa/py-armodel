@@ -82,10 +82,10 @@ ruff check --show-source .
 #### Type Checking: MyPy
 ```bash
 # Run mypy type checking
-mypy src/armodel/models_v2/
+mypy src/armodel/v2/models/
 
 # Run mypy with specific configuration
-mypy --config-file pyproject.toml src/armodel/models_v2/
+mypy --config-file pyproject.toml src/armodel/v2/models/
 ```
 
 #### Legacy Linter: Flake8
@@ -143,7 +143,7 @@ For detailed coding standards, see: `docs/development/coding_rules.md`
 The project is migrating to a V2 model structure with enhanced coding standards. Key differences:
 
 #### V2 Model Structure
-- **Location**: `src/armodel/models_v2/`
+- **Location**: `src/armodel/v2/models/`
 - **Purpose**: Refactored AUTOSAR M2 model with improved code organization
 - **Status**: Active development on `feat/v2-coding-rules-compliance` branch
 - **Key Features**:
@@ -405,12 +405,13 @@ src/armodel/
 │   │   ├── MSR/              # Meta-model semantic rules
 │   │   └── N/                # Naming conventions
 │   └── utils/                # Utility classes
-├── models_v2/              # AUTOSAR model definitions (V2 - refactored)
-│   ├── M2/
-│   │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
-│   │   ├── MSR/              # Meta-model semantic rules (V2)
-│   │   └── N/                # Naming conventions (V2)
-│   └── utils/                # Utility classes (V2)
+├── v2/                     # V2 package (refactored architecture)
+│   └── models/              # AUTOSAR model definitions (V2 - refactored)
+│       ├── M2/
+│       │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
+│       │   ├── MSR/              # Meta-model semantic rules (V2)
+│       │   └── N/                # Naming conventions (V2)
+│       └── utils/                # Utility classes (V2)
 ├── parser/                 # Parser implementation
 ├── report/                 # Report generation
 ├── transformer/            # Transformer
@@ -429,10 +430,10 @@ src/armodel/
 ### Core Modules
 - **parser.arxml_parser**: Main ARXML parser, based on `AbstractARXMLParser`
 - **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**: `AUTOSAR` class (singleton root), `AbstractAUTOSAR` class
-- **models_v2.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (in development)
+- **v2.models.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (in development)
 - **writer.arxml_writer**: ARXML file writer
 - **models/**: Contains all AUTOSAR data model classes (V1 - legacy)
-- **models_v2/**: Contains refactored AUTOSAR data model classes (V2 - active development)
+- **v2/models/**: Contains refactored AUTOSAR data model classes (V2 - active development)
 
 ## AUTOSAR Specifics
 
@@ -512,7 +513,7 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 - Automated coding rule validation
 
 **Related Files**:
-- `src/armodel/models_v2/`: V2 model structure
+- `src/armodel/v2/models/`: V2 model structure
 - `docs/development/coding_rules.md`: V2-specific coding rules
 - `scripts/check_v2_coding_rules.py`: Validate V2 against coding rules
 - `scripts/fix_v2_coding_rules.py`: Auto-fix V2 coding rule violations
@@ -722,7 +723,7 @@ The project is migrating to a V2 model structure with enhanced coding standards.
 - **Status**: Stable, in production use
 
 #### V2 Models (In Development)
-- **Location**: `src/armodel/models_v2/`
+- **Location**: `src/armodel/v2/models/`
 - **Type Hints**: Comprehensive, strict mypy checking
 - **Import Organization**: Automated via ruff, highly consistent
 - **Linting**: Ruff + mypy for comprehensive quality checks
@@ -736,10 +737,10 @@ The project is migrating to a V2 model structure with enhanced coding standards.
 python scripts/check_v2_coding_rules.py
 
 # Run mypy type checking
-mypy src/armodel/models_v2/
+mypy src/armodel/v2/models/
 
 # Run ruff linting
-ruff check src/armodel/models_v2/
+ruff check src/armodel/v2/models/
 ```
 
 #### Fixing V2 Coding Rules
@@ -748,7 +749,7 @@ ruff check src/armodel/models_v2/
 python scripts/fix_v2_coding_rules.py
 
 # Auto-fix ruff issues
-ruff check --fix src/armodel/models_v2/
+ruff check --fix src/armodel/v2/models/
 ```
 
 #### Validating V2 Structure

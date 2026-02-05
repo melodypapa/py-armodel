@@ -38,7 +38,7 @@ def fix_generic_structure_init() -> None:
         content = f.read()
 
     # Check if it already has absolute imports
-    if "from armodel.models_v2" in content:
+    if "from armodel.v2.models" in content:
         print(f"✅ {init_file} already uses absolute imports")
         return
 
@@ -53,14 +53,14 @@ V2 Implementation:
 """
 
 # Leaf package files
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *
 
 # Subdirectory packages
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import *
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses import *
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import *
-from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.VariantHandling import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import *
 
 '''
 

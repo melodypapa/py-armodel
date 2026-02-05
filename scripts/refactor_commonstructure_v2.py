@@ -13,209 +13,209 @@ from pathlib import Path
 IMPORT_MAPPINGS = {
     # GenericStructure mappings
     "from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import",
 
     "from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import",
 
     "from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import",
 
     "from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import",
 
     "from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.":
-    "from armodel.models_v2.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.",
+    "from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.",
 
     # CommonStructure mappings - parent directory files
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationElementInParameterInstanceRef import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ImplementationElementInParameterInstanceRef import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ImplementationElementInParameterInstanceRef import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.McDataAccessDetails import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.McDataAccessDetails import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.McDataAccessDetails import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.McDataInstance import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.McDataInstance import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.McDataInstance import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.McFunction import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.McFunction import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.McFunction import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.McParameterElementGroup import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.McParameterElementGroup import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.McParameterElementGroup import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.McSwEmulationMethodSupport import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.McSwEmulationMethodSupport import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.McSwEmulationMethodSupport import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.RoleBasedMcDataAssignment import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.RoleBasedMcDataAssignment import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.RoleBasedMcDataAssignment import",
 
     # CommonStructure mappings - MeasurementCalibrationSupport
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.",
 
     # CommonStructure mappings - Constants
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Constants import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import",
 
     # CommonStructure mappings - SignalServiceTranslation
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslationControlEnum import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationControlEnum import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationControlEnum import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslationElementProps import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationElementProps import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationElementProps import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslationEventProps import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationEventProps import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationEventProps import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslationProps import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationProps import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationProps import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslationPropsSet import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationPropsSet import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationPropsSet import",
 
     # CommonStructure - ValueSpecification
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification",
 
     # CommonStructure - ResourceConsumption
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import",
 
     # CommonStructure - StandardizationTemplate
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import AtpBlueprintable",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import AtpBlueprintable",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMappingSet import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping.BlueprintMappingSet import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping.BlueprintMappingSet import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint.PortPrototypeBlueprint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint.PortPrototypeBlueprint import",
 
     # CommonStructure - Timing (parent to subdirs)
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TDLETZoneClock import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClockSyncAccuracy import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.ModeInBswInstanceRef import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.ModeInBswInstanceRef import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.ModeInBswInstanceRef import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.ModeInSwcInstanceRef import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.ModeInSwcInstanceRef import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.ModeInSwcInstanceRef import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConditionFormula import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingConditionFormula import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingConditionFormula import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensionResource import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingExtensionResource import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingExtensionResource import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingModeInstance import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingModeInstance import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingModeInstance import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable.Traceable import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable.Traceable import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import",
 
     # SWComponentTemplate
     "from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import",
 
     "from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import",
 
     "from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Components import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import",
 
     "from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.Communication import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import",
 
     # MSR DataDictionary
     "from armodel.models.M2.MSR.DataDictionary.DataDefProperties import":
-    "from armodel.models_v2.M2.MSR.DataDictionary.DataDefProperties import",
+    "from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import",
 
     "from armodel.models.M2.MSR.DataDictionary":
-    "from armodel.models_v2.M2.MSR.DataDictionary",
+    "from armodel.v2.models.M2.MSR.DataDictionary",
 
     # Remaining CommonStructure mappings
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.McSupportData import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSupportData import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSupportData import",
 
     # RptSupport subdirectory files
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptAccessEnum import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptAccessEnum import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptAccessEnum import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptEnablerImplTypeEnum import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptEnablerImplTypeEnum import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptEnablerImplTypeEnum import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptExecutionControlEnum import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptExecutionControlEnum import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptExecutionControlEnum import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptPreparationEnum import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptPreparationEnum import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptPreparationEnum import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import",
 
     "from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import",
 
     # SWComponentTemplate - InternalBehavior
     "from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import":
-    "from armodel.models_v2.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import",
+    "from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import",
 }
 
 
