@@ -35,7 +35,7 @@ class NmClusterCoupling(ARObject, ABC):
     network management clusters for coordinated network management.
     """
     def __init__(self):
-        if type(self) == NmClusterCoupling:
+        if type(self) is NmClusterCoupling:
             raise TypeError("NmClusterCoupling is an abstract class.")
 
         super().__init__()
@@ -108,7 +108,7 @@ class NmNode(Identifiable, ABC):
     controller references, node IDs, and communication properties.
     """
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == NmNode:
+        if type(self) is NmNode:
             raise TypeError("NmNode is an abstract class.")
 
         super().__init__(parent, short_name)

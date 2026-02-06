@@ -28,7 +28,7 @@ class NetworkEndpointAddress(ARObject, ABC):
     addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
     """
     def __init__(self):
-        if type(self) == NetworkEndpointAddress:
+        if type(self) is NetworkEndpointAddress:
             raise TypeError("NetworkEndpointAddress is an abstract class.")
 
         super().__init__()

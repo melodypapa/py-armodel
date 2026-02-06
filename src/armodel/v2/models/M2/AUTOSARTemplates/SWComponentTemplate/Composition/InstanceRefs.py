@@ -16,7 +16,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
     def __init__(self):
-        if type(self) == PortInCompositionTypeInstanceRef:
+        if type(self) is PortInCompositionTypeInstanceRef:
             raise TypeError("PortInCompositionTypeInstanceRef is an abstract class.")
 
         super().__init__()

@@ -52,9 +52,23 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition impor
     SwComponentPrototype,
     SwConnector,
 )
-
-# Wildcard import for re-exporting Datatype classes (has empty __all__ to avoid circular dependencies)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import *
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import (
+    ApplicationArrayDataType,
+    ApplicationArrayElement,
+    ApplicationCompositeDataType,
+    ApplicationCompositeElementDataPrototype,
+    ApplicationDataType,
+    ApplicationPrimitiveDataType,
+    ApplicationRecordDataType,
+    ApplicationRecordElement,
+    AutosarDataPrototype,
+    AutosarDataType,
+    DataPrototype,
+    DataTypeMap,
+    DataTypeMappingSet,
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
     EndToEndDescription,
     EndToEndProtection,
@@ -115,6 +129,22 @@ __all__ = [
     "ProcessingKindEnum",
     "PulseTestEnum",
     "SignalFanEnum",
+    # Datatype
+    "ApplicationArrayDataType",
+    "ApplicationArrayElement",
+    "ApplicationCompositeDataType",
+    "ApplicationCompositeElementDataPrototype",
+    "ApplicationDataType",
+    "ApplicationPrimitiveDataType",
+    "ApplicationRecordDataType",
+    "ApplicationRecordElement",
+    "AutosarDataPrototype",
+    "AutosarDataType",
+    "DataPrototype",
+    "DataTypeMap",
+    "DataTypeMappingSet",
+    "ParameterDataPrototype",
+    "VariableDataPrototype",
     # Communication
     "ClientComSpec",
     "CompositeNetworkRepresentation",

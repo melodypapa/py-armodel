@@ -138,5 +138,6 @@ __all__ = [
     'DocumentationBlock',
     'Item',
     'ListEnum',
+    'MlFigure',
     'Paginateable',
 ]

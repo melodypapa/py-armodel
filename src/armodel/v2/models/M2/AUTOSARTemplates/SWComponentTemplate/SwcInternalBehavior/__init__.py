@@ -1,6 +1,4 @@
-from typing import (
-    List,
-)
+from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     ExecutableEntity,
@@ -315,5 +313,43 @@ class SwcInternalBehavior(InternalBehavior):
 
 
 __all__ = [
+    'AbstractAccessPoint',
+    'ARBoolean',
+    'ARLiteral',
+    'AsynchronousServerCallPoint',
+    'AsynchronousServerCallResultPoint',
+    'AutosarParameterRef',
+    'AutosarVariableRef',
+    'BackgroundEvent',
+    'Boolean',
+    'DataReceivedEvent',
+    'DataSendCompletedEvent',
+    'ExecutableEntity',
+    'ExternalTriggeringPoint',
+    'IncludedDataTypeSet',
+    'IncludedModeDeclarationGroupSet',
+    'InitEvent',
+    'InternalBehavior',
+    'InternalTriggerOccurredEvent',
+    'InternalTriggeringPoint',
+    'ModeAccessPoint',
+    'ModeSwitchPoint',
+    'ModeSwitchedAckEvent',
+    'OperationInvokedEvent',
+    'ParameterAccess',
+    'ParameterDataPrototype',
+    'PerInstanceMemory',
+    'PortAPIOption',
+    'RefType',
+    'RTEEvent',
+    'RunnableEntity',
+    'RunnableEntityArgument',
+    'ServerCallPoint',
     'SwcInternalBehavior',
+    'SwcModeSwitchEvent',
+    'SwcServiceDependency',
+    'SynchronousServerCallPoint',
+    'TimingEvent',
+    'VariableAccess',
+    'VariableDataPrototype',
 ]

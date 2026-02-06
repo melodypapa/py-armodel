@@ -28,7 +28,7 @@ class LinFrame(Frame, ABC):
     foundation for concrete LIN frame implementations.
     """
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == LinFrame:
+        if type(self) is LinFrame:
             raise TypeError("LinFrame is an abstract class.")
 
         super().__init__(parent, short_name)
@@ -92,7 +92,7 @@ class ScheduleTableEntry(ARObject, ABC):
     """
     def __init__(self):
 
-        if type(self) == ScheduleTableEntry:
+        if type(self) is ScheduleTableEntry:
             raise TypeError("ScheduleTableEntry is an abstract class.")
 
         super().__init__()
@@ -163,7 +163,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     """
     def __init__(self):
 
-        if type(self) == LinConfigurationEntry:
+        if type(self) is LinConfigurationEntry:
             raise TypeError("LinConfigurationEntry is an abstract class.")
 
         super().__init__()

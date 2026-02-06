@@ -28,7 +28,7 @@ class HeapUsage(Identifiable, ABC):
             parent: The parent ARObject that contains this heap usage
             short_name: The unique short name of this heap usage
         """
-        if type(self) == HeapUsage:
+        if type(self) is HeapUsage:
             raise TypeError("HeapUsage is an abstract class.")
 
         super().__init__(parent, short_name)

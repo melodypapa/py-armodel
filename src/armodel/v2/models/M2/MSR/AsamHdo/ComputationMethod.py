@@ -26,7 +26,7 @@ class CompuContent(ARObject, ABC):
     Base: ARObject
     """
     def __init__(self):
-        if type(self) == CompuContent:
+        if type(self) is CompuContent:
             raise TypeError("CompuContent is an abstract class.")
 
         super().__init__()
@@ -94,7 +94,7 @@ class CompuConstContent(ARObject, ABC):
     Aggregated by   : CompuConst.compuConstContentType
     """
     def __init__(self):
-        if type(self) == CompuConstContent:
+        if type(self) is CompuConstContent:
             raise TypeError("CompuConstContent is an abstract class.")
 
         super().__init__()
@@ -161,7 +161,7 @@ class CompuScaleContents(ARObject, ABC):
     Base: ARObject
     """
     def __init__(self):
-        if type(self) == CompuScaleContents:
+        if type(self) is CompuScaleContents:
             raise TypeError("CompuScaleContents is an abstract class.")
 
         super().__init__()

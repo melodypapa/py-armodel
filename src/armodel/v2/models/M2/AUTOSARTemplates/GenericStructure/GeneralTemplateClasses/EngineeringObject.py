@@ -24,7 +24,7 @@ class EngineeringObject(ARObject, ABC):
     """
 
     def __init__(self):
-        if type(self) == EngineeringObject:
+        if type(self) is EngineeringObject:
             raise TypeError("EngineeringObject is an abstract class.")
 
         super().__init__()

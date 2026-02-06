@@ -468,10 +468,9 @@ class ServerComSpec(PPortComSpec):
     def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
         return self.transformationComSpecProps
 
-    # ruff: noqa: N803  # AUTOSAR API uses camelCase parameter names for consistency
-    def addTransformationComSpecProps(self, transformationComSpecProps: TransformationComSpecProps):
-        if transformationComSpecProps is not None:
-            self.transformationComSpecProps.append(transformationComSpecProps)
+    def addTransformationComSpecProps(self, transformation_com_spec_props: TransformationComSpecProps):
+        if transformation_com_spec_props is not None:
+            self.transformationComSpecProps.append(transformation_com_spec_props)
         return self
 
 

@@ -415,190 +415,109 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDe
     AtpDefinition,
 )
 
-# Wildcard import for re-exporting SWComponentTemplate (has empty __all__ to avoid circular dependencies)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import *
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
-    ClientComSpec,
-    CompositeNetworkRepresentation,
-    HandleInvalidEnum,
-    HandleOutOfRangeEnum,
-    HandleOutOfRangeStatusEnum,
-    HandleTimeoutEnum,
-    ModeSwitchedAckRequest,
-    ModeSwitchReceiverComSpec,
-    ModeSwitchSenderComSpec,
-    NonqueuedReceiverComSpec,
-    NonqueuedSenderComSpec,
-    NvProvideComSpec,
-    NvRequireComSpec,
-    ParameterProvideComSpec,
-    ParameterRequireComSpec,
-    PPortComSpec,
-    QueuedReceiverComSpec,
-    QueuedSenderComSpec,
-    ReceiverComSpec,
-    RPortComSpec,
-    SenderComSpec,
-    ServerComSpec,
-    TransformationComSpecProps,
-    TransmissionAcknowledgementRequest,
-    TransmissionModeDefinitionEnum,
-    UserDefinedTransformationComSpecProps,
-)
-
-# Components wildcard import removed to avoid circular import with InternalBehavior
-# from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import *
-# Additional SWComponentTemplate imports
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
-    InnerPortGroupInCompositionInstanceRef,
-    ModeGroupInAtomicSwcInstanceRef,
-    OperationInAtomicSwcInstanceRef,
-    PModeGroupInAtomicSwcInstanceRef,
-    POperationInAtomicSwcInstanceRef,
-    RModeGroupInAtomicSWCInstanceRef,
-    RModeInAtomicSwcInstanceRef,
-    ROperationInAtomicSwcInstanceRef,
-    RVariableInAtomicSwcInstanceRef,
-    VariableInAtomicSwcInstanceRef,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
-    AssemblySwConnector,
-    CompositionSwComponentType,
-    DelegationSwConnector,
-    PassThroughSwConnector,
-    SwComponentPrototype,
-    SwConnector,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
-    PortInCompositionTypeInstanceRef,
-    PPortInCompositionInstanceRef,
-    RPortInCompositionInstanceRef,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import (
+# Explicit import from SWComponentTemplate for all exported classes
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import (
+    # Datatype
     ApplicationArrayDataType,
     ApplicationArrayElement,
     ApplicationCompositeDataType,
     ApplicationCompositeElementDataPrototype,
     ApplicationDataType,
+    # PortInterface
+    ApplicationError,
     ApplicationPrimitiveDataType,
     ApplicationRecordDataType,
     ApplicationRecordElement,
+    ArgumentDataPrototype,
+    # Composition
+    AssemblySwConnector,
     AutosarDataPrototype,
     AutosarDataType,
-    DataPrototype,
-    DataTypeMap,
-    DataTypeMappingSet,
-    ParameterDataPrototype,
-    VariableDataPrototype,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
-    EndToEndDescription,
-    EndToEndProtection,
-    EndToEndProtectionISignalIPdu,
-    EndToEndProtectionSet,
-    EndToEndProtectionVariablePrototype,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    ApplicationError,
-    ArgumentDataPrototype,
+    # Communication
+    ClientComSpec,
     ClientServerApplicationErrorMapping,
     ClientServerInterface,
     ClientServerInterfaceMapping,
     ClientServerOperation,
     ClientServerOperationMapping,
+    CompositeNetworkRepresentation,
+    CompositionSwComponentType,
     DataInterface,
+    # ApplicationAttributes
+    DataLimitKindEnum,
+    DataPrototype,
     DataPrototypeMapping,
+    DataTypeMap,
+    DataTypeMappingSet,
+    DelegationSwConnector,
+    # EndToEndProtection
+    EndToEndDescription,
+    EndToEndProtection,
+    EndToEndProtectionISignalIPdu,
+    EndToEndProtectionSet,
+    EndToEndProtectionVariablePrototype,
+    # RPTScenario
+    ExternalTriggeringPointIdent,
+    FilterDebouncingEnum,
+    HandleInvalidEnum,
+    HandleOutOfRangeEnum,
+    HandleOutOfRangeStatusEnum,
+    HandleTimeoutEnum,
+    IdentCaption,
     InvalidationPolicy,
     MetaDataItem,
     MetaDataItemSet,
+    ModeAccessPointIdent,
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
     ModeInterfaceMapping,
+    ModeSwitchedAckRequest,
     ModeSwitchInterface,
+    ModeSwitchReceiverComSpec,
+    ModeSwitchSenderComSpec,
+    NonqueuedReceiverComSpec,
+    NonqueuedSenderComSpec,
     NvDataInterface,
+    NvProvideComSpec,
+    NvRequireComSpec,
+    ParameterDataPrototype,
     ParameterInterface,
+    ParameterProvideComSpec,
+    ParameterRequireComSpec,
+    PassThroughSwConnector,
     PortInterface,
     PortInterfaceMapping,
     PortInterfaceMappingSet,
+    PPortComSpec,
+    # Components
+    PPortPrototype,
+    ProcessingKindEnum,
+    PulseTestEnum,
+    QueuedReceiverComSpec,
+    QueuedSenderComSpec,
+    ReceiverComSpec,
+    RPortComSpec,
+    SenderComSpec,
     SenderReceiverInterface,
+    ServerComSpec,
+    SignalFanEnum,
+    # SwcImplementation
+    SwcImplementation,
+    # SoftwareComponentDocumentation
+    SwComponentDocumentation,
+    SwComponentPrototype,
+    # SwComponentType
+    SwComponentType,
+    SwConnector,
     TextTableMapping,
+    TransformationComSpecProps,
+    TransmissionAcknowledgementRequest,
+    TransmissionModeDefinitionEnum,
     TriggerInterface,
     TriggerInterfaceMapping,
+    UserDefinedTransformationComSpecProps,
     VariableAndParameterInterfaceMapping,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import (
-    ApplicationCompositeElementInPortInterfaceInstanceRef,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
-    ExternalTriggeringPointIdent,
-    IdentCaption,
-    ModeAccessPointIdent,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
-    SwComponentDocumentation,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
-    SwcImplementation,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    SwcInternalBehavior,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
-    AbstractAccessPoint,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
-    ArVariableInImplementationDataInstanceRef,
-    AutosarParameterRef,
-    AutosarVariableRef,
-    ParameterAccess,
-    VariableAccess,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import (
-    IncludedDataTypeSet,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
-    IncludedModeDeclarationGroupSet,
-    ModeAccessPoint,
-    ModeSwitchPoint,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import (
-    PerInstanceMemory,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
-    PortAPIOption,
-    PortDefinedArgumentValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
-    AsynchronousServerCallReturnsEvent,
-    BackgroundEvent,
-    DataReceivedEvent,
-    DataReceiveErrorEvent,
-    DataSendCompletedEvent,
-    DataWriteCompletedEvent,
-    InitEvent,
-    InternalTriggerOccurredEvent,
-    ModeSwitchedAckEvent,
-    OperationInvokedEvent,
-    RTEEvent,
-    SwcModeSwitchEvent,
-    TimingEvent,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
-    AsynchronousServerCallPoint,
-    AsynchronousServerCallResultPoint,
-    ServerCallPoint,
-    SynchronousServerCallPoint,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (
-    RoleBasedPortAssignment,
-    SwcServiceDependency,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (
-    ExternalTriggeringPoint,
-    InternalTriggeringPoint,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-    SwComponentType,
+    VariableDataPrototype,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
