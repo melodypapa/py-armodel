@@ -80,7 +80,7 @@ class SwcInternalBehavior(InternalBehavior):
         self.events = []                                            # type: List[RTEEvent]
         self.exclusiveAreaPolicies = []                             # type: List[SwcExclusiveAreaPolicy]
         self.explicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
-        self.handleTerminationAndRestart = None                     # type: str
+        self.handleTerminationAndRestart: Union[str, None] = None
         self.implicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
         self.includedDataTypeSets = []                              # type: List[IncludedDataTypeSet]
         self.includedModeDeclarationGroupSets = []                  # type: List[IncludedModeDeclarationGroupSet]
@@ -91,7 +91,7 @@ class SwcInternalBehavior(InternalBehavior):
         self.runnables = []                                         # type: List[RunnableEntity]
         self.serviceDependencies = []                               # type: List[SwcServiceDependency]
         self.sharedParameters = []                                  # type: List[ParameterDataPrototype]
-        self.supportsMultipleInstantiation = None                   # type: Boolean
+        self.supportsMultipleInstantiation: Union[Boolean, None] = None
         self.variationPointProxies = []                             # type: List[VariationPointProxy]
 
     def getArTypedPerInstanceMemories(self) -> List[VariableDataPrototype]:

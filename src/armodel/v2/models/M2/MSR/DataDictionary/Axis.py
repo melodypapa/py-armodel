@@ -15,7 +15,7 @@ class SwGenericAxisParam(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.swGenericAxisParamTypeRef = None           # type: RefType
+        self.swGenericAxisParamTypeRef: Union[RefType, None] = None
         self.vfs = []                                   # type: List[ARFloat]
 
     def getSwGenericAxisParamTypeRef(self):
@@ -41,7 +41,7 @@ class SwAxisGeneric(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.swAxisTypeRef = None                   # type: RefType
+        self.swAxisTypeRef: Union[RefType, None] = None
         self.swGenericAxisParams = []               # type: List[SwGenericAxisParam]
 
     def getSwAxisTypeRef(self):
@@ -62,14 +62,14 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
     def __init__(self) -> None:
         super().__init__()
 
-        self.compuMethodRef = None              # type: RefType
-        self.dataConstrRef = None               # type: RefType
-        self.inputVariableTypeRef = None        # type: RefType
-        self.swAxisGeneric = None               # type: SwAxisGeneric
-        self.swMaxAxisPoints = None             # type: ARNumerical
-        self.swMinAxisPoints = None             # type: ARNumerical
+        self.compuMethodRef: Union[RefType, None] = None
+        self.dataConstrRef: Union[RefType, None] = None
+        self.inputVariableTypeRef: Union[RefType, None] = None
+        self.swAxisGeneric: Union[SwAxisGeneric, None] = None
+        self.swMaxAxisPoints: Union[ARNumerical, None] = None
+        self.swMinAxisPoints: Union[ARNumerical, None] = None
         self.swVariableRefs = []                # type: List
-        self.unitRef = None                     # type: RefType
+        self.unitRef: Union[RefType, None] = None
 
     def getCompuMethodRef(self):
         return self.compuMethodRef
@@ -132,9 +132,9 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def __init__(self) -> None:
         super().__init__()
 
-        self.sharedAxisTypeRef = None           # type: RefType
-        self.swAxisIndex = None                 # type: ARNumerical
-        self.swCalprmRef = None                 # type: RefType
+        self.sharedAxisTypeRef: Union[RefType, None] = None
+        self.swAxisIndex: Union[ARNumerical, None] = None
+        self.swCalprmRef: Union[RefType, None] = None
 
     def getSharedAxisTypeRef(self):
         return self.sharedAxisTypeRef

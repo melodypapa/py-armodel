@@ -24,7 +24,7 @@ class IncludedDataTypeSet(ARObject):
         super().__init__()
 
         self.data_type_refs = []            # type: List[RefType]
-        self.literal_prefix = None          # type: ARLiteral
+        self.literal_prefix: Union[ARLiteral, None] = None
 
     def addDataTypeRef(self, ref_type: RefType):
         self.data_type_refs.append(ref_type)

@@ -42,7 +42,7 @@ class EndToEndDescription(ARObject):
         self.dataIdNibbleOffset: Union[Union[PositiveInteger, None] , None] = None
         self.dataLength: Union[Union[PositiveInteger, None] , None] = None
         self.maxDeltaCounterInit: Union[Union[PositiveInteger, None] , None] = None
-        self.maxNoNewOrRepeatedData: int = None
+        self.maxNoNewOrRepeatedData: Union[int, None] = None
         self.syncCounterInit: Union[Union[PositiveInteger, None] , None] = None
 
     def getCategory(self):
@@ -128,7 +128,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
 
         self._receiverIRefs: List[VariableDataPrototypeInSystemInstanceRef] = []
         self.senderIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
-        self.shortLabel: str = None
+        self.shortLabel: Union[str, None] = None
 
     def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef):
         self._receiverIRefs.append(iref)

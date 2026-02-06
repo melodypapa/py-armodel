@@ -13,8 +13,8 @@ class ECUMapping(Identifiable):
         super().__init__(parent, short_name)
 
         self.commControllerMappings = []                                # type: List[CommunicationControllerMapping]
-        self.ecuRef = None                                              # type: RefType
-        self.ecuInstanceRef = None                                      # type: RefType
+        self.ecuRef: Union[RefType, None] = None
+        self.ecuInstanceRef: Union[RefType, None] = None
         self.hwPortMappings = []                                        # type: List[HwPortMapping]
 
     def getCommControllerMappings(self):

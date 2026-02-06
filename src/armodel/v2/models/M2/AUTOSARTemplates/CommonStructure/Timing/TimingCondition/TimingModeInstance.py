@@ -25,7 +25,7 @@ class TimingModeInstance(ARObject):
         """
         super().__init__()
         self.modeRef: Union[Union[RefType, None] , None] = None
-        self.modeValue: str = None
+        self.modeValue: Union[str, None] = None
 
     def getModeRef(self) -> RefType:
         """

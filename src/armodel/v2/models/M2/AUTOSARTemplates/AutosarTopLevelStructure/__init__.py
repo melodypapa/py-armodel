@@ -155,12 +155,12 @@ class AbstractAUTOSAR(CollectableElement):
         self.systems = {}                                   # type: Dict[str, System]
         self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
 
-        self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
+        self.rootSwCompositionPrototype: Union[RootSwCompositionPrototype, None] = None
 
-        self.adminData = None                               # type: AdminData
+        self.adminData: Union[AdminData, None] = None
         self.arPackages = {}                                # type: Dict[str, ARPackage]
-        self.fileInfoComment = None                         # type: FileInfoComment
-        self.introduction = None                            # type: DocumentationBlock
+        self.fileInfoComment: Union[FileInfoComment, None] = None
+        self.introduction: Union[DocumentationBlock, None] = None
 
     def getElement(self, short_name: str) -> Referrable:
         if (short_name in self.arPackages):

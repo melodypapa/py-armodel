@@ -132,7 +132,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         super().__init__(parent, short_name)
 
         # Number of events in burst
-        self.burst_size: int = None
+        self.burst_size: Union[int, None] = None
         # Burst interval
         self.burst_interval: Union[Union[TimeValue, None] , None] = None
 

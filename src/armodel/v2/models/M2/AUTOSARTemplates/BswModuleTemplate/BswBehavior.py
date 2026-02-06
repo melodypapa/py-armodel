@@ -2399,7 +2399,7 @@ class BswSchedulerNamePrefix(ARObject):
         Initializes the BswSchedulerNamePrefix with default values.
         """
         super().__init__()
-        self.prefix: str = None
+        self.prefix: Union[str, None] = None
 
     def getPrefix(self):
         return self.prefix

@@ -20,9 +20,9 @@ class GeneralAnnotation(ARObject, ABC):
             raise TypeError("GeneralAnnotation is an abstract class.")
 
         super().__init__()
-        self.annotationOrigin = None        # type: ARLiteral
-        self.annotationText = None          # type: DocumentationBlock
-        self.label = None                   # type: MultilanguageLongName
+        self.annotationOrigin: Union[ARLiteral, None] = None
+        self.annotationText: Union[DocumentationBlock, None] = None
+        self.label: Union[MultilanguageLongName, None] = None
 
     def getAnnotationOrigin(self) -> ARLiteral:
         return self.annotationOrigin

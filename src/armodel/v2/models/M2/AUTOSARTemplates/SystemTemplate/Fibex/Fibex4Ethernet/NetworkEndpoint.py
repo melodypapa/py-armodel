@@ -203,7 +203,7 @@ class DoIpEntity(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.doIpEntityRole = None                                  # type: DoIpEntityRoleEnum
+        self.doIpEntityRole: Union[DoIpEntityRoleEnum, None] = None
 
     def getDoIpEntityRole(self):
         return self.doIpEntityRole
@@ -228,7 +228,7 @@ class TimeSyncClientConfiguration(ARObject):
         super().__init__()
 
         self.orderedMasters = []
-        self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
+        self.timeSyncTechnology: Union[TimeSyncTechnologyEnum, None] = None
 
     def getOrderedMasters(self):
         return self.orderedMasters
@@ -259,7 +259,7 @@ class TimeSyncServerConfiguration(Referrable):
         self.priority: Union[Union[PositiveInteger, None] , None] = None
         self.syncInterval: Union[Union[TimeValue, None] , None] = None
         self.timeSyncServerIdentifier: Union[Union[String, None] , None] = None
-        self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
+        self.timeSyncTechnology: Union[TimeSyncTechnologyEnum, None] = None
 
     def getPriority(self):
         return self.priority

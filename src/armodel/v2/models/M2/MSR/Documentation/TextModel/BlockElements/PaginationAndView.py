@@ -18,8 +18,8 @@ class Paginateable(DocumentViewSelectable, ABC):
             raise TypeError("Paginateable is an abstract class.")
         super().__init__()
 
-        self.chapterBreak = None                                # type: ChapterEnumBreak
-        self.keepWithPrevious = None                            # type: KeepWithPreviousEnum
+        self.chapterBreak: Union[ChapterEnumBreak, None] = None
+        self.keepWithPrevious: Union[KeepWithPreviousEnum, None] = None
 
     def getBreak(self):
         return self.chapterBreak

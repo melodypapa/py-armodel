@@ -118,7 +118,7 @@ class TransmissionAcknowledgementRequest(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.timeout: float = None
+        self.timeout: Union[float, None] = None
 
 
 class SenderComSpec(PPortComSpec, ABC):
@@ -131,7 +131,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = []
         self.dataElementRef: Union[Union[RefType, None] , None] = None
         self.networkRepresentation: Union[Union[SwDataDefProps, None] , None] = None
-        self.handleOutOfRange: str = None
+        self.handleOutOfRange: Union[str, None] = None
         self.transmissionAcknowledge: Union[Union[TransmissionAcknowledgementRequest, None] , None] = None
         self.usesEndToEndProtection: Union[Union[ARBoolean, None] , None] = None
 
@@ -294,13 +294,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
         super().__init__()
 
         self.compositeNetworkRepresentations = []                            # type: List[CompositeNetworkRepresentation]
-        self.dataElementRef = None                                           # type: RefType
-        self.networkRepresentation = None                                    # type: SwDataDefProps
-        self.handleOutOfRange = None                                         # type: HandleOutOfRangeEnum
-        self.handleOutOfRangeStatus = None                                   # type: HandleOutOfRangeStatusEnum
-        self.maxDeltaCounterInit = None                                      # type: PositiveInteger
-        self.maxNoNewOrRepeatedData = None                                   # type: PositiveInteger
-        self.usesEndToEndProtection = None                                   # type: ARBoolean
+        self.dataElementRef: Union[RefType, None] = None
+        self.networkRepresentation: Union[SwDataDefProps, None] = None
+        self.handleOutOfRange: Union[HandleOutOfRangeEnum, None] = None
+        self.handleOutOfRangeStatus: Union[HandleOutOfRangeStatusEnum, None] = None
+        self.maxDeltaCounterInit: Union[PositiveInteger, None] = None
+        self.maxNoNewOrRepeatedData: Union[PositiveInteger, None] = None
+        self.usesEndToEndProtection: Union[ARBoolean, None] = None
 
     def getDataElementRef(self):
         return self.dataElementRef

@@ -13,8 +13,8 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
         super().__init__()
 
-        self.maxGradient = None         # type: ARFloat
-        self.monotony = None            # type: MonotonyEnum
+        self.maxGradient: Union[ARFloat, None] = None
+        self.monotony: Union[MonotonyEnum, None] = None
 
 
 class SwCalprmAxis(ARObject):
@@ -26,11 +26,11 @@ class SwCalprmAxis(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.category = None                        # type: CalprmAxisCategoryEnum
-        self.displayFormat = None                   # type: DisplayFormatString
-        self.sw_axis_index = None                   # type: AxisIndexType
-        self.swCalibrationAccess = None             # type: SwCalibrationAccessEnum
-        self.sw_calprm_axis_type_props = None       # type: SwCalprmAxisTypeProps
+        self.category: Union[CalprmAxisCategoryEnum, None] = None
+        self.displayFormat: Union[DisplayFormatString, None] = None
+        self.sw_axis_index: Union[AxisIndexType, None] = None
+        self.swCalibrationAccess: Union[SwCalibrationAccessEnum, None] = None
+        self.sw_calprm_axis_type_props: Union[SwCalprmAxisTypeProps, None] = None
 
 class SwCalprmAxisSet(ARObject):
 

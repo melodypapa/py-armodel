@@ -373,7 +373,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         super().__init__(parent, short_name)
 
         # Private storage for software calibration access setting
-        self._swCalibrationAccess: str = None
+        self._swCalibrationAccess: Union[str, None] = None
         # Type reference to the mode declaration group
         self.typeTRef: Union[Union[TRefType, None] , None] = None
 
@@ -467,7 +467,7 @@ class ModeErrorBehavior(ARObject):
         Initializes the ModeErrorBehavior with default values.
         """
         super().__init__()
-        self.errorPolicy: str = None
+        self.errorPolicy: Union[str, None] = None
 
     def getErrorPolicy(self):
         return self.errorPolicy

@@ -225,7 +225,7 @@ class AliasNameAssignment(ARObject):
         Initializes the AliasNameAssignment with default values.
         """
         super().__init__()
-        self.aliasName: str = None
+        self.aliasName: Union[str, None] = None
         self.elementRef: Union[Union[AnyInstanceRef, None] , None] = None
 
     def getAliasName(self):
@@ -283,8 +283,8 @@ class RtePluginProps(ARObject):
         Initializes the RtePluginProps with default values.
         """
         super().__init__()
-        self.pluginName: str = None
-        self.pluginVersion: str = None
+        self.pluginName: Union[str, None] = None
+        self.pluginVersion: Union[str, None] = None
 
     def getPluginName(self):
         return self.pluginName

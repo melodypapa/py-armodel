@@ -19,8 +19,8 @@ class McDataAccessDetails(ARObject):
         Initializes the McDataAccessDetails with default values.
         """
         super().__init__()
-        self.accessType: str = None
-        self.address: str = None
+        self.accessType: Union[str, None] = None
+        self.address: Union[str, None] = None
 
     def getAccessType(self) -> str:
         """

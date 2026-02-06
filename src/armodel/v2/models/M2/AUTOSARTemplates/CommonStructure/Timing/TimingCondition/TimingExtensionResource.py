@@ -19,8 +19,8 @@ class TimingExtensionResource(ARObject):
         Initializes the TimingExtensionResource with default values.
         """
         super().__init__()
-        self.resourceName: str = None
-        self.resourceType: str = None
+        self.resourceName: Union[str, None] = None
+        self.resourceType: Union[str, None] = None
 
     def getResourceName(self) -> str:
         """

@@ -23,8 +23,8 @@ class McGroup(ARObject):
         Initializes the McGroup with default values.
         """
         super().__init__()
-        self.groupName: str = None
-        self.groupId: str = None
+        self.groupName: Union[str, None] = None
+        self.groupId: Union[str, None] = None
 
     def getGroupName(self):
         return self.groupName

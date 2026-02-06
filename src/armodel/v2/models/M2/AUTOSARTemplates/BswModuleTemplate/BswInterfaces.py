@@ -635,7 +635,7 @@ class BswEntryRelationship(ARObject):
         Initializes the BswEntryRelationship with default values.
         """
         super().__init__()
-        self.relationType: str = None
+        self.relationType: Union[str, None] = None
 
     def getRelationType(self):
         return self.relationType

@@ -15,14 +15,14 @@ class SwRecordLayoutV(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.baseTypeRef = None                         # type: RefType
-        self.desc = None                                # type: MultiLanguageOverviewParagraph
-        self.shortLabel = None                          # type: ARLiteral
-        self.swGenericAxisParamTypeRef = None           # type: RefType
-        self.swRecordLayoutVAxis = None                 # type: ARNumerical
-        self.swRecordLayoutVFixValue = None             # type: ARNumerical
-        self.swRecordLayoutVIndex = None                # type: ARLiteral
-        self.swRecordLayoutVProp = None                 # type: ARLiteral
+        self.baseTypeRef: Union[RefType, None] = None
+        self.desc: Union[MultiLanguageOverviewParagraph, None] = None
+        self.shortLabel: Union[ARLiteral, None] = None
+        self.swGenericAxisParamTypeRef: Union[RefType, None] = None
+        self.swRecordLayoutVAxis: Union[ARNumerical, None] = None
+        self.swRecordLayoutVFixValue: Union[ARNumerical, None] = None
+        self.swRecordLayoutVIndex: Union[ARLiteral, None] = None
+        self.swRecordLayoutVProp: Union[ARLiteral, None] = None
 
     def getBaseTypeRef(self):
         return self.baseTypeRef
@@ -89,9 +89,9 @@ class SwRecordLayoutGroupContent(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.swRecordLayoutRef = None                   # type: RefType
-        self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup
-        self.swRecordLayoutV = None                     # type: SwRecordLayoutV
+        self.swRecordLayoutRef: Union[RefType, None] = None
+        self.swRecordLayoutGroup: Union[SwRecordLayoutGroup, None] = None
+        self.swRecordLayoutV: Union[SwRecordLayoutV, None] = None
 
     def getSwRecordLayoutRef(self):
         return self.swRecordLayoutRef
@@ -124,17 +124,17 @@ class SwRecordLayoutGroup(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.category = None                            # type: ARLiteral
-        self.desc = None                                # type: MultiLanguageOverviewParagraph
-        self.shortLabel = None                          # type: ARLiteral
-        self.swGenericAxisParamTypeRef = None           # type: RefType
-        self.swRecordLayoutComponent = None             # type: ARLiteral
-        self.swRecordLayoutGroupAxis = None             # type: AxisIndexType
-        self.swRecordLayoutGroupContentType = None      # type: SwRecordLayoutGroupContent
-        self.swRecordLayoutGroupFrom = None             # type: ARLiteral
-        self.swRecordLayoutGroupIndex = None            # type: ARLiteral
-        self.swRecordLayoutGroupStep = None             # type: Integer
-        self.swRecordLayoutGroupTo = None               # type: ARLiteral
+        self.category: Union[ARLiteral, None] = None
+        self.desc: Union[MultiLanguageOverviewParagraph, None] = None
+        self.shortLabel: Union[ARLiteral, None] = None
+        self.swGenericAxisParamTypeRef: Union[RefType, None] = None
+        self.swRecordLayoutComponent: Union[ARLiteral, None] = None
+        self.swRecordLayoutGroupAxis: Union[AxisIndexType, None] = None
+        self.swRecordLayoutGroupContentType: Union[SwRecordLayoutGroupContent, None] = None
+        self.swRecordLayoutGroupFrom: Union[ARLiteral, None] = None
+        self.swRecordLayoutGroupIndex: Union[ARLiteral, None] = None
+        self.swRecordLayoutGroupStep: Union[Integer, None] = None
+        self.swRecordLayoutGroupTo: Union[ARLiteral, None] = None
 
     def getCategory(self):
         return self.category
@@ -217,7 +217,7 @@ class SwRecordLayout(ARElement):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup
+        self.swRecordLayoutGroup: Union[SwRecordLayoutGroup, None] = None
 
     def getSwRecordLayoutGroup(self):
         return self.swRecordLayoutGroup

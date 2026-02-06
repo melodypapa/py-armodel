@@ -42,7 +42,7 @@ class ARList(Paginateable):
         super().__init__()
 
         self.items = []                         # type: List[Item]
-        self.type = None                        # type: ListEnum
+        self.type: Union[ListEnum, None] = None
 
     def getItems(self):
         return self.items

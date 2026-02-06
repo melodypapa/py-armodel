@@ -72,34 +72,34 @@ class SwDataDefProps(ARObject):
 
         self.additionalNativeTypeQualifier = None
         self.annotations = []                               # type: List[Annotation]
-        self.baseTypeRef = None                             # type: RefType
-        self.compuMethodRef = None                          # type: RefType
-        self.dataConstrRef = None                           # type: RefType
-        self.displayFormat = None                           # type: ARLiteral
-        self.displayPresentation = None                     # type: ARLiteral
-        self.implementationDataTypeRef = None               # type: RefType
-        self.invalidValue = None                            # type: ValueSpecification
-        self.stepSize = None                                # type: ARFloat
-        self.swAddrMethodRef = None                         # type: RefType
-        self.swAlignment = None                             # type: ARLiteral
-        self.swBitRepresentation = None                     # type: ARLiteral
-        self.swCalibrationAccess = None                     # type: ARLiteral
-        self.swCalprmAxisSet = None                         # type: SwCalprmAxisSet
+        self.baseTypeRef: Union[RefType, None] = None
+        self.compuMethodRef: Union[RefType, None] = None
+        self.dataConstrRef: Union[RefType, None] = None
+        self.displayFormat: Union[ARLiteral, None] = None
+        self.displayPresentation: Union[ARLiteral, None] = None
+        self.implementationDataTypeRef: Union[RefType, None] = None
+        self.invalidValue: Union[ValueSpecification, None] = None
+        self.stepSize: Union[ARFloat, None] = None
+        self.swAddrMethodRef: Union[RefType, None] = None
+        self.swAlignment: Union[ARLiteral, None] = None
+        self.swBitRepresentation: Union[ARLiteral, None] = None
+        self.swCalibrationAccess: Union[ARLiteral, None] = None
+        self.swCalprmAxisSet: Union[SwCalprmAxisSet, None] = None
         self.swComparisonVariables = []
         self.swDataDependency = None
         self.swHostVariable = None
-        self.swImplPolicy = None                            # type: ARLiteral
+        self.swImplPolicy: Union[ARLiteral, None] = None
         self.swIntendedResolution = None
         self.swInterpolationMethod = None
         self.swIsVirtual = None
-        self.swPointerTargetProps = None                    # type: SwPointerTargetProps
-        self.swRecordLayoutRef = None                       # type: RefType
+        self.swPointerTargetProps: Union[SwPointerTargetProps, None] = None
+        self.swRecordLayoutRef: Union[RefType, None] = None
         self.swRefreshTiming = None
         self.swTextProps = None
         self.swValueBlockSize = None
         self.swValueBlockSizeMults = []
-        self.unitRef = None                                 # type: RefType
-        self.valueAxisDataTypeRef = None                    # type: RefType
+        self.unitRef: Union[RefType, None] = None
+        self.valueAxisDataTypeRef: Union[RefType, None] = None
 
         self.conditional = SwDataDefPropsConditional()      # type: SwDataDefPropsConditional
 
@@ -323,9 +323,9 @@ class SwPointerTargetProps(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.functionPointerSignatureRef = None             # type: RefType
-        self.swDataDefProps = None                          # type: SwDataDefProps
-        self.targetCategory = None                          # type: ARLiteral
+        self.functionPointerSignatureRef: Union[RefType, None] = None
+        self.swDataDefProps: Union[SwDataDefProps, None] = None
+        self.targetCategory: Union[ARLiteral, None] = None
 
     def getFunctionPointerSignatureRef(self):
         return self.functionPointerSignatureRef
@@ -358,7 +358,7 @@ class ValueList(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.v = None                                       # type: ARFloat
+        self.v: Union[ARFloat, None] = None
         self._vf = []                                       # type: List[ARLiteral]
 
     def getV(self):

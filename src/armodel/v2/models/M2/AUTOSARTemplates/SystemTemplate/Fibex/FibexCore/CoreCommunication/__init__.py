@@ -1128,7 +1128,7 @@ class StaticPart(MultiplexedPart):
     def __init__(self) -> None:
         super().__init__()
 
-        self.iPduRef = None                                         # type: RefType
+        self.iPduRef: Union[RefType, None] = None
 
     def getIPduRef(self):
         return self.iPduRef
@@ -1153,9 +1153,9 @@ class DynamicPartAlternative(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.initialDynamicPart = None                              # type: Boolean
-        self.iPduRef = None                                         # type: RefType
-        self.selectorFieldCode = None                               # type: Integer
+        self.initialDynamicPart: Union[Boolean, None] = None
+        self.iPduRef: Union[RefType, None] = None
+        self.selectorFieldCode: Union[Integer, None] = None
 
     def getInitialDynamicPart(self):
         return self.initialDynamicPart
@@ -1211,13 +1211,13 @@ class MultiplexedIPdu(IPdu):
     def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.dynamicPart = None                                     # type: DynamicPart
-        self.selectorFieldByteOrder = None                          # type: ByteOrderEnum
-        self.selectorFieldLength = None                             # type: Integer
-        self.selectorFieldStartPosition = None                      # type: Integer
-        self.staticPart = None                                      # type: StaticPart
-        self.triggerMode = None                                     # type: TriggerMode
-        self.unusedBitPattern = None                                # type: Integer
+        self.dynamicPart: Union[DynamicPart, None] = None
+        self.selectorFieldByteOrder: Union[ByteOrderEnum, None] = None
+        self.selectorFieldLength: Union[Integer, None] = None
+        self.selectorFieldStartPosition: Union[Integer, None] = None
+        self.staticPart: Union[StaticPart, None] = None
+        self.triggerMode: Union[TriggerMode, None] = None
+        self.unusedBitPattern: Union[Integer, None] = None
 
     def getDynamicPart(self):
         return self.dynamicPart
