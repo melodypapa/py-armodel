@@ -2,7 +2,7 @@
 
 **Date**: 2026-02-06
 **Author**: Claude Code
-**Status**: Design Complete
+**Status**: Updated - Manual Approach
 
 ## Problem Statement
 
@@ -20,380 +20,358 @@ The V2 models in `src/armodel/v2/models/` have **6,348 mypy errors** across 170 
 
 ## Solution Overview
 
-Semi-automated fixer using mypy's JSON output and AUTOSAR requirements metadata to apply targeted fixes with high confidence while flagging complex cases for manual review.
+**Manual, incremental fixing approach** with mypy error analysis tools. After testing automated fixes, the risk of unintended modifications is too high. Instead, we'll use a careful manual approach with tooling support.
 
-### Approach: Option C - Mypy JSON-Driven Fixing
+### Approach: Manual Fixes with Mypy Analysis Tools
 
-**Why this approach?**
-- Most precise - only touch code mypy actually complains about
-- JSON output gives exact line numbers and column positions
-- Easy to track progress and verify after each iteration
-- Can handle edge cases safely by falling back to manual review
+**Why manual instead of automated?**
+- **Safety**: Manual review prevents unintended modifications
+- **Context awareness**: Human can understand business logic and design intent
+- **Learning**: Manual fixing helps understand type patterns across the codebase
+- **V2 coding rules**: Better compliance with V2-specific coding standards
+- **Test-driven**: Can verify each fix with immediate testing
 
-## Architecture
+## Manual Fixing Strategy
 
-### Core Components
+### Phase 1: High-Confidence Fixes (Quick Wins)
 
-#### 1. MypyErrorParser
-Parse mypy JSON output to extract structured error information:
+#### Fix Pattern 1: `__init__` Methods (Estimated: 800-1000 fixes)
+
+**Pattern**: Add `-> None` to `__init__` methods
+
+**Example**:
 ```python
-{
-  "file": "src/armodel/v2/models/...",
-  "line": 42,
-  "column": 5,
-  "error_code": "no-untyped-def",
-  "message": "Function is missing a return type annotation"
-}
+# BEFORE
+def __init__(self):
+    super().__init__()
+    self.attr: str = None
+
+# AFTER
+def __init__(self) -> None:
+    super().__init__()
+    self.attr: Union[str, None] = None
 ```
 
-#### 2. TypeResolver
-Load and query `docs/requirements/mapping.json` and package `.classes.json` files:
-- Resolve type names to import paths
-- Look up attribute types and multiplicities
-- Determine if type should be optional (multiplicity "0..1")
+**Manual process**:
+1. Run: `mypy src/armodel/v2/models --show-error-codes | grep "no-untyped-def" | grep "__init__"`
+2. For each file:
+   - Open file
+   - Find `__init__` methods without return type
+   - Add `-> None`
+   - Also check for `self.attr: Type = None` patterns and fix to `Union[Type, None]`
+   - Add `from typing import Union` if needed
+   - Save file
+   - Run mypy on that file to verify
+   - Run tests for affected module
 
-Example resolution:
-```
-Type name: ARFloat
-↓
-Package path: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes
-↓
-Python import: from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (ARFloat,)
-```
+**Files to prioritize** (by error count):
+- `ServiceNeeds.py` - 287 errors
+- `CoreTopology.py` - 247 errors
+- `ServiceInstances.py` - 241 errors
+- `ARPackage.py` - 233 errors
+- `BswBehavior.py` - 228 errors
 
-#### 3. ASTFixer
-Apply targeted AST modifications using Python's `ast` module:
-- Parse source code to AST
-- Use `ast.NodeTransformer` for precise modifications
-- Unparse back to source with `ast.unparse()`
-- Validate modified AST before writing
+#### Fix Pattern 2: None Assignments (Estimated: 1200-1300 fixes)
 
-#### 4. ProgressTracker
-Track fixing progress across iterations:
-```json
-{
-  "last_run": "2026-02-06T10:00:00",
-  "files_fixed": 150,
-  "errors_remaining": 1200,
-  "categories_completed": ["no-untyped-def", "assignment"]
-}
-```
+**Pattern**: Change `self.attr: Type = None` to `Union[Type, None]`
 
-### Error Categorization and Fix Strategies
-
-#### Category 1: `no-untyped-def` (4,088 errors)
-
-**Pattern-based fixes:**
-
-- **`__init__` methods** → Add `-> None`
-  ```python
-  def __init__(self):  # BEFORE
-  def __init__(self) -> None:  # AFTER
-  ```
-
-- **Getter methods (`get*`)** → Infer from attribute type
-  ```python
-  def getRole(self):  # BEFORE
-  def getRole(self) -> ARLiteral:  # AFTER (inferred from self.role type)
-  ```
-
-- **Setter methods (`set*`)** → Add param + return `self` for chaining
-  ```python
-  def setRole(self, value):  # BEFORE
-  def setRole(self, value: ARLiteral) -> 'ClassName':  # AFTER
-  ```
-
-- **Boolean methods (`is*`, `has*`, `validate*`)** → Add `-> bool`
-  ```python
-  def isValid(self):  # BEFORE
-  def isValid(self) -> bool:  # AFTER
-  ```
-
-- **Collection adders (`add*`)** → Add param type + return `self`
-  ```python
-  def addItem(self, item):  # BEFORE
-  def addItem(self, item: ItemType) -> 'ClassName':  # AFTER
-  ```
-
-#### Category 2: `assignment` (1,253 errors)
-
-**Pattern: None assigned to non-optional typed variable**
-
+**Example**:
 ```python
-# BEFORE (error)
-self.role: ARLiteral = None
+# BEFORE
+def __init__(self):
+    self.groupName: str = None
+    self.groupId: str = None
 
-# AFTER (fixed)
-self.role: ARLiteral | None = None  # V2 style (Python 3.10+)
+# AFTER
+def __init__(self) -> None:
+    self.groupName: Union[str, None] = None
+    self.groupId: Union[str, None] = None
 ```
 
-**Type inference strategy:**
-- Scan `__init__` for attribute assignments
-- Build symbol table of attribute names to types
-- Check requirements metadata for multiplicity "0..1" (optional)
-- Update type annotation to include `| None`
+**Manual process**:
+1. Run: `mypy src/armodel/v2/models --show-error-codes | grep "assignment"`
+2. Group errors by file
+3. For each file:
+   - Open file
+   - Find all `self.attr: Type = None` patterns
+   - Replace with `Union[Type, None]`
+   - Add `from typing import Union` at top (if not present)
+   - Save file
+   - Run mypy on that file to verify
+   - Run tests
 
-#### Category 3: `name-defined` (201 errors)
+### Phase 2: Medium-Confidence Fixes
 
-**Pattern: Type used in annotation but not imported**
+#### Fix Pattern 3: Getter Methods (Estimated: 1500-2000 fixes)
 
+**Pattern**: Add return type based on attribute type
+
+**Example**:
 ```python
-# BEFORE (error) - Name "ARFloat" is not defined
-self.coefficient: ARFloat = None
+# BEFORE
+def getGroupName(self):
+    return self.groupName
 
-# AFTER (fixed) - Import added
+# AFTER
+def getGroupName(self) -> Union[str, None]:
+    return self.groupName
+```
+
+**Manual process**:
+1. Identify getter methods: `def get*(self):`
+2. Find the corresponding attribute (usually `self.*_name` or `self.*Name`)
+3. Check attribute type annotation
+4. Add matching return type to getter
+5. Verify with mypy
+
+#### Fix Pattern 4: Setter Methods (Estimated: 800-1000 fixes)
+
+**Pattern**: Add parameter type and return type
+
+**Example**:
+```python
+# BEFORE
+def setGroupName(self, value):
+    self.groupName = value
+    return self
+
+# AFTER
+def setGroupName(self, value: Union[str, None]) -> 'ClassName':
+    self.groupName = value
+    return self
+```
+
+**Manual process**:
+1. Identify setter methods: `def set*(self, value):`
+2. Find the corresponding attribute
+3. Add parameter type matching attribute type
+4. Add return type of self (use string notation)
+5. Verify with mypy
+
+### Phase 3: Import Fixes (201 errors)
+
+**Pattern**: Add missing imports for type annotations
+
+**Example**:
+```python
+# Add to imports
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
     ARFloat,
 )
 ```
 
-**Import generation:**
-- Look up type name in `docs/requirements/mapping.json`
-- Convert package path to Python import path
-- Generate block-style import (V2 coding rule)
-- Insert at correct position (after existing imports)
+**Manual process**:
+1. Run: `mypy src/armodel/v2/models --show-error-codes | grep "name-defined"`
+2. For each undefined name:
+   - Use `docs/requirements/mapping.json` to find package path
+   - Generate import statement (V2 block style)
+   - Add to file imports
+   - Verify
 
-#### Category 4: Manual Review Required
+### Phase 4: Manual Review Required (Skip or Flag)
 
-**Errors requiring manual intervention:**
+These errors require careful manual review:
 
-- **Property setter overrides** (255 `return-value` errors)
-  - Subclass setter has incompatible type with base class
-  - Generate report with file:line and suggested fixes
-  - Manual review needed to decide correct type
+- **`abstract` (268 errors)**: May indicate design issues
+- **`return-value` (255 errors)**: Type incompatibilities
+- **`arg-type` (192 errors)**: Complex type mismatches
 
-- **Abstract class instantiation** (268 `abstract` errors)
-  - May indicate actual bugs or missing implementations
-  - Flag for manual review with context
-  - Don't auto-fix
+**Strategy**: Create tracking document for these, address individually with careful analysis.
 
-- **Complex generic types**
-  - `Dict[str, List['SomeClass']]` annotations
-  - Skip if can't infer confidently
+## Tooling Support (Read-Only)
 
-## V2 Coding Rules Compliance
+### Error Analysis Script (Safe, Read-Only)
 
-All fixes must strictly adhere to V2 coding rules:
+Create read-only scripts to help with manual fixing:
 
-### CODING_RULE_V2_00001: Absolute Imports Only
 ```python
-# Required
-from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import (SomeClass,)
+# scripts/mypy_analyze.py (READ-ONLY)
+"""Analyze mypy errors and generate fix recommendations."""
 
-# Forbidden
-from .SomeModule import SomeClass
-```
+def categorize_errors():
+    """Group errors by file and type."""
+    pass
 
-### CODING_RULE_V2_00002: No TYPE_CHECKING Blocks
-```python
-# Required - runtime imports
-from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import (SomeClass,)
+def suggest_fixes(filepath):
+    """Suggest fixes for a specific file (DOES NOT MODIFY)."""
+    pass
 
-# Forbidden
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import SomeClass
-```
-
-### CODING_RULE_V2_00003: Explicit __all__ Exports
-```python
-# When adding classes to __init__.py, update __all__
-from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import (
-    ClassOne,
-    ClassTwo,
-)
-
-__all__ = [
-    "ClassOne",
-    "ClassTwo",
-]
-```
-
-### CODING_RULE_V2_00005: String Annotations for Forward References
-```python
-# Required - use string notation
-def setParent(self, parent: 'ParentClass') -> 'ChildClass':
+def generate_fix_report():
+    """Generate markdown report of recommended fixes."""
     pass
 ```
 
-### CODING_RULE_V2_00012: Explicit Class Imports
-```python
-# Required - import individual classes
-from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import (
-    ClassOne,
-    ClassTwo,
-)
+### Mypy Error Filtering
 
-# Forbidden - no wildcards
-from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import *
+```bash
+# Get __init__ errors
+mypy src/armodel/v2/models --show-error-codes 2>&1 | grep "no-untyped-def" | grep "__init__"
+
+# Get assignment errors by file
+mypy src/armodel/v2/models --show-error-codes 2>&1 | grep "assignment" | cut -d: -f1 | sort -u
+
+# Get top 10 files with most errors
+mypy src/armodel/v2/models --show-error-codes 2>&1 | grep "error:" | cut -d: -f1 | sort | uniq -c | sort -rn | head -10
 ```
 
-### CODING_RULE_V2_00013: Block Import Style
-```python
-# Required - multi-line with parentheses
-from armodel.v2.models.M2.AUTOSARTemplates.SomeModule import (
-    ClassOne,
-    ClassTwo,
-    ClassThree,
-)
-```
+## Execution Plan
 
-## Testing and Verification
+### Iteration 1: Quick Wins (1-2 weeks)
 
-### Pre-Fix Safety Checks
-1. Create backup of each file: `file.py.backup`
-2. Verify modified AST can be parsed to valid Python
-3. Run syntax check: `python -m py_compile file.py`
+**Target**: Reduce from 6,348 to ~4,000 errors
+
+**Fixes**:
+1. All `__init__` methods (~800-1000 fixes)
+2. None assignments in `__init__` (~1200-1300 fixes)
+
+**Process**:
+- Fix 10-20 files per day
+- Run tests after each file
+- Commit changes frequently
+- Track progress in spreadsheet
+
+### Iteration 2: Getters/Setters (2-3 weeks)
+
+**Target**: Reduce from ~4,000 to ~2,000 errors
+
+**Fixes**:
+- Getter return types (~1500-2000 fixes)
+- Setter parameter types (~800-1000 fixes)
+
+**Process**:
+- Focus on one module at a time
+- Use type inference from attributes
+- Verify with tests
+
+### Iteration 3: Imports and Cleanup (1 week)
+
+**Target**: Reduce to ~1,500 errors (remaining need manual review)
+
+**Fixes**:
+- Missing imports (~200 fixes)
+- Clean up any regressions
+
+### Iteration 4: Complex Cases (Ongoing)
+
+**Target**: Reduce to <500 errors (manual-fix only)
+
+**Process**:
+- Address each remaining error individually
+- Document patterns and decisions
+- Update type stubs if needed
+
+## Verification Process
 
 ### Per-File Verification
-After fixing a file:
+
+After each file is fixed:
+
 ```bash
-mypy src/armodel/v2/models/path/to/File.py --no-error-summary
-```
-Only proceed if error count decreases.
+# 1. Check mypy errors reduced
+mypy src/armodel/v2/models/path/to/File.py
 
-### Checkpoint Verification
-After each major category:
-1. Run full mypy on V2 models
-2. Compare error count before/after
-3. Run pytest on affected modules
-4. Commit changes with descriptive message
+# 2. Run tests for module
+pytest tests/test_armodel/models_v2/path/to/test_file.py
 
-### Final Verification
-1. Full mypy with no errors
-2. `pytest tests/test_armodel/models_v2/` - all pass
-3. `ruff check src/armodel/v2/models` - V2 rules pass
-4. Spot-check random files for correctness
-
-## Implementation File Structure
-
-### Main Script
-**`scripts/mypy_fix_v2_models.py`** (~500 lines)
-- CLI argument parsing
-- Main orchestration logic
-- Progress tracking
-
-### Supporting Modules (in `scripts/mypy_fixers/`)
-- `error_parser.py` - Parse mypy JSON output
-- `type_resolver.py` - Resolve types using requirements metadata
-- `ast_transformers.py` - AST modification helpers
-- `import_generator.py` - Generate V2-compliant imports
-- `progress_tracker.py` - Track fix progress
-
-### Output Artifacts
-```
-.mypy_fix_backup/           # Original file backups
-.mypy_fix_progress.json     # Progress tracking
-.mypy_fix_report.md         # Final summary report
-manual_fixes.md            # Errors requiring manual review
+# 3. Run ruff to check V2 coding rules
+ruff check src/armodel/v2/models/path/to/File.py
 ```
 
-### CLI Interface
+### Milestone Verification
+
+After each iteration:
+
 ```bash
-# Preview changes
-python scripts/mypy_fix_v2_models.py --dry-run
+# 1. Full mypy check
+mypy src/armodel/v2/models --show-error-codes
 
-# Initial run
-python scripts/mypy_fix_v2_models.py --init
+# 2. Full test suite
+pytest tests/test_armodel/models_v2/
 
-# Resume from progress
-python scripts/mypy_fix_v2_models.py --continue
+# 3. V2 coding rules check
+ruff check src/armodel/v2/models
 
-# Fix specific category
-python scripts/mypy_fix_v2_models.py --category=no-untyped-def
-
-# Check progress only
-python scripts/mypy_fix_v2_models.py --verify
+# 4. Commit with message
+git commit -m "fix(mypy): Iteration N - X files fixed, reduced errors from A to B"
 ```
 
-## Implementation Phases
+## V2 Coding Rules Checklist
 
-### Phase 1: Infrastructure Setup
-- Create main script skeleton with CLI parsing
-- Implement `MypyErrorParser` to parse JSON output
-- Implement `ProgressTracker` for state persistence
-- **Test**: Run mypy, parse output, display error statistics
+For each fix, verify:
 
-### Phase 2: Type Resolver
-- Load `docs/requirements/mapping.json` and package `.classes.json`
-- Implement type name → import path resolution
-- Build attribute type lookup from requirements
-- **Test**: Resolve common types (ARFloat, ARLiteral, etc.)
+- [ ] CODING_RULE_V2_00001: Absolute imports only
+- [ ] CODING_RULE_V2_00002: No TYPE_CHECKING blocks
+- [ ] CODING_RULE_V2_00003: Explicit `__all__` exports (in `__init__.py`)
+- [ ] CODING_RULE_V2_00005: String annotations for forward references
+- [ ] CODING_RULE_V2_00012: Explicit class imports (no wildcards)
+- [ ] CODING_RULE_V2_00013: Block import style
 
-### Phase 3: Core Fixers
-- Implement `no-untyped-def` fixer for `__init__` methods
-- Implement `assignment` fixer (add `| None` to types)
-- Implement `name-defined` fixer (generate imports)
-- **Test**: Fix single file, verify mypy error count decreases
+## Progress Tracking
 
-### Phase 4: Advanced Fixers
-- Implement getter/setter type inference
-- Implement boolean method type annotation
-- Implement collection adder type annotation
-- **Test**: Run on subset of problematic files
+### Metrics to Track
 
-### Phase 5: Iterative Run
-- Run full fixer on all V2 models
-- Generate `manual_fixes.md` for edge cases
-- Iterate: fix → verify → address manual fixes
-- **Goal**: Reduce errors from 6,348 to <500
+- Total errors (from mypy)
+- Errors by category
+- Files fixed
+- Tests passing
+- Time spent
 
-### Phase 6: Final Polish
-- Manual review and fixes for remaining errors
-- Full test suite verification
-- Update CI/CD to include mypy check
-- Document lessons learned
+### Weekly Goals
 
-## Confidence Scoring
-
-### High Confidence (Auto-Fix)
-- `__init__ → None` additions
-- `| None` for optional attributes
-- Import generation from requirements metadata
-
-### Medium Confidence (Fix with Comment)
-- Type inference from requirements (may need context)
-- Setter parameter types from attribute types
-- Complex forward references
-
-### Low Confidence (Report Only)
-- Property setter overrides (need design review)
-- Abstract class errors (may indicate bugs)
-- Multiple inheritance type conflicts
+- Week 1-2: Fix 1000+ errors (__init__ + assignments)
+- Week 3-5: Fix 2000+ errors (getters/setters)
+- Week 6: Fix 500+ errors (imports + cleanup)
+- Week 7+: Address remaining complex cases
 
 ## Expected Outcomes
 
 ### Quantitative Goals
-- Reduce errors from **6,348 to <500** (90%+ reduction)
-- Fix all **high-confidence** errors automatically
-- Flag **medium/low-confidence** errors for manual review
+
+- **Iteration 1**: 6,348 → ~4,000 errors (37% reduction)
+- **Iteration 2**: ~4,000 → ~2,000 errors (50% reduction from start)
+- **Iteration 3**: ~2,000 → ~1,500 errors (76% reduction from start)
+- **Iteration 4**: ~1,500 → <500 errors (92% reduction from start)
 
 ### Qualitative Goals
-- All automated fixes follow V2 coding rules
-- No test regressions from fixes
-- Improved type safety across V2 models
-- Foundation for enabling strict mypy checking
 
-## Risks and Mitigations
+- All fixes manually reviewed for correctness
+- V2 coding rules maintained
+- No test regressions
+- Better understanding of type patterns in codebase
+- Foundation for strict mypy checking
 
-### Risk 1: AST Modification Breaks Code
-**Mitigation**: Validate modified AST before writing, keep backups, run syntax checks
+## Risk Mitigation
 
-### Risk 2: Incorrect Type Inference
-**Mitigation**: Use requirements metadata as source of truth, confidence scoring, manual review flagging
+### Risk 1: Introducing Bugs
 
-### Risk 3: V2 Coding Rule Violations
-**Mitigation**: Post-fix ruff checks, block import enforcement, __all__ validation
+**Mitigation**:
+- Run tests after each file
+- Review changes before committing
+- Keep changes small and focused
 
-### Risk 4: Test Regressions
-**Mitigation**: Per-file pytest checks, incremental verification, full test suite at milestones
+### Risk 2: V2 Coding Rule Violations
+
+**Mitigation**:
+- Run ruff after each fix
+- Manual review of imports
+- Use V2 coding rules checklist
+
+### Risk 3: Time Overrun
+
+**Mitigation**:
+- Focus on high-impact fixes first
+- Track progress weekly
+- Adjust scope if needed
+- Document patterns for faster fixing
 
 ## Success Criteria
 
-1. **Zero automated mypy errors**: `mypy src/armodel/v2/models` shows only manual-fix errors
-2. **All tests pass**: `pytest` continues to pass
-3. **No regressions**: V1 API compatibility maintained
-4. **V2 coding rules followed**: `ruff check src/armodel/v2/models` passes
-5. **Documentation**: Manual fixes documented with resolution guidance
+1. **<500 mypy errors** remaining (92%+ reduction from 6,348)
+2. **All tests passing** (no regressions)
+3. **V2 coding rules** maintained (ruff check passes)
+4. **Documented patterns** for remaining errors
+5. **Foundation** for enabling strict mypy checking in future
 
 ## References
 
@@ -401,4 +379,4 @@ python scripts/mypy_fix_v2_models.py --verify
 - V2 migration guide: `docs/development/v2_migration_guide.md`
 - Requirements metadata: `docs/requirements/mapping.json`
 - Mypy config: `pyproject.toml` (line 129-159)
-- Original issue plan: Transcript at `/Users/ray/.claude/projects/-Users-ray-Workspace-py-armodel/49fef7d9-54da-4d3b-9efe-1078958bb8fe.jsonl`
+- Original automated design: `docs/plans/2026-02-06-mypy-v2-fixes-design.md.bak`
