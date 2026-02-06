@@ -80,7 +80,7 @@ class DataFilter(ARObject):
     def getDataFilterType(self):
         """
         Gets the type of data filtering to apply.
-        
+
         Returns:
             DataFilterTypeEnum: The data filter type
         """
@@ -90,10 +90,10 @@ class DataFilter(ARObject):
         """
         Sets the type of data filtering to apply.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The data filter type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -104,7 +104,7 @@ class DataFilter(ARObject):
     def getMask(self):
         """
         Gets the bit mask for masked filtering operations.
-        
+
         Returns:
             UnlimitedInteger: The bit mask
         """
@@ -114,10 +114,10 @@ class DataFilter(ARObject):
         """
         Sets the bit mask for masked filtering operations.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The bit mask to set
-            
+
         Returns:
             self for method chaining
         """
@@ -128,7 +128,7 @@ class DataFilter(ARObject):
     def getMax(self):
         """
         Gets the maximum threshold value for range-based filtering.
-        
+
         Returns:
             UnlimitedInteger: The maximum threshold
         """
@@ -138,10 +138,10 @@ class DataFilter(ARObject):
         """
         Sets the maximum threshold value for range-based filtering.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The maximum threshold to set
-            
+
         Returns:
             self for method chaining
         """
@@ -152,7 +152,7 @@ class DataFilter(ARObject):
     def getMin(self):
         """
         Gets the minimum threshold value for range-based filtering.
-        
+
         Returns:
             UnlimitedInteger: The minimum threshold
         """
@@ -162,10 +162,10 @@ class DataFilter(ARObject):
         """
         Sets the minimum threshold value for range-based filtering.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The minimum threshold to set
-            
+
         Returns:
             self for method chaining
         """
@@ -176,7 +176,7 @@ class DataFilter(ARObject):
     def getOffset(self):
         """
         Gets the offset value for filtering calculations.
-        
+
         Returns:
             PositiveInteger: The offset value
         """
@@ -186,10 +186,10 @@ class DataFilter(ARObject):
         """
         Sets the offset value for filtering calculations.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The offset value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -200,7 +200,7 @@ class DataFilter(ARObject):
     def getPeriod(self):
         """
         Gets the period for periodic filtering operations (e.g., oneEveryN).
-        
+
         Returns:
             PositiveInteger: The period value
         """
@@ -210,10 +210,10 @@ class DataFilter(ARObject):
         """
         Sets the period for periodic filtering operations (e.g., oneEveryN).
         Only sets the value if it is not None.
-        
+
         Args:
             value: The period value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -224,7 +224,7 @@ class DataFilter(ARObject):
     def getX(self):
         """
         Gets the reference value X used in comparison-based filtering.
-        
+
         Returns:
             UnlimitedInteger: The reference value X
         """
@@ -234,10 +234,10 @@ class DataFilter(ARObject):
         """
         Sets the reference value X used in comparison-based filtering.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The reference value X to set
-            
+
         Returns:
             self for method chaining
         """

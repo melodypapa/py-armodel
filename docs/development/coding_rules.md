@@ -1080,7 +1080,7 @@ except Exception as e:
 def _validate_backend(self) -> None:
     """Validate that pdfplumber backend is available."""
     try:
-        import pdfplumber as _  # noqa: F401
+        import pdfplumber as _ 
     except ImportError:
         raise ImportError(
             "pdfplumber is not installed. Install it with: pip install pdfplumber"

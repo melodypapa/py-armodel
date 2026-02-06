@@ -55,7 +55,7 @@ class EcucValidationCondition(Identifiable):
     """
     Represents an ECUC validation condition in the AUTOSAR model.
 
-    This class is used to define a validation condition for an ECUC parameter 
+    This class is used to define a validation condition for an ECUC parameter
     within the AUTOSAR framework. It inherits from the `Identifiable` class.
 
     Attributes:
@@ -185,14 +185,14 @@ class EcucDefinitionElement(Identifiable, ABC):
 
 class EcucDestinationUriDefRefType(RefType):
     """
-    EcucDestinationUriDefRefType is a class that represents a reference type 
+    EcucDestinationUriDefRefType is a class that represents a reference type
     specific to ECUC Destination URI definitions.
 
-    This class inherits from the `RefType` base class and is used to define 
+    This class inherits from the `RefType` base class and is used to define
     references to ECUC Destination URI definitions in the AUTOSAR model.
 
     Methods:
-        __init__(): Initializes an instance of EcucDestinationUriDefRefType 
+        __init__(): Initializes an instance of EcucDestinationUriDefRefType
         by invoking the constructor of the parent `RefType` class.
     """
     def __init__(self):
@@ -390,21 +390,21 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
     """
-    EcucCommonAttributes is an abstract base class that represents common attributes 
-    for ECUC (Electronic Control Unit Configuration) definition elements. This class 
+    EcucCommonAttributes is an abstract base class that represents common attributes
+    for ECUC (Electronic Control Unit Configuration) definition elements. This class
     cannot be instantiated directly and must be subclassed.
     Attributes:
-        multiplicityConfigClasses (List[EcucMultiplicityConfigurationClass]): 
+        multiplicityConfigClasses (List[EcucMultiplicityConfigurationClass]):
             A list of multiplicity configuration classes associated with the ECUC element.
-        origin (String): 
+        origin (String):
             The origin of the ECUC element.
-        postBuildVariantMultiplicity (Boolean): 
+        postBuildVariantMultiplicity (Boolean):
             Indicates whether the ECUC element supports post-build variant multiplicity.
-        postBuildVariantValue (Boolean): 
+        postBuildVariantValue (Boolean):
             Indicates whether the ECUC element supports post-build variant values.
-        requiresIndex (Boolean): 
+        requiresIndex (Boolean):
             Specifies whether the ECUC element requires an index.
-        valueConfigClasses (List[EcucValueConfigurationClass]): 
+        valueConfigClasses (List[EcucValueConfigurationClass]):
             A list of value configuration classes associated with the ECUC element.
     Methods:
         getMultiplicityConfigClasses() -> List[EcucMultiplicityConfigurationClass]:
@@ -625,16 +625,16 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
-    EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef 
+    EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef
     and uses ABCMeta as its metaclass. This class cannot be instantiated directly.
     Attributes:
-        requiresSymbolicNameValue (Boolean): A boolean attribute that indicates whether 
+        requiresSymbolicNameValue (Boolean): A boolean attribute that indicates whether
             a symbolic name value is required. Defaults to None.
     Methods:
         getRequiresSymbolicNameValue() -> Boolean:
             Returns the value of the requiresSymbolicNameValue attribute.
         setRequiresSymbolicNameValue(value: Boolean):
-            Sets the value of the requiresSymbolicNameValue attribute if the provided value 
+            Sets the value of the requiresSymbolicNameValue attribute if the provided value
             is not None. Returns the instance of the class.
     """
     def __init__(self, parent, short_name):
@@ -900,7 +900,7 @@ class EcucIntegerParamDef(EcucParameterDef):
 class EcucEnumerationLiteralDef(Identifiable):
     """
     Represents an ECUC Enumeration Literal Definition in the AUTOSAR model.
-    This class is used to define enumeration literals for ECUC parameters, 
+    This class is used to define enumeration literals for ECUC parameters,
     including their associated condition specifications and origin information.
     Attributes:
         ecucCond (EcucConditionSpecification): The condition specification associated with the enumeration literal.

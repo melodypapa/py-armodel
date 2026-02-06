@@ -55,7 +55,7 @@ class RoleBasedDataAssignment(ARObject):
     def getRole(self):
         """
         Gets the role identifier for this data assignment.
-        
+
         Returns:
             ARLiteral: The role identifier
         """
@@ -65,10 +65,10 @@ class RoleBasedDataAssignment(ARObject):
         """
         Sets the role identifier for this data assignment.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The role identifier to set
-            
+
         Returns:
             self for method chaining
         """
@@ -78,7 +78,7 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedDataElement(self):
         """
         Gets the used data element reference for this assignment.
-        
+
         Returns:
             AutosarVariableRef: The used data element reference
         """
@@ -88,10 +88,10 @@ class RoleBasedDataAssignment(ARObject):
         """
         Sets the used data element reference for this assignment.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The used data element reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -101,7 +101,7 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedParameterElement(self):
         """
         Gets the used parameter element reference for this assignment.
-        
+
         Returns:
             AutosarParameterRef: The used parameter element reference
         """
@@ -111,10 +111,10 @@ class RoleBasedDataAssignment(ARObject):
         """
         Sets the used parameter element reference for this assignment.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The used parameter element reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -124,7 +124,7 @@ class RoleBasedDataAssignment(ARObject):
     def getUsedPimRef(self):
         """
         Gets the reference to the PIM (Port Interface Mapping) for this assignment.
-        
+
         Returns:
             RefType: The PIM reference
         """
@@ -134,10 +134,10 @@ class RoleBasedDataAssignment(ARObject):
         """
         Sets the reference to the PIM (Port Interface Mapping) for this assignment.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The PIM reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -155,7 +155,7 @@ class ServiceNeeds(Identifiable, ABC):
         """
         Initializes the ServiceNeeds with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
-        
+
         Args:
             parent: The parent ARObject that contains this service needs
             short_name: The unique short name of this service needs
@@ -242,7 +242,7 @@ class NvBlockNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the NvBlockNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this NV block needs
             short_name: The unique short name of this NV block needs
@@ -469,7 +469,7 @@ class RoleBasedDataTypeAssignment(ARObject):
     def getRole(self):
         """
         Gets the role identifier for this data type assignment.
-        
+
         Returns:
             Identifier: The role identifier
         """
@@ -479,10 +479,10 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         Sets the role identifier for this data type assignment.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The role identifier to set
-            
+
         Returns:
             self for method chaining
         """
@@ -492,7 +492,7 @@ class RoleBasedDataTypeAssignment(ARObject):
     def getUsedImplementationDataTypeRef(self):
         """
         Gets the reference to the used implementation data type.
-        
+
         Returns:
             RefType: The implementation data type reference
         """
@@ -502,10 +502,10 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         Sets the reference to the used implementation data type.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The implementation data type reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -555,7 +555,7 @@ class ServiceDependency(Identifiable, ABC):
     def getAssignedDataTypes(self):
         """
         Gets the list of role-based data type assignments for this service dependency.
-        
+
         Returns:
             List of RoleBasedDataTypeAssignment instances
         """
@@ -564,10 +564,10 @@ class ServiceDependency(Identifiable, ABC):
     def addAssignedDataType(self, value):
         """
         Adds a role-based data type assignment to this service dependency.
-        
+
         Args:
             value: The data type assignment to add
-            
+
         Returns:
             self for method chaining
         """
@@ -577,7 +577,7 @@ class ServiceDependency(Identifiable, ABC):
     def getDiagnosticRelevance(self):
         """
         Gets the diagnostic relevance of this service dependency.
-        
+
         Returns:
             ServiceDiagnosticRelevanceEnum: The diagnostic relevance
         """
@@ -587,10 +587,10 @@ class ServiceDependency(Identifiable, ABC):
         """
         Sets the diagnostic relevance of this service dependency.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The diagnostic relevance to set
-            
+
         Returns:
             self for method chaining
         """
@@ -600,7 +600,7 @@ class ServiceDependency(Identifiable, ABC):
     def getSymbolicNameProps(self):
         """
         Gets the symbolic name properties for this service dependency.
-        
+
         Returns:
             SymbolicNameProps: The symbolic name properties
         """
@@ -610,10 +610,10 @@ class ServiceDependency(Identifiable, ABC):
         """
         Sets the symbolic name properties for this service dependency.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The symbolic name properties to set
-            
+
         Returns:
             self for method chaining
         """
@@ -680,7 +680,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         Initializes the DiagnosticCapabilityElement with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic capability element
             short_name: The unique short name of this diagnostic capability element
@@ -700,7 +700,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getAudiences(self):
         """
         Gets the list of audiences for this diagnostic capability.
-        
+
         Returns:
             List of DiagnosticAudienceEnum instances
         """
@@ -709,10 +709,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def addAudience(self, value):
         """
         Adds an audience to this diagnostic capability.
-        
+
         Args:
             value: The diagnostic audience to add
-            
+
         Returns:
             self for method chaining
         """
@@ -722,7 +722,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getDiagRequirement(self):
         """
         Gets the diagnostic requirement ID string for this capability.
-        
+
         Returns:
             DiagRequirementIdString: The diagnostic requirement
         """
@@ -732,10 +732,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         Sets the diagnostic requirement ID string for this capability.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The diagnostic requirement to set
-            
+
         Returns:
             self for method chaining
         """
@@ -745,7 +745,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     def getSecurityAccessLevel(self):
         """
         Gets the security access level for this diagnostic capability.
-        
+
         Returns:
             PositiveInteger: The security access level
         """
@@ -755,10 +755,10 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         Sets the security access level for this diagnostic capability.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The security access level to set
-            
+
         Returns:
             self for method chaining
         """
@@ -795,7 +795,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticCommunicationManagerNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic communication manager needs
             short_name: The unique short name of this diagnostic communication manager needs
@@ -808,7 +808,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     def getServiceRequestCallbackType(self):
         """
         Gets the type of service request callback for this diagnostic communication manager.
-        
+
         Returns:
             DiagnosticServiceRequestCallbackTypeEnum: The service request callback type
         """
@@ -818,10 +818,10 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
         """
         Sets the type of service request callback for this diagnostic communication manager.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The service request callback type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -838,7 +838,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticRoutineNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic routine needs
             short_name: The unique short name of this diagnostic routine needs
@@ -853,7 +853,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def getDiagRoutineType(self):
         """
         Gets the type of diagnostic routine (synchronous or asynchronous).
-        
+
         Returns:
             DiagnosticRoutineTypeEnum: The diagnostic routine type
         """
@@ -863,10 +863,10 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         """
         Sets the type of diagnostic routine (synchronous or asynchronous).
         Only sets the value if it is not None.
-        
+
         Args:
             value: The diagnostic routine type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -876,7 +876,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     def getRidNumber(self):
         """
         Gets the RID (Routine ID) number for this diagnostic routine.
-        
+
         Returns:
             PositiveInteger: The RID number
         """
@@ -886,10 +886,10 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         """
         Sets the RID (Routine ID) number for this diagnostic routine.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The RID number to set
-            
+
         Returns:
             self for method chaining
         """
@@ -952,7 +952,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticValueNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic value needs
             short_name: The unique short name of this diagnostic value needs
@@ -973,7 +973,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDataLength(self):
         """
         Gets the data length for this diagnostic value.
-        
+
         Returns:
             PositiveInteger: The data length
         """
@@ -983,10 +983,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         Sets the data length for this diagnostic value.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The data length to set
-            
+
         Returns:
             self for method chaining
         """
@@ -996,7 +996,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDiagnosticValueAccess(self):
         """
         Gets the access permissions for this diagnostic value.
-        
+
         Returns:
             DiagnosticValueAccessEnum: The diagnostic value access permissions
         """
@@ -1006,10 +1006,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         Sets the access permissions for this diagnostic value.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The diagnostic value access permissions to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1019,7 +1019,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getDidNumber(self):
         """
         Gets the DID (Data ID) number for this diagnostic value.
-        
+
         Returns:
             Integer: The DID number
         """
@@ -1029,10 +1029,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         Sets the DID (Data ID) number for this diagnostic value.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The DID number to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1042,7 +1042,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getFixedLength(self):
         """
         Gets the flag indicating if this diagnostic value has fixed length.
-        
+
         Returns:
             Boolean: The fixed length flag
         """
@@ -1052,10 +1052,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         Sets the flag indicating if this diagnostic value has fixed length.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The fixed length flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1065,7 +1065,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     def getProcessingStyle(self):
         """
         Gets the processing style for this diagnostic value.
-        
+
         Returns:
             DiagnosticProcessingStyleEnum: The processing style
         """
@@ -1075,10 +1075,10 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         Sets the processing style for this diagnostic value.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The processing style to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1096,7 +1096,7 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
         """
         Initializes the DiagEventDebounceAlgorithm with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic event debounce algorithm
             short_name: The unique short name of this diagnostic event debounce algorithm
@@ -1116,7 +1116,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceCounterBased with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this counter-based debounce algorithm
             short_name: The unique short name of this counter-based debounce algorithm
@@ -1215,7 +1215,7 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceMonitorInternal with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this internal monitor debounce algorithm
             short_name: The unique short name of this internal monitor debounce algorithm
@@ -1232,7 +1232,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagEventDebounceTimeBased with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this time-based debounce algorithm
             short_name: The unique short name of this time-based debounce algorithm
@@ -1290,7 +1290,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEventInfoNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic event information needs
             short_name: The unique short name of this diagnostic event information needs
@@ -1307,7 +1307,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getDtcKind(self):
         """
         Gets the type of diagnostic trouble code (DTC) for this event.
-        
+
         Returns:
             DtcKindEnum: The DTC kind
         """
@@ -1317,10 +1317,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         """
         Sets the type of diagnostic trouble code (DTC) for this event.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The DTC kind to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1331,7 +1331,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getObdDtcNumber(self):
         """
         Gets the OBD (On-Board Diagnostics) DTC number for this event.
-        
+
         Returns:
             PositiveInteger: The OBD DTC number
         """
@@ -1341,10 +1341,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         """
         Sets the OBD (On-Board Diagnostics) DTC number for this event.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The OBD DTC number to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1355,7 +1355,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     def getUdsDtcNumber(self):
         """
         Gets the UDS (Unified Diagnostic Services) DTC number for this event.
-        
+
         Returns:
             PositiveInteger: The UDS DTC number
         """
@@ -1365,10 +1365,10 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         """
         Sets the UDS (Unified Diagnostic Services) DTC number for this event.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The UDS DTC number to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1413,7 +1413,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         """
         Initializes the DtcStatusChangeNotificationNeeds with a parent and short name.
         Note: This is an extension for AUTOSAR 4.3.1.
-        
+
         Args:
             parent: The parent ARObject that contains this DTC status change notification needs
             short_name: The unique short name of this DTC status change notification needs
@@ -1428,7 +1428,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def getDtcFormatType(self):
         """
         Gets the format type for DTC used in notifications.
-        
+
         Returns:
             DtcFormatTypeEnum: The DTC format type
         """
@@ -1438,10 +1438,10 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         """
         Sets the format type for DTC used in notifications.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The DTC format type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1452,7 +1452,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     def getNotificationTime(self):
         """
         Gets the notification timing for when DTCs are cleared.
-        
+
         Returns:
             DiagnosticClearDtcNotificationEnum: The notification timing
         """
@@ -1462,10 +1462,10 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         """
         Sets the notification timing for when DTCs are cleared.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The notification timing to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1483,7 +1483,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEventNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic event needs
             short_name: The unique short name of this diagnostic event needs
@@ -1510,7 +1510,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDeferringFidRefs(self):
         """
         Gets the list of FID (Function Identifier) references for deferring this diagnostic event.
-        
+
         Returns:
             List of RefType instances
         """
@@ -1519,10 +1519,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def addDeferringFidRef(self, value):
         """
         Adds a FID (Function Identifier) reference for deferring this diagnostic event.
-        
+
         Args:
             value: The FID reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -1532,7 +1532,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDiagEventDebounceAlgorithm(self):
         """
         Gets the debounce algorithm for this diagnostic event.
-        
+
         Returns:
             DiagEventDebounceAlgorithm: The debounce algorithm
         """
@@ -1541,10 +1541,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def createDiagEventDebounceCounterBased(self, short_name: str):
         """
         Creates and adds a counter-based debounce algorithm for this diagnostic event.
-        
+
         Args:
             short_name: The short name for the new counter-based debounce algorithm
-            
+
         Returns:
             The created DiagEventDebounceCounterBased instance
         """
@@ -1557,10 +1557,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def createDiagEventDebounceMonitorInternal(self, short_name: str):
         """
         Creates and adds an internal monitor-based debounce algorithm for this diagnostic event.
-        
+
         Args:
             short_name: The short name for the new internal monitor debounce algorithm
-            
+
         Returns:
             The created DiagEventDebounceMonitorInternal instance
         """
@@ -1573,10 +1573,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def createDiagEventDebounceTimeBased(self, short_name: str):
         """
         Creates and adds a time-based debounce algorithm for this diagnostic event.
-        
+
         Args:
             short_name: The short name for the new time-based debounce algorithm
-            
+
         Returns:
             The created DiagEventDebounceTimeBased instance
         """
@@ -1589,7 +1589,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getInhibitingFidRef(self):
         """
         Gets the FID reference for inhibiting this diagnostic event.
-        
+
         Returns:
             RefType: The inhibiting FID reference
         """
@@ -1599,10 +1599,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         Sets the FID reference for inhibiting this diagnostic event.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The inhibiting FID reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1612,7 +1612,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getInhibitingSecondaryFidRef(self):
         """
         Gets the secondary FID reference for inhibiting this diagnostic event.
-        
+
         Returns:
             RefType: The secondary inhibiting FID reference
         """
@@ -1622,10 +1622,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         Sets the secondary FID reference for inhibiting this diagnostic event.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The secondary inhibiting FID reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1635,7 +1635,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getPrestoredFreezeframeStoredInNvm(self):
         """
         Gets the flag indicating if prestored freeze frame is stored in NVM.
-        
+
         Returns:
             Boolean: The prestored freeze frame flag
         """
@@ -1645,10 +1645,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         Sets the flag indicating if prestored freeze frame is stored in NVM.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The prestored freeze frame flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1658,7 +1658,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getUsesMonitorData(self):
         """
         Gets the flag indicating if this event uses monitor data.
-        
+
         Returns:
             Boolean: The use monitor data flag
         """
@@ -1668,10 +1668,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         Sets the flag indicating if this event uses monitor data.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The use monitor data flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1681,7 +1681,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getDtcKind(self):
         """
         Gets the type of diagnostic trouble code (DTC) for this event (as ARLiteral).
-        
+
         Returns:
             ARLiteral: The DTC kind
         """
@@ -1691,10 +1691,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         Sets the type of diagnostic trouble code (DTC) for this event (as ARLiteral).
         Only sets the value if it is not None.
-        
+
         Args:
             value: The DTC kind to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1704,7 +1704,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     def getUdsDtcNumber(self):
         """
         Gets the UDS (Unified Diagnostic Services) DTC number for this event.
-        
+
         Returns:
             Integer: The UDS DTC number
         """
@@ -1714,10 +1714,10 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         Sets the UDS (Unified Diagnostic Services) DTC number for this event.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The UDS DTC number to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1734,7 +1734,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the CryptoServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this cryptographic service needs
             short_name: The unique short name of this cryptographic service needs
@@ -1753,7 +1753,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getAlgorithmFamily(self):
         """
         Gets the algorithm family used by this cryptographic service.
-        
+
         Returns:
             String: The algorithm family
         """
@@ -1763,10 +1763,10 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         Sets the algorithm family used by this cryptographic service.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The algorithm family to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1776,7 +1776,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getAlgorithmMode(self):
         """
         Gets the algorithm mode used by this cryptographic service.
-        
+
         Returns:
             String: The algorithm mode
         """
@@ -1786,10 +1786,10 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         Sets the algorithm mode used by this cryptographic service.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The algorithm mode to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1799,7 +1799,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getCryptoKeyDescription(self):
         """
         Gets the description of the cryptographic key used by this service.
-        
+
         Returns:
             String: The cryptographic key description
         """
@@ -1809,10 +1809,10 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         Sets the description of the cryptographic key used by this service.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The cryptographic key description to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1822,7 +1822,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     def getMaximumKeyLength(self):
         """
         Gets the maximum length of keys supported by this cryptographic service.
-        
+
         Returns:
             PositiveInteger: The maximum key length
         """
@@ -1832,10 +1832,10 @@ class CryptoServiceNeeds(ServiceNeeds):
         """
         Sets the maximum length of keys supported by this cryptographic service.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The maximum key length to set
-            
+
         Returns:
             self for method chaining
         """
@@ -1852,7 +1852,7 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the EcuStateMgrUserNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this ECU state manager user needs
             short_name: The unique short name of this ECU state manager user needs
@@ -1869,7 +1869,7 @@ class DltUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DltUserNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DLT user needs
             short_name: The unique short name of this DLT user needs
@@ -1886,7 +1886,7 @@ class BswMgrNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BswMgrNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this BSW manager needs
             short_name: The unique short name of this BSW manager needs
@@ -1903,7 +1903,7 @@ class ComMgrUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ComMgrUserNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this COM manager user needs
             short_name: The unique short name of this COM manager user needs
@@ -1920,7 +1920,7 @@ class CryptoKeyManagementNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the CryptoKeyManagementNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this crypto key management needs
             short_name: The unique short name of this crypto key management needs
@@ -1937,7 +1937,7 @@ class CryptoServiceJobNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the CryptoServiceJobNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this crypto service job needs
             short_name: The unique short name of this crypto service job needs
@@ -1983,7 +1983,7 @@ class DiagnosticComponentNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticComponentNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic component needs
             short_name: The unique short name of this diagnostic component needs
@@ -2000,7 +2000,7 @@ class DiagnosticControlNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticControlNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic control needs
             short_name: The unique short name of this diagnostic control needs
@@ -2032,7 +2032,7 @@ class DiagnosticEnableConditionNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEnableConditionNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic enable condition needs
             short_name: The unique short name of this diagnostic enable condition needs
@@ -2049,7 +2049,7 @@ class DiagnosticEventManagerNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticEventManagerNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic event manager needs
             short_name: The unique short name of this diagnostic event manager needs
@@ -2066,7 +2066,7 @@ class DiagnosticIoControlNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticIoControlNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic I/O control needs
             short_name: The unique short name of this diagnostic I/O control needs
@@ -2098,7 +2098,7 @@ class DiagnosticOperationCycleNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticOperationCycleNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic operation cycle needs
             short_name: The unique short name of this diagnostic operation cycle needs
@@ -2115,7 +2115,7 @@ class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticRequestFileTransferNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic request file transfer needs
             short_name: The unique short name of this diagnostic request file transfer needs
@@ -2132,7 +2132,7 @@ class DiagnosticStorageConditionNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticStorageConditionNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic storage condition needs
             short_name: The unique short name of this diagnostic storage condition needs
@@ -2149,7 +2149,7 @@ class DiagnosticUploadDownloadNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticUploadDownloadNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostic upload/download needs
             short_name: The unique short name of this diagnostic upload/download needs
@@ -2166,7 +2166,7 @@ class DiagnosticsCommunicationSecurityNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DiagnosticsCommunicationSecurityNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this diagnostics communication security needs
             short_name: The unique short name of this diagnostics communication security needs
@@ -2183,7 +2183,7 @@ class DoIpActivationLineNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpActivationLineNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP activation line needs
             short_name: The unique short name of this DoIP activation line needs
@@ -2200,7 +2200,7 @@ class DoIpGidNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpGidNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP GID needs
             short_name: The unique short name of this DoIP GID needs
@@ -2217,7 +2217,7 @@ class DoIpGidSynchronizationNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpGidSynchronizationNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP GID synchronization needs
             short_name: The unique short name of this DoIP GID synchronization needs
@@ -2234,7 +2234,7 @@ class DoIpPowerModeStatusNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpPowerModeStatusNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP power mode status needs
             short_name: The unique short name of this DoIP power mode status needs
@@ -2251,7 +2251,7 @@ class DoIpRoutingActivationAuthenticationNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpRoutingActivationAuthenticationNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP routing activation authentication needs
             short_name: The unique short name of this DoIP routing activation authentication needs
@@ -2268,7 +2268,7 @@ class DoIpRoutingActivationConfirmationNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpRoutingActivationConfirmationNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP routing activation confirmation needs
             short_name: The unique short name of this DoIP routing activation confirmation needs
@@ -2285,7 +2285,7 @@ class DoIpServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DoIpServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this DoIP service needs
             short_name: The unique short name of this DoIP service needs
@@ -2302,7 +2302,7 @@ class ErrorTracerNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ErrorTracerNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this error tracer needs
             short_name: The unique short name of this error tracer needs
@@ -2334,7 +2334,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FunctionInhibitionAvailabilityNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this function inhibition availability needs
             short_name: The unique short name of this function inhibition availability needs
@@ -2351,7 +2351,7 @@ class FunctionInhibitionNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FunctionInhibitionNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this function inhibition needs
             short_name: The unique short name of this function inhibition needs
@@ -2368,7 +2368,7 @@ class FurtherActionByteNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FurtherActionByteNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this further action byte needs
             short_name: The unique short name of this further action byte needs
@@ -2385,7 +2385,7 @@ class GlobalSupervisionNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the GlobalSupervisionNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this global supervision needs
             short_name: The unique short name of this global supervision needs
@@ -2402,7 +2402,7 @@ class HardwareTestNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the HardwareTestNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this hardware test needs
             short_name: The unique short name of this hardware test needs
@@ -2419,7 +2419,7 @@ class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the IdsMgrCustomTimestampNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this IDS manager custom timestamp needs
             short_name: The unique short name of this IDS manager custom timestamp needs
@@ -2436,7 +2436,7 @@ class IdsMgrNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the IdsMgrNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this IDS manager needs
             short_name: The unique short name of this IDS manager needs
@@ -2453,7 +2453,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the IndicatorStatusNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this indicator status needs
             short_name: The unique short name of this indicator status needs
@@ -2470,7 +2470,7 @@ class J1939DcmDm19Support(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the J1939DcmDm19Support with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this J1939 DCM DM19 support
             short_name: The unique short name of this J1939 DCM DM19 support
@@ -2487,7 +2487,7 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the J1939RmIncomingRequestServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this J1939 RM incoming request service needs
             short_name: The unique short name of this J1939 RM incoming request service needs
@@ -2504,7 +2504,7 @@ class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the J1939RmOutgoingRequestServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this J1939 RM outgoing request service needs
             short_name: The unique short name of this J1939 RM outgoing request service needs
@@ -2538,7 +2538,7 @@ class ObdControlServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdControlServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this OBD control service needs
             short_name: The unique short name of this OBD control service needs
@@ -2555,7 +2555,7 @@ class ObdInfoServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdInfoServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this OBD info service needs
             short_name: The unique short name of this OBD info service needs
@@ -2572,7 +2572,7 @@ class ObdMonitorServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdMonitorServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this OBD monitor service needs
             short_name: The unique short name of this OBD monitor service needs
@@ -2589,7 +2589,7 @@ class ObdPidServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdPidServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this OBD PID service needs
             short_name: The unique short name of this OBD PID service needs
@@ -2621,7 +2621,7 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdRatioDenominatorNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this OBD ratio denominator needs
             short_name: The unique short name of this OBD ratio denominator needs
@@ -2638,7 +2638,7 @@ class ObdRatioServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ObdRatioServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this OBD ratio service needs
             short_name: The unique short name of this OBD ratio service needs
@@ -2701,7 +2701,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SecureOnBoardCommunicationNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this secure on-board communication needs
             short_name: The unique short name of this secure on-board communication needs
@@ -2750,7 +2750,7 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SupervisedEntityCheckpointNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this supervised entity checkpoint needs
             short_name: The unique short name of this supervised entity checkpoint needs
@@ -2767,7 +2767,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SupervisedEntityNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this supervised entity needs
             short_name: The unique short name of this supervised entity needs
@@ -2805,7 +2805,7 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SyncTimeBaseMgrUserNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this sync time base manager user needs
             short_name: The unique short name of this sync time base manager user needs
@@ -2880,7 +2880,7 @@ class V2xDataManagerNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the V2xDataManagerNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this V2X data manager needs
             short_name: The unique short name of this V2X data manager needs
@@ -2897,7 +2897,7 @@ class V2xFacUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the V2xFacUserNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this V2X FAC user needs
             short_name: The unique short name of this V2X FAC user needs
@@ -2914,7 +2914,7 @@ class V2xMUserNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the V2xMUserNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this V2X manager user needs
             short_name: The unique short name of this V2X manager user needs
@@ -2931,7 +2931,7 @@ class VendorSpecificServiceNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the VendorSpecificServiceNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this vendor specific service needs
             short_name: The unique short name of this vendor specific service needs
@@ -2963,7 +2963,7 @@ class WarningIndicatorRequestedBitNeeds(ServiceNeeds):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the WarningIndicatorRequestedBitNeeds with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this warning indicator requested bit needs
             short_name: The unique short name of this warning indicator requested bit needs

@@ -7,10 +7,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import 
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleEntry,
 )
-from armodel.v2.models.utils.uuid_mgr import UUIDMgr
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
-    Implementation,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
@@ -65,6 +61,7 @@ from armodel.v2.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock as DocumentationBlock,
 )
+from armodel.v2.models.utils.uuid_mgr import UUIDMgr
 
 
 class FileInfoComment(ARObject):
@@ -242,7 +239,7 @@ class AbstractAUTOSAR(CollectableElement):
         return self.find(referred)
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
-        if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):
+        if (isinstance(data_type, (ImplementationDataType, SwBaseType))):
             if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
                 referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
@@ -261,13 +258,13 @@ class AbstractAUTOSAR(CollectableElement):
         self._impl_appl_type_maps[data_type_map.implementationDataTypeRef.value] = data_type_map.applicationDataTypeRef.value
 
     def convertToImplementationDataType(self, appl_data_type: str) -> ImplementationDataType:
-        if (appl_data_type not in self._appl_impl_type_maps.keys()):
+        if (appl_data_type not in self._appl_impl_type_maps):
             raise IndexError("Invalid application data type <%s>" % appl_data_type)
 
         return self.find(self._appl_impl_type_maps[appl_data_type])
 
     def convertToApplicationDataType(self, impl_data_type: str) -> ApplicationDataType:
-        if (impl_data_type not in self._impl_appl_type_maps.keys()):
+        if (impl_data_type not in self._impl_appl_type_maps):
             raise IndexError("Invalid Implementation data type <%s>" % impl_data_type)
 
         return self.find(self._impl_appl_type_maps[impl_data_type])

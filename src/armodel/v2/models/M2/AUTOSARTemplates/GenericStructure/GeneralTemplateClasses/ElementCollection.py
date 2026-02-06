@@ -4,7 +4,11 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Dict, List, Optional
+from typing import (
+    Dict,
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
     AnyInstanceRef,
@@ -152,7 +156,7 @@ class Collection(ARElement):
     def getAutoCollect(self) -> Optional[AutoCollectEnum]:
         """
         Gets the auto-collect setting for this collection.
-        
+
         Returns:
             AutoCollectEnum representing the auto-collect setting, or None if not set
         """
@@ -162,10 +166,10 @@ class Collection(ARElement):
         """
         Sets the auto-collect setting for this collection.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The auto-collect setting to set
-            
+
         Returns:
             self for method chaining
         """
@@ -176,7 +180,7 @@ class Collection(ARElement):
     def getCollectedInstances(self) -> List[AnyInstanceRef]:
         """
         Gets the list of collected instances in this collection.
-        
+
         Returns:
             List of AnyInstanceRef instances
         """
@@ -186,10 +190,10 @@ class Collection(ARElement):
         """
         Sets the list of collected instances in this collection.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of collected instances to set
-            
+
         Returns:
             self for method chaining
         """
@@ -200,7 +204,7 @@ class Collection(ARElement):
     def getCollectionSemantics(self) -> Optional[NameToken]:
         """
         Gets the collection semantics for this collection.
-        
+
         Returns:
             NameToken representing the collection semantics, or None if not set
         """
@@ -210,10 +214,10 @@ class Collection(ARElement):
         """
         Sets the collection semantics for this collection.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The collection semantics to set
-            
+
         Returns:
             self for method chaining
         """
@@ -224,7 +228,7 @@ class Collection(ARElement):
     def getElementRefs(self) -> List[RefType]:
         """
         Gets the list of element references in this collection.
-        
+
         Returns:
             List of RefType instances representing element references
         """
@@ -234,10 +238,10 @@ class Collection(ARElement):
         """
         Adds an element reference to this collection.
         Only adds the value if it is not None.
-        
+
         Args:
             value: The element reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -248,7 +252,7 @@ class Collection(ARElement):
     def getElementRole(self) -> Optional[Identifier]:
         """
         Gets the element role for this collection.
-        
+
         Returns:
             Identifier representing the element role, or None if not set
         """
@@ -258,10 +262,10 @@ class Collection(ARElement):
         """
         Sets the element role for this collection.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The element role to set
-            
+
         Returns:
             self for method chaining
         """
@@ -272,7 +276,7 @@ class Collection(ARElement):
     def getSourceElementRefs(self) -> List[RefType]:
         """
         Gets the list of source element references in this collection.
-        
+
         Returns:
             List of RefType instances representing source element references
         """
@@ -282,10 +286,10 @@ class Collection(ARElement):
         """
         Adds a source element reference to this collection.
         Only adds the value if it is not None.
-        
+
         Args:
             value: The source element reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -296,7 +300,7 @@ class Collection(ARElement):
     def getSourceInstances(self) -> List[AnyInstanceRef]:
         """
         Gets the list of source instances in this collection.
-        
+
         Returns:
             List of AnyInstanceRef instances
         """
@@ -306,10 +310,10 @@ class Collection(ARElement):
         """
         Sets the list of source instances in this collection.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of source instances to set
-            
+
         Returns:
             self for method chaining
         """

@@ -1,4 +1,7 @@
-from typing import Any, Optional
+from typing import (
+    Any,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,

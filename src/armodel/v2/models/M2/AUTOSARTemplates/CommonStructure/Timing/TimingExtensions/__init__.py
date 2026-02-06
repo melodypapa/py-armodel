@@ -10,12 +10,6 @@ Classes:
     SwcTiming: Software component timing specification
 """
 
-__all__ = [
-    'SwcTiming',
-    'TimingExtension',
-]
-
-
 from abc import ABC
 from typing import List
 
@@ -32,6 +26,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARElement,
     Identifiable,
 )
+
+__all__ = [
+    'SwcTiming',
+    'TimingExtension',
+]
 
 
 class TimingExtension(ARElement):
@@ -53,10 +52,10 @@ class TimingExtension(ARElement):
     def createExecutionOrderConstraint(self, short_name: str)-> ExecutionOrderConstraint:
         """
         Creates a new execution order constraint with the specified short name.
-        
+
         Args:
             short_name: Short name for the new execution order constraint
-            
+
         Returns:
             The created ExecutionOrderConstraint instance
         """
@@ -69,7 +68,7 @@ class TimingExtension(ARElement):
     def getTimingRequirements(self) -> List[TimingConstraint]:
         """
         Returns the list of timing requirements for this extension.
-        
+
         Returns:
             List of timing constraint requirements
         """

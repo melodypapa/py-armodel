@@ -29,7 +29,7 @@ class BswImplementation(Implementation):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW implementation with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this implementation
             short_name: The unique short name of this implementation
@@ -52,7 +52,7 @@ class BswImplementation(Implementation):
     def getArReleaseVersion(self):
         """
         Gets the AUTOSAR release version for this implementation.
-        
+
         Returns:
             RevisionLabelString representing the AUTOSAR release version
         """
@@ -61,10 +61,10 @@ class BswImplementation(Implementation):
     def setArReleaseVersion(self, value):
         """
         Sets the AUTOSAR release version for this implementation.
-        
+
         Args:
             value: The AUTOSAR release version to set
-            
+
         Returns:
             self for method chaining
         """
@@ -74,7 +74,7 @@ class BswImplementation(Implementation):
     def getBehaviorRef(self):
         """
         Gets the reference to the behavior associated with this implementation.
-        
+
         Returns:
             RefType to the behavior element
         """
@@ -83,10 +83,10 @@ class BswImplementation(Implementation):
     def setBehaviorRef(self, value):
         """
         Sets the reference to the behavior associated with this implementation.
-        
+
         Args:
             value: The behavior reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -97,7 +97,7 @@ class BswImplementation(Implementation):
         """
         Gets the list of references to preconfigured configurations for this implementation.
         These are configurations that are already set up and ready to use.
-        
+
         Returns:
             List of RefType to preconfigured configurations
         """
@@ -107,10 +107,10 @@ class BswImplementation(Implementation):
         """
         Adds a reference to a preconfigured configuration for this implementation.
         These are configurations that are already set up and ready to use.
-        
+
         Args:
             value: The configuration reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -121,7 +121,7 @@ class BswImplementation(Implementation):
         """
         Gets the list of references to recommended configurations for this implementation.
         These are configurations that are suggested for use with this implementation.
-        
+
         Returns:
             List of RefType to recommended configurations
         """
@@ -131,10 +131,10 @@ class BswImplementation(Implementation):
         """
         Adds a reference to a recommended configuration for this implementation.
         These are configurations that are suggested for use with this implementation.
-        
+
         Args:
             value: The configuration reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -145,7 +145,7 @@ class BswImplementation(Implementation):
         """
         Gets the vendor-specific API infix used in naming conventions for this implementation.
         This infix is typically used to distinguish vendor-specific APIs in the code generation process.
-        
+
         Returns:
             Identifier for the vendor API infix
         """
@@ -155,10 +155,10 @@ class BswImplementation(Implementation):
         """
         Sets the vendor-specific API infix used in naming conventions for this implementation.
         This infix is typically used to distinguish vendor-specific APIs in the code generation process.
-        
+
         Args:
             value: The vendor API infix to set
-            
+
         Returns:
             self for method chaining
         """
@@ -169,7 +169,7 @@ class BswImplementation(Implementation):
         """
         Gets the list of references to vendor-specific module definitions for this implementation.
         These references point to vendor-specific module definitions that are used in this implementation.
-        
+
         Returns:
             List of RefType to vendor-specific module definitions
         """
@@ -179,10 +179,10 @@ class BswImplementation(Implementation):
         """
         Adds a reference to a vendor-specific module definition for this implementation.
         These references point to vendor-specific module definitions that are used in this implementation.
-        
+
         Args:
             value: The vendor-specific module definition reference to add
-            
+
         Returns:
             self for method chaining
         """

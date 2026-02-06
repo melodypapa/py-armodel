@@ -57,7 +57,7 @@ class ImplementationProps(Referrable, ABC):
     def getSymbol(self):
         """
         Gets the symbol associated with this implementation properties.
-        
+
         Returns:
             ARLiteral: The symbol
         """
@@ -66,10 +66,10 @@ class ImplementationProps(Referrable, ABC):
     def setSymbol(self, value):
         """
         Sets the symbol associated with this implementation properties.
-        
+
         Args:
             value: The symbol to set
-            
+
         Returns:
             self for method chaining
         """
@@ -86,7 +86,7 @@ class Code(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Code with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this code descriptor
             short_name: The unique short name of this code descriptor
@@ -101,10 +101,10 @@ class Code(Identifiable):
     def addArtifactDescriptor(self, desc: AutosarEngineeringObject):
         """
         Adds an artifact descriptor to this code descriptor.
-        
+
         Args:
             desc: The artifact descriptor to add
-            
+
         Returns:
             self for method chaining
         """
@@ -114,10 +114,10 @@ class Code(Identifiable):
     def getArtifactDescriptors(self, category: str = "") -> List[AutosarEngineeringObject]:
         """
         Gets the list of artifact descriptors, optionally filtered by category.
-        
+
         Args:
             category: Optional category to filter descriptors by (returns all if empty)
-            
+
         Returns:
             List of AutosarEngineeringObject instances matching the criteria
         """
@@ -136,7 +136,7 @@ class Compiler(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Compiler with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this compiler
             short_name: The unique short name of this compiler
@@ -155,7 +155,7 @@ class Compiler(Identifiable):
     def getName(self):
         """
         Gets the name of the compiler.
-        
+
         Returns:
             String: The compiler name
         """
@@ -164,10 +164,10 @@ class Compiler(Identifiable):
     def setName(self, value):
         """
         Sets the name of the compiler.
-        
+
         Args:
             value: The compiler name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -177,7 +177,7 @@ class Compiler(Identifiable):
     def getOptions(self):
         """
         Gets the options used with the compiler.
-        
+
         Returns:
             String: The compiler options
         """
@@ -186,10 +186,10 @@ class Compiler(Identifiable):
     def setOptions(self, value):
         """
         Sets the options used with the compiler.
-        
+
         Args:
             value: The compiler options to set
-            
+
         Returns:
             self for method chaining
         """
@@ -199,7 +199,7 @@ class Compiler(Identifiable):
     def getVendor(self):
         """
         Gets the vendor information for the compiler.
-        
+
         Returns:
             String: The compiler vendor
         """
@@ -208,10 +208,10 @@ class Compiler(Identifiable):
     def setVendor(self, value):
         """
         Sets the vendor information for the compiler.
-        
+
         Args:
             value: The compiler vendor to set
-            
+
         Returns:
             self for method chaining
         """
@@ -221,7 +221,7 @@ class Compiler(Identifiable):
     def getVersion(self):
         """
         Gets the version of the compiler.
-        
+
         Returns:
             String: The compiler version
         """
@@ -230,10 +230,10 @@ class Compiler(Identifiable):
     def setVersion(self, value):
         """
         Sets the version of the compiler.
-        
+
         Args:
             value: The compiler version to set
-            
+
         Returns:
             self for method chaining
         """
@@ -250,7 +250,7 @@ class DependencyOnArtifact(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the DependencyOnArtifact with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this dependency
             short_name: The unique short name of this dependency
@@ -265,7 +265,7 @@ class DependencyOnArtifact(Identifiable):
     def getArtifactDescriptor(self):
         """
         Gets the artifact descriptor that this dependency references.
-        
+
         Returns:
             AutosarEngineeringObject: The artifact descriptor
         """
@@ -274,10 +274,10 @@ class DependencyOnArtifact(Identifiable):
     def setArtifactDescriptor(self, value):
         """
         Sets the artifact descriptor that this dependency references.
-        
+
         Args:
             value: The artifact descriptor to set
-            
+
         Returns:
             self for method chaining
         """
@@ -287,7 +287,7 @@ class DependencyOnArtifact(Identifiable):
     def getUsage(self):
         """
         Gets the usage type of this dependency.
-        
+
         Returns:
             DependencyUsageEnum: The usage type
         """
@@ -296,10 +296,10 @@ class DependencyOnArtifact(Identifiable):
     def setUsage(self, value):
         """
         Sets the usage type of this dependency.
-        
+
         Args:
             value: The usage type to set
-            
+
         Returns:
             self for method chaining
         """
@@ -361,7 +361,7 @@ class Implementation(ARElement, ABC):
     def getBuildActionManifestRef(self):
         """
         Gets the reference to the build action manifest for this implementation.
-        
+
         Returns:
             RefType: The build action manifest reference
         """
@@ -370,10 +370,10 @@ class Implementation(ARElement, ABC):
     def setBuildActionManifestRef(self, value):
         """
         Sets the reference to the build action manifest for this implementation.
-        
+
         Args:
             value: The build action manifest reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -383,7 +383,7 @@ class Implementation(ARElement, ABC):
     def getCodeDescriptors(self) -> List['Code']:
         """
         Gets all code descriptors from the elements list in this implementation.
-        
+
         Returns:
             List of Code instances in this implementation
         """
@@ -392,10 +392,10 @@ class Implementation(ARElement, ABC):
     def createCodeDescriptor(self, short_name: str) -> 'Code':
         """
         Creates and adds a Code descriptor to this implementation.
-        
+
         Args:
             short_name: The short name for the new code descriptor
-            
+
         Returns:
             The created Code instance
         """
@@ -408,7 +408,7 @@ class Implementation(ARElement, ABC):
     def getCompilers(self):
         """
         Gets the list of compilers used in this implementation.
-        
+
         Returns:
             List of Compiler instances
         """
@@ -418,10 +418,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the list of compilers used in this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of compilers to set
-            
+
         Returns:
             self for method chaining
         """
@@ -431,7 +431,7 @@ class Implementation(ARElement, ABC):
     def getGeneratedArtifacts(self):
         """
         Gets the list of generated artifacts for this implementation.
-        
+
         Returns:
             List of DependencyOnArtifact instances
         """
@@ -441,10 +441,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the list of generated artifacts for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of generated artifacts to set
-            
+
         Returns:
             self for method chaining
         """
@@ -454,7 +454,7 @@ class Implementation(ARElement, ABC):
     def getHwElementRefs(self):
         """
         Gets the list of hardware element references for this implementation.
-        
+
         Returns:
             List of RefType instances
         """
@@ -464,10 +464,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the list of hardware element references for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of hardware element references to set
-            
+
         Returns:
             self for method chaining
         """
@@ -477,7 +477,7 @@ class Implementation(ARElement, ABC):
     def getLinkers(self):
         """
         Gets the list of linkers used in this implementation.
-        
+
         Returns:
             List of Linker instances
         """
@@ -487,10 +487,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the list of linkers used in this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of linkers to set
-            
+
         Returns:
             self for method chaining
         """
@@ -500,7 +500,7 @@ class Implementation(ARElement, ABC):
     def getMcSupport(self):
         """
         Gets the microcontroller support information for this implementation.
-        
+
         Returns:
             Microcontroller support information
         """
@@ -509,10 +509,10 @@ class Implementation(ARElement, ABC):
     def setMcSupport(self, value):
         """
         Sets the microcontroller support information for this implementation.
-        
+
         Args:
             value: The microcontroller support information to set
-            
+
         Returns:
             self for method chaining
         """
@@ -522,7 +522,7 @@ class Implementation(ARElement, ABC):
     def getProgrammingLanguage(self):
         """
         Gets the programming language used in this implementation.
-        
+
         Returns:
             ProgramminglanguageEnum: The programming language
         """
@@ -532,10 +532,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the programming language used in this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The programming language to set
-            
+
         Returns:
             self for method chaining
         """
@@ -545,7 +545,7 @@ class Implementation(ARElement, ABC):
     def getRequiredArtifacts(self):
         """
         Gets the list of required artifacts for this implementation.
-        
+
         Returns:
             List of DependencyOnArtifact instances
         """
@@ -555,10 +555,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the list of required artifacts for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of required artifacts to set
-            
+
         Returns:
             self for method chaining
         """
@@ -568,7 +568,7 @@ class Implementation(ARElement, ABC):
     def getRequiredGeneratorTools(self):
         """
         Gets the list of required generator tools for this implementation.
-        
+
         Returns:
             List of DependencyOnArtifact instances
         """
@@ -578,10 +578,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the list of required generator tools for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The list of required generator tools to set
-            
+
         Returns:
             self for method chaining
         """
@@ -591,7 +591,7 @@ class Implementation(ARElement, ABC):
     def getResourceConsumption(self):
         """
         Gets the resource consumption information for this implementation.
-        
+
         Returns:
             ResourceConsumption: The resource consumption information
         """
@@ -600,10 +600,10 @@ class Implementation(ARElement, ABC):
     def createResourceConsumption(self, short_name: str) -> ResourceConsumption:
         """
         Creates and adds a ResourceConsumption to this implementation.
-        
+
         Args:
             short_name: The short name for the new resource consumption
-            
+
         Returns:
             The created ResourceConsumption instance
         """
@@ -616,7 +616,7 @@ class Implementation(ARElement, ABC):
     def getSwcBswMappingRef(self):
         """
         Gets the reference to software component/BSW mapping for this implementation.
-        
+
         Returns:
             RefType: The SWC/BSW mapping reference
         """
@@ -626,10 +626,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the reference to software component/BSW mapping for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The SWC/BSW mapping reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -639,7 +639,7 @@ class Implementation(ARElement, ABC):
     def getSwVersion(self):
         """
         Gets the software version information for this implementation.
-        
+
         Returns:
             RevisionLabelString: The software version information
         """
@@ -649,10 +649,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the software version information for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The software version information to set
-            
+
         Returns:
             self for method chaining
         """
@@ -662,7 +662,7 @@ class Implementation(ARElement, ABC):
     def getUsedCodeGenerator(self):
         """
         Gets the code generator used for this implementation.
-        
+
         Returns:
             String: The used code generator
         """
@@ -672,10 +672,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the code generator used for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The used code generator to set
-            
+
         Returns:
             self for method chaining
         """
@@ -685,7 +685,7 @@ class Implementation(ARElement, ABC):
     def getVendorId(self):
         """
         Gets the vendor ID for this implementation.
-        
+
         Returns:
             PositiveInteger: The vendor ID
         """
@@ -695,10 +695,10 @@ class Implementation(ARElement, ABC):
         """
         Sets the vendor ID for this implementation.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The vendor ID to set
-            
+
         Returns:
             self for method chaining
         """

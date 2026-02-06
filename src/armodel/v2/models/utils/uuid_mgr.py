@@ -1,14 +1,12 @@
 
-from typing import Dict, List
-
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 
 
 class UUIDMgr:
-    def __init__(self):
-        self.uuid_object_mappings = {}          # type: Dict[str, List[ARObject]]
+    def __init__(self) -> None:
+        self.uuid_object_mappings: dict[str, list[ARObject]] = {}
 
     def addObject(self, obj: ARObject):
         if obj.uuid is None:

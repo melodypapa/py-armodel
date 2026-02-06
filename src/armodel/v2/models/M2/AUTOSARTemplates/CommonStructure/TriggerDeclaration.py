@@ -27,7 +27,7 @@ class Trigger(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the Trigger with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this trigger
             short_name: The unique short name of this trigger
@@ -42,7 +42,7 @@ class Trigger(AtpStructureElement):
     def getSwImplPolicy(self):
         """
         Gets the software implementation policy for this trigger.
-        
+
         Returns:
             SwImplPolicyEnum: The software implementation policy
         """
@@ -52,10 +52,10 @@ class Trigger(AtpStructureElement):
         """
         Sets the software implementation policy for this trigger.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The software implementation policy to set
-            
+
         Returns:
             self for method chaining
         """
@@ -66,7 +66,7 @@ class Trigger(AtpStructureElement):
     def getTriggerPeriod(self):
         """
         Gets the period for this trigger.
-        
+
         Returns:
             MultidimensionalTime: The trigger period
         """
@@ -76,10 +76,10 @@ class Trigger(AtpStructureElement):
         """
         Sets the period for this trigger.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The trigger period to set
-            
+
         Returns:
             self for method chaining
         """
@@ -108,7 +108,7 @@ class TriggerMapping(ARObject):
     def getFirstTriggerRef(self):
         """
         Gets the reference to the first trigger in the mapping.
-        
+
         Returns:
             RefType: The first trigger reference
         """
@@ -118,10 +118,10 @@ class TriggerMapping(ARObject):
         """
         Sets the reference to the first trigger in the mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The first trigger reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -132,7 +132,7 @@ class TriggerMapping(ARObject):
     def getSecondTriggerRef(self):
         """
         Gets the reference to the second trigger in the mapping.
-        
+
         Returns:
             RefType: The second trigger reference
         """
@@ -142,10 +142,10 @@ class TriggerMapping(ARObject):
         """
         Sets the reference to the second trigger in the mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The second trigger reference to set
-            
+
         Returns:
             self for method chaining
         """

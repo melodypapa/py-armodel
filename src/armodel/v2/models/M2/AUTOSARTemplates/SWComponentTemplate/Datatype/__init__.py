@@ -2,7 +2,7 @@
 Datatypes module for AUTOSAR SWComponentTemplate.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (  # noqa: F401, F403
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ApplicationArrayElement,
     ApplicationCompositeElementDataPrototype,
     ApplicationRecordElement,
@@ -11,7 +11,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataProt
     ParameterDataPrototype,
     VariableDataPrototype,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (  # noqa: F401, F403
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
     ApplicationDataType,

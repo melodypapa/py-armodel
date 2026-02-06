@@ -395,18 +395,18 @@ class TestAbstractARXMLWriter:
             with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.arxml') as tmp:
                 tmp_path = tmp.name
 
-                try:
-                    writer.saveToFile(tmp_path, root)
+            try:
+                writer.saveToFile(tmp_path, root)
 
-                    # Verify file was created and has content
-                    assert os.path.exists(tmp_path)
-                    with open(tmp_path, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                    assert '<TEST>' in content
-                    assert '<CHILD>content</CHILD>' in content
-                finally:
-                    if os.path.exists(tmp_path):
-                        os.remove(tmp_path)
+                # Verify file was created and has content
+                assert os.path.exists(tmp_path)
+                with open(tmp_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                assert '<TEST>' in content
+                assert '<CHILD>content</CHILD>' in content
+            finally:
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
 
 
 class TestARXMLWriterIntegration:

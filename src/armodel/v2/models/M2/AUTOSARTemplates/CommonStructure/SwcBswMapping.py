@@ -40,7 +40,7 @@ class SwcBswRunnableMapping(ARObject):
     def getBswEntityRef(self):
         """
         Gets the reference to the BSW module entity in this mapping.
-        
+
         Returns:
             RefType: The BSW entity reference
         """
@@ -50,10 +50,10 @@ class SwcBswRunnableMapping(ARObject):
         """
         Sets the reference to the BSW module entity in this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The BSW entity reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -63,7 +63,7 @@ class SwcBswRunnableMapping(ARObject):
     def getSwcRunnableRef(self):
         """
         Gets the reference to the SWC runnable entity in this mapping.
-        
+
         Returns:
             RefType: The SWC runnable reference
         """
@@ -73,10 +73,10 @@ class SwcBswRunnableMapping(ARObject):
         """
         Sets the reference to the SWC runnable entity in this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The SWC runnable reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -92,7 +92,7 @@ class SwcBswMapping(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the SwcBswMapping with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this SWC-BSW mapping
             short_name: The unique short name of this SWC-BSW mapping
@@ -113,7 +113,7 @@ class SwcBswMapping(AtpStructureElement):
     def getBswBehaviorRef(self):
         """
         Gets the reference to the BSW behavior in this mapping.
-        
+
         Returns:
             RefType: The BSW behavior reference
         """
@@ -123,10 +123,10 @@ class SwcBswMapping(AtpStructureElement):
         """
         Sets the reference to the BSW behavior in this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The BSW behavior reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -136,7 +136,7 @@ class SwcBswMapping(AtpStructureElement):
     def getRunnableMappings(self):
         """
         Gets the list of runnable mappings in this SWC-BSW mapping.
-        
+
         Returns:
             List of SwcBswRunnableMapping instances
         """
@@ -145,10 +145,10 @@ class SwcBswMapping(AtpStructureElement):
     def addRunnableMapping(self, value):
         """
         Adds a runnable mapping to this SWC-BSW mapping.
-        
+
         Args:
             value: The runnable mapping to add
-            
+
         Returns:
             self for method chaining
         """
@@ -158,7 +158,7 @@ class SwcBswMapping(AtpStructureElement):
     def getSwcBehaviorRef(self):
         """
         Gets the reference to the SWC behavior in this mapping.
-        
+
         Returns:
             RefType: The SWC behavior reference
         """
@@ -168,10 +168,10 @@ class SwcBswMapping(AtpStructureElement):
         """
         Sets the reference to the SWC behavior in this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The SWC behavior reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -181,7 +181,7 @@ class SwcBswMapping(AtpStructureElement):
     def getSynchronizedModeGroups(self):
         """
         Gets the list of synchronized mode groups in this mapping.
-        
+
         Returns:
             List of synchronized mode group objects
         """
@@ -191,10 +191,10 @@ class SwcBswMapping(AtpStructureElement):
         """
         Sets the list of synchronized mode groups in this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The synchronized mode groups list to set
-            
+
         Returns:
             self for method chaining
         """
@@ -204,7 +204,7 @@ class SwcBswMapping(AtpStructureElement):
     def getSynchronizedTriggers(self):
         """
         Gets the list of synchronized triggers in this mapping.
-        
+
         Returns:
             List of synchronized trigger objects
         """
@@ -214,10 +214,10 @@ class SwcBswMapping(AtpStructureElement):
         """
         Sets the list of synchronized triggers in this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The synchronized triggers list to set
-            
+
         Returns:
             self for method chaining
         """

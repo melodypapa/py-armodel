@@ -1,3 +1,7 @@
 """V2 module."""
 
-__all__ = []
+from armodel.v2.models.utils.uuid_mgr import UUIDMgr
+
+__all__ = [
+    "UUIDMgr",
+]

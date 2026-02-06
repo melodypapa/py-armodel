@@ -274,6 +274,120 @@ Compatible with V1 API.
 
 ---
 
+## CODING_RULE_V2_00011: __all__ Placement After Imports
+
+**Maturity**: accept
+
+**Description**: In V2 `__init__.py` files, `__all__` MUST be placed after all import statements.
+
+**Example:**
+```python
+# CORRECT
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+
+__all__ = ['SwComponentType', 'PPortPrototype']
+
+# WRONG
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
+__all__ = ['SwComponentType', 'PPortPrototype']
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+```
+
+**Rationale**: Placing `__all__` after all imports ensures the module is fully loaded before defining its public API, improves readability, and prevents confusion about what is exported.
+
+**References**:
+- PEP 8 - Module Level Dunder Names
+- Design Document: `docs/plans/2025-02-05-models-v2-design.md`
+
+---
+
+## CODING_RULE_V2_00012: Explicit Class Imports
+
+**Maturity**: accept
+
+**Description**: V2 models MUST use explicit class imports instead of wildcard imports (`from module import *`). Wildcard imports are prohibited except in specific documented cases.
+
+**Example:**
+```python
+# CORRECT - Explicit imports
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    PPortPrototype,
+    RPortPrototype,
+)
+
+__all__ = [
+    "SwComponentType",
+    "PPortPrototype",
+    "RPortPrototype",
+]
+
+# WRONG - Wildcard imports
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import *
+```
+
+**Exceptions:**
+Wildcard imports (`import *`) are ONLY allowed in these specific cases:
+1. When documented in the module with a comment explaining the circular dependency issue
+2. When re-exporting from subpackages in `__init__.py` files (with explicit `__all__`)
+3. When specifically approved in the V2 design documentation
+
+**Rationale**: Explicit imports improve code clarity, make dependencies visible, enable better IDE support, and prevent unintentional namespace pollution. Wildcard imports hide what is actually being used and can cause naming conflicts.
+
+**References**:
+- PEP 8 - Imports
+- PEP 20 - The Zen of Python ("Explicit is better than implicit")
+- Design Document: `docs/plans/2025-02-05-models-v2-design.md`
+
+---
+
+## CODING_RULE_V2_00013: Block Import Style
+
+**Maturity**: accept
+
+**Description**: V2 models MUST use block import style (multi-line with parentheses) for imports. Single-line comma-separated imports are prohibited.
+
+**Example:**
+```python
+# CORRECT - Block import style (multi-line with parentheses)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    PPortPrototype,
+    RPortPrototype,
+    ProvidePortPrototype,
+)
+
+# WRONG - Single-line comma-separated imports
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, RPortPrototype, ProvidePortPrototype
+
+# WRONG - Backslash continuation (use parentheses instead)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import \
+    PPortPrototype, RPortPrototype
+```
+
+**Formatting Rules:**
+1. Opening parenthesis on the same line as `import`
+2. One import per line
+3. Each import line ends with a comma
+4. Closing parenthesis on its own line
+5. Indent with 4 spaces for the import names
+6. Trailing comma on the last import (enables cleaner git diffs)
+
+**Rationale**: Block import style improves readability, makes imports easier to scan, enables cleaner version control diffs (adding/removing imports doesn't touch other lines), and follows Python best practices for multi-line imports.
+
+**References**:
+- PEP 8 - Imports (Multi-line Imports)
+- PEP 8 - Maximum Line Length (block style helps manage long AUTOSAR paths)
+- Design Document: `docs/plans/2025-02-05-models-v2-design.md`
+
+---
+
 ## Enforcement
 
 V2 coding rules are enforced through:

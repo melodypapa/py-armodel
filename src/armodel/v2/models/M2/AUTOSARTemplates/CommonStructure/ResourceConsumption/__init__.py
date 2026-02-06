@@ -4,11 +4,6 @@ for representing resource consumption in AUTOSAR models. This includes memory se
 heap usage, and other resource consumption metrics.
 """
 
-__all__ = [
-    'ResourceConsumption',
-]
-
-
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import (
@@ -30,6 +25,16 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 
+__all__ = [
+    'ResourceConsumption',
+    'HeapUsage',
+    'MemorySection',
+    'MeasuredStackUsage',
+    'RoughEstimateStackUsage',
+    'StackUsage',
+    'WorstCaseStackUsage',
+]
+
 
 class ResourceConsumption(Identifiable):
     """
@@ -41,7 +46,7 @@ class ResourceConsumption(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ResourceConsumption with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this resource consumption
             short_name: The unique short name of this resource consumption
@@ -64,10 +69,10 @@ class ResourceConsumption(Identifiable):
     def createMemorySection(self, short_name: str) -> MemorySection:
         """
         Creates and adds a MemorySection to this resource consumption object.
-        
+
         Args:
             short_name: The short name for the new memory section
-            
+
         Returns:
             The created MemorySection instance
         """
@@ -80,7 +85,7 @@ class ResourceConsumption(Identifiable):
     def getMemorySections(self) -> List[MemorySection]:
         """
         Gets all MemorySection instances from the elements list, sorted by short name.
-        
+
         Returns:
             List of MemorySection instances sorted by short name
         """
@@ -89,10 +94,10 @@ class ResourceConsumption(Identifiable):
     def getMemorySection(self, short_name: str) -> MemorySection:
         """
         Gets a specific MemorySection by its short name.
-        
+
         Args:
             short_name: The short name of the memory section to find
-            
+
         Returns:
             MemorySection instance with the specified short name, or None if not found
         """
@@ -101,10 +106,10 @@ class ResourceConsumption(Identifiable):
     def createMeasuredStackUsage(self, short_name: str) -> MeasuredStackUsage:
         """
         Creates and adds a MeasuredStackUsage to this resource consumption object.
-        
+
         Args:
             short_name: The short name for the new measured stack usage
-            
+
         Returns:
             The created MeasuredStackUsage instance
         """
@@ -117,10 +122,10 @@ class ResourceConsumption(Identifiable):
     def createRoughEstimateStackUsage(self, short_name: str) -> RoughEstimateStackUsage:
         """
         Creates and adds a RoughEstimateStackUsage to this resource consumption object.
-        
+
         Args:
             short_name: The short name for the new rough estimate stack usage
-            
+
         Returns:
             The created RoughEstimateStackUsage instance
         """
@@ -133,10 +138,10 @@ class ResourceConsumption(Identifiable):
     def createWorstCaseStackUsage(self, short_name: str) -> WorstCaseStackUsage:
         """
         Creates and adds a WorstCaseStackUsage to this resource consumption object.
-        
+
         Args:
             short_name: The short name for the new worst case stack usage
-            
+
         Returns:
             The created WorstCaseStackUsage instance
         """
@@ -149,7 +154,7 @@ class ResourceConsumption(Identifiable):
     def getStackUsages(self) -> List[StackUsage]:
         """
         Gets all StackUsage instances from the elements list, sorted by short name.
-        
+
         Returns:
             List of StackUsage instances sorted by short name
         """

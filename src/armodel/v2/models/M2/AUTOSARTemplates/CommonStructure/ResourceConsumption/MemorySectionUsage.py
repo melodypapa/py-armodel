@@ -26,7 +26,7 @@ class MemorySection(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the MemorySection with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this memory section
             short_name: The unique short name of this memory section
@@ -49,7 +49,7 @@ class MemorySection(Identifiable):
     def getAlignment(self):
         """
         Gets the alignment value for this memory section through the property getter.
-        
+
         Returns:
             ARLiteral: Alignment value
         """
@@ -58,10 +58,10 @@ class MemorySection(Identifiable):
     def setAlignment(self, value):
         """
         Sets the alignment value for this memory section through the property setter.
-        
+
         Args:
             value: The alignment value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -71,7 +71,7 @@ class MemorySection(Identifiable):
     def getMemClassSymbol(self):
         """
         Gets the memory class symbol for this memory section.
-        
+
         Returns:
             ARLiteral: Memory class symbol
         """
@@ -80,10 +80,10 @@ class MemorySection(Identifiable):
     def setMemClassSymbol(self, value):
         """
         Sets the memory class symbol for this memory section.
-        
+
         Args:
             value: The memory class symbol to set
-            
+
         Returns:
             self for method chaining
         """
@@ -93,7 +93,7 @@ class MemorySection(Identifiable):
     def getSize(self):
         """
         Gets the size of this memory section.
-        
+
         Returns:
             Size value of the memory section
         """
@@ -102,10 +102,10 @@ class MemorySection(Identifiable):
     def setSize(self, value):
         """
         Sets the size of this memory section.
-        
+
         Args:
             value: The size value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -115,7 +115,7 @@ class MemorySection(Identifiable):
     def getSwAddrMethodRef(self):
         """
         Gets the reference to the software address method for this memory section.
-        
+
         Returns:
             RefType: Reference to the software address method
         """
@@ -124,10 +124,10 @@ class MemorySection(Identifiable):
     def setSwAddrMethodRef(self, value):
         """
         Sets the reference to the software address method for this memory section.
-        
+
         Args:
             value: The reference to the software address method to set
-            
+
         Returns:
             self for method chaining
         """
@@ -137,7 +137,7 @@ class MemorySection(Identifiable):
     def getSymbol(self):
         """
         Gets the symbol name for this memory section.
-        
+
         Returns:
             ARLiteral: Symbol name
         """
@@ -146,10 +146,10 @@ class MemorySection(Identifiable):
     def setSymbol(self, value):
         """
         Sets the symbol name for this memory section.
-        
+
         Args:
             value: The symbol name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -160,7 +160,7 @@ class MemorySection(Identifiable):
     def alignment(self) -> ARLiteral:
         """
         Gets the alignment value for this memory section.
-        
+
         Returns:
             ARLiteral: Alignment value
         """
@@ -171,7 +171,7 @@ class MemorySection(Identifiable):
         """
         Sets the alignment value for this memory section with validation.
         Note: The validation code is commented out but kept for reference.
-        
+
         Args:
             value: The alignment value to set
         """
@@ -196,7 +196,7 @@ class MemorySection(Identifiable):
     def addOption(self, option: ARLiteral):
         """
         Adds an option to the list of options for this memory section.
-        
+
         Args:
             option: The option to add
         """
@@ -205,7 +205,7 @@ class MemorySection(Identifiable):
     def getOptions(self) -> List[ARLiteral]:
         """
         Gets the list of options for this memory section.
-        
+
         Returns:
             List of ARLiteral options
         """

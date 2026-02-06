@@ -1,6 +1,10 @@
-from typing import Any, List, Optional
+from typing import (
+    Any,
+    List,
+    Optional,
+)
 
-from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment.CryptoKeySlotContent import (  # noqa: F401
+from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment.CryptoKeySlotContent import (
     CryptoKeySlotContent,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

@@ -4,7 +4,10 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Any, Optional
+from typing import (
+    Any,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -35,10 +38,10 @@ class EngineeringObject(ARObject, ABC):
         """
         Sets the category for this engineering object.
         If the category is not an ARLiteral, it will be converted to one.
-        
+
         Args:
             category: The category to set
-            
+
         Returns:
             self for method chaining
         """
@@ -52,7 +55,7 @@ class EngineeringObject(ARObject, ABC):
     def getCategory(self) -> Optional[ARLiteral]:
         """
         Gets the category for this engineering object.
-        
+
         Returns:
             ARLiteral representing the category, or None if not set
         """
@@ -61,10 +64,10 @@ class EngineeringObject(ARObject, ABC):
     def setDomain(self, domain: ARLiteral):
         """
         Sets the domain for this engineering object.
-        
+
         Args:
             domain: The domain to set
-            
+
         Returns:
             self for method chaining
         """
@@ -74,7 +77,7 @@ class EngineeringObject(ARObject, ABC):
     def getDomain(self) -> Optional[ARLiteral]:
         """
         Gets the domain for this engineering object.
-        
+
         Returns:
             ARLiteral representing the domain, or None if not set
         """
@@ -83,10 +86,10 @@ class EngineeringObject(ARObject, ABC):
     def setRevisionLabel(self, revision_label: ARLiteral):
         """
         Sets the revision label for this engineering object.
-        
+
         Args:
             revision_label: The revision label to set
-            
+
         Returns:
             self for method chaining
         """
@@ -96,7 +99,7 @@ class EngineeringObject(ARObject, ABC):
     def getRevisionLabel(self) -> Optional[ARLiteral]:
         """
         Gets the revision label for this engineering object.
-        
+
         Returns:
             ARLiteral representing the revision label, or None if not set
         """
@@ -105,10 +108,10 @@ class EngineeringObject(ARObject, ABC):
     def setShortLabel(self, label: ARLiteral):
         """
         Sets the short label for this engineering object.
-        
+
         Args:
             label: The short label to set
-            
+
         Returns:
             self for method chaining
         """
@@ -118,7 +121,7 @@ class EngineeringObject(ARObject, ABC):
     def getShortLabel(self) -> Optional[ARLiteral]:
         """
         Gets the short label for this engineering object.
-        
+
         Returns:
             ARLiteral representing the short label, or None if not set
         """

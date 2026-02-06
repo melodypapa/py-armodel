@@ -16,7 +16,7 @@ class Field(AutosarDataPrototype):
     This meta-class represents the ability to define a piece of data that can be
     accessed with read and/or write semantics. It is also possible to generate a
     notification if the value of the data changes.
-    
+
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 45, Foundation
       R23-11)
