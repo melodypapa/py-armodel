@@ -4,8 +4,10 @@ in the EcuResourceTemplate module.
 """
 
 from typing import (
+    
     List,
     Optional,
+    Union
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

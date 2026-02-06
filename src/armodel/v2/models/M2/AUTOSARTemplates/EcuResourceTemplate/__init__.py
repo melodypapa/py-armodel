@@ -7,8 +7,10 @@ and connections between hardware elements.
 """
 
 from typing import (
+    
     List,
     Optional,
+    Union
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (

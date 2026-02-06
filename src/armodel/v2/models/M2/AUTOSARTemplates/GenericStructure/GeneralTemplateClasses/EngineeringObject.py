@@ -5,8 +5,10 @@ in the GenericStructure module.
 
 from abc import ABC
 from typing import (
+    
     Any,
     Optional,
+    Union
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

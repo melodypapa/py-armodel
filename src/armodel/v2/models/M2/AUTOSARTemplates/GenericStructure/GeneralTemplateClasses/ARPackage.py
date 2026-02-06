@@ -7,10 +7,12 @@ components, interfaces, data types, and other packages.
 """
 
 from typing import (
+    
     Any,
     Dict,
     List,
     Optional,
+    Union
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
