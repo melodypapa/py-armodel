@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for instance references
 # It defines variable and component instance references used in system modeling
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,
@@ -12,14 +12,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
         self.contextComponentRefs: List[RefType] = []
-        self.contextCompositionRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.contextCompositionRef: Union[Union[RefType, None] , None] = None
+        self.contextPortRef: Union[Union[RefType, None] , None] = None
+        self.targetDataPrototypeRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -58,13 +58,13 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
 
 
 class ComponentInSystemInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
         self.contextComponentRefs: List[RefType] = []
-        self.contextCompositionRef: RefType = None
-        self.targetComponentRef: RefType = None
+        self.contextCompositionRef: Union[Union[RefType, None] , None] = None
+        self.targetComponentRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef

@@ -20,7 +20,7 @@ class MacMulticastGroup(Identifiable):
     defining multicast addresses that can be used for group-based
     communication in the network topology.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.macMulticastAddress = None                                     # type: MacAddressString
@@ -40,7 +40,7 @@ class EthernetCluster(CommunicationCluster):
     specifying properties for Ethernet network communication including
     coupling ports, startup timing, and multicast group configurations.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.couplingPorts = []                                             # type: List[CouplingPortConnection]
@@ -89,7 +89,7 @@ class CouplingPortStructuralElement(Identifiable, ABC):
     switches and bridges, defining common properties and behavior for
     various types of coupling port components.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is CouplingPortStructuralElement:
             raise TypeError("CouplingPortStructuralElement is an abstract class.")
 
@@ -102,7 +102,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     Ethernet switches, specifying traffic class assignments, minimum
     buffer lengths, and preemption support properties.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.assignedTrafficClasses = []                            # type: List[PositiveInteger]
@@ -149,7 +149,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     specifying scheduling algorithms and predecessor relationships
     for managing traffic flow through the coupling ports.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.portScheduler = None                                   # type: EthernetCouplingPortSchedulerEnum
@@ -178,7 +178,7 @@ class EthernetPriorityRegeneration(Referrable):
     specifying how ingress priorities are mapped to regenerated
     priorities for traffic management in the network.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.ingressPriority = None                                 # type: PositiveInteger
@@ -212,7 +212,7 @@ class CouplingPortDetails(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.couplingPortStructuralElements = []                    # type: List[CouplingPortStructuralElement]
@@ -319,7 +319,7 @@ class VlanMembership(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.defaultPriority = None                                 # type: PositiveInteger
@@ -366,7 +366,7 @@ class CouplingPort(Identifiable):
     specifying connection negotiation behavior, MAC layer type,
     physical layer type, and VLAN membership configurations.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.connectionNegotiationBehavior = None                   # type: EthernetConnectionNegotiationEnum
@@ -503,7 +503,7 @@ class EthernetCommunicationController(CommunicationController):
     defining properties for MAC configuration, coupling ports,
     and communication buffer management for Ethernet networking.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.canXlConfigRef = None                          # type: RefType
@@ -581,7 +581,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
     controllers to communication channels, specifying MTU settings,
     network endpoint references, and path MTU configuration properties.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.ethIpPropsRef = None                               # type: RefType
@@ -646,7 +646,7 @@ class RequestResponseDelay(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.maxValue = None                                        # type: TimeValue
@@ -680,7 +680,7 @@ class InitialSdDelayConfig(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.initialDelayMaxValue = None                            # type: TimeValue
@@ -732,7 +732,7 @@ class SdClientConfig(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.capabilityRecord = None                                # type: TagWithOptionalValue

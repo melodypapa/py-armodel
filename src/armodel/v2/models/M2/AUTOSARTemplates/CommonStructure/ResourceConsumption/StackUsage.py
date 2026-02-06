@@ -3,6 +3,8 @@ This module contains classes for representing stack usage in AUTOSAR resource co
 It includes abstract base classes and concrete implementations for different types of stack usage analysis.
 """
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
@@ -29,7 +31,7 @@ class StackUsage(Identifiable, ABC):
     This class defines the basic structure for stack memory consumption tracking with hardware and software context.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the StackUsage with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -44,13 +46,13 @@ class StackUsage(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         # Reference to the executable entity for which stack usage is measured
-        self.executableEntityRef: RefType = None
+        self.executableEntityRef: Union[Union[RefType, None] , None] = None
         # Hardware configuration associated with this stack usage
-        self.hardwareConfiguration: HardwareConfiguration = None
+        self.hardwareConfiguration: Union[Union[HardwareConfiguration, None] , None] = None
         # Reference to hardware element for this stack usage
-        self.hwElementRef: RefType = None
+        self.hwElementRef: Union[Union[RefType, None] , None] = None
         # Software context for this stack usage
-        self.softwareContext: SoftwareContext = None
+        self.softwareContext: Union[Union[SoftwareContext, None] , None] = None
 
     def getExecutableEntityRef(self):
         """
@@ -146,7 +148,7 @@ class MeasuredStackUsage(StackUsage):
     This class provides concrete measurements of stack consumption under specific conditions.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the MeasuredStackUsage with a parent and short name.
 
@@ -157,9 +159,9 @@ class MeasuredStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Average memory consumption measured for this stack usage
-        self.averageMemoryConsumption: PositiveInteger = None
+        self.averageMemoryConsumption: Union[Union[PositiveInteger, None] , None] = None
         # Maximum memory consumption measured for this stack usage
-        self.maximumMemoryConsumption: PositiveInteger = None
+        self.maximumMemoryConsumption: Union[Union[PositiveInteger, None] , None] = None
 
     def getAverageMemoryConsumption(self):
         """
@@ -211,7 +213,7 @@ class RoughEstimateStackUsage(StackUsage):
     This class provides estimated values for stack consumption when exact measurements are not available.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the RoughEstimateStackUsage with a parent and short name.
 
@@ -222,7 +224,7 @@ class RoughEstimateStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Estimated memory consumption for this stack usage
-        self.memoryConsumption: PositiveInteger = None
+        self.memoryConsumption: Union[Union[PositiveInteger, None] , None] = None
 
     def getMemoryConsumption(self):
         """
@@ -252,7 +254,7 @@ class WorstCaseStackUsage(StackUsage):
     This class provides the worst-case scenario analysis for stack consumption under maximum load conditions.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the WorstCaseStackUsage with a parent and short name.
 
@@ -263,7 +265,7 @@ class WorstCaseStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Memory consumption in worst case scenario for this stack usage
-        self.memoryConsumption: PositiveInteger = None
+        self.memoryConsumption: Union[Union[PositiveInteger, None] , None] = None
 
     def getMemoryConsumption(self):
         """

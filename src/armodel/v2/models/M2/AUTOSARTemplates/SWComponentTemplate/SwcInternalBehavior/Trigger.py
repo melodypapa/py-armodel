@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR trigger elements
 in software component internal behavior templates.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import (
     Trigger,
 )
@@ -21,10 +23,10 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class InternalTriggeringPoint(AbstractAccessPoint):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.swImplPolicy: SwImplPolicyEnum = None
+        self.swImplPolicy: Union[Union[SwImplPolicyEnum, None] , None] = None
 
     def getSwImplPolicy(self) -> SwImplPolicyEnum:
         return self.swImplPolicy
@@ -41,11 +43,11 @@ class ExternalTriggeringPoint(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.ident: ExternalTriggeringPointIdent = None
-        self.trigger: Trigger = None
+        self.ident: Union[Union[ExternalTriggeringPointIdent, None] , None] = None
+        self.trigger: Union[Union[Trigger, None] , None] = None
 
     def getIdent(self) -> ExternalTriggeringPointIdent:
         return self.ident

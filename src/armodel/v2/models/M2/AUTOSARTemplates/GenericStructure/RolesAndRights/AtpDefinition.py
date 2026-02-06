@@ -33,7 +33,7 @@ class AtpDefinition(Identifiable, ABC):
         longName, category, and reference management capabilities.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         if type(self) is AtpDefinition:
             raise TypeError("AtpDefinition is an abstract class.")
         super().__init__(parent, short_name)

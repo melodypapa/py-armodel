@@ -4,6 +4,8 @@ in composition contexts. These classes are used for referencing ports and
 operations within compositions and atomic SWC instances.
 """
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
@@ -15,15 +17,15 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is PortInCompositionTypeInstanceRef:
             raise TypeError("PortInCompositionTypeInstanceRef is an abstract class.")
 
         super().__init__()
 
-        self.abstractContextComponentRef: RefType = None
-        self.baseRef: RefType = None
-        self.targetPortRef: RefType = None
+        self.abstractContextComponentRef: Union[Union[RefType, None] , None] = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.targetPortRef: Union[Union[RefType, None] , None] = None
 
     def getAbstractContextComponentRef(self):
         return self.abstractContextComponentRef
@@ -48,11 +50,11 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
 
 
 class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextComponentRef: RefType = None
-        self.targetPPortRef: RefType = None
+        self.contextComponentRef: Union[Union[RefType, None] , None] = None
+        self.targetPPortRef: Union[Union[RefType, None] , None] = None
 
     def getContextComponentRef(self):
         return self.contextComponentRef
@@ -70,11 +72,11 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 
 
 class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextComponentRef: RefType = None
-        self.targetRPortRef: RefType = None
+        self.contextComponentRef: Union[Union[RefType, None] , None] = None
+        self.targetRPortRef: Union[Union[RefType, None] , None] = None
 
     def getContextComponentRef(self):
         return self.contextComponentRef

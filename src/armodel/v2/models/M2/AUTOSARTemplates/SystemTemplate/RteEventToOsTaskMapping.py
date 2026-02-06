@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for RTE event to OS task mapping
 # It defines mappings between application and ECU task proxies for real-time execution
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -15,12 +17,12 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     in the Runtime Environment (RTE), defining how application-level tasks are
     connected to ECU-level tasks for real-time execution coordination.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.appTaskProxyRef: RefType = None
-        self.ecuTaskProxyRef: RefType = None
-        self.offset: RefType = None
+        self.appTaskProxyRef: Union[Union[RefType, None] , None] = None
+        self.ecuTaskProxyRef: Union[Union[RefType, None] , None] = None
+        self.offset: Union[Union[RefType, None] , None] = None
 
     def getAppTaskProxyRef(self):
         return self.appTaskProxyRef

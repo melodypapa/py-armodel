@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
     BswModuleDescription,
@@ -27,17 +27,17 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         # Stereotypes: atpDerived.
-        self.bases: Optional[BswModuleDescription] = None
+        self.bases: Union[Optional[BswModuleDescription] , None] = None
         # Tags: xml.
         # sequenceOffset=20.
-        self.contextModes: RefType = None
+        self.contextModes: Union[Union[RefType, None] , None] = None
         # Tags: xml.
         # sequenceOffset=30.
-        self.targetModes: Optional[ModeDeclaration] = None
+        self.targetModes: Union[Optional[ModeDeclaration] , None] = None
 
     def getBases(self) -> BswModuleDescription:
         return self.bases

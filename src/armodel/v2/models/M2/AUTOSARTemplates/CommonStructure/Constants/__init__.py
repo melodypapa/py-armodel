@@ -9,7 +9,7 @@ numerical, text, array, record, and application-specific value specifications.
 
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -59,7 +59,7 @@ class ValueSpecification(ARObject, ABC):
     and TextValueSpecification.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ValueSpecification base class.
         Raises TypeError if this abstract class is instantiated directly.
@@ -103,7 +103,7 @@ class CompositeValueSpecification(ValueSpecification, ABC):
     Subclasses include ArrayValueSpecification and RecordValueSpecification.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the CompositeValueSpecification base class.
         Raises TypeError if this abstract class is instantiated directly.
@@ -121,7 +121,7 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
     Subclasses include ApplicationRuleBasedValueSpecification and ApplicationValueSpecification.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the CompositeRuleBasedValueArgument base class.
         Raises TypeError if this abstract class is instantiated directly.
@@ -140,7 +140,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
     Base classes: ARObject, CompositeRuleBasedValueArgument, ValueSpecification
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ApplicationValueSpecification with default values.
         """
@@ -231,7 +231,7 @@ class RecordValueSpecification(CompositeValueSpecification):
     Base classes: ARObject, CompositeValueSpecification, ValueSpecification
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RecordValueSpecification with default values.
         """
@@ -265,14 +265,14 @@ class TextValueSpecification(ValueSpecification):
     This class contains a literal text value for initializing data objects.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the TextValueSpecification with default values.
         """
         super().__init__()
 
         # Text value for this specification
-        self.value: ARLiteral = None
+        self.value: Union[Union[ARLiteral, None] , None] = None
 
     def getValue(self):
         """
@@ -304,14 +304,14 @@ class NumericalValueSpecification(ValueSpecification):
     This class contains a numerical value for initializing data objects.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the NumericalValueSpecification with default values.
         """
         super().__init__()
 
         # Numerical value for this specification
-        self.value: ARNumerical = None
+        self.value: Union[Union[ARNumerical, None] , None] = None
 
     def getValue(self) -> ARNumerical:
         """
@@ -344,7 +344,7 @@ class ArrayValueSpecification(ValueSpecification):
     This class contains multiple element value specifications that make up an array structure.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ArrayValueSpecification with default values.
         """
@@ -403,7 +403,7 @@ class ConstantSpecification(ARElement):
     This class contains a value specification for defining constants in AUTOSAR systems.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the ConstantSpecification with a parent and short name.
 
@@ -414,7 +414,7 @@ class ConstantSpecification(ARElement):
         super().__init__(parent, short_name)
 
         # Value specification for this constant
-        self.valueSpec: ValueSpecification = None
+        self.valueSpec: Union[Union[ValueSpecification, None] , None] = None
 
     def getValueSpec(self):
         """
@@ -446,14 +446,14 @@ class ConstantReference(ValueSpecification):
     This class contains a reference to a constant for use in value specifications.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ConstantReference with default values.
         """
         super().__init__()
 
         # Reference to the constant for this specification
-        self.constantRef: RefType = None
+        self.constantRef: Union[Union[RefType, None] , None] = None
 
     def getConstantRef(self):
         """
@@ -484,7 +484,7 @@ class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
     This class serves as the base for specifications that use rules to determine values.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is AbstractRuleBasedValueSpecification:
             raise TypeError("AbstractRuleBasedValueSpecification is an abstract class.")
         super().__init__()
@@ -495,7 +495,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     Represents application-specific rule-based value specifications.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.category = None
 
@@ -512,7 +512,7 @@ class CompositeRuleBasedValueSpecification(CompositeValueSpecification):
     Represents composite rule-based value specifications.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.ruleArguments = []
 
@@ -533,10 +533,10 @@ class ConstantSpecificationMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.sourceRef: RefType = None
-        self.targetRef: RefType = None
+        self.sourceRef: Union[Union[RefType, None] , None] = None
+        self.targetRef: Union[Union[RefType, None] , None] = None
 
     def getSourceRef(self):
         return self.sourceRef
@@ -563,7 +563,7 @@ class ConstantSpecificationMappingSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.mappings = []
 
@@ -579,7 +579,7 @@ class NotAvailableValueSpecification(ValueSpecification):
     Represents a value specification that indicates a value is not available.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.reason: str = None
 
@@ -601,10 +601,10 @@ class NumericalOrText(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.numericalValue: ARNumerical = None
-        self.textValue: ARLiteral = None
+        self.numericalValue: Union[Union[ARNumerical, None] , None] = None
+        self.textValue: Union[Union[ARLiteral, None] , None] = None
 
     def getNumericalValue(self):
         return self.numericalValue
@@ -626,7 +626,7 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     Represents numerical rule-based value specifications.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.expression: str = None
 
@@ -643,9 +643,9 @@ class ReferenceValueSpecification(ValueSpecification):
     Represents a reference to another value specification.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.valueSpecRef: RefType = None
+        self.valueSpecRef: Union[Union[RefType, None] , None] = None
 
     def getValueSpecRef(self):
         return self.valueSpecRef
@@ -665,7 +665,7 @@ class RuleArguments(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.arguments = []
 
@@ -686,7 +686,7 @@ class RuleBasedAxisCont(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.axisId: str = None
 
@@ -708,7 +708,7 @@ class RuleBasedValueCont(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.value: str = None
 
@@ -725,7 +725,7 @@ class RuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     Represents general rule-based value specifications.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.rule: str = None
 

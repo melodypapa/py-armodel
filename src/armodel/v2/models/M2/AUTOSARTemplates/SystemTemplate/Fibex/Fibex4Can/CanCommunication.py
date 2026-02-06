@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for CAN communication
 # It defines CAN frames, frame triggering, and related communication elements for CAN networks
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -24,11 +26,11 @@ class RxIdentifierRange(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.lowerCanId: ARPositiveInteger = None
-        self.upperCanId: ARPositiveInteger = None
+        self.lowerCanId: Union[Union[ARPositiveInteger, None] , None] = None
+        self.upperCanId: Union[Union[ARPositiveInteger, None] , None] = None
 
     def getLowerCanId(self) -> ARPositiveInteger:
         return self.lowerCanId
@@ -50,7 +52,7 @@ class CanFrame(Frame):
     with CAN-specific properties and behavior. This class defines the structure
     and characteristics of CAN messages in the communication system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 class CanFrameTriggering(FrameTriggering):
@@ -59,7 +61,7 @@ class CanFrameTriggering(FrameTriggering):
     CAN frames are transmitted or received on the network, including timing,
     addressing modes, and frame behavior properties.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.absolutelyScheduledTimings = []
@@ -70,7 +72,7 @@ class CanFrameTriggering(FrameTriggering):
         self.canXlFrameTriggeringProps = None
         self.identifier = None
         self.j1939requestable = None
-        self.rxIdentifierRange: RxIdentifierRange = None
+        self.rxIdentifierRange: Union[Union[RxIdentifierRange, None] , None] = None
         self.rxMask = None
         self.txMask = None
 

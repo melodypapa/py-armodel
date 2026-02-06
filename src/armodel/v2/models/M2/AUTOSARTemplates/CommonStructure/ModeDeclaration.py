@@ -4,7 +4,7 @@ in the CommonStructure module. Mode declarations define different operational st
 that software components or BSW modules can be in, along with transitions between states.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpPrototype,
@@ -35,7 +35,7 @@ class ModeActivationKind(AREnum):
     # On transition of the 1st referred mode to the 2nd referred mode
     ON_TRANSITION = "onTransition"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ModeActivationKind.ON_ENTRY,
             ModeActivationKind.ON_EXIT,
@@ -54,18 +54,18 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ModeDeclarationGroupPrototypeMapping with default values.
         """
         super().__init__()
 
         # Reference to the first mode group in the mapping
-        self.firstModeGroupRef: RefType = None
+        self.firstModeGroupRef: Union[Union[RefType, None] , None] = None
         # Reference to the mode declaration mapping set
-        self.modeDeclarationMappingSetRef: RefType = None
+        self.modeDeclarationMappingSetRef: Union[Union[RefType, None] , None] = None
         # Reference to the second mode group in the mapping
-        self.secondModeGroupRef: RefType = None
+        self.secondModeGroupRef: Union[Union[RefType, None] , None] = None
 
     def getFirstModeGroupRef(self):
         """
@@ -146,7 +146,7 @@ class ModeDeclaration(AtpStructureElement):
     Mode declarations define specific operational states that components can be in, with associated values.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ModeDeclaration with a parent and short name.
 
@@ -157,7 +157,7 @@ class ModeDeclaration(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # Value associated with this mode declaration
-        self.value: ARNumerical = None
+        self.value: Union[Union[ARNumerical, None] , None] = None
 
     def setValue(self, value):
         """
@@ -194,16 +194,16 @@ class ModeRequestTypeMap(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ModeRequestTypeMap with default values.
         """
         super().__init__()
 
         # Reference to the implementation data type for mode requests
-        self.implementationDataTypeRef: RefType = None
+        self.implementationDataTypeRef: Union[Union[RefType, None] , None] = None
         # Reference to the mode group for this mapping
-        self.modeGroupRef: RefType = None
+        self.modeGroupRef: Union[Union[RefType, None] , None] = None
 
     def getImplementationDataTypeRef(self):
         """
@@ -258,7 +258,7 @@ class ModeDeclarationGroup(AtpType):
     Mode declaration groups define collections of related mode declarations and their initial state.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ModeDeclarationGroup with a parent and short name.
 
@@ -269,7 +269,7 @@ class ModeDeclarationGroup(AtpType):
         super().__init__(parent, short_name)
 
         # Reference to the initial mode of this group
-        self.initialModeRef: RefType = None
+        self.initialModeRef: Union[Union[RefType, None] , None] = None
         # List of mode declarations in this group
         self.modeDeclarations: List['ModeDeclaration'] = []
         # Error behavior for the mode manager
@@ -279,7 +279,7 @@ class ModeDeclarationGroup(AtpType):
         # Error behavior for the mode user
         self.modeUserErrorBehavior = None
         # Value used on mode transitions
-        self.onTransitionValue: PositiveInteger = None
+        self.onTransitionValue: Union[Union[PositiveInteger, None] , None] = None
 
     def createModeDeclaration(self, short_name: str) -> 'ModeDeclaration':
         """
@@ -362,7 +362,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
     The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ModeDeclarationGroupPrototype with a parent and short name.
 
@@ -375,7 +375,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         # Private storage for software calibration access setting
         self._swCalibrationAccess: str = None
         # Type reference to the mode declaration group
-        self.typeTRef: TRefType = None
+        self.typeTRef: Union[Union[TRefType, None] , None] = None
 
     @property
     def sw_calibration_access(self):
@@ -462,7 +462,7 @@ class ModeErrorBehavior(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ModeErrorBehavior with default values.
         """
@@ -488,13 +488,13 @@ class ModeTransition(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ModeTransition with default values.
         """
         super().__init__()
-        self.sourceModeRef: RefType = None
-        self.targetModeRef: RefType = None
+        self.sourceModeRef: Union[Union[RefType, None] , None] = None
+        self.targetModeRef: Union[Union[RefType, None] , None] = None
 
     def getSourceModeRef(self):
         return self.sourceModeRef
@@ -520,7 +520,7 @@ class ModeErrorReactionPolicyEnum(AREnum):
     TRANSITION_TO_DEFAULT_MODE = "transition-to-default-mode"
     TRANSITION_TO_SAFE_MODE = "transition-to-safe-mode"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ModeErrorReactionPolicyEnum.KEEP_MODE,
             ModeErrorReactionPolicyEnum.TRANSITION_TO_DEFAULT_MODE,

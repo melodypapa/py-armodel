@@ -2,7 +2,7 @@
 # It defines consumed and provided service instances, application endpoints, and SOAD configurations
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -29,7 +29,7 @@ class TransportProtocolConfiguration(ARObject, ABC):
     transport protocols (TCP, UDP, etc.) used in service-oriented
     communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TransportProtocolConfiguration:
             raise TypeError("TransportProtocolConfiguration is an abstract class.")
 
@@ -41,11 +41,11 @@ class GenericTp(TransportProtocolConfiguration):
     including address and technology specifications for custom
     transport protocol implementations.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.tpAddress: String = None
-        self.tpTechnology: String = None
+        self.tpAddress: Union[Union[String, None] , None] = None
+        self.tpTechnology: Union[Union[String, None] , None] = None
 
     def getTpAddress(self):
         return self.tpAddress
@@ -68,7 +68,7 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     defining common properties for both connection-oriented and
     connectionless transport protocols.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TcpUdpConfig:
             raise TypeError("TcpUdpConfig is an abstract class.")
 
@@ -85,11 +85,11 @@ class TpPort(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dynamicallyAssigned: Boolean = None
-        self.portNumber: PositiveInteger = None
+        self.dynamicallyAssigned: Union[Union[Boolean, None] , None] = None
+        self.portNumber: Union[Union[PositiveInteger, None] , None] = None
 
     def getDynamicallyAssigned(self):
         return self.dynamicallyAssigned
@@ -112,10 +112,10 @@ class UdpTp(TcpUdpConfig):
     specifying UDP-specific port configuration for unreliable but fast
     datagram-based communication services.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.udpTpPort: TpPort = None
+        self.udpTpPort: Union[Union[TpPort, None] , None] = None
 
     def getUdpTpPort(self):
         return self.udpTpPort
@@ -131,17 +131,17 @@ class TcpTp(TcpUdpConfig):
     specifying TCP-specific properties such as keep-alive settings, retransmission
     timeouts, and flow control parameters for reliable connection-oriented communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.keepAliveInterval: TimeValue = None
-        self.keepAliveProbesMax: PositiveInteger = None
-        self.keepAlives: Boolean = None
-        self.keepAliveTime: TimeValue = None
-        self.naglesAlgorithm: Boolean = None
-        self.receiveWindowMin: PositiveInteger = None
-        self.tcpRetransmissionTimeout: TimeValue = None
-        self.tcpTpPort: TpPort = None
+        self.keepAliveInterval: Union[Union[TimeValue, None] , None] = None
+        self.keepAliveProbesMax: Union[Union[PositiveInteger, None] , None] = None
+        self.keepAlives: Union[Union[Boolean, None] , None] = None
+        self.keepAliveTime: Union[Union[TimeValue, None] , None] = None
+        self.naglesAlgorithm: Union[Union[Boolean, None] , None] = None
+        self.receiveWindowMin: Union[Union[PositiveInteger, None] , None] = None
+        self.tcpRetransmissionTimeout: Union[Union[TimeValue, None] , None] = None
+        self.tcpTpPort: Union[Union[TpPort, None] , None] = None
 
     def getKeepAliveInterval(self):
         return self.keepAliveInterval
@@ -205,7 +205,7 @@ class AbstractServiceInstance(Identifiable, ABC):
     for both consumed and provided services in the AUTOSAR service-oriented
     architecture.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractServiceInstance:
             raise TypeError("AbstractServiceInstance is an abstract class.")
 
@@ -254,18 +254,18 @@ class ConsumedEventGroup(Identifiable):
     specifying how events are consumed by service clients including
     application endpoint references and event group identifiers.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.applicationEndpointRef: RefType = None
-        self.autoRequire: Boolean = None
-        self.eventGroupIdentifier: PositiveInteger = None
+        self.applicationEndpointRef: Union[Union[RefType, None] , None] = None
+        self.autoRequire: Union[Union[Boolean, None] , None] = None
+        self.eventGroupIdentifier: Union[Union[PositiveInteger, None] , None] = None
         self.eventMulticastAddressRefs: List[RefType] = []
         self.pduActivationRoutingGroups: List = []
-        self.priority: PositiveInteger = None
+        self.priority: Union[Union[PositiveInteger, None] , None] = None
         self.routingGroupRefs: List[RefType] = []
         self.sdClientConfig = None
-        self.sdClientTimerConfigRef: RefType = None
+        self.sdClientTimerConfigRef: Union[Union[RefType, None] , None] = None
 
     def getApplicationEndpointRef(self):
         return self.applicationEndpointRef
@@ -346,22 +346,22 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     architecture, defining how services are consumed by clients including
     provider references, service identifiers, and client configuration.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.allowedServiceProviderRefs: List[RefType] = []
-        self.autoRequire: Boolean = None
+        self.autoRequire: Union[Union[Boolean, None] , None] = None
         self.blocklistedVersions: List = []
         self.consumedEventGroups: List[ConsumedEventGroup] = []
-        self.eventMulticastSubscriptionAddressRef: RefType = None
+        self.eventMulticastSubscriptionAddressRef: Union[Union[RefType, None] , None] = None
         self.instanceIdentifier = None
         self.localUnicastAddressRefs: List[RefType] = []
         self.minorVersion = None
-        self.providedServiceInstanceRef: RefType = None
+        self.providedServiceInstanceRef: Union[Union[RefType, None] , None] = None
         self.remoteUnicastAddressRefs: List[RefType] = []
         self.sdClientConfig = None
-        self.sdClientTimerConfigRef: RefType = None
-        self.serviceIdentifier: PositiveInteger = None
+        self.sdClientTimerConfigRef: Union[Union[RefType, None] , None] = None
+        self.serviceIdentifier: Union[Union[PositiveInteger, None] , None] = None
         self.versionDrivenFindBehavior = None
 
     def getAllowedServiceProviderRefs(self):
@@ -489,13 +489,13 @@ class InitialSdDelayConfig(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.initialDelayMaxValue: TimeValue = None
-        self.initialDelayMinValue: TimeValue = None
-        self.initialRepetitionsBaseDelay: TimeValue = None
-        self.initialRepetitionsMax: PositiveInteger = None
+        self.initialDelayMaxValue: Union[Union[TimeValue, None] , None] = None
+        self.initialDelayMinValue: Union[Union[TimeValue, None] , None] = None
+        self.initialRepetitionsBaseDelay: Union[Union[TimeValue, None] , None] = None
+        self.initialRepetitionsMax: Union[Union[PositiveInteger, None] , None] = None
 
     def getInitialDelayMaxValue(self):
         return self.initialDelayMaxValue
@@ -541,7 +541,7 @@ class SdServerConfig(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
@@ -615,12 +615,12 @@ class EventHandler(Identifiable):
     specifying how events are processed by service providers including
     application endpoint references and service discovery configuration.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.applicationEndpointRef: RefType = None
+        self.applicationEndpointRef: Union[Union[RefType, None] , None] = None
         self.consumedEventGroupRefs: List[RefType] = []
-        self.multicastThreshold: PositiveInteger = None
+        self.multicastThreshold: Union[Union[PositiveInteger, None] , None] = None
         self.routingGroupRefs: List[RefType] = []
         self.sdServerConfig = None
 
@@ -671,14 +671,14 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     architecture, defining how services are provided to clients including
     service identifiers, instance identifiers, and server configuration.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.eventHandlers: List[EventHandler] = []
-        self.instanceIdentifier: PositiveInteger = None
-        self.priority: PositiveInteger = None
+        self.instanceIdentifier: Union[Union[PositiveInteger, None] , None] = None
+        self.priority: Union[Union[PositiveInteger, None] , None] = None
         self.sdServerConfig = None
-        self.serviceIdentifier: PositiveInteger = None
+        self.serviceIdentifier: Union[Union[PositiveInteger, None] , None] = None
 
     def getEventHandlers(self):
         return self.eventHandlers
@@ -729,15 +729,15 @@ class ApplicationEndpoint(Identifiable):
     specifying the interface between applications and the service
     infrastructure including network endpoint references and service instances.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.consumedServiceInstances: List[ConsumedServiceInstance] = []
-        self.maxNumberOfConnections: PositiveInteger = None
-        self.networkEndpointRef: RefType = None
-        self.priority: PositiveInteger = None
+        self.maxNumberOfConnections: Union[Union[PositiveInteger, None] , None] = None
+        self.networkEndpointRef: Union[Union[RefType, None] , None] = None
+        self.priority: Union[Union[PositiveInteger, None] , None] = None
         self.providedServiceInstances: List[ProvidedServiceInstance] = []
-        self.tlsCryptoMappingRef: RefType = None
+        self.tlsCryptoMappingRef: Union[Union[RefType, None] , None] = None
         self.tpConfiguration = None
 
     def getConsumedServiceInstances(self):
@@ -801,20 +801,20 @@ class SocketAddress(Identifiable):
     port addresses, connection properties, and socket configuration
     for TCP/IP communication endpoints.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.allowedIPv6ExtHeadersRef: RefType = None
-        self.allowedTcpOptionsRef: RefType = None
-        self.applicationEndpoint: ApplicationEndpoint = None
-        self.connectorRef: RefType = None
-        self.differentiatedServiceField: PositiveInteger = None
-        self.flowLabel: PositiveInteger = None
+        self.allowedIPv6ExtHeadersRef: Union[Union[RefType, None] , None] = None
+        self.allowedTcpOptionsRef: Union[Union[RefType, None] , None] = None
+        self.applicationEndpoint: Union[Union[ApplicationEndpoint, None] , None] = None
+        self.connectorRef: Union[Union[RefType, None] , None] = None
+        self.differentiatedServiceField: Union[Union[PositiveInteger, None] , None] = None
+        self.flowLabel: Union[Union[PositiveInteger, None] , None] = None
         self.multicastConnectorRefs: List[RefType] = []
-        self.pathMtuDiscoveryEnabled: Boolean = None
-        self.pduCollectionMaxBufferSize: PositiveInteger = None
-        self.pduCollectionTimeout: TimeValue = None
-        self.portAddress: PositiveInteger = None
+        self.pathMtuDiscoveryEnabled: Union[Union[Boolean, None] , None] = None
+        self.pduCollectionMaxBufferSize: Union[Union[PositiveInteger, None] , None] = None
+        self.pduCollectionTimeout: Union[Union[TimeValue, None] , None] = None
+        self.portAddress: Union[Union[PositiveInteger, None] , None] = None
         self.staticSocketConnections = []
         self.udpChecksumHandling = None
 
@@ -921,7 +921,7 @@ class SoAdConfig(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.connections = []                                                   # type: List[SocketConnection]

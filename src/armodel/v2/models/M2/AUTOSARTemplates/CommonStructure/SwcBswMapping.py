@@ -4,7 +4,7 @@ in the CommonStructure module. SWC-BSW mapping defines relationships between
 software component entities and basic software module entities for integration purposes.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
@@ -31,16 +31,16 @@ class SwcBswRunnableMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SwcBswRunnableMapping with default values.
         """
         super().__init__()
 
         # Reference to the BSW module entity in this mapping
-        self.bswEntityRef: RefType = None
+        self.bswEntityRef: Union[Union[RefType, None] , None] = None
         # Reference to the SWC runnable entity in this mapping
-        self.swcRunnableRef: RefType = None
+        self.swcRunnableRef: Union[Union[RefType, None] , None] = None
 
     def getBswEntityRef(self):
         """
@@ -94,7 +94,7 @@ class SwcBswMapping(AtpStructureElement):
     This class defines mappings between software component (SWC) behavior and basic software (BSW) behavior.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the SwcBswMapping with a parent and short name.
 
@@ -105,11 +105,11 @@ class SwcBswMapping(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # Reference to the BSW behavior in this mapping
-        self.bswBehaviorRef: RefType = None
+        self.bswBehaviorRef: Union[Union[RefType, None] , None] = None
         # List of runnable mappings in this SWC-BSW mapping
         self.runnableMappings: List[SwcBswRunnableMapping] = []
         # Reference to the SWC behavior in this mapping
-        self.swcBehaviorRef: RefType = None
+        self.swcBehaviorRef: Union[Union[RefType, None] , None] = None
         # List of synchronized mode groups in this mapping
         self.synchronizedModeGroups = []
         # List of synchronized triggers in this mapping
@@ -241,12 +241,12 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SwcBswSynchronizedModeGroupPrototype with default values.
         """
         super().__init__()
-        self.modeGroupRef: RefType = None
+        self.modeGroupRef: Union[Union[RefType, None] , None] = None
 
     def getModeGroupRef(self) -> RefType:
         """
@@ -282,12 +282,12 @@ class SwcBswSynchronizedTrigger(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SwcBswSynchronizedTrigger with default values.
         """
         super().__init__()
-        self.triggerRef: RefType = None
+        self.triggerRef: Union[Union[RefType, None] , None] = None
 
     def getTriggerRef(self) -> RefType:
         """

@@ -2,7 +2,7 @@
 # It defines crypto service mappings and TLS configurations for secure data transmission
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -20,7 +20,7 @@ class CryptoServiceMapping(Identifiable, ABC):
     service mappings in the AUTOSAR system.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is CryptoServiceMapping:
             raise TypeError("CryptoServiceMapping is an abstract class.")
         super().__init__(parent, short_name)
@@ -32,12 +32,12 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     defining authentication, key, and queue references for secure
     communication between ECUs.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.authenticationRef: RefType = None
-        self.cryptoServiceKeyRef: RefType = None
-        self.cryptoServiceQueueRef: RefType = None
+        self.authenticationRef: Union[Union[RefType, None] , None] = None
+        self.cryptoServiceKeyRef: Union[Union[RefType, None] , None] = None
+        self.cryptoServiceQueueRef: Union[Union[RefType, None] , None] = None
 
     def getAuthenticationRef(self):
         return self.authenticationRef
@@ -70,13 +70,13 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     defining key exchange references, cipher suites, and authentication
     settings for TLS-secured communication.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.keyExchangeRef: RefType = None
+        self.keyExchangeRef: Union[Union[RefType, None] , None] = None
         self.tlsCipherSuites: List = []
-        self.useClientAuthenticationRequest: Boolean = None
-        self.useSecurityExtensionRecordSizeLimit: Boolean = None
+        self.useClientAuthenticationRequest: Union[Union[Boolean, None] , None] = None
+        self.useSecurityExtensionRecordSizeLimit: Union[Union[Boolean, None] , None] = None
 
     def getKeyExchangeRef(self):
         return self.keyExchangeRef

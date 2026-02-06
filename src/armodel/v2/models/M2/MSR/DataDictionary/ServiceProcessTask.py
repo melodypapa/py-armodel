@@ -10,7 +10,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class SwServiceArg(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.direction = None                   # type: ArgumentDirectionEnum
@@ -53,7 +53,7 @@ class SwServiceImplPolicyEnum(AREnum):
     # Standard implementation (not inlined)
     STANDARD = "STANDARD"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             SwServiceImplPolicyEnum.INLINE,
             SwServiceImplPolicyEnum.INLINE_CONDITIONAL,

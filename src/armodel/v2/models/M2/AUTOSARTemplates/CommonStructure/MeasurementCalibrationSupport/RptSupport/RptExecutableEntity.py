@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptAccessEnum import (
     RptAccessEnum,
 )
@@ -20,13 +22,13 @@ class RptExecutableEntity(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RptExecutableEntity with default values.
         """
         super().__init__()
-        self.executableEntityRef: RefType = None
-        self.rptAccess: RptAccessEnum = None
+        self.executableEntityRef: Union[Union[RefType, None] , None] = None
+        self.rptAccess: Union[Union[RptAccessEnum, None] , None] = None
 
     def getExecutableEntityRef(self) -> RefType:
         """

@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -17,12 +19,12 @@ class TimingModeInstance(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the TimingModeInstance with default values.
         """
         super().__init__()
-        self.modeRef: RefType = None
+        self.modeRef: Union[Union[RefType, None] , None] = None
         self.modeValue: str = None
 
     def getModeRef(self) -> RefType:

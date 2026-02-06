@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -20,16 +20,16 @@ class PhysicalDimension(ARElement):
     Base: ARElement
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.currentExp: ARNumerical = None
-        self.lengthExp: ARNumerical = None
-        self.luminousIntensityExp: ARNumerical = None
-        self.massExp: ARNumerical = None
-        self.molarAmountExp: ARNumerical = None
-        self.temperatureExp: ARNumerical = None
-        self.timeExp: ARNumerical = None
+        self.currentExp: Union[Union[ARNumerical, None] , None] = None
+        self.lengthExp: Union[Union[ARNumerical, None] , None] = None
+        self.luminousIntensityExp: Union[Union[ARNumerical, None] , None] = None
+        self.massExp: Union[Union[ARNumerical, None] , None] = None
+        self.molarAmountExp: Union[Union[ARNumerical, None] , None] = None
+        self.temperatureExp: Union[Union[ARNumerical, None] , None] = None
+        self.timeExp: Union[Union[ARNumerical, None] , None] = None
 
     def getCurrentExp(self) -> ARNumerical:
         return self.currentExp
@@ -97,13 +97,13 @@ class Unit(ARElement):
     Base: ARElement
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.displayName: SingleLanguageUnitNames = None
-        self.factorSiToUnit: ARFloat = None
-        self.offsetSiToUnit: ARFloat = None
-        self.physicalDimensionRef: RefType = None
+        self.displayName: Union[Union[SingleLanguageUnitNames, None] , None] = None
+        self.factorSiToUnit: Union[Union[ARFloat, None] , None] = None
+        self.offsetSiToUnit: Union[Union[ARFloat, None] , None] = None
+        self.physicalDimensionRef: Union[Union[RefType, None] , None] = None
 
     def getDisplayName(self) -> SingleLanguageUnitNames:
         return self.displayName
@@ -146,7 +146,7 @@ class UnitGroup(ARElement):
         units (List[Unit]): A list of units in the group.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.units: List[Unit] = []

@@ -1,3 +1,5 @@
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -18,7 +20,7 @@ class BaseTypeDefinition(ARObject, ABC):
     Base: ARObject
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is BaseTypeDefinition:
             raise TypeError("BaseTypeDefinition is an abstract class.")
         super().__init__()
@@ -29,13 +31,13 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     Direct definition of a base type with encoding, size, and memory alignment specifications.
     Base: BaseTypeDefinition
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.baseTypeEncoding: str = None
-        self.baseTypeSize: ARNumerical = None
-        self.byteOrder: ByteOrderEnum = None
-        self.memAlignment: ARNumerical = None
+        self.baseTypeSize: Union[Union[ARNumerical, None] , None] = None
+        self.byteOrder: Union[Union[ByteOrderEnum, None] , None] = None
+        self.memAlignment: Union[Union[ARNumerical, None] , None] = None
         self.nativeDeclaration: str = None
 
     def getBaseTypeEncoding(self):
@@ -80,7 +82,7 @@ class BaseType(ARElement, ABC):
     Abstract base class for base types.
     Base: ARElement
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is BaseType:
             raise TypeError("BaseType is an abstract class.")
 
@@ -100,5 +102,5 @@ class SwBaseType(BaseType):
     Software base type representing primitive data types in software.
     Base: BaseType
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)

@@ -8,6 +8,8 @@ Classes:
     SynchronizationPointConstraint: Specifies synchronization point requirements
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -23,7 +25,7 @@ class SynchronizationPointConstraint(TimingConstraint):
     AUTOSAR elements.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the SynchronizationPointConstraint with a parent and short name.
 
@@ -34,7 +36,7 @@ class SynchronizationPointConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # Synchronization point identifier
-        self.synchronization_point: String = None
+        self.synchronization_point: Union[Union[String, None] , None] = None
 
     def getSynchronizationPoint(self):
         """

@@ -1,6 +1,6 @@
 from abc import ABC
 from enum import Enum
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -41,7 +41,7 @@ class CommunicationDirectionType(AREnum):
     ENUM_IN = "in"
     ENUM_OUT = "out"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             CommunicationDirectionType.ENUM_IN,
             CommunicationDirectionType.ENUM_OUT
@@ -64,7 +64,7 @@ class FibexElement(PackageableElement, ABC):
     elements defined in the FIBEX format used for exchanging communication
     data between tools.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is FibexElement:
             raise TypeError("FibexElement is an abstract class.")
 
@@ -77,13 +77,13 @@ class PduToFrameMapping(Identifiable):
     specifying how PDUs are embedded within frames including byte order,
     start position, and update indication bit position.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.packingByteOrder: ARLiteral = None
-        self.pduRef: RefType = None
-        self.startPosition: ARNumerical = None
-        self.updateIndicationBitPosition: ARNumerical = None
+        self.packingByteOrder: Union[Union[ARLiteral, None] , None] = None
+        self.pduRef: Union[Union[RefType, None] , None] = None
+        self.startPosition: Union[Union[ARNumerical, None] , None] = None
+        self.updateIndicationBitPosition: Union[Union[ARNumerical, None] , None] = None
 
     def getPackingByteOrder(self):
         return self.packingByteOrder
@@ -120,7 +120,7 @@ class Frame(FibexElement, ABC):
     defining common properties for different types of communication
     frames including frame length and PDU to frame mappings.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is Frame:
             raise TypeError("Frame is an abstract class.")
 
@@ -158,16 +158,16 @@ class ContainedIPduProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.collectionSemantics: ARLiteral = None
-        self.headerIdLongHeader: ARPositiveInteger = None
-        self.headerIdShortHeader: ARPositiveInteger = None
-        self.offset: ARNumerical = None
-        self.timeout: ARNumerical = None
-        self.trigger: ARLiteral = None
-        self.updateIndicationBitPosition: ARNumerical = None
+        self.collectionSemantics: Union[Union[ARLiteral, None] , None] = None
+        self.headerIdLongHeader: Union[Union[ARPositiveInteger, None] , None] = None
+        self.headerIdShortHeader: Union[Union[ARPositiveInteger, None] , None] = None
+        self.offset: Union[Union[ARNumerical, None] , None] = None
+        self.timeout: Union[Union[ARNumerical, None] , None] = None
+        self.trigger: Union[Union[ARLiteral, None] , None] = None
+        self.updateIndicationBitPosition: Union[Union[ARNumerical, None] , None] = None
 
     def getCollectionSemantics(self):
         return self.collectionSemantics
@@ -225,7 +225,7 @@ class ISignalGroup(FibexElement):
     specifying relationships between individual signals and system-level
     signal groups with transformation properties.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.comBasedSignalGroupTransformationRefs: List[RefType] = []
@@ -269,7 +269,7 @@ class ISignalIPduGroup(FibexElement):
     specifying communication direction, mode, and references to contained
     IPDU groups and individual IPDUs.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.communicationDirection = None
@@ -319,14 +319,14 @@ class Pdu(FibexElement, ABC):
     Abstract base class for Protocol Data Units (PDUs) in the communication system,
     defining common properties such as dynamic length support and length specifications.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is Pdu:
             raise TypeError("Pdu is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.hasDynamicLength: Boolean = None
-        self.length: UnlimitedInteger = None
+        self.hasDynamicLength: Union[Union[Boolean, None] , None] = None
+        self.length: Union[Union[UnlimitedInteger, None] , None] = None
 
     def getHasDynamicLength(self):
         return self.hasDynamicLength
@@ -350,13 +350,13 @@ class IPdu(Pdu, ABC):
     extending the PDU class with contained IPDU properties for
     interaction-based communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is IPdu:
             raise TypeError("IPdu is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.containedIPduProps: ContainedIPduProps = None
+        self.containedIPduProps: Union[Union[ContainedIPduProps, None] , None] = None
 
     def getContainedIPduProps(self):
         return self.containedIPduProps
@@ -378,23 +378,23 @@ class SecureCommunicationProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.authDataFreshnessLength: PositiveInteger = None
-        self.authDataFreshnessStartPosition: PositiveInteger = None
-        self.authInfoTxLength: PositiveInteger = None
-        self.authenticationBuildAttempts: PositiveInteger = None
-        self.authenticationRetries: PositiveInteger = None
-        self.dataId: PositiveInteger = None
-        self.freshnessValueId: PositiveInteger = None
-        self.freshnessValueLength: PositiveInteger = None
-        self.freshnessValueTxLength: PositiveInteger = None
-        self.messageLinkLength: PositiveInteger = None
-        self.messageLinkPosition: PositiveInteger = None
-        self.secondaryFreshnessValueId: PositiveInteger = None
-        self.securedAreaLength: PositiveInteger = None
-        self.securedAreaOffset: PositiveInteger = None
+        self.authDataFreshnessLength: Union[Union[PositiveInteger, None] , None] = None
+        self.authDataFreshnessStartPosition: Union[Union[PositiveInteger, None] , None] = None
+        self.authInfoTxLength: Union[Union[PositiveInteger, None] , None] = None
+        self.authenticationBuildAttempts: Union[Union[PositiveInteger, None] , None] = None
+        self.authenticationRetries: Union[Union[PositiveInteger, None] , None] = None
+        self.dataId: Union[Union[PositiveInteger, None] , None] = None
+        self.freshnessValueId: Union[Union[PositiveInteger, None] , None] = None
+        self.freshnessValueLength: Union[Union[PositiveInteger, None] , None] = None
+        self.freshnessValueTxLength: Union[Union[PositiveInteger, None] , None] = None
+        self.messageLinkLength: Union[Union[PositiveInteger, None] , None] = None
+        self.messageLinkPosition: Union[Union[PositiveInteger, None] , None] = None
+        self.secondaryFreshnessValueId: Union[Union[PositiveInteger, None] , None] = None
+        self.securedAreaLength: Union[Union[PositiveInteger, None] , None] = None
+        self.securedAreaOffset: Union[Union[PositiveInteger, None] , None] = None
 
     def getAuthDataFreshnessLength(self):
         return self.authDataFreshnessLength
@@ -515,15 +515,15 @@ class SecuredIPdu(IPdu):
     authentication, integrity protection, and other security properties
     for protected communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.authenticationPropsRef: RefType = None
-        self.dynamicRuntimeLengthHandling: Boolean = None
-        self.freshnessPropsRef: RefType = None
-        self.payloadRef: RefType = None
-        self.secureCommunicationProps: SecureCommunicationProps = None
-        self.useAsCryptographicIPdu: Boolean = None
+        self.authenticationPropsRef: Union[Union[RefType, None] , None] = None
+        self.dynamicRuntimeLengthHandling: Union[Union[Boolean, None] , None] = None
+        self.freshnessPropsRef: Union[Union[RefType, None] , None] = None
+        self.payloadRef: Union[Union[RefType, None] , None] = None
+        self.secureCommunicationProps: Union[Union[SecureCommunicationProps, None] , None] = None
+        self.useAsCryptographicIPdu: Union[Union[Boolean, None] , None] = None
         self.useSecuredPduHeader = None
 
     def getAuthenticationPropsRef(self):
@@ -589,15 +589,15 @@ class ISignalToIPduMapping(Identifiable):
     specifying signal references, byte order, start position, transfer
     properties, and update indication bit position.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.iSignalRef: RefType = None
-        self.iSignalGroupRef: RefType = None
-        self.packingByteOrder: ByteOrderEnum = None
-        self.startPosition: UnlimitedInteger = None
+        self.iSignalRef: Union[Union[RefType, None] , None] = None
+        self.iSignalGroupRef: Union[Union[RefType, None] , None] = None
+        self.packingByteOrder: Union[Union[ByteOrderEnum, None] , None] = None
+        self.startPosition: Union[Union[UnlimitedInteger, None] , None] = None
         self.transferProperty = None
-        self.updateIndicationBitPosition: UnlimitedInteger = None
+        self.updateIndicationBitPosition: Union[Union[UnlimitedInteger, None] , None] = None
 
     def getISignalRef(self):
         return self.iSignalRef
@@ -648,13 +648,13 @@ class NmPdu(Pdu):
     network management communication including node monitoring,
     wake-up, and sleep state management.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.iSignalToIPduMappings: List[ISignalToIPduMapping] = []
-        self.nmDataInformation: Boolean = None
-        self.nmVoteInformation: Boolean = None
-        self.unusedBitPattern: Integer = None
+        self.nmDataInformation: Union[Union[Boolean, None] , None] = None
+        self.nmVoteInformation: Union[Union[Boolean, None] , None] = None
+        self.unusedBitPattern: Union[Union[Integer, None] , None] = None
 
     def getISignalToIPduMappings(self):
         return self.iSignalToIPduMappings
@@ -696,7 +696,7 @@ class NPdu(IPdu):
     Represents a Network Protocol Data Unit (PDU) used for network-level
     communication in the AUTOSAR communication system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -705,10 +705,10 @@ class DcmIPdu(IPdu):
     Represents a Diagnostic Communication Management Interaction Protocol Data Unit (IPDU)
     used for diagnostic communication in the AUTOSAR system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.diagPduType: ARLiteral = None
+        self.diagPduType: Union[Union[ARLiteral, None] , None] = None
 
     def getDiagPduType(self):
         return self.diagPduType
@@ -724,11 +724,11 @@ class IPduTiming(Describable):
     specifying minimum delay and transmission mode declaration for
     timed communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.minimumDelay: TimeValue = None
-        self.transmissionModeDeclaration: TransmissionModeDeclaration = None
+        self.minimumDelay: Union[Union[TimeValue, None] , None] = None
+        self.transmissionModeDeclaration: Union[Union[TransmissionModeDeclaration, None] , None] = None
 
     def getMinimumDelay(self):
         return self.minimumDelay
@@ -751,12 +751,12 @@ class ISignalIPdu(IPdu):
     defining timing specifications, signal-to-PDU mappings, and unused
     bit patterns for signal-based communication.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.iPduTimingSpecification: IPduTiming = None
+        self.iPduTimingSpecification: Union[Union[IPduTiming, None] , None] = None
         self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
-        self.unusedBitPattern: Integer = None
+        self.unusedBitPattern: Union[Union[Integer, None] , None] = None
 
     def getIPduTimingSpecification(self):
         return self.iPduTimingSpecification
@@ -789,7 +789,7 @@ class ISignal(FibexElement):
     defining data transformation, signal type, initialization values,
     length, and system signal references for signal-based communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dataTransformationRef = None
@@ -799,7 +799,7 @@ class ISignal(FibexElement):
         self.initValue = None
         self.length = None
         self.networkRepresentationProps = None
-        self.systemSignalRef: RefType = None
+        self.systemSignalRef: Union[Union[RefType, None] , None] = None
         self.timeoutSubstitutionValue = None
         self.transformationISignalProps = []
 
@@ -880,13 +880,13 @@ class PduTriggering(Identifiable):
     specifying PDU references, port references, and trigger conditions
     for PDU transmission and reception.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.iPduRef: RefType = None
+        self.iPduRef: Union[Union[RefType, None] , None] = None
         self.iPduPortRefs: List[RefType] = []
         self.iSignalTriggeringRefs: List[RefType] = []
-        self.secOcCryptoMappingRef: RefType = None
+        self.secOcCryptoMappingRef: Union[Union[RefType, None] , None] = None
         self.triggerIPduSendConditions = []         # type: List
 
     def getIPduRef(self):
@@ -932,13 +932,13 @@ class FrameTriggering(Identifiable, ABC):
     common properties for triggering frame transmission and reception
     including frame references and port references.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is FrameTriggering:
             raise TypeError("FrameTriggering is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.frameRef: RefType = None
+        self.frameRef: Union[Union[RefType, None] , None] = None
         self.framePortRefs: List[RefType] = []
         self.pduTriggeringRefs: List[RefType] = []
 
@@ -970,11 +970,11 @@ class SystemSignal(ARElement):
     dynamic length properties and physical properties for
     system-level signal communication.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.dynamicLength: ARBoolean = None
-        self.physicalProps: SwDataDefProps = None
+        self.dynamicLength: Union[Union[ARBoolean, None] , None] = None
+        self.physicalProps: Union[Union[SwDataDefProps, None] , None] = None
 
     def getDynamicLength(self):
         return self.dynamicLength
@@ -997,11 +997,11 @@ class SystemSignalGroup(ARElement):
     between individual system signals and transforming signal references
     for grouped signal communication.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.systemSignalRefs: List[RefType] = []
-        self.transformingSystemSignalRef: RefType = None
+        self.transformingSystemSignalRef: Union[Union[RefType, None] , None] = None
 
     def getSystemSignalRefs(self):
         return self.systemSignalRefs
@@ -1024,11 +1024,11 @@ class ISignalTriggering(Identifiable):
     signal references, group references, and port references for
     signal-based communication triggering.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.iSignalRef: RefType = None
-        self.iSignalGroupRef: RefType = None
+        self.iSignalRef: Union[Union[RefType, None] , None] = None
+        self.iSignalGroupRef: Union[Union[RefType, None] , None] = None
         self.iSignalPortRefs: List[RefType] = []
 
     def getISignalRef(self):
@@ -1064,12 +1064,12 @@ class SegmentPosition(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.segmentByteOrder: ByteOrderEnum = None
-        self.segmentLength: Integer = None
-        self.segmentPosition: Integer = None
+        self.segmentByteOrder: Union[Union[ByteOrderEnum, None] , None] = None
+        self.segmentLength: Union[Union[Integer, None] , None] = None
+        self.segmentPosition: Union[Union[Integer, None] , None] = None
 
     def getSegmentByteOrder(self):
         return self.segmentByteOrder
@@ -1102,7 +1102,7 @@ class MultiplexedPart(ARObject, ABC):
     common properties for dynamic and static multiplexed communication
     segments including segment positions.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is MultiplexedPart:
             raise TypeError("MultiplexedPart is an abstract class.")
 
@@ -1125,7 +1125,7 @@ class StaticPart(MultiplexedPart):
     Interaction Protocol Data Unit (IPDU) references for fixed
     segments in multiplexed communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.iPduRef = None                                         # type: RefType
@@ -1150,7 +1150,7 @@ class DynamicPartAlternative(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.initialDynamicPart = None                              # type: Boolean
@@ -1188,7 +1188,7 @@ class DynamicPart(MultiplexedPart):
     alternatives for variable segments in multiplexed communication
     based on selector field values.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.dynamicPartAlternatives = []                          # type: List[DynamicPartAlternative]
@@ -1208,7 +1208,7 @@ class MultiplexedIPdu(IPdu):
     with dynamic and static parts, defining selector field properties
     and trigger modes for multiplexed communication.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.dynamicPart = None                                     # type: DynamicPart
@@ -1281,7 +1281,7 @@ class GeneralPurposePdu(Pdu):
     Represents a general-purpose Protocol Data Unit (PDU) for flexible
     communication patterns that don't fit into specific PDU categories.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -1290,7 +1290,7 @@ class GeneralPurposeIPdu(IPdu):
     Represents a general-purpose Interaction Protocol Data Unit (IPDU) for flexible
     interaction-based communication patterns that don't fit into specific IPDU categories.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -1299,7 +1299,7 @@ class SecureCommunicationPropsSet(FibexElement):
     Represents a set of secure communication properties that can be grouped
     together to define common security configurations for communication channels.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.secureComProps: List[SecureCommunicationProps] = []
@@ -1310,7 +1310,7 @@ class UserDefinedPdu(Pdu):
     Represents a user-defined Protocol Data Unit (PDU) that allows for custom
     communication patterns defined by the user rather than following standard PDU types.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -1319,7 +1319,7 @@ class UserDefinedIPdu(IPdu):
     Represents a user-defined Interaction Protocol Data Unit (IPDU) that allows for custom
     interaction-based communication patterns defined by the user rather than following standard IPDU types.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -1329,13 +1329,13 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     including authentication build attempts, retries, and other
     authentication-related security parameters.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.authenticationBuildAttempts: PositiveInteger = None
-        self.authenticationRetries: PositiveInteger = None
-        self.dataId: PositiveInteger = None
-        self.securedComAuthenticationType: ARLiteral = None
+        self.authenticationBuildAttempts: Union[Union[PositiveInteger, None] , None] = None
+        self.authenticationRetries: Union[Union[PositiveInteger, None] , None] = None
+        self.dataId: Union[Union[PositiveInteger, None] , None] = None
+        self.securedComAuthenticationType: Union[Union[ARLiteral, None] , None] = None
 
     def getAuthenticationBuildAttempts(self):
         return self.authenticationBuildAttempts
@@ -1376,16 +1376,16 @@ class SecureCommunicationFreshnessProps(Identifiable):
     including freshness value IDs, lengths, and other
     freshness-related security parameters to prevent replay attacks.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.freshnessValueId: PositiveInteger = None
-        self.freshnessValueLength: PositiveInteger = None
-        self.freshnessValueTxLength: PositiveInteger = None
-        self.messageLinkLength: PositiveInteger = None
-        self.messageLinkPosition: PositiveInteger = None
-        self.secondaryFreshnessValueId: PositiveInteger = None
-        self.securedComFreshnessType: ARLiteral = None
+        self.freshnessValueId: Union[Union[PositiveInteger, None] , None] = None
+        self.freshnessValueLength: Union[Union[PositiveInteger, None] , None] = None
+        self.freshnessValueTxLength: Union[Union[PositiveInteger, None] , None] = None
+        self.messageLinkLength: Union[Union[PositiveInteger, None] , None] = None
+        self.messageLinkPosition: Union[Union[PositiveInteger, None] , None] = None
+        self.secondaryFreshnessValueId: Union[Union[PositiveInteger, None] , None] = None
+        self.securedComFreshnessType: Union[Union[ARLiteral, None] , None] = None
 
     def getFreshnessValueId(self):
         return self.freshnessValueId

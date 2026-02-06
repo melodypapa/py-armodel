@@ -1,6 +1,7 @@
 from typing import (
     Any,
     Optional,
+    Union,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -25,17 +26,17 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 65, Foundation R23-11)
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         # Type: EthernetCommunication.
         # Reference to the CommunicationConnector (VLAN) for which the network
         # configuration is defined.
-        self.communications: Optional[Any] = None
+        self.communications: Union[Optional[Any] , None] = None
         # Multicast IPv4 Address to which the message will be.
-        self.ipv4MulticastIps: Optional[Ip4AddressString] = None
+        self.ipv4MulticastIps: Union[Optional[Ip4AddressString] , None] = None
         # Multicast IPv6 Address to which the message will be.
-        self.ipv6MulticastIps: Optional[Ip6AddressString] = None
+        self.ipv6MulticastIps: Union[Optional[Ip6AddressString] , None] = None
 
     def getCommunications(self) -> Any:
         return self.communications

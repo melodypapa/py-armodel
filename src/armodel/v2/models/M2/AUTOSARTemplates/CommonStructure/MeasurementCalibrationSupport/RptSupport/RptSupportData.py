@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport.RptEnablerImplTypeEnum import (
     RptEnablerImplTypeEnum,
@@ -28,15 +28,15 @@ class RptSupportData(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RptSupportData with default values.
         """
         super().__init__()
         self.rptComponents: List[RefType] = []
-        self.rptEnablerImplType: RptEnablerImplTypeEnum = None
-        self.rptExecutionControl: RptExecutionControlEnum = None
-        self.rptPreparation: RptPreparationEnum = None
+        self.rptEnablerImplType: Union[Union[RptEnablerImplTypeEnum, None] , None] = None
+        self.rptExecutionControl: Union[Union[RptExecutionControlEnum, None] , None] = None
+        self.rptPreparation: Union[Union[RptPreparationEnum, None] , None] = None
 
     def addRptComponent(self, ref: RefType):
         """

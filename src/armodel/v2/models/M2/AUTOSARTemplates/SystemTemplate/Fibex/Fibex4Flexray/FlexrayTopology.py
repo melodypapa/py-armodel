@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -26,7 +28,7 @@ class FlexrayChannelName(AREnum):
     CHANNEL_A = "channelA"
     CHANNEL_B = "channelB"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             FlexrayChannelName.CHANNEL_A,
             FlexrayChannelName.CHANNEL_B
@@ -40,41 +42,41 @@ class FlexrayCommunicationController(CommunicationController):
     startup parameters, timing, and synchronization settings for
     time-triggered communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.acceptedStartupRange: Integer = None
-        self.allowHaltDueToClock: Boolean = None
-        self.allowPassiveToActive: Integer = None
-        self.clusterDriftDamping: Integer = None
-        self.decodingCorrection: Integer = None
-        self.delayCompensationA: Integer = None
-        self.delayCompensationB: Integer = None
-        self.externOffsetCorrection: Integer = None
-        self.externRateCorrection: Integer = None
-        self.externalSync: Boolean = None
-        self.fallBackInternal: Boolean = None
+        self.acceptedStartupRange: Union[Union[Integer, None] , None] = None
+        self.allowHaltDueToClock: Union[Union[Boolean, None] , None] = None
+        self.allowPassiveToActive: Union[Union[Integer, None] , None] = None
+        self.clusterDriftDamping: Union[Union[Integer, None] , None] = None
+        self.decodingCorrection: Union[Union[Integer, None] , None] = None
+        self.delayCompensationA: Union[Union[Integer, None] , None] = None
+        self.delayCompensationB: Union[Union[Integer, None] , None] = None
+        self.externOffsetCorrection: Union[Union[Integer, None] , None] = None
+        self.externRateCorrection: Union[Union[Integer, None] , None] = None
+        self.externalSync: Union[Union[Boolean, None] , None] = None
+        self.fallBackInternal: Union[Union[Boolean, None] , None] = None
         self.flexrayFifos = []
-        self.keySlotID: PositiveInteger = None
-        self.keySlotOnlyEnabled: Boolean = None
-        self.keySlotUsedForStartUp: Boolean = None
-        self.keySlotUsedForSync: Boolean = None
-        self.latestTX: Integer = None
-        self.listenTimeout: Integer = None
-        self.macroInitialOffsetA: Integer = None
-        self.macroInitialOffsetB: Integer = None
-        self.maximumDynamicPayloadLength: Integer = None
-        self.microInitialOffsetA: Integer = None
-        self.microInitialOffsetB: Integer = None
-        self.microPerCycle: Integer = None
-        self.microtickDuration: TimeValue = None
-        self.nmVectorEarlyUpdate: Boolean = None
-        self.offsetCorrectionOut: Integer = None
-        self.rateCorrectionOut: Integer = None
-        self.samplesPerMicrotick: Integer = None
-        self.secondKeySlotId: PositiveInteger = None
-        self.twoKeySlotMode: Boolean = None
-        self.wakeUpPattern: Integer = None
+        self.keySlotID: Union[Union[PositiveInteger, None] , None] = None
+        self.keySlotOnlyEnabled: Union[Union[Boolean, None] , None] = None
+        self.keySlotUsedForStartUp: Union[Union[Boolean, None] , None] = None
+        self.keySlotUsedForSync: Union[Union[Boolean, None] , None] = None
+        self.latestTX: Union[Union[Integer, None] , None] = None
+        self.listenTimeout: Union[Union[Integer, None] , None] = None
+        self.macroInitialOffsetA: Union[Union[Integer, None] , None] = None
+        self.macroInitialOffsetB: Union[Union[Integer, None] , None] = None
+        self.maximumDynamicPayloadLength: Union[Union[Integer, None] , None] = None
+        self.microInitialOffsetA: Union[Union[Integer, None] , None] = None
+        self.microInitialOffsetB: Union[Union[Integer, None] , None] = None
+        self.microPerCycle: Union[Union[Integer, None] , None] = None
+        self.microtickDuration: Union[Union[TimeValue, None] , None] = None
+        self.nmVectorEarlyUpdate: Union[Union[Boolean, None] , None] = None
+        self.offsetCorrectionOut: Union[Union[Integer, None] , None] = None
+        self.rateCorrectionOut: Union[Union[Integer, None] , None] = None
+        self.samplesPerMicrotick: Union[Union[Integer, None] , None] = None
+        self.secondKeySlotId: Union[Union[PositiveInteger, None] , None] = None
+        self.twoKeySlotMode: Union[Union[Boolean, None] , None] = None
+        self.wakeUpPattern: Union[Union[Integer, None] , None] = None
 
     def getAcceptedStartupRange(self):
         return self.acceptedStartupRange
@@ -339,12 +341,12 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     to communication channels, specifying NM (Network Management) timing
     and PNC (Partial Network Cluster) properties for FlexRay communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.nmReadySleepTime: Float = None
-        self.pncFilterDataMask: PositiveUnlimitedInteger = None
-        self.wakeUpChannel: Boolean = None
+        self.nmReadySleepTime: Union[Union[Float, None] , None] = None
+        self.pncFilterDataMask: Union[Union[PositiveUnlimitedInteger, None] , None] = None
+        self.wakeUpChannel: Union[Union[Boolean, None] , None] = None
 
     def getNmReadySleepTime(self):
         return self.nmReadySleepTime
@@ -377,7 +379,7 @@ class FlexrayCluster(CommunicationCluster):
     specifying timing parameters, slot configurations, and network
     management properties for FlexRay network communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.actionPointOffset = None                       # type: Integer

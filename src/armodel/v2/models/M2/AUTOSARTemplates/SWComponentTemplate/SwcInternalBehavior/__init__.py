@@ -73,7 +73,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
 
 
 class SwcInternalBehavior(InternalBehavior):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.arTypedPerInstanceMemories = []                        # type: List[VariableDataPrototype]

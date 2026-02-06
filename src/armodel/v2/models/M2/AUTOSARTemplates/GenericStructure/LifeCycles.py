@@ -35,12 +35,12 @@ class LifeCyclePeriod(ARObject):
         or end point, in which a specific life cycle state is valid/applies to.
     '''
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.arReleaseVersion: Optional[RevisionLabelString] = None
-        self.date: Optional[datetime] = None
-        self.productRelease: Optional[RevisionLabelString] = None
+        self.arReleaseVersion: Union[Optional[RevisionLabelString] , None] = None
+        self.date: Union[Optional[datetime] , None] = None
+        self.productRelease: Union[Optional[RevisionLabelString] , None] = None
 
     def getArReleaseVersion(self) -> Optional[RevisionLabelString]:
         """
@@ -126,14 +126,14 @@ class LifeCycleInfo(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.lcObjectRef: Optional[RefType] = None
-        self.lcStateRef: Optional[RefType] = None
-        self.periodBegin: Optional[LifeCyclePeriod] = None
-        self.periodEnd: Optional[LifeCyclePeriod] = None
-        self.remark: Optional[DocumentationBlock] = None
+        self.lcObjectRef: Union[Optional[RefType] , None] = None
+        self.lcStateRef: Union[Optional[RefType] , None] = None
+        self.periodBegin: Union[Optional[LifeCyclePeriod] , None] = None
+        self.periodEnd: Union[Optional[LifeCyclePeriod] , None] = None
+        self.remark: Union[Optional[DocumentationBlock] , None] = None
         self.useInsteadRefs: List[RefType] = []
 
     def getLcObjectRef(self) -> Optional[RefType]:
@@ -287,14 +287,14 @@ class LifeCycleInfoSet(ARElement):
     This class organizes and manages multiple life cycle information entries.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.defaultLcStateRef: Optional[RefType] = None
-        self.defaultPeriodBegin: Optional[LifeCyclePeriod] = None
-        self.defaultPeriodEnd: Optional[LifeCyclePeriod] = None
+        self.defaultLcStateRef: Union[Optional[RefType] , None] = None
+        self.defaultPeriodBegin: Union[Optional[LifeCyclePeriod] , None] = None
+        self.defaultPeriodEnd: Union[Optional[LifeCyclePeriod] , None] = None
         self.lifeCycleInfos: List[LifeCycleInfo] = []
-        self.usedLifeCycleStateDefinitionGroupRef: Optional[RefType] = None
+        self.usedLifeCycleStateDefinitionGroupRef: Union[Optional[RefType] , None] = None
 
     def getDefaultLcStateRef(self) -> Optional[RefType]:
         """

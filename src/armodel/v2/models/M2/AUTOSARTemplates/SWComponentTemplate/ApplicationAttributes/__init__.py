@@ -15,7 +15,7 @@ class DataLimitKindEnum(AREnum):
     UNLIMITED = "unlimited"
     LIMITED = "limited"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             DataLimitKindEnum.UNLIMITED,
             DataLimitKindEnum.LIMITED,
@@ -31,7 +31,7 @@ class FilterDebouncingEnum(AREnum):
     DEBOUNCE = "debounce"
     NONE = "none"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             FilterDebouncingEnum.FILTER,
             FilterDebouncingEnum.DEBOUNCE,
@@ -48,7 +48,7 @@ class ProcessingKindEnum(AREnum):
     PERIODIC = "periodic"
     DATA_TRIGGERED = "data-triggered"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ProcessingKindEnum.EVENT_TRIGGERED,
             ProcessingKindEnum.PERIODIC,
@@ -65,7 +65,7 @@ class PulseTestEnum(AREnum):
     TEST = "test"
     NONE = "none"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             PulseTestEnum.PULSE,
             PulseTestEnum.TEST,
@@ -82,7 +82,7 @@ class SignalFanEnum(AREnum):
     OUT = "out"
     IN_OUT = "in-out"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             SignalFanEnum.IN,
             SignalFanEnum.OUT,

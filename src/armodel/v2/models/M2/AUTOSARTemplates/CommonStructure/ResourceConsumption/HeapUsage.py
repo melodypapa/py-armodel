@@ -19,7 +19,7 @@ class HeapUsage(Identifiable, ABC):
     This class defines the basic structure for heap memory consumption tracking.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the HeapUsage with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -38,7 +38,7 @@ class MeasuredHeapUsage(HeapUsage):
     Represents measured heap usage in AUTOSAR.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.sampleSize: int = None
 
@@ -55,7 +55,7 @@ class RoughEstimateHeapUsage(HeapUsage):
     Represents rough estimate of heap usage in AUTOSAR.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.confidenceLevel: str = None
 
@@ -72,7 +72,7 @@ class WorstCaseHeapUsage(HeapUsage):
     Represents worst case heap usage in AUTOSAR.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.confidenceLevel: str = None
 

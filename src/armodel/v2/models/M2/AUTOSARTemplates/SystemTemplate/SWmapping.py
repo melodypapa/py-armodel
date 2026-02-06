@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for software component mapping
 # It defines mappings between software components and their implementations or partitions
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -23,13 +23,13 @@ class SwcToEcuMapping(Identifiable):
     in the system, defining how components are assigned to specific
     ECUs including hardware element and processing unit references.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.componentIRefs: List[ComponentInSystemInstanceRef] = []
-        self.controlledHwElementRef: RefType = None
-        self.ecuInstanceRef: RefType = None
-        self.processingUnitRef: RefType = None
+        self.controlledHwElementRef: Union[Union[RefType, None] , None] = None
+        self.ecuInstanceRef: Union[Union[RefType, None] , None] = None
+        self.processingUnitRef: Union[Union[RefType, None] , None] = None
 
     def getComponentIRefs(self):
         return self.componentIRefs
@@ -67,11 +67,11 @@ class SwcToImplMapping(Identifiable):
     defining how software component instances in the system are connected to
     their specific implementation references and instance references.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.componentIRefs: List[ComponentInSystemInstanceRef] = []
-        self.componentImplementationRef: RefType = None
+        self.componentImplementationRef: Union[Union[RefType, None] , None] = None
 
     def getComponentIRefs(self):
         return self.componentIRefs
@@ -96,11 +96,11 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     defining how application-level partitions are mapped to ECU-level
     partitions for resource allocation and execution management.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.applicationPartitionRefs: List[RefType] = []
-        self.ecuPartitionRef: RefType = None
+        self.ecuPartitionRef: Union[Union[RefType, None] , None] = None
 
     def getApplicationPartitionRefs(self):
         return self.applicationPartitionRefs

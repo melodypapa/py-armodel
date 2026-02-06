@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for Ethernet communication
 # It defines socket connections, connection bundles, and service instances for Ethernet networking
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -28,21 +28,21 @@ class SocketConnection(Describable):
     defining properties for TCP/IP communication including IP addresses,
     ports, PDU handling, and timeout configurations for network connections.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.allowedIPv6ExtHeadersRef: RefType = None
-        self.allowedTcpOptionsRef: RefType = None
-        self.clientIpAddrFromConnectionRequest: Boolean = None
-        self.clientPortRef: RefType = None
-        self.clientPortFromConnectionRequest: Boolean = None
+        self.allowedIPv6ExtHeadersRef: Union[Union[RefType, None] , None] = None
+        self.allowedTcpOptionsRef: Union[Union[RefType, None] , None] = None
+        self.clientIpAddrFromConnectionRequest: Union[Union[Boolean, None] , None] = None
+        self.clientPortRef: Union[Union[RefType, None] , None] = None
+        self.clientPortFromConnectionRequest: Union[Union[Boolean, None] , None] = None
         self.pdus: List[SocketConnectionIpduIdentifier] = []
         self.pduSocketConnectionIpdus: List[Identifier] = []
-        self.pduCollectionMaxBufferSize: PositiveInteger = None
-        self.pduCollectionTimeout: TimeValue = None
+        self.pduCollectionMaxBufferSize: Union[Union[PositiveInteger, None] , None] = None
+        self.pduCollectionTimeout: Union[Union[TimeValue, None] , None] = None
         self.runtimeIpAddressConfiguration = None
         self.runtimePortConfiguration = None
-        self.shortLabel: Identifier = None
+        self.shortLabel: Union[Union[Identifier, None] , None] = None
 
     def getAllowedIPv6ExtHeadersRef(self):
         return self.allowedIPv6ExtHeadersRef
@@ -140,15 +140,15 @@ class SocketConnectionIpduIdentifier(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.headerId: PositiveInteger = None
-        self.pduCollectionPduTimeout: TimeValue = None
+        self.headerId: Union[Union[PositiveInteger, None] , None] = None
+        self.pduCollectionPduTimeout: Union[Union[TimeValue, None] , None] = None
         self.pduCollectionSemantics = None
         self.pduCollectionTrigger = None
-        self.PduRef: RefType = None
-        self.pduTriggeringRef: RefType = None
+        self.PduRef: Union[Union[RefType, None] , None] = None
+        self.pduTriggeringRef: Union[Union[RefType, None] , None] = None
         self.routingGroupRefs: List[RefType] = []
 
 
@@ -207,15 +207,15 @@ class SocketConnectionBundle(Referrable):
     Ethernet communications, including differentiated services, flow labels,
     and UDP checksum handling configurations.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.bundledConnections: List[SocketConnection] = []
-        self.differentiatedServiceField: PositiveInteger = None
-        self.flowLabel: PositiveInteger = None
-        self.pathMtuDiscoveryEnabled: Boolean = None
+        self.differentiatedServiceField: Union[Union[PositiveInteger, None] , None] = None
+        self.flowLabel: Union[Union[PositiveInteger, None] , None] = None
+        self.pathMtuDiscoveryEnabled: Union[Union[Boolean, None] , None] = None
         self.pdus: List[SocketConnectionIpduIdentifier] = []
-        self.serverPortRef: RefType = None
+        self.serverPortRef: Union[Union[RefType, None] , None] = None
         self.udpChecksumHandling = None                                                           # type: UdpChecksumCalculationEnum
 
     def getBundledConnections(self):
@@ -273,7 +273,7 @@ class SoAdRoutingGroup(FibexElement):
     specifying how Ethernet communication is organized and controlled
     within the AUTOSAR communication system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.eventGroupControlType = None     # type: EventGroupControlTypeEnum

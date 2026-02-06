@@ -14,7 +14,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class AbstractAccessPoint(AtpStructureElement, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractAccessPoint:
             raise TypeError("ARObject is an abstract class.")
 

@@ -3,6 +3,8 @@ This module contains the SoftwareContext class for representing
 software execution context information in AUTOSAR resource consumption models.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -22,16 +24,16 @@ class SoftwareContext(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SoftwareContext with default values.
         """
         super().__init__()
 
         # Input information for this software context
-        self.input: String = None
+        self.input: Union[Union[String, None] , None] = None
         # Execution state for this software context
-        self.state: String = None
+        self.state: Union[Union[String, None] , None] = None
 
     def getInput(self):
         """

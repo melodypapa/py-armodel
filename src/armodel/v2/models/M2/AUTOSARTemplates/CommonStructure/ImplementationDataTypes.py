@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
@@ -27,7 +27,7 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         if type(self) is AbstractImplementationDataTypeElement:
             raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
         super().__init__(parent, short_name)
@@ -37,16 +37,16 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
     ARRAY_SIZE_SEMANTICS_VARIABLE_SIZE = "VARIABLE_SIZE"
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.arrayImplPolicy: ARLiteral = None
-        self.arraySize: ARNumerical = None
-        self.arraySizeHandling: ARLiteral = None
-        self.arraySizeSemantics: ARLiteral = None
-        self.isOptional: ARBoolean = None
+        self.arrayImplPolicy: Union[Union[ARLiteral, None] , None] = None
+        self.arraySize: Union[Union[ARNumerical, None] , None] = None
+        self.arraySizeHandling: Union[Union[ARLiteral, None] , None] = None
+        self.arraySizeSemantics: Union[Union[ARLiteral, None] , None] = None
+        self.isOptional: Union[Union[ARBoolean, None] , None] = None
         self.subElements: List[ImplementationDataTypeElement] = []
-        self.swDataDefProps: SwDataDefProps = None
+        self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
 
     def getArrayImplPolicy(self) -> ARLiteral:
         return self.arrayImplPolicy
@@ -108,7 +108,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
 
 
 class AbstractImplementationDataType(AutosarDataType, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractImplementationDataType:
             raise TypeError("AbstractImplementationDataType is an abstract class.")
 
@@ -132,7 +132,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     # Category constant for array implementation data types
     CATEGORY_ARRAY = "ARRAY"
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ImplementationDataType with a parent and short name.
 
@@ -143,15 +143,15 @@ class ImplementationDataType(AbstractImplementationDataType):
         super().__init__(parent, short_name)
 
         # Profile for dynamic array size (for variable-size arrays)
-        self.dynamicArraySizeProfile: String = None
+        self.dynamicArraySizeProfile: Union[Union[String, None] , None] = None
         # Flag indicating if this structure contains optional elements
-        self.isStructWithOptionalElement: Boolean = None
+        self.isStructWithOptionalElement: Union[Union[Boolean, None] , None] = None
         # List of sub-elements in this implementation data type
         self.subElements: List['ImplementationDataTypeElement'] = []
         # Symbol properties for this implementation data type
-        self.symbolProps: SymbolProps = None
+        self.symbolProps: Union[Union[SymbolProps, None] , None] = None
         # Type emitter for code generation
-        self.typeEmitter: ARLiteral = None
+        self.typeEmitter: Union[Union[ARLiteral, None] , None] = None
 
     def getDynamicArraySizeProfile(self):
         """
@@ -330,7 +330,7 @@ class ArrayImplPolicyEnum(AREnum):
     DYNAMIC = "dynamic"
     STATIC = "static"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ArrayImplPolicyEnum.DYNAMIC,
             ArrayImplPolicyEnum.STATIC,
@@ -345,7 +345,7 @@ class ArraySizeSemanticsEnum(AREnum):
     FIXED_SIZE = "fixed-size"
     VARIABLE_SIZE = "variable-size"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ArraySizeSemanticsEnum.FIXED_SIZE,
             ArraySizeSemanticsEnum.VARIABLE_SIZE,

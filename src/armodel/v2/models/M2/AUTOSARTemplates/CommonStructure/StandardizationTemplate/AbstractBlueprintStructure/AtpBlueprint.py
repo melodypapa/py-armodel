@@ -30,7 +30,7 @@ class AtpBlueprintable(Identifiable, ABC):
         and other blueprintable AUTOSAR elements.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpBlueprintable:
             raise TypeError("AtpBlueprintable is an abstract class.")
         super().__init__(parent, short_name)
@@ -55,7 +55,7 @@ class AtpBlueprint(Identifiable, ABC):
         Inherits all attributes from Identifiable including shortName and adminData.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")
         super().__init__(parent, short_name)
@@ -82,7 +82,7 @@ class AtpBlueprintMapping(ARObject, ABC):
         Inherits all attributes from ARObject including uuid and adminData.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is AtpBlueprintMapping:
             raise TypeError("AtpBlueprintMapping is an abstract class.")
         super().__init__()

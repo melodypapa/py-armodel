@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,
@@ -23,11 +23,11 @@ class InternalConstrs(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.lower_limit: Limit = None
-        self.upper_limit: Limit = None
+        self.lower_limit: Union[Union[Limit, None] , None] = None
+        self.upper_limit: Union[Union[Limit, None] , None] = None
 
 
 class PhysConstrs(ARObject):
@@ -40,12 +40,12 @@ class PhysConstrs(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.lower_limit: Limit = None
-        self.upper_limit: Limit = None
-        self.unit_ref: RefType = None
+        self.lower_limit: Union[Union[Limit, None] , None] = None
+        self.upper_limit: Union[Union[Limit, None] , None] = None
+        self.unit_ref: Union[Union[RefType, None] , None] = None
 
 
 class DataConstrRule(ARObject):
@@ -58,12 +58,12 @@ class DataConstrRule(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.constrLevel: ARNumerical = None
-        self.internalConstrs: InternalConstrs = None
-        self.physConstrs: PhysConstrs = None
+        self.constrLevel: Union[Union[ARNumerical, None] , None] = None
+        self.internalConstrs: Union[Union[InternalConstrs, None] , None] = None
+        self.physConstrs: Union[Union[PhysConstrs, None] , None] = None
 
 
 class DataConstr(AtpBlueprintable):
@@ -71,7 +71,7 @@ class DataConstr(AtpBlueprintable):
     Represents data constraints with multiple rules.
     Base: AtpBlueprintable
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.data_constr_rule: List[DataConstrRule] = []

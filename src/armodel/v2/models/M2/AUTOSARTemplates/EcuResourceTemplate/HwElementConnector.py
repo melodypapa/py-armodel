@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR hardware element connector
 in the EcuResourceTemplate module.
 """
 
-from typing import Optional
+from typing import Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
@@ -19,14 +19,14 @@ class HwElementConnector(Describable):
     This class defines the connections that can exist between different hardware elements in the model.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the HwElementConnector.
         """
         super().__init__()
 
-        self.hwElementRef: Optional[RefType] = None
-        self.hwPinRef: Optional[RefType] = None
+        self.hwElementRef: Union[Optional[RefType] , None] = None
+        self.hwPinRef: Union[Optional[RefType] , None] = None
 
     def getHwElementRef(self) -> Optional[RefType]:
         """

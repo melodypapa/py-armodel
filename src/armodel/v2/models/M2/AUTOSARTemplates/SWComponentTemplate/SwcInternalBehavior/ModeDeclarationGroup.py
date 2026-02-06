@@ -31,7 +31,7 @@ class ModeAccessPoint(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.ident: 'ModeAccessPointIdent' = None
@@ -52,7 +52,7 @@ class ModeAccessPoint(ARObject):
         return self
 
 class ModeSwitchPoint(AbstractAccessPoint):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.modeGroupIRef: 'PModeGroupInAtomicSwcInstanceRef' = None
@@ -71,7 +71,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.mode_declaration_group_refs: List['RefType'] = []

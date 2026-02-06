@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Filter import (
     DataFilter,
@@ -22,10 +22,10 @@ class ModeDrivenTransmissionModeCondition(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.modeDeclarationRef: RefType = None
+        self.modeDeclarationRef: Union[Union[RefType, None] , None] = None
 
     def getModeDeclarationRef(self):
         return self.modeDeclarationRef
@@ -41,11 +41,11 @@ class TransmissionModeCondition(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dataFilter: DataFilter = None
-        self.iSignalInIPduRef: RefType = None
+        self.dataFilter: Union[Union[DataFilter, None] , None] = None
+        self.iSignalInIPduRef: Union[Union[RefType, None] , None] = None
 
     def getDataFilter(self):
         return self.dataFilter
@@ -68,11 +68,11 @@ class TimeRangeType(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.tolerance = None
-        self.value: TimeValue = None
+        self.value: Union[Union[TimeValue, None] , None] = None
 
     def getTolerance(self):
         return self.tolerance
@@ -90,11 +90,11 @@ class TimeRangeType(ARObject):
 
 
 class CyclicTiming(Describable):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.timeOffset: TimeRangeType = None
-        self.timePeriod: TimeRangeType = None
+        self.timeOffset: Union[Union[TimeRangeType, None] , None] = None
+        self.timePeriod: Union[Union[TimeRangeType, None] , None] = None
 
     def getTimeOffset(self):
         return self.timeOffset
@@ -112,11 +112,11 @@ class CyclicTiming(Describable):
 
 
 class EventControlledTiming(Describable):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.numberOfRepetitions: Integer = None
-        self.repetitionPeriod: TimeRangeType = None
+        self.numberOfRepetitions: Union[Union[Integer, None] , None] = None
+        self.repetitionPeriod: Union[Union[TimeRangeType, None] , None] = None
 
     def getNumberOfRepetitions(self):
         return self.numberOfRepetitions
@@ -139,11 +139,11 @@ class TransmissionModeTiming(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.cyclicTiming: CyclicTiming = None
-        self.eventControlledTiming: EventControlledTiming = None
+        self.cyclicTiming: Union[Union[CyclicTiming, None] , None] = None
+        self.eventControlledTiming: Union[Union[EventControlledTiming, None] , None] = None
 
     def getCyclicTiming(self):
         return self.cyclicTiming
@@ -166,14 +166,14 @@ class TransmissionModeDeclaration(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.modeDrivenFalseConditions: List[ModeDrivenTransmissionModeCondition] = []
         self.modeDrivenTrueConditions: List[ModeDrivenTransmissionModeCondition] = []
         self.transmissionModeConditions: List[TransmissionModeCondition] = []
-        self.transmissionModeFalseTiming: TransmissionModeTiming = None
-        self.transmissionModeTrueTiming: TransmissionModeTiming = None
+        self.transmissionModeFalseTiming: Union[Union[TransmissionModeTiming, None] , None] = None
+        self.transmissionModeTrueTiming: Union[Union[TransmissionModeTiming, None] , None] = None
 
     def getModeDrivenFalseConditions(self):
         return self.modeDrivenFalseConditions

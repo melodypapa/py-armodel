@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR runnable entities
 in software component internal behavior templates.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     ExecutableEntity,
@@ -41,7 +41,7 @@ class RunnableEntityArgument(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.symbol = None
@@ -55,12 +55,12 @@ class RunnableEntityArgument(ARObject):
 
 
 class RunnableEntity(ExecutableEntity):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.arguments: List[RunnableEntityArgument] = []
         self.asynchronousServerCallResultPoints: List[AsynchronousServerCallResultPoint] = []
-        self.canBeInvokedConcurrently: ARBoolean = None
+        self.canBeInvokedConcurrently: Union[Union[ARBoolean, None] , None] = None
         self.dataReadAccesses: List[VariableAccess] = []
         self.dataReceivePointByArguments: List[VariableAccess] = []
         self.dataReceivePointByValues: List[VariableAccess] = []
@@ -73,7 +73,7 @@ class RunnableEntity(ExecutableEntity):
         self.parameterAccesses: List[ParameterAccess] = []
         self.readLocalVariables: List[VariableAccess] = []
         self.serverCallPoints: List[ServerCallPoint] = []
-        self.symbol: ARLiteral = None
+        self.symbol: Union[Union[ARLiteral, None] , None] = None
         self.waitPoints = {}
         self.writtenLocalVariables: List[VariableAccess] = []
 

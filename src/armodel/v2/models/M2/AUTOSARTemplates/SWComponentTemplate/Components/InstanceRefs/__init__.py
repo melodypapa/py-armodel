@@ -5,6 +5,8 @@ elements within atomic SWCs and compositions, particularly for mode groups
 and data elements in instance contexts.
 """
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
@@ -16,16 +18,16 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
 
         if type(self) is ModeGroupInAtomicSwcInstanceRef:
             raise TypeError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
 
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.contextPortRef: Union[Union[RefType, None] , None] = None
+        self.targetRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -50,11 +52,11 @@ class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
 
 class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextPPortRef: RefType = None
-        self.targetModeGroupRef: RefType = None
+        self.contextPPortRef: Union[Union[RefType, None] , None] = None
+        self.targetModeGroupRef: Union[Union[RefType, None] , None] = None
 
     def getContextPPortRef(self):
         return self.contextPPortRef
@@ -71,11 +73,11 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         return self
 
 class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextRPortRef: RefType = None
-        self.targetModeGroupRef: RefType = None
+        self.contextRPortRef: Union[Union[RefType, None] , None] = None
+        self.targetModeGroupRef: Union[Union[RefType, None] , None] = None
 
     def getContextRPortRef(self):
         return self.contextRPortRef
@@ -93,13 +95,13 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 
 
 class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextModeDeclarationGroupPrototypeRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetModeDeclarationRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.contextModeDeclarationGroupPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.contextPortRef: Union[Union[RefType, None] , None] = None
+        self.targetModeDeclarationRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -130,22 +132,22 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
         return self
 
 class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is VariableInAtomicSwcInstanceRef:
             raise TypeError("VariableInAtomicSwcInstanceRef is an abstract class.")
 
         super().__init__()
 
-        self.abstractTargetDataElementRef: RefType = None
-        self.baseRef: RefType = None
-        self.contextPortRef: RefType = None
+        self.abstractTargetDataElementRef: Union[Union[RefType, None] , None] = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.contextPortRef: Union[Union[RefType, None] , None] = None
 
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextRPortRef: RefType = None
-        self.targetDataElementRef: RefType = None
+        self.contextRPortRef: Union[Union[RefType, None] , None] = None
+        self.targetDataElementRef: Union[Union[RefType, None] , None] = None
 
     def getContextRPortRef(self):
         return self.contextRPortRef
@@ -162,12 +164,12 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         return self
 
 class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
         self.contextRefs = []
-        self.targetRef: RefType = None
+        self.targetRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -192,15 +194,15 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
 
 
 class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is OperationInAtomicSwcInstanceRef:
             raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
 
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextPortRef: RefType = None
-        self.targetOperationRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.contextPortRef: Union[Union[RefType, None] , None] = None
+        self.targetOperationRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -225,11 +227,11 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
 
 class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextPPortRef: RefType = None
-        self.targetProvidedOperationRef: RefType = None
+        self.contextPPortRef: Union[Union[RefType, None] , None] = None
+        self.targetProvidedOperationRef: Union[Union[RefType, None] , None] = None
 
     def getContextPPortRef(self):
         return self.contextPPortRef
@@ -247,11 +249,11 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
 
 
 class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.contextRPortRef: RefType = None
-        self.targetRequiredOperationRef: RefType = None
+        self.contextRPortRef: Union[Union[RefType, None] , None] = None
+        self.targetRequiredOperationRef: Union[Union[RefType, None] , None] = None
 
     def getContextRPortRef(self):
         return self.contextRPortRef

@@ -12,7 +12,7 @@ Classes:
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
@@ -34,7 +34,7 @@ class EOCExecutableEntityRefAbstract(Identifiable, ABC):
     This class cannot be instantiated directly and serves as the base for concrete implementations.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is EOCExecutableEntityRefAbstract:
             raise TypeError("EOCExecutableEntityRefAbstract is an abstract class.")
 
@@ -46,7 +46,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     Concrete implementation of executable entity reference for execution order constraints.
     Represents a specific runnable or executable entity in an execution order constraint.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.successor_refs: List[RefType] = []
@@ -76,7 +76,7 @@ class ExecutionOrderConstraint(TimingConstraint):
     This constraint specifies the order in which runnables or other executable entities
     should be executed within a software component.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.ordered_elements: List[EOCExecutableEntityRefAbstract] = []
@@ -118,12 +118,12 @@ class EOCEventRef(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the EOCEventRef with default values.
         """
         super().__init__()
-        self.eventRef: RefType = None
+        self.eventRef: Union[Union[RefType, None] , None] = None
 
     def getEventRef(self) -> RefType:
         """
@@ -159,7 +159,7 @@ class EOCExecutableEntityRefGroup(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the EOCExecutableEntityRefGroup with default values.
         """

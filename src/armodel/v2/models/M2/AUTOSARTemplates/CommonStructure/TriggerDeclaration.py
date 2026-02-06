@@ -4,6 +4,8 @@ in the CommonStructure module. Triggers define events that can initiate specific
 behaviors or actions in AUTOSAR components and systems.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
 )
@@ -24,7 +26,7 @@ class Trigger(AtpStructureElement):
     Triggers define events that can initiate specific behaviors or actions in AUTOSAR components and systems.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Trigger with a parent and short name.
 
@@ -35,7 +37,7 @@ class Trigger(AtpStructureElement):
         super().__init__(parent, short_name)
 
         # Software implementation policy for this trigger
-        self.swImplPolicy: SwImplPolicyEnum = None
+        self.swImplPolicy: Union[Union[SwImplPolicyEnum, None] , None] = None
         # Period for this trigger (MultidimensionalTime type)
         self.triggerPeriod = None
 
@@ -99,16 +101,16 @@ class TriggerMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the TriggerMapping with default values.
         """
         super().__init__()
 
         # Reference to the first trigger in the mapping
-        self.firstTriggerRef: RefType = None
+        self.firstTriggerRef: Union[Union[RefType, None] , None] = None
         # Reference to the second trigger in the mapping
-        self.secondTriggerRef: RefType = None
+        self.secondTriggerRef: Union[Union[RefType, None] , None] = None
 
     def getFirstTriggerRef(self):
         """

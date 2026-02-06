@@ -5,7 +5,7 @@ defining end-to-end protection profiles, variables, and protection sets
 used to ensure data integrity in communication systems.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -31,19 +31,19 @@ class EndToEndDescription(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.category: NameToken = None
-        self.counterOffset: PositiveInteger = None
-        self.crcOffset: PositiveInteger = None
+        self.category: Union[Union[NameToken, None] , None] = None
+        self.counterOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.crcOffset: Union[Union[PositiveInteger, None] , None] = None
         self.dataIds: List[PositiveInteger] = []
-        self.dataIdMode: PositiveInteger = None
-        self.dataIdNibbleOffset: PositiveInteger = None
-        self.dataLength: PositiveInteger = None
-        self.maxDeltaCounterInit: PositiveInteger = None
+        self.dataIdMode: Union[Union[PositiveInteger, None] , None] = None
+        self.dataIdNibbleOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.dataLength: Union[Union[PositiveInteger, None] , None] = None
+        self.maxDeltaCounterInit: Union[Union[PositiveInteger, None] , None] = None
         self.maxNoNewOrRepeatedData: int = None
-        self.syncCounterInit: PositiveInteger = None
+        self.syncCounterInit: Union[Union[PositiveInteger, None] , None] = None
 
     def getCategory(self):
         return self.category
@@ -123,11 +123,11 @@ class EndToEndProtectionVariablePrototype(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self._receiverIRefs: List[VariableDataPrototypeInSystemInstanceRef] = []
-        self.senderIRef: VariableDataPrototypeInSystemInstanceRef = None
+        self.senderIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
         self.shortLabel: str = None
 
     def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef):
@@ -143,12 +143,12 @@ class EndToEndProtectionISignalIPdu(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dataOffset: Integer = None
-        self.iSignalGroupRef: RefType = None
-        self.iSignalIPduRef: RefType = None
+        self.dataOffset: Union[Union[Integer, None] , None] = None
+        self.iSignalGroupRef: Union[Union[RefType, None] , None] = None
+        self.iSignalIPduRef: Union[Union[RefType, None] , None] = None
 
     def getDataOffset(self):
         return self.dataOffset
@@ -173,10 +173,10 @@ class EndToEndProtectionISignalIPdu(ARObject):
 
 
 class EndToEndProtection(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.endToEndProfile: EndToEndDescription = None
+        self.endToEndProfile: Union[Union[EndToEndDescription, None] , None] = None
         self.endToEndProtectionISignalIPdus: List[EndToEndProtectionISignalIPdu] = []
         self.endToEndProtectionVariablePrototypes: List[EndToEndProtectionVariablePrototype] = []
 
@@ -206,7 +206,7 @@ class EndToEndProtection(Identifiable):
 
 
 class EndToEndProtectionSet(ARElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
     def createEndToEndProtection(self, short_name: str) -> EndToEndProtection:

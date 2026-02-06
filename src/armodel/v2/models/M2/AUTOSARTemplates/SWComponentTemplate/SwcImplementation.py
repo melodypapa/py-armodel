@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR software component impleme
 elements in software component templates.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
@@ -19,9 +21,9 @@ class SwcImplementation(Implementation):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.behaviorRef: RefType = None
+        self.behaviorRef: Union[Union[RefType, None] , None] = None
         self.perInstanceMemorySizes = []
-        self.requiredRTEVendor: String = None
+        self.requiredRTEVendor: Union[Union[String, None] , None] = None
 
     def getBehaviorRef(self):
         return self.behaviorRef

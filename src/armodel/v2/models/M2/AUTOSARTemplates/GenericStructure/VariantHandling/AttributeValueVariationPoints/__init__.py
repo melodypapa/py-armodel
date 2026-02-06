@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -22,11 +24,11 @@ class NumericalValueVariationPoint(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.defaultValue: Float = None
-        self.variantValue: Float = None
+        self.defaultValue: Union[Union[Float, None] , None] = None
+        self.variantValue: Union[Union[Float, None] , None] = None
 
     def getDefaultValue(self) -> Float:
         return self.defaultValue

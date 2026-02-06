@@ -4,7 +4,7 @@ BSW module overview describes the high-level structure and interfaces of BSW mod
 including their dependencies, behaviors, and data exchanges with other modules.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalBehavior,
@@ -44,7 +44,7 @@ class BswModuleDescription(AtpStructureElement):
     This is the root element for describing BSW module structure, interfaces, and behavior.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW module description with a parent and short name.
 
@@ -57,7 +57,7 @@ class BswModuleDescription(AtpStructureElement):
         # List of dependencies this BSW module has on other modules
         self.bswModuleDependencies: List[BswModuleDependency] = []
         # Documentation for this BSW module
-        self.bswModuleDocumentation: SwComponentDocumentation = None
+        self.bswModuleDocumentation: Union[Union[SwComponentDocumentation, None] , None] = None
         # List of expected entry references that this module expects to be available
         self.expectedEntryRefs: List[RefType] = []
         # List of implemented entry references that this module provides
@@ -65,7 +65,7 @@ class BswModuleDescription(AtpStructureElement):
         # List of internal behaviors of this BSW module
         self.internalBehaviors: List[BswInternalBehavior] = []
         # Unique module identifier for this BSW module
-        self.moduleId: PositiveInteger = None
+        self.moduleId: Union[Union[PositiveInteger, None] , None] = None
         # List of client-server entries that this module provides to others
         self.providedClientServerEntries: List[BswModuleClientServerEntry] = []
         # List of data prototypes that this module provides to others

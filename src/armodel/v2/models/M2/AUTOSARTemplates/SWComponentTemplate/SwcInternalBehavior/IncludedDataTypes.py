@@ -20,7 +20,7 @@ class IncludedDataTypeSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.data_type_refs = []            # type: List[RefType]

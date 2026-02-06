@@ -35,7 +35,7 @@ class RoleBasedPortAssignment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.portPrototypeRef: 'RefType' = None
@@ -57,7 +57,7 @@ class RoleBasedPortAssignment(ARObject):
 
 
 class SwcServiceDependency(ServiceDependency):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self._assigned_data: List['RoleBasedDataAssignment'] = []

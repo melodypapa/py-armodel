@@ -9,12 +9,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class LEnum(ARLiteral):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class LanguageSpecific(ARObject, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is LanguageSpecific:
             raise TypeError("LanguageSpecific is an abstract class.")
 
@@ -39,20 +39,20 @@ class LanguageSpecific(ARObject, ABC):
 
 
 class LOverviewParagraph(LanguageSpecific):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class LParagraph(LanguageSpecific):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class LLongName(LanguageSpecific):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class LPlainText(LanguageSpecific):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()

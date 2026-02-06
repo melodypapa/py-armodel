@@ -4,7 +4,7 @@ BSW implementation describes how BSW modules are implemented, including their be
 configuration options, and version information.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
@@ -37,15 +37,15 @@ class BswImplementation(Implementation):
         super().__init__(parent, short_name)
 
         # AUTOSAR release version for this implementation
-        self.arReleaseVersion: RevisionLabelString = None
+        self.arReleaseVersion: Union[Union[RevisionLabelString, None] , None] = None
         # Reference to the behavior associated with this implementation
-        self.behaviorRef: RefType = None
+        self.behaviorRef: Union[Union[RefType, None] , None] = None
         # List of references to preconfigured configurations for this implementation
         self.preconfiguredConfigurationRefs: List[RefType] = []
         # List of references to recommended configurations for this implementation
         self.recommendedConfigurationRefs: List[RefType] = []
         # Vendor-specific API infix used in naming conventions
-        self.vendorApiInfix: Identifier = None
+        self.vendorApiInfix: Union[Union[Identifier, None] , None] = None
         # List of references to vendor-specific module definitions
         self.vendorSpecificModuleDefRefs: List[RefType] = []
 

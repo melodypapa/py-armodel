@@ -40,7 +40,7 @@ class TimingExtension(ARElement):
     """
     __metaclass__ = ABC
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is TimingExtension:
             raise TypeError("TimingExtension is an abstract class.")
 
@@ -80,5 +80,5 @@ class SwcTiming(TimingExtension):
     for AUTOSAR software components. This class extends TimingExtension to
     provide component-specific timing functionality.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)

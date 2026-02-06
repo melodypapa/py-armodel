@@ -30,15 +30,15 @@ class AtpInstanceRef(ARObject, ABC):
     This class defines the structure for referencing ATP instances.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is AtpInstanceRef:
             raise TypeError("AtpInstanceRef is an abstract class.")
 
         super().__init__()
 
-        self.atpBaseRef: Optional[RefType] = None
+        self.atpBaseRef: Union[Optional[RefType] , None] = None
         self.atpContextElementRefs: List[RefType] = []
-        self.atpTargetRef: Optional[RefType] = None
+        self.atpTargetRef: Union[Optional[RefType] , None] = None
 
     def getAtpBaseRef(self) -> Optional[RefType]:
         """
@@ -124,7 +124,7 @@ class AtpClassifier(Identifiable, ABC):
         and SwComponentType.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpClassifier:
             raise TypeError("AtpClassifier is an abstract class.")
         super().__init__(parent, short_name)
@@ -153,7 +153,7 @@ class AtpFeature(Identifiable, ABC):
         Inherits all attributes from Identifiable including shortName and adminData.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpFeature:
             raise TypeError("AtpFeature is an abstract class.")
         super().__init__(parent, short_name)
@@ -179,7 +179,7 @@ class AtpType(AtpClassifier, ABC):
         - SwComponentType (including AtomicSwComponentType, CompositionSwComponentType, etc.)
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpType:
             raise TypeError("AtpType is an abstract class.")
         super().__init__(parent, short_name)
@@ -208,7 +208,7 @@ class AtpPrototype(AtpBlueprintable, ABC):
         - SwComponentPrototype
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpPrototype:
             raise TypeError("AtpPrototype is an abstract class.")
         super().__init__(parent, short_name)
@@ -250,7 +250,7 @@ class AtpStructureElement(AtpBlueprintable, ABC):
         - Trigger
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpStructureElement:
             raise TypeError("AtpStructureElement is an abstract class.")
         super().__init__(parent, short_name)

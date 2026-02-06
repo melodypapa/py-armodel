@@ -22,12 +22,12 @@ class AnyInstanceRef(AtpInstanceRef):
     This class defines the structure for referencing any type of instance.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: Optional[RefType] = None
+        self.baseRef: Union[Optional[RefType] , None] = None
         self.contextElementRefs: List[RefType] = []
-        self.targetRef: Optional[RefType] = None
+        self.targetRef: Union[Optional[RefType] , None] = None
 
     def getBaseRef(self) -> Optional[RefType]:
         """

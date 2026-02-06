@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationControlEnum import (
     SignalServiceTranslationControlEnum,
 )
@@ -17,12 +19,12 @@ class SignalServiceTranslationProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SignalServiceTranslationProps with default values.
         """
         super().__init__()
-        self.translationControl: SignalServiceTranslationControlEnum = None
+        self.translationControl: Union[Union[SignalServiceTranslationControlEnum, None] , None] = None
 
     def getTranslationControl(self) -> SignalServiceTranslationControlEnum:
         """

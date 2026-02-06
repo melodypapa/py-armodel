@@ -2,6 +2,8 @@
 This module defines execution time resource consumption classes in AUTOSAR.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -29,9 +31,9 @@ class AnalyzedExecutionTime(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.executionTime: TimeValue = None
+        self.executionTime: Union[Union[TimeValue, None] , None] = None
 
     def getExecutionTime(self):
         return self.executionTime
@@ -51,9 +53,9 @@ class ExecutionTime(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.executionTime: TimeValue = None
+        self.executionTime: Union[Union[TimeValue, None] , None] = None
 
     def getExecutionTime(self):
         return self.executionTime
@@ -73,9 +75,9 @@ class MeasuredExecutionTime(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.executionTime: TimeValue = None
+        self.executionTime: Union[Union[TimeValue, None] , None] = None
         self.sampleSize: int = None
 
     def getExecutionTime(self):
@@ -103,7 +105,7 @@ class MemorySectionLocation(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.sectionName: str = None
 
@@ -125,9 +127,9 @@ class RoughEstimateOfExecutionTime(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.executionTime: TimeValue = None
+        self.executionTime: Union[Union[TimeValue, None] , None] = None
         self.confidenceLevel: str = None
 
     def getExecutionTime(self):
@@ -155,9 +157,9 @@ class SimulatedExecutionTime(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.executionTime: TimeValue = None
+        self.executionTime: Union[Union[TimeValue, None] , None] = None
         self.simulationModel: str = None
 
     def getExecutionTime(self):

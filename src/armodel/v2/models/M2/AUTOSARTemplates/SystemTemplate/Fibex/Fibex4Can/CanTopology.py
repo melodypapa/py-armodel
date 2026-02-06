@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for CAN topology
 # It defines CAN controllers, connectors, and their configuration attributes
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -31,16 +33,16 @@ class CanControllerFdConfiguration(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.paddingValue: PositiveInteger = None
-        self.propSeg: PositiveInteger = None
-        self.sspOffset: PositiveInteger = None
-        self.syncJumpWidth: PositiveInteger = None
-        self.timeSeg1: PositiveInteger = None
-        self.timeSeg2: PositiveInteger = None
-        self.txBitRateSwitch: Boolean = None
+        self.paddingValue: Union[Union[PositiveInteger, None] , None] = None
+        self.propSeg: Union[Union[PositiveInteger, None] , None] = None
+        self.sspOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.syncJumpWidth: Union[Union[PositiveInteger, None] , None] = None
+        self.timeSeg1: Union[Union[PositiveInteger, None] , None] = None
+        self.timeSeg2: Union[Union[PositiveInteger, None] , None] = None
+        self.txBitRateSwitch: Union[Union[Boolean, None] , None] = None
 
     def getPaddingValue(self):
         return self.paddingValue
@@ -110,19 +112,19 @@ class CanControllerFdConfigurationRequirements(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit: Integer = None
-        self.maxSamplePoint: Float = None
-        self.maxSyncJumpWidth: Float = None
-        self.maxTrcvDelayCompensationOffset: TimeValue = None
-        self.minNumberOfTimeQuantaPerBit: Integer = None
-        self.minSamplePoint: Float = None
-        self.minSyncJumpWidth: Float = None
-        self.minTrcvDelayCompensationOffset: TimeValue = None
-        self.paddingValue: PositiveInteger = None
-        self.txBitRateSwitch: Boolean = None
+        self.maxNumberOfTimeQuantaPerBit: Union[Union[Integer, None] , None] = None
+        self.maxSamplePoint: Union[Union[Float, None] , None] = None
+        self.maxSyncJumpWidth: Union[Union[Float, None] , None] = None
+        self.maxTrcvDelayCompensationOffset: Union[Union[TimeValue, None] , None] = None
+        self.minNumberOfTimeQuantaPerBit: Union[Union[Integer, None] , None] = None
+        self.minSamplePoint: Union[Union[Float, None] , None] = None
+        self.minSyncJumpWidth: Union[Union[Float, None] , None] = None
+        self.minTrcvDelayCompensationOffset: Union[Union[TimeValue, None] , None] = None
+        self.paddingValue: Union[Union[PositiveInteger, None] , None] = None
+        self.txBitRateSwitch: Union[Union[Boolean, None] , None] = None
 
     def getMaxNumberOfTimeQuantaPerBit(self):
         return self.maxNumberOfTimeQuantaPerBit
@@ -216,23 +218,23 @@ class CanControllerXlConfiguration(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.arbitrationPhaseSeg1: PositiveInteger = None
-        self.arbitrationPhaseSeg2: PositiveInteger = None
-        self.arbitrationSJW: PositiveInteger = None
-        self.dataPhaseSeg1: PositiveInteger = None
-        self.dataPhaseSeg2: PositiveInteger = None
-        self.dataSJW: PositiveInteger = None
-        self.minArbitrationBitTime: TimeValue = None
-        self.minDataBitTime: TimeValue = None
-        self.paddingValue: PositiveInteger = None
-        self.timeSeg1Arbitration: PositiveInteger = None
-        self.timeSeg1Data: PositiveInteger = None
-        self.timeSeg2Arbitration: PositiveInteger = None
-        self.timeSeg2Data: PositiveInteger = None
-        self.xlBitRateSwitch: Boolean = None
+        self.arbitrationPhaseSeg1: Union[Union[PositiveInteger, None] , None] = None
+        self.arbitrationPhaseSeg2: Union[Union[PositiveInteger, None] , None] = None
+        self.arbitrationSJW: Union[Union[PositiveInteger, None] , None] = None
+        self.dataPhaseSeg1: Union[Union[PositiveInteger, None] , None] = None
+        self.dataPhaseSeg2: Union[Union[PositiveInteger, None] , None] = None
+        self.dataSJW: Union[Union[PositiveInteger, None] , None] = None
+        self.minArbitrationBitTime: Union[Union[TimeValue, None] , None] = None
+        self.minDataBitTime: Union[Union[TimeValue, None] , None] = None
+        self.paddingValue: Union[Union[PositiveInteger, None] , None] = None
+        self.timeSeg1Arbitration: Union[Union[PositiveInteger, None] , None] = None
+        self.timeSeg1Data: Union[Union[PositiveInteger, None] , None] = None
+        self.timeSeg2Arbitration: Union[Union[PositiveInteger, None] , None] = None
+        self.timeSeg2Data: Union[Union[PositiveInteger, None] , None] = None
+        self.xlBitRateSwitch: Union[Union[Boolean, None] , None] = None
 
     def getArbitrationPhaseSeg1(self):
         return self.arbitrationPhaseSeg1
@@ -358,19 +360,19 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit: Integer = None
-        self.maxSamplePoint: Float = None
-        self.maxSyncJumpWidth: Float = None
-        self.maxTrcvDelayCompensationOffset: TimeValue = None
-        self.minNumberOfTimeQuantaPerBit: Integer = None
-        self.minSamplePoint: Float = None
-        self.minSyncJumpWidth: Float = None
-        self.minTrcvDelayCompensationOffset: TimeValue = None
-        self.paddingValue: PositiveInteger = None
-        self.xlBitRateSwitch: Boolean = None
+        self.maxNumberOfTimeQuantaPerBit: Union[Union[Integer, None] , None] = None
+        self.maxSamplePoint: Union[Union[Float, None] , None] = None
+        self.maxSyncJumpWidth: Union[Union[Float, None] , None] = None
+        self.maxTrcvDelayCompensationOffset: Union[Union[TimeValue, None] , None] = None
+        self.minNumberOfTimeQuantaPerBit: Union[Union[Integer, None] , None] = None
+        self.minSamplePoint: Union[Union[Float, None] , None] = None
+        self.minSyncJumpWidth: Union[Union[Float, None] , None] = None
+        self.minTrcvDelayCompensationOffset: Union[Union[TimeValue, None] , None] = None
+        self.paddingValue: Union[Union[PositiveInteger, None] , None] = None
+        self.xlBitRateSwitch: Union[Union[Boolean, None] , None] = None
 
     def getMaxNumberOfTimeQuantaPerBit(self):
         return self.maxNumberOfTimeQuantaPerBit
@@ -459,16 +461,16 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     providing a common foundation for both FD and XL configuration
     properties of CAN controllers.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is AbstractCanCommunicationControllerAttributes:
             raise TypeError("AbstractCanCommunicationControllerAttributes is an abstract class.")
 
         super().__init__()
 
-        self.canControllerFdAttributes: CanControllerFdConfiguration = None
-        self.canControllerFdRequirements: CanControllerFdConfigurationRequirements = None
-        self.canControllerXlAttributes: CanControllerXlConfiguration = None
-        self.canControllerXlRequirements: CanControllerXlConfigurationRequirements = None
+        self.canControllerFdAttributes: Union[Union[CanControllerFdConfiguration, None] , None] = None
+        self.canControllerFdRequirements: Union[Union[CanControllerFdConfigurationRequirements, None] , None] = None
+        self.canControllerXlAttributes: Union[Union[CanControllerXlConfiguration, None] , None] = None
+        self.canControllerXlRequirements: Union[Union[CanControllerXlConfigurationRequirements, None] , None] = None
 
     def getCanControllerFdAttributes(self):
         return self.canControllerFdAttributes
@@ -505,15 +507,15 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
     the timing and communication parameters that must be supported
     by the CAN communication hardware.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit: Integer = None
-        self.maxSamplePoint: Float = None
-        self.maxSyncJumpWidth: Float = None
-        self.minNumberOfTimeQuantaPerBit: Integer = None
-        self.minSamplePoint: Float = None
-        self.minSyncJumpWidth: Float = None
+        self.maxNumberOfTimeQuantaPerBit: Union[Union[Integer, None] , None] = None
+        self.maxSamplePoint: Union[Union[Float, None] , None] = None
+        self.maxSyncJumpWidth: Union[Union[Float, None] , None] = None
+        self.minNumberOfTimeQuantaPerBit: Union[Union[Integer, None] , None] = None
+        self.minSamplePoint: Union[Union[Float, None] , None] = None
+        self.minSyncJumpWidth: Union[Union[Float, None] , None] = None
 
     def getMaxNumberOfTimeQuantaPerBit(self):
         return self.maxNumberOfTimeQuantaPerBit
@@ -564,13 +566,13 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
     the common properties and behavior for CAN network interfaces
     in the AUTOSAR communication system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractCanCommunicationController:
             raise TypeError("AbstractCanCommunicationController is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.canControllerAttributes: AbstractCanCommunicationControllerAttributes = None
+        self.canControllerAttributes: Union[Union[AbstractCanCommunicationControllerAttributes, None] , None] = None
 
     def getCanControllerAttributes(self):
         return self.canControllerAttributes
@@ -586,7 +588,7 @@ class CanCommunicationController(AbstractCanCommunicationController):
     the specific properties and behavior for CAN network communication
     hardware interfaces.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -596,7 +598,7 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
     the foundation for connecting CAN controllers to communication
     channels and network segments.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractCanCommunicationConnector:
             raise TypeError("AbstractCanCommunicationConnector is an abstract class.")
 
@@ -609,14 +611,14 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     to communication channels, enabling network connectivity and defining
     power state management properties for CAN communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.pncWakeupCanId: PositiveInteger = None
-        self.pncWakeupCanIdExtended: Boolean = None
-        self.pncWakeupCanIdMask: PositiveInteger = None
-        self.pncWakeupDataMask: PositiveUnlimitedInteger = None
-        self.pncWakeupDlc: PositiveInteger = None
+        self.pncWakeupCanId: Union[Union[PositiveInteger, None] , None] = None
+        self.pncWakeupCanIdExtended: Union[Union[Boolean, None] , None] = None
+        self.pncWakeupCanIdMask: Union[Union[PositiveInteger, None] , None] = None
+        self.pncWakeupDataMask: Union[Union[PositiveUnlimitedInteger, None] , None] = None
+        self.pncWakeupDlc: Union[Union[PositiveInteger, None] , None] = None
 
     def getPncWakeupCanId(self):
         return self.pncWakeupCanId

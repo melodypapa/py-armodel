@@ -6,14 +6,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class DocumentViewSelectable(ARObject, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is DocumentViewSelectable:
             raise TypeError("DocumentViewSelectable is an abstract class.")
         super().__init__()
 
 
 class Paginateable(DocumentViewSelectable, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is Paginateable:
             raise TypeError("Paginateable is an abstract class.")
         super().__init__()

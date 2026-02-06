@@ -8,6 +8,8 @@ Classes:
     AgeConstraint: Specifies the maximum allowed age of data
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -23,7 +25,7 @@ class AgeConstraint(TimingConstraint):
     window after its creation, maintaining data freshness.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the AgeConstraint with a parent and short name.
 
@@ -34,7 +36,7 @@ class AgeConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # Maximum allowed age of the data
-        self.age: TimeValue = None
+        self.age: Union[Union[TimeValue, None] , None] = None
 
     def getAge(self):
         """

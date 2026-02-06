@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
     ValueSpecification,
 )
@@ -17,10 +19,10 @@ class SwSystemconst(AtpDefinition):
         value (ValueSpecification): The value of the system constant.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.value: ValueSpecification = None
+        self.value: Union[Union[ValueSpecification, None] , None] = None
 
     def getValue(self) -> ValueSpecification:
         return self.value

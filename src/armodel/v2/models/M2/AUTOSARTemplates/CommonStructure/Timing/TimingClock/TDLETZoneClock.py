@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -17,13 +19,13 @@ class TDLETZoneClock(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the TDLETZoneClock with default values.
         """
         super().__init__()
-        self.clockRef: RefType = None
-        self.zoneRef: RefType = None
+        self.clockRef: Union[Union[RefType, None] , None] = None
+        self.zoneRef: Union[Union[RefType, None] , None] = None
 
     def getClockRef(self) -> RefType:
         """

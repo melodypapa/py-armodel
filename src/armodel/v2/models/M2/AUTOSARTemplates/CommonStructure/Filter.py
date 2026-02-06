@@ -4,6 +4,8 @@ in the CommonStructure module. Data filters are used to define conditions for
 data processing, such as when to update values based on filters or limits.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -35,7 +37,7 @@ class DataFilterTypeEnum(AREnum):
     # Filter condition: update every N occurrences
     ONE_EVERY_N = "oneEveryN"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DataFilterTypeEnum with all possible values.
         """
@@ -61,26 +63,26 @@ class DataFilter(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DataFilter with default values.
         """
         super().__init__()
 
         # Type of data filtering to apply
-        self.dataFilterType: DataFilterTypeEnum = None
+        self.dataFilterType: Union[Union[DataFilterTypeEnum, None] , None] = None
         # Bit mask for masked filtering operations
-        self.mask: UnlimitedInteger = None
+        self.mask: Union[Union[UnlimitedInteger, None] , None] = None
         # Maximum threshold value for range-based filtering
-        self.max: UnlimitedInteger = None
+        self.max: Union[Union[UnlimitedInteger, None] , None] = None
         # Minimum threshold value for range-based filtering
-        self.min: UnlimitedInteger = None
+        self.min: Union[Union[UnlimitedInteger, None] , None] = None
         # Offset value for filtering calculations
-        self.offset: PositiveInteger = None
+        self.offset: Union[Union[PositiveInteger, None] , None] = None
         # Period for periodic filtering operations (e.g., oneEveryN)
-        self.period: PositiveInteger = None
+        self.period: Union[Union[PositiveInteger, None] , None] = None
         # Reference value X used in comparison-based filtering
-        self.x: UnlimitedInteger = None
+        self.x: Union[Union[UnlimitedInteger, None] , None] = None
 
     def getDataFilterType(self):
         """

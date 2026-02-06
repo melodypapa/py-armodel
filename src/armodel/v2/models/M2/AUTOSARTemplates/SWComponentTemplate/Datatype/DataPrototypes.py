@@ -5,6 +5,8 @@ prototypes such as variable, parameter, and composite element prototypes
 used in software components.
 """
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -27,13 +29,13 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class DataPrototype(AtpPrototype, ABC):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent:ARObject, short_name: str) -> None:
         if type(self) is DataPrototype:
             raise TypeError("DataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.swDataDefProps: SwDataDefProps = None
+        self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
 
     def getSwDataDefProps(self):
         return self.swDataDefProps
@@ -43,13 +45,13 @@ class DataPrototype(AtpPrototype, ABC):
         return self
 
 class AutosarDataPrototype(DataPrototype, ABC):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent:ARObject, short_name: str) -> None:
         if type(self) is AutosarDataPrototype:
             raise TypeError("AutosarDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.typeTRef: TRefType = None
+        self.typeTRef: Union[Union[TRefType, None] , None] = None
 
     def getTypeTRef(self):
         return self.typeTRef
@@ -59,10 +61,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
         return self
 
 class VariableDataPrototype(AutosarDataPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent:ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.initValue: ValueSpecification = None
+        self.initValue: Union[Union[ValueSpecification, None] , None] = None
 
     def getInitValue(self):
         return self.initValue
@@ -72,13 +74,13 @@ class VariableDataPrototype(AutosarDataPrototype):
         return self
 
 class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent:ARObject, short_name: str) -> None:
         if type(self) is ApplicationCompositeElementDataPrototype:
             raise TypeError("ApplicationCompositeElementDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.typeTRef: RefType = None
+        self.typeTRef: Union[Union[RefType, None] , None] = None
 
     def getTypeTRef(self):
         return self.typeTRef
@@ -89,13 +91,13 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
 
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.arraySizeHandling = None
         self.arraySizeSemantics = None
-        self.indexDataTypeRef: RefType = None
-        self.maxNumberOfElements: PositiveInteger = None
+        self.indexDataTypeRef: Union[Union[RefType, None] , None] = None
+        self.maxNumberOfElements: Union[Union[PositiveInteger, None] , None] = None
 
     def getArraySizeHandling(self):
         return self.arraySizeHandling
@@ -130,7 +132,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         return self
 
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
-    def __init__(self, parent:ARObject, short_name: str):
+    def __init__(self, parent:ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.isOptional = None
@@ -145,10 +147,10 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
 
 
 class ParameterDataPrototype(AutosarDataPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.initValue: ValueSpecification = None
+        self.initValue: Union[Union[ValueSpecification, None] , None] = None
 
     def getInitValue(self):
         return self.initValue

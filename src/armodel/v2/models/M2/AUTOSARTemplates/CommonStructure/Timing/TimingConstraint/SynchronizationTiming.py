@@ -10,6 +10,8 @@ Classes:
     EventOccurrenceKindEnum: Enumeration for event occurrence kinds
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -27,7 +29,7 @@ class SynchronizationTypeEnum(AREnum):
     SOFT_SYNCHRONIZATION = "soft-synchronization"
     NO_SYNCHRONIZATION = "no-synchronization"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             SynchronizationTypeEnum.HARD_SYNCHRONIZATION,
             SynchronizationTypeEnum.SOFT_SYNCHRONIZATION,
@@ -44,7 +46,7 @@ class EventOccurrenceKindEnum(AREnum):
     END = "end"
     START_AND_END = "start-and-end"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             EventOccurrenceKindEnum.START,
             EventOccurrenceKindEnum.END,
@@ -59,7 +61,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
     AUTOSAR elements.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the SynchronizationTimingConstraint with a parent and short name.
 
@@ -70,9 +72,9 @@ class SynchronizationTimingConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # Type of synchronization
-        self.synchronization_type: SynchronizationTypeEnum = None
+        self.synchronization_type: Union[Union[SynchronizationTypeEnum, None] , None] = None
         # Event occurrence kind
-        self.event_occurrence_kind: EventOccurrenceKindEnum = None
+        self.event_occurrence_kind: Union[Union[EventOccurrenceKindEnum, None] , None] = None
 
     def getSynchronizationType(self):
         """

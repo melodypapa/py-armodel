@@ -23,16 +23,16 @@ class EngineeringObject(ARObject, ABC):
     This class defines the basic structure for engineering objects in AUTOSAR models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is EngineeringObject:
             raise TypeError("EngineeringObject is an abstract class.")
 
         super().__init__()
 
-        self.category: Optional[ARLiteral] = None
-        self.domain: Optional[ARLiteral] = None
-        self.revision_label: Optional[ARLiteral] = None
-        self.short_label: Optional[ARLiteral] = None
+        self.category: Union[Optional[ARLiteral] , None] = None
+        self.domain: Union[Optional[ARLiteral] , None] = None
+        self.revision_label: Union[Optional[ARLiteral] , None] = None
+        self.short_label: Union[Optional[ARLiteral] , None] = None
 
     def setCategory(self, category: Any):
         """
@@ -134,5 +134,5 @@ class AutosarEngineeringObject(EngineeringObject):
     This class extends EngineeringObject with AUTOSAR-specific functionality.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()

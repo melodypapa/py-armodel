@@ -34,7 +34,7 @@ class Referrable(ARObject, ABC):
     This class provides basic functionality for managing short names and parent-child relationships.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is Referrable:
             raise TypeError("Referrable is an abstract class.")
 
@@ -93,14 +93,14 @@ class MultilanguageReferrable(Referrable, ABC):
     This class extends Referrable with multilingual support functionality.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is MultilanguageReferrable:
             raise TypeError("MultilanguageReferrable is an abstract class.")
 
         super().__init__(parent, short_name)
 
         # self._parent = parent
-        self.longName: Optional[MultilanguageLongName] = None
+        self.longName: Union[Optional[MultilanguageLongName] , None] = None
 
     def getLongName(self) -> Optional[MultilanguageLongName]:
         """
@@ -132,7 +132,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     This class combines multilingual referrable functionality with element collection capabilities.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is Identifiable:
             raise TypeError("Identifiable is an abstract class.")
 
@@ -142,10 +142,10 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.element_mappings: Dict[str, List[Referrable]] = {}
 
         self.annotations: List[Annotation] = []
-        self.adminData: Optional[AdminData] = None
-        self.category: Optional[CategoryString] = None
-        self.introduction: Optional[DocumentationBlock] = None
-        self.desc: Optional[MultiLanguageOverviewParagraph] = None
+        self.adminData: Union[Optional[AdminData] , None] = None
+        self.category: Union[Optional[CategoryString] , None] = None
+        self.introduction: Union[Optional[DocumentationBlock] , None] = None
+        self.desc: Union[Optional[MultiLanguageOverviewParagraph] , None] = None
 
     def getTotalElement(self) -> int:
         """
@@ -366,7 +366,7 @@ class PackageableElement(Identifiable, ABC):
     This class extends Identifiable with packaging functionality.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is PackageableElement:
             raise TypeError("PackageableElement is an abstract class.")
         super().__init__(parent, short_name)
@@ -378,7 +378,7 @@ class ARElement(PackageableElement, ABC):
     This class represents the basic structure for all AUTOSAR model elements.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is ARElement:
             raise TypeError("ARElement is an abstract class.")
         super().__init__(parent, short_name)
@@ -390,7 +390,7 @@ class Describable(ARObject, ABC):
     This class provides basic description functionality for AUTOSAR elements.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is Describable:
             raise TypeError("Describable is an abstract class.")
 

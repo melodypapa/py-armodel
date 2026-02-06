@@ -9,6 +9,8 @@ Classes:
     ExecutionTimeTypeEnum: Enumeration for execution time constraint types
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -27,7 +29,7 @@ class ExecutionTimeTypeEnum(AREnum):
     WORST_CASE = "worst-case"
     AVERAGE_CASE = "average-case"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ExecutionTimeTypeEnum.BEST_CASE,
             ExecutionTimeTypeEnum.WORST_CASE,
@@ -42,7 +44,7 @@ class ExecutionTimeConstraint(TimingConstraint):
     such as runnables, operations, or other executable entities.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the ExecutionTimeConstraint with a parent and short name.
 
@@ -53,9 +55,9 @@ class ExecutionTimeConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # Type of execution time constraint
-        self.execution_type: ExecutionTimeTypeEnum = None
+        self.execution_type: Union[Union[ExecutionTimeTypeEnum, None] , None] = None
         # Maximum allowed execution time
-        self.execution_time: TimeValue = None
+        self.execution_time: Union[Union[TimeValue, None] , None] = None
 
     def getExecutionType(self):
         """

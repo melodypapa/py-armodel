@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,
@@ -42,7 +42,7 @@ class EcucConditionSpecification(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.conditionFormula: "EcucConditionFormula" = None
@@ -67,12 +67,12 @@ class EcucValidationCondition(Identifiable):
         parent (ARObject): The parent ARObject to which this validation condition belongs.
         short_name (str): A short name identifier for the validation condition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class EcucScopeEnum(AREnum):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 
@@ -118,18 +118,18 @@ class EcucDefinitionElement(Identifiable, ABC):
         setUpperMultiplicityInfinite(value: Boolean):
             Sets whether the upper multiplicity is infinite.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is EcucDefinitionElement:
             raise TypeError("EcucDefinitionElement is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.ecucCond: EcucConditionSpecification = None
+        self.ecucCond: Union[Union[EcucConditionSpecification, None] , None] = None
         self.ecucValidationConds: List[EcucValidationCondition] = []
-        self.lowerMultiplicity: PositiveInteger = None
-        self.relatedTraceItemRef: RefType = None
-        self.scope: EcucScopeEnum = None
-        self.upperMultiplicity: PositiveInteger = None
-        self.upperMultiplicityInfinite: Boolean = None
+        self.lowerMultiplicity: Union[Union[PositiveInteger, None] , None] = None
+        self.relatedTraceItemRef: Union[Union[RefType, None] , None] = None
+        self.scope: Union[Union[EcucScopeEnum, None] , None] = None
+        self.upperMultiplicity: Union[Union[PositiveInteger, None] , None] = None
+        self.upperMultiplicityInfinite: Union[Union[Boolean, None] , None] = None
 
     def getEcucCond(self) -> EcucConditionSpecification:
         return self.ecucCond
@@ -200,17 +200,17 @@ class EcucDestinationUriDefRefType(RefType):
         __init__(): Initializes an instance of EcucDestinationUriDefRefType
         by invoking the constructor of the parent `RefType` class.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class EcucConfigurationClassEnum(AREnum):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 
 class EcucConfigurationVariantEnum(AREnum):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 
@@ -233,13 +233,13 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
             Sets the configuration variant to the specified value.
             Returns the instance for method chaining.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is EcucAbstractConfigurationClass:
             raise TypeError("EcucAbstractConfigurationClass is an abstract class.")
         super().__init__()
 
-        self.configClass: EcucConfigurationClassEnum = None
-        self.configVariant: EcucConfigurationVariantEnum = None
+        self.configClass: Union[Union[EcucConfigurationClassEnum, None] , None] = None
+        self.configVariant: Union[Union[EcucConfigurationVariantEnum, None] , None] = None
 
     def getConfigClass(self) -> EcucConfigurationClassEnum:
         return self.configClass
@@ -271,7 +271,7 @@ class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
         __init__(): Initializes an instance of EcucMultiplicityConfigurationClass
         and invokes the constructor of the parent class.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -317,17 +317,17 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         setMultipleConfigurationContainer(value: Boolean):
             Sets whether the container supports multiple configurations.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is EcucContainerDef:
             raise TypeError("EcucContainerDef is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.destinationUriRef: EcucDestinationUriDefRefType = None
+        self.destinationUriRef: Union[Union[EcucDestinationUriDefRefType, None] , None] = None
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
-        self.origin: String = None
-        self.postBuildVariantMultiplicity: Boolean = None
-        self.requiresIndex: Boolean = None
-        self.multipleConfigurationContainer: Boolean = None
+        self.origin: Union[Union[String, None] , None] = None
+        self.postBuildVariantMultiplicity: Union[Union[Boolean, None] , None] = None
+        self.requiresIndex: Union[Union[Boolean, None] , None] = None
+        self.multipleConfigurationContainer: Union[Union[Boolean, None] , None] = None
 
     def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
         return self.destinationUriRef
@@ -389,7 +389,7 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
         __init__(): Initializes an instance of EcucValueConfigurationClass by invoking the constructor
                     of its superclass, EcucAbstractConfigurationClass.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -437,17 +437,17 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
         addValueConfigClass(value: EcucValueConfigurationClass):
             Adds a value configuration class to the list.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is EcucCommonAttributes:
             raise TypeError("Cannot instantiate abstract class EcucCommonAttributes")
 
         super().__init__(parent, short_name)
 
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
-        self.origin: String = None
-        self.postBuildVariantMultiplicity: Boolean = None
-        self.postBuildVariantValue: Boolean = None
-        self.requiresIndex: Boolean = None
+        self.origin: Union[Union[String, None] , None] = None
+        self.postBuildVariantMultiplicity: Union[Union[Boolean, None] , None] = None
+        self.postBuildVariantValue: Union[Union[Boolean, None] , None] = None
+        self.requiresIndex: Union[Union[Boolean, None] , None] = None
         self.valueConfigClasses: List[EcucValueConfigurationClass] = []
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
@@ -511,7 +511,7 @@ class EcucDerivationSpecification(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -542,14 +542,14 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
             Returns the current instance for method chaining.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is EcucParameterDef:
             raise TypeError("EcucParameterDef is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.derivation: EcucDerivationSpecification = None
-        self.symbolicNameValue: Boolean = None
-        self.withAuto: Boolean = None
+        self.derivation: Union[Union[EcucDerivationSpecification, None] , None] = None
+        self.symbolicNameValue: Union[Union[Boolean, None] , None] = None
+        self.withAuto: Union[Union[Boolean, None] , None] = None
 
     def getDerivation(self) -> EcucDerivationSpecification:
         return self.derivation
@@ -587,10 +587,10 @@ class EcucBooleanParamDef(EcucParameterDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC boolean parameter definition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.defaultValue: Boolean = None
+        self.defaultValue: Union[Union[Boolean, None] , None] = None
 
     def getDefaultValue(self) -> Boolean:
         return self.defaultValue
@@ -616,13 +616,13 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     Raises:
         TypeError: If an attempt is made to instantiate this abstract class directly.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is EcucAbstractReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractReferenceDef")
 
         super().__init__(parent, short_name)
 
-        self.withAuto: Boolean = None
+        self.withAuto: Union[Union[Boolean, None] , None] = None
 
     def getWithAuto(self) -> Boolean:
         return self.withAuto
@@ -647,12 +647,12 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
             Sets the value of the requiresSymbolicNameValue attribute if the provided value
             is not None. Returns the instance of the class.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is EcucAbstractInternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractInternalReferenceDef")
         super().__init__(parent, short_name)
 
-        self.requiresSymbolicNameValue: Boolean = None
+        self.requiresSymbolicNameValue: Union[Union[Boolean, None] , None] = None
 
     def getRequiresSymbolicNameValue(self) -> Boolean:
         return self.requiresSymbolicNameValue
@@ -664,7 +664,7 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
 
@@ -672,10 +672,10 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 
 class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationRef: RefType = None
+        self.destinationRef: Union[Union[RefType, None] , None] = None
 
     def getDestinationRef(self) -> RefType:
         return self.destinationRef
@@ -687,10 +687,10 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationRef: RefType = None
+        self.destinationRef: Union[Union[RefType, None] , None] = None
 
     def getDestinationRef(self) -> RefType:
         return self.destinationRef
@@ -702,10 +702,10 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationRef: RefType = None
+        self.destinationRef: Union[Union[RefType, None] , None] = None
 
     def getDestinationRef(self) -> RefType:
         return self.destinationRef
@@ -717,10 +717,10 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationUriRef: EcucDestinationUriDefRefType = None
+        self.destinationUriRef: Union[Union[EcucDestinationUriDefRefType, None] , None] = None
 
     def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
         return self.destinationUriRef
@@ -732,11 +732,11 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationContext: String = None
-        self.destinationType: String = None
+        self.destinationContext: Union[Union[String, None] , None] = None
+        self.destinationType: Union[Union[String, None] , None] = None
 
     def getDestinationContext(self) -> String:
         return self.destinationContext
@@ -756,10 +756,10 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationType: String = None
+        self.destinationType: Union[Union[String, None] , None] = None
 
     def getDestinationType(self) -> String:
         return self.destinationType
@@ -800,16 +800,16 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     Raises:
         TypeError: If an attempt is made to instantiate the abstract class directly.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is EcucAbstractStringParamDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
 
         super().__init__(parent, short_name)
 
-        self.defaultValue: VerbatimString = None
-        self.maxLength: PositiveInteger = None
-        self.minLength: PositiveInteger = None
-        self.regularExpression: RegularExpression = None
+        self.defaultValue: Union[Union[VerbatimString, None] , None] = None
+        self.maxLength: Union[Union[PositiveInteger, None] , None] = None
+        self.minLength: Union[Union[PositiveInteger, None] , None] = None
+        self.regularExpression: Union[Union[RegularExpression, None] , None] = None
 
     def getDefaultValue(self) -> VerbatimString:
         return self.defaultValue
@@ -855,7 +855,7 @@ class EcucStringParamDef(EcucAbstractStringParamDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC string parameter definition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -870,17 +870,17 @@ class EcucFunctionNameDef(EcucAbstractStringParamDef):
         parent (ARObject): The parent object in the AUTOSAR hierarchy.
         short_name (str): The short name of the ECUC parameter definition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class EcucIntegerParamDef(EcucParameterDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.defaultValue: UnlimitedInteger = None
-        self.max: UnlimitedInteger = None
-        self.min: UnlimitedInteger = None
+        self.defaultValue: Union[Union[UnlimitedInteger, None] , None] = None
+        self.max: Union[Union[UnlimitedInteger, None] , None] = None
+        self.min: Union[Union[UnlimitedInteger, None] , None] = None
 
     def getDefaultValue(self) -> UnlimitedInteger:
         return self.defaultValue
@@ -927,11 +927,11 @@ class EcucEnumerationLiteralDef(Identifiable):
             Sets the origin information for the enumeration literal.
             Returns the current instance for method chaining.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.ecucCond: EcucConditionSpecification = None
-        self.origin: String = None
+        self.ecucCond: Union[Union[EcucConditionSpecification, None] , None] = None
+        self.origin: Union[Union[String, None] , None] = None
 
     def getEcucCond(self) -> EcucConditionSpecification:
         return self.ecucCond
@@ -970,10 +970,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
             Creates a new enumeration literal with the specified short name if it does not already exist.
             Adds the literal to the list of literals and returns it.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.defaultValue: Identifier = None
+        self.defaultValue: Union[Union[Identifier, None] , None] = None
         self.literals: List[EcucEnumerationLiteralDef] = []
 
     def getDefaultValue(self) -> UnlimitedInteger:
@@ -996,12 +996,12 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
 
 class EcucFloatParamDef(EcucParameterDef):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.defaultValue: Float = None
-        self.max: Limit = None
-        self.min: Limit = None
+        self.defaultValue: Union[Union[Float, None] , None] = None
+        self.max: Union[Union[Limit, None] , None] = None
+        self.min: Union[Union[Limit, None] , None] = None
 
     def getDefaultValue(self) -> Float:
         return self.defaultValue
@@ -1039,7 +1039,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC choice container definition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.choices: List["EcucParamConfContainerDef"] = []
@@ -1062,7 +1062,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
     and sub-containers as part of the AUTOSAR ECUC configuration.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes an ECUCParameterDefTemplate instance.
         Args:
@@ -1283,10 +1283,10 @@ class EcucAddInfoParamDef(EcucParameterDef):
         short_name (str): The short name of the ECUC additional info parameter definition.
         defaultValue (VerbatimString): The default value of the additional info parameter.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.defaultValue: VerbatimString = None
+        self.defaultValue: Union[Union[VerbatimString, None] , None] = None
 
     def getDefaultValue(self) -> VerbatimString:
         return self.defaultValue
@@ -1312,10 +1312,10 @@ class EcucConditionFormula(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.formula: String = None
+        self.formula: Union[Union[String, None] , None] = None
 
     def getFormula(self) -> String:
         return self.formula
@@ -1335,7 +1335,7 @@ class EcucDefinitionCollection(AtpBlueprintable):
     Attributes:
         definitions (List[EcucDefinitionElement]): A list of ECUC definition elements.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.definitions: List[EcucDefinitionElement] = []
@@ -1360,10 +1360,10 @@ class EcucDestinationUriDef(Identifiable):
         short_name (str): The short name of the ECUC destination URI definition.
         destinationUri (String): The destination URI.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.destinationUri: String = None
+        self.destinationUri: Union[Union[String, None] , None] = None
 
     def getDestinationUri(self) -> String:
         return self.destinationUri
@@ -1385,7 +1385,7 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         short_name (str): The short name of the ECUC destination URI definition set.
         destinationUriDefs (List[EcucDestinationUriDef]): A list of ECUC destination URI definitions.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.destinationUriDefs: List[EcucDestinationUriDef] = []
@@ -1413,10 +1413,10 @@ class EcucDestinationUriPolicy(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.policy: String = None
+        self.policy: Union[Union[String, None] , None] = None
 
     def getPolicy(self) -> String:
         return self.policy
@@ -1438,10 +1438,10 @@ class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
         short_name (str): The short name of the ECUC linker symbol definition.
         linkerSymbol (CIdentifier): The linker symbol.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.linkerSymbol: CIdentifier = None
+        self.linkerSymbol: Union[Union[CIdentifier, None] , None] = None
 
     def getLinkerSymbol(self) -> CIdentifier:
         return self.linkerSymbol
@@ -1463,7 +1463,7 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC multiline string parameter definition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -1481,10 +1481,10 @@ class EcucParameterDerivationFormula(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.formula: String = None
+        self.formula: Union[Union[String, None] , None] = None
 
     def getFormula(self) -> String:
         return self.formula
@@ -1504,7 +1504,7 @@ class EcucQuery(Identifiable):
     Attributes:
         queryExpression (EcucQueryExpression): The query expression.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.queryExpression: "EcucQueryExpression" = None
@@ -1532,10 +1532,10 @@ class EcucQueryExpression(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.expression: String = None
+        self.expression: Union[Union[String, None] , None] = None
 
     def getExpression(self) -> String:
         return self.expression
@@ -1547,13 +1547,13 @@ class EcucQueryExpression(ARObject):
 
 
 class EcucModuleDef(EcucDefinitionElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.apiServicePrefix: CIdentifier = None
+        self.apiServicePrefix: Union[Union[CIdentifier, None] , None] = None
         self.containers: List[EcucContainerDef] = []
-        self.postBuildVariantSupport: Boolean = None
-        self.refinedModuleDefRef: RefType = None
+        self.postBuildVariantSupport: Union[Union[Boolean, None] , None] = None
+        self.refinedModuleDefRef: Union[Union[RefType, None] , None] = None
         self.supportedConfigVariants: List[EcucConfigurationVariantEnum] = []
 
     def getApiServicePrefix(self) -> CIdentifier:

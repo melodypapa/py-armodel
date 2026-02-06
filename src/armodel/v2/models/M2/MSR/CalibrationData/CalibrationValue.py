@@ -14,7 +14,7 @@ class SwValues(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self._v = []                    # type: List[ARNumerical]
@@ -33,7 +33,7 @@ class SwValueCont(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.swArraysize = None             # type: ValueList

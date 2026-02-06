@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -23,11 +23,11 @@ class Documentation(ARElement):
         annotations (List[Annotation]): A list of annotations for the documentation.
         description (String): The description text.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.annotations: List[Annotation] = []
-        self.description: String = None
+        self.description: Union[Union[String, None] , None] = None
 
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
