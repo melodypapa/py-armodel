@@ -286,13 +286,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.internalBehavior: "SwcInternalBehavior" = None
+        self.internalBehavior: "SwcInternalBehavior" = None  # noqa: F821
         self.symbolProps: SymbolProps = None
 
     def getInternalBehavior(self):
         return self.internalBehavior
 
-    def createSwcInternalBehavior(self, short_name) -> "SwcInternalBehavior":
+    def createSwcInternalBehavior(self, short_name) -> "SwcInternalBehavior":  # noqa: F821
         from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
             SwcInternalBehavior,
         )
