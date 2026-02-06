@@ -24,7 +24,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 
 class DataMapping(ARObject, ABC):
     """
-    Abstract base class for data mapping elements that define relationships between 
+    Abstract base class for data mapping elements that define relationships between
     AUTOSAR software component data elements and system-level communication signals.
     This class serves as the foundation for various types of data mappings used in
     system design to connect component interfaces with communication infrastructure.
@@ -237,7 +237,7 @@ class IndexedArrayElement(ARObject):
 class SenderRecArrayElementMapping(ARObject):
     """
     Maps individual elements of an array data type between sender/receiver
-    interfaces and system signals, including complex type mapping for 
+    interfaces and system signals, including complex type mapping for
     nested data structures and indexed array elements.
     """
     def __init__(self):

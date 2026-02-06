@@ -4,7 +4,12 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Any, Dict, List, Optional
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -50,7 +55,7 @@ class Referrable(ARObject, ABC):
     def getShortName(self) -> str:
         """
         Gets the short name of this referrable element.
-        
+
         Returns:
             The short name of this element
         """
@@ -59,7 +64,7 @@ class Referrable(ARObject, ABC):
     def getParent(self) -> ARObject:
         """
         Gets the parent of this referrable element.
-        
+
         Returns:
             The parent ARObject
         """
@@ -75,7 +80,7 @@ class Referrable(ARObject, ABC):
     def getFullName(self) -> str:
         """
         Gets the full name of this element, including the parent's full name.
-        
+
         Returns:
             The full name of this element
         """
@@ -100,7 +105,7 @@ class MultilanguageReferrable(Referrable, ABC):
     def getLongName(self) -> Optional[MultilanguageLongName]:
         """
         Gets the long name of this multilingual referrable element.
-        
+
         Returns:
             MultilanguageLongName representing the long name, or None if not set
         """
@@ -109,10 +114,10 @@ class MultilanguageReferrable(Referrable, ABC):
     def setLongName(self, value: MultilanguageLongName):
         """
         Sets the long name of this multilingual referrable element.
-        
+
         Args:
             value: The long name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -235,7 +240,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getAdminData(self) -> Optional[AdminData]:
         """
         Gets the administrative data for this identifiable element.
-        
+
         Returns:
             AdminData instance, or None if not set
         """
@@ -245,10 +250,10 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         Sets the administrative data for this identifiable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The administrative data to set
-            
+
         Returns:
             self for method chaining
         """
@@ -265,7 +270,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
         Gets the description for this identifiable element.
-        
+
         Returns:
             MultiLanguageOverviewParagraph instance, or None if not set
         """
@@ -274,10 +279,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setDesc(self, value: MultiLanguageOverviewParagraph):
         """
         Sets the description for this identifiable element.
-        
+
         Args:
             value: The description to set
-            
+
         Returns:
             self for method chaining
         """
@@ -287,7 +292,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getCategory(self) -> Optional[CategoryString]:
         """
         Gets the category for this identifiable element.
-        
+
         Returns:
             CategoryString instance, or None if not set
         """
@@ -297,10 +302,10 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         Sets the category for this identifiable element.
         If the value is a string, it will be converted to a CategoryString.
-        
+
         Args:
             value: The category to set
-            
+
         Returns:
             self for method chaining
         """
@@ -313,7 +318,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this identifiable element.
-        
+
         Returns:
             DocumentationBlock instance, or None if not set
         """
@@ -322,10 +327,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setIntroduction(self, value: DocumentationBlock):
         """
         Sets the introduction documentation for this identifiable element.
-        
+
         Args:
             value: The introduction documentation to set
-            
+
         Returns:
             self for method chaining
         """
@@ -335,10 +340,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def addAnnotation(self, annotation: Annotation):
         """
         Adds an annotation to this identifiable element.
-        
+
         Args:
             annotation: The annotation to add
-            
+
         Returns:
             self for method chaining
         """
@@ -348,7 +353,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getAnnotations(self) -> List[Annotation]:
         """
         Gets the list of annotations for this identifiable element.
-        
+
         Returns:
             List of Annotation instances
         """
@@ -399,7 +404,7 @@ class Describable(ARObject, ABC):
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
         Gets the description for this describable element.
-        
+
         Returns:
             MultiLanguageOverviewParagraph instance, or None if not set
         """
@@ -409,10 +414,10 @@ class Describable(ARObject, ABC):
         """
         Sets the description for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The description to set
-            
+
         Returns:
             self for method chaining
         """
@@ -423,7 +428,7 @@ class Describable(ARObject, ABC):
     def getCategory(self) -> Optional[CategoryString]:
         """
         Gets the category for this describable element.
-        
+
         Returns:
             CategoryString instance, or None if not set
         """
@@ -433,10 +438,10 @@ class Describable(ARObject, ABC):
         """
         Sets the category for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The category to set
-            
+
         Returns:
             self for method chaining
         """
@@ -447,7 +452,7 @@ class Describable(ARObject, ABC):
     def getAdminData(self) -> Optional[AdminData]:
         """
         Gets the administrative data for this describable element.
-        
+
         Returns:
             AdminData instance, or None if not set
         """
@@ -457,10 +462,10 @@ class Describable(ARObject, ABC):
         """
         Sets the administrative data for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The administrative data to set
-            
+
         Returns:
             self for method chaining
         """
@@ -477,7 +482,7 @@ class Describable(ARObject, ABC):
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this describable element.
-        
+
         Returns:
             DocumentationBlock instance, or None if not set
         """
@@ -487,10 +492,10 @@ class Describable(ARObject, ABC):
         """
         Sets the introduction documentation for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The introduction documentation to set
-            
+
         Returns:
             self for method chaining
         """

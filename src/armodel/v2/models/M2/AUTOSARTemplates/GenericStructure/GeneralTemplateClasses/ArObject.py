@@ -4,7 +4,10 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Dict, Optional
+from typing import (
+    Dict,
+    Optional,
+)
 
 
 class ARObject(ABC):
@@ -26,11 +29,11 @@ class ARObject(ABC):
     def getTagName(self, tag: str, nsmap: Dict) -> str:
         """
         Gets the tag name without namespace prefix.
-        
+
         Args:
             tag: The full tag name with namespace prefix
             nsmap: The namespace map dictionary
-            
+
         Returns:
             The tag name without namespace prefix
         """

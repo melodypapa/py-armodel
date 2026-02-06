@@ -7,13 +7,36 @@ V2 Implementation:
 """
 
 # Leaf package files
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpClassifier,
+    AtpFeature,
+    AtpInstanceRef,
+    AtpPrototype,
+    AtpStructureElement,
+    AtpType,
+)
 
 # Subdirectory packages
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
+    Documentation,
+)
+
+# Wildcard import for re-exporting GeneralTemplateClasses (has empty __all__ to avoid circular dependencies)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses import *
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
+    LifeCycleInfo,
+    LifeCycleInfoSet,
+    LifeCyclePeriod,
+)
+
+# Wildcard import for re-exporting RolesAndRights (has empty __all__ to avoid circular dependencies)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import *
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PostBuildVariantCriterion,
+    PostBuildVariantCriterionValue,
+    PredefinedVariant,
+    SwSystemconstantValueSet,
+    VariationPoint,
+)
 
 __all__ = ["__doc__"]

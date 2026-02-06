@@ -1,4 +1,7 @@
-from typing import Dict, List
+from typing import (
+    Dict,
+    List,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     ExecutableEntity,
@@ -70,9 +73,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
     ExternalTriggeringPoint,
     InternalTriggeringPoint,
 )
-
-
-
 
 
 class SwcInternalBehavior(InternalBehavior):

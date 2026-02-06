@@ -33,7 +33,7 @@ class HardwareConfiguration(ARObject):
     def getAdditionalInformation(self):
         """
         Gets the additional information about the hardware configuration.
-        
+
         Returns:
             String: Additional hardware configuration information
         """
@@ -42,10 +42,10 @@ class HardwareConfiguration(ARObject):
     def setAdditionalInformation(self, value):
         """
         Sets the additional information about the hardware configuration.
-        
+
         Args:
             value: The additional information to set
-            
+
         Returns:
             self for method chaining
         """
@@ -55,7 +55,7 @@ class HardwareConfiguration(ARObject):
     def getProcessorMode(self):
         """
         Gets the processor mode setting for this hardware configuration.
-        
+
         Returns:
             String: Processor mode setting
         """
@@ -64,10 +64,10 @@ class HardwareConfiguration(ARObject):
     def setProcessorMode(self, value):
         """
         Sets the processor mode setting for this hardware configuration.
-        
+
         Args:
             value: The processor mode to set
-            
+
         Returns:
             self for method chaining
         """
@@ -77,7 +77,7 @@ class HardwareConfiguration(ARObject):
     def getProcessorSpeed(self):
         """
         Gets the processor speed for this hardware configuration.
-        
+
         Returns:
             String: Processor speed setting
         """
@@ -86,10 +86,10 @@ class HardwareConfiguration(ARObject):
     def setProcessorSpeed(self, value):
         """
         Sets the processor speed for this hardware configuration.
-        
+
         Args:
             value: The processor speed to set
-            
+
         Returns:
             self for method chaining
         """

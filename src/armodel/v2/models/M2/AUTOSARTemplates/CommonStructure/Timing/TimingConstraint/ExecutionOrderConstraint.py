@@ -54,7 +54,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def addSuccessorRef(self, ref: RefType):
         """
         Adds a reference to a successor executable entity.
-        
+
         Args:
             ref: Reference to the successor entity
         """
@@ -63,7 +63,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getSuccessorRefs(self) -> List[RefType]:
         """
         Returns the list of successor references for this entity.
-        
+
         Returns:
             List of successor entity references
         """
@@ -84,10 +84,10 @@ class ExecutionOrderConstraint(TimingConstraint):
     def createEOCExecutableEntityRef(self, short_name: str)-> EOCExecutableEntityRef:
         """
         Creates a new executable entity reference with the specified short name.
-        
+
         Args:
             short_name: Short name for the new entity reference
-            
+
         Returns:
             The created EOCExecutableEntityRef instance
         """
@@ -100,7 +100,7 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
         """
         Returns the list of ordered executable entity references.
-        
+
         Returns:
             List of ordered executable entity references
         """

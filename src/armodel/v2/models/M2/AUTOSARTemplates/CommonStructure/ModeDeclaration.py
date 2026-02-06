@@ -65,7 +65,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def getFirstModeGroupRef(self):
         """
         Gets the reference to the first mode group in the mapping.
-        
+
         Returns:
             RefType: The first mode group reference
         """
@@ -75,10 +75,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         Sets the reference to the first mode group in the mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The first mode group reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -89,7 +89,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def getModeDeclarationMappingSetRef(self):
         """
         Gets the reference to the mode declaration mapping set.
-        
+
         Returns:
             RefType: The mode declaration mapping set reference
         """
@@ -99,10 +99,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         Sets the reference to the mode declaration mapping set.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The mode declaration mapping set reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -113,7 +113,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     def getSecondModeGroupRef(self):
         """
         Gets the reference to the second mode group in the mapping.
-        
+
         Returns:
             RefType: The second mode group reference
         """
@@ -123,10 +123,10 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         """
         Sets the reference to the second mode group in the mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The second mode group reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -144,7 +144,7 @@ class ModeDeclaration(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ModeDeclaration with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this mode declaration
             short_name: The unique short name of this mode declaration
@@ -158,10 +158,10 @@ class ModeDeclaration(AtpStructureElement):
         """
         Sets the value associated with this mode declaration.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -171,7 +171,7 @@ class ModeDeclaration(AtpStructureElement):
     def getValue(self) -> ARNumerical:
         """
         Gets the value associated with this mode declaration.
-        
+
         Returns:
             ARNumerical: The mode value
         """
@@ -198,7 +198,7 @@ class ModeRequestTypeMap(ARObject):
     def getImplementationDataTypeRef(self):
         """
         Gets the reference to the implementation data type for mode requests.
-        
+
         Returns:
             RefType: The implementation data type reference
         """
@@ -208,10 +208,10 @@ class ModeRequestTypeMap(ARObject):
         """
         Sets the reference to the implementation data type for mode requests.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The implementation data type reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -221,7 +221,7 @@ class ModeRequestTypeMap(ARObject):
     def getModeGroupRef(self):
         """
         Gets the reference to the mode group for this mapping.
-        
+
         Returns:
             RefType: The mode group reference
         """
@@ -231,10 +231,10 @@ class ModeRequestTypeMap(ARObject):
         """
         Sets the reference to the mode group for this mapping.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The mode group reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -251,7 +251,7 @@ class ModeDeclarationGroup(AtpType):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ModeDeclarationGroup with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this mode declaration group
             short_name: The unique short name of this mode declaration group
@@ -274,10 +274,10 @@ class ModeDeclarationGroup(AtpType):
     def createModeDeclaration(self, short_name: str) -> 'ModeDeclaration':
         """
         Creates and adds a ModeDeclaration to this mode declaration group.
-        
+
         Args:
             short_name: The short name for the new mode declaration
-            
+
         Returns:
             The created ModeDeclaration instance
         """
@@ -289,7 +289,7 @@ class ModeDeclarationGroup(AtpType):
     def getModeDeclarations(self) -> List['ModeDeclaration']:
         """
         Gets all mode declarations from the elements list, sorted by short name.
-        
+
         Returns:
             List of ModeDeclaration instances sorted by short name
         """
@@ -299,10 +299,10 @@ class ModeDeclarationGroup(AtpType):
         """
         Sets the reference to the initial mode of this group.
         Only sets the value if it is not None.
-        
+
         Args:
             ref: The initial mode reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -312,7 +312,7 @@ class ModeDeclarationGroup(AtpType):
     def getInitialModeRef(self) -> RefType:
         """
         Gets the reference to the initial mode of this group.
-        
+
         Returns:
             RefType: The initial mode reference
         """
@@ -322,10 +322,10 @@ class ModeDeclarationGroup(AtpType):
         """
         Sets the value used on mode transitions.
         If value is an integer, creates an ARNumerical instance with that value.
-        
+
         Args:
             value: The value to set for transitions
-            
+
         Returns:
             self for method chaining
         """
@@ -339,7 +339,7 @@ class ModeDeclarationGroup(AtpType):
     def getOnTransitionValue(self) -> ARNumerical:
         """
         Gets the value used on mode transitions.
-        
+
         Returns:
             ARNumerical: The transition value
         """
@@ -355,7 +355,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ModeDeclarationGroupPrototype with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this mode declaration group prototype
             short_name: The unique short name of this mode declaration group prototype
@@ -372,7 +372,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         """
         Gets the software calibration access setting for this mode declaration group prototype.
         This property controls access permissions for calibration parameters.
-        
+
         Returns:
             str: The software calibration access setting
         """
@@ -384,7 +384,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         Sets the software calibration access setting for this mode declaration group prototype.
         Valid values are "notAccessible", "readOnly", or "readWrite".
         Raises ValueError if an invalid value is provided.
-        
+
         Args:
             value: The software calibration access setting to set
         """
@@ -396,7 +396,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         """
         Gets the software calibration access setting for this mode declaration group prototype.
         This is a convenience method that returns the same value as the property.
-        
+
         Returns:
             str: The software calibration access setting
         """
@@ -407,10 +407,10 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         Sets the software calibration access setting for this mode declaration group prototype.
         This is a convenience method that sets the same value as the property.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The software calibration access setting to set
-            
+
         Returns:
             self for method chaining
         """
@@ -420,7 +420,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
     def getTypeTRef(self):
         """
         Gets the type reference to the mode declaration group for this prototype.
-        
+
         Returns:
             TRefType: The type reference
         """
@@ -430,10 +430,10 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         """
         Sets the type reference to the mode declaration group for this prototype.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The type reference to set
-            
+
         Returns:
             self for method chaining
         """

@@ -3,7 +3,10 @@ This module contains classes for representing AUTOSAR hardware element categorie
 in the EcuResourceTemplate module.
 """
 
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,

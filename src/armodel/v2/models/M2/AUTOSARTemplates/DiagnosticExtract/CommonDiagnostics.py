@@ -12,6 +12,3 @@ class DiagnosticCommonElement(ARElement, ABC):
         super().__init__(parent, short_name)
 
 
-__all__ = [
-    "DiagnosticCommonElement",
-]

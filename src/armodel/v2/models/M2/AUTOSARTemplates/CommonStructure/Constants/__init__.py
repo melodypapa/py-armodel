@@ -5,6 +5,25 @@ for initializing data objects in AUTOSAR models, including various forms like
 numerical, text, array, record, and application-specific value specifications.
 """
 
+
+
+
+from abc import ABC
+from typing import List
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ARElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    ARLiteral,
+    ARNumerical,
+    RefType,
+)
+
 __all__ = [
     'AbstractRuleBasedValueSpecification',
     'ApplicationRuleBasedValueSpecification',
@@ -30,23 +49,6 @@ __all__ = [
     'TextValueSpecification',
     'ValueSpecification',
 ]
-
-
-from abc import ABC
-from typing import List
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    ARElement,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-    ARLiteral,
-    ARNumerical,
-    RefType,
-)
 
 
 class ValueSpecification(ARObject, ABC):

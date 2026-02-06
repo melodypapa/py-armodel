@@ -3,7 +3,10 @@ This module contains classes for representing AUTOSAR diagnostic service contrib
 in the DiagnosticExtract module.
 """
 
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,

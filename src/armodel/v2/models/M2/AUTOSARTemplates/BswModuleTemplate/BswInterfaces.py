@@ -100,7 +100,7 @@ class BswModuleDependency(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module dependency with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this dependency
             short_name: The unique short name of this dependency
@@ -117,7 +117,7 @@ class BswModuleDependency(Identifiable):
     def getServiceItems(self):
         """
         Gets the list of service needs that this dependency requires.
-        
+
         Returns:
             List of ServiceNeeds instances
         """
@@ -127,10 +127,10 @@ class BswModuleDependency(Identifiable):
         """
         Sets the list of service needs that this dependency requires.
         Only sets the value if it is not None.
-        
+
         Args:
             value: List of ServiceNeeds instances to set
-            
+
         Returns:
             self for method chaining
         """
@@ -141,7 +141,7 @@ class BswModuleDependency(Identifiable):
     def getTargetModuleId(self):
         """
         Gets the unique identifier for the target module in the dependency.
-        
+
         Returns:
             Positive integer representing the target module ID
         """
@@ -151,10 +151,10 @@ class BswModuleDependency(Identifiable):
         """
         Sets the unique identifier for the target module in the dependency.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The target module ID to set
-            
+
         Returns:
             self for method chaining
         """
@@ -165,7 +165,7 @@ class BswModuleDependency(Identifiable):
     def getTargetModuleRef(self):
         """
         Gets the reference to the target module in the dependency.
-        
+
         Returns:
             RefType to the target module
         """
@@ -175,10 +175,10 @@ class BswModuleDependency(Identifiable):
         """
         Sets the reference to the target module in the dependency.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The target module reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -196,7 +196,7 @@ class BswModuleEntry(AtpBlueprintable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module entry with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this entry
             short_name: The unique short name of this entry
@@ -229,7 +229,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getArguments(self):
         """
         Gets the list of arguments for this module entry.
-        
+
         Returns:
             List of SwServiceArg instances
         """
@@ -238,10 +238,10 @@ class BswModuleEntry(AtpBlueprintable):
     def createArgument(self, short_name: str) -> SwServiceArg:
         """
         Creates and adds an argument to this module entry.
-        
+
         Args:
             short_name: The short name for the new argument
-            
+
         Returns:
             The created SwServiceArg instance
         """
@@ -254,7 +254,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getBswEntryKind(self):
         """
         Gets the kind of BSW entry.
-        
+
         Returns:
             BswEntryKindEnum value
         """
@@ -263,10 +263,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setBswEntryKind(self, value):
         """
         Sets the kind of BSW entry.
-        
+
         Args:
             value: The BswEntryKindEnum value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -276,7 +276,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getCallType(self):
         """
         Gets the call type for this module entry.
-        
+
         Returns:
             BswCallType value
         """
@@ -285,10 +285,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setCallType(self, value):
         """
         Sets the call type for this module entry.
-        
+
         Args:
             value: The BswCallType value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -298,7 +298,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getExecutionContext(self):
         """
         Gets the execution context for this module entry.
-        
+
         Returns:
             BswExecutionContext value
         """
@@ -308,13 +308,13 @@ class BswModuleEntry(AtpBlueprintable):
         """
         Sets the execution context for this module entry.
         Validates that the value is one of the allowed execution contexts.
-        
+
         Args:
             value: The BswExecutionContext value to set
-            
+
         Returns:
             self for method chaining
-            
+
         Raises:
             ValueError: If the execution context is not valid
         """
@@ -326,7 +326,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getFunctionPrototypeEmitter(self):
         """
         Gets the function prototype emitter name token.
-        
+
         Returns:
             NameToken for the function prototype emitter
         """
@@ -335,10 +335,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setFunctionPrototypeEmitter(self, value):
         """
         Sets the function prototype emitter name token.
-        
+
         Args:
             value: The NameToken to set
-            
+
         Returns:
             self for method chaining
         """
@@ -348,7 +348,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getIsReentrant(self):
         """
         Gets the reentrant flag for this module entry.
-        
+
         Returns:
             Boolean indicating if this entry is reentrant
         """
@@ -357,10 +357,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setIsReentrant(self, value):
         """
         Sets the reentrant flag for this module entry.
-        
+
         Args:
             value: The reentrant flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -370,7 +370,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getIsSynchronous(self):
         """
         Gets the synchronous flag for this module entry.
-        
+
         Returns:
             Boolean indicating if this entry is synchronous
         """
@@ -379,10 +379,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setIsSynchronous(self, value):
         """
         Sets the synchronous flag for this module entry.
-        
+
         Args:
             value: The synchronous flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -392,7 +392,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getReturnType(self):
         """
         Gets the return type for this module entry.
-        
+
         Returns:
             SwServiceArg instance representing the return type
         """
@@ -401,10 +401,10 @@ class BswModuleEntry(AtpBlueprintable):
     def createReturnType(self, short_name: str) -> SwServiceArg:
         """
         Creates and sets the return type for this module entry.
-        
+
         Args:
             short_name: The short name for the new return type
-            
+
         Returns:
             The created SwServiceArg instance
         """
@@ -417,7 +417,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getRole(self):
         """
         Gets the role identifier for this module entry.
-        
+
         Returns:
             Identifier for the role
         """
@@ -426,10 +426,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setRole(self, value):
         """
         Sets the role identifier for this module entry.
-        
+
         Args:
             value: The role identifier to set
-            
+
         Returns:
             self for method chaining
         """
@@ -439,7 +439,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getServiceId(self):
         """
         Gets the service identifier for this module entry.
-        
+
         Returns:
             ARNumerical representing the service ID
         """
@@ -448,10 +448,10 @@ class BswModuleEntry(AtpBlueprintable):
     def setServiceId(self, value):
         """
         Sets the service identifier for this module entry.
-        
+
         Args:
             value: The service ID to set
-            
+
         Returns:
             self for method chaining
         """
@@ -461,7 +461,7 @@ class BswModuleEntry(AtpBlueprintable):
     def getSwServiceImplPolicy(self):
         """
         Gets the software service implementation policy for this module entry.
-        
+
         Returns:
             SwServiceImplPolicyEnum value
         """
@@ -471,13 +471,13 @@ class BswModuleEntry(AtpBlueprintable):
         """
         Sets the software service implementation policy for this module entry.
         Validates that the value is one of the allowed implementation policies.
-        
+
         Args:
             value: The SwServiceImplPolicyEnum value to set
-            
+
         Returns:
             self for method chaining
-            
+
         Raises:
             ValueError: If the implementation policy is not valid
         """
@@ -490,7 +490,7 @@ class BswModuleEntry(AtpBlueprintable):
         """
         Returns a string representation of this BSW module entry.
         Shows the key properties of the entry in a formatted way.
-        
+
         Returns:
             Formatted string representation of the BSW module entry
         """
@@ -522,7 +522,7 @@ class BswModuleClientServerEntry(Referrable):
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BSW module client-server entry with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this client-server entry
             short_name: The unique short name of this client-server entry
@@ -539,7 +539,7 @@ class BswModuleClientServerEntry(Referrable):
     def getEncapsulatedEntryRef(self):
         """
         Gets the reference to the encapsulated entry that this client-server entry wraps.
-        
+
         Returns:
             RefType to the encapsulated entry
         """
@@ -549,10 +549,10 @@ class BswModuleClientServerEntry(Referrable):
         """
         Sets the reference to the encapsulated entry that this client-server entry wraps.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The encapsulated entry reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -563,7 +563,7 @@ class BswModuleClientServerEntry(Referrable):
     def getIsReentrant(self):
         """
         Gets the reentrant flag for this client-server entry.
-        
+
         Returns:
             Boolean indicating if this entry is reentrant
         """
@@ -573,10 +573,10 @@ class BswModuleClientServerEntry(Referrable):
         """
         Sets the reentrant flag for this client-server entry.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The reentrant flag to set
-            
+
         Returns:
             self for method chaining
         """
@@ -587,7 +587,7 @@ class BswModuleClientServerEntry(Referrable):
     def getIsSynchronous(self):
         """
         Gets the synchronous flag for this client-server entry.
-        
+
         Returns:
             Boolean indicating if this entry is synchronous
         """
@@ -597,10 +597,10 @@ class BswModuleClientServerEntry(Referrable):
         """
         Sets the synchronous flag for this client-server entry.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The synchronous flag to set
-            
+
         Returns:
             self for method chaining
         """

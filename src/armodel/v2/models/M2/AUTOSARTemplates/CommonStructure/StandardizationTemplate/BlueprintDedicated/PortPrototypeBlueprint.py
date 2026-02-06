@@ -45,7 +45,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
     def getDataPrototypeRef(self) -> RefType:
         """
         Gets the data prototype reference for this initial value specification.
-        
+
         Returns:
             Reference to the data prototype
         """
@@ -54,10 +54,10 @@ class PortPrototypeBlueprintInitValue(ARObject):
     def setDataPrototypeRef(self, value: RefType):
         """
         Sets the data prototype reference for this initial value specification.
-        
+
         Args:
             value: Reference to the data prototype
-            
+
         Returns:
             Self instance for method chaining
         """
@@ -68,7 +68,7 @@ class PortPrototypeBlueprintInitValue(ARObject):
     def getValue(self) -> ValueSpecification:
         """
         Gets the value specification for this initial value.
-        
+
         Returns:
             The value specification
         """
@@ -77,10 +77,10 @@ class PortPrototypeBlueprintInitValue(ARObject):
     def setValue(self, value: ValueSpecification):
         """
         Sets the value specification for this initial value.
-        
+
         Args:
             value: The value specification
-            
+
         Returns:
             Self instance for method chaining
         """
@@ -106,7 +106,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def getInitValues(self) -> List[PortPrototypeBlueprintInitValue]:
         """
         Gets the list of initial value specifications for this port prototype blueprint.
-        
+
         Returns:
             List of initial value specifications
         """
@@ -115,10 +115,10 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def setInitValues(self, value: List[PortPrototypeBlueprintInitValue]):
         """
         Sets the list of initial value specifications for this port prototype blueprint.
-        
+
         Args:
             value: List of initial value specifications
-            
+
         Returns:
             Self instance for method chaining
         """
@@ -129,7 +129,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def getInterfaceRef(self) -> RefType:
         """
         Gets the interface reference for this port prototype blueprint.
-        
+
         Returns:
             Reference to the interface
         """
@@ -138,10 +138,10 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def setInterfaceRef(self, value: RefType):
         """
         Sets the interface reference for this port prototype blueprint.
-        
+
         Args:
             value: Reference to the interface
-            
+
         Returns:
             Self instance for method chaining
         """
@@ -152,7 +152,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def getProvidedComSpecs(self) -> List[PPortComSpec]:
         """
         Gets the list of provided communication specifications for this port prototype blueprint.
-        
+
         Returns:
             List of provided communication specifications
         """
@@ -161,10 +161,10 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def setProvidedComSpecs(self, value: List[PPortComSpec]):
         """
         Sets the list of provided communication specifications for this port prototype blueprint.
-        
+
         Args:
             value: List of provided communication specifications
-            
+
         Returns:
             Self instance for method chaining
         """
@@ -175,7 +175,7 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def getRequiredComSpecs(self) -> List[RPortComSpec]:
         """
         Gets the list of required communication specifications for this port prototype blueprint.
-        
+
         Returns:
             List of required communication specifications
         """
@@ -184,10 +184,10 @@ class PortPrototypeBlueprint(AtpStructureElement):
     def setRequiredComSpecs(self, value: List[RPortComSpec]):
         """
         Sets the list of required communication specifications for this port prototype blueprint.
-        
+
         Args:
             value: List of required communication specifications
-            
+
         Returns:
             Self instance for method chaining
         """

@@ -7,9 +7,9 @@ Automate the complete GitHub workflow for creating issues, feature branches, com
 When the user runs `/gh-workflow`, perform the following steps in order:
 
 ### 1. Quality Checks (Must Pass Before Proceeding)
-- Run linting with flake8: `flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics`
-- Run ruff for V2 models: `ruff check src/armodel/models_v2/`
-- Run mypy for V2 models: `mypy src/armodel/models_v2/`
+- Run linting with flake8 (V1 and common code): `flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=src/armodel/v2`
+- Run ruff for V2 models: `ruff check src/armodel/v2/models/`
+- Run mypy for V2 models: `mypy src/armodel/v2/models/`
 - Run tests with pytest: `pytest`
 - Install package: `pip install -e .`
 - **All checks must pass** before proceeding to next step
@@ -20,10 +20,10 @@ When the user runs `/gh-workflow`, perform the following steps in order:
 - Display quality gate summary table:
   ```
   Check        Status    Details
-  ───────────────────────────────────
-  Flake8       ✅ Pass    No E9,F63,F7,F82 errors
-  Ruff (V2)    ✅ Pass    No ruff errors in models_v2
-  MyPy (V2)    ✅ Pass    No type errors in models_v2
+  ─────────────────────────────────────────────────────
+  Flake8       ✅ Pass    No E9,F63,F7,F82 errors (V2 excluded)
+  Ruff (V2)    ✅ Pass    No ruff errors in v2/models
+  MyPy (V2)    ✅ Pass    No type errors in v2/models
   Pytest       ✅ Pass    All tests passed
   ```
 

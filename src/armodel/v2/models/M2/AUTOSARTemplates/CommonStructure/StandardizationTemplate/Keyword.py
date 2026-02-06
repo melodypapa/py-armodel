@@ -26,7 +26,7 @@ class Keyword(Identifiable):
     def __init__(self, parent, short_name):
         """
         Initializes the Keyword with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this keyword
             short_name: The unique short name of this keyword
@@ -41,7 +41,7 @@ class Keyword(Identifiable):
     def getAbbrName(self):
         """
         Gets the abbreviated name for this keyword.
-        
+
         Returns:
             NameToken: The abbreviated name
         """
@@ -51,10 +51,10 @@ class Keyword(Identifiable):
         """
         Sets the abbreviated name for this keyword.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The abbreviated name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -65,7 +65,7 @@ class Keyword(Identifiable):
     def getClassifications(self):
         """
         Gets the list of classifications for this keyword.
-        
+
         Returns:
             List of NameToken instances
         """
@@ -75,10 +75,10 @@ class Keyword(Identifiable):
         """
         Adds a classification to this keyword.
         Only adds the value if it is not None.
-        
+
         Args:
             value: The classification to add
-            
+
         Returns:
             self for method chaining
         """
@@ -109,7 +109,7 @@ class KeywordSet(AtpBlueprintable):
     def getKeywords(self):
         """
         Gets the list of keywords in this keyword set.
-        
+
         Returns:
             List of Keyword instances
         """
@@ -118,10 +118,10 @@ class KeywordSet(AtpBlueprintable):
     def createKeyword(self, short_name: str) -> Keyword:
         """
         Creates and adds a Keyword to this keyword set.
-        
+
         Args:
             short_name: The short name for the new keyword
-            
+
         Returns:
             The created Keyword instance
         """

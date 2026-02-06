@@ -140,7 +140,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
             if com_spec.dataElementRef.dest != "VARIABLE-DATA-PROTOTYPE":
                 raise ValueError(
                     "Invalid operation dest of NonqueuedSenderComSpec")
-        elif isinstance(com_spec, ServerComSpec) or isinstance(com_spec, QueuedSenderComSpec) or isinstance(com_spec, ModeSwitchSenderComSpec):
+        elif isinstance(com_spec, (ServerComSpec, QueuedSenderComSpec, ModeSwitchSenderComSpec)):
             pass
         else:
             raise ValueError("Unsupported com spec")
@@ -173,7 +173,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
             if com_spec.getDataElementRef() is not None:
                 if com_spec.getDataElementRef().getDest() != "VARIABLE-DATA-PROTOTYPE":
                     raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
-        elif isinstance(com_spec, QueuedReceiverComSpec) or isinstance(com_spec, ModeSwitchReceiverComSpec):
+        elif isinstance(com_spec, (QueuedReceiverComSpec, ModeSwitchReceiverComSpec)):
             pass
         elif isinstance(com_spec, ParameterRequireComSpec):
             if com_spec.getParameterRef() is not None:
@@ -286,13 +286,13 @@ class AtomicSwComponentType(SwComponentType, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.internalBehavior: "SwcInternalBehavior" = None  # noqa: F821
+        self.internalBehavior: "SwcInternalBehavior" = None
         self.symbolProps: SymbolProps = None
 
     def getInternalBehavior(self):
         return self.internalBehavior
 
-    def createSwcInternalBehavior(self, short_name) -> "SwcInternalBehavior":  # noqa: F821
+    def createSwcInternalBehavior(self, short_name) -> "SwcInternalBehavior":
         from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
             SwcInternalBehavior,
         )

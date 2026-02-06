@@ -31,7 +31,7 @@ class SoftwareContext(ARObject):
     def getInput(self):
         """
         Gets the input information for this software context.
-        
+
         Returns:
             String: Input information
         """
@@ -40,10 +40,10 @@ class SoftwareContext(ARObject):
     def setInput(self, value):
         """
         Sets the input information for this software context.
-        
+
         Args:
             value: The input information to set
-            
+
         Returns:
             self for method chaining
         """
@@ -53,7 +53,7 @@ class SoftwareContext(ARObject):
     def getState(self):
         """
         Gets the execution state for this software context.
-        
+
         Returns:
             String: Execution state
         """
@@ -62,10 +62,10 @@ class SoftwareContext(ARObject):
     def setState(self, value):
         """
         Sets the execution state for this software context.
-        
+
         Args:
             value: The execution state to set
-            
+
         Returns:
             self for method chaining
         """

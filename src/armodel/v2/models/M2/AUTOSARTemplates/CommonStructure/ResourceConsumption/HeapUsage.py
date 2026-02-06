@@ -23,7 +23,7 @@ class HeapUsage(Identifiable, ABC):
         """
         Initializes the HeapUsage with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
-        
+
         Args:
             parent: The parent ARObject that contains this heap usage
             short_name: The unique short name of this heap usage

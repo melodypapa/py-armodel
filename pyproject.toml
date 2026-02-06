@@ -115,6 +115,11 @@ ignore = [
     "B024", "B904", "F811", "N803", "N815"
 ]
 
+# V2 models (src/armodel/v2): Use longer line length (100) for deep AUTOSAR paths
+# This is necessary because AUTOSAR M2 package structure creates very long import paths
+# E501/W505: Allow longer lines for V2 models only
+"src/armodel/v2/**/*.py" = ["E501", "W505"]
+
 [tool.ruff.lint.isort]
 # Import order: Standard library → Third-party → Local (CODING_RULE_IMPORT_00001)
 known-first-party = ["armodel"]
