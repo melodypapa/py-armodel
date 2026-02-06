@@ -1,4 +1,4 @@
-from typing import List
+from typing import Union, List
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     ExecutableEntity,
