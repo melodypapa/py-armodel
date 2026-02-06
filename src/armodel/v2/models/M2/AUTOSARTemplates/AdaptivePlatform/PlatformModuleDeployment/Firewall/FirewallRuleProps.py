@@ -9,6 +9,11 @@ class FirewallRuleProps(ARObject):
     Defines properties for firewall rule configuration.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the FirewallRuleProps with default values.

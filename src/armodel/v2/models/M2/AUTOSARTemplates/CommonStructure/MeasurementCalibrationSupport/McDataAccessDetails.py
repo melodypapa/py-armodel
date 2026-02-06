@@ -9,6 +9,11 @@ class McDataAccessDetails(ARObject):
     Defines details about how MC data can be accessed.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the McDataAccessDetails with default values.

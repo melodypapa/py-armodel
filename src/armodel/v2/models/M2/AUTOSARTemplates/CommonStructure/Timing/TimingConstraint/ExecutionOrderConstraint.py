@@ -113,6 +113,11 @@ class EOCEventRef(ARObject):
     Defines a reference to an event used in execution order specifications.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the EOCEventRef with default values.
@@ -148,6 +153,11 @@ class EOCExecutableEntityRefGroup(ARObject):
     Represents a group of executable entity references in execution order constraints.
     Defines a collection of executable entity references that can be ordered as a group.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """

@@ -6,7 +6,6 @@ and data elements in instance contexts.
 """
 
 from abc import ABC
-from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,

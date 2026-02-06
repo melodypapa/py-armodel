@@ -406,6 +406,11 @@ class CanClusterBusOffRecovery(ARObject):
     specifying timing and counter configurations for
     CAN controller recovery after bus off conditions.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

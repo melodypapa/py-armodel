@@ -36,6 +36,11 @@ class PortPrototypeBlueprintInitValue(ARObject):
     This class defines the initial value and associated data prototype reference
     for a specific port prototype blueprint element.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

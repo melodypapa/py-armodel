@@ -11,6 +11,11 @@ class BlueprintMappingSet(ARObject):
     Defines a collection of blueprint mappings.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the BlueprintMappingSet with default values.

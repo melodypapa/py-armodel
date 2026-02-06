@@ -11,6 +11,8 @@ V2 Implementation:
 Compatible with V1 API.
 """
 
+# ruff: noqa: F401  # Dynamically exported via __all__ generation at end of file
+
 # Version
 __version__ = "2.0.0"
 

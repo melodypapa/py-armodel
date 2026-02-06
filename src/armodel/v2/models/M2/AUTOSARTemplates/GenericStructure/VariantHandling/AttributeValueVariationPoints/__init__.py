@@ -17,6 +17,11 @@ class NumericalValueVariationPoint(ARObject):
         defaultValue (Float): The default value.
         variantValue (Float): The variant value.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

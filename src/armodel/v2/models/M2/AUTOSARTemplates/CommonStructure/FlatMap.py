@@ -215,6 +215,11 @@ class AliasNameAssignment(ARObject):
     This class defines how aliases are assigned to elements.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the AliasNameAssignment with default values.
@@ -243,6 +248,11 @@ class AliasNameSet(ARObject):
     Represents a set of alias name assignments.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the AliasNameSet with default values.
@@ -262,6 +272,11 @@ class RtePluginProps(ARObject):
     Represents RTE plugin properties in AUTOSAR.
     This class defines properties for RTE plugins.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """

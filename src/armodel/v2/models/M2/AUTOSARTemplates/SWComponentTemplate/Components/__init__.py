@@ -165,20 +165,20 @@ class AbstractRequiredPortPrototype(PortPrototype):
         self.requiredComSpecs = []                          # type: List[RPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: RPortComSpec):
-        if (isinstance(com_spec, ClientComSpec)):
-            if com_spec.getOperationRef() is not None:
-                if com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION":
-                    raise ValueError("Invalid operation dest of ClientComSpec.")
-        elif isinstance(com_spec, NonqueuedReceiverComSpec):
-            if com_spec.getDataElementRef() is not None:
-                if com_spec.getDataElementRef().getDest() != "VARIABLE-DATA-PROTOTYPE":
-                    raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
+        if (isinstance(com_spec, ClientComSpec) and
+            com_spec.getOperationRef() is not None and
+            com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION"):
+            raise ValueError("Invalid operation dest of ClientComSpec.")
+        elif (isinstance(com_spec, NonqueuedReceiverComSpec) and
+              com_spec.getDataElementRef() is not None and
+              com_spec.getDataElementRef().getDest() != "VARIABLE-DATA-PROTOTYPE"):
+            raise ValueError("Invalid date element dest of NonqueuedReceiverComSpec.")
         elif isinstance(com_spec, (QueuedReceiverComSpec, ModeSwitchReceiverComSpec)):
             pass
-        elif isinstance(com_spec, ParameterRequireComSpec):
-            if com_spec.getParameterRef() is not None:
-                if com_spec.getParameterRef().getDest() != "PARAMETER-DATA-PROTOTYPE":
-                    raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
+        elif (isinstance(com_spec, ParameterRequireComSpec) and
+              com_spec.getParameterRef() is not None and
+              com_spec.getParameterRef().getDest() != "PARAMETER-DATA-PROTOTYPE"):
+            raise ValueError("Invalid parameter dest of ParameterRequireComSpec.")
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 

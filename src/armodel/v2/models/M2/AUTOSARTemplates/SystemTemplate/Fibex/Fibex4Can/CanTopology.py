@@ -26,6 +26,11 @@ class CanControllerFdConfiguration(ARObject):
     including timing settings, padding values, and bit rate switching properties
     required for CAN FD communication.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -100,6 +105,11 @@ class CanControllerFdConfigurationRequirements(ARObject):
     the acceptable ranges and constraints for timing, bit rate, and other
     CAN FD communication properties.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -201,6 +211,11 @@ class CanControllerXlConfiguration(ARObject):
     including timing settings, payload length configurations, and other
     CAN XL communication properties.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -338,6 +353,11 @@ class CanControllerXlConfigurationRequirements(ARObject):
     the acceptable ranges and constraints for timing, bit rate, and other
     CAN XL communication properties.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

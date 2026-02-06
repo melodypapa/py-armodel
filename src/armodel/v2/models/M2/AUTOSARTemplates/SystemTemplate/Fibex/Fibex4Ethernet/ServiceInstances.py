@@ -80,6 +80,11 @@ class TpPort(ARObject):
     port number and dynamic assignment capabilities for network
     communication endpoints.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -479,6 +484,11 @@ class InitialSdDelayConfig(ARObject):
     operations, defining the timing behavior for initial service
     discovery attempts and repetitions.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -526,6 +536,11 @@ class SdServerConfig(ARObject):
     service advertisement behavior, timing parameters, and version
     information for service providers in the network.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -901,6 +916,11 @@ class SoAdConfig(ARObject):
     connections, connection bundles, and socket address configurations
     for TCP/IP communication management in AUTOSAR systems.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

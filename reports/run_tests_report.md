@@ -6,20 +6,29 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-56.8%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-63.4%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 30611 | 53857 | **56.84%** |
+| **Lines** | 30737 | 48480 | **63.40%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
 
 | Module | Files | Line Coverage |
 |--------|-------|---------------|
-| **.venv** | 477 | 56.8% |
+| **__init__.py** | 1 | 100.0% |
+| **data_models** | 2 | 100.0% |
+| **lib** | 4 | 100.0% |
+| **transformer** | 3 | 100.0% |
+| **models** | 232 | 92.5% |
+| **parser** | 6 | 55.7% |
+| **writer** | 3 | 52.0% |
+| **v2** | 163 | 39.3% |
+| **cli** | 11 | 6.0% |
+| **report** | 3 | 0.0% |
 
 ### Files Needing Attention
 
@@ -36,28 +45,17 @@
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
 | `cli/uuid_checker_cli` | 0.0% | 0.0% |
-| `AUTOSARTemplates/AutosarTopLevelStructure` | 0.0% | 0.0% |
-| `AUTOSARTemplates/ECUCDescriptionTemplate` | 0.0% | 0.0% |
-| `AUTOSARTemplates/ECUCParameterDefTemplate` | 0.0% | 0.0% |
-| `BswModuleTemplate/BswOverview` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
-| `CommonStructure/ModeDeclarationExtra` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McDataAccessDetails` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McDataInstance` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McFunction` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McParameterElementGroup` | 0.0% | 0.0% |
-
-## Integration Test Coverage
-
-![coverage](https://img.shields.io/badge/integration-56.8%25-yellow)
-
-### Summary
-
-| Metric | Covered | Valid | Percentage |
-|--------|---------|-------|------------|
-| **Lines** | 30611 | 53857 | **56.84%** |
-| **Branches** | 0 | 0 | **0.00%** |
+| `MeasurementCalibrationSupport/McSupportData` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/McSwEmulationMethodSupport` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/__init__` | 0.0% | 0.0% |
+| `RptSupport/McFunctionDataRefSet` | 0.0% | 0.0% |
 
 ---
 

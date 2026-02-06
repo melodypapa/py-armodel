@@ -15,6 +15,11 @@ class RptSwPrototypingAccess(ARObject):
     Defines access controls for software prototyping through RPT.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the RptSwPrototypingAccess with default values.

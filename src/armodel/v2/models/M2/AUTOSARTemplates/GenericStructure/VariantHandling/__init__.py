@@ -22,6 +22,11 @@ class VariationPoint(ARObject):
         isEnabled (Boolean): Whether the variation point is enabled.
         variantCondition (String): The condition for the variant.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -65,6 +70,11 @@ class PostBuildVariantCriterion(ARObject):
         criterionName (String): The name of the criterion.
         criterionValue (String): The value of the criterion.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -97,6 +107,11 @@ class PostBuildVariantCriterionValue(ARObject):
     Attributes:
         value (String): The criterion value.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -122,6 +137,11 @@ class PredefinedVariant(ARObject):
         variantName (String): The name of the predefined variant.
         variantDescription (String): The description of the predefined variant.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -157,6 +177,11 @@ class SwSystemconstantValueSet(ARObject):
         constantValues (List[String]): A list of constant values.
         constantRef (RefType): A reference to the constant definition.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

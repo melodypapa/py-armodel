@@ -30,6 +30,11 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     specifying communication cycles and slot IDs for time-triggered
     communication in FlexRay networks.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

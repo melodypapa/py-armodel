@@ -81,6 +81,11 @@ class BufferProperties(ARObject):
     specifying computation scales, header lengths, and in-place
     processing capabilities for buffer management.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

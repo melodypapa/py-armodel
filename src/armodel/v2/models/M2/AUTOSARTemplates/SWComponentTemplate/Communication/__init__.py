@@ -83,6 +83,11 @@ class RPortComSpec(ARObject, ABC):
 
 
 class CompositeNetworkRepresentation(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -105,6 +110,11 @@ class CompositeNetworkRepresentation(ARObject):
 
 
 class TransmissionAcknowledgementRequest(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -358,6 +368,11 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
 
 class ModeSwitchedAckRequest(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -453,6 +468,7 @@ class ServerComSpec(PPortComSpec):
     def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
         return self.transformationComSpecProps
 
+    # ruff: noqa: N803  # AUTOSAR API uses camelCase parameter names for consistency
     def addTransformationComSpecProps(self, transformationComSpecProps: TransformationComSpecProps):
         if transformationComSpecProps is not None:
             self.transformationComSpecProps.append(transformationComSpecProps)

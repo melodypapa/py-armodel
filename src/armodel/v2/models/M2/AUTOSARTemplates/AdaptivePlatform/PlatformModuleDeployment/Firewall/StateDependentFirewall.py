@@ -14,6 +14,11 @@ class StateDependentFirewall(ARObject):
     Defines firewall rules that depend on system states.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the StateDependentFirewall with default values.

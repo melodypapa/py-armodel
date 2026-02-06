@@ -39,4 +39,20 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling impo
     VariationPoint,
 )
 
-__all__ = ["__doc__"]
+__all__ = [
+    "AtpClassifier",
+    "AtpFeature",
+    "AtpInstanceRef",
+    "AtpPrototype",
+    "AtpStructureElement",
+    "AtpType",
+    "Documentation",
+    "LifeCycleInfo",
+    "LifeCycleInfoSet",
+    "LifeCyclePeriod",
+    "PostBuildVariantCriterion",
+    "PostBuildVariantCriterionValue",
+    "PredefinedVariant",
+    "SwSystemconstantValueSet",
+    "VariationPoint",
+]

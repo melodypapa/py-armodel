@@ -27,6 +27,11 @@ class MultiLanguageParagraph(Paginateable):
 
 
 class MultiLanguageOverviewParagraph(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -41,6 +46,11 @@ class MultiLanguageOverviewParagraph(ARObject):
 
 
 class MultilanguageLongName(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -54,6 +64,11 @@ class MultilanguageLongName(ARObject):
         return self.l4
 
 class MultiLanguagePlainText(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

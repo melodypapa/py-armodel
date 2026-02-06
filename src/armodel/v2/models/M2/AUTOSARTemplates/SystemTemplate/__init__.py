@@ -11,11 +11,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    ARElement,
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ByteOrderEnum,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -27,9 +25,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
     ECUMapping,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
-    ComponentInSystemInstanceRef,
-)
+# No imports from InstanceRefs needed in this file
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
     AppOsTaskProxyToEcuTaskProxyMapping,
 )

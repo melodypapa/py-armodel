@@ -12,6 +12,11 @@ class RptExecutionContext(ARObject):
     Defines the execution context for RPT functionality.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the RptExecutionContext with default values.

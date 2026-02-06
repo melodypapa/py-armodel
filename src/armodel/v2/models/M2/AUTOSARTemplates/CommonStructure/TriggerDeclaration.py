@@ -94,6 +94,11 @@ class TriggerMapping(ARObject):
     This class defines relationships between different triggers across system boundaries or components.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the TriggerMapping with default values.

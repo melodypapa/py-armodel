@@ -9,6 +9,11 @@ class McSwEmulationMethodSupport(ARObject):
     Defines support for software emulation methods in measurement and calibration.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the McSwEmulationMethodSupport with default values.
