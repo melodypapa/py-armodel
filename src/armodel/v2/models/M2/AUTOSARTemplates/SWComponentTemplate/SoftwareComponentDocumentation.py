@@ -14,7 +14,7 @@ class SwComponentDocumentation(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.chapters = []

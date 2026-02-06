@@ -14,6 +14,8 @@ Classes:
     ConfidenceInterval: Specifies confidence interval for timing measurements
 """
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
@@ -35,7 +37,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     concrete event triggering constraint implementations.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         if type(self) is EventTriggeringConstraint:
             raise TypeError("EventTriggeringConstraint is an abstract class.")
 
@@ -48,7 +50,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
     This constraint defines the period for periodic event triggering.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the PeriodicEventTriggering with a parent and short name.
 
@@ -59,7 +61,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
         super().__init__(parent, short_name)
 
         # Period for event triggering
-        self.period: TimeValue = None
+        self.period: Union[Union[TimeValue, None] , None] = None
 
     def getPeriod(self):
         return self.period
@@ -75,7 +77,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     This constraint defines the minimum inter-arrival time for sporadic events.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the SporadicEventTriggering with a parent and short name.
 
@@ -86,7 +88,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         super().__init__(parent, short_name)
 
         # Minimum inter-arrival time
-        self.min_inter_arrival_time: TimeValue = None
+        self.min_inter_arrival_time: Union[Union[TimeValue, None] , None] = None
 
     def getMinInterArrivalTime(self):
         return self.min_inter_arrival_time
@@ -102,7 +104,7 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     This constraint allows for arbitrary event triggering patterns.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the ArbitraryEventTriggering with a parent and short name.
 
@@ -119,7 +121,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     This constraint defines burst pattern parameters for event triggering.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the BurstPatternEventTriggering with a parent and short name.
 
@@ -132,7 +134,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         # Number of events in burst
         self.burst_size: int = None
         # Burst interval
-        self.burst_interval: TimeValue = None
+        self.burst_interval: Union[Union[TimeValue, None] , None] = None
 
     def getBurstSize(self):
         return self.burst_size
@@ -155,7 +157,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     This constraint defines a concrete pattern for event triggering.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the ConcretePatternEventTriggering with a parent and short name.
 
@@ -178,18 +180,18 @@ class ConfidenceInterval(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ConfidenceInterval with default values.
         """
         super().__init__()
 
         # Confidence level (e.g., 0.95 for 95% confidence)
-        self.confidence_level: Float = None
+        self.confidence_level: Union[Union[Float, None] , None] = None
         # Lower bound of the interval
-        self.lower_bound: TimeValue = None
+        self.lower_bound: Union[Union[TimeValue, None] , None] = None
         # Upper bound of the interval
-        self.upper_bound: TimeValue = None
+        self.upper_bound: Union[Union[TimeValue, None] , None] = None
 
     def getConfidenceLevel(self):
         return self.confidence_level

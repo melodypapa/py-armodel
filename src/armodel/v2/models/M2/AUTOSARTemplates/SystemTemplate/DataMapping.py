@@ -2,7 +2,7 @@
 # It includes classes for mapping data elements between software component ports and system signals
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -29,7 +29,7 @@ class DataMapping(ARObject, ABC):
     This class serves as the foundation for various types of data mappings used in
     system design to connect component interfaces with communication infrastructure.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is DataMapping:
             raise TypeError("DataMapping is an abstract class.")
 
@@ -52,14 +52,14 @@ class SenderReceiverToSignalMapping(DataMapping):
     in system instance references and their corresponding system signal
     representations, including text table mappings for data transformation.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.communicationDirection: CommunicationDirectionType = None
-        self.dataElementIRef: VariableDataPrototypeInSystemInstanceRef = None
-        self.senderToSignalTextTableMapping: TextTableMapping = None
-        self.signalToReceiverTextTableMapping: TextTableMapping = None
-        self.systemSignalRef: RefType = None
+        self.communicationDirection: Union[Union[CommunicationDirectionType, None] , None] = None
+        self.dataElementIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
+        self.senderToSignalTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
+        self.signalToReceiverTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
+        self.systemSignalRef: Union[Union[RefType, None] , None] = None
 
     def getCommunicationDirection(self):
         return self.communicationDirection
@@ -103,7 +103,7 @@ class SenderRecCompositeTypeMapping(ARObject, ABC):
     interfaces and system-level signals. This class handles complex data
     structures such as records and arrays in data mapping scenarios.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is SenderRecCompositeTypeMapping:
             raise TypeError("SenderRecCompositeTypeMapping is an abstract class.")
 
@@ -122,15 +122,15 @@ class SenderRecRecordElementMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.applicationRecordElementRef: RefType = None
-        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
-        self.implementationRecordElementRef: RefType = None
-        self.senderToSignalTextTableMapping: TextTableMapping = None
-        self.signalToReceiverTextTableMapping: TextTableMapping = None
-        self.systemSignalRef: RefType = None
+        self.applicationRecordElementRef: Union[Union[RefType, None] , None] = None
+        self.complexTypeMapping: Union[Union[SenderRecCompositeTypeMapping, None] , None] = None
+        self.implementationRecordElementRef: Union[Union[RefType, None] , None] = None
+        self.senderToSignalTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
+        self.signalToReceiverTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
+        self.systemSignalRef: Union[Union[RefType, None] , None] = None
 
     def getApplicationRecordElementRef(self):
         return self.applicationRecordElementRef
@@ -187,7 +187,7 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
     containing multiple record element mappings that define how each field in
     the record structure is connected to system-level communication elements.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.recordElementMappings = []                                   # type: List[SenderRecRecordElementMapping]
@@ -212,12 +212,12 @@ class IndexedArrayElement(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.applicationArrayElementRef: RefType = None
-        self.implementationArrayElementRef: RefType = None
-        self.index: Integer = None
+        self.applicationArrayElementRef: Union[Union[RefType, None] , None] = None
+        self.implementationArrayElementRef: Union[Union[RefType, None] , None] = None
+        self.index: Union[Union[Integer, None] , None] = None
 
     def getApplicationArrayElementRef(self):
         return self.applicationArrayElementRef
@@ -255,12 +255,12 @@ class SenderRecArrayElementMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.complexTypeMapping: SenderRecCompositeTypeMapping = None
-        self.indexedArrayElement: IndexedArrayElement = None
-        self.systemSignalRef: RefType = None
+        self.complexTypeMapping: Union[Union[SenderRecCompositeTypeMapping, None] , None] = None
+        self.indexedArrayElement: Union[Union[IndexedArrayElement, None] , None] = None
+        self.systemSignalRef: Union[Union[RefType, None] , None] = None
 
     def getComplexTypeMapping(self):
         return self.complexTypeMapping
@@ -293,12 +293,12 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
     containing multiple array element mappings and text table mappings for
     transforming array data during communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.arrayElementMappings: List[SenderRecArrayElementMapping] = []
-        self.senderToSignal: TextTableMapping = None
-        self.signalToReceiverTextTableMapping: TextTableMapping = None
+        self.senderToSignal: Union[Union[TextTableMapping, None] , None] = None
+        self.signalToReceiverTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
 
     def getArrayElementMappings(self):
         return self.arrayElementMappings
@@ -331,12 +331,12 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     communication with multiple related signals as a single entity, with
     support for complex type mappings of grouped data structures.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dataElementIRef: VariableDataPrototypeInSystemInstanceRef = None
-        self.signalGroupRef: RefType = None
-        self.typeMapping: SenderRecCompositeTypeMapping = None
+        self.dataElementIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
+        self.signalGroupRef: Union[Union[RefType, None] , None] = None
+        self.typeMapping: Union[Union[SenderRecCompositeTypeMapping, None] , None] = None
 
     def getDataElementIRef(self):
         return self.dataElementIRef

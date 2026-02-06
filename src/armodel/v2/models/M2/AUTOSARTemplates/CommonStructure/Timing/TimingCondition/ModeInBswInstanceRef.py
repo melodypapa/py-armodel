@@ -9,7 +9,7 @@ class ModeInBswInstanceRef(RefType):
     Used for referencing modes within BSW module instances.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ModeInBswInstanceRef with default values.
         """

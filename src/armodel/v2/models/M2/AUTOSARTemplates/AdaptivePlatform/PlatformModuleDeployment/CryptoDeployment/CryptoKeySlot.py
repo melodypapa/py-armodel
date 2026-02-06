@@ -2,6 +2,7 @@ from typing import (
     Any,
     List,
     Optional,
+    Union,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment.CryptoKeySlotContent import (
@@ -29,12 +30,12 @@ class CryptoKeySlot(Identifiable):
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 57, Foundation R23-11)
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         # This attribute defines whether a shadow copy of this Key shall be allocated
         # to enable rollback of a failed Key campaign (see interface BeginTransaction).
-        self.allocateShadows: Optional[Boolean] = None
+        self.allocateShadows: Union[Optional[Boolean] , None] = None
         # This attribute defines a crypto algorithm restriction (kAlgId without
         # restriction).
         # The algorithm can be family & length, mode, padding.
@@ -45,15 +46,15 @@ class CryptoKeySlot(Identifiable):
         # The name of a crypto follow the rules defined in the specification for
         # Adaptive Platform.
         # 97 Document ID 980: AUTOSAR_FO_TPS_SecurityExtractTemplate Template R23-11.
-        self.cryptoAlgIds: Optional[String] = None
+        self.cryptoAlgIds: Union[Optional[String] , None] = None
         # Type: CryptoObjectTypeEnum.
         # Object type that can be stored in the slot.
         # If this field "Undefined" then mSlotCapacity must be larger then 0.
-        self.cryptoObjects: Optional[Any] = None
+        self.cryptoObjects: Union[Optional[Any] , None] = None
         # Type: CryptoKeySlotAllowed.
         # Restricts how this keySlot may be used Tags: atp.
         # Status=candidate.
-        self.keySlotAlloweds: Optional[Any] = None
+        self.keySlotAlloweds: Union[Optional[Any] , None] = None
         # Type: CryptoKeySlotContent.
         # Restriction of allowed usage of a key stored to the slot.
         # Tags: atp.
@@ -63,11 +64,11 @@ class CryptoKeySlot(Identifiable):
         # define this value in case that is undefined and the slot size can deduced
         # from cryptoObjectType and cryptoAlgId.
         # slot size can be deduced from cryptoObject cryptoAlgId.
-        self.slotCapacitys: Optional[PositiveInteger] = None
+        self.slotCapacitys: Union[Optional[PositiveInteger] , None] = None
         # Type: CryptoKeySlotType.
         # This attribute defines whether the keySlot is exclusively by the Application;
         # or whether it is used by Stack managed by a Key Manager Application.
-        self.slotTypes: Optional[Any] = None
+        self.slotTypes: Union[Optional[Any] , None] = None
 
     def getAllocateShadows(self) -> Boolean:
         return self.allocateShadows

@@ -9,6 +9,8 @@ Classes:
     LatencyConstraintTypeEnum: Enumeration for latency constraint types
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -27,7 +29,7 @@ class LatencyConstraintTypeEnum(AREnum):
     REACTION_TIME = "reaction-time"
     END_TO_END_LATENCY = "end-to-end-latency"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             LatencyConstraintTypeEnum.RESPONSE_TIME,
             LatencyConstraintTypeEnum.REACTION_TIME,
@@ -42,7 +44,7 @@ class LatencyTimingConstraint(TimingConstraint):
     occurrence and a response.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the LatencyTimingConstraint with a parent and short name.
 
@@ -53,9 +55,9 @@ class LatencyTimingConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # Type of latency constraint
-        self.latency_type: LatencyConstraintTypeEnum = None
+        self.latency_type: Union[Union[LatencyConstraintTypeEnum, None] , None] = None
         # Maximum allowed latency
-        self.latency: TimeValue = None
+        self.latency: Union[Union[TimeValue, None] , None] = None
 
     def getLatencyType(self):
         """

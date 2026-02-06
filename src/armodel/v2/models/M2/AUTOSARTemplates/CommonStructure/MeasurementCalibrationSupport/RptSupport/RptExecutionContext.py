@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -17,12 +19,12 @@ class RptExecutionContext(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RptExecutionContext with default values.
         """
         super().__init__()
-        self.contextRef: RefType = None
+        self.contextRef: Union[Union[RefType, None] , None] = None
 
     def getContextRef(self) -> RefType:
         """

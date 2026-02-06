@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -21,15 +21,15 @@ class Field(AutosarDataPrototype):
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 45, Foundation
       R23-11)
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         # This attribute controls whether read access is foreseen to.
-        self.hasGetter: Optional[Boolean] = None
+        self.hasGetter: Union[Optional[Boolean] , None] = None
         # This attribute controls whether a notification semantics is this field.
-        self.hasNotifier: Optional[Boolean] = None
+        self.hasNotifier: Union[Optional[Boolean] , None] = None
         # This attribute controls whether write access is foreseen to.
-        self.hasSetter: Optional[Boolean] = None
+        self.hasSetter: Union[Optional[Boolean] , None] = None
 
     def getHasGetter(self) -> Boolean:
         return self.hasGetter

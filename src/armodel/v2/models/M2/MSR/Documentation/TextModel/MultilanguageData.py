@@ -13,7 +13,7 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
 
 
 class MultiLanguageParagraph(Paginateable):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.l1 = []        # type: List[LLongName]
@@ -32,7 +32,7 @@ class MultiLanguageOverviewParagraph(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.l2 = []                # type: List[str]
@@ -51,7 +51,7 @@ class MultilanguageLongName(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.l4 = []                            # type：List[LLongName]
@@ -69,7 +69,7 @@ class MultiLanguagePlainText(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.l10s = []                       # type: List[LPlainText]

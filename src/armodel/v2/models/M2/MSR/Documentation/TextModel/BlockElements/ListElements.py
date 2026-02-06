@@ -12,7 +12,7 @@ class ListEnum(AREnum):
     NUMBER = 'number'
     UNNUMBER = 'unnumber'
 
-    def __init__(self,):
+    def __init__(self,) -> None:
         super().__init__((
             ListEnum.NUMBER,
             ListEnum.UNNUMBER
@@ -20,7 +20,7 @@ class ListEnum(AREnum):
 
 
 class Item(Paginateable):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.itemContents = None
@@ -38,7 +38,7 @@ class ARList(Paginateable):
         This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
         In AUTOSAR standard class name shall be List, but it is conflict with Python List and renamed to ARList
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.items = []                         # type: List[Item]

@@ -9,7 +9,7 @@ class ImplementationElementInParameterInstanceRef(RefType):
     Used for referencing implementation elements within parameter instances in AUTOSAR models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ImplementationElementInParameterInstanceRef with default values.
         """

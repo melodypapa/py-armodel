@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpPrototype,
@@ -22,7 +22,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType i
 
 
 class SwComponentPrototype(AtpPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.typeTRef = None                       # type: RefType
@@ -36,12 +36,12 @@ class SwComponentPrototype(AtpPrototype):
 
 
 class SwConnector(AtpStructureElement, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is SwConnector:
             raise TypeError("SwConnector is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.mappingRef: RefType = None
+        self.mappingRef: Union[Union[RefType, None] , None] = None
 
     def getMappingRef(self) -> RefType:
         return self.mappingRef
@@ -52,11 +52,11 @@ class SwConnector(AtpStructureElement, ABC):
 
 
 class AssemblySwConnector(SwConnector):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.providerIRef: PPortInCompositionInstanceRef = None
-        self.requesterIRef: RPortInCompositionInstanceRef = None
+        self.providerIRef: Union[Union[PPortInCompositionInstanceRef, None] , None] = None
+        self.requesterIRef: Union[Union[RPortInCompositionInstanceRef, None] , None] = None
 
     def getProviderIRef(self) -> PPortInCompositionInstanceRef:
         return self.providerIRef
@@ -74,11 +74,11 @@ class AssemblySwConnector(SwConnector):
 
 
 class DelegationSwConnector(SwConnector):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.innerPortIRref: PortInCompositionTypeInstanceRef = None
-        self.outerPortRef: RefType = None
+        self.innerPortIRref: Union[Union[PortInCompositionTypeInstanceRef, None] , None] = None
+        self.outerPortRef: Union[Union[RefType, None] , None] = None
 
     def getInnerPortIRref(self) -> PortInCompositionTypeInstanceRef:
         return self.innerPortIRref
@@ -96,11 +96,11 @@ class DelegationSwConnector(SwConnector):
 
 
 class PassThroughSwConnector(SwConnector):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.providedOuterPortRef: RefType = None
-        self.requiredOuterPortRef: RefType = None
+        self.providedOuterPortRef: Union[Union[RefType, None] , None] = None
+        self.requiredOuterPortRef: Union[Union[RefType, None] , None] = None
 
     def getProvidedOuterPortRef(self) -> RefType:
         return self.providedOuterPortRef
@@ -118,7 +118,7 @@ class PassThroughSwConnector(SwConnector):
 
 
 class CompositionSwComponentType(SwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.components = []                                    # type: List[SwComponentPrototype]

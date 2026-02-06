@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -19,13 +19,13 @@ class StateDependentFirewall(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the StateDependentFirewall with default values.
         """
         super().__init__()
         self.firewallRules: List[RefType] = []
-        self.stateRef: RefType = None
+        self.stateRef: Union[Union[RefType, None] , None] = None
 
     def addFirewallRule(self, ref: RefType):
         """

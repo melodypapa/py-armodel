@@ -4,7 +4,7 @@ in the CommonStructure module. Flat maps are used to describe instance
 hierarchies in a flat manner, typically used for code generation purposes.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
     AtpBlueprintable,
@@ -32,7 +32,7 @@ class FlatInstanceDescriptor(Identifiable):
     This class describes a single instance in a flattened instance hierarchy, typically used for code generation.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the FlatInstanceDescriptor with a parent and short name.
 
@@ -43,15 +43,15 @@ class FlatInstanceDescriptor(Identifiable):
         super().__init__(parent, short_name)
 
         # Instance reference to ECU extract reference
-        self.ecuExtractReferenceIRef: AnyInstanceRef = None
+        self.ecuExtractReferenceIRef: Union[Union[AnyInstanceRef, None] , None] = None
         # Role identifier for this instance descriptor
-        self.role: Identifier = None
+        self.role: Union[Union[Identifier, None] , None] = None
         # RTE plugin properties for this instance (forward reference)
         self.rtePluginProps = None
         # Software data definition properties for this instance
-        self.swDataDefProps: SwDataDefProps = None
+        self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
         # Upstream instance reference for this instance descriptor
-        self.upstreamReferenceIRef: AnyInstanceRef = None
+        self.upstreamReferenceIRef: Union[Union[AnyInstanceRef, None] , None] = None
 
     def getEcuExtractReferenceIRef(self):
         """
@@ -170,7 +170,7 @@ class FlatMap(AtpBlueprintable):
     This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the FlatMap with a parent and short name.
 
@@ -220,13 +220,13 @@ class AliasNameAssignment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the AliasNameAssignment with default values.
         """
         super().__init__()
         self.aliasName: str = None
-        self.elementRef: AnyInstanceRef = None
+        self.elementRef: Union[Union[AnyInstanceRef, None] , None] = None
 
     def getAliasName(self):
         return self.aliasName
@@ -253,7 +253,7 @@ class AliasNameSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the AliasNameSet with default values.
         """
@@ -278,7 +278,7 @@ class RtePluginProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RtePluginProps with default values.
         """

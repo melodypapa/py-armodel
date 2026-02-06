@@ -6,7 +6,7 @@ used to map between different type representations.
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeRequestTypeMap,
@@ -34,13 +34,13 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class AutosarDataType(AtpType, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AutosarDataType:
             raise TypeError("AutosarDataType is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.swDataDefProps: SwDataDefProps = None
+        self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
 
     def getSwDataDefProps(self):
         return self.swDataDefProps
@@ -51,7 +51,7 @@ class AutosarDataType(AtpType, ABC):
 
 
 class ApplicationDataType(AutosarDataType, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is ApplicationDataType:
             raise TypeError("ApplicationDataType is an abstract class.")
 
@@ -59,12 +59,12 @@ class ApplicationDataType(AutosarDataType, ABC):
 
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class ApplicationCompositeDataType(ApplicationDataType, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is ApplicationCompositeDataType:
             raise TypeError("ApplicationCompositeDataType is an abstract class.")
 
@@ -72,11 +72,11 @@ class ApplicationCompositeDataType(ApplicationDataType, ABC):
 
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.dynamicArraySizeProfile: String = None
-        self.element: ApplicationArrayElement = None
+        self.dynamicArraySizeProfile: Union[Union[String, None] , None] = None
+        self.element: Union[Union[ApplicationArrayElement, None] , None] = None
 
     def getDynamicArraySizeProfile(self):
         return self.dynamicArraySizeProfile
@@ -95,7 +95,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.record_elements: List[ApplicationRecordElement] = []
@@ -117,10 +117,10 @@ class DataTypeMap(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
 
-        self.applicationDataTypeRef: RefType = None
-        self.implementationDataTypeRef: RefType = None
+        self.applicationDataTypeRef: Union[Union[RefType, None] , None] = None
+        self.implementationDataTypeRef: Union[Union[RefType, None] , None] = None
 
     def getApplicationDataTypeRef(self):
         return self.applicationDataTypeRef
@@ -138,7 +138,7 @@ class DataTypeMap(ARObject):
 
 
 class DataTypeMappingSet(AtpBlueprintable):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dataTypeMaps: List[DataTypeMap] = []

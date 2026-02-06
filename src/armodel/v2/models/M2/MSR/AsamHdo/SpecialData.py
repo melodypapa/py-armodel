@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -24,7 +24,7 @@ class Sd(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.gid: str = ""
@@ -49,10 +49,10 @@ class SdgCaption(MultilanguageReferrable):
     Represents a caption for special data groups with multilingual description.
     Base: MultilanguageReferrable
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.desc: MultiLanguageOverviewParagraph = None
+        self.desc: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
 
     def getDesc(self) -> MultiLanguageOverviewParagraph:
         return self.desc
@@ -73,12 +73,12 @@ class Sdg(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.gid: str = ""
         self.sd: List[Sd] = []
-        self.sdgCaption: SdgCaption = None
+        self.sdgCaption: Union[Union[SdgCaption, None] , None] = None
         self.sdgContentsTypes: List[Sdg] = []
         self.sdxRefs: List[RefType] = []
 

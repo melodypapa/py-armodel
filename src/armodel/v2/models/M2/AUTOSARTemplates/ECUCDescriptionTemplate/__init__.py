@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
     AnyInstanceRef,
@@ -25,7 +25,7 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
 
 
 class EcucValueCollection(ARElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.ecucValueRefs = []
@@ -47,7 +47,7 @@ class EcucValueCollection(ARElement):
 
 
 class EcucIndexableValue(ARObject, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is EcucIndexableValue:
             raise TypeError("EcucIndexableValue is an abstract class.")
 
@@ -55,7 +55,7 @@ class EcucIndexableValue(ARObject, ABC):
 
 
 class EcucParameterValue(EcucIndexableValue, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is EcucParameterValue:
             raise TypeError("EcucParameterValue is an abstract class.")
 
@@ -88,7 +88,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
 
 
 class EcucAddInfoParamValue(EcucParameterValue):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.value = None                           # type: DocumentationBlock
@@ -101,7 +101,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
 
 class EcucTextualParamValue(EcucParameterValue):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.value = None                           # type: ARLiteral
@@ -114,7 +114,7 @@ class EcucTextualParamValue(EcucParameterValue):
 
 
 class EcucNumericalParamValue(EcucParameterValue):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.value = None                           # type: ARNumerical
@@ -127,7 +127,7 @@ class EcucNumericalParamValue(EcucParameterValue):
 
 
 class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is EcucAbstractReferenceValue:
             raise TypeError("EcucAbstractReferenceValue is an abstract class.")
 
@@ -160,7 +160,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 
 
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.valueIRef = None        # type: AnyInstanceRef
@@ -174,7 +174,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
 
 class EcucReferenceValue(EcucAbstractReferenceValue):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.valueRef = None        # type: RefType
@@ -188,7 +188,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
 
 class EcucContainerValue(Identifiable, EcucIndexableValue):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         Identifiable.__init__(self, parent, short_name)
 
         self.definitionRef = None                   # type: RefType
@@ -229,7 +229,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
 
 
 class EcucModuleConfigurationValues(ARElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.containers = []                        # type: List[EcucContainerValue]
@@ -291,16 +291,16 @@ class EcucConditionSpecification(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        # self.conditionFormula: EcucConditionFormula = None     # 0..1 aggr Definition of the formula used to define existence dependencies.
+        # self.conditionFormula: Union[Union[EcucConditionFormula, None] , None] = None     # 0..1 aggr Definition of the formula used to define existence dependencies.
         # self.ecucQueries: List[EcucQuery] = []                  # *    aggr Query to the ECU Configuration Description.
-        # self.informalFormula: MlFormula = None                 # 0..1 aggr Informal description of the condition used to to define existence dependencies. # noqa E501
+        # self.informalFormula: Union[Union[MlFormula, None] , None] = None                 # 0..1 aggr Informal description of the condition used to to define existence dependencies. # noqa E501
 
 
 class EcucConfigurationVariantEnum(AREnum):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 

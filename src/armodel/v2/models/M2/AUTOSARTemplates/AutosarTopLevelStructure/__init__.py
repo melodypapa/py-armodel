@@ -70,7 +70,7 @@ class FileInfoComment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.sdgs = []                                      # type: List[Sdg]
@@ -84,7 +84,7 @@ class FileInfoComment(ARObject):
 
 
 class AbstractAUTOSAR(CollectableElement):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.release_xsd_mappings = {
@@ -356,7 +356,7 @@ class AUTOSAR (AbstractAUTOSAR):
     def new(self):
         self.clear()
 
-    def __init__(self):
+    def __init__(self) -> None:
         if (AUTOSAR.__instance is not None):
             raise Exception("The AUTOSAR is singleton!")
 
@@ -370,7 +370,7 @@ class AUTOSARDoc(AbstractAUTOSAR):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 

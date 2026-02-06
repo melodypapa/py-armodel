@@ -36,7 +36,7 @@ class HwDescriptionEntity(ARElement):
     This class defines common properties for hardware elements including attribute values and type references.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwDescriptionEntity with a parent and short name.
 
@@ -48,7 +48,7 @@ class HwDescriptionEntity(ARElement):
 
         self.hwAttributeValues: List[HwAttributeValue] = []
         self.hwCategoryRefs: List[RefType] = []
-        self.hwTypeRef: Optional[RefType] = None
+        self.hwTypeRef: Union[Optional[RefType] , None] = None
 
     def getHwAttributeValues(self) -> List[HwAttributeValue]:
         """
@@ -129,7 +129,7 @@ class HwPin(HwDescriptionEntity):
     This class defines the properties of individual hardware pins including function names and pin numbers.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwPin with a parent and short name.
 
@@ -139,9 +139,9 @@ class HwPin(HwDescriptionEntity):
         """
         super().__init__(parent, short_name)
 
-        self.functionName: Optional[String] = None
-        self.packagingPinName: Optional[String] = None
-        self.pinNumber: Optional[Integer] = None
+        self.functionName: Union[Optional[String] , None] = None
+        self.packagingPinName: Union[Optional[String] , None] = None
+        self.pinNumber: Union[Optional[Integer] , None] = None
 
     def getFunctionName(self) -> Optional[String]:
         """
@@ -227,7 +227,7 @@ class HwPinGroupContent(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the HwPinGroupContent with default values.
         """
@@ -290,7 +290,7 @@ class HwPinGroup(HwDescriptionEntity):
     This class defines collections of related hardware pins with associated content.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwPinGroup with a parent and short name.
 
@@ -300,7 +300,7 @@ class HwPinGroup(HwDescriptionEntity):
         """
         super().__init__(parent, short_name)
 
-        self.hwPinGroupContent: Optional[HwPinGroupContent] = None
+        self.hwPinGroupContent: Union[Optional[HwPinGroupContent] , None] = None
 
     def getHwPinGroupContent(self) -> Optional[HwPinGroupContent]:
         """
@@ -333,7 +333,7 @@ class HwElement(HwDescriptionEntity):
     This class defines complete hardware components with connections, pin groups, and nested elements.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwElement with a parent and short name.
 

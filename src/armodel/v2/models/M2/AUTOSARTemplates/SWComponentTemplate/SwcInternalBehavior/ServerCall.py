@@ -18,7 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
 
 class ServerCallPoint(AbstractAccessPoint, ABC):
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is ServerCallPoint:
             raise TypeError("ServerCallPoint is an abstract class.")
         super().__init__(parent, short_name)
@@ -42,12 +42,12 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
 
 
 class AsynchronousServerCallPoint(ServerCallPoint):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class SynchronousServerCallPoint(ServerCallPoint):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.calledFromWithinExclusiveAreaRef = None
@@ -62,7 +62,7 @@ class SynchronousServerCallPoint(ServerCallPoint):
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.asynchronousServerCallPointRef = None

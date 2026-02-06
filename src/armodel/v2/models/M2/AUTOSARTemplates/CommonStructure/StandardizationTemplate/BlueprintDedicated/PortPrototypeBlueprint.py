@@ -10,7 +10,7 @@ Classes:
     PortPrototypeBlueprint: Defines a blueprint for port prototypes with communication specifications
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ValueSpecification,
@@ -41,11 +41,11 @@ class PortPrototypeBlueprintInitValue(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dataPrototypeRef: RefType = None
-        self.value: ValueSpecification = None
+        self.dataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.value: Union[Union[ValueSpecification, None] , None] = None
 
     def getDataPrototypeRef(self) -> RefType:
         """
@@ -100,11 +100,11 @@ class PortPrototypeBlueprint(AtpStructureElement):
     This class provides a template for defining port prototypes that can be reused
     across different software components, helping to standardize port configurations.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.initValues: List[PortPrototypeBlueprintInitValue] = []
-        self.interfaceRef: RefType = None
+        self.interfaceRef: Union[Union[RefType, None] , None] = None
         self.providedComSpecs: List[PPortComSpec] = []
         self.requiredComSpecs: List[RPortComSpec] = []
 

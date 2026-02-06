@@ -5,7 +5,7 @@ including code descriptors, compilers, dependencies, and resource consumption in
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
     ResourceConsumption,
@@ -37,7 +37,7 @@ class ImplementationProps(Referrable, ABC):
     This class serves as a base for defining properties of implementations such as symbols and identifiers.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ImplementationProps with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -52,7 +52,7 @@ class ImplementationProps(Referrable, ABC):
         super().__init__(parent, short_name)
 
         # Symbol associated with this implementation properties
-        self.symbol: ARLiteral = None
+        self.symbol: Union[Union[ARLiteral, None] , None] = None
 
     def getSymbol(self):
         """
@@ -83,7 +83,7 @@ class Code(Identifiable):
     This class contains information about code artifacts and their properties used in implementations.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Code with a parent and short name.
 
@@ -133,7 +133,7 @@ class Compiler(Identifiable):
     This class contains information about compiler configuration used in implementations.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Compiler with a parent and short name.
 
@@ -144,13 +144,13 @@ class Compiler(Identifiable):
         super().__init__(parent, short_name)
 
         # Name of the compiler
-        self.name: String = None
+        self.name: Union[Union[String, None] , None] = None
         # Options used with the compiler
-        self.options: String = None
+        self.options: Union[Union[String, None] , None] = None
         # Vendor information for the compiler
-        self.vendor: String = None
+        self.vendor: Union[Union[String, None] , None] = None
         # Version of the compiler
-        self.version: String = None
+        self.version: Union[Union[String, None] , None] = None
 
     def getName(self):
         """
@@ -247,7 +247,7 @@ class DependencyOnArtifact(Identifiable):
     This class defines dependencies on artifacts required by implementations such as compilers, linkers, etc.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DependencyOnArtifact with a parent and short name.
 
@@ -258,7 +258,7 @@ class DependencyOnArtifact(Identifiable):
         super().__init__(parent, short_name)
 
         # Artifact descriptor that this dependency references
-        self.artifactDescriptor: AutosarEngineeringObject = None
+        self.artifactDescriptor: Union[Union[AutosarEngineeringObject, None] , None] = None
         # Usage type of this dependency
         self.usage = None
 
@@ -313,7 +313,7 @@ class Implementation(ARElement, ABC):
     This class serves as a base for defining software implementations including code, compilers, dependencies, and resource consumption information.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Implementation with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -328,7 +328,7 @@ class Implementation(ARElement, ABC):
         super().__init__(parent, short_name)
 
         # Reference to the build action manifest for this implementation
-        self.buildActionManifestRef: RefType = None
+        self.buildActionManifestRef: Union[Union[RefType, None] , None] = None
         # List of code descriptors for this implementation
         self.codeDescriptors: List['Code'] = []
         # List of compilers used in this implementation
@@ -348,13 +348,13 @@ class Implementation(ARElement, ABC):
         # List of required generator tools for this implementation
         self.requiredGeneratorTools: List['DependencyOnArtifact'] = []
         # Resource consumption information for this implementation
-        self.resourceConsumption: ResourceConsumption = None
+        self.resourceConsumption: Union[Union[ResourceConsumption, None] , None] = None
         # Reference to software component/BSW mapping for this implementation
-        self.swcBswMappingRef: RefType = None
+        self.swcBswMappingRef: Union[Union[RefType, None] , None] = None
         # Software version information for this implementation
         self.swVersion: List[RevisionLabelString] = []
         # Code generator used for this implementation
-        self.usedCodeGenerator: String = None
+        self.usedCodeGenerator: Union[Union[String, None] , None] = None
         # Vendor ID for this implementation
         self.vendorId: PositiveInteger = 0
 
@@ -719,7 +719,7 @@ class DependencyUsageEnum(AREnum):
     OPTIONAL = "optional"
     REQUIRED = "required"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             DependencyUsageEnum.OPTIONAL,
             DependencyUsageEnum.REQUIRED,
@@ -737,7 +737,7 @@ class Linker(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the Linker with default values.
         """
@@ -770,7 +770,7 @@ class ProgramminglanguageEnum(AREnum):
     JAVA = "Java"
     PYTHON = "Python"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ProgramminglanguageEnum.C,
             ProgramminglanguageEnum.CPP,

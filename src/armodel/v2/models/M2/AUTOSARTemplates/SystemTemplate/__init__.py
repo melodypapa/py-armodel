@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for system-level modeling
 # It defines system mappings, ECU mappings, and overall system structure
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpPrototype,
@@ -46,12 +46,12 @@ class ComManagementMapping(Identifiable):
     defining how communication management groups and port groups
     are mapped to physical communication channels.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.comManagementGroupRefs: List[RefType] = []
         self.comManagementPortGroupRefs: List[RefType] = []
-        self.physicalChannelRef: RefType = None
+        self.physicalChannelRef: Union[Union[RefType, None] , None] = None
 
     def getComManagementGroupRefs(self):
         return self.comManagementGroupRefs
@@ -85,7 +85,7 @@ class SystemMapping(Identifiable):
     ECU resource mappings, data mappings, and software component mappings
     for comprehensive system configuration.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.applicationPartitionToEcuPartitionMappings: List[ApplicationPartitionToEcuPartitionMapping] = []
@@ -300,12 +300,12 @@ class RootSwCompositionPrototype(AtpPrototype):
     defining references to calibration parameter value sets, flat maps,
     and software composition templates for the top-level composition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.calibrationParameterValueSetRef: RefType = None
-        self.flatMapRef: RefType = None
-        self.softwareCompositionTRef: TRefType = None
+        self.calibrationParameterValueSetRef: Union[Union[RefType, None] , None] = None
+        self.flatMapRef: Union[Union[RefType, None] , None] = None
+        self.softwareCompositionTRef: Union[Union[TRefType, None] , None] = None
 
     def getCalibrationParameterValueSetRef(self):
         return self.calibrationParameterValueSetRef
@@ -335,7 +335,7 @@ class J1939SharedAddressCluster(Identifiable):
     defining references to participating J1939 clusters for
     shared address management in J1939 communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.participatingJ1939ClusterRefs: List[RefType] = []
@@ -355,22 +355,22 @@ class System(AtpStructureElement):
     organizing all system-level elements including ECU extractions,
     mappings, and system configurations for complete system definition.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.clientIdDefinitionSetRefs: List[RefType] = []
         self.containerIPduHeaderByteOrder = None
-        self.ecuExtractVersion: RevisionLabelString = None
+        self.ecuExtractVersion: Union[Union[RevisionLabelString, None] , None] = None
         self.fibexElements: List[RefType] = []
         self.interpolationRoutineMappingSetRefs: List[RefType] = []
         self.j1939SharedAddressClusters: List[J1939SharedAddressCluster] = []
         self.mappings: List[SystemMapping] = []
-        self.pncVectorLength: PositiveInteger = None
-        self.pncVectorOffset: PositiveInteger = None
-        self.rootSoftwareComposition: RootSwCompositionPrototype = None
+        self.pncVectorLength: Union[Union[PositiveInteger, None] , None] = None
+        self.pncVectorOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.rootSoftwareComposition: Union[Union[RootSwCompositionPrototype, None] , None] = None
         self.swClusterRefs: List[RefType] = []
         self.systemDocumentation = []
-        self.systemVersion: RevisionLabelString = None
+        self.systemVersion: Union[Union[RevisionLabelString, None] , None] = None
 
     def getClientIdDefinitionSetRefs(self):
         return self.clientIdDefinitionSetRefs

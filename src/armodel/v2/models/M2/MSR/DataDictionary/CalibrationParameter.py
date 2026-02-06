@@ -7,7 +7,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is SwCalprmAxisTypeProps:
             raise TypeError("SwCalprmAxisTypeProps is an abstract class.")
 
@@ -23,7 +23,7 @@ class SwCalprmAxis(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.category = None                        # type: CalprmAxisCategoryEnum
@@ -38,7 +38,7 @@ class SwCalprmAxisSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self._swCalprmAxis = []          # type: List[SwCalprmAxis]

@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
@@ -36,12 +36,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType i
 
 
 class SymbolProps(ImplementationProps):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class PortPrototype(AtpPrototype, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is PortPrototype:
             raise TypeError("PortPrototype is an abstract class.")
         super().__init__(parent, short_name)
@@ -113,7 +113,7 @@ class PortPrototype(AtpPrototype, ABC):
 
 
 class AbstractProvidedPortPrototype(PortPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractProvidedPortPrototype:
             raise TypeError("AbstractProvidedPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
@@ -145,7 +145,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
 
 class AbstractRequiredPortPrototype(PortPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractRequiredPortPrototype:
             raise TypeError("AbstractRequiredPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
@@ -185,7 +185,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
 
 class PPortPrototype(AbstractProvidedPortPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.providedInterfaceTRef = None           # type: TRefType
@@ -199,7 +199,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
 
 class RPortPrototype(AbstractRequiredPortPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.mayBeUnconnected = None                # type: ARBoolean
@@ -221,7 +221,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
 
 
 class PRPortPrototype(PortPrototype):
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.providedComSpecs = []                          # type: List[PPortComSpec]
@@ -251,7 +251,7 @@ class PRPortPrototype(PortPrototype):
 
 
 class PortGroup(AtpStructureElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self._inner_group_iref = []    # type: List[InnerPortGroupInCompositionInstanceRef]
@@ -271,11 +271,11 @@ class PortGroup(AtpStructureElement):
 
 
 class AtomicSwComponentType(SwComponentType, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.internalBehavior: "SwcInternalBehavior" = None
-        self.symbolProps: SymbolProps = None
+        self.symbolProps: Union[Union[SymbolProps, None] , None] = None
 
     def getInternalBehavior(self):
         return self.internalBehavior
@@ -306,7 +306,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.hardwareElementRefs = []                                   # List[RefType]
@@ -321,12 +321,12 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
 
 
 class ApplicationSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.hardwareElementRefs = []                                   # List[RefType]
@@ -341,7 +341,7 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
 
 
 class NvBlockSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.bulkNvDataDescriptors = []                                 # type: List[BulkNvDataDescriptor]
@@ -365,17 +365,17 @@ class NvBlockSwComponentType(AtomicSwComponentType):
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class ServiceProxySwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class ServiceSwComponentType(AtomicSwComponentType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 

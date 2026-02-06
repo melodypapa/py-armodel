@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Filter import (
     DataFilter,
@@ -47,7 +47,7 @@ class CommunicationCycle(ARObject, ABC):
     in the AUTOSAR communication system.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is CommunicationCycle:
             raise TypeError("CommunicationCycle is an abstract class.")
         super().__init__()
@@ -58,10 +58,10 @@ class CycleCounter(CommunicationCycle):
     Defines a counter for communication cycles, specifying the
     count value for cycle tracking in timed communication systems.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.CycleCounter: Integer = None
+        self.CycleCounter: Union[Union[Integer, None] , None] = None
 
     def getCycleCounter(self):
         return self.CycleCounter
@@ -78,7 +78,7 @@ class CycleRepetitionType(AREnum):
     scheduling, specifying how communication cycles are repeated
     over time.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 
@@ -88,11 +88,11 @@ class CycleRepetition(CommunicationCycle):
     specifying base cycle and repetition pattern for cyclic
     communication scheduling.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.BaseCycle: Integer = None
-        self.CycleRepetition: CycleRepetitionType = None
+        self.BaseCycle: Union[Union[Integer, None] , None] = None
+        self.CycleRepetition: Union[Union[CycleRepetitionType, None] , None] = None
 
     def getBaseCycle(self):
         return self.BaseCycle
@@ -118,7 +118,7 @@ class PhysicalChannel (Identifiable, ABC):
     communication media including connector references and
     frame triggering mechanisms.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is PhysicalChannel:
             raise TypeError("PhysicalChannel is an abstract class.")
 
@@ -191,7 +191,7 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     common properties for CAN-specific physical communication
     channels in the AUTOSAR system.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         if type(self) is AbstractCanPhysicalChannel:
             raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
 
@@ -204,7 +204,7 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
     implementing specific properties for CAN bus communication
     including frame triggering and connector management.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
 
@@ -214,10 +214,10 @@ class LinPhysicalChannel(PhysicalChannel):
     defining LIN-specific properties including bus idle timeout
     and schedule tables for LIN network communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.busIdleTimeoutPeriod: TimeValue = None
+        self.busIdleTimeoutPeriod: Union[Union[TimeValue, None] , None] = None
         self.scheduleTables: List[LinScheduleTable] = []
 
     def getBusIdleTimeoutPeriod(self):
@@ -245,10 +245,10 @@ class VlanConfig(Identifiable):
     specifying VLAN identifiers for network segmentation
     and traffic management in Ethernet communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.vlanIdentifier: PositiveInteger = None
+        self.vlanIdentifier: Union[Union[PositiveInteger, None] , None] = None
 
     def getVlanIdentifier(self):
         return self.vlanIdentifier
@@ -265,12 +265,12 @@ class EthernetPhysicalChannel(PhysicalChannel):
     defining Ethernet-specific properties including network endpoints,
     Socket Adaptor (SoAd) configuration, and VLAN settings.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.networkEndpoints: List[NetworkEndpoint] = []
         self.soAdConfig = None
-        self.vlan: VlanConfig = None
+        self.vlan: Union[Union[VlanConfig, None] , None] = None
 
     def getNetworkEndpoints(self):
         return self.networkEndpoints
@@ -306,7 +306,7 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     defining FlexRay-specific properties including channel name
     designation for dual-channel FlexRay communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.channelName = None                                     # type: "FlexrayChannelName"
@@ -327,7 +327,7 @@ class CommunicationCluster(FibexElement, ABC):
     networks including baud rate, protocol specifications,
     and physical channel management.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is CommunicationCluster:
             raise TypeError("CommunicationCluster is an abstract class.")
 
@@ -411,14 +411,14 @@ class CanClusterBusOffRecovery(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.borCounterL1ToL2: PositiveInteger = None
-        self.borTimeL1: TimeValue = None
-        self.borTimeL2: TimeValue = None
-        self.borTimeTxEnsured: TimeValue = None
-        self.mainFunctionPeriod: TimeValue = None
+        self.borCounterL1ToL2: Union[Union[PositiveInteger, None] , None] = None
+        self.borTimeL1: Union[Union[TimeValue, None] , None] = None
+        self.borTimeL2: Union[Union[TimeValue, None] , None] = None
+        self.borTimeTxEnsured: Union[Union[TimeValue, None] , None] = None
+        self.mainFunctionPeriod: Union[Union[TimeValue, None] , None] = None
 
     def getBorCounterL1ToL2(self):
         return self.borCounterL1ToL2
@@ -467,16 +467,16 @@ class AbstractCanCluster(CommunicationCluster, ABC):
     clusters with CAN-specific properties including FD and XL
     baud rates and speed configurations.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AbstractCanCluster:
             raise TypeError("AbstractCanCluster is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.busOffRecovery: CanClusterBusOffRecovery = None
-        self.canFdBaudrate: PositiveUnlimitedInteger = None
-        self.canXlBaudrate: PositiveUnlimitedInteger = None
-        self.speed: PositiveUnlimitedInteger = None
+        self.busOffRecovery: Union[Union[CanClusterBusOffRecovery, None] , None] = None
+        self.canFdBaudrate: Union[Union[PositiveUnlimitedInteger, None] , None] = None
+        self.canXlBaudrate: Union[Union[PositiveUnlimitedInteger, None] , None] = None
+        self.speed: Union[Union[PositiveUnlimitedInteger, None] , None] = None
 
     def getBusOffRecovery(self):
         return self.busOffRecovery
@@ -513,7 +513,7 @@ class CanCluster(AbstractCanCluster):
     implementing specific properties for CAN network
     communication including timing and error recovery.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -523,7 +523,7 @@ class LinCluster(CommunicationCluster):
     implementing specific properties for LIN network
     communication including scheduling and timing management.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -533,13 +533,13 @@ class CommunicationController(Identifiable, ABC):
     defining common properties for different types of
     communication hardware controllers in the system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is CommunicationController:
             raise TypeError("CommunicationController is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.wakeUpByControllerSupported: Boolean = None
+        self.wakeUpByControllerSupported: Union[Union[Boolean, None] , None] = None
 
     def getWakeUpByControllerSupported(self):
         return self.wakeUpByControllerSupported
@@ -559,7 +559,7 @@ class PncGatewayTypeEnum(AREnum):
     ENUM_NONE = "none"
     ENUM_PASSIVE = "passive"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             PncGatewayTypeEnum.ENUM_ACTIVE,
             PncGatewayTypeEnum.ENUM_NONE,
@@ -573,7 +573,7 @@ class CommConnectorPort(Identifiable, ABC):
     defining common properties for different types of
     communication ports including direction and processing.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is CommConnectorPort:
             raise TypeError("CommConnectorPort is an abstract class.")
 
@@ -595,7 +595,7 @@ class FramePort(CommConnectorPort):
     Represents a frame port for communication connectors,
     handling frame-based communication at the connector level.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -605,14 +605,14 @@ class IPduPort(CommConnectorPort):
     handling Interaction Protocol Data Unit communication
     with specific processing and security properties.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.iPduSignalProcessing: "IPduSignalProcessingEnum" = None
-        self.keyId: PositiveInteger = None
-        self.rxSecurityVerification: Boolean = None
-        self.timestampRxAcceptanceWindow: TimeValue = None
-        self.useAuthDataFreshness: Boolean = None
+        self.keyId: Union[Union[PositiveInteger, None] , None] = None
+        self.rxSecurityVerification: Union[Union[Boolean, None] , None] = None
+        self.timestampRxAcceptanceWindow: Union[Union[TimeValue, None] , None] = None
+        self.useAuthDataFreshness: Union[Union[Boolean, None] , None] = None
 
     def getIPduSignalProcessing(self):
         return self.iPduSignalProcessing
@@ -661,14 +661,14 @@ class ISignalPort(CommConnectorPort):
     handling interaction signal communication with filtering,
     timeout, and validity handling properties.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.dataFilter: DataFilter = None
-        self.ddsQosProfileRef: RefType = None
-        self.firstTimeout: TimeValue = None
+        self.dataFilter: Union[Union[DataFilter, None] , None] = None
+        self.ddsQosProfileRef: Union[Union[RefType, None] , None] = None
+        self.firstTimeout: Union[Union[TimeValue, None] , None] = None
         self.handleInvalid = None
-        self.timeout: TimeValue = None
+        self.timeout: Union[Union[TimeValue, None] , None] = None
 
     def getDataFilter(self):
         return self.dataFilter
@@ -718,18 +718,18 @@ class CommunicationConnector(Identifiable, ABC):
     controllers to communication channels and managing
     port instances and gateway types.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is CommunicationConnector:
             raise TypeError("CommunicationConnector is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.commControllerRef: RefType = None
-        self.createEcuWakeupSource: Boolean = None
-        self.dynamicPncToChannelMappingEnabled: Boolean = None
+        self.commControllerRef: Union[Union[RefType, None] , None] = None
+        self.createEcuWakeupSource: Union[Union[Boolean, None] , None] = None
+        self.dynamicPncToChannelMappingEnabled: Union[Union[Boolean, None] , None] = None
         self.ecuCommPortInstances: List[CommConnectorPort] = []
         self.pncFilterArrayMasks: List[PositiveInteger] = []
-        self.pncGatewayType: PncGatewayTypeEnum = None
+        self.pncGatewayType: Union[Union[PncGatewayTypeEnum, None] , None] = None
 
     def getCommControllerRef(self):
         return self.commControllerRef
@@ -791,36 +791,36 @@ class CommunicationConnector(Identifiable, ABC):
         return self
 
 class EcuInstance(FibexElement):
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.associatedComIPduGroupRefs: List[RefType] = []
         self.associatedConsumedProvidedServiceInstanceGroupRefs: List[RefType] = []
         self.associatedPdurIPduGroupRefs: List[RefType] = []
-        self.channelSynchronousWakeup: Boolean = None
+        self.channelSynchronousWakeup: Union[Union[Boolean, None] , None] = None
         self.clientIdRange = None
-        self.comConfigurationGwTimeBase: TimeValue = None
-        self.comConfigurationRxTimeBase: TimeValue = None
-        self.comConfigurationTxTimeBase: TimeValue = None
-        self.comEnableMDTForCyclicTransmission: Boolean = None
+        self.comConfigurationGwTimeBase: Union[Union[TimeValue, None] , None] = None
+        self.comConfigurationRxTimeBase: Union[Union[TimeValue, None] , None] = None
+        self.comConfigurationTxTimeBase: Union[Union[TimeValue, None] , None] = None
+        self.comEnableMDTForCyclicTransmission: Union[Union[Boolean, None] , None] = None
         self.commControllers: List["CommunicationController"] = []
         self.connectors: List["CommunicationConnector"] = []
-        self.diagnosticAddress: Integer = None
+        self.diagnosticAddress: Union[Union[Integer, None] , None] = None
         self.dltConfig = None
         self.doIpConfig = None
         self.ecuTaskProxyRefs: List[RefType] = []
-        self.ethSwitchPortGroupDerivation: Boolean = None
-        self.firewallRuleRef: RefType = None
+        self.ethSwitchPortGroupDerivation: Union[Union[Boolean, None] , None] = None
+        self.firewallRuleRef: Union[Union[RefType, None] , None] = None
         self.partitions = []
-        self.pncNmRequest: Boolean = None
-        self.pncPrepareSleepTimer: TimeValue = None
-        self.pncSynchronousWakeup: Boolean = None
-        self.pnResetTime: TimeValue = None
-        self.sleepModeSupported: Boolean = None
-        self.tcpIpIcmpPropsRef: RefType = None
-        self.tcpIpPropsRef: RefType = None
+        self.pncNmRequest: Union[Union[Boolean, None] , None] = None
+        self.pncPrepareSleepTimer: Union[Union[TimeValue, None] , None] = None
+        self.pncSynchronousWakeup: Union[Union[Boolean, None] , None] = None
+        self.pnResetTime: Union[Union[TimeValue, None] , None] = None
+        self.sleepModeSupported: Union[Union[Boolean, None] , None] = None
+        self.tcpIpIcmpPropsRef: Union[Union[RefType, None] , None] = None
+        self.tcpIpPropsRef: Union[Union[RefType, None] , None] = None
         self.v2xSupported = None
-        self.wakeUpOverBusSupported: Boolean = None
+        self.wakeUpOverBusSupported: Union[Union[Boolean, None] , None] = None
 
     def getAssociatedComIPduGroupRefs(self):
         return self.associatedComIPduGroupRefs

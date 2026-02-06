@@ -10,6 +10,8 @@ Classes:
     TimingConstraint: Abstract base class for all timing constraints
 """
 
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
@@ -30,13 +32,13 @@ class TimingConstraint(Traceable, ABC):
     timing constraint implementations such as execution order constraints.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is TimingConstraint:
             raise TypeError("TimingConstraint is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.timing_condition_ref: RefType = None
+        self.timing_condition_ref: Union[Union[RefType, None] , None] = None
 
     @property
     def timingConditionRef(self) -> RefType:

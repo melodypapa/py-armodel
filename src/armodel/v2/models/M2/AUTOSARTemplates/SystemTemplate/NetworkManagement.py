@@ -2,7 +2,7 @@
 # It defines CAN, FlexRay, J1939, and UDP network management configurations
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -34,7 +34,7 @@ class NmClusterCoupling(ARObject, ABC):
     defining common properties for connecting different types of
     network management clusters for coordinated network management.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is NmClusterCoupling:
             raise TypeError("NmClusterCoupling is an abstract class.")
 
@@ -46,7 +46,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and CAN-specific NM features
     like busload reduction and immediate restart capabilities.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.coupledClusterRefs = []
@@ -80,7 +80,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and FlexRay-specific NM
     schedule variant configurations.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.coupledClusterRefs = []
@@ -107,18 +107,18 @@ class NmNode(Identifiable, ABC):
     common properties for different types of NM nodes including
     controller references, node IDs, and communication properties.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is NmNode:
             raise TypeError("NmNode is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.controllerRef: RefType = None
-        self.nmCoordCluster: ARNumerical = None
-        self.nmCoordinatorRole: ARLiteral = None
-        self.nmIfEcuRef: RefType = None
-        self.nmNodeId: ARNumerical = None
-        self.nmPassiveModeEnabled: ARBoolean = None
+        self.controllerRef: Union[Union[RefType, None] , None] = None
+        self.nmCoordCluster: Union[Union[ARNumerical, None] , None] = None
+        self.nmCoordinatorRole: Union[Union[ARLiteral, None] , None] = None
+        self.nmIfEcuRef: Union[Union[RefType, None] , None] = None
+        self.nmNodeId: Union[Union[ARNumerical, None] , None] = None
+        self.nmPassiveModeEnabled: Union[Union[ARBoolean, None] , None] = None
         self.rxNmPduRefs: List[RefType] = []
         self.TxNmPduRefs: List[RefType] = []
 
@@ -184,7 +184,7 @@ class CanNmNode(NmNode):
     defining CAN-specific NM properties including message
     cycle offsets, timing configurations, and range settings.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.allNmMessagesKeepAwake = None
@@ -192,7 +192,7 @@ class CanNmNode(NmNode):
         self.nmCarWakeUpRxEnabled = None
         self.nmMsgCycleOffset = None
         self.nmMsgReducedTime = None
-        self.nmRangeConfig: RxIdentifierRange = None
+        self.nmRangeConfig: Union[Union[RxIdentifierRange, None] , None] = None
 
     def getAllNmMessagesKeepAwake(self):
         return self.allNmMessagesKeepAwake
@@ -241,7 +241,7 @@ class FlexrayNmNode(NmNode):
     defining FlexRay-specific NM properties for time-triggered
     network management communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 class J1939NmNode(NmNode):
@@ -250,7 +250,7 @@ class J1939NmNode(NmNode):
     defining J1939-specific NM properties for heavy-duty
     vehicle network management communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 class UdpNmNode(NmNode):
@@ -259,11 +259,11 @@ class UdpNmNode(NmNode):
     defining UDP-specific NM properties including message
     timing and wake-up capabilities.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.allNmMessagesKeepAwake: Boolean = None
-        self.nmMsgCycleOffset: TimeValue = None
+        self.allNmMessagesKeepAwake: Union[Union[Boolean, None] , None] = None
+        self.nmMsgCycleOffset: Union[Union[TimeValue, None] , None] = None
 
     def getAllNmMessagesKeepAwake(self):
         return self.allNmMessagesKeepAwake
@@ -287,7 +287,7 @@ class BusspecificNmEcu(ARObject, ABC):
     configurations, defining common properties for different
     types of bus-specific NM implementations.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is BusspecificNmEcu:
             raise TypeError("BusspecificNmEcu is an abstract class.")
         super().__init__()
@@ -297,7 +297,7 @@ class CanNmEcu(BusspecificNmEcu):
     Defines CAN-specific network management ECU properties,
     implementing bus-specific NM features for CAN communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 class FlexrayNmEcu(BusspecificNmEcu):
@@ -305,7 +305,7 @@ class FlexrayNmEcu(BusspecificNmEcu):
     Defines FlexRay-specific network management ECU properties,
     implementing bus-specific NM features for FlexRay communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 class J1939NmEcu(BusspecificNmEcu):
@@ -313,7 +313,7 @@ class J1939NmEcu(BusspecificNmEcu):
     Defines J1939-specific network management ECU properties,
     implementing bus-specific NM features for J1939 communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 class UdpNmEcu(BusspecificNmEcu):
@@ -322,10 +322,10 @@ class UdpNmEcu(BusspecificNmEcu):
     implementing bus-specific NM features for UDP communication
     including synchronization point capabilities.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.nmSynchronizationPointEnabled: Boolean = None
+        self.nmSynchronizationPointEnabled: Union[Union[Boolean, None] , None] = None
 
     def getNmSynchronizationPointEnabled(self):
         return self.nmSynchronizationPointEnabled
@@ -342,22 +342,22 @@ class NmEcu(Identifiable):
     defining properties for NM coordination, node detection,
     and communication control across different bus types.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.busDependentNmEcus: List[BusspecificNmEcu] = []
-        self.ecuInstanceRef: RefType = None
-        self.nmBusSynchronizationEnabled: Boolean = None
-        self.nmComControlEnabled: Boolean = None
+        self.ecuInstanceRef: Union[Union[RefType, None] , None] = None
+        self.nmBusSynchronizationEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmComControlEnabled: Union[Union[Boolean, None] , None] = None
         self.nmCoordinator = None
-        self.nmCycletimeMainFunction: TimeValue = None
-        self.nmNodeDetectionEnabled: Boolean = None
-        self.nmNodeIdEnabled: Boolean = None
-        self.nmPduRxIndicationEnabled: Boolean = None
-        self.nmRemoteSleepIndEnabled: Boolean = None
-        self.nmRepeatMsgIndEnabled: Boolean = None
-        self.nmStateChangeIndEnabled: Boolean = None
-        self.nmUserDataEnabled: Boolean = None
+        self.nmCycletimeMainFunction: Union[Union[TimeValue, None] , None] = None
+        self.nmNodeDetectionEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmNodeIdEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmPduRxIndicationEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmRemoteSleepIndEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmRepeatMsgIndEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmStateChangeIndEnabled: Union[Union[Boolean, None] , None] = None
+        self.nmUserDataEnabled: Union[Union[Boolean, None] , None] = None
 
     def getBusDependentNmEcus(self):
         return self.busDependentNmEcus
@@ -469,7 +469,7 @@ class NmConfig(FibexElement):
     defining cluster couplings and ECU configurations for
     comprehensive network management setup.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.nmClusterCouplings: List[NmClusterCoupling] = []
@@ -520,7 +520,7 @@ class NmCluster(Identifiable, ABC):
     NM clusters including communication cluster references
     and node management capabilities.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is NmCluster:
             raise TypeError("NmCluster is an abstract class.")
         super().__init__(parent, short_name)
@@ -620,7 +620,7 @@ class CanNmCluster(NmCluster):
     defining CAN-specific NM properties including busload
     reduction, wake-up configurations, and message timing.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.nmBusloadReductionActive = None
@@ -758,7 +758,7 @@ class FlexrayNmCluster(NmCluster):
     defining FlexRay-specific NM properties for time-triggered
     network management in FlexRay communication networks.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 class J1939NmCluster(NmCluster):
@@ -767,7 +767,7 @@ class J1939NmCluster(NmCluster):
     defining J1939-specific NM properties for heavy-duty vehicle
     network management communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 class UdpNmClusterCoupling(NmClusterCoupling):
@@ -776,11 +776,11 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and UDP-specific NM
     immediate restart capabilities.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.coupledClusterRefs: List[RefType] = []
-        self.nmImmediateRestartEnabled: Boolean = None
+        self.nmImmediateRestartEnabled: Union[Union[Boolean, None] , None] = None
 
     def getCoupledClusterRefs(self):
         return self.coupledClusterRefs
@@ -805,21 +805,21 @@ class UdpNmCluster(NmCluster):
     defining UDP-specific NM properties including message timing,
     CBV (Common Bit Vector) position, and VLAN references.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.nmCbvPosition: Integer = None
-        self.nmChannelActive: Boolean = None
-        self.nmImmediateNmCycleTime: TimeValue = None
-        self.nmImmediateNmTransmissions: PositiveInteger = None
-        self.nmMessageTimeoutTime: TimeValue = None
-        self.nmMsgCycleTime: TimeValue = None
-        self.nmNetworkTimeout: TimeValue = None
-        self.nmNidPosition: Integer = None
-        self.nmRemoteSleepIndicationTime: TimeValue = None
-        self.nmRepeatMessageTime: TimeValue = None
-        self.nmWaitBusSleepTime: TimeValue = None
-        self.vlanRef: RefType = None
+        self.nmCbvPosition: Union[Union[Integer, None] , None] = None
+        self.nmChannelActive: Union[Union[Boolean, None] , None] = None
+        self.nmImmediateNmCycleTime: Union[Union[TimeValue, None] , None] = None
+        self.nmImmediateNmTransmissions: Union[Union[PositiveInteger, None] , None] = None
+        self.nmMessageTimeoutTime: Union[Union[TimeValue, None] , None] = None
+        self.nmMsgCycleTime: Union[Union[TimeValue, None] , None] = None
+        self.nmNetworkTimeout: Union[Union[TimeValue, None] , None] = None
+        self.nmNidPosition: Union[Union[Integer, None] , None] = None
+        self.nmRemoteSleepIndicationTime: Union[Union[TimeValue, None] , None] = None
+        self.nmRepeatMessageTime: Union[Union[TimeValue, None] , None] = None
+        self.nmWaitBusSleepTime: Union[Union[TimeValue, None] , None] = None
+        self.vlanRef: Union[Union[RefType, None] , None] = None
 
     def getNmCbvPosition(self):
         return self.nmCbvPosition

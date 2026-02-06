@@ -36,7 +36,7 @@ class CollectableElement(ARObject, ABC):
     This class provides functionality for managing collections of elements with lookup capabilities.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is CollectableElement:
             raise TypeError("CollectableElement is an abstract class.")
 
@@ -142,14 +142,14 @@ class Collection(ARElement):
     This class defines the structure for organizing and managing collections of AUTOSAR elements.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.autoCollect: Optional[AutoCollectEnum] = None
+        self.autoCollect: Union[Optional[AutoCollectEnum] , None] = None
         self.collectedInstances: List[AnyInstanceRef] = []
-        self.collectionSemantics: Optional[NameToken] = None
+        self.collectionSemantics: Union[Optional[NameToken] , None] = None
         self.elementRefs: List[RefType] = []
-        self.elementRole: Optional[Identifier] = None
+        self.elementRole: Union[Optional[Identifier] , None] = None
         self.sourceElementRefs: List[RefType] = []
         self.sourceInstances: List[AnyInstanceRef] = []
 

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -27,12 +27,12 @@ class VariationPoint(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.variationPointName: String = None
-        self.isEnabled: Boolean = None
-        self.variantCondition: String = None
+        self.variationPointName: Union[Union[String, None] , None] = None
+        self.isEnabled: Union[Union[Boolean, None] , None] = None
+        self.variantCondition: Union[Union[String, None] , None] = None
 
     def getVariationPointName(self) -> String:
         return self.variationPointName
@@ -75,11 +75,11 @@ class PostBuildVariantCriterion(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.criterionName: String = None
-        self.criterionValue: String = None
+        self.criterionName: Union[Union[String, None] , None] = None
+        self.criterionValue: Union[Union[String, None] , None] = None
 
     def getCriterionName(self) -> String:
         return self.criterionName
@@ -112,10 +112,10 @@ class PostBuildVariantCriterionValue(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.value: String = None
+        self.value: Union[Union[String, None] , None] = None
 
     def getValue(self) -> String:
         return self.value
@@ -142,11 +142,11 @@ class PredefinedVariant(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.variantName: String = None
-        self.variantDescription: String = None
+        self.variantName: Union[Union[String, None] , None] = None
+        self.variantDescription: Union[Union[String, None] , None] = None
 
     def getVariantName(self) -> String:
         return self.variantName
@@ -182,12 +182,12 @@ class SwSystemconstantValueSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.constantName: String = None
+        self.constantName: Union[Union[String, None] , None] = None
         self.constantValues: List[String] = []
-        self.constantRef: RefType = None
+        self.constantRef: Union[Union[RefType, None] , None] = None
 
     def getConstantName(self) -> String:
         return self.constantName

@@ -6,7 +6,7 @@ and mode switching communications, as well as non-volatile and parameter communi
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
     ValueSpecification,
@@ -38,7 +38,7 @@ class HandleInvalidEnum(AREnum):
     KEEP = "keep"
     REPLACE = "replace"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             HandleInvalidEnum.DONT_INVALIDATE,
             HandleInvalidEnum.EXTERNAL_REPLACEMENT,
@@ -58,7 +58,7 @@ class PPortComSpec(ARObject, ABC):
         Base: ARObject
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is PPortComSpec:
             raise TypeError("PPortComSpec is an abstract class.")
         super().__init__()
@@ -75,7 +75,7 @@ class RPortComSpec(ARObject, ABC):
         Base: ARObject
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is RPortComSpec:
             raise TypeError("RPortComSpec is an abstract class.")
 
@@ -88,11 +88,11 @@ class CompositeNetworkRepresentation(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.leafElementIRef = None
-        self.networkRepresentation: SwDataDefProps = None
+        self.networkRepresentation: Union[Union[SwDataDefProps, None] , None] = None
 
     def getLeafElementIRef(self):
         return self.leafElementIRef
@@ -115,25 +115,25 @@ class TransmissionAcknowledgementRequest(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.timeout: float = None
 
 
 class SenderComSpec(PPortComSpec, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is SenderComSpec:
             raise TypeError("SenderComSpec is an abstract class.")
 
         super().__init__()
 
         self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = []
-        self.dataElementRef: RefType = None
-        self.networkRepresentation: SwDataDefProps = None
+        self.dataElementRef: Union[Union[RefType, None] , None] = None
+        self.networkRepresentation: Union[Union[SwDataDefProps, None] , None] = None
         self.handleOutOfRange: str = None
-        self.transmissionAcknowledge: TransmissionAcknowledgementRequest = None
-        self.usesEndToEndProtection: ARBoolean = None
+        self.transmissionAcknowledge: Union[Union[TransmissionAcknowledgementRequest, None] , None] = None
+        self.usesEndToEndProtection: Union[Union[ARBoolean, None] , None] = None
 
     def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
         self.compositeNetworkRepresentations.append(representation)
@@ -178,15 +178,15 @@ class SenderComSpec(PPortComSpec, ABC):
 
 
 class QueuedSenderComSpec(SenderComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class NonqueuedSenderComSpec(SenderComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.initValue: ValueSpecification = None
+        self.initValue: Union[Union[ValueSpecification, None] , None] = None
 
     def getInitValue(self):
         return self.initValue
@@ -197,10 +197,10 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
 
 class ClientComSpec(RPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.operationRef: RefType = None
+        self.operationRef: Union[Union[RefType, None] , None] = None
 
     def getOperationRef(self):
         return self.operationRef
@@ -211,12 +211,12 @@ class ClientComSpec(RPortComSpec):
 
 
 class ModeSwitchReceiverComSpec(RPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.enhancedModeApi: Boolean = None
-        self.modeGroupRef: RefType = None
-        self.supportsAsynchronousModeSwitch: Boolean = None
+        self.enhancedModeApi: Union[Union[Boolean, None] , None] = None
+        self.modeGroupRef: Union[Union[RefType, None] , None] = None
+        self.supportsAsynchronousModeSwitch: Union[Union[Boolean, None] , None] = None
 
     def getEnhancedModeApi(self):
         return self.enhancedModeApi
@@ -241,11 +241,11 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
 
 
 class NvRequireComSpec(RPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.initValue: ValueSpecification = None
-        self.variableRef: RefType = None
+        self.initValue: Union[Union[ValueSpecification, None] , None] = None
+        self.variableRef: Union[Union[RefType, None] , None] = None
 
     def getInitValue(self):
         return self.initValue
@@ -265,11 +265,11 @@ class NvRequireComSpec(RPortComSpec):
 
 
 class ParameterRequireComSpec(RPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.initValue: ValueSpecification = None
-        self.parameterRef: RefType = None
+        self.initValue: Union[Union[ValueSpecification, None] , None] = None
+        self.parameterRef: Union[Union[RefType, None] , None] = None
 
     def getInitValue(self):
         return self.initValue
@@ -288,7 +288,7 @@ class ParameterRequireComSpec(RPortComSpec):
 
 class ReceiverComSpec(RPortComSpec, ABC):
 
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is ReceiverComSpec:
             raise TypeError("ReceiverComSpec is an abstract class.")
         super().__init__()
@@ -373,10 +373,10 @@ class ModeSwitchedAckRequest(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.timeout: TimeValue = None
+        self.timeout: Union[Union[TimeValue, None] , None] = None
 
     def getTimeout(self):
         return self.timeout
@@ -388,13 +388,13 @@ class ModeSwitchedAckRequest(ARObject):
 
 
 class ModeSwitchSenderComSpec(PPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.enhancedModeApi: ARBoolean = None
-        self.modeGroupRef: RefType = None
-        self.modeSwitchedAck: ModeSwitchedAckRequest = None
-        self.queueLength: ARPositiveInteger = None
+        self.enhancedModeApi: Union[Union[ARBoolean, None] , None] = None
+        self.modeGroupRef: Union[Union[RefType, None] , None] = None
+        self.modeSwitchedAck: Union[Union[ModeSwitchedAckRequest, None] , None] = None
+        self.queueLength: Union[Union[ARPositiveInteger, None] , None] = None
 
     def getEnhancedModeApi(self):
         return self.enhancedModeApi
@@ -426,12 +426,12 @@ class ModeSwitchSenderComSpec(PPortComSpec):
 
 
 class ParameterProvideComSpec(PPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class TransformationComSpecProps(Describable, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TransformationComSpecProps:
             raise TypeError("TransformationComSpecProps is an abstract class.")
 
@@ -439,16 +439,16 @@ class TransformationComSpecProps(Describable, ABC):
 
 
 class UserDefinedTransformationComSpecProps(TransformationComSpecProps):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class ServerComSpec(PPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.operationRef: RefType = None
-        self.queueLength: PositiveInteger = None
+        self.operationRef: Union[Union[RefType, None] , None] = None
+        self.queueLength: Union[Union[PositiveInteger, None] , None] = None
         self.transformationComSpecProps: List[TransformationComSpecProps] = []
 
     def getOperationRef(self):
@@ -475,12 +475,12 @@ class ServerComSpec(PPortComSpec):
 
 
 class NvProvideComSpec(PPortComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.ramBlockInitValue: ValueSpecification = None
-        self.romBlockInitValue: ValueSpecification = None
-        self.variableRef: RefType = None
+        self.ramBlockInitValue: Union[Union[ValueSpecification, None] , None] = None
+        self.romBlockInitValue: Union[Union[ValueSpecification, None] , None] = None
+        self.variableRef: Union[Union[RefType, None] , None] = None
 
     def getRamBlockInitValue(self):
         return self.ramBlockInitValue
@@ -508,17 +508,17 @@ class NvProvideComSpec(PPortComSpec):
 
 
 class NonqueuedReceiverComSpec(ReceiverComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.aliveTimeout: ARNumerical = None
-        self.enableUpdated: ARBoolean = None
+        self.aliveTimeout: Union[Union[ARNumerical, None] , None] = None
+        self.enableUpdated: Union[Union[ARBoolean, None] , None] = None
         self.filter = None
-        self.handleDataStatus: ARBoolean = None
-        self.handleNeverReceived: ARBoolean = None
+        self.handleDataStatus: Union[Union[ARBoolean, None] , None] = None
+        self.handleNeverReceived: Union[Union[ARBoolean, None] , None] = None
         self.handleTimeoutType: str = ""
-        self.initValue: ValueSpecification = None
-        self.timeoutSubstitution: ValueSpecification = None
+        self.initValue: Union[Union[ValueSpecification, None] , None] = None
+        self.timeoutSubstitution: Union[Union[ValueSpecification, None] , None] = None
 
     def getAliveTimeout(self):
         return self.aliveTimeout
@@ -578,10 +578,10 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
 
 class QueuedReceiverComSpec(ReceiverComSpec):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.queueLength: ARPositiveInteger = None
+        self.queueLength: Union[Union[ARPositiveInteger, None] , None] = None
 
     def getQueueLength(self):
         return self.queueLength
@@ -601,7 +601,7 @@ class HandleOutOfRangeEnum(AREnum):
     REPLACE_WITH_LIMIT = "replace-with-limit"
     INVALIDATE = "invalidate"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             HandleOutOfRangeEnum.KEEP_OLD_VALUE,
             HandleOutOfRangeEnum.REPLACE_WITH_DEFAULT,
@@ -618,7 +618,7 @@ class HandleOutOfRangeStatusEnum(AREnum):
     SET_STATUS = "set-status"
     DO_NOT_SET_STATUS = "do-not-set-status"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             HandleOutOfRangeStatusEnum.SET_STATUS,
             HandleOutOfRangeStatusEnum.DO_NOT_SET_STATUS,
@@ -634,7 +634,7 @@ class HandleTimeoutEnum(AREnum):
     REPLACE_WITH_DEFAULT = "replace-with-default"
     INVALIDATE = "invalidate"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             HandleTimeoutEnum.KEEP_OLD_VALUE,
             HandleTimeoutEnum.REPLACE_WITH_DEFAULT,
@@ -652,7 +652,7 @@ class TransmissionModeDefinitionEnum(AREnum):
     DIRECT = "direct"
     MIXED = "mixed"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             TransmissionModeDefinitionEnum.PERIODIC,
             TransmissionModeDefinitionEnum.ON_CHANGE,

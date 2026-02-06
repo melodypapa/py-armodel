@@ -4,7 +4,7 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
@@ -24,7 +24,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.Instan
 
 
 class RTEEvent(AtpStructureElement, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is RTEEvent:
             raise TypeError("RTEEvent is an abstract class.")
         super().__init__(parent, short_name)
@@ -48,10 +48,10 @@ class RTEEvent(AtpStructureElement, ABC):
 
 
 class AsynchronousServerCallReturnsEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        self.eventSourceRef: Union[Union[RefType, None] , None] = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef
@@ -62,7 +62,7 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
 
 
 class DataSendCompletedEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.eventSourceRef: 'RefType' = None
@@ -76,7 +76,7 @@ class DataSendCompletedEvent(RTEEvent):
 
 
 class DataWriteCompletedEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.eventSourceRef: 'RefType' = None
@@ -90,7 +90,7 @@ class DataWriteCompletedEvent(RTEEvent):
 
 
 class DataReceivedEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dataIRef: 'RVariableInAtomicSwcInstanceRef' = None
@@ -104,7 +104,7 @@ class DataReceivedEvent(RTEEvent):
 
 
 class SwcModeSwitchEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.activation = None
@@ -126,7 +126,7 @@ class SwcModeSwitchEvent(RTEEvent):
 
 
 class DataReceiveErrorEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dataIRef: 'RVariableInAtomicSwcInstanceRef' = None
@@ -140,7 +140,7 @@ class DataReceiveErrorEvent(RTEEvent):
 
 
 class OperationInvokedEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.operationIRef: 'POperationInAtomicSwcInstanceRef' = None
@@ -155,12 +155,12 @@ class OperationInvokedEvent(RTEEvent):
 
 
 class InitEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class TimingEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.offset: 'TimeValue' = None
@@ -195,7 +195,7 @@ class TimingEvent(RTEEvent):
 
 
 class InternalTriggerOccurredEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.eventSourceRef: 'RefType' = None
@@ -210,15 +210,15 @@ class InternalTriggerOccurredEvent(RTEEvent):
 
 
 class BackgroundEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class ModeSwitchedAckEvent(RTEEvent):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: RefType = None
+        self.eventSourceRef: Union[Union[RefType, None] , None] = None
 
     def getEventSourceRef(self):
         return self.eventSourceRef

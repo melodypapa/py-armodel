@@ -2,7 +2,7 @@
 # It defines CAN, DoIP, and LIN transport protocol configurations and connections
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -32,13 +32,13 @@ class TpConfig(FibexElement, ABC):
     defining common properties for different types of transport
     protocol implementations including communication cluster references.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is TpConfig:
             raise TypeError("TpConfig is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef: RefType = None
+        self.communicationClusterRef: Union[Union[RefType, None] , None] = None
 
     def getCommunicationClusterRef(self):
         return self.communicationClusterRef
@@ -54,11 +54,11 @@ class CanTpAddress(Identifiable):
     defining the transport address and address extension values
     for CAN communication endpoints.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.tpAddress: Integer = None
-        self.tpAddressExtensionValue: Integer = None
+        self.tpAddress: Union[Union[Integer, None] , None] = None
+        self.tpAddressExtensionValue: Union[Union[Integer, None] , None] = None
 
     def getTpAddress(self):
         return self.tpAddress
@@ -81,10 +81,10 @@ class CanTpChannel(Identifiable):
     Represents a CAN transport protocol channel in the system,
     defining the channel ID and channel mode for CAN TP communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.channelId: PositiveInteger = None
+        self.channelId: Union[Union[PositiveInteger, None] , None] = None
         self.channelMode = None
 
     def getChannelId(self):
@@ -109,7 +109,7 @@ class TpConnectionIdent(Referrable):
     providing a referenceable identifier for transport protocol
     connections in the communication system.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
 class TpConnection(ARObject, ABC):
@@ -118,13 +118,13 @@ class TpConnection(ARObject, ABC):
     defining common properties for different types of transport
     protocol connections including connection identification.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TpConnection:
             raise TypeError("TpConnection is an abstract class.")
 
         super().__init__()
 
-        self.ident: TpConnectionIdent = None
+        self.ident: Union[Union[TpConnectionIdent, None] , None] = None
 
     def getIdent(self):
         return self.ident
@@ -140,25 +140,25 @@ class CanTpConnection(TpConnection):
     defining addressing format, cancellation settings, channel
     configuration, and timing parameters for CAN TP communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.addressingFormat = None
-        self.cancellation: Boolean = None
-        self.canTpChannelRef: RefType = None
-        self.dataPduRef: RefType = None
-        self.flowControlPduRef: RefType = None
-        self.maxBlockSize: Integer = None
-        self.multicastRef: RefType = None
-        self.paddingActivation: Boolean = None
+        self.cancellation: Union[Union[Boolean, None] , None] = None
+        self.canTpChannelRef: Union[Union[RefType, None] , None] = None
+        self.dataPduRef: Union[Union[RefType, None] , None] = None
+        self.flowControlPduRef: Union[Union[RefType, None] , None] = None
+        self.maxBlockSize: Union[Union[Integer, None] , None] = None
+        self.multicastRef: Union[Union[RefType, None] , None] = None
+        self.paddingActivation: Union[Union[Boolean, None] , None] = None
         self.receiverRefs: List[RefType] = []
         self.taType = None
-        self.timeoutBr: TimeValue = None
-        self.timeoutBs: TimeValue = None
-        self.timeoutCr: TimeValue = None
-        self.timeoutCs: TimeValue = None
-        self.tpSduRef: RefType = None
-        self.transmitterRef: RefType = None
+        self.timeoutBr: Union[Union[TimeValue, None] , None] = None
+        self.timeoutBs: Union[Union[TimeValue, None] , None] = None
+        self.timeoutCr: Union[Union[TimeValue, None] , None] = None
+        self.timeoutCs: Union[Union[TimeValue, None] , None] = None
+        self.tpSduRef: Union[Union[RefType, None] , None] = None
+        self.transmitterRef: Union[Union[RefType, None] , None] = None
 
     def getAddressingFormat(self):
         return self.addressingFormat
@@ -299,11 +299,11 @@ class CanTpEcu(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.cycleTimeMainFunction: TimeValue = None
-        self.ecuInstanceRef: RefType = None
+        self.cycleTimeMainFunction: Union[Union[TimeValue, None] , None] = None
+        self.ecuInstanceRef: Union[Union[RefType, None] , None] = None
 
     def getCycleTimeMainFunction(self):
         return self.cycleTimeMainFunction
@@ -327,15 +327,15 @@ class CanTpNode(Identifiable):
     defining connector references, timing parameters, and
     address references for CAN TP node configuration.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.connectorRef: RefType = None
-        self.maxFcWait: Integer = None
-        self.stMin: TimeValue = None
-        self.timeoutAr: TimeValue = None
-        self.timeoutAs: TimeValue = None
-        self.tpAddressRef: RefType = None
+        self.connectorRef: Union[Union[RefType, None] , None] = None
+        self.maxFcWait: Union[Union[Integer, None] , None] = None
+        self.stMin: Union[Union[TimeValue, None] , None] = None
+        self.timeoutAr: Union[Union[TimeValue, None] , None] = None
+        self.timeoutAs: Union[Union[TimeValue, None] , None] = None
+        self.tpAddressRef: Union[Union[RefType, None] , None] = None
 
     def getConnectorRef(self):
         return self.connectorRef
@@ -393,7 +393,7 @@ class CanTpConfig(TpConfig):
     organizing addresses, channels, connections, ECUs, and nodes
     for comprehensive CAN TP communication setup.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.tpAddresses: List[CanTpAddress] = []
@@ -454,11 +454,11 @@ class DoIpLogicAddress(Identifiable):
     defining the address value and logic address properties for
     DoIP communication endpoints.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.address: Integer = None
-        self.doIpLogicAddressProps: AbstractDoIpLogicAddressProps = None
+        self.address: Union[Union[Integer, None] , None] = None
+        self.doIpLogicAddressProps: Union[Union[AbstractDoIpLogicAddressProps, None] , None] = None
 
     def getAddress(self):
         return self.address
@@ -482,12 +482,12 @@ class DoIpTpConnection(TpConnection):
     defining source and target address references and SDU
     references for DoIP communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.doIpSourceAddressRef: RefType = None
-        self.doIpTargetAddressRef: RefType = None
-        self.tpSduRef: RefType = None
+        self.doIpSourceAddressRef: Union[Union[RefType, None] , None] = None
+        self.doIpTargetAddressRef: Union[Union[RefType, None] , None] = None
+        self.tpSduRef: Union[Union[RefType, None] , None] = None
 
     def getDoIpSourceAddressRef(self):
         return self.doIpSourceAddressRef
@@ -520,7 +520,7 @@ class DoIpTpConfig(TpConfig):
     organizing logic addresses and connections for comprehensive
     DoIP communication setup.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.doIpLogicAddresses: List[DoIpLogicAddress] = []
@@ -549,10 +549,10 @@ class TpAddress(Identifiable):
     Represents a generic transport protocol address in the system,
     defining the transport address value for communication endpoints.
     """
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.tpAddress: Integer = None
+        self.tpAddress: Union[Union[Integer, None] , None] = None
 
     def getTpAddress(self):
         return self.tpAddress
@@ -568,18 +568,18 @@ class LinTpConnection(TpConnection):
     defining PDU references, timeout parameters, and transmitter/
     receiver configurations for LIN TP communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dataPduRef: RefType = None
-        self.flowControlRef: RefType = None
-        self.linTpNSduRef: RefType = None
-        self.multicastRef: RefType = None
+        self.dataPduRef: Union[Union[RefType, None] , None] = None
+        self.flowControlRef: Union[Union[RefType, None] , None] = None
+        self.linTpNSduRef: Union[Union[RefType, None] , None] = None
+        self.multicastRef: Union[Union[RefType, None] , None] = None
         self.receiverRefs: List[RefType] = []
-        self.timeoutAs: TimeValue = None
-        self.timeoutCr: TimeValue = None
-        self.timeoutCs: TimeValue = None
-        self.transmitterRef: RefType = None
+        self.timeoutAs: Union[Union[TimeValue, None] , None] = None
+        self.timeoutCr: Union[Union[TimeValue, None] , None] = None
+        self.timeoutCs: Union[Union[TimeValue, None] , None] = None
+        self.transmitterRef: Union[Union[RefType, None] , None] = None
 
     def getDataPduRef(self):
         return self.dataPduRef
@@ -659,15 +659,15 @@ class LinTpNode(Identifiable):
     defining connector references, response pending settings,
     and timing parameters for LIN TP node configuration.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.connectorRef: RefType = None
-        self.dropNotRequestedNad: Boolean = None
-        self.maxNumberOfRespPendingFrames: Integer = None
-        self.p2Max: TimeValue = None
-        self.p2Timing: TimeValue = None
-        self.tpAddressRef: RefType = None
+        self.connectorRef: Union[Union[RefType, None] , None] = None
+        self.dropNotRequestedNad: Union[Union[Boolean, None] , None] = None
+        self.maxNumberOfRespPendingFrames: Union[Union[Integer, None] , None] = None
+        self.p2Max: Union[Union[TimeValue, None] , None] = None
+        self.p2Timing: Union[Union[TimeValue, None] , None] = None
+        self.tpAddressRef: Union[Union[RefType, None] , None] = None
 
     def getConnectorRef(self):
         return self.connectorRef
@@ -724,7 +724,7 @@ class LinTpConfig(TpConfig):
     organizing addresses, connections, and nodes for comprehensive
     LIN TP communication setup.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.tpAddresses: List[TpAddress] = []

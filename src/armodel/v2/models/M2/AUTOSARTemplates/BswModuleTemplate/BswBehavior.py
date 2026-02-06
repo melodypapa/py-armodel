@@ -10,7 +10,7 @@ These classes are used to model:
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     AbstractEvent,
@@ -58,7 +58,7 @@ class BswModuleCallPoint(Referrable, ABC):
     This is an abstract base class for different types of call points.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswModuleCallPoint with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -103,7 +103,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     This call point is used when the server operation is executed asynchronously.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswAsynchronousServerCallPoint with a parent and short name.
 
@@ -114,7 +114,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
         super().__init__(parent, short_name)
 
         # Reference to the entry that is called by this asynchronous call point
-        self.calledEntryRef: RefType = None
+        self.calledEntryRef: Union[Union[RefType, None] , None] = None
 
     def getCalledEntryRef(self):
         """
@@ -147,7 +147,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
     This call point is used for direct synchronous calls to BSW module entries.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswDirectCallPoint with a parent and short name.
 
@@ -158,9 +158,9 @@ class BswDirectCallPoint(BswModuleCallPoint):
         super().__init__(parent, short_name)
 
         # Reference to the entry that is called by this direct call point
-        self.calledEntryRef: RefType = None
+        self.calledEntryRef: Union[Union[RefType, None] , None] = None
         # Reference to an exclusive area from which this call is made
-        self.calledFromWithinExclusiveAreaRef: RefType = None
+        self.calledFromWithinExclusiveAreaRef: Union[Union[RefType, None] , None] = None
 
     def getCalledEntryRef(self):
         """
@@ -217,7 +217,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     This call point is used when the server operation is executed synchronously.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswSynchronousServerCallPoint with a parent and short name.
 
@@ -228,9 +228,9 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         super().__init__(parent, short_name)
 
         # Reference to the entry that is called by this synchronous call point
-        self.calledEntryRef: RefType = None
+        self.calledEntryRef: Union[Union[RefType, None] , None] = None
         # Reference to an exclusive area from which this call is made
-        self.calledFromWithinExclusiveAreaRef: RefType = None
+        self.calledFromWithinExclusiveAreaRef: Union[Union[RefType, None] , None] = None
 
     def getCalledEntryRef(self):
         """
@@ -287,7 +287,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     This defines where the result of the asynchronous call is handled.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswAsynchronousServerCallResultPoint with a parent and short name.
 
@@ -298,7 +298,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
         super().__init__(parent, short_name)
 
         # Reference to the asynchronous server call point
-        self.asynchronousServerCallPointRef: RefType = None
+        self.asynchronousServerCallPointRef: Union[Union[RefType, None] , None] = None
 
 
 class BswVariableAccess(Referrable):
@@ -307,7 +307,7 @@ class BswVariableAccess(Referrable):
     This class defines how a BSW module accesses variables during execution.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswVariableAccess with a parent and short name.
 
@@ -318,7 +318,7 @@ class BswVariableAccess(Referrable):
         super().__init__(parent, short_name)
 
         # Reference to the variable being accessed
-        self.accessedVariableRef: RefType = None
+        self.accessedVariableRef: Union[Union[RefType, None] , None] = None
         # List of context limitation references that apply to this variable access
         self.contextLimitationRefs: List[RefType] = []
 
@@ -376,7 +376,7 @@ class BswDistinguishedPartition(Referrable):
     ECU with shared BSW code.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswDistinguishedPartition with a parent and short name.
 
@@ -393,7 +393,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
     A BSW module entity represents an executable piece of code in a BSW module.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW module entity with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -417,13 +417,13 @@ class BswModuleEntity(ExecutableEntity, ABC):
         # List of variable access points for data sending
         self.dataSendPoints: List[BswVariableAccess] = []
         # Reference to the entry implemented by this entity
-        self.implementedEntryRef: RefType = None
+        self.implementedEntryRef: Union[Union[RefType, None] , None] = None
         # List of trigger references issued by this entity
         self.issuedTriggerRefs: List[RefType] = []
         # List of mode group references managed by this entity
         self.managedModeGroupRefs: List[RefType] = []
         # List of scheduler name prefix references
-        self.schedulerNamePrefixRef: List[RefType] = None
+        self.schedulerNamePrefixRef: Union[List[RefType] , None] = None
 
     def getAccessedModeGroupRefs(self):
         """
@@ -667,7 +667,7 @@ class BswCalledEntity(BswModuleEntity):
     This is typically used for BSW service functions that can be invoked.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswCalledEntity with a parent and short name.
 
@@ -684,7 +684,7 @@ class BswSchedulableEntity(BswModuleEntity):
     This is typically used for BSW functions that can be scheduled by the OS.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswSchedulableEntity with a parent and short name.
 
@@ -705,7 +705,7 @@ class BswInterruptCategory(AREnum):
     # Category 2 interrupt - handled by the interrupt service routine
     CAT2 = "cat2"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswInterruptCategory with valid values.
         """
@@ -721,7 +721,7 @@ class BswInterruptEntity(BswModuleEntity):
     This defines how interrupt service routines are handled in the BSW module.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswInterruptEntity with a parent and short name.
 
@@ -732,9 +732,9 @@ class BswInterruptEntity(BswModuleEntity):
         super().__init__(parent, short_name)
 
         # Category of the interrupt (CAT1 or CAT2)
-        self.interruptCategory: BswInterruptCategory = None
+        self.interruptCategory: Union[Union[BswInterruptCategory, None] , None] = None
         # Source identifier for the interrupt
-        self.interruptSource: String = None
+        self.interruptSource: Union[Union[String, None] , None] = None
 
     def getInterruptCategory(self):
         """
@@ -787,7 +787,7 @@ class BswEvent(AbstractEvent, ABC):
     BSW events trigger the execution of BSW module entities.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW event with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -801,7 +801,7 @@ class BswEvent(AbstractEvent, ABC):
         super().__init__(parent, short_name)
 
         # Reference to the event that starts this event
-        self.startsOnEventRef: RefType = None
+        self.startsOnEventRef: Union[Union[RefType, None] , None] = None
 
     def getStartsOnEventRef(self):
         """
@@ -832,7 +832,7 @@ class BswOperationInvokedEvent(BswEvent):
     This event occurs when a client calls a BSW service function.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswOperationInvokedEvent with a parent and short name.
 
@@ -843,7 +843,7 @@ class BswOperationInvokedEvent(BswEvent):
         super().__init__(parent, short_name)
 
         # Reference to the entry that was invoked to trigger this event
-        self.entryRef: RefType = None
+        self.entryRef: Union[Union[RefType, None] , None] = None
 
     def getEntryRef(self):
         """
@@ -876,7 +876,7 @@ class BswScheduleEvent(BswEvent, ABC):
     These events are scheduled for execution at specific times or conditions.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW schedule event with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -896,7 +896,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
     This event handles changes in system modes within BSW modules.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswModeSwitchEvent with a parent and short name.
 
@@ -907,7 +907,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Activation information for this mode switch event
-        self.activation: ModeActivationKind = None
+        self.activation: Union[Union[ModeActivationKind, None] , None] = None
 
     def getActivation(self):
         """
@@ -939,7 +939,7 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
     within BSW modules.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswModeSwitchedAckEvent with a parent and short name.
 
@@ -956,7 +956,7 @@ class BswTimingEvent(BswScheduleEvent):
     This event is triggered based on timing constraints (e.g., periodic execution).
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswTimingEvent with a parent and short name.
 
@@ -967,7 +967,7 @@ class BswTimingEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Period of the timing event (how often it occurs)
-        self.period: TimeValue = None
+        self.period: Union[Union[TimeValue, None] , None] = None
 
     def getPeriod(self):
         """
@@ -1012,7 +1012,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
     This event handles data reception from other modules or communication interfaces.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswDataReceivedEvent with a parent and short name.
 
@@ -1023,7 +1023,7 @@ class BswDataReceivedEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Reference to the data that was received to trigger this event
-        self.dataRef: RefType = None
+        self.dataRef: Union[Union[RefType, None] , None] = None
 
     def getDataRef(self):
         """
@@ -1054,7 +1054,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     This event occurs when a BSW module internally generates a trigger.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswInternalTriggerOccurredEvent with a parent and short name.
 
@@ -1065,7 +1065,7 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Reference to the event source that triggered this event
-        self.eventSourceRef: RefType = None
+        self.eventSourceRef: Union[Union[RefType, None] , None] = None
 
     def getEventSourceRef(self):
         """
@@ -1101,14 +1101,14 @@ class BswModeSwitchAckRequest(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswModeSwitchAckRequest.
         """
         super().__init__()
 
         # Timeout value for the mode switch acknowledgment
-        self.timeout: ARFloat = None
+        self.timeout: Union[Union[ARFloat, None] , None] = None
 
     def getTimeout(self):
         """
@@ -1144,20 +1144,20 @@ class BswModeSenderPolicy(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswModeSenderPolicy.
         """
         super().__init__()
 
         # Acknowledgment request configuration for mode switch
-        self.ack_request: BswModeSwitchAckRequest = None
+        self.ack_request: Union[Union[BswModeSwitchAckRequest, None] , None] = None
         # Flag indicating if enhanced mode API is used
-        self.enhanced_mode_api: ARBoolean = None
+        self.enhanced_mode_api: Union[Union[ARBoolean, None] , None] = None
         # Reference to the provided mode group
-        self._provided_mode_group_ref: RefType = None
+        self._provided_mode_group_ref: Union[Union[RefType, None] , None] = None
         # Queue length for mode switch operations
-        self._queue_length: ARNumerical = None
+        self._queue_length: Union[Union[ARNumerical, None] , None] = None
 
     def setProvidedModeGroupRef(self, ref: RefType):
         """
@@ -1216,7 +1216,7 @@ class BswBackgroundEvent(BswScheduleEvent):
     This event runs in the background, typically with lower priority.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the BswBackgroundEvent with a parent and short name.
 
@@ -1233,7 +1233,7 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
     This event is triggered when an OS task is executed.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the BswOsTaskExecutionEvent with a parent and short name.
 
@@ -1250,7 +1250,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     This event occurs when an external source generates a trigger.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the BswExternalTriggerOccurredEvent with a parent and short name.
 
@@ -1261,7 +1261,7 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Reference to the external trigger that caused this event
-        self.triggerRef: RefType = None
+        self.triggerRef: Union[Union[RefType, None] , None] = None
 
     def getTriggerRef(self):
         """
@@ -1294,7 +1294,7 @@ class BswApiOptions(ARObject, ABC):
     Defines common options for BSW API implementations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BSW API options.
         Raises TypeError if this abstract class is instantiated directly.
@@ -1305,7 +1305,7 @@ class BswApiOptions(ARObject, ABC):
         super().__init__()
 
         # Flag indicating whether to enable taking addresses in the API
-        self.enableTakeAddress: Boolean = None
+        self.enableTakeAddress: Union[Union[Boolean, None] , None] = None
 
     def getEnableTakeAddress(self):
         """
@@ -1338,7 +1338,7 @@ class BswDataReceptionPolicy(BswApiOptions, ABC):
     Defines how BSW modules receive data.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BSW data reception policy.
         Raises TypeError if this abstract class is instantiated directly.
@@ -1349,7 +1349,7 @@ class BswDataReceptionPolicy(BswApiOptions, ABC):
         super().__init__()
 
         # Reference to the data being received
-        self.receivedDataRef: RefType = None
+        self.receivedDataRef: Union[Union[RefType, None] , None] = None
 
     def getReceivedDataRef(self):
         """
@@ -1382,14 +1382,14 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     This policy handles data reception using a queue mechanism.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswQueuedDataReceptionPolicy.
         """
         super().__init__()
 
         # Maximum queue length for received data
-        self.queueLength: PositiveInteger = None
+        self.queueLength: Union[Union[PositiveInteger, None] , None] = None
 
     def getQueueLength(self):
         """
@@ -1422,7 +1422,7 @@ class BswInternalTriggeringPoint(Identifiable):
     This is used to define points from which triggers can be issued internally.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswInternalTriggeringPoint with a parent and short name.
 
@@ -1433,7 +1433,7 @@ class BswInternalTriggeringPoint(Identifiable):
         super().__init__(parent, short_name)
 
         # Software implementation policy for this triggering point
-        self.swImplPolicy: SwImplPolicyEnum = None
+        self.swImplPolicy: Union[Union[SwImplPolicyEnum, None] , None] = None
 
     def getSwImplPolicy(self):
         """
@@ -1467,7 +1467,7 @@ class BswInternalBehavior(InternalBehavior):
     that define how a BSW module operates internally.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswInternalBehavior with a parent and short name.
 
@@ -2276,12 +2276,12 @@ class BswAsynchronousServerCallReturnsEvent(BswEvent):
     This event occurs when an asynchronous server call returns.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswAsynchronousServerCallReturnsEvent with default values.
         """
         super().__init__()
-        self.serverCallPointRef: RefType = None
+        self.serverCallPointRef: Union[Union[RefType, None] , None] = None
 
     def getServerCallPointRef(self):
         return self.serverCallPointRef
@@ -2308,7 +2308,7 @@ class BswExclusiveAreaPolicy(AREnum):
     INTERNAL = "internal"
     EXTERNAL = "external"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswExclusiveAreaPolicy.NONE,
             BswExclusiveAreaPolicy.INTERNAL,
@@ -2326,7 +2326,7 @@ class BswInterruptEvent(BswEvent):
     This event occurs when an interrupt is triggered.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswInterruptEvent with default values.
         """
@@ -2343,7 +2343,7 @@ class BswModeManagerErrorEvent(BswEvent):
     This event occurs when a mode manager error is detected.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswModeManagerErrorEvent with default values.
         """
@@ -2367,7 +2367,7 @@ class BswModeReceiverPolicy(AREnum):
     IMMEDIATE = "immediate"
     DEFERRED = "deferred"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswModeReceiverPolicy.NONE,
             BswModeReceiverPolicy.IMMEDIATE,
@@ -2394,7 +2394,7 @@ class BswSchedulerNamePrefix(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswSchedulerNamePrefix with default values.
         """
@@ -2431,12 +2431,12 @@ class BswServiceDependency(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswServiceDependency with default values.
         """
         super().__init__()
-        self.requiredServiceRef: RefType = None
+        self.requiredServiceRef: Union[Union[RefType, None] , None] = None
 
     def getRequiredServiceRef(self):
         return self.requiredServiceRef
@@ -2465,7 +2465,7 @@ class BswTriggerDirectImplementation(AREnum):
     NOT_ALLOWED = "not-allowed"
     ALLOWED = "allowed"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswTriggerDirectImplementation.NOT_ALLOWED,
             BswTriggerDirectImplementation.ALLOWED,
@@ -2495,13 +2495,13 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RoleBasedBswModuleEntryAssignment with default values.
         """
         super().__init__()
-        self.role: ARLiteral = None
-        self.usedModuleEntryRef: RefType = None
+        self.role: Union[Union[ARLiteral, None] , None] = None
+        self.usedModuleEntryRef: Union[Union[RefType, None] , None] = None
 
     def getRole(self):
         return self.role

@@ -4,7 +4,7 @@ in the StandardizationTemplate module. Keywords are used for standardization
 and classification purposes in AUTOSAR models.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
     AtpBlueprintable,
@@ -23,7 +23,7 @@ class Keyword(Identifiable):
     Keywords can have abbreviated names and classifications for organizing and categorizing elements.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the Keyword with a parent and short name.
 
@@ -34,7 +34,7 @@ class Keyword(Identifiable):
         super().__init__(parent, short_name)
 
         # Abbreviated name for this keyword
-        self.abbrName: NameToken = None
+        self.abbrName: Union[Union[NameToken, None] , None] = None
         # List of classifications for this keyword
         self.classifications: List[NameToken] = []
 
@@ -93,7 +93,7 @@ class KeywordSet(AtpBlueprintable):
     This class contains multiple keywords that are grouped together for organizational purposes.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the KeywordSet with a parent and short name.
 

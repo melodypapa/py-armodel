@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -19,13 +19,13 @@ class McDataInstance(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the McDataInstance with default values.
         """
         super().__init__()
         self.dataAccessDetails: List[RefType] = []
-        self.dataRef: RefType = None
+        self.dataRef: Union[Union[RefType, None] , None] = None
 
     def addDataAccessDetail(self, ref: RefType):
         """

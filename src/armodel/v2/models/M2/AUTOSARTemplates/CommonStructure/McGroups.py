@@ -18,7 +18,7 @@ class McGroup(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the McGroup with default values.
         """
@@ -51,7 +51,7 @@ class McGroupDataRefSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the McGroupDataRefSet with default values.
         """

@@ -2,7 +2,7 @@
 # It defines IP configuration, network addresses, and communication protocols for networked ECUs
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -27,7 +27,7 @@ class NetworkEndpointAddress(ARObject, ABC):
     common properties and behavior for different types of network
     addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is NetworkEndpointAddress:
             raise TypeError("NetworkEndpointAddress is an abstract class.")
 
@@ -39,17 +39,17 @@ class Ipv4Configuration(NetworkEndpointAddress):
     including IP addresses, network masks, DNS server addresses, and
     TTL settings for IPv4 communication.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.assignmentPriority: PositiveInteger = None
-        self.defaultGateway: Ip4AddressString = None
+        self.assignmentPriority: Union[Union[PositiveInteger, None] , None] = None
+        self.defaultGateway: Union[Union[Ip4AddressString, None] , None] = None
         self.dnsServerAddresses: List[Ip4AddressString] = []
         self.ipAddressKeepBehavior = None
-        self.ipv4Address: Ip4AddressString = None
+        self.ipv4Address: Union[Union[Ip4AddressString, None] , None] = None
         self.ipv4AddressSource = None
-        self.networkMask: Ip4AddressString = None
-        self.ttl: PositiveInteger = None
+        self.networkMask: Union[Union[Ip4AddressString, None] , None] = None
+        self.ttl: Union[Union[PositiveInteger, None] , None] = None
 
     def getAssignmentPriority(self):
         return self.assignmentPriority
@@ -113,17 +113,17 @@ class Ipv6Configuration(NetworkEndpointAddress):
     including IPv6 addresses, default router, DNS server addresses,
     and IPv6-specific communication parameters.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.assignmentPriority: PositiveInteger = None
-        self.defaultRouter: Ip6AddressString = None
+        self.assignmentPriority: Union[Union[PositiveInteger, None] , None] = None
+        self.defaultRouter: Union[Union[Ip6AddressString, None] , None] = None
         self.dnsServerAddresses: List[Ip6AddressString] = []
-        self.enableAnycast: Boolean = None
-        self.hopCount: PositiveInteger = None
+        self.enableAnycast: Union[Union[Boolean, None] , None] = None
+        self.hopCount: Union[Union[PositiveInteger, None] , None] = None
         self.ipAddressKeepBehavior = None
-        self.ipAddressPrefixLength: PositiveInteger = None
-        self.ipv6Address: Ip6AddressString = None
+        self.ipAddressPrefixLength: Union[Union[PositiveInteger, None] , None] = None
+        self.ipv6Address: Union[Union[Ip6AddressString, None] , None] = None
         self.ipv6AddressSource = None
 
     def getAssignmentPriority(self):
@@ -200,7 +200,7 @@ class DoIpEntity(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.doIpEntityRole = None                                  # type: DoIpEntityRoleEnum
@@ -224,7 +224,7 @@ class TimeSyncClientConfiguration(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.orderedMasters = []
@@ -253,12 +253,12 @@ class TimeSyncServerConfiguration(Referrable):
     priority, synchronization intervals, and time synchronization
     identifiers for network time coordination services.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.priority: PositiveInteger = None
-        self.syncInterval: TimeValue = None
-        self.timeSyncServerIdentifier: String = None
+        self.priority: Union[Union[PositiveInteger, None] , None] = None
+        self.syncInterval: Union[Union[TimeValue, None] , None] = None
+        self.timeSyncServerIdentifier: Union[Union[String, None] , None] = None
         self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
 
     def getPriority(self):
@@ -305,11 +305,11 @@ class TimeSynchronization(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.timeSyncClient: TimeSyncClientConfiguration = None
-        self.timeSyncServer: TimeSyncServerConfiguration = None
+        self.timeSyncClient: Union[Union[TimeSyncClientConfiguration, None] , None] = None
+        self.timeSyncServer: Union[Union[TimeSyncServerConfiguration, None] , None] = None
 
     def getTimeSyncClient(self):
         return self.timeSyncClient
@@ -339,11 +339,11 @@ class InfrastructureServices(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.doIpEntity: DoIpEntity = None
-        self.timeSynchronization: TimeSynchronization = None
+        self.doIpEntity: Union[Union[DoIpEntity, None] , None] = None
+        self.timeSynchronization: Union[Union[TimeSynchronization, None] , None] = None
 
     def getDoIpEntity(self):
         return self.doIpEntity
@@ -365,14 +365,14 @@ class NetworkEndpoint(Identifiable):
     IP configuration, infrastructure services, and network address
     properties for communication nodes in the network.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.fullyQualifiedDomainName: String = None
-        self.infrastructureServices: InfrastructureServices = None
+        self.fullyQualifiedDomainName: Union[Union[String, None] , None] = None
+        self.infrastructureServices: Union[Union[InfrastructureServices, None] , None] = None
         self.ipSecConfig = None
         self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
-        self.priority: PositiveInteger = None
+        self.priority: Union[Union[PositiveInteger, None] , None] = None
 
     def getFullyQualifiedDomainName(self):
         return self.fullyQualifiedDomainName

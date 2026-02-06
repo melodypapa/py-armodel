@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR port API options
 in software component internal behavior templates.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
     ValueSpecification,
@@ -24,7 +24,7 @@ class PortDefinedArgumentValue(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.value: 'ValueSpecification' = None
@@ -50,13 +50,13 @@ class PortAPIOption(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.enableTakeAddress: ARBoolean = None
+        self.enableTakeAddress: Union[Union[ARBoolean, None] , None] = None
         self.errorHandling = None
-        self.indirectAPI: ARBoolean = None
-        self.portRef: RefType = None
+        self.indirectAPI: Union[Union[ARBoolean, None] , None] = None
+        self.portRef: Union[Union[RefType, None] , None] = None
         self.portArgValues: List['PortDefinedArgumentValue'] = []
         self.supportedFeatures = []
         self.transformerStatusForwarding = None

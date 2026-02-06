@@ -12,7 +12,7 @@ class SwGenericAxisParam(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.swGenericAxisParamTypeRef = None           # type: RefType
@@ -38,7 +38,7 @@ class SwAxisGeneric(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.swAxisTypeRef = None                   # type: RefType
@@ -59,7 +59,7 @@ class SwAxisGeneric(ARObject):
         return self
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.compuMethodRef = None              # type: RefType
@@ -129,7 +129,7 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
 
 
 class SwAxisGrouped(SwCalprmAxisTypeProps):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.sharedAxisTypeRef = None           # type: RefType

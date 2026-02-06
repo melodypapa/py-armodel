@@ -4,6 +4,8 @@ in port interface contexts. These classes are used for referencing data
 elements within port interfaces and compositions.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,
 )
@@ -13,13 +15,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextDataPrototypeRef: RefType = None
-        self.rootDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.contextDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.rootDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.targetDataPrototypeRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef

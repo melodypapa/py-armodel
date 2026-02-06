@@ -17,14 +17,14 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
 
 
 class GraphicFitEnum(AREnum):
-    def __init__(self, enum_values):
+    def __init__(self, enum_values) -> None:
         super().__init__([
 
         ])
 
 
 class Graphic(EngineeringObject):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.editfit = None                                     # type: GraphicFitEnum
@@ -89,12 +89,12 @@ class Map(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
 class LGraphic(LanguageSpecific):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.l = None                                           # type: str                         # noqa E741
@@ -127,7 +127,7 @@ class LGraphic(LanguageSpecific):
 
 
 class MlFigure(Paginateable):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.figureCaption = None                               # type: Caption

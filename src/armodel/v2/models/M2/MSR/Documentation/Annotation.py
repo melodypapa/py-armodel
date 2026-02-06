@@ -15,7 +15,7 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
 
 
 class GeneralAnnotation(ARObject, ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is GeneralAnnotation:
             raise TypeError("GeneralAnnotation is an abstract class.")
 
@@ -47,5 +47,5 @@ class GeneralAnnotation(ARObject, ABC):
 
 
 class Annotation(GeneralAnnotation):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()

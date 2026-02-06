@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -17,12 +19,12 @@ class RoleBasedMcDataAssignment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RoleBasedMcDataAssignment with default values.
         """
         super().__init__()
-        self.dataRef: RefType = None
+        self.dataRef: Union[Union[RefType, None] , None] = None
         self.role: str = None
 
     def getDataRef(self) -> RefType:

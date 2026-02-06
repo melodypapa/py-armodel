@@ -6,7 +6,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class DiagnosticCommonElement(ARElement, ABC):
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         if type(self) is DiagnosticCommonElement:
             raise TypeError("DiagnosticCommonElement is an abstract class.")
         super().__init__(parent, short_name)

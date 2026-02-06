@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR per-instance memory elemen
 in software component internal behavior templates.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
 )
@@ -18,13 +20,13 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class PerInstanceMemory(AtpStructureElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.initValue: ARLiteral = None
+        self.initValue: Union[Union[ARLiteral, None] , None] = None
         self.swDataDefProps: 'SwDataDefProps' = None
-        self.type: ARLiteral = None
-        self.typeDefinition: ARLiteral = None
+        self.type: Union[Union[ARLiteral, None] , None] = None
+        self.typeDefinition: Union[Union[ARLiteral, None] , None] = None
 
     def getInitValue(self):
         return self.initValue

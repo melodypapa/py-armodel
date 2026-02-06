@@ -30,7 +30,7 @@ class HwAttributeLiteralDef(Identifiable):
     This class defines the possible literal values for an enumerated hardware attribute.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwAttributeLiteralDef with a parent and short name.
 
@@ -40,7 +40,7 @@ class HwAttributeLiteralDef(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        self.value: Optional[str] = None
+        self.value: Union[Optional[str] , None] = None
 
     def getValue(self) -> Optional[str]:
         """
@@ -78,14 +78,14 @@ class HwAttributeValue(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the HwAttributeValue.
         """
         super().__init__()
 
-        self.hwAttributeDefRef: Optional[RefType] = None
-        self.value: Optional[str] = None
+        self.hwAttributeDefRef: Union[Optional[RefType] , None] = None
+        self.value: Union[Optional[str] , None] = None
 
     def getHwAttributeDefRef(self) -> Optional[RefType]:
         """
@@ -142,7 +142,7 @@ class HwType(ARElement):
     This class defines the basic structure for hardware types.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwType with a parent and short name.
 
@@ -159,7 +159,7 @@ class HwAttributeDef(Identifiable):
     This class defines the attributes that can be assigned to hardware elements.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwAttributeDef with a parent and short name.
 
@@ -170,8 +170,8 @@ class HwAttributeDef(Identifiable):
         super().__init__(parent, short_name)
 
         self.hwAttributeLiterals: List[HwAttributeLiteralDef] = []
-        self.isRequired: Optional[Boolean] = None
-        self.unitRef: Optional[RefType] = None
+        self.isRequired: Union[Optional[Boolean] , None] = None
+        self.unitRef: Union[Optional[RefType] , None] = None
 
     def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
         """
@@ -252,7 +252,7 @@ class HwCategory(AtpDefinition):
     This class defines categories of hardware with associated attribute definitions.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the HwCategory with a parent and short name.
 

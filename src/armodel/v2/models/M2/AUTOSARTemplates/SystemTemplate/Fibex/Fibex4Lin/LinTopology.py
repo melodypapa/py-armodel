@@ -1,3 +1,5 @@
+from typing import Union
+
 from abc import ABC
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -22,12 +24,12 @@ class LinCommunicationController(CommunicationController, ABC):
     protocol version specifications.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is LinCommunicationController:
             raise TypeError("LinCommunicationController is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.protocolVersion: String = None
+        self.protocolVersion: Union[Union[String, None] , None] = None
 
     def getProtocolVersion(self):
         return self.protocolVersion
@@ -43,12 +45,12 @@ class LinMaster(LinCommunicationController):
     slave configurations, time base settings, and timing jitter
     properties for LIN master communication management.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.linSlaves = []
-        self.timeBase: TimeValue = None
-        self.timeBaseJitter: TimeValue = None
+        self.timeBase: Union[Union[TimeValue, None] , None] = None
+        self.timeBaseJitter: Union[Union[TimeValue, None] , None] = None
 
     def getLinSlaves(self):
         return self.linSlaves
@@ -80,13 +82,13 @@ class LinCommunicationConnector(CommunicationConnector):
     to communication channels, specifying initial NAD (Node Address),
     configurable frames, and schedule change properties for LIN communication.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.initialNad: Integer = None
+        self.initialNad: Union[Union[Integer, None] , None] = None
         self.linConfigurableFrames = []
         self.linOrderedConfigurableFrames = []
-        self.scheduleChangeNextTimeBase: Boolean = None
+        self.scheduleChangeNextTimeBase: Union[Union[Boolean, None] , None] = None
 
     def getInitialNad(self):
         return self.initialNad

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -20,7 +20,7 @@ class FlexrayFrame(Frame):
     defines the structure and characteristics of FlexRay messages in the
     communication system.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
@@ -35,11 +35,11 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.communicationCycle = None
-        self.slotID: PositiveInteger = None
+        self.slotID: Union[Union[PositiveInteger, None] , None] = None
 
     def getCommunicationCycle(self):
         return self.communicationCycle
@@ -64,13 +64,13 @@ class FlexrayFrameTriggering(FrameTriggering):
     FlexRay frames are transmitted or received on the network, including timing,
     message IDs, and payload properties.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.absolutelyScheduledTimings: List[FlexrayAbsolutelyScheduledTiming] = []
-        self.allowDynamicLSduLength: Boolean = None
-        self.messageId: PositiveInteger = None
-        self.payloadPreambleIndicator: Boolean = None
+        self.allowDynamicLSduLength: Union[Union[Boolean, None] , None] = None
+        self.messageId: Union[Union[PositiveInteger, None] , None] = None
+        self.payloadPreambleIndicator: Union[Union[Boolean, None] , None] = None
 
     def getAbsolutelyScheduledTimings(self):
         return self.absolutelyScheduledTimings

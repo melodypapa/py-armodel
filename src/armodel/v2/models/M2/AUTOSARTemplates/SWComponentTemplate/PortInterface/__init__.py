@@ -6,7 +6,7 @@ parameter interfaces, as well as mapping classes for interface mappings.
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
@@ -49,13 +49,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataProt
 
 
 class PortInterface(AtpType, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is PortInterface:
             raise TypeError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.isService: ARBoolean = None
-        self.serviceKind: ARLiteral = None
+        self.isService: Union[Union[ARBoolean, None] , None] = None
+        self.serviceKind: Union[Union[ARLiteral, None] , None] = None
 
     def getIsService(self):
         return self.isService
@@ -73,14 +73,14 @@ class PortInterface(AtpType, ABC):
 
 
 class DataInterface(PortInterface, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is DataInterface:
             raise TypeError("DataInterface is an abstract class.")
         super().__init__(parent, short_name)
 
 
 class NvDataInterface(DataInterface):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.nvDatas: List[VariableDataPrototype] = []
@@ -94,7 +94,7 @@ class NvDataInterface(DataInterface):
 
 
 class ParameterInterface(DataInterface):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.parameters: List[ParameterDataPrototype] = []
@@ -115,11 +115,11 @@ class InvalidationPolicy(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.dataElementRef: RefType = None
-        self.handleInvalid: ARLiteral = None
+        self.dataElementRef: Union[Union[RefType, None] , None] = None
+        self.handleInvalid: Union[Union[ARLiteral, None] , None] = None
 
     def getDataElementRef(self):
         return self.dataElementRef
@@ -142,11 +142,11 @@ class MetaDataItem(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.length: PositiveInteger = None
-        self.metaDataItemType: TextValueSpecification = None
+        self.length: Union[Union[PositiveInteger, None] , None] = None
+        self.metaDataItemType: Union[Union[TextValueSpecification, None] , None] = None
 
     def getLength(self):
         return self.length
@@ -169,7 +169,7 @@ class MetaDataItemSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.dataElementRefs: List[RefType] = []
@@ -191,7 +191,7 @@ class MetaDataItemSet(ARObject):
 
 
 class SenderReceiverInterface(DataInterface):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.invalidationPolicies: List[InvalidationPolicy] = []
@@ -233,10 +233,10 @@ class SenderReceiverInterface(DataInterface):
 
 
 class ArgumentDataPrototype(AutosarDataPrototype):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.direction: ArgumentDirectionEnum = None
+        self.direction: Union[Union[ArgumentDirectionEnum, None] , None] = None
         self.serverArgumentImplPolicy = None
 
     def getDirection(self):
@@ -257,10 +257,10 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 
 
 class ApplicationError(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.error_code: ARNumerical = None
+        self.error_code: Union[Union[ARNumerical, None] , None] = None
 
 
 class ClientServerOperation(AtpStructureElement):
@@ -285,7 +285,7 @@ class ClientServerOperation(AtpStructureElement):
         getPossbileErrorRefs        get the possible errors
 
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.arguments: List[ArgumentDataPrototype] = []
@@ -325,7 +325,7 @@ class ClientServerInterface(PortInterface):
         getPossibleErrors           get all Application error(s) of this ClientServerInterface
 
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
@@ -348,14 +348,14 @@ class ClientServerInterface(PortInterface):
 
 
 class TriggerInterface(PortInterface):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self._triggers: List[Trigger] = []
 
 
 class ModeSwitchInterface(PortInterface):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self._modeGroup: List[ModeDeclarationGroupPrototype] = []
@@ -371,7 +371,7 @@ class ModeSwitchInterface(PortInterface):
 
 
 class PortInterfaceMapping(AtpBlueprintable, ABC):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is PortInterfaceMapping:
             raise TypeError("PortInterfaceMapping is an abstract class.")
         super().__init__(parent, short_name)
@@ -383,11 +383,11 @@ class ClientServerApplicationErrorMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.firstApplicationErrorRef: RefType = None
-        self.secondApplicationErrorRef: RefType = None
+        self.firstApplicationErrorRef: Union[Union[RefType, None] , None] = None
+        self.secondApplicationErrorRef: Union[Union[RefType, None] , None] = None
 
     def getFirstApplicationErrorRef(self):
         return self.firstApplicationErrorRef
@@ -410,13 +410,13 @@ class ClientServerOperationMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.argumentMappings: List['DataPrototypeMapping'] = []
-        self.firstOperationRef: RefType = None
-        self.firstToSecondDataTransformationRef: RefType = None
-        self.secondOperationRef: RefType = None
+        self.firstOperationRef: Union[Union[RefType, None] , None] = None
+        self.firstToSecondDataTransformationRef: Union[Union[RefType, None] , None] = None
+        self.secondOperationRef: Union[Union[RefType, None] , None] = None
 
     def getArgumentMappings(self):
         return self.argumentMappings
@@ -453,13 +453,13 @@ class DataPrototypeMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.firstDataPrototypeRef: RefType = None
-        self.firstToSecondDataTransformationRef: RefType = None
-        self.secondDataPrototypeRef: RefType = None
-        self.secondToFirstDataTransformationRef: RefType = None
+        self.firstDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.firstToSecondDataTransformationRef: Union[Union[RefType, None] , None] = None
+        self.secondDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.secondToFirstDataTransformationRef: Union[Union[RefType, None] , None] = None
         self.subElementMappings = []
         self.textTableMappings: List['TextTableMapping'] = []
 
@@ -507,7 +507,7 @@ class DataPrototypeMapping(ARObject):
 
 
 class ClientServerInterfaceMapping(PortInterfaceMapping):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.errorMappings: List['ClientServerApplicationErrorMapping'] = []
@@ -531,7 +531,7 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
 
 class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dataMappings: List['DataPrototypeMapping'] = []
@@ -545,7 +545,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
 
 
 class ModeInterfaceMapping(PortInterfaceMapping):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.modeMapping: 'ModeDeclarationGroupPrototypeMapping' = None
@@ -560,7 +560,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
 
 class TriggerInterfaceMapping(PortInterfaceMapping):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.triggerMapping: List[TriggerMapping] = []
@@ -575,7 +575,7 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
 
 
 class ModeDeclarationMapping(AtpStructureElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.firstModeRefs: List[RefType] = []
@@ -599,7 +599,7 @@ class ModeDeclarationMapping(AtpStructureElement):
 
 
 class ModeDeclarationMappingSet(AtpType):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.modeDeclarationMappings: List[ModeDeclarationMapping] = []
@@ -616,7 +616,7 @@ class ModeDeclarationMappingSet(AtpType):
 
 
 class PortInterfaceMappingSet(AtpBlueprintable):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.portInterfaceMappings = []                 # type: List[PortInterfaceMapping]
@@ -659,12 +659,12 @@ class TextTableMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.bitfieldTextTableMaskFirst: PositiveInteger = None
-        self.bitfieldTextTableMaskSecond: PositiveInteger = None
-        self.identicalMapping: Boolean = None
+        self.bitfieldTextTableMaskFirst: Union[Union[PositiveInteger, None] , None] = None
+        self.bitfieldTextTableMaskSecond: Union[Union[PositiveInteger, None] , None] = None
+        self.identicalMapping: Union[Union[Boolean, None] , None] = None
         self.mappingDirection = None
         self.valuePairs = []
 

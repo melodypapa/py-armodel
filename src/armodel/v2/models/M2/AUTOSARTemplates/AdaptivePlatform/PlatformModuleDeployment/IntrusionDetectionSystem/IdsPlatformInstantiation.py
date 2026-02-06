@@ -3,6 +3,7 @@ from typing import (
     Any,
     List,
     Optional,
+    Union,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -22,7 +23,7 @@ class IdsPlatformInstantiation(Identifiable, ABC):
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is IdsPlatformInstantiation:
             raise TypeError("IdsPlatformInstantiation is an abstract class.")
         super().__init__(parent, short_name)
@@ -35,7 +36,7 @@ class IdsPlatformInstantiation(Identifiable, ABC):
         self.networks: List[Any] = []
         # Type: TimeBaseResource.
         # This reference identifies the applicable time base atpVariation.
-        self.timeBases: Optional[Any] = None
+        self.timeBases: Union[Optional[Any] , None] = None
 
     def getNetworks(self) -> List[Any]:
         return self.networks

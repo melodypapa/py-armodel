@@ -3,6 +3,8 @@ This module contains the HardwareConfiguration class for representing
 hardware-specific configuration information in AUTOSAR resource consumption models.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -22,18 +24,18 @@ class HardwareConfiguration(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the HardwareConfiguration with default values.
         """
         super().__init__()
 
         # Additional information about the hardware configuration
-        self.additionalInformation: String = None
+        self.additionalInformation: Union[Union[String, None] , None] = None
         # Processor mode setting for this hardware configuration
-        self.processorMode: String = None
+        self.processorMode: Union[Union[String, None] , None] = None
         # Processor speed for this hardware configuration
-        self.processorSpeed: String = None
+        self.processorSpeed: Union[Union[String, None] , None] = None
 
     def getAdditionalInformation(self):
         """

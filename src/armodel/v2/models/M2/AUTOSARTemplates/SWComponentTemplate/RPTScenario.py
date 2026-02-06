@@ -15,7 +15,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class IdentCaption(AtpStructureElement, ABC):
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is IdentCaption:
             raise TypeError("IdentCaption is an abstract class.")
 
@@ -23,10 +23,10 @@ class IdentCaption(AtpStructureElement, ABC):
 
 
 class ModeAccessPointIdent(IdentCaption):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
 
 class ExternalTriggeringPointIdent(IdentCaption):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)

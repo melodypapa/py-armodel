@@ -3,6 +3,8 @@ This module contains classes for representing AUTOSAR data elements
 in software component internal behavior templates.
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -28,7 +30,7 @@ class AutosarVariableRef(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.autosarVariableIRef: 'VariableInAtomicSWCTypeInstanceRef' = None
@@ -64,7 +66,7 @@ class AutosarParameterRef(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.autosarParameterIRef: 'ParameterInAtomicSWCTypeInstanceRef' = None
@@ -86,7 +88,7 @@ class AutosarParameterRef(ARObject):
 
 
 class ParameterAccess(AbstractAccessPoint):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.accessedParameter: 'AutosarParameterRef' = None
@@ -108,11 +110,11 @@ class ParameterAccess(AbstractAccessPoint):
 
 
 class VariableAccess(AbstractAccessPoint):
-    def __init__(self, parent: ARObject, short_name):
+    def __init__(self, parent: ARObject, short_name) -> None:
         super().__init__(parent, short_name)
 
         self.accessedVariableRef: 'AutosarVariableRef' = None
-        self.scope: ARLiteral = None
+        self.scope: Union[Union[ARLiteral, None] , None] = None
 
     def getAccessedVariableRef(self) -> 'AutosarVariableRef':
         return self.accessedVariableRef
@@ -136,13 +138,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.contextDataPrototypeRefs: List[RefType] = []
-        self.portPrototypeRef: RefType = None
-        self.rootVariableDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.portPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.rootVariableDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.targetDataPrototypeRef: Union[Union[RefType, None] , None] = None
 
     def getContextDataPrototypeRefs(self):
         return self.contextDataPrototypeRefs

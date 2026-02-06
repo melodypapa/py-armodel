@@ -37,9 +37,9 @@ class ARType(ABC):
 
     def __init__(self) -> None:
         self._validate_abstract()
-        self.timestamp: Optional[str] = None
-        self.uuid: Optional[str] = None
-        self._value: Optional[Any] = None
+        self.timestamp: Union[Optional[str] , None] = None
+        self.uuid: Union[Optional[str] , None] = None
+        self._value: Union[Optional[Any] , None] = None
 
     @property
     def value(self) -> Optional[Any]:
@@ -93,8 +93,8 @@ class ARNumerical(ARType):
     def __init__(self) -> None:
         super().__init__()
 
-        self.shortLabel: Optional[str] = None
-        self._text: Optional[str] = None
+        self.shortLabel: Union[Optional[str] , None] = None
+        self._text: Union[Optional[str] , None] = None
 
     def _convertStringToNumberValue(self, value: str) -> Union[int, float]:
         """
@@ -192,7 +192,7 @@ class ARFloat(ARNumerical):
     def __init__(self) -> None:
         super().__init__()
 
-        self._text: Optional[str] = None
+        self._text: Union[Optional[str] , None] = None
 
     @property
     def value(self) -> Optional[float]:
@@ -225,7 +225,7 @@ class Float(ARFloat):
             * xml.xsd.customType=FLOAT
             * xml.xsd.type=double
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -238,7 +238,7 @@ class TimeValue(ARFloat):
             * xml.xsd.type=double
     '''
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -284,7 +284,7 @@ class AREnum(ARLiteral):
     This class provides functionality for enumeration values in AUTOSAR models.
     """
 
-    def __init__(self, enum_values: List[str]):
+    def __init__(self, enum_values: List[str]) -> None:
         super().__init__()
 
         self.enumValues: List[str] = enum_values
@@ -330,7 +330,7 @@ class String(ARLiteral):
     This class provides functionality for string values in AUTOSAR models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -339,7 +339,7 @@ class ReferrableSubtypesEnum(ARLiteral):
     Represents an enum for referrable subtypes in AUTOSAR models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -379,7 +379,7 @@ class ARBoolean(ARType):
     def __init__(self) -> None:
         super().__init__()
 
-        self._text: Optional[str] = None
+        self._text: Union[Optional[str] , None] = None
 
     def _convertNumberToBoolean(self, value: int) -> bool:
         """
@@ -452,7 +452,7 @@ class NameToken(ARLiteral):
             * xml.xsd.customType=NMTOKEN-STRING
             * xml.xsd.type=NMTOKEN
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -467,7 +467,7 @@ class PositiveInteger(ARPositiveInteger):
             * xml.xsd.type=string
         \n
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -494,7 +494,7 @@ class Integer(ARNumerical):
             * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -510,7 +510,7 @@ class UnlimitedInteger(Integer):
             * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -524,7 +524,7 @@ class Boolean(ARBoolean):
             * xml.xsd.pattern=0|1|true|false
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -541,7 +541,7 @@ class Identifier(ARLiteral):
             * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -554,11 +554,11 @@ class CIdentifier(ARLiteral):
             * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.blueprintValue: Optional[str] = None
-        self.namePattern: Optional[str] = None
+        self.blueprintValue: Union[Optional[str] , None] = None
+        self.namePattern: Union[Optional[str] , None] = None
 
     def getBlueprintValue(self) -> Optional[str]:
         """
@@ -625,11 +625,11 @@ class Limit(ARObject):
     This class defines limits with interval type and value.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.intervalType: Optional[str] = None
-        self.value: Optional[str] = None
+        self.intervalType: Union[Optional[str] , None] = None
+        self.value: Union[Optional[str] , None] = None
 
     def getIntervalType(self) -> Optional[str]:
         """
@@ -682,12 +682,12 @@ class RefType(ARObject):
     This class defines references with base, destination and value properties.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.base: Optional[str] = None
-        self.dest: Optional[str] = None
-        self.value: Optional[str] = None
+        self.base: Union[Optional[str] , None] = None
+        self.dest: Union[Optional[str] , None] = None
+        self.value: Union[Optional[str] , None] = None
 
     def getBase(self) -> Optional[str]:
         """
@@ -779,7 +779,7 @@ class TRefType(RefType):
     This class extends RefType with additional type-specific functionality.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -792,7 +792,7 @@ class DiagRequirementIdString(ARLiteral):
             * xml.xsd.pattern=[0-9a-zA-Z_\-]+                           # noqa W605
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -805,7 +805,7 @@ class ArgumentDirectionEnum(AREnum):
     INOUT = "inout"
     OUT = "out"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ArgumentDirectionEnum.IN,
             ArgumentDirectionEnum.INOUT,
@@ -822,7 +822,7 @@ class Ip4AddressString(ARLiteral):
             * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -837,7 +837,7 @@ class Ip6AddressString(ARLiteral):
             * xml.xsd.pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -851,7 +851,7 @@ class MacAddressString(ARLiteral):
             * xml.xsd.pattern=([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}
             * xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -866,7 +866,7 @@ class CategoryString(ARLiteral):
             * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
             * xml.xsd.type=string
         '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -875,7 +875,7 @@ class ByteOrderEnum(AREnum):
     Enumeration for byte order in AUTOSAR models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 
@@ -895,7 +895,7 @@ class DateTime(ARLiteral):
             xml.xsd.pattern=([0-9]{4}-[0-9]{2}-[0-9]{2})(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|([+\-][0-9]{2}:[0-9]{2})))?
             xml.xsd.type=string
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -905,7 +905,7 @@ class VerbatimString(ARLiteral):
     This class is used for strings that should be preserved exactly as written.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -915,5 +915,5 @@ class RegularExpression(ARLiteral):
     This class is used for storing and handling regular expression patterns.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()

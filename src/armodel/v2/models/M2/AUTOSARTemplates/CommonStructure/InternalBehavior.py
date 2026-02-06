@@ -5,7 +5,7 @@ exclusive areas, and event handling mechanisms within AUTOSAR components and BSW
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
@@ -39,7 +39,7 @@ class ReentrancyLevelEnum(AREnum):
     # Enum value for single core reentrant executable entities
     ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT,
             ReentrancyLevelEnum.ENUM_NON_REENTRANT,
@@ -54,7 +54,7 @@ class ExclusiveArea(Identifiable):
     typically used for protecting shared resources in multithreaded environments.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ExclusiveArea with a parent and short name.
 
@@ -72,7 +72,7 @@ class ExecutableEntity(Identifiable, ABC):
     and may have specific execution requirements like exclusive areas or reentrancy levels.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ExecutableEntity with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -91,11 +91,11 @@ class ExecutableEntity(Identifiable, ABC):
         # List of references to exclusive areas this entity can enter
         self.canEnterExclusiveAreaRefs: List[RefType] = []
         # Minimum interval between consecutive starts of this entity (in seconds)
-        self.minimumStartInterval: ARFloat = None
+        self.minimumStartInterval: Union[Union[ARFloat, None] , None] = None
         # Reentrancy level of this executable entity
-        self.reentrancyLevel: ReentrancyLevelEnum = None
+        self.reentrancyLevel: Union[Union[ReentrancyLevelEnum, None] , None] = None
         # Reference to the software address method for this entity
-        self.swAddrMethodRef: RefType = None
+        self.swAddrMethodRef: Union[Union[RefType, None] , None] = None
 
     def getActivationReasons(self):
         """
@@ -227,7 +227,7 @@ class InternalBehavior(AtpStructureElement, ABC):
     including executable entities, memory areas, and data type mappings.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the InternalBehavior with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -354,7 +354,7 @@ class AbstractEvent(Identifiable, ABC):
     They may have activation reason representations that define why the event occurred.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the AbstractEvent with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -368,7 +368,7 @@ class AbstractEvent(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         # Reference to activation reason representation for this event
-        self.activationReasonRepresentationRef: RefType = None
+        self.activationReasonRepresentationRef: Union[Union[RefType, None] , None] = None
 
     def getActivationReasonRepresentationRef(self):
         """
@@ -402,7 +402,7 @@ class ApiPrincipleEnum(AREnum):
     CALLEE = "callee"
     CALLER = "caller"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ApiPrincipleEnum.CALLEE,
             ApiPrincipleEnum.CALLER,
@@ -420,7 +420,7 @@ class ExclusiveAreaNestingOrder(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ExclusiveAreaNestingOrder with default values.
         """
@@ -445,7 +445,7 @@ class ExecutableEntityActivationReason(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ExecutableEntityActivationReason with default values.
         """

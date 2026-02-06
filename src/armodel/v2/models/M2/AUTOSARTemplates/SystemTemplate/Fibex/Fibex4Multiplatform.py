@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -22,12 +22,12 @@ class FrameMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.introduction: DocumentationBlock = None
-        self.sourceFrameRef: RefType = None
-        self.targetFrameRef: RefType = None
+        self.introduction: Union[Union[DocumentationBlock, None] , None] = None
+        self.sourceFrameRef: Union[Union[RefType, None] , None] = None
+        self.targetFrameRef: Union[Union[RefType, None] , None] = None
 
     def getIntroduction(self):
         return self.introduction
@@ -56,12 +56,12 @@ class ISignalMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.introduction: DocumentationBlock = None
-        self.sourceSignalRef: RefType = None
-        self.targetSignalRef: RefType = None
+        self.introduction: Union[Union[DocumentationBlock, None] , None] = None
+        self.sourceSignalRef: Union[Union[RefType, None] , None] = None
+        self.targetSignalRef: Union[Union[RefType, None] , None] = None
 
     def getIntroduction(self):
         return self.introduction
@@ -90,11 +90,11 @@ class DefaultValueElement(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.elementByteValue: Integer = None
-        self.elementPosition: Integer = None
+        self.elementByteValue: Union[Union[Integer, None] , None] = None
+        self.elementPosition: Union[Union[Integer, None] , None] = None
 
     def getElementByteValue(self):
         return self.elementByteValue
@@ -118,7 +118,7 @@ class PduMappingDefaultValue(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.defaultValueElements: List[DefaultValueElement] = []
@@ -137,11 +137,11 @@ class TargetIPduRef(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.defaultValue: PduMappingDefaultValue = None
-        self.targetIPdu: RefType = None
+        self.defaultValue: Union[Union[PduMappingDefaultValue, None] , None] = None
+        self.targetIPdu: Union[Union[RefType, None] , None] = None
 
     def getDefaultValue(self):
         return self.defaultValue
@@ -165,13 +165,13 @@ class IPduMapping(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.introduction: DocumentationBlock = None
-        self.pdurTpChunkSize: ARPositiveInteger = None
-        self.sourceIpduRef: RefType = None
-        self.targetIPdu: TargetIPduRef = None
+        self.introduction: Union[Union[DocumentationBlock, None] , None] = None
+        self.pdurTpChunkSize: Union[Union[ARPositiveInteger, None] , None] = None
+        self.sourceIpduRef: Union[Union[RefType, None] , None] = None
+        self.targetIPdu: Union[Union[TargetIPduRef, None] , None] = None
 
     def getIntroduction(self):
         return self.introduction
@@ -208,10 +208,10 @@ class IPduMapping(ARObject):
 
 
 class Gateway(FibexElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.ecuRef: RefType = None
+        self.ecuRef: Union[Union[RefType, None] , None] = None
         self.frameMappings: List[FrameMapping] = []
         self.iPduMappings: List[IPduMapping] = []
         self.signalMappings: List[ISignalMapping] = []

@@ -9,7 +9,7 @@ class ModeInSwcInstanceRef(RefType):
     Used for referencing modes within software component instances.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ModeInSwcInstanceRef with default values.
         """

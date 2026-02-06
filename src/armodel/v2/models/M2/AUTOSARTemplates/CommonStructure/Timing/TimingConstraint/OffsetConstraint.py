@@ -7,6 +7,8 @@ Classes:
     OffsetTimingConstraint: Specifies timing offset requirements
 """
 
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -22,7 +24,7 @@ class OffsetTimingConstraint(TimingConstraint):
     or time base.
     """
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent, short_name: str) -> None:
         """
         Initializes the OffsetTimingConstraint with a parent and short name.
 
@@ -33,7 +35,7 @@ class OffsetTimingConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # Timing offset value
-        self.offset: TimeValue = None
+        self.offset: Union[Union[TimeValue, None] , None] = None
 
     def getOffset(self):
         """

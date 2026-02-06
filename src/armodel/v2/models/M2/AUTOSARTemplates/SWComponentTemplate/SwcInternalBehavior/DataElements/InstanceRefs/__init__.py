@@ -2,7 +2,7 @@
 This module contains instance reference classes for data elements in AUTOSAR software component internal behavior templates.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,
@@ -13,14 +13,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
         self.contextDataPrototypeRefs: List[RefType] = []
-        self.portPrototypeRef: RefType = None
-        self.rootVariableDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.portPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.rootVariableDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.targetDataPrototypeRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef
@@ -59,14 +59,14 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
 
 
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextDataPrototypeRef: RefType = None
-        self.portPrototypeRef: RefType = None
-        self.rootParameterDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
+        self.baseRef: Union[Union[RefType, None] , None] = None
+        self.contextDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.portPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.rootParameterDataPrototypeRef: Union[Union[RefType, None] , None] = None
+        self.targetDataPrototypeRef: Union[Union[RefType, None] , None] = None
 
     def getBaseRef(self):
         return self.baseRef

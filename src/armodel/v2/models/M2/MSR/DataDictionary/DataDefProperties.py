@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -38,7 +38,7 @@ class SwImplPolicyEnum(AREnum):
     QUEUED = "queued"
     STANDARD = "standard"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             SwImplPolicyEnum.CONST,
             SwImplPolicyEnum.FIXED,
@@ -57,7 +57,7 @@ class SwDataDefPropsConditional(ARObject):
     '''
     Patch for the time-stamp
     '''
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
@@ -67,7 +67,7 @@ class SwDataDefProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.additionalNativeTypeQualifier = None
@@ -320,7 +320,7 @@ class SwPointerTargetProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.functionPointerSignatureRef = None             # type: RefType
@@ -355,7 +355,7 @@ class ValueList(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.v = None                                       # type: ARFloat
@@ -391,11 +391,11 @@ class SwTextProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.encoding: ARLiteral = None
-        self.format: ARLiteral = None
+        self.encoding: Union[Union[ARLiteral, None] , None] = None
+        self.format: Union[Union[ARLiteral, None] , None] = None
 
     def getEncoding(self) -> ARLiteral:
         return self.encoding

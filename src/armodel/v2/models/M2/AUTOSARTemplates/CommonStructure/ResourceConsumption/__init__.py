@@ -43,7 +43,7 @@ class ResourceConsumption(Identifiable):
     stack usage, heap usage, execution times, and other resource metrics.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ResourceConsumption with a parent and short name.
 

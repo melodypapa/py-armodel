@@ -1,3 +1,5 @@
+from typing import Union
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -21,15 +23,15 @@ class MlFormula(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.formula: String = None
+        self.formula: Union[Union[String, None] , None] = None
 
     def getFormula(self) -> String:
         return self.formula
 
-    def setFormula(self, value: String):
+    def setFormula(self, value: String) -> 'MlFormula':
         if value is not None:
             self.formula = value
         return self

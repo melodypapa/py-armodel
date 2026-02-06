@@ -19,7 +19,7 @@ class FirewallRule(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the FirewallRule with default values.
         """

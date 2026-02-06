@@ -4,7 +4,7 @@ BSW interfaces define how BSW modules interact with other software components,
 including dependencies, module entries, and client-server interfaces.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ServiceNeeds,
@@ -42,7 +42,7 @@ class BswEntryKindEnum(AREnum):
     # Function entry type for BSW module entries
     FUNCTION = "FUNCTION"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswEntryKindEnum.FUNCTION,
         ))
@@ -58,7 +58,7 @@ class BswCallType(AREnum):
     # Asynchronous call type - caller does not wait for completion
     ASYNCHRONOUS = "ASYNCHRONOUS"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswCallType.SYNCHRONOUS,
             BswCallType.ASYNCHRONOUS,
@@ -81,7 +81,7 @@ class BswExecutionContext(AREnum):
     # Execution context is unspecified
     UNSPECIFIED = "UNSPECIFIED"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswExecutionContext.HOOK,
             BswExecutionContext.INTERRUPT_CAT_1,
@@ -97,7 +97,7 @@ class BswModuleDependency(Identifiable):
     This class defines how one BSW module depends on services from another module.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW module dependency with a parent and short name.
 
@@ -110,9 +110,9 @@ class BswModuleDependency(Identifiable):
         # List of service needs that this dependency requires
         self.serviceItems: List[ServiceNeeds] = []
         # Unique identifier for the target module in the dependency
-        self.targetModuleId: PositiveInteger = None
+        self.targetModuleId: Union[Union[PositiveInteger, None] , None] = None
         # Reference to the target module in the dependency
-        self.targetModuleRef: RefType = None
+        self.targetModuleRef: Union[Union[RefType, None] , None] = None
 
     def getServiceItems(self):
         """
@@ -193,7 +193,7 @@ class BswModuleEntry(AtpBlueprintable):
     This class defines how BSW module functions can be accessed and executed.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW module entry with a parent and short name.
 
@@ -206,25 +206,25 @@ class BswModuleEntry(AtpBlueprintable):
         # List of arguments for this module entry
         self.arguments: List[SwServiceArg] = []
         # Kind of BSW entry (e.g., FUNCTION)
-        self.bswEntryKind: BswEntryKindEnum = None
+        self.bswEntryKind: Union[Union[BswEntryKindEnum, None] , None] = None
         # Call type (synchronous or asynchronous)
-        self.callType: BswCallType = None
+        self.callType: Union[Union[BswCallType, None] , None] = None
         # Execution context where this entry runs
-        self.executionContext: BswExecutionContext = None
+        self.executionContext: Union[Union[BswExecutionContext, None] , None] = None
         # Function prototype emitter name token
-        self.functionPrototypeEmitter: NameToken = None
+        self.functionPrototypeEmitter: Union[Union[NameToken, None] , None] = None
         # Flag indicating if this entry is reentrant (can be called concurrently)
-        self.isReentrant: Boolean = None
+        self.isReentrant: Union[Union[Boolean, None] , None] = None
         # Flag indicating if this entry is synchronous
-        self.isSynchronous: Boolean = None
+        self.isSynchronous: Union[Union[Boolean, None] , None] = None
         # Return type of this entry
-        self.returnType: SwServiceArg = None
+        self.returnType: Union[Union[SwServiceArg, None] , None] = None
         # Role identifier for this entry
-        self.role: Identifier = None
+        self.role: Union[Union[Identifier, None] , None] = None
         # Service identifier for this entry
-        self.serviceId: ARNumerical = None
+        self.serviceId: Union[Union[ARNumerical, None] , None] = None
         # Software service implementation policy
-        self.swServiceImplPolicy: SwServiceImplPolicyEnum = None
+        self.swServiceImplPolicy: Union[Union[SwServiceImplPolicyEnum, None] , None] = None
 
     def getArguments(self):
         """
@@ -519,7 +519,7 @@ class BswModuleClientServerEntry(Referrable):
     This class defines how BSW modules implement client-server communication patterns.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BSW module client-server entry with a parent and short name.
 
@@ -530,11 +530,11 @@ class BswModuleClientServerEntry(Referrable):
         super().__init__(parent, short_name)
 
         # Reference to the encapsulated entry that this client-server entry wraps
-        self.encapsulatedEntryRef: RefType = None
+        self.encapsulatedEntryRef: Union[Union[RefType, None] , None] = None
         # Flag indicating if this client-server entry is reentrant
-        self.isReentrant: Boolean = None
+        self.isReentrant: Union[Union[Boolean, None] , None] = None
         # Flag indicating if this client-server entry is synchronous
-        self.isSynchronous: Boolean = None
+        self.isSynchronous: Union[Union[Boolean, None] , None] = None
 
     def getEncapsulatedEntryRef(self):
         """
@@ -630,7 +630,7 @@ class BswEntryRelationship(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswEntryRelationship with default values.
         """
@@ -663,7 +663,7 @@ class BswEntryRelationshipEnum(AREnum):
     CALLS = "calls"
     TRIGGERS = "triggers"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             BswEntryRelationshipEnum.READS,
             BswEntryRelationshipEnum.WRITES,
@@ -690,7 +690,7 @@ class BswEntryRelationshipSet(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the BswEntryRelationshipSet with default values.
         """

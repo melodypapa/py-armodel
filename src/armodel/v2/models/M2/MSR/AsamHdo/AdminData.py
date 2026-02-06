@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -29,11 +29,11 @@ class Modification(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.change: MultiLanguageOverviewParagraph = None
-        self.reason: MultiLanguageOverviewParagraph = None
+        self.change: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
+        self.reason: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
 
     def getChange(self) -> MultiLanguageOverviewParagraph:
         return self.change
@@ -63,16 +63,16 @@ class DocRevision(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.date: DateTime = None
-        self.issuedBy: String = None
+        self.date: Union[Union[DateTime, None] , None] = None
+        self.issuedBy: Union[Union[String, None] , None] = None
         self.modifications: List[Modification] = []
-        self.revisionLabel: RevisionLabelString = None
-        self.revisionLabelP1: RevisionLabelString = None
-        self.revisionLabelP2: RevisionLabelString = None
-        self.state: NameToken = None
+        self.revisionLabel: Union[Union[RevisionLabelString, None] , None] = None
+        self.revisionLabelP1: Union[Union[RevisionLabelString, None] , None] = None
+        self.revisionLabelP2: Union[Union[RevisionLabelString, None] , None] = None
+        self.state: Union[Union[NameToken, None] , None] = None
 
     def getDate(self) -> DateTime:
         return self.date
@@ -141,13 +141,13 @@ class AdminData(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.DocRevisions: List[DocRevision] = []
-        self.language: LEnum = None
+        self.language: Union[Union[LEnum, None] , None] = None
         self.sdgs: List = []
-        self.usedLanguages: MultiLanguagePlainText = None
+        self.usedLanguages: Union[Union[MultiLanguagePlainText, None] , None] = None
 
     def getDocRevisions(self) -> List[DocRevision]:
         return self.DocRevisions

@@ -6,6 +6,7 @@ in the DiagnosticExtract module.
 from typing import (
     List,
     Optional,
+    Union,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
@@ -27,7 +28,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     service instances, and ECU instances for specific protocols.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticServiceTable with a parent and short name.
 
@@ -39,8 +40,8 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
 
         self.diagnosticConnectionRefs: List[RefType] = []
         self.diagnosticServiceInstanceRefs: List[RefType] = []
-        self.ecuInstanceRef: Optional[RefType] = None
-        self.protocolKind: Optional[NameToken] = None
+        self.ecuInstanceRef: Union[Optional[RefType] , None] = None
+        self.protocolKind: Union[Optional[NameToken] , None] = None
 
     def getDiagnosticConnectionRefs(self) -> List[RefType]:
         """

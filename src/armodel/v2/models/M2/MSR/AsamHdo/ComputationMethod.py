@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,
@@ -25,7 +25,7 @@ class CompuContent(ARObject, ABC):
     Abstract base class for computation content.
     Base: ARObject
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is CompuContent:
             raise TypeError("CompuContent is an abstract class.")
 
@@ -43,7 +43,7 @@ class CompuConst(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.compuConstContentType: 'CompuConstContent' = None
@@ -65,11 +65,11 @@ class Compu(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.compuContent: CompuContent = None
-        self.compuDefaultValue: CompuConst = None
+        self.compuContent: Union[Union[CompuContent, None] , None] = None
+        self.compuDefaultValue: Union[Union[CompuConst, None] , None] = None
 
     def getCompuContent(self) -> CompuContent:
         return self.compuContent
@@ -93,7 +93,7 @@ class CompuConstContent(ARObject, ABC):
     Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
     Aggregated by   : CompuConst.compuConstContentType
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is CompuConstContent:
             raise TypeError("CompuConstContent is an abstract class.")
 
@@ -106,7 +106,7 @@ class CompuConstTextContent(CompuConstContent):
     Base:           ARObject, CompuConstContent
     Aggregated by:  CompuConst.compuConstContentType
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.vt: str = None
@@ -123,7 +123,7 @@ class CompuConstNumericContent(CompuConstContent):
     This meta-class represents the numeric content of a scale.
     Base: ARObject, CompuConstContent
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.v: float = None
@@ -140,7 +140,7 @@ class CompuConstFormulaContent(CompuConstContent):
     This meta-class represents the formula content of a scale.
     Base: ARObject, CompuConstContent
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.vf: str = None
@@ -160,7 +160,7 @@ class CompuScaleContents(ARObject, ABC):
     Abstract base class for computation scale contents.
     Base: ARObject
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is CompuScaleContents:
             raise TypeError("CompuScaleContents is an abstract class.")
 
@@ -172,10 +172,10 @@ class CompuScaleConstantContents(CompuScaleContents):
     Represents constant contents of a computation scale.
     Base: CompuScaleContents
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.compuConst: CompuConst = None
+        self.compuConst: Union[Union[CompuConst, None] , None] = None
 
     def getCompuConst(self) -> CompuConst:
         return self.compuConst
@@ -195,7 +195,7 @@ class CompuRationalCoeffs(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.compuDenominator: 'CompuNominatorDenominator' = None
@@ -220,10 +220,10 @@ class CompuScaleRationalFormula(CompuScaleContents):
     This meta-class represents the fact that the computation in this scale is represented as rational term.
     Base: CompuScaleContents
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.compuRationalCoeffs: CompuRationalCoeffs = None
+        self.compuRationalCoeffs: Union[Union[CompuRationalCoeffs, None] , None] = None
 
     def getCompuRationalCoeffs(self) -> CompuRationalCoeffs:
         return self.compuRationalCoeffs
@@ -243,7 +243,7 @@ class CompuNominatorDenominator(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.v: List[float] = []
@@ -265,18 +265,18 @@ class CompuScale(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.a2lDisplayText: String = None
-        self.compuInverseValue: CompuConst = None
-        self.compuScaleContents: CompuScaleContents = None
-        self.desc: MultiLanguageOverviewParagraph = None
-        self.lowerLimit: Limit = None
-        self.mask: PositiveUnlimitedInteger = None
-        self.shortLabel: Identifier = None
-        self.symbol: CIdentifier = None
-        self.upperLimit: Limit = None
+        self.a2lDisplayText: Union[Union[String, None] , None] = None
+        self.compuInverseValue: Union[Union[CompuConst, None] , None] = None
+        self.compuScaleContents: Union[Union[CompuScaleContents, None] , None] = None
+        self.desc: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
+        self.lowerLimit: Union[Union[Limit, None] , None] = None
+        self.mask: Union[Union[PositiveUnlimitedInteger, None] , None] = None
+        self.shortLabel: Union[Union[Identifier, None] , None] = None
+        self.symbol: Union[Union[CIdentifier, None] , None] = None
+        self.upperLimit: Union[Union[Limit, None] , None] = None
 
     def getA2lDisplayText(self) -> String:
         return self.a2lDisplayText
@@ -347,7 +347,7 @@ class CompuScales(CompuContent):
     Container for multiple computation scales.
     Base: CompuContent
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.compuScales: List[CompuScale] = []
@@ -366,13 +366,13 @@ class CompuMethod(AtpBlueprintable):
     """
     CATEGORY_TEXTTABLE = "TEXTTABLE"
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.compuInternalToPhys: Compu = None
-        self.compuPhysToInternal: Compu = None
+        self.compuInternalToPhys: Union[Union[Compu, None] , None] = None
+        self.compuPhysToInternal: Union[Union[Compu, None] , None] = None
         self.displayFormat: str = None
-        self.unitRef: RefType = None
+        self.unitRef: Union[Union[RefType, None] , None] = None
 
     def getCompuInternalToPhys(self) -> Compu:
         return self.compuInternalToPhys

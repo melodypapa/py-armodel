@@ -12,7 +12,7 @@ class SwRecordLayoutV(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.baseTypeRef = None                         # type: RefType
@@ -86,7 +86,7 @@ class SwRecordLayoutGroupContent(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.swRecordLayoutRef = None                   # type: RefType
@@ -121,7 +121,7 @@ class SwRecordLayoutGroup(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.category = None                            # type: ARLiteral
@@ -214,7 +214,7 @@ class SwRecordLayoutGroup(ARObject):
         return self
 
 class SwRecordLayout(ARElement):
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup

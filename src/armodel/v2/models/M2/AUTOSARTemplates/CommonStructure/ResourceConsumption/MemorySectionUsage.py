@@ -3,7 +3,7 @@ This module contains the MemorySection class for representing
 memory section usage in AUTOSAR resource consumption models.
 """
 
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -23,7 +23,7 @@ class MemorySection(Identifiable):
     This class defines memory section properties including alignment, size, and addressing methods.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the MemorySection with a parent and short name.
 
@@ -34,17 +34,17 @@ class MemorySection(Identifiable):
         super().__init__(parent, short_name)
 
         # Private alignment value for this memory section
-        self._alignment: ARLiteral = None
+        self._alignment: Union[Union[ARLiteral, None] , None] = None
         # Memory class symbol for this memory section
-        self.memClassSymbol: ARLiteral = None
+        self.memClassSymbol: Union[Union[ARLiteral, None] , None] = None
         # Size of this memory section
         self.size = None
         # List of options for this memory section
         self.options: List[ARLiteral] = []
         # Reference to the software address method for this memory section
-        self.swAddrMethodRef: RefType = None
+        self.swAddrMethodRef: Union[Union[RefType, None] , None] = None
         # Symbol name for this memory section
-        self.symbol: ARLiteral = None
+        self.symbol: Union[Union[ARLiteral, None] , None] = None
 
     def getAlignment(self):
         """
@@ -223,7 +223,7 @@ class SectionNamePrefix(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SectionNamePrefix with default values.
         """

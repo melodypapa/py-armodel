@@ -2,7 +2,7 @@
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -33,7 +33,7 @@ class DataTransformationKindEnum(AREnum):
     specifying the kind of transformation to be applied
     to data elements in the communication system.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([])
 
 
@@ -43,11 +43,11 @@ class DataTransformation(Identifiable):
     the type of transformation, execution behavior, and
     references to transformation chains for data processing.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.dataTransformationKind: DataTransformationKindEnum = None
-        self.executeDespiteDataUnavailability: Boolean = None
+        self.dataTransformationKind: Union[Union[DataTransformationKindEnum, None] , None] = None
+        self.executeDespiteDataUnavailability: Union[Union[Boolean, None] , None] = None
         self.transformerChainRefs: List[RefType] = []
 
     def getDataTransformationKind(self):
@@ -86,12 +86,12 @@ class BufferProperties(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.bufferComputation: CompuScale = None
-        self.headerLength: Integer = None
-        self.inPlace: Boolean = None
+        self.bufferComputation: Union[Union[CompuScale, None] , None] = None
+        self.headerLength: Union[Union[Integer, None] , None] = None
+        self.inPlace: Union[Union[Boolean, None] , None] = None
 
     def getBufferComputation(self):
         return self.bufferComputation
@@ -124,7 +124,7 @@ class TransformationDescription(Describable, ABC):
     defining common properties for different types of
     data transformation descriptions in the system.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TransformationDescription:
             raise TypeError("TransformationDescription is an abstract class.")
         super().__init__()
@@ -136,25 +136,25 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     specifying timing and counter configurations for
     end-to-end protection in communication system.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.clearFromValidToInvalid: Boolean = None
-        self.disableEndToEndCheck: Boolean = None
-        self.disableEndToEndStateMachine: Boolean = None
-        self.e2eProfileCompatibilityPropsRef: RefType = None
-        self.maxDeltaCounter: PositiveInteger = None
-        self.maxErrorStateInit: PositiveInteger = None
-        self.maxErrorStateInvalid: PositiveInteger = None
-        self.maxErrorStateValid: PositiveInteger = None
-        self.maxNoNewOrRepeatedData: PositiveInteger = None
-        self.minOkStateInit: PositiveInteger = None
-        self.minOkStateInvalid: PositiveInteger = None
-        self.minOkStateValid: PositiveInteger = None
-        self.syncCounterInit: PositiveInteger = None
-        self.windowSizeInit: PositiveInteger = None
-        self.windowSizeInvalid: PositiveInteger = None
-        self.windowSizeValid: PositiveInteger = None
+        self.clearFromValidToInvalid: Union[Union[Boolean, None] , None] = None
+        self.disableEndToEndCheck: Union[Union[Boolean, None] , None] = None
+        self.disableEndToEndStateMachine: Union[Union[Boolean, None] , None] = None
+        self.e2eProfileCompatibilityPropsRef: Union[Union[RefType, None] , None] = None
+        self.maxDeltaCounter: Union[Union[PositiveInteger, None] , None] = None
+        self.maxErrorStateInit: Union[Union[PositiveInteger, None] , None] = None
+        self.maxErrorStateInvalid: Union[Union[PositiveInteger, None] , None] = None
+        self.maxErrorStateValid: Union[Union[PositiveInteger, None] , None] = None
+        self.maxNoNewOrRepeatedData: Union[Union[PositiveInteger, None] , None] = None
+        self.minOkStateInit: Union[Union[PositiveInteger, None] , None] = None
+        self.minOkStateInvalid: Union[Union[PositiveInteger, None] , None] = None
+        self.minOkStateValid: Union[Union[PositiveInteger, None] , None] = None
+        self.syncCounterInit: Union[Union[PositiveInteger, None] , None] = None
+        self.windowSizeInit: Union[Union[PositiveInteger, None] , None] = None
+        self.windowSizeInvalid: Union[Union[PositiveInteger, None] , None] = None
+        self.windowSizeValid: Union[Union[PositiveInteger, None] , None] = None
 
     def getClearFromValidToInvalid(self):
         return self.clearFromValidToInvalid
@@ -292,7 +292,7 @@ class DataIdModeEnum(AREnum):
     LOWER_12_BIT = "lower12Bit"
     LOWER_8_BIT = "lower8Bit"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             DataIdModeEnum.ALL_16_BIT,
             DataIdModeEnum.ALTERNATING_8_BIT,
@@ -306,7 +306,7 @@ class EndToEndProfileBehaviorEnum(AREnum):
     PRE_R4_2 = "PRE_R4_2"
     R4_2 = "R4_2"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             EndToEndProfileBehaviorEnum.PRE_R4_2,
             EndToEndProfileBehaviorEnum.R4_2
@@ -319,31 +319,31 @@ class EndToEndTransformationDescription(TransformationDescription):
     specifying counter offsets, CRC calculations, data ID modes,
     and profile behavior for safe data transmission.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.clearFromValidToInvalid: Boolean = None
-        self.counterOffset: PositiveInteger = None
-        self.crcOffset: PositiveInteger = None
-        self.dataIdMode: DataIdModeEnum = None
-        self.dataIdNibbleOffset: PositiveInteger = None
-        self.e2eProfileCompatibilityPropsRef: RefType = None
-        self.maxDeltaCounter: PositiveInteger = None
-        self.maxErrorStateInit: PositiveInteger = None
-        self.maxErrorStateInvalid: PositiveInteger = None
-        self.maxErrorStateValid: PositiveInteger = None
-        self.maxNoNewOrRepeatedData: PositiveInteger = None
-        self.minOkStateInit: PositiveInteger = None
-        self.minOkStateInvalid: PositiveInteger = None
-        self.minOkStateValid: PositiveInteger = None
-        self.offset: PositiveInteger = None
-        self.profileBehavior: EndToEndProfileBehaviorEnum = None
-        self.profileName: NameToken = None
-        self.syncCounterInit: PositiveInteger = None
-        self.upperHeaderBitsToShift: PositiveInteger = None
-        self.windowSizeInit: PositiveInteger = None
-        self.windowSizeInvalid: PositiveInteger = None
-        self.windowSizeValid: PositiveInteger = None
+        self.clearFromValidToInvalid: Union[Union[Boolean, None] , None] = None
+        self.counterOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.crcOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.dataIdMode: Union[Union[DataIdModeEnum, None] , None] = None
+        self.dataIdNibbleOffset: Union[Union[PositiveInteger, None] , None] = None
+        self.e2eProfileCompatibilityPropsRef: Union[Union[RefType, None] , None] = None
+        self.maxDeltaCounter: Union[Union[PositiveInteger, None] , None] = None
+        self.maxErrorStateInit: Union[Union[PositiveInteger, None] , None] = None
+        self.maxErrorStateInvalid: Union[Union[PositiveInteger, None] , None] = None
+        self.maxErrorStateValid: Union[Union[PositiveInteger, None] , None] = None
+        self.maxNoNewOrRepeatedData: Union[Union[PositiveInteger, None] , None] = None
+        self.minOkStateInit: Union[Union[PositiveInteger, None] , None] = None
+        self.minOkStateInvalid: Union[Union[PositiveInteger, None] , None] = None
+        self.minOkStateValid: Union[Union[PositiveInteger, None] , None] = None
+        self.offset: Union[Union[PositiveInteger, None] , None] = None
+        self.profileBehavior: Union[Union[EndToEndProfileBehaviorEnum, None] , None] = None
+        self.profileName: Union[Union[NameToken, None] , None] = None
+        self.syncCounterInit: Union[Union[PositiveInteger, None] , None] = None
+        self.upperHeaderBitsToShift: Union[Union[PositiveInteger, None] , None] = None
+        self.windowSizeInit: Union[Union[PositiveInteger, None] , None] = None
+        self.windowSizeInvalid: Union[Union[PositiveInteger, None] , None] = None
+        self.windowSizeValid: Union[Union[PositiveInteger, None] , None] = None
 
     def getClearFromValidToInvalid(self):
         return self.clearFromValidToInvalid
@@ -529,7 +529,7 @@ class TransformerClassEnum(AREnum):
     SECURITY = "security"
     SERIALIZER = "serializer"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             TransformerClassEnum.CUSTOM,
             TransformerClassEnum.SAFETY,
@@ -544,16 +544,16 @@ class TransformationTechnology(Identifiable):
     defining buffer properties, state management, protocol
     specifications, and transformer class for data transformation.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.bufferProperties: BufferProperties = None
-        self.hasInternalState: Boolean = None
-        self.needsOriginalData: Boolean = None
-        self.protocol: String = None
-        self.transformationDescription: TransformationDescription = None
-        self.transformerClass: TransformerClassEnum = None
-        self.version: String = None
+        self.bufferProperties: Union[Union[BufferProperties, None] , None] = None
+        self.hasInternalState: Union[Union[Boolean, None] , None] = None
+        self.needsOriginalData: Union[Union[Boolean, None] , None] = None
+        self.protocol: Union[Union[String, None] , None] = None
+        self.transformationDescription: Union[Union[TransformationDescription, None] , None] = None
+        self.transformerClass: Union[Union[TransformerClassEnum, None] , None] = None
+        self.version: Union[Union[String, None] , None] = None
 
     def getBufferProperties(self):
         return self.bufferProperties
@@ -618,7 +618,7 @@ class DataTransformationSet(ARElement):
     organizing multiple data transformations and transformation
     technologies for comprehensive data processing configurations.
     """
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dataTransformations: List[DataTransformation] = []
@@ -651,7 +651,7 @@ class TransformationISignalProps(Describable, ABC):
     defining common properties for signal transformation including
     error reactions, data prototype properties, and transformer references.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TransformationISignalProps:
             raise TypeError("TransformationISignalProps is an abstract class.")
         super().__init__()
@@ -659,7 +659,7 @@ class TransformationISignalProps(Describable, ABC):
         self.csErrorReaction = None
         self.dataPrototypeTransformationProps: List = []
         self.ident = None
-        self.transformerRef: RefType = None
+        self.transformerRef: Union[Union[RefType, None] , None] = None
 
     def getCsErrorReaction(self):
         return self.csErrorReaction
@@ -700,14 +700,14 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
     specifying data IDs, length constraints, and source identifiers
     for protected signal transmission.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.dataIds: List[PositiveInteger] = []
-        self.dataLength: PositiveInteger = None
-        self.maxDataLength: PositiveInteger = None
-        self.minDataLength: PositiveInteger = None
-        self.sourceId: PositiveInteger = None
+        self.dataLength: Union[Union[PositiveInteger, None] , None] = None
+        self.maxDataLength: Union[Union[PositiveInteger, None] , None] = None
+        self.minDataLength: Union[Union[PositiveInteger, None] , None] = None
+        self.sourceId: Union[Union[PositiveInteger, None] , None] = None
 
     def getDataIds(self):
         return self.dataIds

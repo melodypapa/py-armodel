@@ -5,7 +5,7 @@ services such as NV block management, diagnostic services, cryptographic service
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -42,20 +42,20 @@ class RoleBasedDataAssignment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RoleBasedDataAssignment with default values.
         """
         super().__init__()
 
         # Role identifier for this data assignment
-        self.role: ARLiteral = None
+        self.role: Union[Union[ARLiteral, None] , None] = None
         # Used data element reference for this assignment
-        self.usedDataElement: AutosarVariableRef = None
+        self.usedDataElement: Union[Union[AutosarVariableRef, None] , None] = None
         # Used parameter element reference for this assignment
-        self.usedParameterElement: AutosarParameterRef = None
+        self.usedParameterElement: Union[Union[AutosarParameterRef, None] , None] = None
         # Reference to the PIM (Port Interface Mapping) for this assignment
-        self.usedPimRef: RefType = None
+        self.usedPimRef: Union[Union[RefType, None] , None] = None
 
     def getRole(self):
         """
@@ -156,7 +156,7 @@ class ServiceNeeds(Identifiable, ABC):
     Service needs define requirements for various services such as NV block management, diagnostic services, etc.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ServiceNeeds with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -181,7 +181,7 @@ class RamBlockStatusControlEnum(AREnum):
     # Status control through NV RAM manager
     NV_RAM_MANAGER = "nvRamManager"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RamBlockStatusControlEnum with all possible values.
         """
@@ -203,7 +203,7 @@ class NvBlockNeedsReliabilityEnum(AREnum):
     # No protection for NV blocks
     NO_PROTECTION = "noProtection"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the NvBlockNeedsReliabilityEnum with all possible values.
         """
@@ -226,7 +226,7 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
     # Medium priority for NV block writing
     MEDIUM = "medium"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the NvBlockNeedsWritingPriorityEnum with all possible values.
         """
@@ -244,7 +244,7 @@ class NvBlockNeeds(ServiceNeeds):
     CRC calculation, write protection, and various storage strategies.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the NvBlockNeeds with a parent and short name.
 
@@ -255,49 +255,49 @@ class NvBlockNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
         # Flag indicating whether to calculate CRC for RAM blocks
-        self.calcRamBlockCrc: Boolean = None
+        self.calcRamBlockCrc: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to check static block ID
-        self.checkStaticBlockId: Boolean = None
+        self.checkStaticBlockId: Union[Union[Boolean, None] , None] = None
         # Period for cyclic writing operations
-        self.cyclicWritingPeriod: TimeValue = None
+        self.cyclicWritingPeriod: Union[Union[TimeValue, None] , None] = None
         # Number of data sets for this NV block
-        self.nDataSets: PositiveInteger = None
+        self.nDataSets: Union[Union[PositiveInteger, None] , None] = None
         # Number of ROM blocks for this NV block
-        self.nRomBlocks: PositiveInteger = None
+        self.nRomBlocks: Union[Union[PositiveInteger, None] , None] = None
         # Method for controlling RAM block status
-        self.ramBlockStatusControl: RamBlockStatusControlEnum = None
+        self.ramBlockStatusControl: Union[Union[RamBlockStatusControlEnum, None] , None] = None
         # Flag indicating if this block is read-only
-        self.readonly: Boolean = None
+        self.readonly: Union[Union[Boolean, None] , None] = None
         # Reliability level for this NV block
-        self.reliability: NvBlockNeedsReliabilityEnum = None
+        self.reliability: Union[Union[NvBlockNeedsReliabilityEnum, None] , None] = None
         # Flag indicating resistance to changed software
-        self.resistantToChangedSw: Boolean = None
+        self.resistantToChangedSw: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to restore at start
-        self.restoreAtStart: Boolean = None
+        self.restoreAtStart: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to select block for first init all
-        self.selectBlockForFirstInitAll: Boolean = None
+        self.selectBlockForFirstInitAll: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to store at shutdown
-        self.storeAtShutdown: Boolean = None
+        self.storeAtShutdown: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to store cyclically
-        self.storeCyclic: Boolean = None
+        self.storeCyclic: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to store in emergency situations
-        self.storeEmergency: Boolean = None
+        self.storeEmergency: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to store immediately
-        self.storeImmediate: Boolean = None
+        self.storeImmediate: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to store on change
-        self.storeOnChange: Boolean = None
+        self.storeOnChange: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to use auto-validation at shutdown
-        self.useAutoValidationAtShutDown: Boolean = None
+        self.useAutoValidationAtShutDown: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to use CRC comparison mechanism
-        self.useCRCCompMechanism: Boolean = None
+        self.useCRCCompMechanism: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to write only once
-        self.writeOnlyOnce: Boolean = None
+        self.writeOnlyOnce: Union[Union[Boolean, None] , None] = None
         # Flag indicating whether to verify writes
-        self.writeVerification: Boolean = None
+        self.writeVerification: Union[Union[Boolean, None] , None] = None
         # Frequency for writing operations
-        self.writingFrequency: PositiveInteger = None
+        self.writingFrequency: Union[Union[PositiveInteger, None] , None] = None
         # Priority for writing operations
-        self.writingPriority: NvBlockNeedsWritingPriorityEnum = None
+        self.writingPriority: Union[Union[NvBlockNeedsWritingPriorityEnum, None] , None] = None
 
     def getCalcRamBlockCrc(self):
         return self.calcRamBlockCrc
@@ -465,16 +465,16 @@ class RoleBasedDataTypeAssignment(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RoleBasedDataTypeAssignment with default values.
         """
         super().__init__()
 
         # Role identifier for this data type assignment
-        self.role: Identifier = None
+        self.role: Union[Union[Identifier, None] , None] = None
         # Reference to the used implementation data type
-        self.usedImplementationDataTypeRef: RefType = None
+        self.usedImplementationDataTypeRef: Union[Union[RefType, None] , None] = None
 
     def getRole(self):
         """
@@ -529,7 +529,7 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
     Defines the diagnostic relevance of services (currently empty as per specification).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the ServiceDiagnosticRelevanceEnum with empty values list.
         """
@@ -542,7 +542,7 @@ class ServiceDependency(Identifiable, ABC):
     This class defines dependencies on services along with their data type assignments and diagnostic relevance.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ServiceDependency with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -558,7 +558,7 @@ class ServiceDependency(Identifiable, ABC):
         # List of role-based data type assignments for this service dependency
         self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []
         # Diagnostic relevance of this service dependency
-        self.diagnosticRelevance: ServiceDiagnosticRelevanceEnum = None
+        self.diagnosticRelevance: Union[Union[ServiceDiagnosticRelevanceEnum, None] , None] = None
         # Symbolic name properties for this service dependency
         self.symbolicNameProps = None
 
@@ -647,7 +647,7 @@ class DiagnosticAudienceEnum(AREnum):
     # Diagnostic information for supplier use
     SUPPLIER = "supplier"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DiagnosticAudienceEnum with all possible values.
         """
@@ -670,7 +670,7 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
     # Callback type handled by supplier
     REQUEST_CALLBACK_TYPE_SUPPLIER = "requestCallbackTypeSupplier"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DiagnosticServiceRequestCallbackTypeEnum with all possible values.
         """
@@ -686,7 +686,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     This class defines common properties for diagnostic capabilities including audiences, requirements, and security access levels.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticCapabilityElement with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -703,9 +703,9 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         # List of audiences for this diagnostic capability
         self.audiences: List[DiagnosticAudienceEnum] = []
         # Diagnostic requirement ID string for this capability
-        self.diagRequirement: DiagRequirementIdString = None
+        self.diagRequirement: Union[Union[DiagRequirementIdString, None] , None] = None
         # Security access level for this diagnostic capability
-        self.securityAccessLevel: PositiveInteger = None
+        self.securityAccessLevel: Union[Union[PositiveInteger, None] , None] = None
 
     def getAudiences(self):
         """
@@ -786,7 +786,7 @@ class DiagnosticRoutineTypeEnum(AREnum):
     # Synchronous diagnostic routine
     SYNCHRONOUS = "synchronous"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DiagnosticRoutineTypeEnum with all possible values.
         """
@@ -802,7 +802,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
     This class defines requirements for the diagnostic communication manager including callback types.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticCommunicationManagerNeeds with a parent and short name.
 
@@ -813,7 +813,7 @@ class DiagnosticCommunicationManagerNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Type of service request callback for this diagnostic communication manager
-        self.serviceRequestCallbackType: DiagnosticServiceRequestCallbackTypeEnum = None
+        self.serviceRequestCallbackType: Union[Union[DiagnosticServiceRequestCallbackTypeEnum, None] , None] = None
 
     def getServiceRequestCallbackType(self):
         """
@@ -845,7 +845,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     This class defines requirements for diagnostic routines including their execution type and RID number.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticRoutineNeeds with a parent and short name.
 
@@ -856,9 +856,9 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Type of diagnostic routine (synchronous or asynchronous)
-        self.diagRoutineType: DiagnosticRoutineTypeEnum = None
+        self.diagRoutineType: Union[Union[DiagnosticRoutineTypeEnum, None] , None] = None
         # RID (Routine ID) number for this diagnostic routine
-        self.RidNumber: PositiveInteger = None
+        self.RidNumber: Union[Union[PositiveInteger, None] , None] = None
 
     def getDiagRoutineType(self):
         """
@@ -919,7 +919,7 @@ class DiagnosticValueAccessEnum(AREnum):
     # Write-only access for diagnostic values
     WRITE_ONLY = "writeOnly"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DiagnosticValueAccessEnum with all possible values.
         """
@@ -942,7 +942,7 @@ class DiagnosticProcessingStyleEnum(AREnum):
     # Synchronous processing style for diagnostics
     PROCESSING_STYLE_SYNCHRONOUS = "processingStyleSynchronous"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DiagnosticProcessingStyleEnum with all possible values.
         """
@@ -959,7 +959,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
     This class defines requirements for diagnostic values including access permissions, length, and processing style.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticValueNeeds with a parent and short name.
 
@@ -970,15 +970,15 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Data length for this diagnostic value
-        self.dataLength: PositiveInteger = None
+        self.dataLength: Union[Union[PositiveInteger, None] , None] = None
         # Access permissions for this diagnostic value
-        self.diagnosticValueAccess: DiagnosticValueAccessEnum = None
+        self.diagnosticValueAccess: Union[Union[DiagnosticValueAccessEnum, None] , None] = None
         # DID (Data ID) number for this diagnostic value
-        self.DidNumber: Integer = None
+        self.DidNumber: Union[Union[Integer, None] , None] = None
         # Flag indicating if this diagnostic value has fixed length
-        self.fixedLength: Boolean = None
+        self.fixedLength: Union[Union[Boolean, None] , None] = None
         # Processing style for this diagnostic value
-        self.processingStyle: DiagnosticProcessingStyleEnum = None
+        self.processingStyle: Union[Union[DiagnosticProcessingStyleEnum, None] , None] = None
 
     def getDataLength(self):
         """
@@ -1102,7 +1102,7 @@ class DiagEventDebounceAlgorithm(Identifiable, ABC):
     This class defines the base structure for algorithms that debounce diagnostic events to prevent false triggers.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagEventDebounceAlgorithm with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -1123,7 +1123,7 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
     This class defines debounce algorithms based on counters that increment/decrement to detect fault conditions.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagEventDebounceCounterBased with a parent and short name.
 
@@ -1134,23 +1134,23 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
         super().__init__(parent, short_name)
 
         # Counter-based FDC (Fault Detection Counter) threshold storage value
-        self.counterBasedFdcThresholdStorageValue: Integer = None
+        self.counterBasedFdcThresholdStorageValue: Union[Union[Integer, None] , None] = None
         # Counter decrement step size for this debounce algorithm
-        self.counterDecrementStepSize: Integer = None
+        self.counterDecrementStepSize: Union[Union[Integer, None] , None] = None
         # Counter threshold for failed state detection
-        self.counterFailedThreshold: Integer = None
+        self.counterFailedThreshold: Union[Union[Integer, None] , None] = None
         # Counter increment step size for this debounce algorithm
-        self.counterIncrementStepSize: Integer = None
+        self.counterIncrementStepSize: Union[Union[Integer, None] , None] = None
         # Counter value to jump down to when conditions are met
-        self.counterJumpDown: Integer = None
+        self.counterJumpDown: Union[Union[Integer, None] , None] = None
         # Value to set counter to when jumping down
-        self.counterJumpDownValue: Integer = None
+        self.counterJumpDownValue: Union[Union[Integer, None] , None] = None
         # Counter value to jump up to when conditions are met
-        self.counterJumpUp: Integer = None
+        self.counterJumpUp: Union[Union[Integer, None] , None] = None
         # Value to set counter to when jumping up
-        self.counterJumpUpValue: Integer = None
+        self.counterJumpUpValue: Union[Union[Integer, None] , None] = None
         # Counter threshold for passed state detection
-        self.counterPassedThreshold: Integer = None
+        self.counterPassedThreshold: Union[Union[Integer, None] , None] = None
 
     def getCounterBasedFdcThresholdStorageValue(self):
         return self.counterBasedFdcThresholdStorageValue
@@ -1222,7 +1222,7 @@ class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     This class defines debounce algorithms based on internal monitoring mechanisms rather than counters or time thresholds.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagEventDebounceMonitorInternal with a parent and short name.
 
@@ -1239,7 +1239,7 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
     This class defines debounce algorithms based on time thresholds to detect and handle diagnostic events.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagEventDebounceTimeBased with a parent and short name.
 
@@ -1250,11 +1250,11 @@ class DiagEventDebounceTimeBased(DiagEventDebounceAlgorithm):
         super().__init__(parent, short_name)
 
         # Time-based FDC (Fault Detection Counter) threshold storage value
-        self.timeBasedFdcThresholdStorageValue: TimeValue = None
+        self.timeBasedFdcThresholdStorageValue: Union[Union[TimeValue, None] , None] = None
         # Time threshold for failed state detection
-        self.timeFailedThreshold: TimeValue = None
+        self.timeFailedThreshold: Union[Union[TimeValue, None] , None] = None
         # Time threshold for passed state detection
-        self.timePassedThreshold: TimeValue = None
+        self.timePassedThreshold: Union[Union[TimeValue, None] , None] = None
 
     def getTimeBasedFdcThresholdStorageValue(self):
         return self.timeBasedFdcThresholdStorageValue
@@ -1284,7 +1284,7 @@ class DtcKindEnum(AREnum):
     Defines the type of diagnostic trouble codes used (currently empty as per specification).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DtcKindEnum with empty values list.
         """
@@ -1297,7 +1297,7 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
     This class defines requirements for diagnostic events including DTC information and numbering schemes.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticEventInfoNeeds with a parent and short name.
 
@@ -1308,11 +1308,11 @@ class DiagnosticEventInfoNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Type of diagnostic trouble code (DTC) for this event
-        self.dtcKind: DtcKindEnum = None
+        self.dtcKind: Union[Union[DtcKindEnum, None] , None] = None
         # OBD (On-Board Diagnostics) DTC number for this event
-        self.obdDtcNumber: PositiveInteger = None
+        self.obdDtcNumber: Union[Union[PositiveInteger, None] , None] = None
         # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: PositiveInteger = None
+        self.udsDtcNumber: Union[Union[PositiveInteger, None] , None] = None
 
     def getDtcKind(self):
         """
@@ -1393,7 +1393,7 @@ class DiagnosticClearDtcNotificationEnum(AREnum):
     Defines the timing for notification when DTCs are cleared (currently empty as per specification).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DiagnosticClearDtcNotificationEnum with empty values list.
         """
@@ -1406,7 +1406,7 @@ class DtcFormatTypeEnum(AREnum):
     Defines the format used for diagnostic trouble codes (currently empty as per specification).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DtcFormatTypeEnum with empty values list.
         """
@@ -1419,7 +1419,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
     This class defines requirements for notifications when DTC status changes occur.
     """
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent, short_name) -> None:
         """
         Initializes the DtcStatusChangeNotificationNeeds with a parent and short name.
         Note: This is an extension for AUTOSAR 4.3.1.
@@ -1431,9 +1431,9 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
         # Format type for DTC used in notifications
-        self.dtcFormatType: DtcFormatTypeEnum = None
+        self.dtcFormatType: Union[Union[DtcFormatTypeEnum, None] , None] = None
         # Notification timing for when DTCs are cleared
-        self.notificationTime: DiagnosticClearDtcNotificationEnum = None
+        self.notificationTime: Union[Union[DiagnosticClearDtcNotificationEnum, None] , None] = None
 
     def getDtcFormatType(self):
         """
@@ -1490,7 +1490,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     This class defines requirements for diagnostic events including debounce algorithms, FID references, and DTC information.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticEventNeeds with a parent and short name.
 
@@ -1503,19 +1503,19 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         # List of FID (Function Identifier) references for deferring this diagnostic event
         self.deferringFidRefs: List[RefType] = []
         # Debounce algorithm for this diagnostic event
-        self.diagEventDebounceAlgorithm: DiagEventDebounceAlgorithm = None
+        self.diagEventDebounceAlgorithm: Union[Union[DiagEventDebounceAlgorithm, None] , None] = None
         # FID reference for inhibiting this diagnostic event
-        self.inhibitingFidRef: RefType = None
+        self.inhibitingFidRef: Union[Union[RefType, None] , None] = None
         # Secondary FID reference for inhibiting this diagnostic event
-        self.inhibitingSecondaryFidRef: RefType = None
+        self.inhibitingSecondaryFidRef: Union[Union[RefType, None] , None] = None
         # Flag indicating if prestored freeze frame is stored in NVM
-        self.prestoredFreezeframeStoredInNvm: Boolean = None
+        self.prestoredFreezeframeStoredInNvm: Union[Union[Boolean, None] , None] = None
         # Flag indicating if this event uses monitor data
-        self.usesMonitorData: Boolean = None
+        self.usesMonitorData: Union[Union[Boolean, None] , None] = None
         # Type of diagnostic trouble code (DTC) for this event (as ARLiteral)
-        self.dtcKind: ARLiteral = None
+        self.dtcKind: Union[Union[ARLiteral, None] , None] = None
         # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: Integer = None
+        self.udsDtcNumber: Union[Union[Integer, None] , None] = None
 
     def getDeferringFidRefs(self):
         """
@@ -1741,7 +1741,7 @@ class CryptoServiceNeeds(ServiceNeeds):
     This class defines requirements for cryptographic services including algorithm information and key management.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the CryptoServiceNeeds with a parent and short name.
 
@@ -1752,13 +1752,13 @@ class CryptoServiceNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
         # Algorithm family used by this cryptographic service
-        self.algorithmFamily: String = None
+        self.algorithmFamily: Union[Union[String, None] , None] = None
         # Algorithm mode used by this cryptographic service
-        self.algorithmMode: String = None
+        self.algorithmMode: Union[Union[String, None] , None] = None
         # Description of the cryptographic key used by this service
-        self.cryptoKeyDescription: String = None
+        self.cryptoKeyDescription: Union[Union[String, None] , None] = None
         # Maximum length of keys supported by this cryptographic service
-        self.maximumKeyLength: PositiveInteger = None
+        self.maximumKeyLength: Union[Union[PositiveInteger, None] , None] = None
 
     def getAlgorithmFamily(self):
         """
@@ -1859,7 +1859,7 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
     This class defines requirements for components that use the ECU state manager service.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the EcuStateMgrUserNeeds with a parent and short name.
 
@@ -1876,7 +1876,7 @@ class DltUserNeeds(ServiceNeeds):
     This class defines requirements for components that use the DLT service for logging and tracing.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DltUserNeeds with a parent and short name.
 
@@ -1893,7 +1893,7 @@ class BswMgrNeeds(ServiceNeeds):
     This class defines requirements for Basic Software Manager services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the BswMgrNeeds with a parent and short name.
 
@@ -1910,7 +1910,7 @@ class ComMgrUserNeeds(ServiceNeeds):
     This class defines requirements for Communication Manager services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ComMgrUserNeeds with a parent and short name.
 
@@ -1927,7 +1927,7 @@ class CryptoKeyManagementNeeds(ServiceNeeds):
     This class defines requirements for cryptographic key management services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the CryptoKeyManagementNeeds with a parent and short name.
 
@@ -1944,7 +1944,7 @@ class CryptoServiceJobNeeds(ServiceNeeds):
     This class defines requirements for cryptographic service job operations.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the CryptoServiceJobNeeds with a parent and short name.
 
@@ -1966,13 +1966,13 @@ class DevelopmentError(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the DevelopmentError with default values.
         """
         super().__init__()
-        self.errorCode: Integer = None
-        self.errorDescription: String = None
+        self.errorCode: Union[Union[Integer, None] , None] = None
+        self.errorDescription: Union[Union[String, None] , None] = None
 
     def getErrorCode(self):
         return self.errorCode
@@ -1995,7 +1995,7 @@ class DiagnosticComponentNeeds(ServiceNeeds):
     This class defines requirements for diagnostic component services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticComponentNeeds with a parent and short name.
 
@@ -2012,7 +2012,7 @@ class DiagnosticControlNeeds(ServiceNeeds):
     This class defines requirements for diagnostic control services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticControlNeeds with a parent and short name.
 
@@ -2031,7 +2031,7 @@ class DiagnosticDenominatorConditionEnum(AREnum):
     DENOMINATOR_OFF = "denominator-off"
     DENOMINATOR_ON = "denominator-on"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             DiagnosticDenominatorConditionEnum.DENOMINATOR_OFF,
             DiagnosticDenominatorConditionEnum.DENOMINATOR_ON,
@@ -2044,7 +2044,7 @@ class DiagnosticEnableConditionNeeds(ServiceNeeds):
     This class defines requirements for diagnostic enable condition services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticEnableConditionNeeds with a parent and short name.
 
@@ -2061,7 +2061,7 @@ class DiagnosticEventManagerNeeds(ServiceNeeds):
     This class defines requirements for diagnostic event manager services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticEventManagerNeeds with a parent and short name.
 
@@ -2078,7 +2078,7 @@ class DiagnosticIoControlNeeds(ServiceNeeds):
     This class defines requirements for diagnostic input/output control services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticIoControlNeeds with a parent and short name.
 
@@ -2097,7 +2097,7 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
     IMMEDIATE = "immediate"
     ON_REQUEST = "on-request"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             DiagnosticMonitorUpdateKindEnum.IMMEDIATE,
             DiagnosticMonitorUpdateKindEnum.ON_REQUEST,
@@ -2110,7 +2110,7 @@ class DiagnosticOperationCycleNeeds(ServiceNeeds):
     This class defines requirements for diagnostic operation cycle services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticOperationCycleNeeds with a parent and short name.
 
@@ -2127,7 +2127,7 @@ class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
     This class defines requirements for diagnostic file transfer services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticRequestFileTransferNeeds with a parent and short name.
 
@@ -2144,7 +2144,7 @@ class DiagnosticStorageConditionNeeds(ServiceNeeds):
     This class defines requirements for diagnostic storage condition services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticStorageConditionNeeds with a parent and short name.
 
@@ -2161,7 +2161,7 @@ class DiagnosticUploadDownloadNeeds(ServiceNeeds):
     This class defines requirements for diagnostic upload and download services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticUploadDownloadNeeds with a parent and short name.
 
@@ -2178,7 +2178,7 @@ class DiagnosticsCommunicationSecurityNeeds(ServiceNeeds):
     This class defines requirements for secure diagnostic communication services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DiagnosticsCommunicationSecurityNeeds with a parent and short name.
 
@@ -2195,7 +2195,7 @@ class DoIpActivationLineNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) activation line services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpActivationLineNeeds with a parent and short name.
 
@@ -2212,7 +2212,7 @@ class DoIpGidNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) GID services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpGidNeeds with a parent and short name.
 
@@ -2229,7 +2229,7 @@ class DoIpGidSynchronizationNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) GID synchronization services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpGidSynchronizationNeeds with a parent and short name.
 
@@ -2246,7 +2246,7 @@ class DoIpPowerModeStatusNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) power mode status services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpPowerModeStatusNeeds with a parent and short name.
 
@@ -2263,7 +2263,7 @@ class DoIpRoutingActivationAuthenticationNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) routing activation authentication services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpRoutingActivationAuthenticationNeeds with a parent and short name.
 
@@ -2280,7 +2280,7 @@ class DoIpRoutingActivationConfirmationNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) routing activation confirmation services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpRoutingActivationConfirmationNeeds with a parent and short name.
 
@@ -2297,7 +2297,7 @@ class DoIpServiceNeeds(ServiceNeeds):
     This class defines requirements for DoIP (Diagnostics over IP) services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DoIpServiceNeeds with a parent and short name.
 
@@ -2314,7 +2314,7 @@ class ErrorTracerNeeds(ServiceNeeds):
     This class defines requirements for error tracing services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ErrorTracerNeeds with a parent and short name.
 
@@ -2333,7 +2333,7 @@ class EventAcceptanceStatusEnum(AREnum):
     ACCEPTED = "accepted"
     REJECTED = "rejected"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             EventAcceptanceStatusEnum.ACCEPTED,
             EventAcceptanceStatusEnum.REJECTED,
@@ -2346,7 +2346,7 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     This class defines requirements for function inhibition availability services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the FunctionInhibitionAvailabilityNeeds with a parent and short name.
 
@@ -2363,7 +2363,7 @@ class FunctionInhibitionNeeds(ServiceNeeds):
     This class defines requirements for function inhibition services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the FunctionInhibitionNeeds with a parent and short name.
 
@@ -2380,7 +2380,7 @@ class FurtherActionByteNeeds(ServiceNeeds):
     This class defines requirements for further action byte services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the FurtherActionByteNeeds with a parent and short name.
 
@@ -2397,7 +2397,7 @@ class GlobalSupervisionNeeds(ServiceNeeds):
     This class defines requirements for global supervision services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the GlobalSupervisionNeeds with a parent and short name.
 
@@ -2414,7 +2414,7 @@ class HardwareTestNeeds(ServiceNeeds):
     This class defines requirements for hardware test services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the HardwareTestNeeds with a parent and short name.
 
@@ -2431,7 +2431,7 @@ class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     This class defines requirements for IDS (Intrusion Detection System) manager custom timestamp services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the IdsMgrCustomTimestampNeeds with a parent and short name.
 
@@ -2448,7 +2448,7 @@ class IdsMgrNeeds(ServiceNeeds):
     This class defines requirements for IDS (Intrusion Detection System) manager services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the IdsMgrNeeds with a parent and short name.
 
@@ -2465,7 +2465,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
     This class defines requirements for indicator status services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the IndicatorStatusNeeds with a parent and short name.
 
@@ -2482,7 +2482,7 @@ class J1939DcmDm19Support(ServiceNeeds):
     This class defines requirements for J1939 diagnostic communication manager DM19 support.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the J1939DcmDm19Support with a parent and short name.
 
@@ -2499,7 +2499,7 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     This class defines requirements for J1939 request manager incoming request services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the J1939RmIncomingRequestServiceNeeds with a parent and short name.
 
@@ -2516,7 +2516,7 @@ class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     This class defines requirements for J1939 request manager outgoing request services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the J1939RmOutgoingRequestServiceNeeds with a parent and short name.
 
@@ -2536,7 +2536,7 @@ class MaxCommModeEnum(AREnum):
     NO_COMMUNICATION = "no-communication"
     SILENT_COMMUNICATION = "silent-communication"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             MaxCommModeEnum.FULL_COMMUNICATION,
             MaxCommModeEnum.NO_COMMUNICATION,
@@ -2550,7 +2550,7 @@ class ObdControlServiceNeeds(ServiceNeeds):
     This class defines requirements for On-Board Diagnostics control services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ObdControlServiceNeeds with a parent and short name.
 
@@ -2567,7 +2567,7 @@ class ObdInfoServiceNeeds(ServiceNeeds):
     This class defines requirements for On-Board Diagnostics information services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ObdInfoServiceNeeds with a parent and short name.
 
@@ -2584,7 +2584,7 @@ class ObdMonitorServiceNeeds(ServiceNeeds):
     This class defines requirements for On-Board Diagnostics monitor services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ObdMonitorServiceNeeds with a parent and short name.
 
@@ -2601,7 +2601,7 @@ class ObdPidServiceNeeds(ServiceNeeds):
     This class defines requirements for On-Board Diagnostics PID (Parameter ID) services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ObdPidServiceNeeds with a parent and short name.
 
@@ -2620,7 +2620,7 @@ class ObdRatioConnectionKindEnum(AREnum):
     LOGICAL_AND = "logical-and"
     LOGICAL_OR = "logical-or"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ObdRatioConnectionKindEnum.LOGICAL_AND,
             ObdRatioConnectionKindEnum.LOGICAL_OR,
@@ -2633,7 +2633,7 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
     This class defines requirements for On-Board Diagnostics ratio denominator services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ObdRatioDenominatorNeeds with a parent and short name.
 
@@ -2650,7 +2650,7 @@ class ObdRatioServiceNeeds(ServiceNeeds):
     This class defines requirements for On-Board Diagnostics ratio services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ObdRatioServiceNeeds with a parent and short name.
 
@@ -2670,7 +2670,7 @@ class OperationCycleTypeEnum(AREnum):
     IGNITION_CYCLE = "ignition-cycle"
     POWER_CYCLE = "power-cycle"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             OperationCycleTypeEnum.ALL_CYCLES,
             OperationCycleTypeEnum.IGNITION_CYCLE,
@@ -2689,13 +2689,13 @@ class RuntimeError(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the RuntimeError with default values.
         """
         super().__init__()
-        self.errorCode: Integer = None
-        self.errorDescription: String = None
+        self.errorCode: Union[Union[Integer, None] , None] = None
+        self.errorDescription: Union[Union[String, None] , None] = None
 
     def getErrorCode(self):
         return self.errorCode
@@ -2718,7 +2718,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     This class defines requirements for secure on-board communication services (SecOC).
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the SecureOnBoardCommunicationNeeds with a parent and short name.
 
@@ -2738,7 +2738,7 @@ class ServiceProviderEnum(AREnum):
     RTE = "rte"
     SWC = "swc"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             ServiceProviderEnum.BSW,
             ServiceProviderEnum.RTE,
@@ -2754,7 +2754,7 @@ class StorageConditionStatusEnum(AREnum):
     CONDITION_FALSE = "condition-false"
     CONDITION_TRUE = "condition-true"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             StorageConditionStatusEnum.CONDITION_FALSE,
             StorageConditionStatusEnum.CONDITION_TRUE,
@@ -2767,7 +2767,7 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     This class defines requirements for supervised entity checkpoint services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the SupervisedEntityCheckpointNeeds with a parent and short name.
 
@@ -2784,7 +2784,7 @@ class SupervisedEntityNeeds(ServiceNeeds):
     This class defines requirements for supervised entity services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the SupervisedEntityNeeds with a parent and short name.
 
@@ -2806,12 +2806,12 @@ class SymbolicNameProps(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the SymbolicNameProps with default values.
         """
         super().__init__()
-        self.symbolicName: String = None
+        self.symbolicName: Union[Union[String, None] , None] = None
 
     def getSymbolicName(self):
         return self.symbolicName
@@ -2827,7 +2827,7 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     This class defines requirements for synchronized time base manager user services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the SyncTimeBaseMgrUserNeeds with a parent and short name.
 
@@ -2849,13 +2849,13 @@ class TracedFailure(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the TracedFailure with default values.
         """
         super().__init__()
-        self.failureCode: Integer = None
-        self.failureDescription: String = None
+        self.failureCode: Union[Union[Integer, None] , None] = None
+        self.failureDescription: Union[Union[String, None] , None] = None
 
     def getFailureCode(self):
         return self.failureCode
@@ -2883,13 +2883,13 @@ class TransientFault(ARObject):
         """Validate this is a concrete class."""
         pass
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes the TransientFault with default values.
         """
         super().__init__()
-        self.faultCode: Integer = None
-        self.faultDescription: String = None
+        self.faultCode: Union[Union[Integer, None] , None] = None
+        self.faultDescription: Union[Union[String, None] , None] = None
 
     def getFaultCode(self):
         return self.faultCode
@@ -2912,7 +2912,7 @@ class V2xDataManagerNeeds(ServiceNeeds):
     This class defines requirements for Vehicle-to-Everything data manager services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the V2xDataManagerNeeds with a parent and short name.
 
@@ -2929,7 +2929,7 @@ class V2xFacUserNeeds(ServiceNeeds):
     This class defines requirements for V2X functional application cluster user services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the V2xFacUserNeeds with a parent and short name.
 
@@ -2946,7 +2946,7 @@ class V2xMUserNeeds(ServiceNeeds):
     This class defines requirements for V2X manager user services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the V2xMUserNeeds with a parent and short name.
 
@@ -2963,7 +2963,7 @@ class VendorSpecificServiceNeeds(ServiceNeeds):
     This class defines requirements for vendor-specific services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the VendorSpecificServiceNeeds with a parent and short name.
 
@@ -2982,7 +2982,7 @@ class VerificationStatusIndicationModeEnum(AREnum):
     DIRECT = "direct"
     INDIRECT = "indirect"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__((
             VerificationStatusIndicationModeEnum.DIRECT,
             VerificationStatusIndicationModeEnum.INDIRECT,
@@ -2995,7 +2995,7 @@ class WarningIndicatorRequestedBitNeeds(ServiceNeeds):
     This class defines requirements for warning indicator requested bit services.
     """
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the WarningIndicatorRequestedBitNeeds with a parent and short name.
 
