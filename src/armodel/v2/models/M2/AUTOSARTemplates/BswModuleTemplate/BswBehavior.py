@@ -1096,6 +1096,11 @@ class BswModeSwitchAckRequest(ARObject):
     This is used in BSW modules to handle mode switch acknowledgments.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the BswModeSwitchAckRequest.
@@ -1133,6 +1138,11 @@ class BswModeSenderPolicy(ARObject):
     Represents the policy for a BSW mode sender.
     This defines how mode changes are sent and acknowledged in BSW modules.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """
@@ -2379,6 +2389,11 @@ class BswSchedulerNamePrefix(ARObject):
     This class defines the prefix used for scheduler names.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the BswSchedulerNamePrefix with default values.
@@ -2410,6 +2425,11 @@ class BswServiceDependency(ARObject):
     Represents a BSW service dependency in AUTOSAR.
     This class defines dependencies between BSW services.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """
@@ -2469,6 +2489,11 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     Represents a role-based BSW module entry assignment in AUTOSAR.
     This class defines how BSW module entries are assigned based on their role.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """

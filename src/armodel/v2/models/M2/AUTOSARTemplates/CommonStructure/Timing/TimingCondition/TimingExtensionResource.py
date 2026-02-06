@@ -9,6 +9,11 @@ class TimingExtensionResource(ARObject):
     Defines resources used for timing extensions.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the TimingExtensionResource with default values.

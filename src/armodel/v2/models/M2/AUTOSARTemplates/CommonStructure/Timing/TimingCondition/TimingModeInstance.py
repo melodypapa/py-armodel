@@ -12,6 +12,11 @@ class TimingModeInstance(ARObject):
     Defines a mode instance used in timing specifications.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the TimingModeInstance with default values.

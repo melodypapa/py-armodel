@@ -18,7 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
     ARLiteral,
     ARNumerical,
     RefType,
@@ -529,6 +528,11 @@ class ConstantSpecificationMapping(ARObject):
     Represents a mapping between constant specifications.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
         self.sourceRef: RefType = None
@@ -553,6 +557,11 @@ class ConstantSpecificationMappingSet(ARObject):
     """
     Represents a set of constant specification mappings.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()
@@ -586,6 +595,11 @@ class NumericalOrText(ARObject):
     """
     Represents a value that can be either numerical or text.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()
@@ -646,6 +660,11 @@ class RuleArguments(ARObject):
     Represents arguments for rule-based value specifications.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
         self.arguments = []
@@ -661,6 +680,11 @@ class RuleBasedAxisCont(ARObject):
     """
     Represents rule-based axis content.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()
@@ -678,6 +702,11 @@ class RuleBasedValueCont(ARObject):
     """
     Represents rule-based value content.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()

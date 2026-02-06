@@ -49,6 +49,11 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     This class defines relationships between different mode declaration group prototypes across system boundaries.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the ModeDeclarationGroupPrototypeMapping with default values.
@@ -183,6 +188,11 @@ class ModeRequestTypeMap(ARObject):
     Represents a mapping between mode requests and implementation data types in AUTOSAR models.
     This class defines how mode requests are mapped to specific implementation data types.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """
@@ -447,6 +457,11 @@ class ModeErrorBehavior(ARObject):
     This class defines the behavior when a mode error occurs.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the ModeErrorBehavior with default values.
@@ -467,6 +482,11 @@ class ModeTransition(ARObject):
     Represents a mode transition in AUTOSAR.
     This class defines transitions between different mode declarations.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """

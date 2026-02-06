@@ -18,6 +18,11 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
 
 class SwCalprmAxis(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -28,6 +33,11 @@ class SwCalprmAxis(ARObject):
         self.sw_calprm_axis_type_props = None       # type: SwCalprmAxisTypeProps
 
 class SwCalprmAxisSet(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

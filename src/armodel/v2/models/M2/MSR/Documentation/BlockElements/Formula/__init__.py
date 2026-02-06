@@ -16,6 +16,11 @@ class MlFormula(ARObject):
     Attributes:
         formula (String): The MathML formula expression.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

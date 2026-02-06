@@ -14,6 +14,11 @@ class McSupportData(ARObject):
     Defines data structures for supporting measurement and calibration functionality.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the McSupportData with default values.

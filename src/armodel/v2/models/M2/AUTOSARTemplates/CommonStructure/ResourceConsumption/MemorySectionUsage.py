@@ -218,6 +218,11 @@ class SectionNamePrefix(ARObject):
     Defines a prefix for memory section names.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the SectionNamePrefix with default values.

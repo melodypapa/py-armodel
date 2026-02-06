@@ -3,7 +3,7 @@ This module contains the base ARObject class for AUTOSAR models
 in the GenericStructure module.
 """
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import (
     Dict,
     Optional,
@@ -16,9 +16,15 @@ class ARObject(ABC):
     This class provides the basic structure and functionality for all AUTOSAR objects.
     """
 
+    @abstractmethod
+    def _validate_abstract(self) -> None:
+        """Abstract method to enforce abstract base class pattern."""
+        pass
+
     def __init__(self):
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
+        self._validate_abstract()
 
         self.parent: Optional['ARObject'] = None
         self.checksum: Optional[str] = None

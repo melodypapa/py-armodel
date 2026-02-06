@@ -9,6 +9,11 @@ class TimingClock(ARObject):
     Defines a clock used for timing analysis and synchronization.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the TimingClock with default values.

@@ -7,6 +7,11 @@ from armodel.v2.models.M2.MSR.DataDictionary.CalibrationParameter import (
 
 
 class SwGenericAxisParam(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -28,6 +33,11 @@ class SwGenericAxisParam(ARObject):
         return self
 
 class SwAxisGeneric(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

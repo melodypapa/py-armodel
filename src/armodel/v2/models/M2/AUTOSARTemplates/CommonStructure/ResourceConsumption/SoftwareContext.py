@@ -17,6 +17,11 @@ class SoftwareContext(ARObject):
     This class defines the input conditions and execution state for resource consumption analysis.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the SoftwareContext with default values.

@@ -19,6 +19,11 @@ class RxIdentifierRange(ARObject):
     This class specifies the lower and upper bounds of CAN message IDs that should
     be accepted by a CAN controller or communication endpoint.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

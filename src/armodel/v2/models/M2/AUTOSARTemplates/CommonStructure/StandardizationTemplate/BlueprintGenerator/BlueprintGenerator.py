@@ -9,6 +9,11 @@ class BlueprintGenerator(ARObject):
     Defines a generator for creating blueprints from templates.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the BlueprintGenerator with default values.

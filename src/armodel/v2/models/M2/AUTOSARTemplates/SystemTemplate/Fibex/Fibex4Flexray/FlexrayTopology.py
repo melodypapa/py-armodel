@@ -24,12 +24,12 @@ class FlexrayChannelName(AREnum):
     in FlexRay communication systems.
     """
     CHANNEL_A = "channelA"
-    channel_B = "channelB"
+    CHANNEL_B = "channelB"
 
     def __init__(self):
         super().__init__([
             FlexrayChannelName.CHANNEL_A,
-            FlexrayChannelName.channel_B
+            FlexrayChannelName.CHANNEL_B
         ])
 
 

@@ -294,6 +294,11 @@ class CanTpEcu(ARObject):
     defining cycle time for the main function and ECU instance
     references for CAN TP communication management.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

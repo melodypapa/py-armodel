@@ -38,6 +38,11 @@ class CompuConst(ARObject):
     Base            : ARObject
     Aggregated by   : Compu.compuDefaultValue, CompuScale.compuInverseValue, CompuScaleConstantContents.compuCons
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -55,6 +60,11 @@ class Compu(ARObject):
     Base class for computation methods.
     Base: ARObject
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -180,6 +190,11 @@ class CompuRationalCoeffs(ARObject):
     Base            : ARObject
     Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -223,6 +238,11 @@ class CompuNominatorDenominator(ARObject):
     Base          : ARObject
     Aggregated by : CompuRationalCoeffs.compuDenominator, CompuRationalCoeffs.compuNumerator
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -240,6 +260,11 @@ class CompuScale(ARObject):
     Represents a single scale in a computation method with limits and content.
     Base: ARObject
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

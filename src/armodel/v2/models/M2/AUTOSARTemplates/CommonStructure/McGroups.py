@@ -13,6 +13,11 @@ class McGroup(ARObject):
     This class defines a group of MC elements.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the McGroup with default values.
@@ -40,6 +45,11 @@ class McGroupDataRefSet(ARObject):
     """
     Represents a set of MC group data references.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """

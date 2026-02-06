@@ -625,6 +625,11 @@ class BswEntryRelationship(ARObject):
     This class defines relationships between BSW entries.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the BswEntryRelationship with default values.
@@ -679,6 +684,11 @@ class BswEntryRelationshipSet(ARObject):
     """
     Represents a set of BSW entry relationships in AUTOSAR.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         """

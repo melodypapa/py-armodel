@@ -12,6 +12,11 @@ class SignalServiceTranslationProps(ARObject):
     Defines properties for signal service translation.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the SignalServiceTranslationProps with default values.

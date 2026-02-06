@@ -222,6 +222,11 @@ class HwPinGroupContent(ARObject):
     This class links individual pins and pin groups together to form complex pin structures.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the HwPinGroupContent with default values.

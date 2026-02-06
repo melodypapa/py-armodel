@@ -211,6 +211,11 @@ class ReferenceBase(ARObject):
     They are used to establish relationships between different AUTOSAR packages.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes a ReferenceBase instance with default values for
@@ -655,9 +660,8 @@ class ARPackage(CollectableElement):
         Returns:
             The element with the specified name and type, or None if not found
         """
-        if type is ARPackage or type is None:
-            if short_name in self.arPackages:
-                return self.arPackages[short_name]
+        if (type is ARPackage or type is None) and short_name in self.arPackages:
+            return self.arPackages[short_name]
         return CollectableElement.getElement(self, short_name, type)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:

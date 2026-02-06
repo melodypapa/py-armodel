@@ -26,6 +26,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 
 
 class EndToEndDescription(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -113,6 +118,11 @@ class EndToEndDescription(ARObject):
 
 
 class EndToEndProtectionVariablePrototype(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -128,6 +138,11 @@ class EndToEndProtectionVariablePrototype(ARObject):
 
 
 class EndToEndProtectionISignalIPdu(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

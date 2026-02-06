@@ -153,6 +153,11 @@ class ContainedIPduProps(ARObject):
     specifying collection semantics, header IDs, offset, timeout,
     trigger, and update indication bit position properties.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -368,6 +373,11 @@ class SecureCommunicationProps(ARObject):
     data freshness, integrity protection, and secured area specifications
     for protected communication channels.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -1049,6 +1059,11 @@ class SegmentPosition(ARObject):
     specifying byte order, length, and position properties for
     segmented communication.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -1130,6 +1145,11 @@ class DynamicPartAlternative(ARObject):
     specifying selector field codes, initial dynamic part properties,
     and Interaction Protocol Data Unit (IPDU) references.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

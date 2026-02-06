@@ -195,6 +195,11 @@ class DoIpEntity(ARObject):
     specifying the role and behavior of DoIP-enabled devices in
     the network for diagnostic communication purposes.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -214,6 +219,11 @@ class TimeSyncClientConfiguration(ARObject):
     ordered master relationships and time synchronization
     technology settings for network time coordination.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -290,6 +300,11 @@ class TimeSynchronization(ARObject):
     including both client and server configurations for coordinated
     timing across the AUTOSAR system network.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -319,6 +334,11 @@ class InfrastructureServices(ARObject):
     including DoIP capabilities and time synchronization services
     for network management and coordination.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

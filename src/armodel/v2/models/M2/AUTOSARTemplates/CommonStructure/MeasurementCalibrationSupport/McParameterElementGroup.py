@@ -14,6 +14,11 @@ class McParameterElementGroup(ARObject):
     Defines a group of parameter elements for measurement and calibration purposes.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the McParameterElementGroup with default values.

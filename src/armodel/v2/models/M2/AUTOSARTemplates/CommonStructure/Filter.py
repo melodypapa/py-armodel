@@ -56,6 +56,11 @@ class DataFilter(ARObject):
     This class defines conditions and parameters for filtering data updates in AUTOSAR systems.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the DataFilter with default values.

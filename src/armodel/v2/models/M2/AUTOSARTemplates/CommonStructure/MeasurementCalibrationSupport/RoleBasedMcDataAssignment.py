@@ -12,6 +12,11 @@ class RoleBasedMcDataAssignment(ARObject):
     Defines assignment of MC data based on roles.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the RoleBasedMcDataAssignment with default values.

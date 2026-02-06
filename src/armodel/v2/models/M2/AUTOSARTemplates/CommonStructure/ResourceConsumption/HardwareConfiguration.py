@@ -17,6 +17,11 @@ class HardwareConfiguration(ARObject):
     This class defines specific hardware properties that may affect resource consumption.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the HardwareConfiguration with default values.

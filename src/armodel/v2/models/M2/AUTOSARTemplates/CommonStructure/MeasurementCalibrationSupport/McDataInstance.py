@@ -14,6 +14,11 @@ class McDataInstance(ARObject):
     Defines an instance of MC data that can be accessed or modified.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the McDataInstance with default values.

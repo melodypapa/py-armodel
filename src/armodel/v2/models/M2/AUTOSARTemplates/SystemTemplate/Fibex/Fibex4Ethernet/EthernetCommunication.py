@@ -135,6 +135,11 @@ class SocketConnectionIpduIdentifier(ARObject):
     defining header IDs, timeout values, collection semantics, and references
     to PDUs and triggering mechanisms for Ethernet communication.
     """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

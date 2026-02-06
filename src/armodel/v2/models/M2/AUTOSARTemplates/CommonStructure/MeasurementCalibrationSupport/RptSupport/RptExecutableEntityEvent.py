@@ -15,6 +15,11 @@ class RptExecutableEntityEvent(ARObject):
     Defines an event associated with an RPT executable entity.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the RptExecutableEntityEvent with default values.

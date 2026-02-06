@@ -15,6 +15,11 @@ class RptExecutableEntity(ARObject):
     Defines an executable entity that supports read-protect-transform functionality.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the RptExecutableEntity with default values.

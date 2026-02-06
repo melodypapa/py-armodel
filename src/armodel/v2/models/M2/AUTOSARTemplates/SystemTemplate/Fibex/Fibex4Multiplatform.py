@@ -17,6 +17,11 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
 
 
 class FrameMapping(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -46,6 +51,11 @@ class FrameMapping(ARObject):
         return self
 
 class ISignalMapping(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -75,6 +85,11 @@ class ISignalMapping(ARObject):
         return self
 
 class DefaultValueElement(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -98,6 +113,11 @@ class DefaultValueElement(ARObject):
         return self
 
 class PduMappingDefaultValue(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -112,6 +132,11 @@ class PduMappingDefaultValue(ARObject):
         return self
 
 class TargetIPduRef(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 
@@ -135,6 +160,11 @@ class TargetIPduRef(ARObject):
         return self
 
 class IPduMapping(ARObject):
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
 

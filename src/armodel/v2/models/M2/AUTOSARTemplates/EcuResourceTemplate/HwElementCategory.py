@@ -73,6 +73,11 @@ class HwAttributeValue(ARObject):
     This class defines the actual values assigned to hardware attributes in the model.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         """
         Initializes the HwAttributeValue.

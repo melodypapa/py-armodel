@@ -11,7 +11,7 @@ Compatible with V1 API.
 """
 
 import re
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import (
     Any,
     List,
@@ -30,7 +30,13 @@ class ARType(ABC):
     This class provides the basic structure for all AUTOSAR type definitions.
     """
 
+    @abstractmethod
+    def _validate_abstract(self) -> None:
+        """Abstract method to enforce abstract base class pattern."""
+        pass
+
     def __init__(self) -> None:
+        self._validate_abstract()
         self.timestamp: Optional[str] = None
         self.uuid: Optional[str] = None
         self._value: Optional[Any] = None
@@ -119,8 +125,8 @@ class ARNumerical(ARType):
                 if m:
                     return float(value)
                 return int(value)
-        except:         # noqa E722
-            raise ValueError("Invalid Numerical Type <%s>" % value)
+        except Exception as e:  # noqa E722
+            raise ValueError("Invalid Numerical Type <%s>" % value) from e
 
     @property
     def value(self) -> Optional[Union[int, float]]:

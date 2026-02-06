@@ -24,6 +24,11 @@ class AnalyzedExecutionTime(ARObject):
     Represents analyzed execution time in AUTOSAR.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
         self.executionTime: TimeValue = None
@@ -41,6 +46,11 @@ class ExecutionTime(ARObject):
     Represents execution time in AUTOSAR.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
         self.executionTime: TimeValue = None
@@ -57,6 +67,11 @@ class MeasuredExecutionTime(ARObject):
     """
     Represents measured execution time in AUTOSAR.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()
@@ -83,6 +98,11 @@ class MemorySectionLocation(ARObject):
     Represents memory section location in AUTOSAR.
     """
 
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self):
         super().__init__()
         self.sectionName: str = None
@@ -99,6 +119,11 @@ class RoughEstimateOfExecutionTime(ARObject):
     """
     Represents rough estimate of execution time in AUTOSAR.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()
@@ -124,6 +149,11 @@ class SimulatedExecutionTime(ARObject):
     """
     Represents simulated execution time in AUTOSAR.
     """
+
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
 
     def __init__(self):
         super().__init__()
