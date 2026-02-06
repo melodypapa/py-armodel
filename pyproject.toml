@@ -7,7 +7,7 @@ name = "armodel"
 dynamic = ["version"]
 description = "the python arxml parser"
 readme = "README.md"
-requires-python = ">=3.5"
+requires-python = ">=3.7"
 license = {text = "MIT"}
 authors = [
     {name = "melodypapa", email = "melodypapa@outlook.com"},
@@ -68,7 +68,7 @@ exclude = [
 # CI warns at 127 but standard is 79 per CODING_RULE_LAYOUT_00002
 line-length = 79
 
-# Target Python version (ruff minimum is py37, project requires >=3.5)
+# Target Python version (ruff minimum is py37, project requires >=3.9)
 target-version = "py37"
 
 [tool.ruff.lint]
@@ -89,17 +89,17 @@ select = ["E", "W", "F", "I", "N", "B", "C4", "SIM"]
 # Also ignore module naming (N999) - AUTOSAR modules use PascalCase
 # Also ignore pyupgrade (UP) - project requires Python 3.5+ compatibility
 ignore = [
-    "F403",  # Wildcard import used; unable to detect undefined names
-    "F405",  # Names used from wildcard import without being defined
+    # "F403",  # Wildcard import used; unable to detect undefined names
+    # "F405",  # Names used from wildcard import without being defined
     "N802",  # AUTOSAR methods use camelCase (not snake_case)
     "N999",  # AUTOSAR modules use PascalCase (not lowercase_with_underscores)
-    "UP",    # Pyupgrade suggestions - project maintains 3.5+ compatibility
+    # "UP",    # Pyupgrade suggestions - project maintains 3.5+ compatibility
 ]
 
 # Configure specific rule settings
 [tool.ruff.lint.per-file-ignores]
 # Allow unused imports in __init__.py files (wildcard export pattern)
-"__init__.py" = ["F401"]
+# "__init__.py" = ["F401"]
 
 # V2 models: Ignore specific rules due to AUTOSAR patterns and M2 structure
 # E501/W505: Line/docstring too long - unavoidable due to deep M2 package structure
@@ -110,10 +110,10 @@ ignore = [
 # B904: Raise without from - minor exception handling style
 # F811: Redefined while unused - intentional class redefinitions
 # N803/N815: Naming - AUTOSAR camelCase conventions differ from PEP 8
-"src/armodel/models_v2/**/*.py" = [
-    "E501", "W505", "E402", "E721", "SIM102",
-    "B024", "B904", "F811", "N803", "N815"
-]
+#"src/armodel/models_v2/**/*.py" = [
+#    "E501", "W505", "E402", "E721", "SIM102",
+#    "B024", "B904", "F811", "N803", "N815"
+#]
 
 # V2 models (src/armodel/v2): Use longer line length (100) for deep AUTOSAR paths
 # This is necessary because AUTOSAR M2 package structure creates very long import paths
@@ -147,9 +147,9 @@ ignore_missing_imports = false
 # Per-module mypy configuration
 [[tool.mypy.overrides]]
 module = [
-    "armodel.models_v2.*",
+    "armodel.v2.models.*",
 ]
-disallow_untyped_defs = false  # V2 models should have type hints but allow gradual adoption
+disallow_untyped_defs = true  # V2 models should have type hints but allow gradual adoption
 check_untyped_defs = true
 
 # Ignore specific modules or directories
