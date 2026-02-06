@@ -33,7 +33,7 @@ class TpConfig(FibexElement, ABC):
     protocol implementations including communication cluster references.
     """
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == TpConfig:
+        if type(self) is TpConfig:
             raise TypeError("TpConfig is an abstract class.")
 
         super().__init__(parent, short_name)
@@ -119,7 +119,7 @@ class TpConnection(ARObject, ABC):
     protocol connections including connection identification.
     """
     def __init__(self):
-        if type(self) == TpConnection:
+        if type(self) is TpConnection:
             raise TypeError("TpConnection is an abstract class.")
 
         super().__init__()

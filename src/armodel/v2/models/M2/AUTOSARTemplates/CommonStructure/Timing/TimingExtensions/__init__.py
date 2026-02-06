@@ -24,7 +24,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
-    Identifiable,
 )
 
 __all__ = [
@@ -42,7 +41,7 @@ class TimingExtension(ARElement):
     __metaclass__ = ABC
 
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == TimingExtension:
+        if type(self) is TimingExtension:
             raise TypeError("TimingExtension is an abstract class.")
 
         super().__init__(parent, short_name)

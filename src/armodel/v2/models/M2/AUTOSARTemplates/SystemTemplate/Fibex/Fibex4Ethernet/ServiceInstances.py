@@ -30,7 +30,7 @@ class TransportProtocolConfiguration(ARObject, ABC):
     communication.
     """
     def __init__(self):
-        if type(self) == TransportProtocolConfiguration:
+        if type(self) is TransportProtocolConfiguration:
             raise TypeError("TransportProtocolConfiguration is an abstract class.")
 
         super().__init__()
@@ -69,7 +69,7 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     connectionless transport protocols.
     """
     def __init__(self):
-        if type(self) == TcpUdpConfig:
+        if type(self) is TcpUdpConfig:
             raise TypeError("TcpUdpConfig is an abstract class.")
 
         super().__init__()
@@ -206,7 +206,7 @@ class AbstractServiceInstance(Identifiable, ABC):
     architecture.
     """
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractServiceInstance:
+        if type(self) is AbstractServiceInstance:
             raise TypeError("AbstractServiceInstance is an abstract class.")
 
         super().__init__(parent, short_name)

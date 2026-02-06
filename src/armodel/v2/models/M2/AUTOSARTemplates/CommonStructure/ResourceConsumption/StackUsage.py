@@ -38,7 +38,7 @@ class StackUsage(Identifiable, ABC):
             parent: The parent ARObject that contains this stack usage
             short_name: The unique short name of this stack usage
         """
-        if type(self) == StackUsage:
+        if type(self) is StackUsage:
             raise TypeError("StackUsage is an abstract class.")
 
         super().__init__(parent, short_name)

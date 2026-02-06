@@ -28,7 +28,7 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 class DataPrototype(AtpPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
-        if type(self) == DataPrototype:
+        if type(self) is DataPrototype:
             raise TypeError("DataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
@@ -44,7 +44,7 @@ class DataPrototype(AtpPrototype, ABC):
 
 class AutosarDataPrototype(DataPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
-        if type(self) == AutosarDataPrototype:
+        if type(self) is AutosarDataPrototype:
             raise TypeError("AutosarDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)
@@ -73,7 +73,7 @@ class VariableDataPrototype(AutosarDataPrototype):
 
 class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     def __init__(self, parent:ARObject, short_name: str):
-        if type(self) == ApplicationCompositeElementDataPrototype:
+        if type(self) is ApplicationCompositeElementDataPrototype:
             raise TypeError("ApplicationCompositeElementDataPrototype is an abstract class.")
 
         super().__init__(parent, short_name)

@@ -21,7 +21,7 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     serving as the foundation for specific DoIP address types in the system.
     """
     def __init__(self, parent: ARObject, short_name: str):
-        if type(self) == AbstractDoIpLogicAddressProps:
+        if type(self) is AbstractDoIpLogicAddressProps:
             raise TypeError("AbstractDoIpLogicAddressProps is an abstract class.")
 
         super().__init__(parent, short_name)

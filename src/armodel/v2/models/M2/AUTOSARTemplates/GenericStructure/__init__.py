@@ -20,17 +20,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure im
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
     Documentation,
 )
-
-# Wildcard import for re-exporting GeneralTemplateClasses (has empty __all__ to avoid circular dependencies)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses import *
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
     LifeCycleInfo,
     LifeCycleInfoSet,
     LifeCyclePeriod,
 )
-
-# Wildcard import for re-exporting RolesAndRights (has empty __all__ to avoid circular dependencies)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import *
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
+    AtpDefinition,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     PostBuildVariantCriterion,
     PostBuildVariantCriterionValue,
@@ -41,6 +38,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling impo
 
 __all__ = [
     "AtpClassifier",
+    "AtpDefinition",
     "AtpFeature",
     "AtpInstanceRef",
     "AtpPrototype",

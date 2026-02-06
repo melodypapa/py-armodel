@@ -8,7 +8,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
     def __init__(self):
-        if type(self) == SwCalprmAxisTypeProps:
+        if type(self) is SwCalprmAxisTypeProps:
             raise TypeError("SwCalprmAxisTypeProps is an abstract class.")
 
         super().__init__()

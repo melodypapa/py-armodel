@@ -25,6 +25,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
     ECUMapping,
 )
+
 # No imports from InstanceRefs needed in this file
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
     AppOsTaskProxyToEcuTaskProxyMapping,
