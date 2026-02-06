@@ -1,12 +1,15 @@
 from typing import List
 
-from armodel.models.utils.uuid_mgr import UUIDMgr
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswCalledEntity,
     BswSchedulableEntity,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleEntry,
+)
+from armodel.v2.models.utils.uuid_mgr import UUIDMgr
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    Implementation,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
@@ -365,4 +368,5 @@ __all__ = [
     'AbstractAUTOSAR',
     'AUTOSAR',
     'AUTOSARDoc',
+    'FileInfoComment',
 ]

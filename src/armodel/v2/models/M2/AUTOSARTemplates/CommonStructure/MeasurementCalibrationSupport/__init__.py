@@ -1,13 +1,13 @@
-from .ImplementationElementInParameterInstanceRef import (
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.ImplementationElementInParameterInstanceRef import (
     ImplementationElementInParameterInstanceRef,
 )
-from .McDataAccessDetails import McDataAccessDetails
-from .McDataInstance import McDataInstance
-from .McFunction import McFunction
-from .McParameterElementGroup import McParameterElementGroup
-from .McSupportData import McSupportData
-from .McSwEmulationMethodSupport import McSwEmulationMethodSupport
-from .RoleBasedMcDataAssignment import RoleBasedMcDataAssignment
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McDataAccessDetails import McDataAccessDetails
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McDataInstance import McDataInstance
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McFunction import McFunction
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McParameterElementGroup import McParameterElementGroup
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSupportData import McSupportData
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSwEmulationMethodSupport import McSwEmulationMethodSupport
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RoleBasedMcDataAssignment import RoleBasedMcDataAssignment
 
 __all__ = [
     'ImplementationElementInParameterInstanceRef',
