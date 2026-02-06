@@ -228,7 +228,7 @@ class SectionNamePrefix(ARObject):
         Initializes the SectionNamePrefix with default values.
         """
         super().__init__()
-        self.prefix: str = None
+        self.prefix: Union[str, None] = None
 
     def getPrefix(self) -> str:
         """

@@ -27,12 +27,12 @@ class Graphic(EngineeringObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.editfit = None                                     # type: GraphicFitEnum
-        self.editHeight = None                                  # type: String
-        self.editscale = None                                   # type: String
-        self.editWidth = None                                   # type: String
-        self.filename = None                                    # type: String
-        self.fit = None                                         # type: GraphicFitEnum
+        self.editfit: Union[GraphicFitEnum, None] = None
+        self.editHeight: Union[String, None] = None
+        self.editscale: Union[String, None] = None
+        self.editWidth: Union[String, None] = None
+        self.filename: Union[String, None] = None
+        self.fit: Union[GraphicFitEnum, None] = None
 
     def getEditfit(self):
         return self.editfit
@@ -97,9 +97,9 @@ class LGraphic(LanguageSpecific):
     def __init__(self) -> None:
         super().__init__()
 
-        self.l = None                                           # type: str                         # noqa E741
-        self.graphic = None                                     # type: Graphic
-        self.map = None                                         # type: Map
+        self.l: Union[str, None] = None                         # noqa E741
+        self.graphic: Union[Graphic, None] = None
+        self.map: Union[Map, None] = None
 
     def getL(self):
         return self.l
@@ -130,11 +130,11 @@ class MlFigure(Paginateable):
     def __init__(self) -> None:
         super().__init__()
 
-        self.figureCaption = None                               # type: Caption
-        self.helpEntry = None                                   # type: String
+        self.figureCaption: Union[Caption, None] = None
+        self.helpEntry: Union[String, None] = None
         self.lGraphics = []                                     # type: List[LGraphic]
-        self.pgwide = None                                      # type: PgwideEnum
-        self.verbatim = None                                    # type: MultiLanguageVerbatim
+        self.pgwide: Union[PgwideEnum, None] = None
+        self.verbatim: Union[MultiLanguageVerbatim, None] = None
 
     def getFigureCaption(self):
         return self.figureCaption

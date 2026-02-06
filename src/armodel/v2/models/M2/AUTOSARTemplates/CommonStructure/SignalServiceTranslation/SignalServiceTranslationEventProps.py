@@ -19,7 +19,7 @@ class SignalServiceTranslationEventProps(ARObject):
         Initializes the SignalServiceTranslationEventProps with default values.
         """
         super().__init__()
-        self.eventRef: str = None
+        self.eventRef: Union[str, None] = None
 
     def getEventRef(self) -> str:
         """

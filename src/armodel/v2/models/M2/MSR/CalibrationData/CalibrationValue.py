@@ -18,7 +18,7 @@ class SwValues(ARObject):
         super().__init__()
 
         self._v = []                    # type: List[ARNumerical]
-        self.vt = None                  # type: float
+        self.vt: Union[float, None] = None
 
     def addV(self, v: ARNumerical):
         self._v.append(v)
@@ -36,10 +36,10 @@ class SwValueCont(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.swArraysize = None             # type: ValueList
-        self.swValuesPhys = None            # type: SwValues
-        self.unitRef = None                 # type: RefType
-        self.unitDisplayName = None         # type: SingleLanguageUnitNames
+        self.swArraysize: Union[ValueList, None] = None
+        self.swValuesPhys: Union[SwValues, None] = None
+        self.unitRef: Union[RefType, None] = None
+        self.unitDisplayName: Union[SingleLanguageUnitNames, None] = None
 
     def getSwArraysize(self):
         return self.swArraysize

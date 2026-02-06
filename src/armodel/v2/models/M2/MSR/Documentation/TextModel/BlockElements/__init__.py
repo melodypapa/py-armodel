@@ -31,17 +31,17 @@ class DocumentationBlock(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.defList = None                         # type: DefList
+        self.defList: Union[DefList, None] = None
         self.figures = []                           # type: List[MlFigure]
         self.formula = None                         # type：MlFormula
-        self.labeledList = None                     # type: LabeledList
+        self.labeledList: Union[LabeledList, None] = None
         self.lists = []                             # type: List[ARList]
-        self.msrQueryP2 = None                      # type: MsrQueryP2
-        self.note = None                            # type: Note
+        self.msrQueryP2: Union[MsrQueryP2, None] = None
+        self.note: Union[Note, None] = None
         self.ps = []                                # type: List[MultiLanguageParagraph]
-        self.structuredReq = None                   # type: StructuredReq
-        self.trace = None                           # type: TraceableText
-        self.verbatim = None                        # type: MultiLanguageVerbatim
+        self.structuredReq: Union[StructuredReq, None] = None
+        self.trace: Union[TraceableText, None] = None
+        self.verbatim: Union[MultiLanguageVerbatim, None] = None
 
     def getDefList(self):
         return self.defList

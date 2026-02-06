@@ -40,7 +40,7 @@ class MeasuredHeapUsage(HeapUsage):
 
     def __init__(self) -> None:
         super().__init__()
-        self.sampleSize: int = None
+        self.sampleSize: Union[int, None] = None
 
     def getSampleSize(self):
         return self.sampleSize
@@ -57,7 +57,7 @@ class RoughEstimateHeapUsage(HeapUsage):
 
     def __init__(self) -> None:
         super().__init__()
-        self.confidenceLevel: str = None
+        self.confidenceLevel: Union[str, None] = None
 
     def getConfidenceLevel(self):
         return self.confidenceLevel
@@ -74,7 +74,7 @@ class WorstCaseHeapUsage(HeapUsage):
 
     def __init__(self) -> None:
         super().__init__()
-        self.confidenceLevel: str = None
+        self.confidenceLevel: Union[str, None] = None
 
     def getConfidenceLevel(self):
         return self.confidenceLevel

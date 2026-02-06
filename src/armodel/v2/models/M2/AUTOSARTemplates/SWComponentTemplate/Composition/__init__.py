@@ -25,7 +25,7 @@ class SwComponentPrototype(AtpPrototype):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.typeTRef = None                       # type: RefType
+        self.typeTRef: Union[RefType, None] = None
 
     def getTypeTRef(self) -> RefType:
         return self.typeTRef

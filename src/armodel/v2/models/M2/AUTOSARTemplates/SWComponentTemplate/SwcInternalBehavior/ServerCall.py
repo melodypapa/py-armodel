@@ -24,7 +24,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         super().__init__(parent, short_name)
 
         self.operationIRef: 'ROperationInAtomicSwcInstanceRef' = None
-        self.timeout: float = None
+        self.timeout: Union[float, None] = None
 
     def getOperationIRef(self):
         return self.operationIRef
@@ -51,7 +51,7 @@ class SynchronousServerCallPoint(ServerCallPoint):
         super().__init__(parent, short_name)
 
         self.calledFromWithinExclusiveAreaRef = None
-        self.timeout: float = None
+        self.timeout: Union[float, None] = None
 
     def getCalledFromWithinExclusiveAreaRef(self):
         return self.calledFromWithinExclusiveAreaRef

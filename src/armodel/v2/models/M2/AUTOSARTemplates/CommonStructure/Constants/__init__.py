@@ -581,7 +581,7 @@ class NotAvailableValueSpecification(ValueSpecification):
 
     def __init__(self) -> None:
         super().__init__()
-        self.reason: str = None
+        self.reason: Union[str, None] = None
 
     def getReason(self):
         return self.reason
@@ -628,7 +628,7 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
 
     def __init__(self) -> None:
         super().__init__()
-        self.expression: str = None
+        self.expression: Union[str, None] = None
 
     def getExpression(self):
         return self.expression
@@ -688,7 +688,7 @@ class RuleBasedAxisCont(ARObject):
 
     def __init__(self) -> None:
         super().__init__()
-        self.axisId: str = None
+        self.axisId: Union[str, None] = None
 
     def getAxisId(self):
         return self.axisId
@@ -710,7 +710,7 @@ class RuleBasedValueCont(ARObject):
 
     def __init__(self) -> None:
         super().__init__()
-        self.value: str = None
+        self.value: Union[str, None] = None
 
     def getValue(self):
         return self.value
@@ -727,7 +727,7 @@ class RuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
 
     def __init__(self) -> None:
         super().__init__()
-        self.rule: str = None
+        self.rule: Union[str, None] = None
 
     def getRule(self):
         return self.rule

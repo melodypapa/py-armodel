@@ -19,7 +19,7 @@ class McSwEmulationMethodSupport(ARObject):
         Initializes the McSwEmulationMethodSupport with default values.
         """
         super().__init__()
-        self.emulationMethodName: str = None
+        self.emulationMethodName: Union[str, None] = None
 
     def getEmulationMethodName(self) -> str:
         """

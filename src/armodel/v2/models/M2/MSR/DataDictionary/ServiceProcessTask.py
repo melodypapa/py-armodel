@@ -13,9 +13,9 @@ class SwServiceArg(Identifiable):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.direction = None                   # type: ArgumentDirectionEnum
-        self.swArraysize = None                 # type: ValueList
-        self.swDataDefProps = None              # type: SwDataDefProps
+        self.direction: Union[ArgumentDirectionEnum, None] = None
+        self.swArraysize: Union[ValueList, None] = None
+        self.swDataDefProps: Union[SwDataDefProps, None] = None
 
     def getDirection(self):
         return self.direction

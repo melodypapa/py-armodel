@@ -19,7 +19,7 @@ class SignalServiceTranslationElementProps(ARObject):
         Initializes the SignalServiceTranslationElementProps with default values.
         """
         super().__init__()
-        self.elementRef: str = None
+        self.elementRef: Union[str, None] = None
 
     def getElementRef(self) -> str:
         """

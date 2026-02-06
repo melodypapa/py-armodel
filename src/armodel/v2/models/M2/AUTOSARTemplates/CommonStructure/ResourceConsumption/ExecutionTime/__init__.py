@@ -78,7 +78,7 @@ class MeasuredExecutionTime(ARObject):
     def __init__(self) -> None:
         super().__init__()
         self.executionTime: Union[Union[TimeValue, None] , None] = None
-        self.sampleSize: int = None
+        self.sampleSize: Union[int, None] = None
 
     def getExecutionTime(self):
         return self.executionTime
@@ -107,7 +107,7 @@ class MemorySectionLocation(ARObject):
 
     def __init__(self) -> None:
         super().__init__()
-        self.sectionName: str = None
+        self.sectionName: Union[str, None] = None
 
     def getSectionName(self):
         return self.sectionName
@@ -130,7 +130,7 @@ class RoughEstimateOfExecutionTime(ARObject):
     def __init__(self) -> None:
         super().__init__()
         self.executionTime: Union[Union[TimeValue, None] , None] = None
-        self.confidenceLevel: str = None
+        self.confidenceLevel: Union[str, None] = None
 
     def getExecutionTime(self):
         return self.executionTime
@@ -160,7 +160,7 @@ class SimulatedExecutionTime(ARObject):
     def __init__(self) -> None:
         super().__init__()
         self.executionTime: Union[Union[TimeValue, None] , None] = None
-        self.simulationModel: str = None
+        self.simulationModel: Union[str, None] = None
 
     def getExecutionTime(self):
         return self.executionTime

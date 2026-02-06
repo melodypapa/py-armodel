@@ -34,11 +34,11 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     def __init__(self) -> None:
         super().__init__()
 
-        self.baseTypeEncoding: str = None
+        self.baseTypeEncoding: Union[str, None] = None
         self.baseTypeSize: Union[Union[ARNumerical, None] , None] = None
         self.byteOrder: Union[Union[ByteOrderEnum, None] , None] = None
         self.memAlignment: Union[Union[ARNumerical, None] , None] = None
-        self.nativeDeclaration: str = None
+        self.nativeDeclaration: Union[str, None] = None
 
     def getBaseTypeEncoding(self):
         return self.baseTypeEncoding

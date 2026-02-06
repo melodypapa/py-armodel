@@ -309,7 +309,7 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.channelName = None                                     # type: "FlexrayChannelName"
+        self.channelName: Union["FlexrayChannelName", None] = None
 
     def getChannelName(self):
         return self.channelName
@@ -333,10 +333,10 @@ class CommunicationCluster(FibexElement, ABC):
 
         super().__init__(parent, short_name)
 
-        self.baudrate = None                    # type: ARFloat
+        self.baudrate: Union[ARFloat, None] = None
         self.physicalChannel: List[PhysicalChannel] = []
-        self.protocolName = None                # type: ARLiteral
-        self.protocolVersion = None             # type: ARLiteral
+        self.protocolName: Union[ARLiteral, None] = None
+        self.protocolVersion: Union[ARLiteral, None] = None
 
     def getBaudrate(self):
         return self.baudrate

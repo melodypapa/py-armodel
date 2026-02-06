@@ -109,7 +109,7 @@ class CompuConstTextContent(CompuConstContent):
     def __init__(self) -> None:
         super().__init__()
 
-        self.vt: str = None
+        self.vt: Union[str, None] = None
 
     def getVt(self) -> str:
         return self.vt
@@ -126,7 +126,7 @@ class CompuConstNumericContent(CompuConstContent):
     def __init__(self) -> None:
         super().__init__()
 
-        self.v: float = None
+        self.v: Union[float, None] = None
 
     def getV(self) -> float:
         return self.v
@@ -143,7 +143,7 @@ class CompuConstFormulaContent(CompuConstContent):
     def __init__(self) -> None:
         super().__init__()
 
-        self.vf: str = None
+        self.vf: Union[str, None] = None
 
     def getVf(self) -> str:
         return self.vf
@@ -371,7 +371,7 @@ class CompuMethod(AtpBlueprintable):
 
         self.compuInternalToPhys: Union[Union[Compu, None] , None] = None
         self.compuPhysToInternal: Union[Union[Compu, None] , None] = None
-        self.displayFormat: str = None
+        self.displayFormat: Union[str, None] = None
         self.unitRef: Union[Union[RefType, None] , None] = None
 
     def getCompuInternalToPhys(self) -> Compu:

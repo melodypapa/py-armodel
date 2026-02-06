@@ -19,9 +19,9 @@ class FirewallRuleProps(ARObject):
         Initializes the FirewallRuleProps with default values.
         """
         super().__init__()
-        self.allowAny: bool = None
-        self.direction: str = None
-        self.protocol: str = None
+        self.allowAny: Union[bool, None] = None
+        self.direction: Union[str, None] = None
+        self.protocol: Union[str, None] = None
 
     def getAllowAny(self) -> bool:
         """

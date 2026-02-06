@@ -19,8 +19,8 @@ class TimingClock(ARObject):
         Initializes the TimingClock with default values.
         """
         super().__init__()
-        self.clockName: str = None
-        self.clockType: str = None
+        self.clockName: Union[str, None] = None
+        self.clockType: Union[str, None] = None
 
     def getClockName(self) -> str:
         """

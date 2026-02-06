@@ -382,41 +382,41 @@ class FlexrayCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.actionPointOffset = None                       # type: Integer
-        self.bit = None                                     # type: TimeValue
-        self.casRxLowMax = None                             # type: Integer
-        self.coldStartAttempts = None                       # type: Integer
-        self.cycle = None                                   # type: TimeValue
-        self.cycleCountMax = None                           # type: Integer
-        self.detectNitError = None                          # type: Boolean
-        self.dynamicSlotIdlePhase = None                    # type: Integer
-        self.ignoreAfterTx = None                           # type: Integer
-        self.listenNoise = None                             # type: Integer
-        self.macroPerCycle = None                           # type: Integer
-        self.macrotickDuration = None                       # type: TimeValue
-        self.maxWithoutClockCorrectionFatal = None          # type: Integer
-        self.maxWithoutClockCorrectionPassive = None        # type: Integer
-        self.minislotActionPointOffset = None               # type: Integer
-        self.minislotDuration = None                        # type: Integer
-        self.networkIdleTime = None                         # type: Integer
-        self.networkManagementVectorLength = None           # type: Integer
-        self.numberOfMinislots = None                       # type: Integer
-        self.numberOfStaticSlots = None                     # type: Integer
-        self.offsetCorrectionStart = None                   # type: Integer
-        self.payloadLengthStatic = None                     # type: Integer
-        self.safetyMargin = None                            # type: Integer
-        self.sampleClockPeriod = None                       # type: TimeValue
-        self.staticSlotDuration = None                      # type: Integer
-        self.symbolWindow = None                            # type: Integer
-        self.symbolWindowActionPointOffset = None           # type: Integer
-        self.syncFrameIdCountMax = None                     # type: Integer
-        self.tranceiverStandbyDelay = None                  # type: Float
-        self.transmissionStartSequenceDuration = None       # type: Integer
-        self.wakeupRxIdle = None                            # type: Integer
-        self.wakeupRxLow = None                             # type: Integer
-        self.wakeupRxWindow = None                          # type: Integer
-        self.wakeupTxActive = None                          # type: Integer
-        self.wakeupTxIdle = None                            # type: Integer
+        self.actionPointOffset: Union[Integer, None] = None
+        self.bit: Union[TimeValue, None] = None
+        self.casRxLowMax: Union[Integer, None] = None
+        self.coldStartAttempts: Union[Integer, None] = None
+        self.cycle: Union[TimeValue, None] = None
+        self.cycleCountMax: Union[Integer, None] = None
+        self.detectNitError: Union[Boolean, None] = None
+        self.dynamicSlotIdlePhase: Union[Integer, None] = None
+        self.ignoreAfterTx: Union[Integer, None] = None
+        self.listenNoise: Union[Integer, None] = None
+        self.macroPerCycle: Union[Integer, None] = None
+        self.macrotickDuration: Union[TimeValue, None] = None
+        self.maxWithoutClockCorrectionFatal: Union[Integer, None] = None
+        self.maxWithoutClockCorrectionPassive: Union[Integer, None] = None
+        self.minislotActionPointOffset: Union[Integer, None] = None
+        self.minislotDuration: Union[Integer, None] = None
+        self.networkIdleTime: Union[Integer, None] = None
+        self.networkManagementVectorLength: Union[Integer, None] = None
+        self.numberOfMinislots: Union[Integer, None] = None
+        self.numberOfStaticSlots: Union[Integer, None] = None
+        self.offsetCorrectionStart: Union[Integer, None] = None
+        self.payloadLengthStatic: Union[Integer, None] = None
+        self.safetyMargin: Union[Integer, None] = None
+        self.sampleClockPeriod: Union[TimeValue, None] = None
+        self.staticSlotDuration: Union[Integer, None] = None
+        self.symbolWindow: Union[Integer, None] = None
+        self.symbolWindowActionPointOffset: Union[Integer, None] = None
+        self.syncFrameIdCountMax: Union[Integer, None] = None
+        self.tranceiverStandbyDelay: Union[Float, None] = None
+        self.transmissionStartSequenceDuration: Union[Integer, None] = None
+        self.wakeupRxIdle: Union[Integer, None] = None
+        self.wakeupRxLow: Union[Integer, None] = None
+        self.wakeupRxWindow: Union[Integer, None] = None
+        self.wakeupTxActive: Union[Integer, None] = None
+        self.wakeupTxIdle: Union[Integer, None] = None
 
     def getActionPointOffset(self):
         return self.actionPointOffset

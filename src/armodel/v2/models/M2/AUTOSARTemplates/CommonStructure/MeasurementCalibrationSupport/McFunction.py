@@ -25,7 +25,7 @@ class McFunction(ARObject):
         """
         super().__init__()
         self.dataRefs: List[RefType] = []
-        self.functionName: str = None
+        self.functionName: Union[str, None] = None
 
     def addDataRef(self, ref: RefType):
         """

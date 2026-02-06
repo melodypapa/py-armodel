@@ -19,7 +19,7 @@ class TimingConditionFormula(ARObject):
         Initializes the TimingConditionFormula with default values.
         """
         super().__init__()
-        self.expression: str = None
+        self.expression: Union[str, None] = None
 
     def getExpression(self) -> str:
         """

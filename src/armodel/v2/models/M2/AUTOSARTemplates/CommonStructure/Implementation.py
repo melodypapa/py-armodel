@@ -742,8 +742,8 @@ class Linker(ARObject):
         Initializes the Linker with default values.
         """
         super().__init__()
-        self.linkerName: str = None
-        self.linkerOptions: str = None
+        self.linkerName: Union[str, None] = None
+        self.linkerOptions: Union[str, None] = None
 
     def getLinkerName(self):
         return self.linkerName

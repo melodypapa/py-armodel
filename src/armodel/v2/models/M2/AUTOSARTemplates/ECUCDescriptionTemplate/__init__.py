@@ -62,8 +62,8 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         super().__init__()
 
         self.annotations = []                       # type: List[Annotation]
-        self.definitionRef = None                   # type: RefType
-        self.isAutoValue = None                     # type: ARBoolean
+        self.definitionRef: Union[RefType, None] = None
+        self.isAutoValue: Union[ARBoolean, None] = None
 
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
@@ -91,7 +91,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def __init__(self) -> None:
         super().__init__()
 
-        self.value = None                           # type: DocumentationBlock
+        self.value: Union[DocumentationBlock, None] = None
 
     def getValue(self) -> DocumentationBlock:
         return self.value
@@ -104,7 +104,7 @@ class EcucTextualParamValue(EcucParameterValue):
     def __init__(self) -> None:
         super().__init__()
 
-        self.value = None                           # type: ARLiteral
+        self.value: Union[ARLiteral, None] = None
 
     def getValue(self) -> ARLiteral:
         return self.value
@@ -117,7 +117,7 @@ class EcucNumericalParamValue(EcucParameterValue):
     def __init__(self) -> None:
         super().__init__()
 
-        self.value = None                           # type: ARNumerical
+        self.value: Union[ARNumerical, None] = None
 
     def getValue(self) -> ARNumerical:
         return self.value
@@ -134,8 +134,8 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         super().__init__()
 
         self.annotations = []                       # type: List[Annotation]
-        self.definitionRef = None                   # type: RefType
-        self.isAutoValue = None                     # type: ARBoolean
+        self.definitionRef: Union[RefType, None] = None
+        self.isAutoValue: Union[ARBoolean, None] = None
 
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
@@ -163,7 +163,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def __init__(self) -> None:
         super().__init__()
 
-        self.valueIRef = None        # type: AnyInstanceRef
+        self.valueIRef: Union[AnyInstanceRef, None] = None
 
     def getValueIRef(self) -> AnyInstanceRef:
         return self.valueRef
@@ -177,7 +177,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def __init__(self) -> None:
         super().__init__()
 
-        self.valueRef = None        # type: RefType
+        self.valueRef: Union[RefType, None] = None
 
     def getValueRef(self) -> RefType:
         return self.valueRef
@@ -191,7 +191,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         Identifiable.__init__(self, parent, short_name)
 
-        self.definitionRef = None                   # type: RefType
+        self.definitionRef: Union[RefType, None] = None
         self.parameterValues = []                   # type: List[EcucParameterValue]
         self.referenceValues = []                   # type: List[EcucAbstractReferenceValue]
         self.subContainers = []                     # type: List[EcucContainerValue]
@@ -233,11 +233,11 @@ class EcucModuleConfigurationValues(ARElement):
         super().__init__(parent, short_name)
 
         self.containers = []                        # type: List[EcucContainerValue]
-        self.definitionRef = None                   # type: RefType
-        self.ecucDefEdition = None                  # type: ARLiteral
-        self.implementationConfigVariant = None     # type: ARLiteral
-        self.moduleDescriptionRef = None            # type: RefType
-        self.postBuildVariantUsed = None            # type: ARBoolean
+        self.definitionRef: Union[RefType, None] = None
+        self.ecucDefEdition: Union[ARLiteral, None] = None
+        self.implementationConfigVariant: Union[ARLiteral, None] = None
+        self.moduleDescriptionRef: Union[RefType, None] = None
+        self.postBuildVariantUsed: Union[ARBoolean, None] = None
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
         if not self.IsElementExists(short_name):

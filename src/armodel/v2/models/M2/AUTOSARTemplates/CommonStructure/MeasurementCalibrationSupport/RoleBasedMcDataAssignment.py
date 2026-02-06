@@ -25,7 +25,7 @@ class RoleBasedMcDataAssignment(ARObject):
         """
         super().__init__()
         self.dataRef: Union[Union[RefType, None] , None] = None
-        self.role: str = None
+        self.role: Union[str, None] = None
 
     def getDataRef(self) -> RefType:
         """

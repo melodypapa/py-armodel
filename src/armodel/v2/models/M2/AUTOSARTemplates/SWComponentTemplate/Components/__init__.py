@@ -188,7 +188,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.providedInterfaceTRef = None           # type: TRefType
+        self.providedInterfaceTRef: Union[TRefType, None] = None
 
     def getProvidedInterfaceTRef(self):
         return self.providedInterfaceTRef
@@ -202,8 +202,8 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.mayBeUnconnected = None                # type: ARBoolean
-        self.requiredInterfaceTRef = None           # type: TRefType
+        self.mayBeUnconnected: Union[ARBoolean, None] = None
+        self.requiredInterfaceTRef: Union[TRefType, None] = None
 
     def getMayBeUnconnected(self):
         return self.mayBeUnconnected
@@ -226,7 +226,7 @@ class PRPortPrototype(PortPrototype):
 
         self.providedComSpecs = []                          # type: List[PPortComSpec]
         self.requiredComSpecs = []                          # type: List[RPortComSpec]
-        self.providedRequiredInterface = None               # type: TRefType
+        self.providedRequiredInterface: Union[TRefType, None] = None
 
     def getProvidedComSpecs(self):
         return self.providedComSpecs

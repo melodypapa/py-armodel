@@ -98,7 +98,7 @@ class ScheduleTableEntry(ARObject, ABC):
         super().__init__()
 
         self.delay: Union[Union[TimeValue, None] , None] = None
-        self.introduction = None                                # type: DocumentationBlock
+        self.introduction: Union[DocumentationBlock, None] = None
         self.positionInTable: Union[Union[Integer, None] , None] = None
 
     def getDelay(self):
@@ -178,8 +178,8 @@ class LinScheduleTable(Identifiable):
     def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.resumePosition = None                              # type: ResumePosition
-        self.runMode = None                                     # type: RunMode
+        self.resumePosition: Union[ResumePosition, None] = None
+        self.runMode: Union[RunMode, None] = None
         self.tableEntries: List[ScheduleTableEntry] = []
 
     def getResumePosition(self):

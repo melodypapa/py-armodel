@@ -21,7 +21,7 @@ class TimingCondition(ARObject):
         Initializes the TimingCondition with default values.
         """
         super().__init__()
-        self.conditionFormula: str = None
+        self.conditionFormula: Union[str, None] = None
         self.modeInstances: List[str] = []
 
     def getConditionFormula(self) -> str:

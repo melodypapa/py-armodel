@@ -19,8 +19,8 @@ class RptComponent(ARObject):
         Initializes the RptComponent with default values.
         """
         super().__init__()
-        self.componentRef: str = None
-        self.portRef: str = None
+        self.componentRef: Union[str, None] = None
+        self.portRef: Union[str, None] = None
 
     def getComponentRef(self) -> str:
         """

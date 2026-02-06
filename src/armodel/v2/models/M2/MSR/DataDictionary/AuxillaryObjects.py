@@ -10,10 +10,10 @@ class SwAddrMethod(AtpBlueprintable):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.memoryAllocationKeywordPolicy = None   # type: ARLiteral
+        self.memoryAllocationKeywordPolicy: Union[ARLiteral, None] = None
         self.options = []                            # type: List[ARLiteral]
-        self.sectionInitializationPolicy = None     # type: ARLiteral
-        self.sectionType = None                     # type: ARLiteral
+        self.sectionInitializationPolicy: Union[ARLiteral, None] = None
+        self.sectionType: Union[ARLiteral, None] = None
 
     def getMemoryAllocationKeywordPolicy(self):
         return self.memoryAllocationKeywordPolicy

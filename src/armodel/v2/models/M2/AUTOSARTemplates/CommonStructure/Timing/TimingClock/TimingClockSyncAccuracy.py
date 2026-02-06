@@ -19,8 +19,8 @@ class TimingClockSyncAccuracy(ARObject):
         Initializes the TimingClockSyncAccuracy with default values.
         """
         super().__init__()
-        self.accuracy: str = None
-        self.unit: str = None
+        self.accuracy: Union[str, None] = None
+        self.unit: Union[str, None] = None
 
     def getAccuracy(self) -> str:
         """

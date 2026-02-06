@@ -425,7 +425,7 @@ class ExclusiveAreaNestingOrder(ARObject):
         Initializes the ExclusiveAreaNestingOrder with default values.
         """
         super().__init__()
-        self.order: int = None
+        self.order: Union[int, None] = None
 
     def getOrder(self):
         return self.order
@@ -450,7 +450,7 @@ class ExecutableEntityActivationReason(ARObject):
         Initializes the ExecutableEntityActivationReason with default values.
         """
         super().__init__()
-        self.reason: str = None
+        self.reason: Union[str, None] = None
 
     def getReason(self):
         return self.reason

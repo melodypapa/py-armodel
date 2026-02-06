@@ -19,7 +19,7 @@ class BlueprintGenerator(ARObject):
         Initializes the BlueprintGenerator with default values.
         """
         super().__init__()
-        self.generatorName: str = None
+        self.generatorName: Union[str, None] = None
 
     def getGeneratorName(self) -> str:
         """

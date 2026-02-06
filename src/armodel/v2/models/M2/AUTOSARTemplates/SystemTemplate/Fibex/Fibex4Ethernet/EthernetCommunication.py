@@ -216,7 +216,7 @@ class SocketConnectionBundle(Referrable):
         self.pathMtuDiscoveryEnabled: Union[Union[Boolean, None] , None] = None
         self.pdus: List[SocketConnectionIpduIdentifier] = []
         self.serverPortRef: Union[Union[RefType, None] , None] = None
-        self.udpChecksumHandling = None                                                           # type: UdpChecksumCalculationEnum
+        self.udpChecksumHandling: Union[UdpChecksumCalculationEnum, None] = None
 
     def getBundledConnections(self):
         return self.bundledConnections
@@ -276,7 +276,7 @@ class SoAdRoutingGroup(FibexElement):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.eventGroupControlType = None     # type: EventGroupControlTypeEnum
+        self.eventGroupControlType: Union[EventGroupControlTypeEnum, None] = None
 
     def getEventGroupControlType(self):
         return self.eventGroupControlType

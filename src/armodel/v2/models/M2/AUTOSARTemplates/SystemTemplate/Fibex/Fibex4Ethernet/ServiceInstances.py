@@ -212,8 +212,8 @@ class AbstractServiceInstance(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
-        self.majorVersion = None                                        # type: PositiveInteger
-        self.methodActivationRoutingGroup = None                        # type: PduActivationRoutingGroup
+        self.majorVersion: Union[PositiveInteger, None] = None
+        self.methodActivationRoutingGroup: Union[PduActivationRoutingGroup, None] = None
         self.routingGroupRefs = []                                      # type: List[RefType]
 
     def getCapabilityRecords(self):
@@ -545,12 +545,12 @@ class SdServerConfig(ARObject):
         super().__init__()
 
         self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
-        self.initialOfferBehavior = None                                # type: InitialSdDelayConfig
-        self.offerCyclicDelay = None                                    # type: TimeValue
-        self.requestResponseDelay = None                                # type: RequestResponseDelay
-        self.serverServiceMajorVersion = None                           # type: PositiveInteger
-        self.serverServiceMinorVersion = None                           # type: PositiveInteger
-        self.ttl = None                                                 # type: PositiveInteger
+        self.initialOfferBehavior: Union[InitialSdDelayConfig, None] = None
+        self.offerCyclicDelay: Union[TimeValue, None] = None
+        self.requestResponseDelay: Union[RequestResponseDelay, None] = None
+        self.serverServiceMajorVersion: Union[PositiveInteger, None] = None
+        self.serverServiceMinorVersion: Union[PositiveInteger, None] = None
+        self.ttl: Union[PositiveInteger, None] = None
 
     def getCapabilityRecords(self):
         return self.capabilityRecords

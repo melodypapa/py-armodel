@@ -525,7 +525,7 @@ class NmCluster(Identifiable, ABC):
             raise TypeError("NmCluster is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef = None                              # type: RefType
+        self.communicationClusterRef: Union[RefType, None] = None
         self.nmChannelId = None
         self.nmChannelSleepMaster = None
         self.nmNodes = []                                                 # type: List[NmNode]
