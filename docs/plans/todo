@@ -1,10 +1,12 @@
-- Fix all the ruff and mypy errors of v2 util the total numbers of errors < 4000.
-- use one feature branch and issue in github for the fixes and commit the changes for different phase.
-- At the same time of fixing, please also follows:
-  - The changes shall be follow the `docs/development/coding_rules_v2.md`
-  - do not use the any type to solve the problem.
-  - all the class, package and attributes defintions shall be referred to `docs/requirements/packages`
-  - use the TDD methodology, add the unit test for the new classes and then implmentation
-  - all the tests shall be passed.
-  - do not use the scripts to fix the problem.
-  - verify no new ruff issues causes by the change.
+- Fix all the ruff and mypy errors of v2 one by one util the total numbers of errors < 3000.
+  - Use one feature branch and issue in github for the fixes and commit the changes for different phase.
+  - At the same time of fixing, please also follows:
+    - The changes shall be follow the `docs/development/coding_rules_v2.md`
+    - do not use the any type to solve the problem.
+    - all the class, package and attributes defintions shall be referred to `docs/requirements/packages`
+    - use the TDD methodology, add the unit test for the new classes and then implmentation
+    - all the tests shall be passed.
+    - do not use the scripts to fix the problem.
+    - verify no new ruff issues causes by the change.
+    - to avoid this kind of error: Union[Union[PositiveInteger, None] , None]
+    - correct all the attribute type with string annotation and replace them with the correct type.

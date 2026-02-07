@@ -105,10 +105,10 @@ class AbstractAUTOSAR(CollectableElement):
 
         self.clear()
 
-    def getAdminData(self):
+    def getAdminData(self) -> Union[AdminData, None]:
         return self.adminData
 
-    def setAdminData(self, value):
+    def setAdminData(self, value: Union[AdminData, None]) -> "AbstractAUTOSAR":
         if value is not None:
             self.adminData = value
         return self
@@ -116,17 +116,17 @@ class AbstractAUTOSAR(CollectableElement):
     def removeAdminData(self) -> None:
         self.adminData = None
 
-    def getFileInfoComment(self):
+    def getFileInfoComment(self) -> Union[FileInfoComment, None]:
         return self.fileInfoComment
 
-    def setFileInfoComment(self, value):
+    def setFileInfoComment(self, value: Union[FileInfoComment, None]) -> "AbstractAUTOSAR":
         self.fileInfoComment = value
         return self
 
-    def getIntroduction(self):
+    def getIntroduction(self) -> Union[DocumentationBlock, None]:
         return self.introduction
 
-    def setIntroduction(self, value):
+    def setIntroduction(self, value: Union[DocumentationBlock, None]) -> "AbstractAUTOSAR":
         self.introduction = value
         return self
 
@@ -140,26 +140,23 @@ class AbstractAUTOSAR(CollectableElement):
     def clear(self) -> None:
         CollectableElement.__init__(self)
 
-        self.schema_location = None
-        self._appl_impl_type_maps = {}
-        self._impl_appl_type_maps = {}
+        self.schema_location: Union[str, None] = None
+        self._appl_impl_type_maps: Dict[str, str] = {}
+        self._impl_appl_type_maps: Dict[str, str] = {}
 
         self._behavior_impl_maps = {}                       # type: Dict[str, str]
         self._impl_behavior_maps = {}                       # type: Dict[str, str]
 
         self.uuid_mgr = UUIDMgr()
 
-        self.systems = {}                                   # type: Dict[str, System]
-        self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
+        self.systems: Dict[str, System] = {}
+        self.compositionSwComponentTypes: Dict[str, CompositionSwComponentType] = {}
 
         self.rootSwCompositionPrototype: Union[RootSwCompositionPrototype, None] = None
 
-        self.adminData: Union[AdminData, None] = None
-        self.arPackages = {}                                # type: Dict[str, ARPackage]
-        self.fileInfoComment: Union[FileInfoComment, None] = None
-        self.introduction: Union[DocumentationBlock, None] = None
+        self.arPackages: Dict[str, ARPackage] = {}
 
-    def getElement(self, short_name: str) -> Referrable:
+    def getElement(self, short_name: str) -> Union[Referrable, None]:
         if (short_name in self.arPackages):
             return self.arPackages[short_name]
         return CollectableElement.getElement(self, short_name)
@@ -173,7 +170,7 @@ class AbstractAUTOSAR(CollectableElement):
             self.arPackages[short_name] = ar_package
         return self.arPackages[short_name]
 
-    def find(self, referred) -> Referrable:
+    def find(self, referred: Union[str, RefType]) -> Union[Referrable, None]:
         if isinstance(referred, RefType):
             referred_name = referred.getValue()
             referred_type = referred.getDest()
@@ -198,7 +195,9 @@ class AbstractAUTOSAR(CollectableElement):
 
         return element
 
-    def getDestType(self, type) -> str:
+    def getDestType(self, type: Union[Referrable, None]) -> Union[str, None]:
+        if type is None:
+            return None
         if isinstance(type, ImplementationDataType):
             return "IMPLEMENTATION-DATA-TYPE"
         elif isinstance(type, ApplicationDataType):
