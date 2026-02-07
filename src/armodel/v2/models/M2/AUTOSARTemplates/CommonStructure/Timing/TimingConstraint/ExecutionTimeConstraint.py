@@ -21,7 +21,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class ExecutionTimeTypeEnum(AREnum):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Enumeration for execution time constraint types.
     """
 
@@ -38,7 +41,10 @@ class ExecutionTimeTypeEnum(AREnum):
 
 
 class ExecutionTimeConstraint(TimingConstraint):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Specifies execution time requirements for AUTOSAR entities.
     This constraint defines timing limits for the execution of entities
     such as runnables, operations, or other executable entities.

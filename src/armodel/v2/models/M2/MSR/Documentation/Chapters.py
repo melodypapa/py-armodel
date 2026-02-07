@@ -15,7 +15,10 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 
 
 class Chapter(Paginateable):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.chapterModel: Union[ChapterModel, None] = None
@@ -39,7 +42,10 @@ class Chapter(Paginateable):
 
 
 class ChapterModel(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.chapter: Union[ChapterOrMsrQuery, None] = None
@@ -72,7 +78,10 @@ class ChapterModel(ARObject):
 
 
 class ChapterContent(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.prms: Union[Prms, None] = None
@@ -96,7 +105,10 @@ class ChapterContent(ARObject):
 
 
 class Prms(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.parameter = []
@@ -111,7 +123,10 @@ class Prms(ARObject):
 
 
 class TopicContentOrMsrQuery(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.msrQueryP1: Union[MsrQueryP1, None] = None
@@ -135,7 +150,10 @@ class TopicContentOrMsrQuery(ARObject):
 
 
 class MsrQueryP1(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.msrQueryResultP1: Union[TopicContent, None] = None
@@ -150,7 +168,10 @@ class MsrQueryP1(ARObject):
 
 
 class TopicContent(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.blockLevel: Union[DocumentationBlock, None] = None
@@ -183,7 +204,10 @@ class TopicContent(ARObject):
 
 
 class Table(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.caption = None
@@ -207,7 +231,10 @@ class Table(ARObject):
 
 
 class TraceableTable(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.caption = None
@@ -231,7 +258,10 @@ class TraceableTable(ARObject):
 
 
 class TopicOrMsrQuery(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.msrQuery: Union[MsrQueryTopic1, None] = None
@@ -255,7 +285,10 @@ class TopicOrMsrQuery(ARObject):
 
 
 class MsrQueryTopic1(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.msrQueryResultTopic1: Union[Topic1, None] = None
@@ -270,7 +303,10 @@ class MsrQueryTopic1(ARObject):
 
 
 class Topic1(Paginateable):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.helpEntry: Union[String, None] = None
@@ -294,7 +330,10 @@ class Topic1(Paginateable):
 
 
 class ChapterOrMsrQuery(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.chapter: Union[Chapter, None] = None
@@ -318,7 +357,10 @@ class ChapterOrMsrQuery(ARObject):
 
 
 class MsrQueryChapter(ARObject):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.msrQueryResultChapter: Union[Chapter, None] = None

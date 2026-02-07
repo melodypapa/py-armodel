@@ -62,6 +62,10 @@ def createDocumentation(parent: ARObject, short_name: str):
             self.annotations: List[Annotation] = []
             self.description: Union[Union[String, None], None] = None
 
+        def _validate_abstract(self) -> None:
+            """Validate this is a concrete class."""
+            pass
+
         def getAnnotations(self) -> List[Annotation]:
             return self.annotations
 

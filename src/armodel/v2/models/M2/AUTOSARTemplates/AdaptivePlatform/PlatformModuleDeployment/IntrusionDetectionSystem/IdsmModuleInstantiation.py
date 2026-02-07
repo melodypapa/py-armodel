@@ -7,7 +7,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class IdsmModuleInstantiation(IdsPlatformInstantiation):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     This meta-class defines the attributes for the IdsM configuration on a
     specific machine. Tags: atp.Status=candidate
 

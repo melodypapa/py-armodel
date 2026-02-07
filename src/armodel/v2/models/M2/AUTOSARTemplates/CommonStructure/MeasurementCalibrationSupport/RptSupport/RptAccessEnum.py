@@ -2,7 +2,10 @@ from enum import Enum
 
 
 class RptAccessEnum(Enum):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Enumeration for RPT (Read-Protect-Transform) access types in AUTOSAR.
     Defines different access modes for read-protect-transform functionality.
     """

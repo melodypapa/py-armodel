@@ -14,7 +14,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class HwElementConnector(Describable):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a connection between hardware elements in AUTOSAR hardware descriptions.
     This class defines the connections that can exist between different hardware elements in the model.
     """

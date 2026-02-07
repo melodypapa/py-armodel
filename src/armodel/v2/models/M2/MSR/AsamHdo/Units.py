@@ -15,7 +15,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class PhysicalDimension(ARElement):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a physical dimension with exponents for SI base units.
     Base: ARElement
     """
@@ -82,7 +85,10 @@ class PhysicalDimension(ARElement):
 
 
 class SingleLanguageUnitNames(ARLiteral):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents single language unit names.
     Base: ARLiteral
     """
@@ -92,7 +98,10 @@ class SingleLanguageUnitNames(ARLiteral):
 
 
 class Unit(ARElement):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a unit with display name, conversion factor, and physical dimension reference.
     Base: ARElement
     """
@@ -135,7 +144,10 @@ class Unit(ARElement):
 
 
 class UnitGroup(ARElement):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a group of units in the AUTOSAR model.
 
     This class is used to group related units together for organizational purposes.

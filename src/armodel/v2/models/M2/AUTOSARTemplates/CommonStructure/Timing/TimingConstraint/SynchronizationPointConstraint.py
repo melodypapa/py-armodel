@@ -19,7 +19,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class SynchronizationPointConstraint(TimingConstraint):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Specifies synchronization point requirements in AUTOSAR timing specifications.
     This constraint defines synchronization requirements between distributed
     AUTOSAR elements.

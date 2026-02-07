@@ -7,7 +7,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class CryptoKeySlotContent(Identifiable):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     This meta-class represents the restriction of allowed usage of a key stored
     to the slot. Tags: atp.Status=candidate
 

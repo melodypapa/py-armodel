@@ -9,7 +9,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDe
 
 
 class SwSystemconst(AtpDefinition):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a software system constant in the AUTOSAR model.
 
     This class is used to define system constants that are used throughout

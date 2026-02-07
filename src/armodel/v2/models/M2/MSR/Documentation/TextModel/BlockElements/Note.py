@@ -10,12 +10,18 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 
 
 class NoteTypeEnum(AREnum):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__(["note", "warning", "caution", "danger", "important", "tip"])
 
 
 class Note(Paginateable):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.noteType: Union[NoteTypeEnum, None] = None

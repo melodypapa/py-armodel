@@ -14,7 +14,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class AnyInstanceRef(AtpInstanceRef):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a generic instance reference in AUTOSAR models.
     This class defines the structure for referencing any type of instance.
     """

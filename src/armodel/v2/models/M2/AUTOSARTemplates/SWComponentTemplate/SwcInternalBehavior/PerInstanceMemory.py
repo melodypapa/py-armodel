@@ -20,7 +20,10 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class PerInstanceMemory(AtpStructureElement):
-    def __init__(self, parent: ARObject, short_name: str) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.initValue: Union[Union[ARLiteral, None] , None] = None

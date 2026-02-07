@@ -16,7 +16,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class PlatformModuleEthernetEndpointConfiguration(ARElement):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     This meta-class defines the attributes for the configuration of a port,
     protocol type and IP address of the communication on a VLAN. Tags:
     atp.recommendedPackage=PlatformModuleEndpointConfigurations

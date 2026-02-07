@@ -7,7 +7,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatype
 
 
 class ApplicationDeferredDataType(ApplicationDataType):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     A placeholder data type in which the precise application data type is
     deferred to a later stage. Tags: atp.Status=draft
     atp.recommendedPackage=ApplicationDataTypes

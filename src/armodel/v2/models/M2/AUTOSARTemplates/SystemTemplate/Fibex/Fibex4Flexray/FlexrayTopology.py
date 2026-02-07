@@ -20,7 +20,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTo
 
 
 class FlexrayChannelName(AREnum):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Enumeration defining names for FlexRay channels,
     specifying the available channel designations
     in FlexRay communication systems.
@@ -36,7 +39,10 @@ class FlexrayChannelName(AREnum):
 
 
 class FlexrayCommunicationController(CommunicationController):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a FlexRay communication controller in the system,
     defining properties for FlexRay network communication including
     startup parameters, timing, and synchronization settings for
@@ -336,7 +342,10 @@ class FlexrayCommunicationController(CommunicationController):
 
 
 class FlexrayCommunicationConnector(CommunicationConnector):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Defines a FlexRay communication connector that links FlexRay controllers
     to communication channels, specifying NM (Network Management) timing
     and PNC (Partial Network Cluster) properties for FlexRay communication.
@@ -374,7 +383,10 @@ class FlexrayCommunicationConnector(CommunicationConnector):
 
 
 class FlexrayCluster(CommunicationCluster):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Defines a FlexRay communication cluster in the system topology,
     specifying timing parameters, slot configurations, and network
     management properties for FlexRay network communication.

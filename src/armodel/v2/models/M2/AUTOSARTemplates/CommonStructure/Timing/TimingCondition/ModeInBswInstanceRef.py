@@ -4,7 +4,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class ModeInBswInstanceRef(RefType):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a reference to a mode in a BSW instance.
     Used for referencing modes within BSW module instances.
     """

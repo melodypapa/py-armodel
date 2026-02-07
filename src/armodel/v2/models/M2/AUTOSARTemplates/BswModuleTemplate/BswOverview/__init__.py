@@ -38,7 +38,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponent
 
 
 class BswModuleDescription(AtpStructureElement):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents the description of a single BSW module or BSW cluster in AUTOSAR.
     In case it describes a BSW module, the short name of this element equals the name of the BSW module.
     This is the root element for describing BSW module structure, interfaces, and behavior.

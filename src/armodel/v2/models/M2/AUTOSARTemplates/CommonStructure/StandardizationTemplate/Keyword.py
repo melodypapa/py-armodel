@@ -38,6 +38,10 @@ class Keyword(Identifiable):
         # List of classifications for this keyword
         self.classifications: List[NameToken] = []
 
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def getAbbrName(self):
         """
         Gets the abbreviated name for this keyword.

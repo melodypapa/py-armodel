@@ -21,7 +21,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class CryptoKeySlot(Identifiable):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     This meta-class represents the ability to define a concrete key to be used
     for a crypto operation. Tags: atp.ManifestKind=MachineManifest
 

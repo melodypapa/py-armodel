@@ -54,6 +54,10 @@ class SdgCaption(MultilanguageReferrable):
 
         self.desc: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
 
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def getDesc(self) -> MultiLanguageOverviewParagraph:
         return self.desc
 

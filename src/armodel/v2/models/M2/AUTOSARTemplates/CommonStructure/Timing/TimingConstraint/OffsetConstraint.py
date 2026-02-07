@@ -18,7 +18,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class OffsetTimingConstraint(TimingConstraint):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Specifies timing offset requirements in AUTOSAR timing specifications.
     This constraint defines a time offset relative to a reference event
     or time base.

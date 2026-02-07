@@ -12,7 +12,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents a mapping between application OS task proxies and ECU task proxies
     in the Runtime Environment (RTE), defining how application-level tasks are
     connected to ECU-level tasks for real-time execution coordination.

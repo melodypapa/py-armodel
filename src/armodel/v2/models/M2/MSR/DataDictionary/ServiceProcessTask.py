@@ -17,7 +17,10 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
 
 
 class SwServiceArg(Identifiable):
-    def __init__(self, parent: ARObject, short_name: str) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.direction: Union[ArgumentDirectionEnum, None] = None
@@ -47,7 +50,10 @@ class SwServiceArg(Identifiable):
 
 
 class SwServiceImplPolicyEnum(AREnum):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Enumeration for SW Service Implementation Policy values.
     Defines how software service implementations should be generated in code.
     """

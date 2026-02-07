@@ -21,7 +21,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class LatencyConstraintTypeEnum(AREnum):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Enumeration for latency constraint types.
     """
 
@@ -38,7 +41,10 @@ class LatencyConstraintTypeEnum(AREnum):
 
 
 class LatencyTimingConstraint(TimingConstraint):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Specifies latency requirements in AUTOSAR timing specifications.
     This constraint defines the maximum allowed time between an event
     occurrence and a response.

@@ -8,7 +8,10 @@ from enum import Enum
 
 
 class AutoCollectEnum(Enum):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Enumeration for auto-collect settings in AUTOSAR collections.
     This enum defines the different auto-collection behaviors that can be applied to collections.
     """

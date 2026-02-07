@@ -13,7 +13,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.baseRef: Union[Union[RefType, None] , None] = None
@@ -59,7 +62,10 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
 
 
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
-    def __init__(self) -> None:
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    def __init__(self) -> None:
         super().__init__()
 
         self.baseRef: Union[Union[RefType, None] , None] = None

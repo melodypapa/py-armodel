@@ -12,7 +12,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class CommunicationControllerMapping(ARObject):
-    """Maps communication controllers to ECU resources."""
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """Maps communication controllers to ECU resources."""
     def __init__(self) -> None:
         super().__init__()
         self.communicationControllerRef: Union[RefType, None] = None
@@ -27,7 +30,10 @@ class CommunicationControllerMapping(ARObject):
 
 
 class HwPortMapping(ARObject):
-    """Maps hardware ports to ECU resources."""
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """Maps hardware ports to ECU resources."""
     def __init__(self) -> None:
         super().__init__()
         self.hwPortRef: Union[RefType, None] = None
@@ -42,7 +48,10 @@ class HwPortMapping(ARObject):
 
 
 class ECUMapping(Identifiable):
-    """
+
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass    """
     Represents an ECU mapping that defines the relationship between AUTOSAR software components
     and their physical ECU instances. This class maps communication controllers, hardware ports,
     and other ECU resources to specific ECU instances within the system configuration.
