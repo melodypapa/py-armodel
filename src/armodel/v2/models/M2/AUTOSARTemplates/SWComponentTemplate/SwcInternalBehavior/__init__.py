@@ -353,3 +353,49 @@ __all__ = [
     'VariableAccess',
     'VariableDataPrototype',
 ]
+
+
+class SwcExclusiveAreaPolicy(ARObject):
+    """Policy for SWC exclusive area management."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.policy: Union[str, None] = None
+
+    def getPolicy(self):
+        return self.policy
+
+    def setPolicy(self, value):
+        if value is not None:
+            self.policy = value
+        return self
+
+
+class InstantiationDataDefProps(ARObject):
+    """Instantiation-specific data definition properties."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.baseTypeRef: Union[RefType, None] = None
+
+    def getBaseTypeRef(self):
+        return self.baseTypeRef
+
+    def setBaseTypeRef(self, value):
+        if value is not None:
+            self.baseTypeRef = value
+        return self
+
+
+class VariationPointProxy(ARObject):
+    """Proxy for variation point handling."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.condition: Union[str, None] = None
+
+    def getCondition(self):
+        return self.condition
+
+    def setCondition(self, value):
+        if value is not None:
+            self.condition = value
+        return self
+

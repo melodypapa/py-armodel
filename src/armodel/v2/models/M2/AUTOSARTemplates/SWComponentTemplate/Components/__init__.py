@@ -12,7 +12,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
     RefType,
+    TRefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
@@ -29,6 +31,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication imp
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
     InnerPortGroupInCompositionInstanceRef,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    SwcInternalBehavior,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
+    BulkNvDataDescriptor,
+    NvBlockDescriptor,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
     SwComponentType,

@@ -17,6 +17,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     RefType,
     TimeValue,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    EventGroupControlTypeEnum,
+    UdpChecksumCalculationEnum,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     FibexElement,
 )

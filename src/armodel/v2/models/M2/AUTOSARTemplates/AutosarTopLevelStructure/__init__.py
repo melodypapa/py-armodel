@@ -1,9 +1,11 @@
-from typing import List, Union
+from typing import Dict, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswCalledEntity,
     BswSchedulableEntity,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.v2.models.M2.MSR.AsamHdo.Sdg import Sdg
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleEntry,
 )

@@ -11,6 +11,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure im
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    PPortPrototype,
+    PortGroup,
+    PortPrototype,
+    PRPortPrototype,
+    RPortPrototype,
+)
 
 
 class SwComponentType(AtpType, ABC):

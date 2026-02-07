@@ -1445,3 +1445,17 @@ class SecureCommunicationFreshnessProps(Identifiable):
 
 
 __all__ = []
+
+
+class TriggerMode(AREnum):
+    """Enumeration for trigger modes."""
+    NONE = "NONE"
+    ALWAYS = "ALWAYS"
+    ON_CHANGE = "ON-CHANGE"
+    def __init__(self) -> None:
+        super().__init__([
+            TriggerMode.NONE,
+            TriggerMode.ALWAYS,
+            TriggerMode.ON_CHANGE
+        ])
+

@@ -180,3 +180,19 @@ __all__ = [
     'PassThroughSwConnector',
     'CompositionSwComponentType',
 ]
+
+
+class InstantiationRTEEventProps(ARObject):
+    """Instantiation-specific RTE event properties."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.eventMask: Union[str, None] = None
+
+    def getEventMask(self):
+        return self.eventMask
+
+    def setEventMask(self, value):
+        if value is not None:
+            self.eventMask = value
+        return self
+

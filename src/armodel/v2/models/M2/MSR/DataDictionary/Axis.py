@@ -1,7 +1,12 @@
-from typing import Union
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    ARNumerical,
+    RefType,
 )
 from armodel.v2.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxisTypeProps,
