@@ -20,7 +20,7 @@ class McDataAccessDetails(ARObject):
         self.accessType: Union[str, None] = None
         self.address: Union[str, None] = None
 
-    def getAccessType(self) -> str:
+    def getAccessType(self) -> Union[str, None]:
         """
         Gets the access type.
 
@@ -29,7 +29,7 @@ class McDataAccessDetails(ARObject):
         """
         return self.accessType
 
-    def setAccessType(self, value: str):
+    def setAccessType(self, value: str) -> "McDataAccessDetails":
         """
         Sets the access type.
 
@@ -42,7 +42,7 @@ class McDataAccessDetails(ARObject):
         self.accessType = value
         return self
 
-    def getAddress(self) -> str:
+    def getAddress(self) -> Union[str, None]:
         """
         Gets the address.
 
@@ -51,7 +51,7 @@ class McDataAccessDetails(ARObject):
         """
         return self.address
 
-    def setAddress(self, value: str):
+    def setAddress(self, value: str) -> "McDataAccessDetails":
         """
         Sets the address.
 

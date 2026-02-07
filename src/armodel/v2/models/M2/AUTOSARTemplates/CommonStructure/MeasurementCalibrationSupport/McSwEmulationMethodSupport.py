@@ -19,7 +19,7 @@ class McSwEmulationMethodSupport(ARObject):
         super().__init__()
         self.emulationMethodName: Union[str, None] = None
 
-    def getEmulationMethodName(self) -> str:
+    def getEmulationMethodName(self) -> Union[str, None]:
         """
         Gets the emulation method name.
 
@@ -28,7 +28,7 @@ class McSwEmulationMethodSupport(ARObject):
         """
         return self.emulationMethodName
 
-    def setEmulationMethodName(self, value: str):
+    def setEmulationMethodName(self, value: str) -> "McSwEmulationMethodSupport":
         """
         Sets the emulation method name.
 

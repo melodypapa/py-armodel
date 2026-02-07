@@ -19,7 +19,7 @@ class SignalServiceTranslationPropsSet(ARObject):
         super().__init__()
         self.translationProps: List[str] = []
 
-    def addTranslationProp(self, prop: str):
+    def addTranslationProp(self, prop: str) -> "SignalServiceTranslationPropsSet":
         """
         Adds a translation property to this set.
 

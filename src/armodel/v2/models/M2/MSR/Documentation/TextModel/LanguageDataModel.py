@@ -26,14 +26,14 @@ class LanguageSpecific(ARObject, ABC):
     def getL(self):
         return self.l
 
-    def setL(self, value):
+    def setL(self, value) -> "LanguageSpecific":
         self.l = value
         return self
 
-    def getValue(self):
+    def getValue(self) -> str:
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: str) -> "LanguageSpecific":
         self.value = value
         return self
 

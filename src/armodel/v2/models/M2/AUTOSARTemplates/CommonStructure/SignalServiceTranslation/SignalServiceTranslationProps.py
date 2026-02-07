@@ -22,7 +22,7 @@ class SignalServiceTranslationProps(ARObject):
         super().__init__()
         self.translationControl: Union[Union[SignalServiceTranslationControlEnum, None] , None] = None
 
-    def getTranslationControl(self) -> SignalServiceTranslationControlEnum:
+    def getTranslationControl(self) -> Union[SignalServiceTranslationControlEnum, None]:
         """
         Gets the translation control type.
 
@@ -31,7 +31,7 @@ class SignalServiceTranslationProps(ARObject):
         """
         return self.translationControl
 
-    def setTranslationControl(self, value: SignalServiceTranslationControlEnum):
+    def setTranslationControl(self, value: SignalServiceTranslationControlEnum) -> "SignalServiceTranslationProps":
         """
         Sets the translation control type.
 
