@@ -10,7 +10,7 @@ class ReadError(Exception):
 
     def __init__(self, message: str, element_path: str = "",
                  line_number: Optional[int] = None,
-                 file_path: Optional[Path] = None):
+                 file_path: Optional[Path] = None) -> None:
         self.message = message
         self.element_path = element_path
         self.line_number = line_number

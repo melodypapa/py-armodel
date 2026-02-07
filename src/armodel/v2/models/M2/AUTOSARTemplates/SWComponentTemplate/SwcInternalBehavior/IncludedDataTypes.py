@@ -26,7 +26,7 @@ class IncludedDataTypeSet(ARObject):
         self.data_type_refs = []            # type: List[RefType]
         self.literal_prefix: Union[ARLiteral, None] = None
 
-    def addDataTypeRef(self, ref_type: RefType):
+    def addDataTypeRef(self, ref_type: RefType) -> None:
         self.data_type_refs.append(ref_type)
 
     def getDataTypeRefs(self) -> List[RefType]:
@@ -37,7 +37,7 @@ class IncludedDataTypeSet(ARObject):
         return self.literal_prefix
 
     @literalPrefix.setter
-    def literalPrefix(self, value: ARLiteral):
+    def literalPrefix(self, value: ARLiteral) -> None:
         self.literal_prefix = value
 
     def getLiteralPrefix(self) -> ARLiteral:

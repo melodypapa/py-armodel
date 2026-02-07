@@ -248,7 +248,7 @@ class CompuNominatorDenominator(ARObject):
 
         self.v: List[float] = []
 
-    def add_v(self, v: float):
+    def add_v(self, v: float) -> None:
         self.v.append(v)
 
     def get_vs(self) -> List[float]:
@@ -352,7 +352,7 @@ class CompuScales(CompuContent):
 
         self.compuScales: List[CompuScale] = []
 
-    def addCompuScale(self, compu_scale: CompuScale):
+    def addCompuScale(self, compu_scale: CompuScale) -> None:
         self.compuScales.append(compu_scale)
 
     def getCompuScales(self) -> List[CompuScale]:

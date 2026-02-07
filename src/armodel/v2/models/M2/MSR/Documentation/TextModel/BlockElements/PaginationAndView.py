@@ -4,6 +4,19 @@ from typing import Union
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
+class ChapterEnumBreak(AREnum):
+    def __init__(self) -> None:
+        super().__init__(["break", "noBreak"])
+
+
+class KeepWithPreviousEnum(AREnum):
+    def __init__(self) -> None:
+        super().__init__(["Generic", "AUTOSAR", "keep", "noKeep"])
 
 
 class DocumentViewSelectable(ARObject, ABC):

@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR hardware element connector
 in the EcuResourceTemplate module.
 """
 
-from typing import Optional, Union
+from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,

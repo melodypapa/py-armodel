@@ -240,7 +240,7 @@ class RecordValueSpecification(CompositeValueSpecification):
         # List of field value specifications in this record
         self.fields = []
 
-    def addField(self, field: ValueSpecification):
+    def addField(self, field: ValueSpecification) -> None:
         """
         Adds a field value specification to this record.
 
@@ -378,7 +378,7 @@ class ArrayValueSpecification(ValueSpecification):
         self.intendedPartialInitializationCount = value
         return self
 
-    def addElement(self, element: ValueSpecification):
+    def addElement(self, element: ValueSpecification) -> None:
         """
         Adds an element value specification to this array.
 
@@ -516,7 +516,7 @@ class CompositeRuleBasedValueSpecification(CompositeValueSpecification):
         super().__init__()
         self.ruleArguments = []
 
-    def addRuleArgument(self, argument):
+    def addRuleArgument(self, argument) -> None:
         self.ruleArguments.append(argument)
 
     def getRuleArguments(self):
@@ -567,7 +567,7 @@ class ConstantSpecificationMappingSet(ARObject):
         super().__init__()
         self.mappings = []
 
-    def addMapping(self, mapping):
+    def addMapping(self, mapping) -> None:
         self.mappings.append(mapping)
 
     def getMappings(self):
@@ -669,7 +669,7 @@ class RuleArguments(ARObject):
         super().__init__()
         self.arguments = []
 
-    def addArgument(self, argument):
+    def addArgument(self, argument) -> None:
         self.arguments.append(argument)
 
     def getArguments(self):

@@ -260,7 +260,7 @@ class AliasNameSet(ARObject):
         super().__init__()
         self.aliases = []
 
-    def addAlias(self, alias):
+    def addAlias(self, alias) -> None:
         self.aliases.append(alias)
 
     def getAliases(self):

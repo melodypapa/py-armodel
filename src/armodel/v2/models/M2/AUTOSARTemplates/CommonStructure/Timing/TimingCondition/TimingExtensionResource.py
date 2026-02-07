@@ -33,7 +33,7 @@ class TimingExtensionResource(ARObject):
         """
         return self.resourceName
 
-    def setResourceName(self, value: str):
+    def setResourceName(self, value: str) -> "TimingExtensionResource":
         """
         Sets the resource name.
 
@@ -55,7 +55,7 @@ class TimingExtensionResource(ARObject):
         """
         return self.resourceType
 
-    def setResourceType(self, value: str):
+    def setResourceType(self, value: str) -> "TimingExtensionResource":
         """
         Sets the resource type.
 

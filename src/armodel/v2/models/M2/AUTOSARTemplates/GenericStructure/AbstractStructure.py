@@ -5,7 +5,7 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,

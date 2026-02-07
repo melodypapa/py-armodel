@@ -389,7 +389,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         return self._swCalibrationAccess
 
     @sw_calibration_access.setter
-    def sw_calibration_access(self, value):
+    def sw_calibration_access(self, value) -> None:
         """
         Sets the software calibration access setting for this mode declaration group prototype.
         Valid values are "notAccessible", "readOnly", or "readWrite".

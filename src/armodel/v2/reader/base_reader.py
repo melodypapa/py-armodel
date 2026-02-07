@@ -15,7 +15,7 @@ from armodel.v2.utils.errors import ReadError
 class ARXMLReader:
     """V2 ARXML reader - deserializes ARXML using reflection."""
 
-    def __init__(self, options: Optional[Dict[str, Any]] = None):
+    def __init__(self, options: Optional[Dict[str, Any]] = None) -> None:
         self.options = options or {}
         self.warning = self.options.get("warning", False)
 

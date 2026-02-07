@@ -191,7 +191,7 @@ class RunnableEntity(ExecutableEntity):
     def getModeAccessPoints(self) -> List[ModeAccessPoint]:
         return self.modeAccessPoints
 
-    def addModeAccessPoint(self, value):
+    def addModeAccessPoint(self, value) -> None:
         self.modeAccessPoints.append(value)
 
     def getModeSwitchPoints(self) -> List[ModeSwitchPoint]:

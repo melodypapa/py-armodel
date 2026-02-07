@@ -126,11 +126,11 @@ class CompositionSwComponentType(SwComponentType):
         self.dataTypeMappingRefs = []                           # type: List[RefType]
         self.instantiationRTEEventProps = []                    # type: List[InstantiationRTEEventProps]
 
-    def removeAllAssemblySwConnector(self):
+    def removeAllAssemblySwConnector(self) -> None:
         for sw_connector in self.getAssemblySwConnectors():
             self.elements.remove(sw_connector)
 
-    def removeAllDelegationSwConnector(self):
+    def removeAllDelegationSwConnector(self) -> None:
         for sw_connector in self.getDelegationSwConnectors():
             self.elements.remove(sw_connector)
 
@@ -165,7 +165,7 @@ class CompositionSwComponentType(SwComponentType):
     def getComponents(self) -> List[SwComponentPrototype]:
         return self.components
 
-    def addDataTypeMapping(self, data_type_mapping_ref: RefType):
+    def addDataTypeMapping(self, data_type_mapping_ref: RefType) -> None:
         self.dataTypeMappingRefs.append(data_type_mapping_ref)
 
     def getDataTypeMappings(self) -> List[RefType]:

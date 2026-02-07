@@ -47,7 +47,7 @@ class ARType(ABC):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Any]):
+    def value(self, val: Optional[Any]) -> None:
         self._value = val
 
     def getValue(self) -> Optional[Any]:
@@ -59,7 +59,7 @@ class ARType(ABC):
         """
         return self.value
 
-    def setValue(self, val: Optional[Any]):
+    def setValue(self, val: Optional[Any]) -> "ARType":
         """
         Sets the value of this AUTOSAR type.
         Only sets the value if it is not None.
@@ -134,7 +134,7 @@ class ARNumerical(ARType):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, float, str]]):
+    def value(self, val: Optional[Union[int, float, str]]) -> None:
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
@@ -158,7 +158,7 @@ class ARNumerical(ARType):
         """
         return self.value
 
-    def setShortLabel(self, val: Optional[str]):
+    def setShortLabel(self, val: Optional[str]) -> "ARNumerical":
         """
         Sets the short label for this numerical type.
         Only sets the value if it is not None.
@@ -200,7 +200,7 @@ class ARFloat(ARNumerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[float, int, str]]):
+    def value(self, val: Optional[Union[float, int, str]]) -> None:
         if isinstance(val, float):
             self._value = val
         elif isinstance(val, int):
@@ -259,7 +259,7 @@ class ARLiteral(ARType):
         return self._value
 
     @value.setter
-    def value(self, val: Any):
+    def value(self, val: Any) -> None:
         if isinstance(val, str):
             self._value = val
         else:
@@ -298,7 +298,7 @@ class AREnum(ARLiteral):
         """
         return self.enumValues
 
-    def setEnumValues(self, values: List[str]):
+    def setEnumValues(self, values: List[str]) -> "AREnum":
         """
         Sets the list of possible enum values.
 
@@ -334,6 +334,56 @@ class String(ARLiteral):
         super().__init__()
 
 
+class DisplayFormatString(ARLiteral):
+    """
+    Represents a display format string AUTOSAR type.
+    This class provides functionality for display format string values in AUTOSAR models.
+    """
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class MonotonyEnum(AREnum):
+    """
+    Represents a monotony enum in AUTOSAR models.
+    """
+
+    def __init__(self) -> None:
+        super().__init__([
+            MonotonyEnum.INCREASE,
+            MonotonyEnum.DECREASE,
+            MonotonyEnum.STRICT_INCREASE,
+            MonotonyEnum.STRICT_DECREASE,
+            MonotonyEnum.MONOTONOUS,
+            MonotonyEnum.NOT_MONOTONOUS,
+        ])
+
+    INCREASE = 'INCREASE'
+    DECREASE = 'DECREASE'
+    STRICT_INCREASE = 'STRICT_INCREASE'
+    STRICT_DECREASE = 'STRICT_DECREASE'
+    MONOTONOUS = 'MONOTONOUS'
+    NOT_MONOTONOUS = 'NOT_MONOTONOUS'
+
+
+class ArgumentDirectionEnum(AREnum):
+    """
+    Represents an argument direction enum in AUTOSAR models.
+    """
+
+    def __init__(self) -> None:
+        super().__init__([
+            ArgumentDirectionEnum.IN,
+            ArgumentDirectionEnum.INOUT,
+            ArgumentDirectionEnum.OUT,
+        ])
+
+    IN = 'IN'
+    INOUT = 'INOUT'
+    OUT = 'OUT'
+
+
 class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.
@@ -358,7 +408,7 @@ class ARPositiveInteger(ARNumerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, str]]):
+    def value(self, val: Optional[Union[int, str]]) -> None:
         if isinstance(val, int):
             if val < 0:
                 raise ValueError("Invalid Positive Integer <%s>" % val)
@@ -417,7 +467,7 @@ class ARBoolean(ARType):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[bool, int, str]]):
+    def value(self, val: Optional[Union[bool, int, str]]) -> None:
         if isinstance(val, bool):
             self._value = val
         elif isinstance(val, int):
@@ -569,7 +619,7 @@ class CIdentifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: str):
+    def setBlueprintValue(self, value: str) -> "AtpBlueprintMapping":
         """
         Sets the blueprint value of this C identifier.
 
@@ -591,7 +641,7 @@ class CIdentifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str):
+    def setNamePattern(self, value: str) -> "AtpBlueprintMapping":
         """
         Sets the name pattern of this C identifier.
 
@@ -640,7 +690,7 @@ class Limit(ARObject):
         """
         return self.intervalType
 
-    def setIntervalType(self, value: str):
+    def setIntervalType(self, value: str) -> "Limit":
         """
         Sets the interval type of this limit.
 
@@ -662,7 +712,7 @@ class Limit(ARObject):
         """
         return self.value
 
-    def setValue(self, value: str):
+    def setValue(self, value: str) -> "Limit":
         """
         Sets the value of this limit.
 
@@ -698,7 +748,7 @@ class RefType(ARObject):
         """
         return self.base
 
-    def setBase(self, value: str):
+    def setBase(self, value: str) -> "RefType":
         """
         Sets the base of this reference type.
 
@@ -720,7 +770,7 @@ class RefType(ARObject):
         """
         return self.dest
 
-    def setDest(self, value: str):
+    def setDest(self, value: str) -> "RefType":
         """
         Sets the destination of this reference type.
 
@@ -742,7 +792,7 @@ class RefType(ARObject):
         """
         return self.value
 
-    def setValue(self, value: str):
+    def setValue(self, value: str) -> "RefType":
         """
         Sets the value of this reference type.
 

@@ -201,7 +201,7 @@ class ExecutableEntity(Identifiable, ABC):
             return int(self.minimumStartInterval.getValue() * 1000)
         return None
 
-    def addCanEnterExclusiveAreaRef(self, ref: RefType):
+    def addCanEnterExclusiveAreaRef(self, ref: RefType) -> None:
         """
         Adds a reference to an exclusive area that this entity can enter.
 
@@ -278,7 +278,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return self.constantMemories
 
-    def addDataTypeMappingRef(self, ref: RefType):
+    def addDataTypeMappingRef(self, ref: RefType) -> None:
         """
         Adds a data type mapping reference to this internal behavior.
 

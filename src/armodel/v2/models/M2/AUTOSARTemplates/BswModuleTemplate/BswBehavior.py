@@ -1181,7 +1181,7 @@ class BswModeSenderPolicy(ARObject):
         """
         return self._provided_mode_group_ref
 
-    def setQueueLength(self, length: any):
+    def setQueueLength(self, length: any) -> None:
         """
         Sets the queue length for mode switch operations.
         Can accept either ARNumerical or integer values.
@@ -1931,7 +1931,7 @@ class BswInternalBehavior(InternalBehavior):
             self.variationPointProxies = value
         return self
 
-    def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
+    def addModeSenderPolicy(self, policy: BswModeSenderPolicy) -> None:
         """
         Adds a BSW mode sender policy to the list.
         Note: This method adds to modeReceiverPolicies instead of modeSenderPolicies,
@@ -2221,7 +2221,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return list(filter(lambda a: isinstance(a, BswEvent), self.elements))
 
-    def addIncludedModeDeclarationGroupSet(self, group_set: IncludedModeDeclarationGroupSet):
+    def addIncludedModeDeclarationGroupSet(self, group_set: IncludedModeDeclarationGroupSet) -> None:
         """
         Adds an included mode declaration group set to the list.
 
@@ -2239,7 +2239,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.includedModeDeclarationGroupSets
 
-    def addIncludedDataTypeSet(self, type_set: IncludedDataTypeSet):
+    def addIncludedDataTypeSet(self, type_set: IncludedDataTypeSet) -> None:
         """
         Adds an included data type set to the list.
 

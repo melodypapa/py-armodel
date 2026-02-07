@@ -1,13 +1,32 @@
 from typing import List, Union
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
+    ValueSpecification,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    ARFloat,
     ARLiteral,
+    RefType,
 )
 from armodel.v2.models.M2.MSR.Documentation.Annotation import Annotation
+
+
+class SwCalibrationAccessEnum(AREnum):
+    """
+    Enumeration for software calibration access.
+    """
+    READ_ONLY = 'READ_ONLY'
+    READ_WRITE = 'READ_WRITE'
+
+    def __init__(self) -> None:
+        super().__init__([
+            SwCalibrationAccessEnum.READ_ONLY,
+            SwCalibrationAccessEnum.READ_WRITE,
+        ])
 
 
 class SwImplPolicyEnum(AREnum):
@@ -368,7 +387,7 @@ class ValueList(ARObject):
         self.v = value
         return self
 
-    def addVf(self, vf: ARLiteral):
+    def addVf(self, vf: ARLiteral) -> None:
         self._vf.append(vf)
 
     def getVfs(self) -> List[ARLiteral]:
@@ -450,5 +469,21 @@ class NvBlockDescriptor(ARObject):
     def setNvBlockSize(self, value):
         if value is not None:
             self.nvBlockSize = value
+        return self
+
+
+
+class SwCalprmAxisSet(ARObject):
+    """Set of calibration parameter axes."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.swAxisConts: List[ARLiteral] = []
+
+    def getSwAxisConts(self):
+        return self.swAxisConts
+
+    def addSwAxisCont(self, value):
+        if value is not None:
+            self.swAxisConts.append(value)
         return self
 

@@ -6,7 +6,7 @@ primary organizational unit for grouping related AUTOSAR model elements such as
 components, interfaces, data types, and other packages.
 """
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
     BswImplementation,
@@ -435,7 +435,7 @@ class ARPackage(CollectableElement):
         return self.short_name
 
     @shortName.setter
-    def shortName(self, value: str):
+    def shortName(self, value: str) -> None:
         self.short_name = value
 
     def getShortName(self) -> str:

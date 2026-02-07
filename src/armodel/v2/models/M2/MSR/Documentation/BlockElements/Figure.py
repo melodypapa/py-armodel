@@ -9,6 +9,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    String,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
     Paginateable,
@@ -132,11 +133,11 @@ class MlFigure(Paginateable):
     def __init__(self) -> None:
         super().__init__()
 
-        self.figureCaption: Union[Caption, None] = None
+        self.figureCaption: Union["Caption", None] = None
         self.helpEntry: Union[String, None] = None
         self.lGraphics = []                                     # type: List[LGraphic]
-        self.pgwide: Union[PgwideEnum, None] = None
-        self.verbatim: Union[MultiLanguageVerbatim, None] = None
+        self.pgwide: Union["PgwideEnum", None] = None
+        self.verbatim: Union["MultiLanguageVerbatim", None] = None
 
     def getFigureCaption(self):
         return self.figureCaption

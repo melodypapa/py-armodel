@@ -135,7 +135,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.transmissionAcknowledge: Union[Union[TransmissionAcknowledgementRequest, None] , None] = None
         self.usesEndToEndProtection: Union[Union[ARBoolean, None] , None] = None
 
-    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
+    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation) -> None:
         self.compositeNetworkRepresentations.append(representation)
 
     def getCompositeNetworkRepresentations(self) -> List[CompositeNetworkRepresentation]:

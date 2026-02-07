@@ -7,9 +7,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
@@ -21,6 +18,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     Frame,
     FrameTriggering,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
 )
 
 

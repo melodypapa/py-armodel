@@ -7,9 +7,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
 )
-from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultilanguageLongName,
 )
@@ -22,7 +19,7 @@ class GeneralAnnotation(ARObject, ABC):
 
         super().__init__()
         self.annotationOrigin: Union[ARLiteral, None] = None
-        self.annotationText: Union[DocumentationBlock, None] = None
+        self.annotationText: Union["DocumentationBlock", None] = None
         self.label: Union[MultilanguageLongName, None] = None
 
     def getAnnotationOrigin(self) -> ARLiteral:
@@ -32,10 +29,10 @@ class GeneralAnnotation(ARObject, ABC):
         self.annotationOrigin = value
         return self
 
-    def getAnnotationText(self) -> DocumentationBlock:
+    def getAnnotationText(self) -> "DocumentationBlock":
         return self.annotationText
 
-    def setAnnotationText(self, value: DocumentationBlock):
+    def setAnnotationText(self, value: "DocumentationBlock"):
         self.annotationText = value
         return self
 

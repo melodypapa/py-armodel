@@ -4,8 +4,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import 
     BswCalledEntity,
     BswSchedulableEntity,
 )
-from armodel.v2.models.M2.MSR.AsamHdo.AdminData import AdminData
-from armodel.v2.models.M2.MSR.AsamHdo.Sdg import Sdg
 from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleEntry,
 )
@@ -59,7 +57,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
     SystemSignal,
     SystemSignalGroup,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.v2.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.v2.models.M2.MSR.AsamHdo.Sdg import Sdg
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock as DocumentationBlock,
 )
@@ -118,7 +118,7 @@ class AbstractAUTOSAR(CollectableElement):
             self.adminData = value
         return self
 
-    def removeAdminData(self):
+    def removeAdminData(self) -> None:
         self.adminData = None
 
     def getFileInfoComment(self):
@@ -135,14 +135,14 @@ class AbstractAUTOSAR(CollectableElement):
         self.introduction = value
         return self
 
-    def reload(self):
+    def reload(self) -> None:
         pass
 
     @property
-    def full_name(self):
+    def full_name(self) -> str:
         return ""
 
-    def clear(self):
+    def clear(self) -> None:
         CollectableElement.__init__(self)
 
         self.schema_location = None
@@ -227,59 +227,63 @@ class AbstractAUTOSAR(CollectableElement):
 
         raise NotImplementedError("The type <%s> is not implemented for getDestType method" % type.__class__.__name__)
 
-    def findAtomicSwComponentType(self, referred) -> AtomicSwComponentType:
+    def findAtomicSwComponentType(self, referred: str) -> Union[AtomicSwComponentType, Referrable]:
         return self.find(referred)
 
-    def findSystemSignal(self, referred) -> SystemSignal:
+    def findSystemSignal(self, referred: str) -> Union[SystemSignal, Referrable]:
         return self.find(referred)
 
-    def findSystemSignalGroup(self, referred) -> SystemSignalGroup:
+    def findSystemSignalGroup(self, referred: str) -> Union[SystemSignalGroup, Referrable]:
         return self.find(referred)
 
-    def findPort(self, referred: str) -> PortPrototype:
+    def findPort(self, referred: str) -> Union[PortPrototype, Referrable]:
         return self.find(referred)
 
-    def findVariableDataPrototype(self, referred) -> VariableDataPrototype:
+    def findVariableDataPrototype(self, referred: str) -> Union[VariableDataPrototype, Referrable]:
         return self.find(referred)
 
-    def findImplementationDataType(self, referred) -> ImplementationDataType:
+    def findImplementationDataType(self, referred: str) -> Union[ImplementationDataType, Referrable]:
         return self.find(referred)
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, (ImplementationDataType, SwBaseType))):
             if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
-                referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
-                return self.getDataType(referred_type)
+                if data_type.swDataDefProps is not None and data_type.swDataDefProps.implementationDataTypeRef is not None:
+                    referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
+                    return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE and
+                data_type.swDataDefProps is not None and data_type.swDataDefProps.swPointerTargetProps is not None and
                 data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE"):
-                referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
-                return self.getDataType(referred_type)
+                if data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps() is not None:
+                    referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
+                    return self.getDataType(referred_type)
             return data_type
         else:
             raise ValueError("%s is not ImplementationDataType." % data_type)
 
-    def addDataTypeMap(self, data_type_map: DataTypeMap):
+    def addDataTypeMap(self, data_type_map: DataTypeMap) -> "AbstractAUTOSAR":
         if (data_type_map.applicationDataTypeRef is None) or (data_type_map.implementationDataTypeRef is None):
-            return
+            return self
         self._appl_impl_type_maps[data_type_map.applicationDataTypeRef.value] = data_type_map.implementationDataTypeRef.value
         self._impl_appl_type_maps[data_type_map.implementationDataTypeRef.value] = data_type_map.applicationDataTypeRef.value
+        return self
 
-    def convertToImplementationDataType(self, appl_data_type: str) -> ImplementationDataType:
+    def convertToImplementationDataType(self, appl_data_type: str) -> Union[ImplementationDataType, Referrable]:
         if (appl_data_type not in self._appl_impl_type_maps):
             raise IndexError("Invalid application data type <%s>" % appl_data_type)
 
         return self.find(self._appl_impl_type_maps[appl_data_type])
 
-    def convertToApplicationDataType(self, impl_data_type: str) -> ApplicationDataType:
+    def convertToApplicationDataType(self, impl_data_type: str) -> Union[ApplicationDataType, Referrable]:
         if (impl_data_type not in self._impl_appl_type_maps):
             raise IndexError("Invalid Implementation data type <%s>" % impl_data_type)
 
         return self.find(self._impl_appl_type_maps[impl_data_type])
 
-    def getRootSwCompositionPrototype(self):
+    def getRootSwCompositionPrototype(self) -> Union["RootSwCompositionPrototype", None]:
         return self.rootSwCompositionPrototype
 
-    def setRootSwCompositionPrototype(self, value: ARElement):
+    def setRootSwCompositionPrototype(self, value: "RootSwCompositionPrototype") -> "AbstractAUTOSAR":
         if value is not None:
             if self.rootSwCompositionPrototype is not None:
                 if value.getShortName() != self.rootSwCompositionPrototype.getShortName():
@@ -289,35 +293,37 @@ class AbstractAUTOSAR(CollectableElement):
                 self.rootSwCompositionPrototype = value
         return self
 
-    def addImplementationBehaviorMap(self, impl: str, behavior: str) -> Implementation:
+    def addImplementationBehaviorMap(self, impl: str, behavior: str) -> "AbstractAUTOSAR":
         self._behavior_impl_maps[behavior] = impl
         self._impl_behavior_maps[impl] = behavior
+        return self
 
-    def getBehavior(self, impl_ref: str) -> InternalBehavior:
+    def getBehavior(self, impl_ref: str) -> Union[InternalBehavior, Referrable, None]:
         if impl_ref in self._impl_behavior_maps:
             return self.find(self._impl_behavior_maps[impl_ref])
         return None
 
-    def getImplementation(self, behavior_ref: str):
+    def getImplementation(self, behavior_ref: str) -> Union[Implementation, Referrable, None]:
         if behavior_ref in self._behavior_impl_maps:
             return self.find(self._behavior_impl_maps[behavior_ref])
         return None
 
-    def addSystem(self, system: System):
+    def addSystem(self, system: System) -> "AbstractAUTOSAR":
         short_name = system.getShortName()
         if short_name not in self.systems:
             self.systems[short_name] = system
+        return self
 
     def getSystems(self) -> List[System]:
         return sorted(self.systems.values(), key=lambda a: a.getShortName())
 
-    def getCompositionSwComponentTypes(self):
+    def getCompositionSwComponentTypes(self) -> Dict[str, CompositionSwComponentType]:
         return self.compositionSwComponentTypes
 
-    def getCompositionSwComponentType(self, short_name: str):
-        return self.compositionSwComponentTypes[short_name]
+    def getCompositionSwComponentType(self, short_name: str) -> Union[CompositionSwComponentType, None]:
+        return self.compositionSwComponentTypes.get(short_name)
 
-    def addCompositionSwComponentType(self, sw_component_type: CompositionSwComponentType):
+    def addCompositionSwComponentType(self, sw_component_type: CompositionSwComponentType) -> "AbstractAUTOSAR":
         if sw_component_type is not None:
             short_name = sw_component_type.getShortName()
             if short_name not in self.compositionSwComponentTypes:
@@ -327,7 +333,7 @@ class AbstractAUTOSAR(CollectableElement):
     def getARObjectByUUID(self, uuid: str) -> List[ARObject]:
         return self.uuid_mgr.getObjects(uuid)
 
-    def addARObject(self, value: ARObject):
+    def addARObject(self, value: ARObject) -> "AbstractAUTOSAR":
         if value is not None:
             self.uuid_mgr.addObject(value)
         return self
@@ -335,7 +341,7 @@ class AbstractAUTOSAR(CollectableElement):
     def getDuplicateUUIDs(self) -> List[str]:
         return self.uuid_mgr.getDuplicateUUIDs()
 
-    def setARRelease(self, release: str):
+    def setARRelease(self, release: str) -> "AbstractAUTOSAR":
         if release not in self.release_xsd_mappings:
             raise ValueError("invalid AUTOSAR Release <%s>" % release)
         self.schema_location = "http://autosar.org/schema/r4.0 %s" % self.release_xsd_mappings[release]
@@ -350,13 +356,14 @@ class AUTOSAR (AbstractAUTOSAR):
         pass
 
     @staticmethod
-    def getInstance():
+    def getInstance() -> "AUTOSAR":
         if (AUTOSAR.__instance is None):
             AUTOSAR()
         return AUTOSAR.__instance
 
-    def new(self):
+    def new(self) -> "AUTOSAR":
         self.clear()
+        return self
 
     def __init__(self) -> None:
         if (AUTOSAR.__instance is not None):
