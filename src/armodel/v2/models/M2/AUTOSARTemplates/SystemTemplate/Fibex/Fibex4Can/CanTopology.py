@@ -1,9 +1,8 @@
 # This module contains AUTOSAR System Template classes for CAN topology
 # It defines CAN controllers, connectors, and their configuration attributes
 
-from typing import Union
-
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,

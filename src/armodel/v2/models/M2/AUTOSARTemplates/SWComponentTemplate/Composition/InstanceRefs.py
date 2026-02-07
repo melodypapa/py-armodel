@@ -4,9 +4,8 @@ in composition contexts. These classes are used for referencing ports and
 operations within compositions and atomic SWC instances.
 """
 
-from typing import Union
-
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,

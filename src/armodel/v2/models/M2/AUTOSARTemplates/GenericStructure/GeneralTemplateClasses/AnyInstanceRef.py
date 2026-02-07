@@ -3,12 +3,7 @@ This module contains the AnyInstanceRef class for AUTOSAR models
 in the GenericStructure module.
 """
 
-from typing import (
-    
-    List,
-    Optional,
-    Union
-)
+from typing import List, Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,

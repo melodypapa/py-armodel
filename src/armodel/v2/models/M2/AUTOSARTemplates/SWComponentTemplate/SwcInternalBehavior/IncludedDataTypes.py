@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR included data types
 in software component internal behavior templates.
 """
 
-from typing import Union, List
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,

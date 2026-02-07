@@ -5,9 +5,8 @@ elements within atomic SWCs and compositions, particularly for mode groups
 and data elements in instance contexts.
 """
 
-from typing import Union
-
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpInstanceRef,

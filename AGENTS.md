@@ -2,10 +2,10 @@
 
 ## Project Overview
 Python library for AUTOSAR model support - ARXML parser and writer for automotive ECU software development.
-**Version**: 1.9.2 | **Python**: >= 3.5 (setup.py) / >= 3.7 (pyproject.toml) | **CI supports**: 3.8-3.13 | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
+**Version**: 1.9.2 | **Python**: >= 3.7 | **CI supports**: 3.8-3.13 | **License**: MIT | **Repository**: http://github.com/melodypapa/py-armodel
 
-**Current Git Branch**: main
-**Latest Commit**: c9d02e3 - Merge pull request #397 from melodypapa/feature/fix-v2-ruff-errors
+**Current Git Branch**: feature/v2-arxml-reader-writer
+**Latest Commit**: f9ee9e1 - feat: Add V2 ARXML reader/writer demo implementation
 
 ## Build, Lint, and Test Commands
 
@@ -77,15 +77,23 @@ ruff check --fix .
 
 # Show detailed rule violations
 ruff check --show-source .
+
+# Run ruff on V2 modules only
+ruff check src/armodel/v2/
 ```
 
 #### Type Checking: MyPy
 ```bash
-# Run mypy type checking
-mypy src/armodel/v2/models/
+# Run mypy type checking on V2 modules
+mypy src/armodel/v2/
 
 # Run mypy with specific configuration
-mypy --config-file pyproject.toml src/armodel/v2/models/
+mypy --config-file pyproject.toml src/armodel/v2/
+
+# Run mypy on specific V2 submodules
+mypy src/armodel/v2/models/
+mypy src/armodel/v2/reader/
+mypy src/armodel/v2/writer/
 ```
 
 #### Legacy Linter: Flake8
@@ -123,6 +131,22 @@ The `scripts/` directory contains utility scripts for development:
 - `deviation-package.py`: Generate package structure deviation reports
 - `lib/`: Support library for scripts (code_generator, code_utils, package_loader, test_generator, type_resolver)
 
+### V2 Validation
+For V2 module validation, use these commands:
+```bash
+# Run V2 coding rules checker (if available)
+python scripts/check_v2_coding_rules.py
+
+# Run mypy on V2 modules
+mypy src/armodel/v2/
+
+# Run ruff on V2 modules
+ruff check src/armodel/v2/
+
+# Run V2 tests
+pytest tests/test_armodel/v2/ -v
+```
+
 ## Code Style Guidelines
 
 ### Comprehensive Reference
@@ -130,41 +154,60 @@ For detailed coding standards, see: `docs/development/coding_rules.md`
 
 ### V2-Specific Coding Rules
 
-The project is migrating to a V2 model structure with enhanced coding standards. Key differences:
+The project is migrating to a V2 model structure with enhanced coding standards. V2 includes models, reader, writer, and utils modules.
 
-#### V2 Model Structure
-- **Location**: `src/armodel/v2/models/`
-- **Purpose**: Refactored AUTOSAR M2 model with improved code organization
-- **Status**: Active development on `main` branch (232 files in V2 structure)
+#### V2 Architecture
+- **Location**: `src/armodel/v2/`
+- **Purpose**: Refactored AUTOSAR M2 model with improved code organization and external serialization
+- **Status**: Active development on `feature/v2-arxml-reader-writer` branch
 - **Key Features**:
   - Enhanced type hints with strict mypy checking
-  - Improved import organization
-  - Better separation of concerns
-  - Comprehensive deviation tracking
+  - Improved import organization (absolute imports only)
+  - Java-style POJO pattern - models are pure data holders
+  - External Reader/Writer using reflection for serialization
+  - XSD-based schema mappings for version support
+  - V1-compatible error handling (exceptions + warning mode)
+  - Clean separation of concerns between models and serialization
 
 #### V2 Coding Rules (CODING_RULE_V2_*)
-- **CODING_RULE_V2_00001**: V2 models must use strict type hints
-- **CODING_RULE_V2_00002**: V2 models must pass mypy checks
-- **CODING_RULE_V2_00003**: V2 models must follow ruff configuration
-- See `docs/development/coding_rules.md` for complete V2-specific rules
+See `docs/development/coding_rules_v2.md` for complete V2-specific rules:
 
-#### Current V2 Compliance Status (as of latest report)
-**Total Violations Found: 64**
+- **CODING_RULE_V2_00001**: Absolute imports only - no relative imports
+- **CODING_RULE_V2_00002**: No TYPE_CHECKING blocks - use string annotations
+- **CODING_RULE_V2_00003**: Explicit `__all__` in `__init__.py` files
+- **CODING_RULE_V2_00004**: V2 module path convention (armodel.v2.*)
+- **CODING_RULE_V2_00005**: String annotations for forward references
+- **CODING_RULE_V2_00006**: No runtime circular imports
+- **CODING_RULE_V2_00007**: V2 test structure
+- **CODING_RULE_V2_00008**: V2 module initialization
+- **CODING_RULE_V2_00010**: V2 documentation requirements
+- **CODING_RULE_V2_00011**: `__all__` placement after imports
+- **CODING_RULE_V2_00012**: Explicit class imports (no wildcards)
+- **CODING_RULE_V2_00013**: Block import style (multi-line with parentheses)
+- **CODING_RULE_V2_00014**: V2 model extensibility
+- **CODING_RULE_V2_00015**: V2 module integration contract
 
-| Rule | Violations | Status |
-|------|-----------|--------|
-| V2_00001: Absolute Imports Only | 28 | ❌ |
-| V2_00002: No TYPE_CHECKING | 3 | ❌ |
-| V2_00003: Explicit __all__ | 28 | ❌ |
-| V2_00004: V2 Module Path | 0 | ✅ |
-| V2_00006: No Circular Imports | - | ⚠️ |
-| V2_00009: Version Info | 0 | ✅ |
-| V2_00010: Documentation | 0 | ✅ |
+#### V2 Reader/Writer Usage
+```python
+# Reading ARXML with V2 reader
+from armodel.v2.models.models import AUTOSAR
+from armodel.v2.reader.base_reader import ARXMLReader
 
-**Priority Fixes Needed:**
-1. Replace all relative imports (`from .`) with absolute imports
-2. Add `__all__` definitions to all `__init__.py` files
-3. Review TYPE_CHECKING usage
+AUTOSAR.setARRelease('R23-11')
+document = AUTOSAR.getInstance()
+
+reader = ARXMLReader(options={"warning": False})
+reader.load("input.arxml", document)
+
+# Writing ARXML with V2 writer
+from armodel.v2.writer.base_writer import ARXMLWriter
+
+writer = ARXMLWriter()
+writer.save("output.arxml", document)
+```
+
+#### Current V2 Compliance Status
+V2 reader/writer implementation is in active development on `feature/v2-arxml-reader-writer` branch.
 
 ### Imports
 - Standard library first (typing, xml, os, logging, getopt, re)
@@ -414,16 +457,26 @@ src/armodel/
 │   │   └── N/                # Naming conventions
 │   └── utils/                # Utility classes
 ├── v2/                     # V2 package (refactored architecture)
-│   └── models/              # AUTOSAR model definitions (V2 - refactored)
-│       ├── M2/
-│       │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
-│       │   ├── MSR/              # Meta-model semantic rules (V2)
-│       │   └── N/                # Naming conventions (V2)
-│       └── utils/                # Utility classes (V2)
-├── parser/                 # Parser implementation
+│   ├── models/              # AUTOSAR model definitions (V2 - refactored)
+│   │   ├── M2/
+│   │   │   ├── AUTOSARTemplates/  # AUTOSAR templates (V2 structure)
+│   │   │   ├── MSR/              # Meta-model semantic rules (V2)
+│   │   │   └── N/                # Naming conventions (V2)
+│   │   ├── ar_object.py          # Base ARObject class
+│   │   └── models.py             # Core models (AUTOSAR, ARPackage, Identifiable)
+│   ├── reader/              # V2 ARXML reader (deserialization)
+│   │   ├── base_reader.py       # Core reading orchestration
+│   │   ├── element_handler.py   # Element handler registry
+│   │   └── schema_registry.py   # Schema mappings loader
+│   ├── writer/              # V2 ARXML writer (serialization)
+│   │   └── base_writer.py       # Core writing orchestration
+│   └── utils/               # Shared utilities (V2)
+│       ├── errors.py            # Custom error types
+│       └── context.py           # Reading/writing context
+├── parser/                 # Parser implementation (V1)
 ├── report/                 # Report generation
 ├── transformer/            # Transformer
-└── writer/                 # Writer implementation
+└── writer/                 # Writer implementation (V1)
 ```
 
 ### Architecture Principles
@@ -436,11 +489,19 @@ src/armodel/
 - V2 models represent a refactored architecture with improved code organization
 
 ### Core Modules
-- **parser.arxml_parser**: Main ARXML parser, based on `AbstractARXMLParser`
-- **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**: `AUTOSAR` class (singleton root), `AbstractAUTOSAR` class
-- **v2.models.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (in development, 232 files)
-- **writer.arxml_writer**: ARXML file writer
-- **models/**: Contains all AUTOSAR data model classes (V1 - legacy)
+- **parser.arxml_parser**: Main ARXML parser (V1), based on `AbstractARXMLParser`
+- **writer.arxml_writer**: ARXML file writer (V1)
+- **models.M2.AUTOSARTemplates.AutosarTopLevelStructure**: `AUTOSAR` class (singleton root), `AbstractAUTOSAR` class (V1)
+- **v2.models.M2.AUTOSARTemplates**: Refactored AUTOSAR templates (V2, 232+ files)
+- **v2.reader.base_reader**: V2 ARXML reader - deserializes ARXML using reflection
+- **v2.reader.element_handler**: Element handler registry for V2 reader
+- **v2.reader.schema_registry**: Schema mappings loader for V2 reader
+- **v2.writer.base_writer**: V2 ARXML writer - serializes models to ARXML
+- **v2.models.ar_object**: Base ARObject class (V2)
+- **v2.models.models**: Core V2 models (AUTOSAR, ARPackage, Identifiable)
+- **v2.utils.errors**: Custom error types for V2 (ReadError, WriteError)
+- **v2.utils.context**: Reading/writing context for V2
+- **models/**: Contains all AUTOSAR data model classes (V1 - legacy, stable)
 - **v2/models/**: Contains refactored AUTOSAR data model classes (V2 - active development)
 
 ## AUTOSAR Specifics
@@ -467,7 +528,7 @@ src/armodel/
 ## Important Notes
 
 ### Development Guidelines
-- Python >= 3.5 required (setup.py) / >= 3.7 required (pyproject.toml)
+- Python >= 3.7 required (pyproject.toml)
 - CI supports 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
 - Do NOT add comments unless asked
 - Follow PEP 8 coding conventions
@@ -485,7 +546,8 @@ src/armodel/
 - **Class Location**: Follow CODING_RULE_STYLE_00008 for proper class placement in package structure
 - **Class Export**: Follow CODING_RULE_STYLE_00009 for proper class exports and module organization
 - **Duplicate Detection**: Run deviation tracking to identify duplicate class names before committing
-- **V2 Development**: V2 models under active development on `main` branch with 64 coding rule violations to fix
+- **V2 Development**: V2 models, reader, and writer under active development on `feature/v2-arxml-reader-writer` branch
+- **V2 Architecture**: Follow V2 coding rules in `docs/development/coding_rules_v2.md`
 
 ### AUTOSAR Singleton Management
 ```python
@@ -509,35 +571,43 @@ AUTOSAR.setARRelease("R23-11")  # or '4.0.3', 'R24-11', etc.
 
 ### Recent Refactoring Activities
 
-#### V2 Model Development (Current - 2026)
-**Purpose**: Refactor AUTOSAR M2 model structure with enhanced coding standards and better organization.
+#### V2 ARXML Reader/Writer Implementation (Current - 2026)
+**Purpose**: Implement V2 ARXML reader and writer with Java-style POJO architecture and reflection-based serialization.
 
-**Status**: Active development on `main` branch (232 V2 model files)
+**Status**: Active development on `feature/v2-arxml-reader-writer` branch
 
 **Key Features**:
-- Enhanced type hints with strict mypy checking
-- Improved import organization following ruff configuration
-- Better separation of concerns
+- Java-style POJO pattern - models are pure data holders
+- External Reader/Writer using reflection for serialization
+- XSD-based schema mappings for version support (3.2.3, 4.0.3, R23-11, R24-11)
+- V1-compatible error handling (exceptions + warning mode)
+- ElementTree-based XML parsing (faster than lxml)
+- Clean separation between models and serialization logic
 - Comprehensive deviation tracking
 - Automated coding rule validation
 
-**Current Issues**:
-- 64 coding rule violations detected
-  - 28 files with relative imports (need absolute imports)
-  - 28 files missing `__all__` definitions
-  - 3 files with TYPE_CHECKING usage
-
 **Related Files**:
-- `src/armodel/v2/models/`: V2 model structure (232 files)
-- `docs/development/coding_rules.md`: V2-specific coding rules
-- `reports/v2_coding_rules_compliance.md`: Current compliance status
+- `src/armodel/v2/models/`: V2 model structure (232+ files)
+- `src/armodel/v2/reader/`: ARXML deserialization (base_reader.py, element_handler.py, schema_registry.py)
+- `src/armodel/v2/writer/`: ARXML serialization (base_writer.py)
+- `src/armodel/v2/utils/`: Shared utilities (errors.py, context.py)
+- `docs/development/coding_rules_v2.md`: V2-specific coding rules (15 rules)
+- `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md`: V2 architecture design
 
 **Recent Commits**:
-- c9d02e3: Merge pull request #397 - Fix V2 models ruff errors with proper abstract base classes
-- 81ab97d: refactor: Fix V2 models ruff errors with proper abstract base classes
-- 4e2c5fe: Merge pull request #395 - Add plan to fix 932 V2 ruff errors
-- cdabbd8: docs: Add plan to fix 932 V2 ruff errors
-- cd60be2: Merge pull request #393 - Refactor/v2-explicit-imports
+- f9ee9e1: feat: Add V2 ARXML reader/writer demo implementation
+- e86e5fb: refactor: Add Union type import to V2 model typing statements
+- 3bf577c: docs: Add V2 ARXML reader/writer design document
+- 5cab365: Merge pull request #403 - Refactor/v2-union-imports
+- c76f128: refactor: Add type annotations to V2 model __init__ methods and None assignments
+
+**V2 Architecture Principles**:
+1. Models are pure data holders (POJOs) - no serialization methods
+2. External Reader/Writer handles all serialization logic
+3. Reflection-based approach for model inspection
+4. XSD-driven schema mappings for version support
+5. Open/Closed Principle - extensible without base class modifications
+6. V1-compatible error handling behavior
 
 #### Enum to AREnum Conversion (v1.9.2)
 **Purpose**: Improve AUTOSAR compliance by replacing Python's standard `enum.Enum` with a custom `AREnum` base class.
@@ -598,21 +668,25 @@ class BswEntryKindEnum(AREnum):
 
 ### Development Activities
 
-#### V2 Model Development (Current)
-- **Goal**: Refactor AUTOSAR M2 model with enhanced coding standards
-- **Status**: Active development on `main` branch
-- **Progress**: 232 V2 model files created
-- **Issues**: 64 coding rule violations to fix
-  - Priority 1: Fix relative imports (28 files)
-  - Priority 2: Add __all__ definitions (28 files)
-  - Priority 3: Review TYPE_CHECKING usage (3 files)
+#### V2 Reader/Writer Implementation (Current)
+- **Goal**: Implement V2 ARXML reader and writer with Java-style POJO architecture
+- **Status**: Active development on `feature/v2-arxml-reader-writer` branch
+- **Progress**: 
+  - V2 models: 232+ files with enhanced type hints
+  - V2 reader: base_reader.py, element_handler.py, schema_registry.py implemented
+  - V2 writer: base_writer.py implemented
+  - V2 utils: errors.py, context.py implemented
+  - Tests: tests/test_armodel/v2/ structure created
 - **Changes**:
+  - Java-style POJO pattern for models
+  - Reflection-based serialization
+  - XSD-driven schema mappings
+  - V1-compatible error handling
   - Enhanced type hints with strict mypy checking
-  - Improved import organization following ruff configuration
-  - Better separation of concerns
-  - Comprehensive deviation tracking
-  - Automated coding rule validation
-- **Related Commits**: c9d02e3, 81ab97d, 4e2c5fe, cdabbd8, cd60be2
+  - Improved import organization (absolute imports only)
+  - Block import style for better readability
+- **Related Commits**: f9ee9e1, e86e5fb, 3bf577c, 5cab365, c76f128
+- **Design Document**: docs/plans/2026-02-07-v2-arxml-reader-writer-design.md
 
 #### Enum Refactoring (v1.9.2)
 - **Goal**: Convert Python Enum to AUTOSAR AREnum for better AUTOSAR compliance
@@ -654,6 +728,46 @@ The project maintains comprehensive deviation tracking between documented AUTOSA
 - **Goal**: Automated generation of AUTOSAR M2 model classes from specification documents
 - **Status**: Partially implemented - ongoing development
 
+## V2 Test Structure
+
+V2 tests are organized in `tests/test_armodel/v2/` following the test structure conventions:
+
+```
+tests/test_armodel/v2/
+├── __init__.py
+├── test_model_extensibility.py    # V2 model extensibility tests
+├── integration/                   # V2 integration tests
+│   └── test_roundtrip.py          # Round-trip validation tests
+├── models/                        # V2 model tests
+│   └── test_*.py                  # Model serialization tests
+├── reader/                        # V2 reader tests
+│   └── test_*.py                  # Reader unit tests
+└── writer/                        # V2 writer tests
+    └── test_*.py                  # Writer unit tests
+```
+
+### Running V2 Tests
+
+```bash
+# Run all V2 tests
+pytest tests/test_armodel/v2/ -v
+
+# Run V2 reader tests
+pytest tests/test_armodel/v2/reader/ -v
+
+# Run V2 writer tests
+pytest tests/test_armodel/v2/writer/ -v
+
+# Run V2 integration tests
+pytest tests/test_armodel/v2/integration/ -v
+
+# Run V2 extensibility tests
+pytest tests/test_armodel/v2/test_model_extensibility.py -v
+
+# Run V2 tests with coverage
+pytest tests/test_armodel/v2/ -v --cov=src/armodel/v2 --cov-report=term
+```
+
 ## CLI Tools
 
 The library provides 10 command-line tools:
@@ -689,9 +803,11 @@ The library provides 10 command-line tools:
   - Added duplicate detection for CODING_RULE_STYLE_00009 compliance
   - Development scripts added for package structure analysis and fixes
 - **V2 Model Development**
-  - 232 V2 model files created with refactored architecture
-  - 64 coding rule violations identified and prioritized for fixes
+  - 232+ V2 model files created with refactored architecture
+  - V2 coding rules established (15 rules in coding_rules_v2.md)
+  - V2 reader and writer implementation in progress
   - Ruff errors fixed with proper abstract base classes
+  - Union type imports added to V2 model typing statements
 
 ### Version 1.9.1
 - **Package Structure Refactoring**
@@ -736,87 +852,125 @@ The library provides 10 command-line tools:
 
 ## V2 Migration Guide
 
-The project is migrating to a V2 model structure with enhanced coding standards. This section provides guidance for working with V2 models.
+The project is migrating to a V2 model structure with enhanced coding standards and Java-style POJO architecture. This section provides guidance for working with V2 modules.
 
 ### Key Differences
 
-#### V1 Models (Legacy)
+#### V1 Models (Legacy - Stable)
 - **Location**: `src/armodel/models/`
 - **Type Hints**: Basic, no strict checking
 - **Import Organization**: Manual, less consistent
 - **Linting**: Flake8 for critical errors only
+- **Architecture**: Monolithic parser/writer with model methods
 - **Status**: Stable, in production use
 
 #### V2 Models (In Development)
 - **Location**: `src/armodel/v2/models/`
 - **Type Hints**: Comprehensive, strict mypy checking
-- **Import Organization**: Automated via ruff, highly consistent
+- **Import Organization**: Absolute imports only, automated via ruff
 - **Linting**: Ruff + mypy for comprehensive quality checks
-- **Status**: Active development on `main` branch (232 files, 64 violations to fix)
+- **Architecture**: Java-style POJO pattern, external serialization
+- **Status**: Active development on `feature/v2-arxml-reader-writer` branch
 
-### Working with V2 Models
+### Working with V2 Modules
+
+#### Using V2 Reader/Writer
+```python
+# Reading ARXML with V2 reader
+from armodel.v2.models.models import AUTOSAR
+from armodel.v2.reader.base_reader import ARXMLReader
+
+AUTOSAR.setARRelease('R23-11')
+document = AUTOSAR.getInstance()
+
+reader = ARXMLReader(options={"warning": False})
+reader.load("input.arxml", document)
+
+# Writing ARXML with V2 writer
+from armodel.v2.writer.base_writer import ARXMLWriter
+
+writer = ARXMLWriter()
+writer.save("output.arxml", document)
+```
 
 #### Checking V2 Coding Rules
 ```bash
-# Run V2 coding rules checker
-python scripts/check_v2_coding_rules.py
+# Run mypy type checking on V2 modules
+mypy src/armodel/v2/
 
-# Run mypy type checking
-mypy src/armodel/v2/models/
+# Run ruff linting on V2 modules
+ruff check src/armodel/v2/
 
-# Run ruff linting
-ruff check src/armodel/v2/models/
+# Run V2 tests
+pytest tests/test_armodel/v2/ -v
 ```
 
-#### Fixing V2 Coding Rules
-```bash
-# Auto-fix V2 coding rule violations
-python scripts/fix_v2_coding_rules.py
-
-# Auto-fix ruff issues
-ruff check --fix src/armodel/v2/models/
+#### V2 Module Structure
 ```
-
-#### Current V2 Compliance Issues
-
-**64 violations found:**
-
-1. **Absolute Imports Only (28 files)**: Replace relative imports (`from .`) with absolute paths
-2. **No TYPE_CHECKING (3 files)**: Review and remove TYPE_CHECKING usage
-3. **Explicit __all__ (28 files)**: Add `__all__` definitions to all `__init__.py` files
+src/armodel/v2/
+├── models/           # AUTOSAR M2 model classes (pure data, POJOs)
+│   ├── ar_object.py  # Base ARObject class
+│   ├── models.py     # Core models (AUTOSAR, ARPackage, Identifiable)
+│   └── M2/           # AUTOSAR M2 schema structure (232+ files)
+├── reader/           # ARXML deserialization (reflection-based)
+│   ├── base_reader.py       # Core reading orchestration
+│   ├── element_handler.py   # Element handler registry
+│   └── schema_registry.py   # Schema mappings loader
+├── writer/           # ARXML serialization (reflection-based)
+│   └── base_writer.py       # Core writing orchestration
+└── utils/            # Shared utilities
+    ├── errors.py            # Custom error types (ReadError, WriteError)
+    └── context.py           # Reading/writing context
+```
 
 ### V2-Specific Coding Rules
 
-See `docs/development/coding_rules.md` for complete V2-specific coding rules:
+See `docs/development/coding_rules_v2.md` for complete V2-specific coding rules (15 rules):
 
-- **CODING_RULE_V2_00001**: V2 models must use strict type hints
-- **CODING_RULE_V2_00002**: V2 models must pass mypy checks
-- **CODING_RULE_V2_00003**: V2 models must follow ruff configuration
+- **CODING_RULE_V2_00001**: Absolute imports only - no relative imports
+- **CODING_RULE_V2_00002**: No TYPE_CHECKING blocks - use string annotations
+- **CODING_RULE_V2_00003**: Explicit `__all__` in `__init__.py` files
+- **CODING_RULE_V2_00004**: V2 module path convention (armodel.v2.*)
+- **CODING_RULE_V2_00005**: String annotations for forward references
+- **CODING_RULE_V2_00006**: No runtime circular imports
+- **CODING_RULE_V2_00007**: V2 test structure
+- **CODING_RULE_V2_00008**: V2 module initialization
+- **CODING_RULE_V2_00010**: V2 documentation requirements
+- **CODING_RULE_V2_00011**: `__all__` placement after imports
+- **CODING_RULE_V2_00012**: Explicit class imports (no wildcards)
+- **CODING_RULE_V2_00013**: Block import style (multi-line with parentheses)
+- **CODING_RULE_V2_00014**: V2 model extensibility
+- **CODING_RULE_V2_00015**: V2 module integration contract
 
 ### Branch Management
 
-- **Main Branch**: Contains both V1 models (stable, production) and V2 models (in development)
-- V2 models are located in `src/armodel/v2/models/` directory
+- **Main Branch**: Contains V1 models (stable, production)
+- **feature/v2-arxml-reader-writer**: V2 models, reader, writer development
 
 When working on V2 features:
-1. Create feature branches from `main`
-2. Follow V2 coding rules strictly
-3. Run `check_v2_coding_rules.py` before committing
-4. Ensure mypy and ruff checks pass
+1. Create feature branches from `feature/v2-arxml-reader-writer`
+2. Follow V2 coding rules strictly (see coding_rules_v2.md)
+3. Ensure mypy and ruff checks pass
+4. Add tests for new functionality
 5. Update documentation as needed
 
 ### Future Plans
 
 The V2 migration is ongoing. Key milestones:
 
-- [ ] Fix 64 coding rule violations in V2 models
-- [ ] Complete V2 model structure refactoring
-- [ ] Achieve 100% coding rules compliance in V2
-- [ ] Migrate all tests to V2
+- [x] V2 models structure (232+ files)
+- [x] V2 reader infrastructure (base_reader.py, element_handler.py, schema_registry.py)
+- [x] V2 writer infrastructure (base_writer.py)
+- [x] V2 utils (errors.py, context.py)
+- [ ] Complete V2 reader implementation with full schema support
+- [ ] Complete V2 writer implementation with full serialization
+- [ ] XSD-based schema mapping generation for all AUTOSAR versions
+- [ ] V2 round-trip integration tests
+- [ ] Achieve 100% V2 coding rules compliance
 - [ ] Merge V2 into main branch
 - [ ] Deprecate V1 models
 
 For detailed migration plans, see:
-- `docs/plans/2026-02-01-package-structure-migration-design.md`
-- `docs/development/coding_rules.md`
-- `reports/v2_coding_rules_compliance.md`
+- `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md` - V2 architecture design
+- `docs/development/coding_rules_v2.md` - V2 coding rules (15 rules)
+- `docs/plans/2026-02-01-package-structure-migration-design.md` - Package structure migration

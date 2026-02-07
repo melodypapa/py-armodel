@@ -5,9 +5,8 @@ prototypes such as variable, parameter, and composite element prototypes
 used in software components.
 """
 
-from typing import Union
-
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
     ValueSpecification,

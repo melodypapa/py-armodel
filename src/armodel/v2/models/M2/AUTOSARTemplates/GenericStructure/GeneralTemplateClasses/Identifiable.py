@@ -4,14 +4,7 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import (
-    
-    Any,
-    Dict,
-    List,
-    Optional,
-    Union
-)
+from typing import Any, Dict, List, Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
