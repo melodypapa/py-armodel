@@ -26,7 +26,7 @@ class RptSwPrototypingAccess(ARObject):
         self.portRef: Union[Union[RefType, None] , None] = None
         self.rptAccess: Union[Union[RptAccessEnum, None] , None] = None
 
-    def getPortRef(self) -> RefType:
+    def getPortRef(self) -> Union[RefType, None]:
         """
         Gets the port reference.
 
@@ -35,7 +35,7 @@ class RptSwPrototypingAccess(ARObject):
         """
         return self.portRef
 
-    def setPortRef(self, value: RefType):
+    def setPortRef(self, value: RefType) -> "RptSwPrototypingAccess":
         """
         Sets the port reference.
 

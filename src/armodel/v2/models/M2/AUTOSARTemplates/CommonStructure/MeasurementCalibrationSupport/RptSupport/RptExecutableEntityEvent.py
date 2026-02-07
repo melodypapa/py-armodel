@@ -26,7 +26,7 @@ class RptExecutableEntityEvent(ARObject):
         self.eventRef: Union[Union[RefType, None] , None] = None
         self.rptAccess: Union[Union[RptAccessEnum, None] , None] = None
 
-    def getEventRef(self) -> RefType:
+    def getEventRef(self) -> Union[RefType, None]:
         """
         Gets the event reference.
 
@@ -35,7 +35,7 @@ class RptExecutableEntityEvent(ARObject):
         """
         return self.eventRef
 
-    def setEventRef(self, value: RefType):
+    def setEventRef(self, value: RefType) -> "RptExecutableEntityEvent":
         """
         Sets the event reference.
 

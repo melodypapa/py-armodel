@@ -76,7 +76,7 @@ class CryptoKeySlot(Identifiable):
         self.allocateShadows = value
         return self
 
-    def getCryptoAlgIds(self) -> String:
+    def getCryptoAlgIds(self) -> Optional[String]:
         return self.cryptoAlgIds
 
     def setCryptoAlgIds(self, value: String) -> "CryptoKeySlot":

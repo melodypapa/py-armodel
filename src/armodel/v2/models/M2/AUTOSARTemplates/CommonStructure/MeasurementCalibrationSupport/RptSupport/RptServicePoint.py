@@ -26,7 +26,7 @@ class RptServicePoint(ARObject):
         self.operationRef: Union[Union[RefType, None] , None] = None
         self.rptAccess: Union[Union[RptAccessEnum, None] , None] = None
 
-    def getOperationRef(self) -> RefType:
+    def getOperationRef(self) -> Union[RefType, None]:
         """
         Gets the operation reference.
 
@@ -35,7 +35,7 @@ class RptServicePoint(ARObject):
         """
         return self.operationRef
 
-    def setOperationRef(self, value: RefType):
+    def setOperationRef(self, value: RefType) -> "RptServicePoint":
         """
         Sets the operation reference.
 
