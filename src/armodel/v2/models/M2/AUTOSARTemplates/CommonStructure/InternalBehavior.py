@@ -5,7 +5,7 @@ exclusive areas, and event handling mechanisms within AUTOSAR components and BSW
 """
 
 from abc import ABC
-from typing import TYPE_CHECKING, List, Union
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpStructureElement,
@@ -21,28 +21,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARFloat,
     RefType,
 )
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-        ParameterDataPrototype,
-        VariableDataPrototype,
-    )
-
-
-def _get_parameter_data_prototype():
-    """Lazy import of ParameterDataPrototype to avoid circular import."""
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-        ParameterDataPrototype,
-    )
-    return ParameterDataPrototype
-
-
-def _get_variable_data_prototype():
-    """Lazy import of VariableDataPrototype to avoid circular import."""
-    from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-        VariableDataPrototype,
-    )
-    return VariableDataPrototype
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
 
 
 class ReentrancyLevelEnum(AREnum):
@@ -259,7 +241,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         super().__init__(parent, short_name)
 
         # List of constant memories (parameter data prototypes) in this internal behavior
-        self.constantMemories: List["ParameterDataPrototype"] = []
+        self.constantMemories: List[ParameterDataPrototype] = []
         # List of constant value mapping references for this internal behavior
         self.constantValueMappingRefs: List[RefType] = []
         # List of data type mapping references for this internal behavior
@@ -269,9 +251,9 @@ class InternalBehavior(AtpStructureElement, ABC):
         # List of exclusive area nesting orders for this internal behavior
         self.exclusiveAreaNestingOrders: List = []
         # List of static memories (variable data prototypes) in this internal behavior
-        self.staticMemories: List["VariableDataPrototype"] = []
+        self.staticMemories: List[VariableDataPrototype] = []
 
-    def createConstantMemory(self, short_name: str) -> "ParameterDataPrototype":
+    def createConstantMemory(self, short_name: str) -> ParameterDataPrototype:
         """
         Creates and adds a ParameterDataPrototype to this internal behavior's constant memories.
 
@@ -282,12 +264,12 @@ class InternalBehavior(AtpStructureElement, ABC):
             The created ParameterDataPrototype instance
         """
         if (short_name not in self.elements):
-            prototype = _get_parameter_data_prototype()(self, short_name)
+            prototype = ParameterDataPrototype(self, short_name)
             self.addElement(prototype)
             self.constantMemories.append(prototype)
         return self.getElement(short_name)
 
-    def getConstantMemories(self) -> List["ParameterDataPrototype"]:
+    def getConstantMemories(self) -> List[ParameterDataPrototype]:
         """
         Gets the list of constant memories (parameter data prototypes) in this internal behavior.
 
@@ -348,7 +330,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return self.staticMemories
 
-    def createStaticMemory(self, short_name: str) -> "VariableDataPrototype":
+    def createStaticMemory(self, short_name: str) -> VariableDataPrototype:
         """
         Creates and adds a VariableDataPrototype to this internal behavior's static memories.
 
@@ -359,7 +341,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             The created VariableDataPrototype instance
         """
         if (short_name not in self.elements):
-            prototype = _get_variable_data_prototype()(self, short_name)
+            prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.staticMemories.append(prototype)
         return self.getElement(short_name)

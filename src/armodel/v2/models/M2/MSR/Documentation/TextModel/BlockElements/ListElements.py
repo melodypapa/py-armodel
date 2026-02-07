@@ -18,10 +18,10 @@ class ListEnum(AREnum):
     UNNUMBER = 'unnumber'
 
     def __init__(self,) -> None:
-        super().__init__((
+        super().__init__([
             ListEnum.NUMBER,
             ListEnum.UNNUMBER
-        ))
+        ])
 
 
 class Item(Paginateable):

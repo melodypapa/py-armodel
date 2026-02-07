@@ -1,5 +1,4 @@
 from abc import ABC
-from enum import Enum
 from typing import Any, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -731,14 +730,14 @@ class IPduTiming(Describable):
     def getMinimumDelay(self) -> Union[Union[TimeValue, None], None]:
         return self.minimumDelay
 
-    def setMinimumDelay(self, value: Union[Union[TimeValue, None], None]) -> "ISignalIPduTiming":
+    def setMinimumDelay(self, value: Union[Union[TimeValue, None], None]) -> "IPduTiming":
         self.minimumDelay = value
         return self
 
     def getTransmissionModeDeclaration(self) -> Union[Union[TransmissionModeDeclaration, None], None]:
         return self.transmissionModeDeclaration
 
-    def setTransmissionModeDeclaration(self, value: Union[Union[TransmissionModeDeclaration, None], None]) -> "ISignalIPduTiming":
+    def setTransmissionModeDeclaration(self, value: Union[Union[TransmissionModeDeclaration, None], None]) -> "IPduTiming":
         self.transmissionModeDeclaration = value
         return self
 
@@ -1330,7 +1329,7 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def getAuthenticationBuildAttempts(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authenticationBuildAttempts
 
-    def setAuthenticationBuildAttempts(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthProps":
+    def setAuthenticationBuildAttempts(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthenticationProps":
         if value is not None:
             self.authenticationBuildAttempts = value
         return self
@@ -1338,7 +1337,7 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def getAuthenticationRetries(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authenticationRetries
 
-    def setAuthenticationRetries(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthProps":
+    def setAuthenticationRetries(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthenticationProps":
         if value is not None:
             self.authenticationRetries = value
         return self
@@ -1346,7 +1345,7 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def getDataId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.dataId
 
-    def setDataId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthProps":
+    def setDataId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthenticationProps":
         if value is not None:
             self.dataId = value
         return self
@@ -1354,7 +1353,7 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def getSecuredComAuthenticationType(self) -> Union[Union[ARLiteral, None], None]:
         return self.securedComAuthenticationType
 
-    def setSecuredComAuthenticationType(self, value: Union[Union[ARLiteral, None], None]) -> "SecureCommunicationAuthProps":
+    def setSecuredComAuthenticationType(self, value: Union[Union[ARLiteral, None], None]) -> "SecureCommunicationAuthenticationProps":
         if value is not None:
             self.securedComAuthenticationType = value
         return self

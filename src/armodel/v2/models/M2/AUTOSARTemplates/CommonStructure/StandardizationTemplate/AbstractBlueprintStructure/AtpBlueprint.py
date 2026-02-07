@@ -3,17 +3,12 @@ This module contains the AtpBlueprint abstract class for AUTOSAR models
 in the CommonStructure module.
 """
 
-from abc import ABC
-from typing import TYPE_CHECKING, cast
+from abc import ABC, abstractmethod
+from typing import cast
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-        Identifiable,
-    )
 
 
 def _get_identifiable_base():
@@ -45,12 +40,17 @@ class AtpBlueprintable(ABC):
         and other blueprintable AUTOSAR elements.
     """
 
+    @abstractmethod
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpBlueprintable:
             raise TypeError("AtpBlueprintable is an abstract class.")
         # Lazy import to avoid circular dependency
-        Identifiable = _get_identifiable_base()
-        Identifiable.__init__(self, parent, short_name)
+        identifiable_base = _get_identifiable_base()
+        identifiable_base.__init__(self, parent, short_name)
 
 
 class AtpBlueprint(ABC):
@@ -72,12 +72,17 @@ class AtpBlueprint(ABC):
         Inherits all attributes from Identifiable including shortName and adminData.
     """
 
+    @abstractmethod
+    def _validate_abstract(self) -> None:
+        """Validate this is a concrete class."""
+        pass
+
     def __init__(self, parent, short_name: str) -> None:
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")
         # Lazy import to avoid circular dependency
-        Identifiable = _get_identifiable_base()
-        Identifiable.__init__(self, parent, short_name)
+        identifiable_base = _get_identifiable_base()
+        identifiable_base.__init__(self, parent, short_name)
 
 
 class AtpBlueprintMapping(ARObject, ABC):

@@ -11,20 +11,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 
 if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
+        Traceable,
+    )
     from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
         DocumentationBlock,
     )
-    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
-        Traceable,
-    )
-
-
-def _get_traceable_base():
-    """Lazy import of Traceable to avoid circular import."""
-    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
-        Traceable,
-    )
-    return Traceable
 
 
 class StructuredReq(ARObject):
@@ -38,7 +30,7 @@ class StructuredReq(ARObject):
         self.importance: Union[String, None] = None
         self.description: Union["DocumentationBlock", None] = None
         self.rationale: Union["DocumentationBlock", None] = None
-        self.appliesTo: List["StandardNameEnum"] = []
+        self.appliesTo: List[StandardNameEnum] = []
         self.dependencies: Union["DocumentationBlock", None] = None
         self.useCase: Union["DocumentationBlock", None] = None
         self.conflicts: Union["DocumentationBlock", None] = None

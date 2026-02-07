@@ -19,7 +19,7 @@ class SignalServiceTranslationEventProps(ARObject):
         super().__init__()
         self.eventRef: Union[str, None] = None
 
-    def getEventRef(self) -> str:
+    def getEventRef(self) -> Union[str, None]:
         """
         Gets the event reference.
 
@@ -28,7 +28,7 @@ class SignalServiceTranslationEventProps(ARObject):
         """
         return self.eventRef
 
-    def setEventRef(self, value: str):
+    def setEventRef(self, value: str) -> "SignalServiceTranslationEventProps":
         """
         Sets the event reference.
 

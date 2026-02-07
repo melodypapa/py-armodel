@@ -27,8 +27,8 @@ Usage:
     pkg.setExtendedAttribute("vendor", "MyCompany")
     vendor = pkg.getExtendedAttribute("vendor")
 """
-from .ar_object import ARObject
-from .models import (
+from armodel.v2.models.ar_object import ARObject
+from armodel.v2.models.models import (
     AUTOSAR,
     ARPackage,
     Identifiable,

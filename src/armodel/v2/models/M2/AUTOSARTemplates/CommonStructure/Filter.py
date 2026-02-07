@@ -41,7 +41,7 @@ class DataFilterTypeEnum(AREnum):
         """
         Initializes the DataFilterTypeEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD,
             DataFilterTypeEnum.MASKED_NEW_DIFFERS_X,
             DataFilterTypeEnum.MASKED_NEW_EQUALS_X,
@@ -49,7 +49,7 @@ class DataFilterTypeEnum(AREnum):
             DataFilterTypeEnum.NEW_IS_OUTSIDE,
             DataFilterTypeEnum.NEW_IS_WITHIN,
             DataFilterTypeEnum.ONE_EVERY_N
-        ))
+        ])
 
 
 class DataFilter(ARObject):

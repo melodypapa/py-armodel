@@ -19,7 +19,7 @@ class SignalServiceTranslationElementProps(ARObject):
         super().__init__()
         self.elementRef: Union[str, None] = None
 
-    def getElementRef(self) -> str:
+    def getElementRef(self) -> Union[str, None]:
         """
         Gets the element reference.
 
@@ -28,7 +28,7 @@ class SignalServiceTranslationElementProps(ARObject):
         """
         return self.elementRef
 
-    def setElementRef(self, value: str):
+    def setElementRef(self, value: str) -> "SignalServiceTranslationElementProps":
         """
         Sets the element reference.
 
