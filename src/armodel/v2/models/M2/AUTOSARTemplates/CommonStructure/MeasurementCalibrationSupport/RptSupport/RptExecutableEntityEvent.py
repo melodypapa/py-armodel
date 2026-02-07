@@ -48,7 +48,7 @@ class RptExecutableEntityEvent(ARObject):
         self.eventRef = value
         return self
 
-    def getRptAccess(self) -> RptAccessEnum:
+    def getRptAccess(self) -> Union[RptAccessEnum, None]:
         """
         Gets the RPT access type.
 
@@ -57,7 +57,7 @@ class RptExecutableEntityEvent(ARObject):
         """
         return self.rptAccess
 
-    def setRptAccess(self, value: RptAccessEnum):
+    def setRptAccess(self, value: RptAccessEnum) -> "RptExecutableEntityEvent":
         """
         Sets the RPT access type.
 

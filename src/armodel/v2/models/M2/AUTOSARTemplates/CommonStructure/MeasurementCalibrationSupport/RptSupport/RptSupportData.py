@@ -56,7 +56,7 @@ class RptSupportData(ARObject):
         """
         return self.rptComponents
 
-    def getRptEnablerImplType(self) -> RptEnablerImplTypeEnum:
+    def getRptEnablerImplType(self) -> Union[RptEnablerImplTypeEnum, None]:
         """
         Gets the RPT enabler implementation type.
 
@@ -65,7 +65,7 @@ class RptSupportData(ARObject):
         """
         return self.rptEnablerImplType
 
-    def setRptEnablerImplType(self, value: RptEnablerImplTypeEnum):
+    def setRptEnablerImplType(self, value: RptEnablerImplTypeEnum) -> "RptSupportData":
         """
         Sets the RPT enabler implementation type.
 
@@ -78,7 +78,7 @@ class RptSupportData(ARObject):
         self.rptEnablerImplType = value
         return self
 
-    def getRptExecutionControl(self) -> RptExecutionControlEnum:
+    def getRptExecutionControl(self) -> Union[RptExecutionControlEnum, None]:
         """
         Gets the RPT execution control type.
 
@@ -87,7 +87,7 @@ class RptSupportData(ARObject):
         """
         return self.rptExecutionControl
 
-    def setRptExecutionControl(self, value: RptExecutionControlEnum):
+    def setRptExecutionControl(self, value: RptExecutionControlEnum) -> "RptSupportData":
         """
         Sets the RPT execution control type.
 
@@ -100,7 +100,7 @@ class RptSupportData(ARObject):
         self.rptExecutionControl = value
         return self
 
-    def getRptPreparation(self) -> RptPreparationEnum:
+    def getRptPreparation(self) -> Union[RptPreparationEnum, None]:
         """
         Gets the RPT preparation type.
 
@@ -109,7 +109,7 @@ class RptSupportData(ARObject):
         """
         return self.rptPreparation
 
-    def setRptPreparation(self, value: RptPreparationEnum):
+    def setRptPreparation(self, value: RptPreparationEnum) -> "RptSupportData":
         """
         Sets the RPT preparation type.
 

@@ -48,7 +48,7 @@ class RptServicePoint(ARObject):
         self.operationRef = value
         return self
 
-    def getRptAccess(self) -> RptAccessEnum:
+    def getRptAccess(self) -> Union[RptAccessEnum, None]:
         """
         Gets the RPT access type.
 
@@ -57,7 +57,7 @@ class RptServicePoint(ARObject):
         """
         return self.rptAccess
 
-    def setRptAccess(self, value: RptAccessEnum):
+    def setRptAccess(self, value: RptAccessEnum) -> "RptServicePoint":
         """
         Sets the RPT access type.
 

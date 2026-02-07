@@ -26,18 +26,18 @@ class NumericalValueVariationPoint(ARObject):
         self.defaultValue: Union[Union[Float, None] , None] = None
         self.variantValue: Union[Union[Float, None] , None] = None
 
-    def getDefaultValue(self) -> Float:
+    def getDefaultValue(self) -> Union[Float, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: Float):
+    def setDefaultValue(self, value: Float) -> "NumericalValueVariationPoint":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getVariantValue(self) -> Float:
+    def getVariantValue(self) -> Union[Float, None]:
         return self.variantValue
 
-    def setVariantValue(self, value: Float):
+    def setVariantValue(self, value: Float) -> "NumericalValueVariationPoint":
         if value is not None:
             self.variantValue = value
         return self
