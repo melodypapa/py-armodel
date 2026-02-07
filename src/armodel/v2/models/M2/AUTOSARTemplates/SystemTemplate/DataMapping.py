@@ -1,348 +1,98 @@
-# This module contains AUTOSAR System Template classes for data mapping between sender/receiver interfaces and signals
-# It includes classes for mapping data elements between software component ports and system signals
-
-from abc import ABC
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Integer,
-    RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    TextTableMapping,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    CommunicationDirectionType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
-    VariableDataPrototypeInSystemInstanceRef,
-)
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class DataMapping(ARObject, ABC):
     """
-    Abstract base class for data mapping elements that define relationships between
-    AUTOSAR software component data elements and system-level communication signals.
-    This class serves as the foundation for various types of data mappings used in
-    system design to connect component interfaces with communication infrastructure.
+    Mapping of port elements (data elements and parameters) to frames and
+    signals.
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::DataMapping::DataMapping
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 981, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 217, Classic Platform R23-11)
     """
-    def __init__(self) -> None:
+    def __init__(self):
         if type(self) is DataMapping:
             raise TypeError("DataMapping is an abstract class.")
-
         super().__init__()
 
-        self.introduction = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This represents introductory documentation about the.
+        self._introduction: Optional["DocumentationBlock"] = None
 
-    def getIntroduction(self):
-        return self.introduction
+    @property
+    def introduction(self) -> Optional["DocumentationBlock"]:
+        """Get introduction (Pythonic accessor)."""
+        return self._introduction
 
-    def setIntroduction(self, value):
-        self.introduction = value
+    @introduction.setter
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
+        """
+        Set introduction with validation.
+        
+        Args:
+            value: The introduction to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._introduction = None
+            return
+
+        if not isinstance(value, DocumentationBlock):
+            raise TypeError(
+                f"introduction must be DocumentationBlock or None, got {type(value).__name__}"
+            )
+        self._introduction = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getIntroduction(self) -> "DocumentationBlock":
+        """
+        AUTOSAR-compliant getter for introduction.
+        
+        Returns:
+            The introduction value
+        
+        Note:
+            Delegates to introduction property (CODING_RULE_V2_00017)
+        """
+        return self.introduction  # Delegates to property
+
+    def setIntroduction(self, value: "DocumentationBlock") -> "DataMapping":
+        """
+        AUTOSAR-compliant setter for introduction with method chaining.
+        
+        Args:
+            value: The introduction to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to introduction property setter (gets validation automatically)
+        """
+        self.introduction = value  # Delegates to property setter
         return self
 
-
-class SenderReceiverToSignalMapping(DataMapping):
-    """
-    Maps data elements from sender/receiver interfaces to system signals.
-    This class establishes the connection between variable data prototypes
-    in system instance references and their corresponding system signal
-    representations, including text table mappings for data transformation.
-    """
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.communicationDirection: Union[Union[CommunicationDirectionType, None] , None] = None
-        self.dataElementIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
-        self.senderToSignalTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
-        self.signalToReceiverTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
-        self.systemSignalRef: Union[Union[RefType, None] , None] = None
-
-    def getCommunicationDirection(self):
-        return self.communicationDirection
-
-    def setCommunicationDirection(self, value: CommunicationDirectionType):
-        self.communicationDirection = value
-        return self
-
-    def getDataElementIRef(self):
-        return self.dataElementIRef
-
-    def setDataElementIRef(self, value: VariableDataPrototypeInSystemInstanceRef):
-        self.dataElementIRef = value
-        return self
-
-    def getSenderToSignalTextTableMapping(self):
-        return self.senderToSignalTextTableMapping
-
-    def setSenderToSignalTextTableMapping(self, value: TextTableMapping):
-        self.senderToSignalTextTableMapping = value
-        return self
-
-    def getSignalToReceiverTextTableMapping(self):
-        return self.signalToReceiverTextTableMapping
-
-    def setSignalToReceiverTextTableMapping(self, value: TextTableMapping):
-        self.signalToReceiverTextTableMapping = value
-        return self
-
-    def getSystemSignalRef(self):
-        return self.systemSignalRef
-
-    def setSystemSignalRef(self, value: RefType):
-        self.systemSignalRef = value
-        return self
-
-
-class SenderRecCompositeTypeMapping(ARObject, ABC):
-    """
-    Abstract base class for composite type mappings between sender/receiver
-    interfaces and system-level signals. This class handles complex data
-    structures such as records and arrays in data mapping scenarios.
-    """
-    def __init__(self) -> None:
-        if type(self) is SenderRecCompositeTypeMapping:
-            raise TypeError("SenderRecCompositeTypeMapping is an abstract class.")
-
-        super().__init__()
-
-
-class SenderRecRecordElementMapping(ARObject):
-    """
-    Defines mapping for individual elements within a record structure,
-    connecting application record elements to implementation record elements
-    and their corresponding system signals, with optional text table mappings
-    for data transformation.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.applicationRecordElementRef: Union[Union[RefType, None] , None] = None
-        self.complexTypeMapping: Union[Union[SenderRecCompositeTypeMapping, None] , None] = None
-        self.implementationRecordElementRef: Union[Union[RefType, None] , None] = None
-        self.senderToSignalTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
-        self.signalToReceiverTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
-        self.systemSignalRef: Union[Union[RefType, None] , None] = None
-
-    def getApplicationRecordElementRef(self):
-        return self.applicationRecordElementRef
-
-    def setApplicationRecordElementRef(self, value):
-        if value is not None:
-            self.applicationRecordElementRef = value
-        return self
-
-    def getComplexTypeMapping(self):
-        return self.complexTypeMapping
-
-    def setComplexTypeMapping(self, value):
-        if value is not None:
-            self.complexTypeMapping = value
-        return self
-
-    def getImplementationRecordElementRef(self):
-        return self.implementationRecordElementRef
-
-    def setImplementationRecordElementRef(self, value):
-        if value is not None:
-            self.implementationRecordElementRef = value
-        return self
-
-    def getSenderToSignalTextTableMapping(self):
-        return self.senderToSignalTextTableMapping
-
-    def setSenderToSignalTextTableMapping(self, value):
-        if value is not None:
-            self.senderToSignalTextTableMapping = value
-        return self
-
-    def getSignalToReceiverTextTableMapping(self):
-        return self.signalToReceiverTextTableMapping
-
-    def setSignalToReceiverTextTableMapping(self, value):
-        if value is not None:
-            self.signalToReceiverTextTableMapping = value
-        return self
-
-    def getSystemSignalRef(self):
-        return self.systemSignalRef
-
-    def setSystemSignalRef(self, value):
-        if value is not None:
-            self.systemSignalRef = value
-        return self
-
-
-class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
-    """
-    Maps record data types between sender/receiver interfaces and system signals,
-    containing multiple record element mappings that define how each field in
-    the record structure is connected to system-level communication elements.
-    """
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.recordElementMappings = []                                   # type: List[SenderRecRecordElementMapping]
-
-    def getRecordElementMappings(self):
-        return self.recordElementMappings
-
-    def addRecordElementMapping(self, value):
-        if value is not None:
-            self.recordElementMappings.append(value)
-        return self
-
-
-class IndexedArrayElement(ARObject):
-    """
-    Represents an element in an array with a specific index, connecting
-    application array elements to implementation array elements in the
-    mapping between component interfaces and system signals.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.applicationArrayElementRef: Union[Union[RefType, None] , None] = None
-        self.implementationArrayElementRef: Union[Union[RefType, None] , None] = None
-        self.index: Union[Union[Integer, None] , None] = None
-
-    def getApplicationArrayElementRef(self):
-        return self.applicationArrayElementRef
-
-    def setApplicationArrayElementRef(self, value):
-        if value is not None:
-            self.applicationArrayElementRef = value
-        return self
-
-    def getImplementationArrayElementRef(self):
-        return self.implementationArrayElementRef
-
-    def setImplementationArrayElementRef(self, value):
-        if value is not None:
-            self.implementationArrayElementRef = value
-        return self
-
-    def getIndex(self):
-        return self.index
-
-    def setIndex(self, value):
-        if value is not None:
-            self.index = value
-        return self
-
-
-class SenderRecArrayElementMapping(ARObject):
-    """
-    Maps individual elements of an array data type between sender/receiver
-    interfaces and system signals, including complex type mapping for
-    nested data structures and indexed array elements.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.complexTypeMapping: Union[Union[SenderRecCompositeTypeMapping, None] , None] = None
-        self.indexedArrayElement: Union[Union[IndexedArrayElement, None] , None] = None
-        self.systemSignalRef: Union[Union[RefType, None] , None] = None
-
-    def getComplexTypeMapping(self):
-        return self.complexTypeMapping
-
-    def setComplexTypeMapping(self, value):
-        if value is not None:
-            self.complexTypeMapping = value
-        return self
-
-    def getIndexedArrayElement(self):
-        return self.indexedArrayElement
-
-    def setIndexedArrayElement(self, value):
-        if value is not None:
-            self.indexedArrayElement = value
-        return self
-
-    def getSystemSignalRef(self):
-        return self.systemSignalRef
-
-    def setSystemSignalRef(self, value):
-        if value is not None:
-            self.systemSignalRef = value
-        return self
-
-
-class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
-    """
-    Maps array data types between sender/receiver interfaces and system signals,
-    containing multiple array element mappings and text table mappings for
-    transforming array data during communication.
-    """
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.arrayElementMappings: List[SenderRecArrayElementMapping] = []
-        self.senderToSignal: Union[Union[TextTableMapping, None] , None] = None
-        self.signalToReceiverTextTableMapping: Union[Union[TextTableMapping, None] , None] = None
-
-    def getArrayElementMappings(self):
-        return self.arrayElementMappings
-
-    def setArrayElementMappings(self, value):
-        if value is not None:
-            self.arrayElementMappings = value
-        return self
-
-    def getSenderToSignal(self):
-        return self.senderToSignal
-
-    def setSenderToSignal(self, value):
-        if value is not None:
-            self.senderToSignal = value
-        return self
-
-    def getSignalToReceiverTextTableMapping(self):
-        return self.signalToReceiverTextTableMapping
-
-    def setSignalToReceiverTextTableMapping(self, value):
-        if value is not None:
-            self.signalToReceiverTextTableMapping = value
-        return self
-
-
-class SenderReceiverToSignalGroupMapping(DataMapping):
-    """
-    Maps sender/receiver interface data to system signal groups, enabling
-    communication with multiple related signals as a single entity, with
-    support for complex type mappings of grouped data structures.
-    """
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.dataElementIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
-        self.signalGroupRef: Union[Union[RefType, None] , None] = None
-        self.typeMapping: Union[Union[SenderRecCompositeTypeMapping, None] , None] = None
-
-    def getDataElementIRef(self):
-        return self.dataElementIRef
-
-    def setDataElementIRef(self, value):
-        self.dataElementIRef = value
-        return self
-
-    def getSignalGroupRef(self):
-        return self.signalGroupRef
-
-    def setSignalGroupRef(self, value):
-        self.signalGroupRef = value
-        return self
-
-    def getTypeMapping(self):
-        return self.typeMapping
-
-    def setTypeMapping(self, value):
-        self.typeMapping = value
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> "DataMapping":
+        """
+        Set introduction and return self for chaining.
+        
+        Args:
+            value: The introduction to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_introduction("value")
+        """
+        self.introduction = value  # Use property setter (gets validation)
         return self

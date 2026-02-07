@@ -1,452 +1,149 @@
-"""
-This module contains classes for representing AUTOSAR internal behavior structures
-in the CommonStructure module. Internal behavior classes define executable entities,
-exclusive areas, and event handling mechanisms within AUTOSAR components and BSW modules.
-"""
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from abc import ABC
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
-    AtpStructureElement,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-    ARFloat,
-    RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-    ParameterDataPrototype,
-    VariableDataPrototype,
-)
-
-
-class ReentrancyLevelEnum(AREnum):
+class InternalBehavior(Identifiable, ABC):
     """
-    Enumeration for reentrancy levels in AUTOSAR executable entities.
-    Defines whether an executable entity can be executed concurrently from multiple contexts.
+    Common base class (abstract) for the internal behavior of both software
+    components and basic software modules/clusters.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::InternalBehavior::InternalBehavior
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 64, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 319, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 516, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2033, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 231, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 453, Foundation
+      R23-11)
     """
-    # Enum value for multicore reentrant executable entities
-    ENUM_MULTICORE_REENTRANT = "multicoreReentrant"
-    # Enum value for non-reentrant executable entities
-    ENUM_NON_REENTRANT = "nonReentrant"
-    # Enum value for single core reentrant executable entities
-    ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
-
-    def __init__(self) -> None:
-        super().__init__([
-            ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT,
-            ReentrancyLevelEnum.ENUM_NON_REENTRANT,
-            ReentrancyLevelEnum.ENUM_SINGLE_CORE_REENTRANT,
-        ])
-
-
-class ExclusiveArea(Identifiable):
-    """
-    Represents an exclusive area in AUTOSAR models.
-    Exclusive areas define critical sections that must not be executed concurrently,
-    typically used for protecting shared resources in multithreaded environments.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ExclusiveArea with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this exclusive area
-            short_name: The unique short name of this exclusive area
-        """
-        super().__init__(parent, short_name)
-
-
-class ExecutableEntity(Identifiable, ABC):
-    """
-    Abstract base class for executable entities in AUTOSAR models.
-    Executable entities represent pieces of executable code that can be triggered by events
-    and may have specific execution requirements like exclusive areas or reentrancy levels.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ExecutableEntity with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this executable entity
-            short_name: The unique short name of this executable entity
-        """
-        if type(self) is ExecutableEntity:
-            raise TypeError("ExecutableEntity is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-        # List of activation reasons for this executable entity
-        self.activationReasons: List = []
-        # List of references to exclusive areas this entity can enter
-        self.canEnterExclusiveAreaRefs: List[RefType] = []
-        # Minimum interval between consecutive starts of this entity (in seconds)
-        self.minimumStartInterval: Union[Union[ARFloat, None] , None] = None
-        # Reentrancy level of this executable entity
-        self.reentrancyLevel: Union[Union[ReentrancyLevelEnum, None] , None] = None
-        # Reference to the software address method for this entity
-        self.swAddrMethodRef: Union[Union[RefType, None] , None] = None
-
-    def getActivationReasons(self):
-        """
-        Gets the list of activation reasons for this executable entity.
-
-        Returns:
-            List of ExecutableEntityActivationReason instances
-        """
-        return self.activationReasons
-
-    def addActivationReason(self, value):
-        """
-        Adds an activation reason to this executable entity.
-
-        Args:
-            value: The activation reason to add
-
-        Returns:
-            self for method chaining
-        """
-        self.activationReasons.append(value)
-        return self
-
-    def getMinimumStartInterval(self):
-        """
-        Gets the minimum interval between consecutive starts of this entity (in seconds).
-
-        Returns:
-            ARFloat: The minimum start interval
-        """
-        return self.minimumStartInterval
-
-    def setMinimumStartInterval(self, value):
-        """
-        Sets the minimum interval between consecutive starts of this entity (in seconds).
-        Only sets the value if it is not None.
-
-        Args:
-            value: The minimum start interval to set
-
-        Returns:
-            self for method chaining
-        """
-        self.minimumStartInterval = value
-        return self
-
-    def getReentrancyLevel(self):
-        """
-        Gets the reentrancy level of this executable entity.
-
-        Returns:
-            ReentrancyLevelEnum: The reentrancy level
-        """
-        return self.reentrancyLevel
-
-    def setReentrancyLevel(self, value):
-        """
-        Sets the reentrancy level of this executable entity.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reentrancy level to set
-
-        Returns:
-            self for method chaining
-        """
-        self.reentrancyLevel = value
-        return self
-
-    def getSwAddrMethodRef(self):
-        """
-        Gets the reference to the software address method for this entity.
-
-        Returns:
-            RefType: The software address method reference
-        """
-        return self.swAddrMethodRef
-
-    def setSwAddrMethodRef(self, value):
-        """
-        Sets the reference to the software address method for this entity.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The software address method reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.swAddrMethodRef = value
-        return self
-
-    @property
-    def minimumStartIntervalMs(self) -> int:
-        """
-        Gets the minimum start interval in milliseconds (converted from seconds).
-        This is a computed property that converts the minimum start interval from seconds to milliseconds.
-
-        Returns:
-            int: The minimum start interval in milliseconds, or None if not set
-        """
-        if self.minimumStartInterval is not None:
-            return int(self.minimumStartInterval.getValue() * 1000)
-        return None
-
-    def addCanEnterExclusiveAreaRef(self, ref: RefType) -> None:
-        """
-        Adds a reference to an exclusive area that this entity can enter.
-
-        Args:
-            ref: The reference to the exclusive area
-        """
-        self.canEnterExclusiveAreaRefs.append(ref)
-
-    def getCanEnterExclusiveAreaRefs(self):
-        """
-        Gets the list of references to exclusive areas this entity can enter.
-
-        Returns:
-            List of RefType instances
-        """
-        return self.canEnterExclusiveAreaRefs
-
-
-class InternalBehavior(AtpStructureElement, ABC):
-    """
-    Abstract base class for internal behavior in AUTOSAR models.
-    Internal behavior defines the internal structure of software components or BSW modules,
-    including executable entities, memory areas, and data type mappings.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the InternalBehavior with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this internal behavior
-            short_name: The unique short name of this internal behavior
-        """
+    def __init__(self):
         if type(self) is InternalBehavior:
             raise TypeError("InternalBehavior is an abstract class.")
-        super().__init__(parent, short_name)
-
-        # List of constant memories (parameter data prototypes) in this internal behavior
-        self.constantMemories: List[ParameterDataPrototype] = []
-        # List of constant value mapping references for this internal behavior
-        self.constantValueMappingRefs: List[RefType] = []
-        # List of data type mapping references for this internal behavior
-        self.dataTypeMappingRefs: List[RefType] = []
-        # List of exclusive areas defined in this internal behavior
-        self.exclusiveAreas: List['ExclusiveArea'] = []
-        # List of exclusive area nesting orders for this internal behavior
-        self.exclusiveAreaNestingOrders: List = []
-        # List of static memories (variable data prototypes) in this internal behavior
-        self.staticMemories: List[VariableDataPrototype] = []
-
-    def createConstantMemory(self, short_name: str) -> ParameterDataPrototype:
-        """
-        Creates and adds a ParameterDataPrototype to this internal behavior's constant memories.
-
-        Args:
-            short_name: The short name for the new parameter data prototype
-
-        Returns:
-            The created ParameterDataPrototype instance
-        """
-        if (short_name not in self.elements):
-            prototype = ParameterDataPrototype(self, short_name)
-            self.addElement(prototype)
-            self.constantMemories.append(prototype)
-        return self.getElement(short_name)
-
-    def getConstantMemories(self) -> List[ParameterDataPrototype]:
-        """
-        Gets the list of constant memories (parameter data prototypes) in this internal behavior.
-
-        Returns:
-            List of ParameterDataPrototype instances
-        """
-        return self.constantMemories
-
-    def addDataTypeMappingRef(self, ref: RefType) -> None:
-        """
-        Adds a data type mapping reference to this internal behavior.
-
-        Args:
-            ref: The data type mapping reference to add
-        """
-        self.dataTypeMappingRefs.append(ref)
-
-    def getDataTypeMappingRefs(self) -> List[RefType]:
-        """
-        Gets the list of data type mapping references for this internal behavior.
-
-        Returns:
-            List of RefType instances
-        """
-        return self.dataTypeMappingRefs
-
-    def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
-        """
-        Creates and adds an ExclusiveArea to this internal behavior's exclusive areas.
-
-        Args:
-            short_name: The short name for the new exclusive area
-
-        Returns:
-            The created ExclusiveArea instance
-        """
-        if (short_name not in self.elements):
-            area = ExclusiveArea(self, short_name)
-            self.addElement(area)
-            self.exclusiveAreas.append(area)
-        return self.getElement(short_name)
-
-    def getExclusiveAreas(self) -> List[ExclusiveArea]:
-        """
-        Gets the list of exclusive areas defined in this internal behavior.
-
-        Returns:
-            List of ExclusiveArea instances
-        """
-        return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements))
-
-    def getStaticMemories(self):
-        """
-        Gets the list of static memories (variable data prototypes) in this internal behavior.
-
-        Returns:
-            List of VariableDataPrototype instances
-        """
-        return self.staticMemories
-
-    def createStaticMemory(self, short_name: str) -> VariableDataPrototype:
-        """
-        Creates and adds a VariableDataPrototype to this internal behavior's static memories.
-
-        Args:
-            short_name: The short name for the new variable data prototype
-
-        Returns:
-            The created VariableDataPrototype instance
-        """
-        if (short_name not in self.elements):
-            prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
-            self.staticMemories.append(prototype)
-        return self.getElement(short_name)
-
-
-class AbstractEvent(Identifiable, ABC):
-    """
-    Represents an abstract event in AUTOSAR models.
-    Abstract events define the base structure for events that can trigger executable entities.
-    They may have activation reason representations that define why the event occurred.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the AbstractEvent with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this abstract event
-            short_name: The unique short name of this abstract event
-        """
-        if type(self) is AbstractEvent:
-            raise TypeError("AbstractEvent is an abstract class.")
-        super().__init__(parent, short_name)
-
-        # Reference to activation reason representation for this event
-        self.activationReasonRepresentationRef: Union[Union[RefType, None] , None] = None
-
-    def getActivationReasonRepresentationRef(self):
-        """
-        Gets the reference to activation reason representation for this event.
-
-        Returns:
-            RefType: The activation reason representation reference
-        """
-        return self.activationReasonRepresentationRef
-
-    def setActivationReasonRepresentationRef(self, value):
-        """
-        Sets the reference to activation reason representation for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The activation reason representation reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.activationReasonRepresentationRef = value
-        return self
-
-
-class ApiPrincipleEnum(AREnum):
-    """
-    Enumeration for API principle.
-    """
-
-    CALLEE = "callee"
-    CALLER = "caller"
-
-    def __init__(self) -> None:
-        super().__init__([
-            ApiPrincipleEnum.CALLEE,
-            ApiPrincipleEnum.CALLER,
-        ])
-
-
-class ExclusiveAreaNestingOrder(ARObject):
-    """
-    Represents exclusive area nesting order in AUTOSAR.
-    This class defines the nesting order for exclusive areas.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the ExclusiveAreaNestingOrder with default values.
-        """
         super().__init__()
-        self.order: Union[int, None] = None
 
-    def getOrder(self):
-        return self.order
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Describes a read only memory object containing characteristic value(s)
+                # implemented by this Internal of ParameterDataPrototype has to be the ”C’
+                # identifier of the described constant.
+        # value(s) might be shared between Sw the same SwComponentType.
+        # of constantMemory is subject to the purpose to support variability in the or
+                # module implementations.
+        # algorithms in the implementation are number of memory objects.
+        # atpVariation.
+        self._constant: List["ParameterData"] = []
 
-    def setOrder(self, value):
-        self.order = value
-        return self
+    @property
+    def constant(self) -> List["ParameterData"]:
+        """Get constant (Pythonic accessor)."""
+        return self._constant
+        # Reference to the ConstantSpecificationMapping to be applied for the
+        # particular InternalBehavior.
+        self._constantValue: List["ConstantSpecification"] = []
 
+    @property
+    def constant_value(self) -> List["ConstantSpecification"]:
+        """Get constantValue (Pythonic accessor)."""
+        return self._constantValue
+        # Reference to the DataTypeMapping to be applied for the InternalBehavior.
+        self._dataType: List[RefType] = []
 
-class ExecutableEntityActivationReason(ARObject):
-    """
-    Represents the reason for executable entity activation in AUTOSAR.
-    """
+    @property
+    def data_type(self) -> List[RefType]:
+        """Get dataType (Pythonic accessor)."""
+        return self._dataType
+        # This represents the set of ExclusiveAreaNestingOrder owned by the
+                # InternalBehavior.
+        # atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate
+                # Module Description Template R23-11.
+        self._exclusiveArea: List["ExclusiveAreaNesting"] = []
 
+    @property
+    def exclusive_area(self) -> List["ExclusiveAreaNesting"]:
+        """Get exclusiveArea (Pythonic accessor)."""
+        return self._exclusiveArea
+        # Describes a read and writeable static memory object variables implemented by
+                # component.
+        # The term "static" is used in the "non-temporary" and does not necessarily
+                # linker encapsulation.
+        # This kind of memory is if supportsMultipleInstantiation is FALSE.
+        # of the VariableDataPrototype has to be the ”C’ identifier of the described
+                # variable.
+        # of staticMemory is subject to variability purpose to support variability in
+                # the software algorithms in the implementation are number of memory objects.
+        # atpVariation.
+        self._staticMemory: List[RefType] = []
 
-    def __init__(self) -> None:
+    @property
+    def static_memory(self) -> List[RefType]:
+        """Get staticMemory (Pythonic accessor)."""
+        return self._staticMemory
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getConstant(self) -> List["ParameterData"]:
         """
-        Initializes the ExecutableEntityActivationReason with default values.
+        AUTOSAR-compliant getter for constant.
+        
+        Returns:
+            The constant value
+        
+        Note:
+            Delegates to constant property (CODING_RULE_V2_00017)
         """
-        super().__init__()
-        self.reason: Union[str, None] = None
+        return self.constant  # Delegates to property
 
-    def getReason(self):
-        return self.reason
+    def getConstantValue(self) -> List["ConstantSpecification"]:
+        """
+        AUTOSAR-compliant getter for constantValue.
+        
+        Returns:
+            The constantValue value
+        
+        Note:
+            Delegates to constant_value property (CODING_RULE_V2_00017)
+        """
+        return self.constant_value  # Delegates to property
 
-    def setReason(self, value):
-        self.reason = value
-        return self
+    def getDataType(self) -> List[RefType]:
+        """
+        AUTOSAR-compliant getter for dataType.
+        
+        Returns:
+            The dataType value
+        
+        Note:
+            Delegates to data_type property (CODING_RULE_V2_00017)
+        """
+        return self.data_type  # Delegates to property
+
+    def getExclusiveArea(self) -> List["ExclusiveAreaNesting"]:
+        """
+        AUTOSAR-compliant getter for exclusiveArea.
+        
+        Returns:
+            The exclusiveArea value
+        
+        Note:
+            Delegates to exclusive_area property (CODING_RULE_V2_00017)
+        """
+        return self.exclusive_area  # Delegates to property
+
+    def getStaticMemory(self) -> List[RefType]:
+        """
+        AUTOSAR-compliant getter for staticMemory.
+        
+        Returns:
+            The staticMemory value
+        
+        Note:
+            Delegates to static_memory property (CODING_RULE_V2_00017)
+        """
+        return self.static_memory  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====

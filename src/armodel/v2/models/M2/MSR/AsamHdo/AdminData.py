@@ -1,166 +1,133 @@
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    DateTime,
-    NameToken,
-    RevisionLabelString,
-    String,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LEnum,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultiLanguageOverviewParagraph,
-    MultiLanguagePlainText,
-)
-
-
-class Modification(ARObject):
-    """
-    Represents a modification made to a document.
-    Base: ARObject
-    Aggregated by: DocRevision.modifications
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.change: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
-        self.reason: Union[Union[MultiLanguageOverviewParagraph, None] , None] = None
-
-    def getChange(self) -> Union[MultiLanguageOverviewParagraph, None]:
-        return self.change
-
-    def setChange(self, value: MultiLanguageOverviewParagraph) -> "Modification":
-        if value is not None:
-            self.change = value
-        return self
-
-    def getReason(self) -> Union[MultiLanguageOverviewParagraph, None]:
-        return self.reason
-
-    def setReason(self, value: MultiLanguageOverviewParagraph) -> "Modification":
-        if value is not None:
-            self.reason = value
-        return self
-
-
-class DocRevision(ARObject):
-    """
-    Represents a single revision of a document with metadata.
-    Base: ARObject
-    Aggregated by: AdminData.DocRevisions
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.date: Union[Union[DateTime, None] , None] = None
-        self.issuedBy: Union[Union[String, None] , None] = None
-        self.modifications: List[Modification] = []
-        self.revisionLabel: Union[Union[RevisionLabelString, None] , None] = None
-        self.revisionLabelP1: Union[Union[RevisionLabelString, None] , None] = None
-        self.revisionLabelP2: Union[Union[RevisionLabelString, None] , None] = None
-        self.state: Union[Union[NameToken, None] , None] = None
-
-    def getDate(self) -> Union[DateTime, None]:
-        return self.date
-
-    def setDate(self, value: DateTime) -> "DocRevision":
-        if value is not None:
-            self.date = value
-        return self
-
-    def getIssuedBy(self) -> Union[String, None]:
-        return self.issuedBy
-
-    def setIssuedBy(self, value: String) -> "DocRevision":
-        if value is not None:
-            self.issuedBy = value
-        return self
-
-    def getModifications(self) -> List[Modification]:
-        return self.modifications
-
-    def addModification(self, value: Modification):
-        if value is not None:
-            self.modifications.append(value)
-        return self
-
-    def getRevisionLabel(self) -> Union[RevisionLabelString, None]:
-        return self.revisionLabel
-
-    def setRevisionLabel(self, value: RevisionLabelString) -> "DocRevision":
-        if value is not None:
-            self.revisionLabel = value
-        return self
-
-    def getRevisionLabelP1(self) -> Union[RevisionLabelString, None]:
-        return self.revisionLabelP1
-
-    def setRevisionLabelP1(self, value: RevisionLabelString) -> "DocRevision":
-        if value is not None:
-            self.revisionLabelP1 = value
-        return self
-
-    def getRevisionLabelP2(self) -> Union[RevisionLabelString, None]:
-        return self.revisionLabelP2
-
-    def setRevisionLabelP2(self, value: RevisionLabelString) -> "DocRevision":
-        if value is not None:
-            self.revisionLabelP2 = value
-        return self
-
-    def getState(self) -> Union[NameToken, None]:
-        return self.state
-
-    def setState(self, value: NameToken) -> "DocRevision":
-        if value is not None:
-            self.state = value
-        return self
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class AdminData(ARObject):
     """
-    Container for administrative data including document revisions and language settings.
-    Base: ARObject
+    that information about previous revisions can also be logged here. The
+    entries shall be sorted descendant by date in order to reflect the history.
+    Therefore the most recent entry representing the current version is denoted
+    first. language LEnum 0..1 attr This attribute specifies the master language
+    of the document or the document fragment. The master language is the one in
+    which the document is maintained and from which the other languages are
+    derived from. In particular in case of inconsistencies, the information in
+    the master language is priority. sdg Sdg * aggr This property allows to keep
+    special data which is not represented by the standard model. It can be
+    utilized to keep e.g. tool specific data. Stereotypes: atpSplitable (cid:53)
+    288 of 318 Document ID 87: AUTOSAR_CP_TPS_ECUConfiguration Specification of
+    ECU Configuration AUTOSAR CP R23-11 (cid:52)
+    
+    Package: M2::MSR::AsamHdo::AdminData::AdminData
+    
+    Sources:
+      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 288, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 969, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 1994, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 72, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 84, Foundation R23-11)
     """
-
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
 
-        self.DocRevisions: List[DocRevision] = []
-        self.language: Union[Union[LEnum, None] , None] = None
-        self.sdgs: List = []
-        self.usedLanguages: Union[Union[MultiLanguagePlainText, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This allows to denote information about the current of the object.
+        self._docRevision: List["DocRevision"] = []
 
-    def getDocRevisions(self) -> List[DocRevision]:
-        return self.DocRevisions
+    @property
+    def doc_revision(self) -> List["DocRevision"]:
+        """Get docRevision (Pythonic accessor)."""
+        return self._docRevision
+        # This property specifies the languages which are provided document.
+        # Therefore it should only be specified in level admin data.
+        # For each language provided in there is one entry in MultilanguagePlain
+                # content of each entry can be used for the language.
+        # The used language itself the language attribute in the entry.
+        self._usedLanguages: Optional["MultiLanguagePlainText"] = None
 
-    def addDocRevision(self, value: DocRevision):
-        self.DocRevisions.append(value)
+    @property
+    def used_languages(self) -> Optional["MultiLanguagePlainText"]:
+        """Get usedLanguages (Pythonic accessor)."""
+        return self._usedLanguages
+
+    @used_languages.setter
+    def used_languages(self, value: Optional["MultiLanguagePlainText"]) -> None:
+        """
+        Set usedLanguages with validation.
+        
+        Args:
+            value: The usedLanguages to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._usedLanguages = None
+            return
+
+        if not isinstance(value, MultiLanguagePlainText):
+            raise TypeError(
+                f"usedLanguages must be MultiLanguagePlainText or None, got {type(value).__name__}"
+            )
+        self._usedLanguages = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getDocRevision(self) -> List["DocRevision"]:
+        """
+        AUTOSAR-compliant getter for docRevision.
+        
+        Returns:
+            The docRevision value
+        
+        Note:
+            Delegates to doc_revision property (CODING_RULE_V2_00017)
+        """
+        return self.doc_revision  # Delegates to property
+
+    def getUsedLanguages(self) -> "MultiLanguagePlainText":
+        """
+        AUTOSAR-compliant getter for usedLanguages.
+        
+        Returns:
+            The usedLanguages value
+        
+        Note:
+            Delegates to used_languages property (CODING_RULE_V2_00017)
+        """
+        return self.used_languages  # Delegates to property
+
+    def setUsedLanguages(self, value: "MultiLanguagePlainText") -> "AdminData":
+        """
+        AUTOSAR-compliant setter for usedLanguages with method chaining.
+        
+        Args:
+            value: The usedLanguages to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to used_languages property setter (gets validation automatically)
+        """
+        self.used_languages = value  # Delegates to property setter
         return self
 
-    def getLanguage(self):
-        return self.language
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def setLanguage(self, value):
-        self.language = value
-        return self
-
-    def getSdgs(self):
-        return self.sdgs
-
-    def addSdg(self, value):
-        self.sdgs.append(value)
-        return self
-
-    def getUsedLanguages(self):
-        return self.usedLanguages
-
-    def setUsedLanguages(self, value):
-        self.usedLanguages = value
+    def with_used_languages(self, value: Optional["MultiLanguagePlainText"]) -> "AdminData":
+        """
+        Set usedLanguages and return self for chaining.
+        
+        Args:
+            value: The usedLanguages to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_used_languages("value")
+        """
+        self.used_languages = value  # Use property setter (gets validation)
         return self

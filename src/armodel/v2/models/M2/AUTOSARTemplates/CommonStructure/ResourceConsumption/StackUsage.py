@@ -1,289 +1,316 @@
-"""
-This module contains classes for representing stack usage in AUTOSAR resource consumption models.
-It includes abstract base classes and concrete implementations for different types of stack usage analysis.
-"""
-
-from abc import ABC
-from typing import Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
-    SoftwareContext,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import (
-    HardwareConfiguration,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    PositiveInteger,
-    RefType,
-)
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class StackUsage(Identifiable, ABC):
     """
-    Abstract base class for representing stack usage in AUTOSAR models.
-    This class defines the basic structure for stack memory consumption tracking with hardware and software context.
+    Describes the stack memory usage of a software.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage::StackUsage
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 149, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2059, Classic Platform R23-11)
     """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the StackUsage with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this stack usage
-            short_name: The unique short name of this stack usage
-        """
+    def __init__(self):
         if type(self) is StackUsage:
             raise TypeError("StackUsage is an abstract class.")
+        super().__init__()
 
-        super().__init__(parent, short_name)
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # The executable entity for which this stack usage is.
+        self._executableEntity: Optional["ExecutableEntity"] = None
 
-        # Reference to the executable entity for which stack usage is measured
-        self.executableEntityRef: Union[Union[RefType, None] , None] = None
-        # Hardware configuration associated with this stack usage
-        self.hardwareConfiguration: Union[Union[HardwareConfiguration, None] , None] = None
-        # Reference to hardware element for this stack usage
-        self.hwElementRef: Union[Union[RefType, None] , None] = None
-        # Software context for this stack usage
-        self.softwareContext: Union[Union[SoftwareContext, None] , None] = None
+    @property
+    def executable_entity(self) -> Optional["ExecutableEntity"]:
+        """Get executableEntity (Pythonic accessor)."""
+        return self._executableEntity
 
-    def getExecutableEntityRef(self):
+    @executable_entity.setter
+    def executable_entity(self, value: Optional["ExecutableEntity"]) -> None:
         """
-        Gets the reference to the executable entity for which stack usage is measured.
-
-        Returns:
-            RefType: Reference to the executable entity
-        """
-        return self.executableEntityRef
-
-    def setExecutableEntityRef(self, value):
-        """
-        Sets the reference to the executable entity for which stack usage is measured.
-
+        Set executableEntity with validation.
+        
         Args:
-            value: The executable entity reference to set
+            value: The executableEntity to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._executableEntity = None
+            return
 
+        if not isinstance(value, ExecutableEntity):
+            raise TypeError(
+                f"executableEntity must be ExecutableEntity or None, got {type(value).__name__}"
+            )
+        self._executableEntity = value
+        # Contains information about the hardware context this usage is describing.
+        self._hardware: Optional["HardwareConfiguration"] = None
+
+    @property
+    def hardware(self) -> Optional["HardwareConfiguration"]:
+        """Get hardware (Pythonic accessor)."""
+        return self._hardware
+
+    @hardware.setter
+    def hardware(self, value: Optional["HardwareConfiguration"]) -> None:
+        """
+        Set hardware with validation.
+        
+        Args:
+            value: The hardware to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._hardware = None
+            return
+
+        if not isinstance(value, HardwareConfiguration):
+            raise TypeError(
+                f"hardware must be HardwareConfiguration or None, got {type(value).__name__}"
+            )
+        self._hardware = value
+        # Specifies for which hardware element (e.
+        # g.
+        # ECU) this is given.
+        self._hwElement: Optional["HwElement"] = None
+
+    @property
+    def hw_element(self) -> Optional["HwElement"]:
+        """Get hwElement (Pythonic accessor)."""
+        return self._hwElement
+
+    @hw_element.setter
+    def hw_element(self, value: Optional["HwElement"]) -> None:
+        """
+        Set hwElement with validation.
+        
+        Args:
+            value: The hwElement to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._hwElement = None
+            return
+
+        if not isinstance(value, HwElement):
+            raise TypeError(
+                f"hwElement must be HwElement or None, got {type(value).__name__}"
+            )
+        self._hwElement = value
+        # Contains details about the software context this stack provided for.
+        self._softwareContext: Optional["SoftwareContext"] = None
+
+    @property
+    def software_context(self) -> Optional["SoftwareContext"]:
+        """Get softwareContext (Pythonic accessor)."""
+        return self._softwareContext
+
+    @software_context.setter
+    def software_context(self, value: Optional["SoftwareContext"]) -> None:
+        """
+        Set softwareContext with validation.
+        
+        Args:
+            value: The softwareContext to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._softwareContext = None
+            return
+
+        if not isinstance(value, SoftwareContext):
+            raise TypeError(
+                f"softwareContext must be SoftwareContext or None, got {type(value).__name__}"
+            )
+        self._softwareContext = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getExecutableEntity(self) -> "ExecutableEntity":
+        """
+        AUTOSAR-compliant getter for executableEntity.
+        
+        Returns:
+            The executableEntity value
+        
+        Note:
+            Delegates to executable_entity property (CODING_RULE_V2_00017)
+        """
+        return self.executable_entity  # Delegates to property
+
+    def setExecutableEntity(self, value: "ExecutableEntity") -> "StackUsage":
+        """
+        AUTOSAR-compliant setter for executableEntity with method chaining.
+        
+        Args:
+            value: The executableEntity to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to executable_entity property setter (gets validation automatically)
         """
-        self.executableEntityRef = value
+        self.executable_entity = value  # Delegates to property setter
         return self
 
-    def getHardwareConfiguration(self):
+    def getHardware(self) -> "HardwareConfiguration":
         """
-        Gets the hardware configuration associated with this stack usage.
-
+        AUTOSAR-compliant getter for hardware.
+        
         Returns:
-            HardwareConfiguration: Hardware configuration object
+            The hardware value
+        
+        Note:
+            Delegates to hardware property (CODING_RULE_V2_00017)
         """
-        return self.hardwareConfiguration
+        return self.hardware  # Delegates to property
 
-    def setHardwareConfiguration(self, value):
+    def setHardware(self, value: "HardwareConfiguration") -> "StackUsage":
         """
-        Sets the hardware configuration associated with this stack usage.
-
+        AUTOSAR-compliant setter for hardware with method chaining.
+        
         Args:
-            value: The hardware configuration to set
-
+            value: The hardware to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to hardware property setter (gets validation automatically)
         """
-        self.hardwareConfiguration = value
+        self.hardware = value  # Delegates to property setter
         return self
 
-    def getHwElementRef(self):
+    def getHwElement(self) -> "HwElement":
         """
-        Gets the reference to hardware element for this stack usage.
-
+        AUTOSAR-compliant getter for hwElement.
+        
         Returns:
-            RefType: Reference to hardware element
+            The hwElement value
+        
+        Note:
+            Delegates to hw_element property (CODING_RULE_V2_00017)
         """
-        return self.hwElementRef
+        return self.hw_element  # Delegates to property
 
-    def setHwElementRef(self, value):
+    def setHwElement(self, value: "HwElement") -> "StackUsage":
         """
-        Sets the reference to hardware element for this stack usage.
-
+        AUTOSAR-compliant setter for hwElement with method chaining.
+        
         Args:
-            value: The hardware element reference to set
-
+            value: The hwElement to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to hw_element property setter (gets validation automatically)
         """
-        self.hwElementRef = value
+        self.hw_element = value  # Delegates to property setter
         return self
 
-    def getSoftwareContext(self):
+    def getSoftwareContext(self) -> "SoftwareContext":
         """
-        Gets the software context for this stack usage.
-
+        AUTOSAR-compliant getter for softwareContext.
+        
         Returns:
-            SoftwareContext: Software context object
+            The softwareContext value
+        
+        Note:
+            Delegates to software_context property (CODING_RULE_V2_00017)
         """
-        return self.softwareContext
+        return self.software_context  # Delegates to property
 
-    def setSoftwareContext(self, value):
+    def setSoftwareContext(self, value: "SoftwareContext") -> "StackUsage":
         """
-        Sets the software context for this stack usage.
-
+        AUTOSAR-compliant setter for softwareContext with method chaining.
+        
         Args:
-            value: The software context to set
-
+            value: The softwareContext to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to software_context property setter (gets validation automatically)
         """
-        self.softwareContext = value
+        self.software_context = value  # Delegates to property setter
         return self
 
-class MeasuredStackUsage(StackUsage):
-    """
-    Represents measured stack usage in AUTOSAR models.
-    This class provides concrete measurements of stack consumption under specific conditions.
-    """
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def __init__(self, parent: ARObject, short_name: str) -> None:
+    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> "StackUsage":
         """
-        Initializes the MeasuredStackUsage with a parent and short name.
-
+        Set executableEntity and return self for chaining.
+        
         Args:
-            parent: The parent ARObject that contains this measured stack usage
-            short_name: The unique short name of this measured stack usage
-        """
-        super().__init__(parent, short_name)
-
-        # Average memory consumption measured for this stack usage
-        self.averageMemoryConsumption: Union[Union[PositiveInteger, None] , None] = None
-        # Maximum memory consumption measured for this stack usage
-        self.maximumMemoryConsumption: Union[Union[PositiveInteger, None] , None] = None
-
-    def getAverageMemoryConsumption(self):
-        """
-        Gets the average memory consumption measured for this stack usage.
-
-        Returns:
-            PositiveInteger: Average memory consumption value
-        """
-        return self.averageMemoryConsumption
-
-    def setAverageMemoryConsumption(self, value):
-        """
-        Sets the average memory consumption measured for this stack usage.
-
-        Args:
-            value: The average memory consumption value to set
-
+            value: The executableEntity to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_executable_entity("value")
         """
-        self.averageMemoryConsumption = value
+        self.executable_entity = value  # Use property setter (gets validation)
         return self
 
-    def getMaximumMemoryConsumption(self):
+    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> "StackUsage":
         """
-        Gets the maximum memory consumption measured for this stack usage.
-
-        Returns:
-            PositiveInteger: Maximum memory consumption value
-        """
-        return self.maximumMemoryConsumption
-
-    def setMaximumMemoryConsumption(self, value):
-        """
-        Sets the maximum memory consumption measured for this stack usage.
-
+        Set hardware and return self for chaining.
+        
         Args:
-            value: The maximum memory consumption value to set
-
+            value: The hardware to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_hardware("value")
         """
-        self.maximumMemoryConsumption = value
+        self.hardware = value  # Use property setter (gets validation)
         return self
 
-class RoughEstimateStackUsage(StackUsage):
-    """
-    Represents rough estimate stack usage in AUTOSAR models.
-    This class provides estimated values for stack consumption when exact measurements are not available.
-    """
-
-    def __init__(self, parent, short_name) -> None:
+    def with_hw_element(self, value: Optional["HwElement"]) -> "StackUsage":
         """
-        Initializes the RoughEstimateStackUsage with a parent and short name.
-
+        Set hwElement and return self for chaining.
+        
         Args:
-            parent: The parent ARObject that contains this rough estimate stack usage
-            short_name: The unique short name of this rough estimate stack usage
-        """
-        super().__init__(parent, short_name)
-
-        # Estimated memory consumption for this stack usage
-        self.memoryConsumption: Union[Union[PositiveInteger, None] , None] = None
-
-    def getMemoryConsumption(self):
-        """
-        Gets the estimated memory consumption for this stack usage.
-
-        Returns:
-            PositiveInteger: Estimated memory consumption value
-        """
-        return self.memoryConsumption
-
-    def setMemoryConsumption(self, value):
-        """
-        Sets the estimated memory consumption for this stack usage.
-
-        Args:
-            value: The estimated memory consumption value to set
-
+            value: The hwElement to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_hw_element("value")
         """
-        self.memoryConsumption = value
+        self.hw_element = value  # Use property setter (gets validation)
         return self
 
-class WorstCaseStackUsage(StackUsage):
-    """
-    Represents worst case stack usage in AUTOSAR models.
-    This class provides the worst-case scenario analysis for stack consumption under maximum load conditions.
-    """
-
-    def __init__(self, parent, short_name) -> None:
+    def with_software_context(self, value: Optional["SoftwareContext"]) -> "StackUsage":
         """
-        Initializes the WorstCaseStackUsage with a parent and short name.
-
+        Set softwareContext and return self for chaining.
+        
         Args:
-            parent: The parent ARObject that contains this worst case stack usage
-            short_name: The unique short name of this worst case stack usage
-        """
-        super().__init__(parent, short_name)
-
-        # Memory consumption in worst case scenario for this stack usage
-        self.memoryConsumption: Union[Union[PositiveInteger, None] , None] = None
-
-    def getMemoryConsumption(self):
-        """
-        Gets the memory consumption in worst case scenario for this stack usage.
-
-        Returns:
-            PositiveInteger: Worst case memory consumption value
-        """
-        return self.memoryConsumption
-
-    def setMemoryConsumption(self, value):
-        """
-        Sets the memory consumption in worst case scenario for this stack usage.
-
-        Args:
-            value: The worst case memory consumption value to set
-
+            value: The softwareContext to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_software_context("value")
         """
-        self.memoryConsumption = value
+        self.software_context = value  # Use property setter (gets validation)
         return self

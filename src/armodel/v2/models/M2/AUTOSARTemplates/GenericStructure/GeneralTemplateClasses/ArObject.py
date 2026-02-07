@@ -1,41 +1,173 @@
-"""
-This module contains the base ARObject class for AUTOSAR models
-in the GenericStructure module.
-"""
-
 from abc import ABC, abstractmethod
-from typing import (
-    Dict,
-    Optional,
-)
-
+from typing import List, Optional, Dict, Any
 
 class ARObject(ABC):
     """
-    Abstract base class for all AUTOSAR objects.
-    This class provides the basic structure and functionality for all AUTOSAR objects.
+    Implicit base class of all classes in meta-model. Base
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObject::ARObject
+    
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 191, Foundation
+      R23-11)
     """
-
-    @abstractmethod
-    def __init__(self) -> None:
+    def __init__(self):
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
+        super().__init__()
 
-        self.parent: Optional['ARObject'] = None
-        self.checksum: Optional[str] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Checksum calculated by the user’s tool environment for May be used in an own
+                # tool environment to an ArObject has changed.
+        # The checksum semantic meaning for an AUTOSAR model and no requirement for
+                # AUTOSAR tools to manage.
+        self._checksum: Optional["String"] = None
 
-        self.timestamp: Optional[str] = None
-        self.uuid: Optional[str] = None
+    @property
+    def checksum(self) -> Optional["String"]:
+        """Get checksum (Pythonic accessor)."""
+        return self._checksum
 
-    def getTagName(self, tag: str, nsmap: Dict) -> str:
+    @checksum.setter
+    def checksum(self, value: Optional["String"]) -> None:
         """
-        Gets the tag name without namespace prefix.
-
+        Set checksum with validation.
+        
         Args:
-            tag: The full tag name with namespace prefix
-            nsmap: The namespace map dictionary
-
-        Returns:
-            The tag name without namespace prefix
+            value: The checksum to set
+        
+        Raises:
+            TypeError: If value type is incorrect
         """
-        return tag.replace("{%s}" % nsmap["xmlns"], "")
+        if value is None:
+            self._checksum = None
+            return
+
+        if not isinstance(value, String):
+            raise TypeError(
+                f"checksum must be String or None, got {type(value).__name__}"
+            )
+        self._checksum = value
+        # Timestamp calculated by the user’s tool environment for May be used in an own
+                # tool environment to last change of an ArObject.
+        # The timestamp semantic meaning for an AUTOSAR model and no requirement for
+                # AUTOSAR tools to manage.
+        self._timestamp: Optional["DateTime"] = None
+
+    @property
+    def timestamp(self) -> Optional["DateTime"]:
+        """Get timestamp (Pythonic accessor)."""
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, value: Optional["DateTime"]) -> None:
+        """
+        Set timestamp with validation.
+        
+        Args:
+            value: The timestamp to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._timestamp = None
+            return
+
+        if not isinstance(value, DateTime):
+            raise TypeError(
+                f"timestamp must be DateTime or None, got {type(value).__name__}"
+            )
+        self._timestamp = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getChecksum(self) -> "String":
+        """
+        AUTOSAR-compliant getter for checksum.
+        
+        Returns:
+            The checksum value
+        
+        Note:
+            Delegates to checksum property (CODING_RULE_V2_00017)
+        """
+        return self.checksum  # Delegates to property
+
+    def setChecksum(self, value: "String") -> "ARObject":
+        """
+        AUTOSAR-compliant setter for checksum with method chaining.
+        
+        Args:
+            value: The checksum to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to checksum property setter (gets validation automatically)
+        """
+        self.checksum = value  # Delegates to property setter
+        return self
+
+    def getTimestamp(self) -> "DateTime":
+        """
+        AUTOSAR-compliant getter for timestamp.
+        
+        Returns:
+            The timestamp value
+        
+        Note:
+            Delegates to timestamp property (CODING_RULE_V2_00017)
+        """
+        return self.timestamp  # Delegates to property
+
+    def setTimestamp(self, value: "DateTime") -> "ARObject":
+        """
+        AUTOSAR-compliant setter for timestamp with method chaining.
+        
+        Args:
+            value: The timestamp to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to timestamp property setter (gets validation automatically)
+        """
+        self.timestamp = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_checksum(self, value: Optional["String"]) -> "ARObject":
+        """
+        Set checksum and return self for chaining.
+        
+        Args:
+            value: The checksum to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_checksum("value")
+        """
+        self.checksum = value  # Use property setter (gets validation)
+        return self
+
+    def with_timestamp(self, value: Optional["DateTime"]) -> "ARObject":
+        """
+        Set timestamp and return self for chaining.
+        
+        Args:
+            value: The timestamp to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_timestamp("value")
+        """
+        self.timestamp = value  # Use property setter (gets validation)
+        return self

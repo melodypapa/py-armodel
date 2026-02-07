@@ -1,289 +1,57 @@
-"""
-This module contains classes for representing AUTOSAR flat map structures
-in the CommonStructure module. Flat maps are used to describe instance
-hierarchies in a flat manner, typically used for code generation purposes.
-"""
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
 
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
-    AtpBlueprintable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
-    AnyInstanceRef,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Identifier,
-)
-from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
-    SwDataDefProps,
-)
-
-
-class FlatInstanceDescriptor(Identifiable):
+class FlatMap(ARElement):
     """
-    Represents a flat instance descriptor in AUTOSAR models.
-    This class describes a single instance in a flattened instance hierarchy, typically used for code generation.
+    Contains a flat list of references to software objects. This list is used to
+    identify instances and to resolve name conflicts. The scope is given by the
+    RootSwCompositionPrototype for which it is used, i.e. it can be applied to a
+    system, system extract or ECU-extract. An instance of FlatMap may also be
+    used in a preliminary context, e.g. in the scope of a software component
+    before integration into a system. In this case it is not referred by a
+    RootSwComposition Prototype.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::FlatMap::FlatMap
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 317, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 965, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 445, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 190, Foundation R23-11)
     """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the FlatInstanceDescriptor with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this instance descriptor
-            short_name: The unique short name of this instance descriptor
-        """
-        super().__init__(parent, short_name)
-
-        # Instance reference to ECU extract reference
-        self.ecuExtractReferenceIRef: Union[Union[AnyInstanceRef, None] , None] = None
-        # Role identifier for this instance descriptor
-        self.role: Union[Union[Identifier, None] , None] = None
-        # RTE plugin properties for this instance (forward reference)
-        self.rtePluginProps = None
-        # Software data definition properties for this instance
-        self.swDataDefProps: Union[Union[SwDataDefProps, None] , None] = None
-        # Upstream instance reference for this instance descriptor
-        self.upstreamReferenceIRef: Union[Union[AnyInstanceRef, None] , None] = None
-
-    def getEcuExtractReferenceIRef(self):
-        """
-        Gets the instance reference to ECU extract reference.
-
-        Returns:
-            AnyInstanceRef: The ECU extract reference instance reference
-        """
-        return self.ecuExtractReferenceIRef
-
-    def setEcuExtractReferenceIRef(self, value):
-        """
-        Sets the instance reference to ECU extract reference.
-
-        Args:
-            value: The ECU extract reference instance reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.ecuExtractReferenceIRef = value
-        return self
-
-    def getRole(self):
-        """
-        Gets the role identifier for this instance descriptor.
-
-        Returns:
-            Identifier: The role identifier
-        """
-        return self.role
-
-    def setRole(self, value):
-        """
-        Sets the role identifier for this instance descriptor.
-
-        Args:
-            value: The role identifier to set
-
-        Returns:
-            self for method chaining
-        """
-        self.role = value
-        return self
-
-    def getRtePluginProps(self):
-        """
-        Gets the RTE plugin properties for this instance.
-
-        Returns:
-            RtePluginProps: The RTE plugin properties
-        """
-        return self.rtePluginProps
-
-    def setRtePluginProps(self, value):
-        """
-        Sets the RTE plugin properties for this instance.
-
-        Args:
-            value: The RTE plugin properties to set
-
-        Returns:
-            self for method chaining
-        """
-        self.rtePluginProps = value
-        return self
-
-    def getSwDataDefProps(self):
-        """
-        Gets the software data definition properties for this instance.
-
-        Returns:
-            SwDataDefProps: The software data definition properties
-        """
-        return self.swDataDefProps
-
-    def setSwDataDefProps(self, value):
-        """
-        Sets the software data definition properties for this instance.
-
-        Args:
-            value: The software data definition properties to set
-
-        Returns:
-            self for method chaining
-        """
-        self.swDataDefProps = value
-        return self
-
-    def getUpstreamReferenceIRef(self):
-        """
-        Gets the upstream instance reference for this instance descriptor.
-
-        Returns:
-            AnyInstanceRef: The upstream reference instance reference
-        """
-        return self.upstreamReferenceIRef
-
-    def setUpstreamReferenceIRef(self, value):
-        """
-        Sets the upstream instance reference for this instance descriptor.
-
-        Args:
-            value: The upstream reference instance reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.upstreamReferenceIRef = value
-        return self
-
-
-class FlatMap(AtpBlueprintable):
-    """
-    Represents a flat map in AUTOSAR models.
-    This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the FlatMap with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this flat map
-            short_name: The unique short name of this flat map
-        """
-        super().__init__(parent, short_name)
-
-        # List of flat instance descriptors in this flat map
-        self.instances: List['FlatInstanceDescriptor'] = []
-
-    def getInstances(self):
-        """
-        Gets all flat instance descriptors from the elements list, sorted by short name.
-
-        Returns:
-            List of FlatInstanceDescriptor instances sorted by short name
-        """
-        return sorted(filter(lambda a: isinstance(a, FlatInstanceDescriptor), self.elements), key=lambda o: o.short_name)
-
-    def createFlatInstanceDescriptor(self, short_name: str):
-        """
-        Creates and adds a FlatInstanceDescriptor to this flat map.
-
-        Args:
-            short_name: The short name for the new instance descriptor
-
-        Returns:
-            The created FlatInstanceDescriptor instance
-        """
-        if (short_name not in self.elements):
-            element = FlatInstanceDescriptor(self, short_name)
-            self.addElement(element)
-            self.instances.append(element)
-        return self.getElement(short_name)
-
-
-class AliasNameAssignment(ARObject):
-    """
-    Represents an alias name assignment in AUTOSAR.
-    This class defines how aliases are assigned to elements.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the AliasNameAssignment with default values.
-        """
+    def __init__(self):
         super().__init__()
-        self.aliasName: Union[str, None] = None
-        self.elementRef: Union[Union[AnyInstanceRef, None] , None] = None
 
-    def getAliasName(self):
-        return self.aliasName
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # A descriptor instance aggregated in the flat map.
+        # point accounts for the fact, that the system can be subject to variability,
+                # and thus the some instances is variable.
+        # has been made splitable because the be contributed by different stakeholders
+                # at in the workflow.
+        # Plus, the overall size might big that eventually it becomes more manageable
+                # if distributed over several files.
+        # atpVariation.
+        self._instance: List["FlatInstanceDescriptor"] = []
 
-    def setAliasName(self, value):
-        self.aliasName = value
-        return self
+    @property
+    def instance(self) -> List["FlatInstanceDescriptor"]:
+        """Get instance (Pythonic accessor)."""
+        return self._instance
 
-    def getElementRef(self):
-        return self.elementRef
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def setElementRef(self, value):
-        self.elementRef = value
-        return self
-
-
-class AliasNameSet(ARObject):
-    """
-    Represents a set of alias name assignments.
-    """
-
-
-    def __init__(self) -> None:
+    def getInstance(self) -> List["FlatInstanceDescriptor"]:
         """
-        Initializes the AliasNameSet with default values.
+        AUTOSAR-compliant getter for instance.
+        
+        Returns:
+            The instance value
+        
+        Note:
+            Delegates to instance property (CODING_RULE_V2_00017)
         """
-        super().__init__()
-        self.aliases = []
+        return self.instance  # Delegates to property
 
-    def addAlias(self, alias) -> None:
-        self.aliases.append(alias)
-
-    def getAliases(self):
-        return self.aliases
-
-
-class RtePluginProps(ARObject):
-    """
-    Represents RTE plugin properties in AUTOSAR.
-    This class defines properties for RTE plugins.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the RtePluginProps with default values.
-        """
-        super().__init__()
-        self.pluginName: Union[str, None] = None
-        self.pluginVersion: Union[str, None] = None
-
-    def getPluginName(self):
-        return self.pluginName
-
-    def setPluginName(self, value):
-        self.pluginName = value
-        return self
-
-    def getPluginVersion(self):
-        return self.pluginVersion
-
-    def setPluginVersion(self, value):
-        self.pluginVersion = value
-        return self
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====

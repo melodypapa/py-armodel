@@ -1,0 +1,49 @@
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultilanguageReferrable import MultilanguageReferrable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import Referrable
+
+class Traceable(MultilanguageReferrable, ABC):
+    """
+    that it is expected that its subclasses inherit either from
+    MultilanguageReferrable or from Identifiable. Nevertheless it also inherits
+    from MultilanguageReferrable in order to provide a common reference target
+    for all Traceables.
+    
+    Package: M2::MSR::Documentation::BlockElements::RequirementsTracing::Traceable
+    
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 312, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 221, Foundation R23-11)
+    """
+    def __init__(self):
+        if type(self) is Traceable:
+            raise TypeError("Traceable is an abstract class.")
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This association represents the ability to trace to / constraints.
+        # This supports for bottom up tracing MainRequirements <- Features <- BSW/AI.
+        self._trace: List["Traceable"] = []
+
+    @property
+    def trace(self) -> List["Traceable"]:
+        """Get trace (Pythonic accessor)."""
+        return self._trace
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getTrace(self) -> List["Traceable"]:
+        """
+        AUTOSAR-compliant getter for trace.
+        
+        Returns:
+            The trace value
+        
+        Note:
+            Delegates to trace property (CODING_RULE_V2_00017)
+        """
+        return self.trace  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====

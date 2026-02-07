@@ -1,775 +1,761 @@
-"""
-This module contains classes for representing AUTOSAR implementation structures
-in the CommonStructure module. Implementation classes define software implementations
-including code descriptors, compilers, dependencies, and resource consumption information.
-"""
-
-from abc import ABC
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
-    ResourceConsumption,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
-    AutosarEngineeringObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    ARElement,
-    Identifiable,
-    Referrable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-    ARLiteral,
-    PositiveInteger,
-    RefType,
-    RevisionLabelString,
-    String,
-)
-
-
-class ImplementationProps(Referrable, ABC):
-    """
-    Abstract base class for implementation properties in AUTOSAR models.
-    This class serves as a base for defining properties of implementations such as symbols and identifiers.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ImplementationProps with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this implementation properties
-            short_name: The unique short name of this implementation properties
-        """
-        if type(self) is ImplementationProps:
-            raise TypeError("ImplementationProps is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-        # Symbol associated with this implementation properties
-        self.symbol: Union[Union[ARLiteral, None] , None] = None
-
-    def getSymbol(self):
-        """
-        Gets the symbol associated with this implementation properties.
-
-        Returns:
-            ARLiteral: The symbol
-        """
-        return self.symbol
-
-    def setSymbol(self, value):
-        """
-        Sets the symbol associated with this implementation properties.
-
-        Args:
-            value: The symbol to set
-
-        Returns:
-            self for method chaining
-        """
-        self.symbol = value
-        return self
-
-
-class Code(Identifiable):
-    """
-    Represents code descriptor in AUTOSAR models.
-    This class contains information about code artifacts and their properties used in implementations.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the Code with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this code descriptor
-            short_name: The unique short name of this code descriptor
-        """
-        super().__init__(parent, short_name)
-
-        # List of artifact descriptors for this code
-        self.artifactDescriptors: List[AutosarEngineeringObject] = []
-        # List of callback header references for this code
-        self.callbackHeaderRefs: List[RefType] = []
-
-    def addArtifactDescriptor(self, desc: AutosarEngineeringObject):
-        """
-        Adds an artifact descriptor to this code descriptor.
-
-        Args:
-            desc: The artifact descriptor to add
-
-        Returns:
-            self for method chaining
-        """
-        self.artifactDescriptors.append(desc)
-        return self
-
-    def getArtifactDescriptors(self, category: str = "") -> List[AutosarEngineeringObject]:
-        """
-        Gets the list of artifact descriptors, optionally filtered by category.
-
-        Args:
-            category: Optional category to filter descriptors by (returns all if empty)
-
-        Returns:
-            List of AutosarEngineeringObject instances matching the criteria
-        """
-        if (category == ""):
-            return self.artifactDescriptors
-        else:
-            return list(filter(lambda a: a.getCategory().getText() == category, self.artifactDescriptors))
-
-
-class Compiler(Identifiable):
-    """
-    Represents a compiler in AUTOSAR models.
-    This class contains information about compiler configuration used in implementations.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the Compiler with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this compiler
-            short_name: The unique short name of this compiler
-        """
-        super().__init__(parent, short_name)
-
-        # Name of the compiler
-        self.name: Union[Union[String, None] , None] = None
-        # Options used with the compiler
-        self.options: Union[Union[String, None] , None] = None
-        # Vendor information for the compiler
-        self.vendor: Union[Union[String, None] , None] = None
-        # Version of the compiler
-        self.version: Union[Union[String, None] , None] = None
-
-    def getName(self):
-        """
-        Gets the name of the compiler.
-
-        Returns:
-            String: The compiler name
-        """
-        return self.name
-
-    def setName(self, value):
-        """
-        Sets the name of the compiler.
-
-        Args:
-            value: The compiler name to set
-
-        Returns:
-            self for method chaining
-        """
-        self.name = value
-        return self
-
-    def getOptions(self):
-        """
-        Gets the options used with the compiler.
-
-        Returns:
-            String: The compiler options
-        """
-        return self.options
-
-    def setOptions(self, value):
-        """
-        Sets the options used with the compiler.
-
-        Args:
-            value: The compiler options to set
-
-        Returns:
-            self for method chaining
-        """
-        self.options = value
-        return self
-
-    def getVendor(self):
-        """
-        Gets the vendor information for the compiler.
-
-        Returns:
-            String: The compiler vendor
-        """
-        return self.vendor
-
-    def setVendor(self, value):
-        """
-        Sets the vendor information for the compiler.
-
-        Args:
-            value: The compiler vendor to set
-
-        Returns:
-            self for method chaining
-        """
-        self.vendor = value
-        return self
-
-    def getVersion(self):
-        """
-        Gets the version of the compiler.
-
-        Returns:
-            String: The compiler version
-        """
-        return self.version
-
-    def setVersion(self, value):
-        """
-        Sets the version of the compiler.
-
-        Args:
-            value: The compiler version to set
-
-        Returns:
-            self for method chaining
-        """
-        self.version = value
-        return self
-
-
-class DependencyOnArtifact(Identifiable):
-    """
-    Represents a dependency on an artifact in AUTOSAR models.
-    This class defines dependencies on artifacts required by implementations such as compilers, linkers, etc.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the DependencyOnArtifact with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this dependency
-            short_name: The unique short name of this dependency
-        """
-        super().__init__(parent, short_name)
-
-        # Artifact descriptor that this dependency references
-        self.artifactDescriptor: Union[Union[AutosarEngineeringObject, None] , None] = None
-        # Usage type of this dependency
-        self.usage = None
-
-    def getArtifactDescriptor(self):
-        """
-        Gets the artifact descriptor that this dependency references.
-
-        Returns:
-            AutosarEngineeringObject: The artifact descriptor
-        """
-        return self.artifactDescriptor
-
-    def setArtifactDescriptor(self, value):
-        """
-        Sets the artifact descriptor that this dependency references.
-
-        Args:
-            value: The artifact descriptor to set
-
-        Returns:
-            self for method chaining
-        """
-        self.artifactDescriptor = value
-        return self
-
-    def getUsage(self):
-        """
-        Gets the usage type of this dependency.
-
-        Returns:
-            DependencyUsageEnum: The usage type
-        """
-        return self.usage
-
-    def setUsage(self, value):
-        """
-        Sets the usage type of this dependency.
-
-        Args:
-            value: The usage type to set
-
-        Returns:
-            self for method chaining
-        """
-        self.usage = value
-        return self
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
 
 class Implementation(ARElement, ABC):
     """
-    Abstract base class for implementations in AUTOSAR models.
-    This class serves as a base for defining software implementations including code, compilers, dependencies, and resource consumption information.
+    Description of an implementation a single software component or module.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Implementation::Implementation
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 126, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 619, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2029, Classic Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 449, Foundation
+      R23-11)
     """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the Implementation with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this implementation
-            short_name: The unique short name of this implementation
-        """
+    def __init__(self):
         if type(self) is Implementation:
             raise TypeError("Implementation is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-        # Reference to the build action manifest for this implementation
-        self.buildActionManifestRef: Union[Union[RefType, None] , None] = None
-        # List of code descriptors for this implementation
-        self.codeDescriptors: List['Code'] = []
-        # List of compilers used in this implementation
-        self.compilers: List['Compiler'] = []
-        # List of generated artifacts for this implementation
-        self.generatedArtifacts: List['DependencyOnArtifact'] = []
-        # List of hardware element references for this implementation
-        self.hwElementRefs: List[RefType] = []
-        # List of linkers used in this implementation
-        self.linkers: List = []
-        # Microcontroller support information for this implementation
-        self.mcSupport = None
-        # Programming language used in this implementation
-        self.programmingLanguage = None
-        # List of required artifacts for this implementation
-        self.requiredArtifacts: List['DependencyOnArtifact'] = []
-        # List of required generator tools for this implementation
-        self.requiredGeneratorTools: List['DependencyOnArtifact'] = []
-        # Resource consumption information for this implementation
-        self.resourceConsumption: Union[Union[ResourceConsumption, None] , None] = None
-        # Reference to software component/BSW mapping for this implementation
-        self.swcBswMappingRef: Union[Union[RefType, None] , None] = None
-        # Software version information for this implementation
-        self.swVersion: List[RevisionLabelString] = []
-        # Code generator used for this implementation
-        self.usedCodeGenerator: Union[Union[String, None] , None] = None
-        # Vendor ID for this implementation
-        self.vendorId: PositiveInteger = 0
-
-    def getBuildActionManifestRef(self):
-        """
-        Gets the reference to the build action manifest for this implementation.
-
-        Returns:
-            RefType: The build action manifest reference
-        """
-        return self.buildActionManifestRef
-
-    def setBuildActionManifestRef(self, value):
-        """
-        Sets the reference to the build action manifest for this implementation.
-
-        Args:
-            value: The build action manifest reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.buildActionManifestRef = value
-        return self
-
-    def getCodeDescriptors(self) -> List['Code']:
-        """
-        Gets all code descriptors from the elements list in this implementation.
-
-        Returns:
-            List of Code instances in this implementation
-        """
-        return list(filter(lambda a: isinstance(a, Code), self.elements))
-
-    def createCodeDescriptor(self, short_name: str) -> 'Code':
-        """
-        Creates and adds a Code descriptor to this implementation.
-
-        Args:
-            short_name: The short name for the new code descriptor
-
-        Returns:
-            The created Code instance
-        """
-        if (short_name not in self.elements):
-            code_descriptor = Code(self, short_name)
-            self.addElement(code_descriptor)
-            self.codeDescriptors.append(code_descriptor)
-        return self.getElement(short_name)
-
-    def getCompilers(self):
-        """
-        Gets the list of compilers used in this implementation.
-
-        Returns:
-            List of Compiler instances
-        """
-        return self.compilers
-
-    def setCompilers(self, value):
-        """
-        Sets the list of compilers used in this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of compilers to set
-
-        Returns:
-            self for method chaining
-        """
-        self.compilers = value
-        return self
-
-    def getGeneratedArtifacts(self):
-        """
-        Gets the list of generated artifacts for this implementation.
-
-        Returns:
-            List of DependencyOnArtifact instances
-        """
-        return self.generatedArtifacts
-
-    def setGeneratedArtifacts(self, value):
-        """
-        Sets the list of generated artifacts for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of generated artifacts to set
-
-        Returns:
-            self for method chaining
-        """
-        self.generatedArtifacts = value
-        return self
-
-    def getHwElementRefs(self):
-        """
-        Gets the list of hardware element references for this implementation.
-
-        Returns:
-            List of RefType instances
-        """
-        return self.hwElementRefs
-
-    def setHwElementRefs(self, value):
-        """
-        Sets the list of hardware element references for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of hardware element references to set
-
-        Returns:
-            self for method chaining
-        """
-        self.hwElementRefs = value
-        return self
-
-    def getLinkers(self):
-        """
-        Gets the list of linkers used in this implementation.
-
-        Returns:
-            List of Linker instances
-        """
-        return self.linkers
-
-    def setLinkers(self, value):
-        """
-        Sets the list of linkers used in this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of linkers to set
-
-        Returns:
-            self for method chaining
-        """
-        self.linkers = value
-        return self
-
-    def getMcSupport(self):
-        """
-        Gets the microcontroller support information for this implementation.
-
-        Returns:
-            Microcontroller support information
-        """
-        return self.mcSupport
-
-    def setMcSupport(self, value):
-        """
-        Sets the microcontroller support information for this implementation.
-
-        Args:
-            value: The microcontroller support information to set
-
-        Returns:
-            self for method chaining
-        """
-        self.mcSupport = value
-        return self
-
-    def getProgrammingLanguage(self):
-        """
-        Gets the programming language used in this implementation.
-
-        Returns:
-            ProgramminglanguageEnum: The programming language
-        """
-        return self.programmingLanguage
-
-    def setProgrammingLanguage(self, value):
-        """
-        Sets the programming language used in this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The programming language to set
-
-        Returns:
-            self for method chaining
-        """
-        self.programmingLanguage = value
-        return self
-
-    def getRequiredArtifacts(self):
-        """
-        Gets the list of required artifacts for this implementation.
-
-        Returns:
-            List of DependencyOnArtifact instances
-        """
-        return self.requiredArtifacts
-
-    def setRequiredArtifacts(self, value):
-        """
-        Sets the list of required artifacts for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of required artifacts to set
-
-        Returns:
-            self for method chaining
-        """
-        self.requiredArtifacts = value
-        return self
-
-    def getRequiredGeneratorTools(self):
-        """
-        Gets the list of required generator tools for this implementation.
-
-        Returns:
-            List of DependencyOnArtifact instances
-        """
-        return self.requiredGeneratorTools
-
-    def setRequiredGeneratorTools(self, value):
-        """
-        Sets the list of required generator tools for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of required generator tools to set
-
-        Returns:
-            self for method chaining
-        """
-        self.requiredGeneratorTools = value
-        return self
-
-    def getResourceConsumption(self):
-        """
-        Gets the resource consumption information for this implementation.
-
-        Returns:
-            ResourceConsumption: The resource consumption information
-        """
-        return self.resourceConsumption
-
-    def createResourceConsumption(self, short_name: str) -> ResourceConsumption:
-        """
-        Creates and adds a ResourceConsumption to this implementation.
-
-        Args:
-            short_name: The short name for the new resource consumption
-
-        Returns:
-            The created ResourceConsumption instance
-        """
-        if (short_name not in self.elements):
-            consumption = ResourceConsumption(self, short_name)
-            self.addElement(consumption)
-            self.resourceConsumption = consumption
-        return self.getElement(short_name)
-
-    def getSwcBswMappingRef(self):
-        """
-        Gets the reference to software component/BSW mapping for this implementation.
-
-        Returns:
-            RefType: The SWC/BSW mapping reference
-        """
-        return self.swcBswMappingRef
-
-    def setSwcBswMappingRef(self, value):
-        """
-        Sets the reference to software component/BSW mapping for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The SWC/BSW mapping reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.swcBswMappingRef = value
-        return self
-
-    def getSwVersion(self):
-        """
-        Gets the software version information for this implementation.
-
-        Returns:
-            RevisionLabelString: The software version information
-        """
-        return self.swVersion
-
-    def setSwVersion(self, value):
-        """
-        Sets the software version information for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The software version information to set
-
-        Returns:
-            self for method chaining
-        """
-        self.swVersion = value
-        return self
-
-    def getUsedCodeGenerator(self):
-        """
-        Gets the code generator used for this implementation.
-
-        Returns:
-            String: The used code generator
-        """
-        return self.usedCodeGenerator
-
-    def setUsedCodeGenerator(self, value):
-        """
-        Sets the code generator used for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The used code generator to set
-
-        Returns:
-            self for method chaining
-        """
-        self.usedCodeGenerator = value
-        return self
-
-    def getVendorId(self):
-        """
-        Gets the vendor ID for this implementation.
-
-        Returns:
-            PositiveInteger: The vendor ID
-        """
-        return self.vendorId
-
-    def setVendorId(self, value):
-        """
-        Sets the vendor ID for this implementation.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The vendor ID to set
-
-        Returns:
-            self for method chaining
-        """
-        self.vendorId = value
-        return self
-
-
-
-
-
-
-
-class DependencyUsageEnum(AREnum):
-    """
-    Enumeration for dependency usage.
-    """
-
-    OPTIONAL = "optional"
-    REQUIRED = "required"
-
-    def __init__(self) -> None:
-        super().__init__([
-            DependencyUsageEnum.OPTIONAL,
-            DependencyUsageEnum.REQUIRED,
-        ])
-
-
-class Linker(ARObject):
-    """
-    Represents a linker configuration in AUTOSAR.
-    This class defines linker settings for implementation.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the Linker with default values.
-        """
         super().__init__()
-        self.linkerName: Union[str, None] = None
-        self.linkerOptions: Union[str, None] = None
 
-    def getLinkerName(self):
-        return self.linkerName
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # A manifest specifying the intended build actions for the delivered with this
+                # implementation.
+        # atpVariation.
+        self._buildAction: Optional["BuildActionManifest"] = None
 
-    def setLinkerName(self, value):
-        self.linkerName = value
+    @property
+    def build_action(self) -> Optional["BuildActionManifest"]:
+        """Get buildAction (Pythonic accessor)."""
+        return self._buildAction
+
+    @build_action.setter
+    def build_action(self, value: Optional["BuildActionManifest"]) -> None:
+        """
+        Set buildAction with validation.
+        
+        Args:
+            value: The buildAction to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._buildAction = None
+            return
+
+        if not isinstance(value, BuildActionManifest):
+            raise TypeError(
+                f"buildAction must be BuildActionManifest or None, got {type(value).__name__}"
+            )
+        self._buildAction = value
+        # Specifies the provided implementation code.
+        self._codeDescriptor: List["Code"] = []
+
+    @property
+    def code_descriptor(self) -> List["Code"]:
+        """Get codeDescriptor (Pythonic accessor)."""
+        return self._codeDescriptor
+        # Specifies the compiler for which this implementation has 381 Document ID 89:
+        # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
+        # R23-11.
+        self._compiler: List["Compiler"] = []
+
+    @property
+    def compiler(self) -> List["Compiler"]:
+        """Get compiler (Pythonic accessor)."""
+        return self._compiler
+        # Relates to an artifact that will be generated during the of this
+                # Implementation by an associated Note that this is an optional information
+                # might not always be in the scope of a single component to provide this
+                # information.
+        # atpVariation.
+        self._generated: List[RefType] = []
+
+    @property
+    def generated(self) -> List[RefType]:
+        """Get generated (Pythonic accessor)."""
+        return self._generated
+        # The hardware elements (e.
+        # g.
+        # the processor) required for.
+        self._hwElement: List["HwElement"] = []
+
+    @property
+    def hw_element(self) -> List["HwElement"]:
+        """Get hwElement (Pythonic accessor)."""
+        return self._hwElement
+        # Specifies the linker for which this implementation has.
+        self._linker: List["Linker"] = []
+
+    @property
+    def linker(self) -> List["Linker"]:
+        """Get linker (Pythonic accessor)."""
+        return self._linker
+        # The measurement & calibration support data belonging to The aggregtion is
+        # <<atpSplitable>> case of an already exisiting BSW this description will be
+        # added later process, namely at code generation time.
+        self._mcSupport: Optional["McSupportData"] = None
+
+    @property
+    def mc_support(self) -> Optional["McSupportData"]:
+        """Get mcSupport (Pythonic accessor)."""
+        return self._mcSupport
+
+    @mc_support.setter
+    def mc_support(self, value: Optional["McSupportData"]) -> None:
+        """
+        Set mcSupport with validation.
+        
+        Args:
+            value: The mcSupport to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._mcSupport = None
+            return
+
+        if not isinstance(value, McSupportData):
+            raise TypeError(
+                f"mcSupport must be McSupportData or None, got {type(value).__name__}"
+            )
+        self._mcSupport = value
+        # Programming language the implementation was created in.
+        self._programming: Optional["Programminglanguage"] = None
+
+    @property
+    def programming(self) -> Optional["Programminglanguage"]:
+        """Get programming (Pythonic accessor)."""
+        return self._programming
+
+    @programming.setter
+    def programming(self, value: Optional["Programminglanguage"]) -> None:
+        """
+        Set programming with validation.
+        
+        Args:
+            value: The programming to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._programming = None
+            return
+
+        if not isinstance(value, Programminglanguage):
+            raise TypeError(
+                f"programming must be Programminglanguage or None, got {type(value).__name__}"
+            )
+        self._programming = value
+        # Specifies that this Implementation depends on the another artifact (e.
+        # g.
+        # a library).
+        # This DependencyOnArtifact is subject to the purpose to support variability in
+                # the algorithms in the cause different dependencies, e.
+        # g.
+        # of used libraries.
+        # atpVariation.
+        self._requiredArtifact: List[RefType] = []
+
+    @property
+    def required_artifact(self) -> List[RefType]:
+        """Get requiredArtifact (Pythonic accessor)."""
+        return self._requiredArtifact
+        # Relates this Implementation to a generator tool in order to additional
+                # artifacts during integration.
+        # atpVariation.
+        self._required: List[RefType] = []
+
+    @property
+    def required(self) -> List[RefType]:
+        """Get required (Pythonic accessor)."""
+        return self._required
+        # All static and dynamic resources for each implementation described within the
+        # ResourceConsumption class.
+        self._resource: Optional["ResourceConsumption"] = None
+
+    @property
+    def resource(self) -> Optional["ResourceConsumption"]:
+        """Get resource (Pythonic accessor)."""
+        return self._resource
+
+    @resource.setter
+    def resource(self, value: Optional["ResourceConsumption"]) -> None:
+        """
+        Set resource with validation.
+        
+        Args:
+            value: The resource to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._resource = None
+            return
+
+        if not isinstance(value, ResourceConsumption):
+            raise TypeError(
+                f"resource must be ResourceConsumption or None, got {type(value).__name__}"
+            )
+        self._resource = value
+        # This allows a mapping between an SWC and a BSW to be attached to an
+        # implementation description Service, ECU Abstraction and Complex It is up to
+        # the methodology to define reference has to be set for the Swc- or Bsw for
+        # both.
+        self._swcBsw: RefType = None
+
+    @property
+    def swc_bsw(self) -> RefType:
+        """Get swcBsw (Pythonic accessor)."""
+        return self._swcBsw
+
+    @swc_bsw.setter
+    def swc_bsw(self, value: RefType) -> None:
+        """
+        Set swcBsw with validation.
+        
+        Args:
+            value: The swcBsw to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._swcBsw = None
+            return
+
+        self._swcBsw = value
+        # Software version of this implementation.
+        # The numbering levels (like major, minor, patch), its values specific.
+        self._swVersion: Optional["RevisionLabelString"] = None
+
+    @property
+    def sw_version(self) -> Optional["RevisionLabelString"]:
+        """Get swVersion (Pythonic accessor)."""
+        return self._swVersion
+
+    @sw_version.setter
+    def sw_version(self, value: Optional["RevisionLabelString"]) -> None:
+        """
+        Set swVersion with validation.
+        
+        Args:
+            value: The swVersion to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._swVersion = None
+            return
+
+        if not isinstance(value, RevisionLabelString):
+            raise TypeError(
+                f"swVersion must be RevisionLabelString or None, got {type(value).__name__}"
+            )
+        self._swVersion = value
+        # Optional: code generator used.
+        # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
+                # Description Template R23-11.
+        self._usedCodeGenerator: Optional["String"] = None
+
+    @property
+    def used_code_generator(self) -> Optional["String"]:
+        """Get usedCodeGenerator (Pythonic accessor)."""
+        return self._usedCodeGenerator
+
+    @used_code_generator.setter
+    def used_code_generator(self, value: Optional["String"]) -> None:
+        """
+        Set usedCodeGenerator with validation.
+        
+        Args:
+            value: The usedCodeGenerator to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._usedCodeGenerator = None
+            return
+
+        if not isinstance(value, String):
+            raise TypeError(
+                f"usedCodeGenerator must be String or None, got {type(value).__name__}"
+            )
+        self._usedCodeGenerator = value
+        # Vendor ID of this Implementation according to the list.
+        self._vendorId: Optional["PositiveInteger"] = None
+
+    @property
+    def vendor_id(self) -> Optional["PositiveInteger"]:
+        """Get vendorId (Pythonic accessor)."""
+        return self._vendorId
+
+    @vendor_id.setter
+    def vendor_id(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set vendorId with validation.
+        
+        Args:
+            value: The vendorId to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._vendorId = None
+            return
+
+        if not isinstance(value, PositiveInteger):
+            raise TypeError(
+                f"vendorId must be PositiveInteger or None, got {type(value).__name__}"
+            )
+        self._vendorId = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getBuildAction(self) -> "BuildActionManifest":
+        """
+        AUTOSAR-compliant getter for buildAction.
+        
+        Returns:
+            The buildAction value
+        
+        Note:
+            Delegates to build_action property (CODING_RULE_V2_00017)
+        """
+        return self.build_action  # Delegates to property
+
+    def setBuildAction(self, value: "BuildActionManifest") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for buildAction with method chaining.
+        
+        Args:
+            value: The buildAction to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to build_action property setter (gets validation automatically)
+        """
+        self.build_action = value  # Delegates to property setter
         return self
 
-    def getLinkerOptions(self):
-        return self.linkerOptions
+    def getCodeDescriptor(self) -> List["Code"]:
+        """
+        AUTOSAR-compliant getter for codeDescriptor.
+        
+        Returns:
+            The codeDescriptor value
+        
+        Note:
+            Delegates to code_descriptor property (CODING_RULE_V2_00017)
+        """
+        return self.code_descriptor  # Delegates to property
 
-    def setLinkerOptions(self, value):
-        self.linkerOptions = value
+    def getCompiler(self) -> List["Compiler"]:
+        """
+        AUTOSAR-compliant getter for compiler.
+        
+        Returns:
+            The compiler value
+        
+        Note:
+            Delegates to compiler property (CODING_RULE_V2_00017)
+        """
+        return self.compiler  # Delegates to property
+
+    def getGenerated(self) -> List[RefType]:
+        """
+        AUTOSAR-compliant getter for generated.
+        
+        Returns:
+            The generated value
+        
+        Note:
+            Delegates to generated property (CODING_RULE_V2_00017)
+        """
+        return self.generated  # Delegates to property
+
+    def getHwElement(self) -> List["HwElement"]:
+        """
+        AUTOSAR-compliant getter for hwElement.
+        
+        Returns:
+            The hwElement value
+        
+        Note:
+            Delegates to hw_element property (CODING_RULE_V2_00017)
+        """
+        return self.hw_element  # Delegates to property
+
+    def getLinker(self) -> List["Linker"]:
+        """
+        AUTOSAR-compliant getter for linker.
+        
+        Returns:
+            The linker value
+        
+        Note:
+            Delegates to linker property (CODING_RULE_V2_00017)
+        """
+        return self.linker  # Delegates to property
+
+    def getMcSupport(self) -> "McSupportData":
+        """
+        AUTOSAR-compliant getter for mcSupport.
+        
+        Returns:
+            The mcSupport value
+        
+        Note:
+            Delegates to mc_support property (CODING_RULE_V2_00017)
+        """
+        return self.mc_support  # Delegates to property
+
+    def setMcSupport(self, value: "McSupportData") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for mcSupport with method chaining.
+        
+        Args:
+            value: The mcSupport to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to mc_support property setter (gets validation automatically)
+        """
+        self.mc_support = value  # Delegates to property setter
         return self
 
+    def getProgramming(self) -> "Programminglanguage":
+        """
+        AUTOSAR-compliant getter for programming.
+        
+        Returns:
+            The programming value
+        
+        Note:
+            Delegates to programming property (CODING_RULE_V2_00017)
+        """
+        return self.programming  # Delegates to property
 
-class ProgramminglanguageEnum(AREnum):
-    """
-    Enumeration for programming languages.
-    """
+    def setProgramming(self, value: "Programminglanguage") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for programming with method chaining.
+        
+        Args:
+            value: The programming to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to programming property setter (gets validation automatically)
+        """
+        self.programming = value  # Delegates to property setter
+        return self
 
-    C = "C"
-    CPP = "C++"
-    JAVA = "Java"
-    PYTHON = "Python"
+    def getRequiredArtifact(self) -> List[RefType]:
+        """
+        AUTOSAR-compliant getter for requiredArtifact.
+        
+        Returns:
+            The requiredArtifact value
+        
+        Note:
+            Delegates to required_artifact property (CODING_RULE_V2_00017)
+        """
+        return self.required_artifact  # Delegates to property
 
-    def __init__(self) -> None:
-        super().__init__([
-            ProgramminglanguageEnum.C,
-            ProgramminglanguageEnum.CPP,
-            ProgramminglanguageEnum.JAVA,
-            ProgramminglanguageEnum.PYTHON,
-        ])
+    def getRequired(self) -> List[RefType]:
+        """
+        AUTOSAR-compliant getter for required.
+        
+        Returns:
+            The required value
+        
+        Note:
+            Delegates to required property (CODING_RULE_V2_00017)
+        """
+        return self.required  # Delegates to property
+
+    def getResource(self) -> "ResourceConsumption":
+        """
+        AUTOSAR-compliant getter for resource.
+        
+        Returns:
+            The resource value
+        
+        Note:
+            Delegates to resource property (CODING_RULE_V2_00017)
+        """
+        return self.resource  # Delegates to property
+
+    def setResource(self, value: "ResourceConsumption") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for resource with method chaining.
+        
+        Args:
+            value: The resource to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to resource property setter (gets validation automatically)
+        """
+        self.resource = value  # Delegates to property setter
+        return self
+
+    def getSwcBsw(self) -> RefType:
+        """
+        AUTOSAR-compliant getter for swcBsw.
+        
+        Returns:
+            The swcBsw value
+        
+        Note:
+            Delegates to swc_bsw property (CODING_RULE_V2_00017)
+        """
+        return self.swc_bsw  # Delegates to property
+
+    def setSwcBsw(self, value: RefType) -> "Implementation":
+        """
+        AUTOSAR-compliant setter for swcBsw with method chaining.
+        
+        Args:
+            value: The swcBsw to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to swc_bsw property setter (gets validation automatically)
+        """
+        self.swc_bsw = value  # Delegates to property setter
+        return self
+
+    def getSwVersion(self) -> "RevisionLabelString":
+        """
+        AUTOSAR-compliant getter for swVersion.
+        
+        Returns:
+            The swVersion value
+        
+        Note:
+            Delegates to sw_version property (CODING_RULE_V2_00017)
+        """
+        return self.sw_version  # Delegates to property
+
+    def setSwVersion(self, value: "RevisionLabelString") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for swVersion with method chaining.
+        
+        Args:
+            value: The swVersion to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to sw_version property setter (gets validation automatically)
+        """
+        self.sw_version = value  # Delegates to property setter
+        return self
+
+    def getUsedCodeGenerator(self) -> "String":
+        """
+        AUTOSAR-compliant getter for usedCodeGenerator.
+        
+        Returns:
+            The usedCodeGenerator value
+        
+        Note:
+            Delegates to used_code_generator property (CODING_RULE_V2_00017)
+        """
+        return self.used_code_generator  # Delegates to property
+
+    def setUsedCodeGenerator(self, value: "String") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for usedCodeGenerator with method chaining.
+        
+        Args:
+            value: The usedCodeGenerator to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to used_code_generator property setter (gets validation automatically)
+        """
+        self.used_code_generator = value  # Delegates to property setter
+        return self
+
+    def getVendorId(self) -> "PositiveInteger":
+        """
+        AUTOSAR-compliant getter for vendorId.
+        
+        Returns:
+            The vendorId value
+        
+        Note:
+            Delegates to vendor_id property (CODING_RULE_V2_00017)
+        """
+        return self.vendor_id  # Delegates to property
+
+    def setVendorId(self, value: "PositiveInteger") -> "Implementation":
+        """
+        AUTOSAR-compliant setter for vendorId with method chaining.
+        
+        Args:
+            value: The vendorId to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to vendor_id property setter (gets validation automatically)
+        """
+        self.vendor_id = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_build_action(self, value: Optional["BuildActionManifest"]) -> "Implementation":
+        """
+        Set buildAction and return self for chaining.
+        
+        Args:
+            value: The buildAction to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_build_action("value")
+        """
+        self.build_action = value  # Use property setter (gets validation)
+        return self
+
+    def with_mc_support(self, value: Optional["McSupportData"]) -> "Implementation":
+        """
+        Set mcSupport and return self for chaining.
+        
+        Args:
+            value: The mcSupport to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_mc_support("value")
+        """
+        self.mc_support = value  # Use property setter (gets validation)
+        return self
+
+    def with_programming(self, value: Optional["Programminglanguage"]) -> "Implementation":
+        """
+        Set programming and return self for chaining.
+        
+        Args:
+            value: The programming to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_programming("value")
+        """
+        self.programming = value  # Use property setter (gets validation)
+        return self
+
+    def with_resource(self, value: Optional["ResourceConsumption"]) -> "Implementation":
+        """
+        Set resource and return self for chaining.
+        
+        Args:
+            value: The resource to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_resource("value")
+        """
+        self.resource = value  # Use property setter (gets validation)
+        return self
+
+    def with_swc_bsw(self, value: Optional[RefType]) -> "Implementation":
+        """
+        Set swcBsw and return self for chaining.
+        
+        Args:
+            value: The swcBsw to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_swc_bsw("value")
+        """
+        self.swc_bsw = value  # Use property setter (gets validation)
+        return self
+
+    def with_sw_version(self, value: Optional["RevisionLabelString"]) -> "Implementation":
+        """
+        Set swVersion and return self for chaining.
+        
+        Args:
+            value: The swVersion to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_sw_version("value")
+        """
+        self.sw_version = value  # Use property setter (gets validation)
+        return self
+
+    def with_used_code_generator(self, value: Optional["String"]) -> "Implementation":
+        """
+        Set usedCodeGenerator and return self for chaining.
+        
+        Args:
+            value: The usedCodeGenerator to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_used_code_generator("value")
+        """
+        self.used_code_generator = value  # Use property setter (gets validation)
+        return self
+
+    def with_vendor_id(self, value: Optional["PositiveInteger"]) -> "Implementation":
+        """
+        Set vendorId and return self for chaining.
+        
+        Args:
+            value: The vendorId to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_vendor_id("value")
+        """
+        self.vendor_id = value  # Use property setter (gets validation)
+        return self
