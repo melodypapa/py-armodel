@@ -3,9 +3,8 @@ This module contains classes for representing stack usage in AUTOSAR resource co
 It includes abstract base classes and concrete implementations for different types of stack usage analysis.
 """
 
-from typing import Union
-
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
     SoftwareContext,

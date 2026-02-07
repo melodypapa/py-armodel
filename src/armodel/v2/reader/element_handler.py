@@ -1,15 +1,13 @@
 """
-Element handler for V2 ARXML reader demo.
+Element handler for V2 ARXML reader.
 Maps XML tag names to model classes.
 """
-from ..models.models import AUTOSAR, ARPackage, SwComponentType
-from .schema_registry import SchemaRegistry
+from armodel.v2.models.models import AUTOSAR, ARPackage
+from armodel.v2.reader.schema_registry import SchemaRegistry
 
-
-# Register model classes with schema registry
+# Register model classes
 SchemaRegistry.register_class("AUTOSAR", AUTOSAR)
 SchemaRegistry.register_class("AR-PACKAGE", ARPackage)
-SchemaRegistry.register_class("APPLICATION-SOFTWARE-COMPONENT-TYPE", SwComponentType)
 
 
 class ElementHandler:

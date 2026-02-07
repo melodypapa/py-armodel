@@ -1,10 +1,26 @@
-# V2 Model Coding Rules
+# V2 Coding Rules
 
-This document defines coding standards specific to V2 models (`src/armodel/v2/models/`). These rules complement the general coding rules in `coding_rules.md` and focus on V2-specific requirements.
+This document defines coding standards for all V2 modules in py-armodel (`src/armodel/v2/`). These rules complement the general coding rules in `coding_rules.md` and focus on V2-specific requirements.
 
 ## Overview
 
-V2 models represent a refactored architecture for the AUTOSAR M2 model with enhanced coding standards, improved type hints, and better separation of concerns. These rules ensure V2 models maintain high code quality and avoid common issues like circular imports.
+V2 represents a refactored architecture for py-armodel with enhanced coding standards, improved type hints, and better separation of concerns. V2 includes:
+
+- **V2 Models**: `src/armodel/v2/models/` - AUTOSAR M2 model classes
+- **V2 Reader**: `src/armodel/v2/reader/` - ARXML deserialization
+- **V2 Writer**: `src/armodel/v2/writer/` - ARXML serialization
+- **V2 Utils**: `src/armodel/v2/utils/` - Shared utilities
+
+These rules ensure all V2 modules maintain high code quality, avoid circular imports, and provide a consistent architecture for extension and maintenance.
+
+### V2 Architecture Principles
+
+1. **Clean Imports**: Absolute imports only, no TYPE_CHECKING blocks
+2. **Extensibility**: Open for extension, closed for modification
+3. **Modern Python**: Use latest Python features and best practices
+4. **Type Safety**: Explicit type hints with string annotations for forward refs
+5. **Modularity**: Clear separation of concerns between modules
+6. **Clean Break**: No V1 compatibility constraints - fresh design
 
 ---
 
@@ -12,18 +28,23 @@ V2 models represent a refactored architecture for the AUTOSAR M2 model with enha
 
 **Maturity**: accept
 
-**Description**: V2 models MUST use absolute imports only. Relative imports (`from .` or `from ..`) are prohibited.
+**Scope**: All V2 modules (models, reader, writer, utils)
+
+**Description**: All V2 modules MUST use absolute imports only. Relative imports (`from .` or `from ..`) are prohibited.
 
 **Example:**
 ```python
-# CORRECT
+# CORRECT - Absolute imports
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+from armodel.v2.reader.base_reader import ARXMLReader
+from armodel.v2.writer.base_writer import ARXMLWriter
 
-# WRONG
+# WRONG - Relative imports
 from .components import PPortPrototype
+from ..reader import ARXMLReader
 ```
 
-**Rationale**: Absolute imports improve code clarity, avoid confusion, and make the codebase easier to navigate.
+**Rationale**: Absolute imports improve code clarity, avoid confusion, and make the codebase easier to navigate. They make dependencies explicit and work consistently across different execution contexts.
 
 **References**:
 - PEP 8 - Style Guide for Python Code (Imports)
@@ -35,16 +56,18 @@ from .components import PPortPrototype
 
 **Maturity**: accept
 
-**Description**: V2 models MUST NOT use `TYPE_CHECKING` imports. Use string annotations for forward references instead.
+**Scope**: All V2 modules
+
+**Description**: All V2 modules MUST NOT use `TYPE_CHECKING` imports. Use string annotations for forward references instead.
 
 **Example:**
 ```python
-# CORRECT
+# CORRECT - String annotation + lazy import
 def createPort(self) -> "PPortPrototype":
     from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
     return PPortPrototype(self, short_name)
 
-# WRONG
+# WRONG - TYPE_CHECKING block
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .components import PPortPrototype
@@ -53,7 +76,7 @@ def createPort(self) -> PPortPrototype:
     return PPortPrototype(self, short_name)
 ```
 
-**Rationale**: String annotations break circular dependencies without requiring TYPE_CHECKING blocks, making code cleaner and easier to understand.
+**Rationale**: String annotations break circular dependencies without requiring TYPE_CHECKING blocks, making code cleaner and easier to understand. This applies to models, reader, writer, and all V2 code.
 
 **References**:
 - PEP 484 - Type Hints
@@ -66,17 +89,26 @@ def createPort(self) -> PPortPrototype:
 
 **Maturity**: accept
 
+**Scope**: All V2 modules
+
 **Description**: Every `__init__.py` file in V2 MUST define `__all__` to explicitly declare the public API.
 
 **Example:**
 ```python
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+# Models __init__.py
+from armodel.v2.models.M2.AUTOSARTemplates.SwComponentType import SwComponentType
+from armodel.v2.models.M2.AUTOSARTemplates.Components import PPortPrototype
 
 __all__ = ['SwComponentType', 'PPortPrototype']
+
+# Reader __init__.py
+from armodel.v2.reader.base_reader import ARXMLReader
+from armodel.v2.reader.schema_registry import SchemaRegistry
+
+__all__ = ['ARXMLReader', 'SchemaRegistry']
 ```
 
-**Rationale**: Explicit exports make the public API clear, improve IDE support, and prevent unintended exports.
+**Rationale**: Explicit exports make the public API clear, improve IDE support, and prevent unintended exports. This applies to all V2 module packages.
 
 **References**:
 - PEP 8 - Module level dunder names
@@ -88,18 +120,23 @@ __all__ = ['SwComponentType', 'PPortPrototype']
 
 **Maturity**: accept
 
-**Description**: All V2 imports MUST use `armodel.v2.models` as the base module path.
+**Scope**: All V2 imports
+
+**Description**: All V2 imports MUST use `armodel.v2` as the base module path with appropriate sub-module (models, reader, writer, utils).
 
 **Example:**
 ```python
-# CORRECT
+# CORRECT - Use appropriate V2 sub-module paths
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate import SwComponentType
+from armodel.v2.reader.base_reader import ARXMLReader
+from armodel.v2.writer.base_writer import ARXMLWriter
+from armodel.v2.utils.errors import ReadError
 
-# WRONG
+# WRONG - Don't mix V1 and V2 paths
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate import SwComponentType
 ```
 
-**Rationale**: Clear separation between V1 and V2 modules prevents confusion and ensures V2 purity.
+**Rationale**: Clear separation between V1 and V2 modules prevents confusion and ensures V2 purity. Using correct sub-module paths (models, reader, writer, utils) makes dependencies explicit.
 
 **References**:
 - Design Document: `docs/plans/2025-02-05-models-v2-design.md`
@@ -110,22 +147,24 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate import SwComponentTy
 
 **Maturity**: accept
 
-**Description**: V2 models MUST use string literals for type hints involving circular dependencies.
+**Scope**: All V2 modules
+
+**Description**: All V2 modules MUST use string literals for type hints involving circular dependencies.
 
 **Example:**
 ```python
-# CORRECT
+# CORRECT - String annotations
 def getPorts(self) -> List["PPortPrototype"]:
     from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
     return self.ports
 
-# WRONG
+# WRONG - Direct import causes circular dependency
 from .components import PPortPrototype
 def getPorts(self) -> List[PPortPrototype]:
     return self.ports
 ```
 
-**Rationale**: String annotations don't evaluate at import time, breaking circular dependencies while maintaining type hints.
+**Rationale**: String annotations don't evaluate at import time, breaking circular dependencies while maintaining type hints. This applies to models, reader, writer, and all V2 code.
 
 **References**:
 - PEP 484 - Forward References
@@ -137,7 +176,9 @@ def getPorts(self) -> List[PPortPrototype]:
 
 **Maturity**: accept
 
-**Description**: V2 models MUST NOT have circular imports at runtime. Use string annotations and lazy imports to prevent circular dependency evaluation.
+**Scope**: All V2 modules
+
+**Description**: All V2 modules MUST NOT have circular imports at runtime. Use string annotations and lazy imports to prevent circular dependency evaluation.
 
 **Example:**
 ```python
@@ -200,32 +241,7 @@ tests/test_armodel/models_v2/
 
 ---
 
-## CODING_RULE_V2_00008: V2 Backward Compatibility
-
-**Maturity**: accept
-
-**Description**: V2 models MUST maintain backward compatibility with V1 API. No breaking changes to public API.
-
-**Example:**
-```python
-# V2 must support all V1 public methods
-from armodel.v2.models import SwComponentType
-
-# These V1 methods must work in V2
-component = SwComponentType()
-component.createPPortPrototype("Port1")
-component.getShortName()
-component.setShortName("NewName")
-```
-
-**Rationale**: Maintaining V1 API compatibility allows users to migrate to V2 without code changes.
-
-**References**:
-- Design Document: `docs/plans/2025-02-05-models-v2-design.md`
-
----
-
-## CODING_RULE_V2_00009: V2 Module Initialization
+## CODING_RULE_V2_00008: V2 Module Initialization
 
 **Maturity**: accept
 
@@ -388,15 +404,176 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import
 
 ---
 
+## CODING_RULE_V2_00014: V2 Model Extensibility
+
+**Maturity**: accept
+
+**Description**: V2 base model classes MUST be designed for extensibility. All core V2 models (ARObject, Identifiable, AUTOSAR, ARPackage) MUST support extension by other V2 modules without requiring modification to base classes.
+
+**Example:**
+```python
+# CORRECT - Extensible base class design
+class ARObject(ABC):
+    """Base class for all AUTOSAR objects - extensible for V2 modules."""
+
+    @abstractmethod
+    def _validate_abstract(self) -> None:
+        """Validate that this is a concrete class."""
+        pass
+
+    def __init__(self) -> None:
+        if type(self) is ARObject:
+            raise TypeError("ARObject is an abstract class.")
+        self._validate_abstract()
+        self.parent: Optional["ARObject"] = None
+        self.uuid: Optional[str] = None
+        # Extensible attributes dict for custom properties
+        self._extended_attributes: Dict[str, Any] = {}
+
+    # Core methods that can be overridden
+    def getTagName(self) -> str:
+        """Get the XML tag name for this object."""
+        return self.__class__.__name__
+
+    def getExtendedAttribute(self, key: str) -> Any:
+        """Get extended attribute for custom V2 module properties."""
+        return self._extended_attributes.get(key)
+
+    def setExtendedAttribute(self, key: str, value: Any) -> None:
+        """Set extended attribute for custom V2 module properties."""
+        self._extended_attributes[key] = value
+
+# CORRECT - V2 module can extend without modifying base
+class SwComponentType(Identifiable):
+    """Extended for SW component template - no base class changes needed."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        # Module-specific attributes
+        self.adminData: Optional[AdminData] = None
+        self.behaviorRef: Optional[InternalBehavior] = None
+```
+
+**Requirements:**
+
+1. **Base Classes Must Provide Extension Points**:
+   - Protected attributes with `_` prefix for derived classes
+   - Template method pattern for customizable behavior
+   - Hooks for pre/post processing
+   - Extended attributes dictionary for custom properties
+
+2. **V2 Modules MUST Not Modify Base Classes**:
+   - Use inheritance to extend functionality
+   - Use composition for optional features
+   - Use mixins for cross-cutting concerns
+   - Never modify `armodel/v2/models/ar_object.py` or `models.py` directly
+
+3. **Follow Open/Closed Principle**:
+   - Open for extension through inheritance
+   - Closed for modification in base classes
+   - Use abstract methods to define extension points
+
+4. **Use Modern Python Patterns**:
+   - Prefer composition over inheritance
+   - Use dataclasses for simple data containers
+   - Use type hints for better IDE support
+   - Follow PEP 8 naming conventions
+
+**Rationale**: Extensible design allows other V2 modules (reader, writer, etc.) to enhance functionality without modifying core models, following SOLID principles and making the codebase more maintainable.
+
+**References**:
+- SOLID Principles - Open/Closed Principle
+- Design Patterns - Template Method Pattern
+- Design Document: `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md`
+
+---
+
+## CODING_RULE_V2_00015: V2 Module Integration Contract
+
+**Maturity**: accept
+
+**Description**: All V2 modules (reader, writer, etc.) MUST adhere to the V2 Model Integration Contract when working with V2 models.
+
+**Contract Requirements:**
+
+1. **Reader Module Contract**:
+```python
+# Readers MUST work with any ARObject subclass
+class ARXMLReader:
+    def load(self, file_path: str, document: AUTOSAR) -> None:
+        """Load ARXML into AUTOSAR document.
+
+        Contract:
+        - MUST handle all ARObject subclasses
+        - MUST preserve parent-child relationships
+        - MUST not require model modifications
+        - MUST use public API only (no private attribute access)
+        """
+```
+
+2. **Writer Module Contract**:
+```python
+# Writers MUST serialize any ARObject subclass
+class ARXMLWriter:
+    def save(self, file_path: str, document: AUTOSAR) -> None:
+        """Save AUTOSAR document to ARXML file.
+
+        Contract:
+        - MUST handle all ARObject subclasses
+        - MUST use getTagName() for XML element names
+        - MUST not require model modifications
+        - MUST use public API only
+        """
+```
+
+3. **Model Extension Contract**:
+```python
+# V2 modules extending models MUST:
+# - Call super().__init__() to preserve base initialization
+# - Override getTagName() for custom XML tags
+# - Implement _validate_abstract() for concrete classes
+# - Use extended_attributes for custom properties
+class CustomV2Model(Identifiable):
+    def __init__(self) -> None:
+        super().__init__()  # MUST call super
+        # Module-specific initialization
+```
+
+**Validation:**
+```python
+# Test that module respects contract
+def test_v2_module_contract():
+    """Verify V2 module doesn't require model modifications."""
+    from armodel.v2.models import AUTOSAR, ARObject
+
+    # Module must work with base classes
+    autosar = AUTOSAR.getInstance()
+    reader = ARXMLReader()
+    writer = ARXMLWriter()
+
+    # Must not require modifications to base classes
+    assert hasattr(ARObject, "getTagName")
+    assert hasattr(ARObject, "getExtendedAttribute")
+    assert hasattr(ARObject, "setExtendedAttribute")
+```
+
+**Rationale**: Clear integration contracts ensure V2 modules can work together without tight coupling, making the codebase more modular and maintainable.
+
+**References**:
+- Design Patterns - Contract Pattern
+- Design Document: `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md`
+
+---
+
 ## Enforcement
 
 V2 coding rules are enforced through:
 
-1. **Code review** - All PRs must be reviewed for V2 compliance
-2. **Linting** - `ruff check src/armodel/v2/models/` for style violations
-3. **Type checking** - `mypy src/armodel/v2/models/` for type correctness
-4. **Testing** - `pytest tests/test_armodel/models_v2/ -v` for V2-specific tests
-5. **Circular import detection** - `pytest tests/test_armodel/models_v2/test_imports.py::TestV2Imports::test_no_circular_imports`
+1. **Code review** - All PRs must be reviewed for V2 compliance across all modules
+2. **Linting** - `ruff check src/armodel/v2/` for style violations (all V2 modules)
+3. **Type checking** - `mypy src/armodel/v2/` for type correctness (all V2 modules)
+4. **Testing** - `pytest tests/test_armodel/v2/ -v` for V2-specific tests
+5. **Circular import detection** - `pytest tests/test_armodel/v2/ -k circular` for import validation
 
 ### Running V2 CI Checks
 
@@ -404,10 +581,29 @@ V2 coding rules are enforced through:
 # Install dev dependencies
 pip install pytest pytest-cov ruff mypy
 
-# Run all checks
-ruff check src/armodel/v2/models/
-mypy src/armodel/v2/models/
-pytest tests/test_armodel/models_v2/ -v --cov=src/armodel/v2/models --cov-report=term
+# Run all checks for all V2 modules
+ruff check src/armodel/v2/
+mypy src/armodel/v2/
+pytest tests/test_armodel/v2/ -v --cov=src/armodel/v2 --cov-report=term
+```
+
+### Module-Specific Validation
+
+```bash
+# Models validation
+pytest tests/test_armodel/v2/models/ -v
+
+# Reader validation
+pytest tests/test_armodel/v2/reader/ -v
+
+# Writer validation
+pytest tests/test_armodel/v2/writer/ -v
+
+# Integration tests
+pytest tests/test_armodel/v2/integration/ -v
+
+# Extensibility tests
+pytest tests/test_armodel/v2/test_model_extensibility.py -v
 ```
 
 ### V2 Validation Scripts
@@ -421,8 +617,29 @@ python scripts/check_v2_coding_rules.py
 # Auto-fix V2 coding rule violations
 python scripts/fix_v2_coding_rules.py
 
-# Validate V2 model structure
+# Validate V2 structure
 python scripts/validate_v2.py
+```
+
+---
+
+## V2 Module Structure
+
+```
+src/armodel/v2/
+├── models/           # AUTOSAR M2 model classes
+│   ├── ar_object.py  # Base ARObject class
+│   ├── models.py     # Core models (AUTOSAR, ARPackage, Identifiable)
+│   └── M2/           # AUTOSAR M2 schema structure
+├── reader/           # ARXML deserialization
+│   ├── base_reader.py
+│   ├── schema_registry.py
+│   └── element_handler.py
+├── writer/           # ARXML serialization
+│   └── base_writer.py
+└── utils/            # Shared utilities
+    ├── errors.py
+    └── context.py
 ```
 
 ---
@@ -436,12 +653,13 @@ This document references these industry-standard style guides:
 - [PEP 563 - Postponed Evaluation of Annotations](https://peps.python.org/pep-0563/) - Forward reference evaluation
 - [PEP 396 - Module Version Numbers](https://peps.python.org/pep-0396/) - Version information
 - [PEP 257 - Docstring Conventions](https://peps.python.org/pep-0257/) - Docstring formatting
-- Design Document: `docs/plans/2025-02-05-models-v2-design.md`
+- Design Document: `docs/plans/2026-02-07-v2-arxml-reader-writer-design.md`
 
 ---
 
 ## Related Documentation
 
 - [General Coding Rules](coding_rules.md) - Project-wide coding standards
-- [AGENTS.md](../../AGENTS.md) - Agent guidelines and V2 model overview
-- [V2 Migration Guide](../../AGENTS.md#v2-migration-guide) - Migrating from V1 to V2
+- [AGENTS.md](../../AGENTS.md) - Agent guidelines and V2 overview
+- [CLAUDE.md](../../CLAUDE.md) - Project guidance for Claude Code
+- [V2 Reader/Writer Design](../../plans/2026-02-07-v2-arxml-reader-writer-design.md) - V2 architecture design

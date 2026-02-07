@@ -10,9 +10,8 @@ Classes:
     TimingConstraint: Abstract base class for all timing constraints
 """
 
-from typing import Union
-
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
     Traceable,
