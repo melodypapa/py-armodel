@@ -31,7 +31,7 @@ class Field(AutosarDataPrototype):
         # This attribute controls whether write access is foreseen to.
         self.hasSetter: Optional[Boolean] = None
 
-    def getHasGetter(self) -> Boolean:
+    def getHasGetter(self) -> Optional[Boolean]:
         return self.hasGetter
 
 
@@ -40,7 +40,7 @@ class Field(AutosarDataPrototype):
         return self
 
 
-    def getHasNotifier(self) -> Boolean:
+    def getHasNotifier(self) -> Optional[Boolean]:
         return self.hasNotifier
 
 
@@ -49,7 +49,7 @@ class Field(AutosarDataPrototype):
         return self
 
 
-    def getHasSetter(self) -> Boolean:
+    def getHasSetter(self) -> Optional[Boolean]:
         return self.hasSetter
 
 
