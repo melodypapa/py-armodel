@@ -35,18 +35,18 @@ class Paginateable(DocumentViewSelectable, ABC):
         self.chapterBreak: Union[ChapterEnumBreak, None] = None
         self.keepWithPrevious: Union[KeepWithPreviousEnum, None] = None
 
-    def getBreak(self):
+    def getBreak(self) -> Union[ChapterEnumBreak, None]:
         return self.chapterBreak
 
-    def setBreak(self, value) -> "Paginateable":
+    def setBreak(self, value: ChapterEnumBreak) -> "Paginateable":
         if value is not None:
             self.chapterBreak = value
         return self
 
-    def getKeepWithPrevious(self):
+    def getKeepWithPrevious(self) -> Union[KeepWithPreviousEnum, None]:
         return self.keepWithPrevious
 
-    def setKeepWithPrevious(self, value) -> "Paginateable":
+    def setKeepWithPrevious(self, value: KeepWithPreviousEnum) -> "Paginateable":
         if value is not None:
             self.keepWithPrevious = value
         return self

@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -23,17 +24,17 @@ class LanguageSpecific(ARObject, ABC):
         self.l = None
         self.value = ""
 
-    def getL(self):
+    def getL(self) -> Union[str, None]:
         return self.l
 
-    def setL(self, value) -> "LanguageSpecific":
+    def setL(self, value: str) -> "LanguageSpecific":
         self.l = value
         return self
 
-    def getValue(self):
+    def getValue(self) -> str:
         return self.value
 
-    def setValue(self, value) -> "LanguageSpecific":
+    def setValue(self, value: str) -> "LanguageSpecific":
         self.value = value
         return self
 
