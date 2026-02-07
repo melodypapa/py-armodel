@@ -4,7 +4,7 @@ in the GenericStructure module.
 """
 
 from datetime import datetime
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -15,9 +15,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
     RevisionLabelString,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
 )
 
 
@@ -130,7 +127,7 @@ class LifeCycleInfo(ARObject):
         self.lcStateRef: Optional[RefType] = None
         self.periodBegin: Optional[LifeCyclePeriod] = None
         self.periodEnd: Optional[LifeCyclePeriod] = None
-        self.remark: Optional[DocumentationBlock] = None
+        self.remark: Optional["DocumentationBlock"] = None
         self.useInsteadRefs: List[RefType] = []
 
     def getLcObjectRef(self) -> Optional[RefType]:
@@ -229,16 +226,16 @@ class LifeCycleInfo(ARObject):
             self.periodEnd = value
         return self
 
-    def getRemark(self) -> Optional[DocumentationBlock]:
+    def getRemark(self) -> Optional["DocumentationBlock"]:
         """
         Gets the remark documentation for this life cycle information.
 
         Returns:
-            DocumentationBlock instance, or None if not set
+            "DocumentationBlock" instance, or None if not set
         """
         return self.remark
 
-    def setRemark(self, value: DocumentationBlock):
+    def setRemark(self, value: "DocumentationBlock"):
         """
         Sets the remark documentation for this life cycle information.
         Only sets the value if it is not None.

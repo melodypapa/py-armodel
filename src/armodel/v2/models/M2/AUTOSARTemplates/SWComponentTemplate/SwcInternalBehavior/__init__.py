@@ -130,13 +130,13 @@ class SwcInternalBehavior(InternalBehavior):
     def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
         return self.perInstanceParameters
 
-    def addPortAPIOption(self, option: PortAPIOption):
+    def addPortAPIOption(self, option: PortAPIOption) -> None:
         self.portAPIOptions.append(option)
 
     def getPortAPIOptions(self) -> List[PortAPIOption]:
         return self.portAPIOptions
 
-    def addIncludedDataTypeSet(self, set: IncludedDataTypeSet):
+    def addIncludedDataTypeSet(self, set: IncludedDataTypeSet) -> None:
         self.includedDataTypeSets.append(set)
 
     def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:

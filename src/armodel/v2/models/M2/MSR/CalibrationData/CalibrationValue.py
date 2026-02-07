@@ -5,7 +5,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARNumerical,
+    RefType,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
+from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 
 
 class SwValues(ARObject):
@@ -20,7 +23,7 @@ class SwValues(ARObject):
         self._v = []                    # type: List[ARNumerical]
         self.vt: Union[float, None] = None
 
-    def addV(self, v: ARNumerical):
+    def addV(self, v: ARNumerical) -> None:
         self._v.append(v)
 
     def getVs(self) -> List[ARNumerical]:

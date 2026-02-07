@@ -28,17 +28,17 @@ class McGroup(ARObject):
         self.groupName: Union[str, None] = None
         self.groupId: Union[str, None] = None
 
-    def getGroupName(self):
+    def getGroupName(self) -> Union[str, None]:
         return self.groupName
 
-    def setGroupName(self, value):
+    def setGroupName(self, value: Union[str, None]) -> "McGroup":
         self.groupName = value
         return self
 
-    def getGroupId(self):
+    def getGroupId(self) -> Union[str, None]:
         return self.groupId
 
-    def setGroupId(self, value):
+    def setGroupId(self, value: Union[str, None]) -> "McGroup":
         self.groupId = value
         return self
 
@@ -60,8 +60,8 @@ class McGroupDataRefSet(ARObject):
         super().__init__()
         self.dataRefs = []
 
-    def addDataRef(self, ref):
+    def addDataRef(self, ref: str) -> None:
         self.dataRefs.append(ref)
 
-    def getDataRefs(self):
+    def getDataRefs(self) -> list:
         return self.dataRefs

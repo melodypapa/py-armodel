@@ -9,14 +9,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ArgumentDirectionEnum,
-    ValueList,
-)
 from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
+    ValueList,
 )
+
 
 class SwServiceArg(Identifiable):
     def __init__(self, parent: ARObject, short_name: str) -> None:

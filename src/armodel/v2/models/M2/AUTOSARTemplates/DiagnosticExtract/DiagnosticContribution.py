@@ -6,7 +6,6 @@ in the DiagnosticExtract module.
 from typing import (
     List,
     Optional,
-    Union,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (

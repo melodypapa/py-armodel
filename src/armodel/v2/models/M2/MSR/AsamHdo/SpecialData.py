@@ -107,7 +107,7 @@ class Sdg(ARObject):
     def getSdgContentsTypes(self) -> List['Sdg']:
         return self.sdgContentsTypes
 
-    def addSdgContentsType(self, sdg: 'Sdg'):
+    def addSdgContentsType(self, sdg: 'Sdg') -> None:
         self.sdgContentsTypes.append(sdg)
 
     def getSdxRefs(self) -> List[RefType]:

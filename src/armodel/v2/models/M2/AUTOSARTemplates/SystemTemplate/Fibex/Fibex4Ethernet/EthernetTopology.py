@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List, Union
+from typing import Any, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -9,6 +9,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Referrable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
     Boolean,
     Integer,
     MacAddressString,
@@ -52,7 +53,7 @@ class EthernetCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.couplingPorts = []                                             # type: List[CouplingPortConnection]
+        self.couplingPorts = []                                             # type: List[Any]
         self.couplingPortStartupActiveTime: Union[TimeValue, None] = None
         self.couplingPortSwitchoffDelay: Union[TimeValue, None] = None
         self.macMulticastGroups = []                                        # type: List[MacMulticastGroup]
@@ -116,8 +117,8 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
         self.assignedTrafficClasses = []                            # type: List[PositiveInteger]
         self.minimumFifoLength: Union[PositiveInteger, None] = None
-        self.shaper: Union[CouplingPortAbstractShaper, None] = None
-        self.trafficClassPreemptionSupport: Union[EthernetCouplingPortPreemptionEnum, None] = None
+        self.shaper: Union[Any, None] = None
+        self.trafficClassPreemptionSupport: Union[Any, None] = None
 
     def getAssignedTrafficClasses(self):
         return self.assignedTrafficClasses
@@ -161,7 +162,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.portScheduler: Union[EthernetCouplingPortSchedulerEnum, None] = None
+        self.portScheduler: Union[Any, None] = None
         self.predecessorRefs = []                                   # type: List[RefType]
 
     def getPortScheduler(self):
@@ -227,12 +228,12 @@ class CouplingPortDetails(ARObject):
         self.couplingPortStructuralElements = []                    # type: List[CouplingPortStructuralElement]
         self.defaultTrafficClass: Union[PositiveInteger, None] = None
         self.ethernetPriorityRegenerations = []                     # type: List[EthernetPriorityRegeneration]
-        self.ethernetTrafficClassAssignments = []                   # type: List[CouplingPortTrafficClassAssignment]
+        self.ethernetTrafficClassAssignments = []                   # type: List[Any]
         self.framePreemptionSupport: Union[Boolean, None] = None
-        self.globalTimeProps: Union[GlobalTimeCouplingPortProps, None] = None
+        self.globalTimeProps: Union[Any, None] = None
         self.lastEgressSchedulerRef: Union[RefType, None] = None
-        self.ratePolicies = []                                      # type: List[CouplingPortRatePolicy]
-        self.vlanTranslationTables = []                             # type: List[EthernetVlanTranslationTable]
+        self.ratePolicies = []                                      # type: List[Any]
+        self.vlanTranslationTables = []                             # type: List[Any]
 
     def getCouplingPortStructuralElements(self):
         return self.couplingPortStructuralElements
@@ -332,8 +333,8 @@ class VlanMembership(ARObject):
         super().__init__()
 
         self.defaultPriority: Union[PositiveInteger, None] = None
-        self.dhcpAddressAssignment: Union[DhcpServerConfiguration, None] = None
-        self.sendActivity: Union[EthernetSwitchVlanEgressTaggingEnum, None] = None
+        self.dhcpAddressAssignment: Union[Any, None] = None
+        self.sendActivity: Union[Any, None] = None
         self.vlanRef: Union[RefType, None] = None
 
     def getDefaultPriority(self):
@@ -378,18 +379,18 @@ class CouplingPort(Identifiable):
     def __init__(self, parent, short_name) -> None:
         super().__init__(parent, short_name)
 
-        self.connectionNegotiationBehavior: Union[EthernetConnectionNegotiationEnum, None] = None
+        self.connectionNegotiationBehavior: Union[Any, None] = None
         self.couplingPortDetails: Union[CouplingPortDetails, None] = None
-        self.couplingPortRole: Union[CouplingPortRoleEnum, None] = None
+        self.couplingPortRole: Union[Any, None] = None
         self.defaultVlanRef: Union[RefType, None] = None
-        self.macAddressVlanAssignments = []                         # type: List[MacAddressVlanMembership]
-        self.macLayerType: Union[EthernetMacLayerTypeEnum, None] = None
+        self.macAddressVlanAssignments = []                         # type: List[Any]
+        self.macLayerType: Union[Any, None] = None
         self.macMulticastAddressRefs = []                           # type: List[RefType]
-        self.macSecProps = []                                       # type: List[MacSecProps]
-        self.physicalLayerType: Union[EthernetPhysicalLayerTypeEnum, None] = None
-        self.plcaProps: Union[PlcaProps, None] = None
+        self.macSecProps = []                                       # type: List[Any]
+        self.physicalLayerType: Union[Any, None] = None
+        self.plcaProps: Union[Any, None] = None
         self.pncMappingRefs = []                                    # type: List[RefType]
-        self.receiveActivity: Union[EthernetSwitchVlanIngressTagEnum, None] = None
+        self.receiveActivity: Union[Any, None] = None
         self.vlanMemberships = []                                   # type: List[VlanMembership]
         self.wakeupSleepOnDatalineConfigRef: Union[RefType, None] = None
 
@@ -517,7 +518,7 @@ class EthernetCommunicationController(CommunicationController):
 
         self.canXlConfigRef: Union[RefType, None] = None
         self.couplingPorts = []                             # type: List[CouplingPort]
-        self.macLayerType: Union[EthernetMacLayerTypeEnum, None] = None
+        self.macLayerType: Union[Any, None] = None
         self.macUnicastAddress: Union[MacAddressString, None] = None
         self.maximumReceiveBufferLength: Union[Integer, None] = None
         self.maximumTransmitBufferLength: Union[Integer, None] = None
@@ -744,7 +745,7 @@ class SdClientConfig(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.capabilityRecord: Union[TagWithOptionalValue, None] = None
+        self.capabilityRecord: Union[Any, None] = None
         self.clientServiceMajorVersion: Union[PositiveInteger, None] = None
         self.clientServiceMinorVersion: Union[PositiveInteger, None] = None
         self.initialFindBehavior: Union[InitialSdDelayConfig, None] = None

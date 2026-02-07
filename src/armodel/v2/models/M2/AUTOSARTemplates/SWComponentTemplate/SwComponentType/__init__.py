@@ -3,7 +3,7 @@ This module contains the SwComponentType base class for AUTOSAR software compone
 """
 
 from abc import ABC
-from typing import List, Any
+from typing import Any, List
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpType,
@@ -91,3 +91,6 @@ class SwComponentType(AtpType, ABC):
         self.addElement(port_group)
         self.portGroups.append(port_group)
         return port_group
+
+
+__all__ = ["SwComponentType"]

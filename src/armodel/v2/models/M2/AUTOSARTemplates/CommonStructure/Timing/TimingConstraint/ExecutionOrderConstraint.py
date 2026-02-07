@@ -51,7 +51,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
 
         self.successor_refs: List[RefType] = []
 
-    def addSuccessorRef(self, ref: RefType):
+    def addSuccessorRef(self, ref: RefType) -> None:
         """
         Adds a reference to a successor executable entity.
 

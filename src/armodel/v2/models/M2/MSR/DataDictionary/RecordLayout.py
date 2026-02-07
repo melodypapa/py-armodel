@@ -9,12 +9,30 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
-    RefType,
     Integer,
+    RefType,
 )
-from armodel.v2.models.M2.MSR.Documentation import (
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguageOverviewParagraph,
 )
+
+
+class AxisIndexType(ARLiteral):
+    """
+    Primitive type for axis index in curve/map data objects.
+
+    The index satisfies the following convention:
+    • 0 output "axis"
+    • 1 input axis 1 (X input axis e.g. of a CURVE)
+    • 2 input axis 2 (Y input axis e.g. of a MAP)
+    • 3 input axis 3 (Z input axis e.g. of a CUBOID)
+    • 4 input axis 3 (Z4 input axis e.g. of a CUBE_4)
+    • 5 input axis 3 (Z5 input axis e.g. of a CUBE_5)
+    • 6..9 etc.
+
+    Values can be numeric [0-9]+, STRING, or ARRAY.
+    """
+    pass
 
 
 class SwRecordLayoutV(ARObject):

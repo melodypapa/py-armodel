@@ -76,7 +76,7 @@ class DataConstr(AtpBlueprintable):
 
         self.data_constr_rule: List[DataConstrRule] = []
 
-    def addDataConstrRule(self, rule: DataConstrRule):
+    def addDataConstrRule(self, rule: DataConstrRule) -> None:
         self.data_constr_rule.append(rule)
 
     def getDataConstrRules(self) -> List[DataConstrRule]:

@@ -232,7 +232,7 @@ class CanNmNode(NmNode):
     def getNmRangeConfig(self) -> RxIdentifierRange:
         return self.nmRangeConfig
 
-    def setNmRangeConfig(self, value: RxIdentifierRange):
+    def setNmRangeConfig(self, value: RxIdentifierRange) -> None:
         self.nmRangeConfig = value
 
 class FlexrayNmNode(NmNode):

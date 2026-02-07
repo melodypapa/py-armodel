@@ -167,7 +167,7 @@ class MemorySection(Identifiable):
         return self._alignment
 
     @alignment.setter
-    def alignment(self, value: ARLiteral):
+    def alignment(self, value: ARLiteral) -> None:
         """
         Sets the alignment value for this memory section with validation.
         Note: The validation code is commented out but kept for reference.
@@ -193,7 +193,7 @@ class MemorySection(Identifiable):
         if value is not None:
             self._alignment = value
 
-    def addOption(self, option: ARLiteral):
+    def addOption(self, option: ARLiteral) -> None:
         """
         Adds an option to the list of options for this memory section.
 

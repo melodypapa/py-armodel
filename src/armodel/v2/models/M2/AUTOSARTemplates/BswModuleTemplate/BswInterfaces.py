@@ -697,7 +697,7 @@ class BswEntryRelationshipSet(ARObject):
         super().__init__()
         self.relationships = []
 
-    def addRelationship(self, relationship):
+    def addRelationship(self, relationship) -> None:
         self.relationships.append(relationship)
 
     def getRelationships(self):

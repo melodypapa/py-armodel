@@ -4,7 +4,7 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -14,9 +14,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.v2.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultilanguageLongName,
     MultiLanguageOverviewParagraph,
@@ -44,7 +41,7 @@ class Referrable(ARObject, ABC):
         return self.short_name
 
     @shortName.setter
-    def shortName(self, value: str):
+    def shortName(self, value: str) -> None:
         self.short_name = value
 
     def getShortName(self) -> str:
@@ -139,7 +136,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.annotations: List[Annotation] = []
         self.adminData: Optional[AdminData] = None
         self.category: Optional[CategoryString] = None
-        self.introduction: Optional[DocumentationBlock] = None
+        self.introduction: Optional["DocumentationBlock"] = None
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
     def getTotalElement(self) -> int:
@@ -151,7 +148,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return len(self.elements)
 
-    def removeElement(self, short_name: str, type=None):
+    def removeElement(self, short_name: str, type=None) -> None:
         """
         Removes an element from this collection.
 
@@ -178,7 +175,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.elements
 
-    def addElement(self, element: Referrable):
+    def addElement(self, element: Referrable) -> None:
         """
         Adds an element to this collection.
 
@@ -256,7 +253,7 @@ class Identifiable(MultilanguageReferrable, ABC):
             self.adminData = value
         return self
 
-    def removeAdminData(self):
+    def removeAdminData(self) -> None:
         """
         Removes the administrative data for this identifiable element.
         """
@@ -310,7 +307,7 @@ class Identifiable(MultilanguageReferrable, ABC):
             self.category = value
         return self
 
-    def getIntroduction(self) -> Optional[DocumentationBlock]:
+    def getIntroduction(self) -> Optional["DocumentationBlock"]:
         """
         Gets the introduction documentation for this identifiable element.
 
@@ -319,7 +316,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.introduction
 
-    def setIntroduction(self, value: DocumentationBlock):
+    def setIntroduction(self, value: "DocumentationBlock"):
         """
         Sets the introduction documentation for this identifiable element.
 
@@ -468,13 +465,13 @@ class Describable(ARObject, ABC):
             self.adminData = value
         return self
 
-    def removeAdminData(self):
+    def removeAdminData(self) -> None:
         """
         Removes the administrative data for this describable element.
         """
         self.adminData = None
 
-    def getIntroduction(self) -> Optional[DocumentationBlock]:
+    def getIntroduction(self) -> Optional["DocumentationBlock"]:
         """
         Gets the introduction documentation for this describable element.
 
@@ -483,7 +480,7 @@ class Describable(ARObject, ABC):
         """
         return self.introduction
 
-    def setIntroduction(self, value: DocumentationBlock):
+    def setIntroduction(self, value: "DocumentationBlock"):
         """
         Sets the introduction documentation for this describable element.
         Only sets the value if it is not None.

@@ -4,7 +4,7 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
     AnyInstanceRef,
@@ -50,7 +50,7 @@ class CollectableElement(ARObject, ABC):
         """
         return len(self.elements)
 
-    def removeElement(self, short_name: str, type=None):
+    def removeElement(self, short_name: str, type=None) -> None:
         """
         Removes an element from this collection.
 
@@ -77,7 +77,7 @@ class CollectableElement(ARObject, ABC):
         """
         return self.elements
 
-    def addElement(self, element: Referrable):
+    def addElement(self, element: Referrable) -> None:
         """
         Adds an element to this collection.
 

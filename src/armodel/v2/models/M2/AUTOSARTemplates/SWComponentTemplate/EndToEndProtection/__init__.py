@@ -130,7 +130,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         self.senderIRef: Union[Union[VariableDataPrototypeInSystemInstanceRef, None] , None] = None
         self.shortLabel: Union[str, None] = None
 
-    def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef):
+    def addReceiverIref(self, iref: VariableDataPrototypeInSystemInstanceRef) -> None:
         self._receiverIRefs.append(iref)
 
     def getReceiverIrefs(self) -> List[VariableDataPrototypeInSystemInstanceRef]:

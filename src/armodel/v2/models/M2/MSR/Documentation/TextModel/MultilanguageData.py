@@ -1,15 +1,44 @@
-from typing import List
+"""
+This module defines multilingual data classes for AUTOSAR documentation.
+"""
+
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    String,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
     Paginateable,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LanguageSpecific,
     LLongName,
     LOverviewParagraph,
+    LPlainText,
 )
+
+
+class PgwideEnum(AREnum):
+    def __init__(self) -> None:
+        super().__init__(["0", "1"])
+
+
+class Caption(Paginateable):
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.l = []  # type: List[LLongName]
+
+    def addL(self, l: LLongName):
+        self.l.append(l)
+        return self
+
+    def getLs(self) -> List[LLongName]:
+        return self.l
 
 
 class MultiLanguageParagraph(Paginateable):
@@ -74,9 +103,70 @@ class MultiLanguagePlainText(ARObject):
 
         self.l10s = []                       # type: List[LPlainText]
 
-    def getL10s(self):
+    def getL10s(self) -> List[LPlainText]:
         return self.l10s
 
-    def addL10(self, value):
+    def addL10(self, value: LPlainText) -> "MultiLanguagePlainText":
         self.l10s.append(value)
         return self
+
+
+class L5(LanguageSpecific):
+    def __init__(self) -> None:
+        super().__init__()
+
+
+class MultiLanguageVerbatim(ARObject):
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.l5s: List[L5] = []
+        self.allowBreak: Union[bool, None] = None
+        self.float: Union[bool, None] = None
+        self.helpEntry: Union[String, None] = None
+        self.pgwide: Union[String, None] = None
+
+    def getL5s(self) -> List[L5]:
+        return self.l5s
+
+    def addL5(self, value: L5) -> "MultiLanguageVerbatim":
+        self.l5s.append(value)
+        return self
+
+    def getAllowBreak(self) -> Union[bool, None]:
+        return self.allowBreak
+
+    def setAllowBreak(self, value: bool) -> "MultiLanguageVerbatim":
+        self.allowBreak = value
+        return self
+
+    def getFloat(self) -> Union[bool, None]:
+        return self.float
+
+    def setFloat(self, value: bool) -> "MultiLanguageVerbatim":
+        self.float = value
+        return self
+
+    def getHelpEntry(self) -> Union[String, None]:
+        return self.helpEntry
+
+    def setHelpEntry(self, value: String) -> "MultiLanguageVerbatim":
+        self.helpEntry = value
+        return self
+
+    def getPgwide(self) -> Union[String, None]:
+        return self.pgwide
+
+    def setPgwide(self, value: String) -> "MultiLanguageVerbatim":
+        self.pgwide = value
+        return self
+
+
+__all__ = [
+    'MultiLanguageParagraph',
+    'MultiLanguageOverviewParagraph',
+    'MultilanguageLongName',
+    'MultiLanguagePlainText',
+    'L5',
+    'MultiLanguageVerbatim',
+]

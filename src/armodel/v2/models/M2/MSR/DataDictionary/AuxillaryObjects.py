@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintable,

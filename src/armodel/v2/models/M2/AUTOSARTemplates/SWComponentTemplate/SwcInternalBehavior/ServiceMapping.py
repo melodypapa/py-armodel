@@ -63,13 +63,13 @@ class SwcServiceDependency(ServiceDependency):
         self._assigned_data: List['RoleBasedDataAssignment'] = []
         self._assigned_ports: List['RoleBasedPortAssignment'] = []
 
-    def AddAssignedData(self, data: RoleBasedDataAssignment):
+    def AddAssignedData(self, data: RoleBasedDataAssignment) -> None:
         self._assigned_data.append(data)
 
     def getAssignedData(self) -> List[RoleBasedDataAssignment]:
         return self._assigned_data
 
-    def AddAssignedPort(self, data: RoleBasedPortAssignment):
+    def AddAssignedPort(self, data: RoleBasedPortAssignment) -> None:
         self._assigned_ports.append(data)
 
     def getAssignedPorts(self) -> List[RoleBasedPortAssignment]:

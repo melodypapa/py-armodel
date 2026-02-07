@@ -35,12 +35,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.Instan
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     SwcInternalBehavior,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
+    SwComponentType,
+)
 from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
     BulkNvDataDescriptor,
     NvBlockDescriptor,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-    SwComponentType,
 )
 
 
@@ -129,7 +129,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
         self.providedComSpecs = []                  # type: List[PPortComSpec]
 
-    def _validateRPortComSpec(self, com_spec: PPortComSpec):
+    def _validateRPortComSpec(self, com_spec: PPortComSpec) -> None:
         if isinstance(com_spec, NonqueuedSenderComSpec):
             if com_spec.dataElementRef is None:
                 raise ValueError(
@@ -142,7 +142,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
         else:
             raise ValueError("Unsupported com spec")
 
-    def addProvidedComSpec(self, com_spec):
+    def addProvidedComSpec(self, com_spec) -> None:
         self._validateRPortComSpec(com_spec)
         self.providedComSpecs.append(com_spec)
 
@@ -161,7 +161,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
         self.requiredComSpecs = []                          # type: List[RPortComSpec]
 
-    def _validateRPortComSpec(self, com_spec: RPortComSpec):
+    def _validateRPortComSpec(self, com_spec: RPortComSpec) -> None:
         if (isinstance(com_spec, ClientComSpec) and
             com_spec.getOperationRef() is not None and
             com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION"):
@@ -179,7 +179,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
         else:
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 
-    def addRequiredComSpec(self, com_spec: RPortComSpec):
+    def addRequiredComSpec(self, com_spec: RPortComSpec) -> None:
         self._validateRPortComSpec(com_spec)
         self.requiredComSpecs.append(com_spec)
 
@@ -266,13 +266,13 @@ class PortGroup(AtpStructureElement):
         self._inner_group_iref = []    # type: List[InnerPortGroupInCompositionInstanceRef]
         self._outer_port_ref = []      # type: List[RefType]
 
-    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef):
+    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef) -> None:
         self._inner_group_iref.append(iref)
 
     def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
         return self._inner_group_iref
 
-    def addOuterPortRef(self, ref: RefType):
+    def addOuterPortRef(self, ref: RefType) -> None:
         self._outer_port_ref.append(ref)
 
     def getOuterPortRefs(self) -> List[RefType]:

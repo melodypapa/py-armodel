@@ -1,5 +1,6 @@
 from abc import ABC
 
+# Import Identifiable at module level to resolve circular import
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )

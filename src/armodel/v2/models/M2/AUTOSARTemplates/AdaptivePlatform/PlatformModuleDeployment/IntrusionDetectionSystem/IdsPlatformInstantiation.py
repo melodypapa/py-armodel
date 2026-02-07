@@ -3,7 +3,6 @@ from typing import (
     Any,
     List,
     Optional,
-    Union,
 )
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (

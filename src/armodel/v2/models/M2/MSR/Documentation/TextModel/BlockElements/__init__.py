@@ -6,19 +6,34 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Figure import (
     MlFigure,
 )
+from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
+    MsrQueryP2,
+)
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (
     ARList,
+    DefItem,
+    DefList,
     Item,
+    LabeledItem,
+    LabeledList,
     ListEnum,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.Note import (
+    Note,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
     DocumentViewSelectable,
     Paginateable,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    StructuredReq,
+    TraceableText,
+)
 
 # DocumentationBlock is defined in this file below
 from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguageParagraph,
+    MultiLanguageVerbatim,
 )
 
 
@@ -134,10 +149,18 @@ class DocumentationBlock(ARObject):
 
 __all__ = [
     'ARList',
+    'DefItem',
+    'DefList',
     'DocumentViewSelectable',
     'DocumentationBlock',
     'Item',
+    'LabeledItem',
+    'LabeledList',
     'ListEnum',
     'MlFigure',
+    'MsrQueryP2',
+    'Note',
     'Paginateable',
+    'StructuredReq',
+    'TraceableText',
 ]

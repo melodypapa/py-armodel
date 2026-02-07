@@ -50,7 +50,7 @@ class TimingConstraint(Traceable, ABC):
         return self.timing_condition_ref
 
     @timingConditionRef.setter
-    def timingConditionRef(self, ref: RefType):
+    def timingConditionRef(self, ref: RefType) -> None:
         """
         Sets the timing condition reference for this constraint.
 

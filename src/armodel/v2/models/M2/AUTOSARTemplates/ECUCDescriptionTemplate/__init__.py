@@ -96,7 +96,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def getValue(self) -> DocumentationBlock:
         return self.value
 
-    def setValue(self, value: DocumentationBlock):
+    def setValue(self, value: DocumentationBlock) -> None:
         self.value = value
 
 
@@ -109,7 +109,7 @@ class EcucTextualParamValue(EcucParameterValue):
     def getValue(self) -> ARLiteral:
         return self.value
 
-    def setValue(self, value: ARLiteral):
+    def setValue(self, value: ARLiteral) -> None:
         self.value = value
 
 
@@ -122,7 +122,7 @@ class EcucNumericalParamValue(EcucParameterValue):
     def getValue(self) -> ARNumerical:
         return self.value
 
-    def setValue(self, value: ARNumerical):
+    def setValue(self, value: ARNumerical) -> None:
         self.value = value
 
 
