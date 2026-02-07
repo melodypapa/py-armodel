@@ -529,10 +529,6 @@ class ConstantSpecificationMapping(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.sourceRef: Union[Union[RefType, None] , None] = None
@@ -558,10 +554,6 @@ class ConstantSpecificationMappingSet(ARObject):
     Represents a set of constant specification mappings.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -596,10 +588,6 @@ class NumericalOrText(ARObject):
     Represents a value that can be either numerical or text.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -661,10 +649,6 @@ class RuleArguments(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.arguments = []
@@ -681,10 +665,6 @@ class RuleBasedAxisCont(ARObject):
     Represents rule-based axis content.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -703,10 +683,6 @@ class RuleBasedValueCont(ARObject):
     Represents rule-based value content.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

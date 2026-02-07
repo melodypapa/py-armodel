@@ -25,10 +25,6 @@ if TYPE_CHECKING:
 
 class LifeCyclePeriod(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     '''
         This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
         or end point, in which a specific life cycle state is valid/applies to.
@@ -120,10 +116,6 @@ class LifeCycleInfo(ARObject):
     This class defines information about the life cycle of AUTOSAR elements.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

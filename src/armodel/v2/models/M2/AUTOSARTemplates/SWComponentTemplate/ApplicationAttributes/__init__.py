@@ -8,10 +8,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class DataLimitKindEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for data limit kinds in AUTOSAR.
     """
 
@@ -26,10 +23,7 @@ class DataLimitKindEnum(AREnum):
 
 
 class FilterDebouncingEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for filter debouncing in AUTOSAR.
     """
 
@@ -46,10 +40,7 @@ class FilterDebouncingEnum(AREnum):
 
 
 class ProcessingKindEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for processing kinds in AUTOSAR.
     """
 
@@ -66,10 +57,7 @@ class ProcessingKindEnum(AREnum):
 
 
 class PulseTestEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for pulse test in AUTOSAR.
     """
 
@@ -86,10 +74,7 @@ class PulseTestEnum(AREnum):
 
 
 class SignalFanEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for signal fan in AUTOSAR.
     """
 

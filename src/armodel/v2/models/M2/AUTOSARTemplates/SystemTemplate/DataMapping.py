@@ -118,10 +118,6 @@ class SenderRecRecordElementMapping(ARObject):
     for data transformation.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -208,10 +204,6 @@ class IndexedArrayElement(ARObject):
     mapping between component interfaces and system signals.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -250,10 +242,6 @@ class SenderRecArrayElementMapping(ARObject):
     interfaces and system signals, including complex type mapping for
     nested data structures and indexed array elements.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

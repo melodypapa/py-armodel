@@ -27,10 +27,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
 
 class ModeAccessPoint(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -66,10 +62,6 @@ class ModeSwitchPoint(AbstractAccessPoint):
 
 
 class IncludedModeDeclarationGroupSet(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

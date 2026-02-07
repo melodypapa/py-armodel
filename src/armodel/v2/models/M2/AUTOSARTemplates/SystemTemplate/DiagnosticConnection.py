@@ -12,10 +12,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class DiagnosticConnection(ARElement):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a diagnostic connection in the AUTOSAR system, defining the relationship
     between diagnostic services and their communication endpoints. This class connects
     functional requests, physical requests, and responses within the diagnostic communication

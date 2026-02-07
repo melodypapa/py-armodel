@@ -12,10 +12,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class SwAddrMethod(AtpBlueprintable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self, parent: ARObject, short_name: str) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.memoryAllocationKeywordPolicy: Union[ARLiteral, None] = None

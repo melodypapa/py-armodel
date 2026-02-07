@@ -27,10 +27,6 @@ class SwcBswRunnableMapping(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the SwcBswRunnableMapping with default values.
@@ -237,10 +233,6 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the SwcBswSynchronizedModeGroupPrototype with default values.
@@ -277,10 +269,6 @@ class SwcBswSynchronizedTrigger(ARObject):
     Defines a synchronized trigger for SWC-BSW mapping.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

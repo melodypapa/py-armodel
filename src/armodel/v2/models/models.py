@@ -36,10 +36,6 @@ class AUTOSAR(ARObject):
     # Class variable for singleton instance
     _instance: Optional["AUTOSAR"] = None
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initialize AUTOSAR singleton.
@@ -94,10 +90,6 @@ class Identifiable(ARObject):
     - Can be extended by subclasses for module-specific attributes
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """Initialize Identifiable with short name and extensible attributes."""
         super().__init__()
@@ -145,10 +137,6 @@ class ARPackage(Identifiable):
     - _extended_attributes: Custom properties for V2 modules
     - Can be extended for package-specific metadata
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """Initialize ARPackage with extensible structure."""

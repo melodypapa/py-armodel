@@ -21,10 +21,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class SynchronizationTypeEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for synchronization types.
     """
 
@@ -41,10 +38,7 @@ class SynchronizationTypeEnum(AREnum):
 
 
 class EventOccurrenceKindEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Enumeration for event occurrence kinds.
     """
 
@@ -61,10 +55,7 @@ class EventOccurrenceKindEnum(AREnum):
 
 
 class SynchronizationTimingConstraint(TimingConstraint):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Specifies synchronization timing requirements in AUTOSAR timing specifications.
     This constraint defines timing requirements for synchronization between
     AUTOSAR elements.

@@ -39,10 +39,6 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.memAlignment: Union[Union[ARNumerical, None] , None] = None
         self.nativeDeclaration: Union[str, None] = None
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def getBaseTypeEncoding(self):
         return self.baseTypeEncoding
 

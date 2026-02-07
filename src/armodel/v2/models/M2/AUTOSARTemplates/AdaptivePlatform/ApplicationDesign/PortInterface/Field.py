@@ -12,10 +12,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataProt
 
 
 class Field(AutosarDataPrototype):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     This meta-class represents the ability to define a piece of data that can be
     accessed with read and/or write semantics. It is also possible to generate a
     notification if the value of the data changes.

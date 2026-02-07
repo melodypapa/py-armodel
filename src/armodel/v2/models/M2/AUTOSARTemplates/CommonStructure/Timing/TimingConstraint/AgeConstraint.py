@@ -19,10 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class AgeConstraint(TimingConstraint):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Specifies the maximum allowed age of data in AUTOSAR timing specifications.
     This constraint ensures that data is consumed within a specified time
     window after its creation, maintaining data freshness.

@@ -20,10 +20,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class BswImplementation(Implementation):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a Basic Software (BSW) implementation in AUTOSAR.
     This class defines the implementation details of a BSW module, including version information,
     behavior references, configuration options, and vendor-specific definitions.

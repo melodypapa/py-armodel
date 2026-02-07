@@ -17,10 +17,6 @@ class ARObject(ABC):
     """
 
     @abstractmethod
-    def _validate_abstract(self) -> None:
-        """Abstract method to enforce abstract base class pattern."""
-        pass
-
     def __init__(self) -> None:
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")

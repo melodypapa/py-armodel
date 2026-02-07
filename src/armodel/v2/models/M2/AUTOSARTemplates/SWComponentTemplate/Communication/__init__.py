@@ -84,10 +84,6 @@ class RPortComSpec(ARObject, ABC):
 
 class CompositeNetworkRepresentation(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -110,10 +106,6 @@ class CompositeNetworkRepresentation(ARObject):
 
 
 class TransmissionAcknowledgementRequest(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -368,10 +360,6 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
 
 class ModeSwitchedAckRequest(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

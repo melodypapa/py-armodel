@@ -14,10 +14,6 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 
 
 class ListEnum(AREnum):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
     NUMBER = 'number'
     UNNUMBER = 'unnumber'
 
@@ -29,10 +25,6 @@ class ListEnum(AREnum):
 
 
 class Item(Paginateable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -48,10 +40,7 @@ class Item(Paginateable):
 
 
 class ARList(Paginateable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    '''
+    '''
         This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
         In AUTOSAR standard class name shall be List, but it is conflict with Python List and renamed to ARList
     '''
@@ -77,10 +66,7 @@ class ARList(Paginateable):
 
 
 class DefItem(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
         self.term: Union[String, None] = None
@@ -102,10 +88,7 @@ class DefItem(ARObject):
 
 
 class DefList(Paginateable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
         self.defItems: List[DefItem] = []
@@ -119,10 +102,7 @@ class DefList(Paginateable):
 
 
 class LabeledItem(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
         self.label: Union[String, None] = None
@@ -144,10 +124,7 @@ class LabeledItem(ARObject):
 
 
 class LabeledList(Paginateable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
         self.indentSample: Union[String, None] = None

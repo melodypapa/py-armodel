@@ -37,10 +37,6 @@ class ARType(ABC):
     """
 
     @abstractmethod
-    def _validate_abstract(self) -> None:
-        """Abstract method to enforce abstract base class pattern."""
-        pass
-
     def __init__(self) -> None:
         self._validate_abstract()
         self.timestamp: Optional[str] = None
@@ -907,10 +903,6 @@ class CategoryString(ARLiteral):
         '''
     def __init__(self) -> None:
         super().__init__()
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
 
 class ByteOrderEnum(AREnum):

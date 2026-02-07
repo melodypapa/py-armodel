@@ -41,10 +41,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
 
 
 class ComManagementMapping(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents communication management mapping in the system,
     defining how communication management groups and port groups
     are mapped to physical communication channels.
@@ -82,10 +79,7 @@ class ComManagementMapping(Identifiable):
 
 
 class SystemMapping(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents system mapping in the AUTOSAR system, organizing
     various types of mappings including application partition mappings,
     ECU resource mappings, data mappings, and software component mappings
@@ -301,10 +295,7 @@ class SystemMapping(Identifiable):
 
 
 class RootSwCompositionPrototype(AtpPrototype):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents the root software composition prototype in the system,
     defining references to calibration parameter value sets, flat maps,
     and software composition templates for the top-level composition.
@@ -339,10 +330,7 @@ class RootSwCompositionPrototype(AtpPrototype):
 
 
 class J1939SharedAddressCluster(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a J1939 shared address cluster in the system,
     defining references to participating J1939 clusters for
     shared address management in J1939 communication.
@@ -362,10 +350,7 @@ class J1939SharedAddressCluster(Identifiable):
 
 
 class System(AtpStructureElement):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents the top-level system in the AUTOSAR system template,
     organizing all system-level elements including ECU extractions,
     mappings, and system configurations for complete system definition.

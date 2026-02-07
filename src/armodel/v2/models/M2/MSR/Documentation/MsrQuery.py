@@ -14,10 +14,7 @@ if TYPE_CHECKING:
 
 
 class MsrQueryProps(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
         self.queryString: Union[String, None] = None
@@ -31,10 +28,7 @@ class MsrQueryProps(ARObject):
 
 
 class MsrQueryP2(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
         self.msrQueryProps: Union[MsrQueryProps, None] = None

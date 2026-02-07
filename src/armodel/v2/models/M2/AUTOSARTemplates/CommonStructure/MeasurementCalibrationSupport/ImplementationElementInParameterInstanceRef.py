@@ -4,10 +4,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class ImplementationElementInParameterInstanceRef(RefType):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a reference to an implementation element in a parameter instance.
     Used for referencing implementation elements within parameter instances in AUTOSAR models.
     """

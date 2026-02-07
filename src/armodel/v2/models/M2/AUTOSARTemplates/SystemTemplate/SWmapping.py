@@ -18,10 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 
 
 class SwcToEcuMapping(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents the mapping between software components and ECU instances
     in the system, defining how components are assigned to specific
     ECUs including hardware element and processing unit references.
@@ -65,10 +62,7 @@ class SwcToEcuMapping(Identifiable):
 
 
 class SwcToImplMapping(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a mapping between software components and their implementations,
     defining how software component instances in the system are connected to
     their specific implementation references and instance references.
@@ -97,10 +91,7 @@ class SwcToImplMapping(Identifiable):
 
 
 class ApplicationPartitionToEcuPartitionMapping(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a mapping between application partitions and ECU partitions,
     defining how application-level partitions are mapped to ECU-level
     partitions for resource allocation and execution management.

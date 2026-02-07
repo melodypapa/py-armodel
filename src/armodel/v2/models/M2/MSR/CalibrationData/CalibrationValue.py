@@ -13,10 +13,6 @@ from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 
 class SwValues(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -31,10 +27,6 @@ class SwValues(ARObject):
 
 
 class SwValueCont(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

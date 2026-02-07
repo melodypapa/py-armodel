@@ -16,10 +16,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface imp
 
 
 class ApplicationInterface(PortInterface):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     This represents the ability to define a PortInterface that consists of a
     composition of commands (method calls), indications (events) and attributes
     (fields) Tags: atp.Status=draft atp.recommendedPackage=Interfaces

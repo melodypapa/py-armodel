@@ -154,10 +154,6 @@ class ContainedIPduProps(ARObject):
     trigger, and update indication bit position properties.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -373,10 +369,6 @@ class SecureCommunicationProps(ARObject):
     data freshness, integrity protection, and secured area specifications
     for protected communication channels.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -1060,10 +1052,6 @@ class SegmentPosition(ARObject):
     segmented communication.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -1145,10 +1133,6 @@ class DynamicPartAlternative(ARObject):
     specifying selector field codes, initial dynamic part properties,
     and Interaction Protocol Data Unit (IPDU) references.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

@@ -416,10 +416,6 @@ class ExclusiveAreaNestingOrder(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the ExclusiveAreaNestingOrder with default values.
@@ -440,10 +436,6 @@ class ExecutableEntityActivationReason(ARObject):
     Represents the reason for executable entity activation in AUTOSAR.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

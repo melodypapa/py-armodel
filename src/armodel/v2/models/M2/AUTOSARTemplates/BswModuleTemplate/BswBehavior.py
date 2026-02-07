@@ -1098,10 +1098,6 @@ class BswModeSwitchAckRequest(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the BswModeSwitchAckRequest.
@@ -1140,10 +1136,6 @@ class BswModeSenderPolicy(ARObject):
     This defines how mode changes are sent and acknowledged in BSW modules.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """
@@ -2375,10 +2367,6 @@ class BswSchedulerNamePrefix(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the BswSchedulerNamePrefix with default values.
@@ -2404,10 +2392,6 @@ class BswServiceDependency(ARObject):
     This class defines dependencies between BSW services.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """
@@ -2453,10 +2437,6 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     This class defines how BSW module entries are assigned based on their role.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

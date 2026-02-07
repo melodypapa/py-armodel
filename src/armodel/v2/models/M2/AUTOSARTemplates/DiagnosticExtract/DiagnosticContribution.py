@@ -21,10 +21,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 
 class DiagnosticServiceTable(DiagnosticCommonElement):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents a diagnostic service table in AUTOSAR diagnostic extract.
     This class defines the relationship between diagnostic connections,
     service instances, and ECU instances for specific protocols.

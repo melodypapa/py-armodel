@@ -38,10 +38,6 @@ class RoleBasedDataAssignment(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the RoleBasedDataAssignment with default values.
@@ -460,10 +456,6 @@ class RoleBasedDataTypeAssignment(ARObject):
     This class defines how implementation data types are assigned based on their role in service interactions.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """
@@ -1962,10 +1954,6 @@ class DevelopmentError(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the DevelopmentError with default values.
@@ -2685,10 +2673,6 @@ class RuntimeError(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the RuntimeError with default values.
@@ -2802,10 +2786,6 @@ class SymbolicNameProps(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the SymbolicNameProps with default values.
@@ -2845,10 +2825,6 @@ class TracedFailure(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the TracedFailure with default values.
@@ -2878,10 +2854,6 @@ class TransientFault(ARObject):
     This class defines information about transient faults for error handling.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

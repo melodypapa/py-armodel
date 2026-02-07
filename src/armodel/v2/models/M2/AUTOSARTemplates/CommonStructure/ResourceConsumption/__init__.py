@@ -37,10 +37,7 @@ __all__ = [
 
 
 class ResourceConsumption(Identifiable):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """
+    """
     Represents resource consumption information in AUTOSAR models.
     This class aggregates various types of resource consumption including memory sections,
     stack usage, heap usage, execution times, and other resource metrics.

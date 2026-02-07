@@ -37,10 +37,6 @@ class AxisIndexType(ARLiteral):
 
 class SwRecordLayoutV(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -111,10 +107,6 @@ class SwRecordLayoutV(ARObject):
 
 class SwRecordLayoutGroupContent(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -145,10 +137,6 @@ class SwRecordLayoutGroupContent(ARObject):
 
 
 class SwRecordLayoutGroup(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

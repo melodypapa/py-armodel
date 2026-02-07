@@ -114,10 +114,6 @@ class EOCEventRef(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the EOCEventRef with default values.
@@ -154,10 +150,6 @@ class EOCExecutableEntityRefGroup(ARObject):
     Defines a collection of executable entity references that can be ordered as a group.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

@@ -73,10 +73,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavi
 
 
 class SwcInternalBehavior(InternalBehavior):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    def __init__(self, parent: ARObject, short_name: str) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.arTypedPerInstanceMemories = []                        # type: List[VariableDataPrototype]
@@ -359,10 +356,7 @@ __all__ = [
 
 
 class SwcExclusiveAreaPolicy(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """Policy for SWC exclusive area management."""
+    """Policy for SWC exclusive area management."""
     def __init__(self) -> None:
         super().__init__()
         self.policy: Union[str, None] = None
@@ -377,10 +371,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
 
 class InstantiationDataDefProps(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """Instantiation-specific data definition properties."""
+    """Instantiation-specific data definition properties."""
     def __init__(self) -> None:
         super().__init__()
         self.baseTypeRef: Union[RefType, None] = None
@@ -395,10 +386,7 @@ class InstantiationDataDefProps(ARObject):
 
 
 class VariationPointProxy(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass    """Proxy for variation point handling."""
+    """Proxy for variation point handling."""
     def __init__(self) -> None:
         super().__init__()
         self.condition: Union[str, None] = None
