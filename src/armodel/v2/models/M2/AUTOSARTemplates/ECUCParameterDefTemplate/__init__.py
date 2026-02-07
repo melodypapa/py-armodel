@@ -1280,7 +1280,7 @@ class EcucAddInfoParamDef(EcucParameterDef):
 
         self.defaultValue: Union[Union[VerbatimString, None] , None] = None
 
-    def getDefaultValue(self) -> VerbatimString:
+    def getDefaultValue(self) -> Union[VerbatimString, None]:
         return self.defaultValue
 
     def setDefaultValue(self, value: VerbatimString):
@@ -1565,7 +1565,7 @@ class EcucModuleDef(EcucDefinitionElement):
             self.postBuildVariantSupport = value
         return self
 
-    def getRefinedModuleDefRef(self) -> RefType:
+    def getRefinedModuleDefRef(self) -> Union[RefType, None]:
         return self.refinedModuleDefRef
 
     def setRefinedModuleDefRef(self, value: RefType):
