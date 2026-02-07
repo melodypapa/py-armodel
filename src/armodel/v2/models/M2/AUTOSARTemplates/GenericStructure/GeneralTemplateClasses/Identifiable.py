@@ -4,7 +4,7 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -18,6 +18,11 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultilanguageLongName,
     MultiLanguageOverviewParagraph,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+        DocumentationBlock,
+    )
 
 
 class Referrable(ARObject, ABC):

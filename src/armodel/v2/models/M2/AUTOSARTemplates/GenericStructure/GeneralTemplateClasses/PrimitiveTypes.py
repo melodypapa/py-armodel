@@ -4,8 +4,8 @@ in the GenericStructure module.
 
 V2 Implementation:
 - Absolute imports only
-- No TYPE_CHECKING
 - String annotations for forward references
+- TYPE_CHECKING used for circular imports (deviates from CODING_RULE_V2_00002 due to circular dependencies)
 
 Compatible with V1 API.
 """
@@ -13,6 +13,7 @@ Compatible with V1 API.
 import re
 from abc import ABC, abstractmethod
 from typing import (
+    TYPE_CHECKING,
     Any,
     List,
     Optional,
@@ -22,6 +23,11 @@ from typing import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
+        AtpBlueprintMapping,
+    )
 
 
 class ARType(ABC):
@@ -365,23 +371,6 @@ class MonotonyEnum(AREnum):
     STRICT_DECREASE = 'STRICT_DECREASE'
     MONOTONOUS = 'MONOTONOUS'
     NOT_MONOTONOUS = 'NOT_MONOTONOUS'
-
-
-class ArgumentDirectionEnum(AREnum):
-    """
-    Represents an argument direction enum in AUTOSAR models.
-    """
-
-    def __init__(self) -> None:
-        super().__init__([
-            ArgumentDirectionEnum.IN,
-            ArgumentDirectionEnum.INOUT,
-            ArgumentDirectionEnum.OUT,
-        ])
-
-    IN = 'IN'
-    INOUT = 'INOUT'
-    OUT = 'OUT'
 
 
 class ReferrableSubtypesEnum(ARLiteral):

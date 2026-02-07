@@ -1,11 +1,22 @@
-from typing import List, Union
+from typing import TYPE_CHECKING, List, Union
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import (
+    Traceable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
+    StandardNameEnum,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+        DocumentationBlock,
+    )
 
 
 class StructuredReq(ARObject):

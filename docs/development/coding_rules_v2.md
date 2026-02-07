@@ -52,31 +52,48 @@ from ..reader import ARXMLReader
 
 ---
 
-## CODING_RULE_V2_00002: No TYPE_CHECKING Blocks
+## CODING_RULE_V2_00002: TYPE_CHECKING Blocks for Circular Imports
 
 **Maturity**: accept
 
 **Scope**: All V2 modules
 
-**Description**: All V2 modules MUST NOT use `TYPE_CHECKING` imports. Use string annotations for forward references instead.
+**Description**: V2 modules SHOULD prefer string annotations for forward references. However, `TYPE_CHECKING` blocks MAY be used when string annotations alone are insufficient to resolve circular import dependencies.
 
 **Example:**
 ```python
-# CORRECT - String annotation + lazy import
+# PREFERRED - String annotation (when no circular dependency)
 def createPort(self) -> "PPortPrototype":
     from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
     return PPortPrototype(self, short_name)
 
-# WRONG - TYPE_CHECKING block
+# ACCEPTABLE - TYPE_CHECKING block for circular imports
 from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from .components import PPortPrototype
 
-def createPort(self) -> PPortPrototype:
-    return PPortPrototype(self, short_name)
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+        DocumentationBlock,
+    )
+
+class Identifiable:
+    def __init__(self) -> None:
+        self.introduction: DocumentationBlock | None = None  # Type available due to TYPE_CHECKING
 ```
 
-**Rationale**: String annotations break circular dependencies without requiring TYPE_CHECKING blocks, making code cleaner and easier to understand. This applies to models, reader, writer, and all V2 code.
+**When to Use TYPE_CHECKING:**
+- When string annotations create ruff F821 "undefined name" errors
+- When imports form a circular dependency that cannot be resolved with string annotations alone
+- When type checkers (mypy) require the actual type to be imported for proper validation
+
+**Files Using TYPE_CHECKING for Circular Imports:**
+- `GenericStructure/GeneralTemplateClasses/Identifiable.py` - DocumentationBlock
+- `GenericStructure/LifeCycles.py` - DocumentationBlock
+- `MSR/Documentation/Annotation.py` - DocumentationBlock
+- `MSR/Documentation/MsrQuery.py` - DocumentationBlock
+- `MSR/Documentation/TextModel/BlockElements/RequirementsTracing.py` - DocumentationBlock
+- `GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py` - AtpBlueprintMapping
+
+**Rationale**: While string annotations work for most forward references, complex circular dependencies in large AUTOSAR model structures sometimes require TYPE_CHECKING blocks. This pragmatic approach balances type safety with code maintainability.
 
 **References**:
 - PEP 484 - Type Hints

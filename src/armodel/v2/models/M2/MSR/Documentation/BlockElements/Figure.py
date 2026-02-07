@@ -17,6 +17,11 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    Caption,
+    MultiLanguageVerbatim,
+    PgwideEnum,
+)
 
 
 class GraphicFitEnum(AREnum):

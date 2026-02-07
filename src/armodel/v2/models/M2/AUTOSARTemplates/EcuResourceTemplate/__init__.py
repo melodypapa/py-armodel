@@ -6,7 +6,7 @@ Hardware elements define the physical components of ECUs including pins, pin gro
 and connections between hardware elements.
 """
 
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
     HwAttributeValue,

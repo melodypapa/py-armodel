@@ -614,10 +614,6 @@ class BswModuleClientServerEntry(Referrable):
 This module defines BSW entry relationship in AUTOSAR.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-
 
 class BswEntryRelationship(ARObject):
     """
@@ -648,10 +644,6 @@ class BswEntryRelationship(ARObject):
 This module defines BSW entry relationship enum in AUTOSAR.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-)
-
 
 class BswEntryRelationshipEnum(AREnum):
     """
@@ -674,10 +666,6 @@ class BswEntryRelationshipEnum(AREnum):
 """
 This module defines BSW entry relationship set in AUTOSAR.
 """
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
 
 
 class BswEntryRelationshipSet(ARObject):

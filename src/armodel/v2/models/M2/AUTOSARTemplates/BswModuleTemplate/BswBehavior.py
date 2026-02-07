@@ -31,6 +31,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARBoolean,
     AREnum,
     ARFloat,
+    ARLiteral,
     ARNumerical,
     Boolean,
     PositiveInteger,
@@ -2265,10 +2266,6 @@ class BswInternalBehavior(InternalBehavior):
 This module defines BSW asynchronous server call returns event in AUTOSAR.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
-
 
 class BswAsynchronousServerCallReturnsEvent(BswEvent):
     """
@@ -2293,10 +2290,6 @@ class BswAsynchronousServerCallReturnsEvent(BswEvent):
 """
 This module defines BSW exclusive area policy in AUTOSAR.
 """
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-)
 
 
 class BswExclusiveAreaPolicy(AREnum):
@@ -2353,10 +2346,6 @@ class BswModeManagerErrorEvent(BswEvent):
 This module defines BSW mode receiver policy in AUTOSAR.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-)
-
 
 class BswModeReceiverPolicy(AREnum):
     """
@@ -2377,10 +2366,6 @@ class BswModeReceiverPolicy(AREnum):
 """
 This module defines BSW scheduler name prefix in AUTOSAR.
 """
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
 
 
 class BswSchedulerNamePrefix(ARObject):
@@ -2412,13 +2397,6 @@ class BswSchedulerNamePrefix(ARObject):
 This module defines BSW service dependency in AUTOSAR.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
-
 
 class BswServiceDependency(ARObject):
     """
@@ -2449,13 +2427,6 @@ class BswServiceDependency(ARObject):
 This module defines BSW trigger direct implementation in AUTOSAR.
 """
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-)
-
 
 class BswTriggerDirectImplementation(AREnum):
     """
@@ -2474,14 +2445,6 @@ class BswTriggerDirectImplementation(AREnum):
 """
 This module defines role-based BSW module entry assignment in AUTOSAR.
 """
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
-    RefType,
-)
 
 
 class RoleBasedBswModuleEntryAssignment(ARObject):

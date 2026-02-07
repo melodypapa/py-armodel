@@ -31,14 +31,14 @@ class Caption(Paginateable):
     def __init__(self) -> None:
         super().__init__()
 
-        self.l = []  # type: List[LLongName]
+        self.llong_names: List[LLongName] = []
 
-    def addL(self, l: LLongName):
-        self.l.append(l)
+    def addL(self, long_name: LLongName):
+        self.llong_names.append(long_name)
         return self
 
     def getLs(self) -> List[LLongName]:
-        return self.l
+        return self.llong_names
 
 
 class MultiLanguageParagraph(Paginateable):
