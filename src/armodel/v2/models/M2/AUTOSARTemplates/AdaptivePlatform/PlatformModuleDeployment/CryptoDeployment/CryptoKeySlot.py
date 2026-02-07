@@ -114,7 +114,7 @@ class CryptoKeySlot(Identifiable):
             self.keySlotContents.append(new_element)
         return new_element
 
-    def getSlotCapacitys(self) -> PositiveInteger:
+    def getSlotCapacitys(self) -> Optional[PositiveInteger]:
         return self.slotCapacitys
 
     def setSlotCapacitys(self, value: PositiveInteger) -> "CryptoKeySlot":

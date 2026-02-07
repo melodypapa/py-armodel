@@ -46,7 +46,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         self.communications = value
         return self
 
-    def getIpv4MulticastIps(self) -> Ip4AddressString:
+    def getIpv4MulticastIps(self) -> Optional[Ip4AddressString]:
         return self.ipv4MulticastIps
 
     def setIpv4MulticastIps(
@@ -55,7 +55,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
         self.ipv4MulticastIps = value
         return self
 
-    def getIpv6MulticastIps(self) -> Ip6AddressString:
+    def getIpv6MulticastIps(self) -> Optional[Ip6AddressString]:
         return self.ipv6MulticastIps
 
     def setIpv6MulticastIps(
