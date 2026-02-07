@@ -42,50 +42,50 @@ class Graphic(EngineeringObject):
         self.filename: Union[String, None] = None
         self.fit: Union[GraphicFitEnum, None] = None
 
-    def getEditfit(self):
+    def getEditfit(self) -> Union[GraphicFitEnum, None]:
         return self.editfit
 
-    def setEditfit(self, value):
+    def setEditfit(self, value: Union[GraphicFitEnum, None]) -> "Graphic":
         if value is not None:
             self.editfit = value
         return self
 
-    def getEditHeight(self):
+    def getEditHeight(self) -> Union[String, None]:
         return self.editHeight
 
-    def setEditHeight(self, value):
+    def setEditHeight(self, value: Union[String, None]) -> "Graphic":
         if value is not None:
             self.editHeight = value
         return self
 
-    def getEditscale(self):
+    def getEditscale(self) -> Union[String, None]:
         return self.editscale
 
-    def setEditscale(self, value):
+    def setEditscale(self, value: Union[String, None]) -> "Graphic":
         if value is not None:
             self.editscale = value
         return self
 
-    def getEditWidth(self):
+    def getEditWidth(self) -> Union[String, None]:
         return self.editWidth
 
-    def setEditWidth(self, value):
+    def setEditWidth(self, value: Union[String, None]) -> "Graphic":
         if value is not None:
             self.editWidth = value
         return self
 
-    def getFilename(self):
+    def getFilename(self) -> Union[String, None]:
         return self.filename
 
-    def setFilename(self, value):
+    def setFilename(self, value: Union[String, None]) -> "Graphic":
         if value is not None:
             self.filename = value
         return self
 
-    def getFit(self):
+    def getFit(self) -> Union[GraphicFitEnum, None]:
         return self.fit
 
-    def setFit(self, value):
+    def setFit(self, value: Union[GraphicFitEnum, None]) -> "Graphic":
         if value is not None:
             self.fit = value
         return self
@@ -105,26 +105,26 @@ class LGraphic(LanguageSpecific):
         self.graphic: Union[Graphic, None] = None
         self.map: Union[Map, None] = None
 
-    def getL(self):
+    def getL(self) -> Union[str, None]:
         return self.l
 
-    def setL(self, value):
+    def setL(self, value: Union[str, None]) -> "LGraphic":
         if value is not None:
             self.l = value                                                                          # noqa E741
         return self
 
-    def getGraphic(self):
+    def getGraphic(self) -> Union[Graphic, None]:
         return self.graphic
 
-    def setGraphic(self, value):
+    def setGraphic(self, value: Union[Graphic, None]) -> "LGraphic":
         if value is not None:
             self.graphic = value
         return self
 
-    def getMap(self):
+    def getMap(self) -> Union[Map, None]:
         return self.map
 
-    def setMap(self, value):
+    def setMap(self, value: Union[Map, None]) -> "LGraphic":
         if value is not None:
             self.map = value
         return self
@@ -136,7 +136,7 @@ class MlFigure(Paginateable):
 
         self.figureCaption: Union["Caption", None] = None
         self.helpEntry: Union[String, None] = None
-        self.lGraphics = []                                     # type: List[LGraphic]
+        self.lGraphics: List[LGraphic] = []
         self.pgwide: Union["PgwideEnum", None] = None
         self.verbatim: Union["MultiLanguageVerbatim", None] = None
 

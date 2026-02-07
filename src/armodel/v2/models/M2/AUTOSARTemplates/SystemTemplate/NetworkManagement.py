@@ -125,7 +125,7 @@ class NmNode(Identifiable, ABC):
     def getControllerRef(self) -> Union[RefType, None]:
         return self.controllerRef
 
-    def setControllerRef(self, value) -> "ChannelRef":
+    def setControllerRef(self, value) -> "NmNode":
         self.controllerRef = value
         return self
 
@@ -146,8 +146,9 @@ class NmNode(Identifiable, ABC):
     def getNmIfEcuRef(self) -> Union[RefType, None]:
         return self.nmIfEcuRef
 
-    def setNmIfEcuRef(self, value) -> "ChannelRef":
+    def setNmIfEcuRef(self, value) -> "NmNode":
         self.nmIfEcuRef = value
+        return self
         return self
 
     def getNmNodeId(self) -> ARNumerical:

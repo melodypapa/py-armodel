@@ -249,7 +249,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         """
         return self.modeGroupRef
 
-    def setModeGroupRef(self, value: RefType) -> "ModeGroupRefClass":
+    def setModeGroupRef(self, value: RefType) -> "SwcBswSynchronizedModeGroupPrototype":
         """
         Sets the mode group reference.
 
@@ -286,7 +286,7 @@ class SwcBswSynchronizedTrigger(ARObject):
         """
         return self.triggerRef
 
-    def setTriggerRef(self, value: RefType) -> "TriggerRefClass":
+    def setTriggerRef(self, value: RefType) -> "SwcBswSynchronizedTrigger":
         """
         Sets the trigger reference.
 

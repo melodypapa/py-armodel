@@ -2,7 +2,7 @@
 # It defines consumed and provided service instances, application endpoints, and SOAD configurations
 
 from abc import ABC
-from typing import List, Union
+from typing import TYPE_CHECKING, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -23,6 +23,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.E
     RequestResponseDelay,
     SocketConnectionBundle,
 )
+
+if TYPE_CHECKING:
+    pass
 
 
 class TransportProtocolConfiguration(ARObject, ABC):
@@ -47,20 +50,20 @@ class GenericTp(TransportProtocolConfiguration):
     def __init__(self) -> None:
         super().__init__()
 
-        self.tpAddress: Union[Union[String, None] , None] = None
-        self.tpTechnology: Union[Union[String, None] , None] = None
+        self.tpAddress: Union[String, None] = None
+        self.tpTechnology: Union[String, None] = None
 
-    def getTpAddress(self):
+    def getTpAddress(self) -> Union[String, None]:
         return self.tpAddress
 
-    def setTpAddress(self, value):
+    def setTpAddress(self, value: Union[String, None]) -> "GenericTp":
         self.tpAddress = value
         return self
 
-    def getTpTechnology(self):
+    def getTpTechnology(self) -> Union[String, None]:
         return self.tpTechnology
 
-    def setTpTechnology(self, value):
+    def setTpTechnology(self, value: Union[String, None]) -> "GenericTp":
         self.tpTechnology = value
         return self
 
@@ -87,20 +90,20 @@ class TpPort(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.dynamicallyAssigned: Union[Union[Boolean, None] , None] = None
-        self.portNumber: Union[Union[PositiveInteger, None] , None] = None
+        self.dynamicallyAssigned: Union[Boolean, None] = None
+        self.portNumber: Union[PositiveInteger, None] = None
 
-    def getDynamicallyAssigned(self):
+    def getDynamicallyAssigned(self) -> Union[Boolean, None]:
         return self.dynamicallyAssigned
 
-    def setDynamicallyAssigned(self, value):
+    def setDynamicallyAssigned(self, value: Union[Boolean, None]) -> "TpPort":
         self.dynamicallyAssigned = value
         return self
 
-    def getPortNumber(self):
+    def getPortNumber(self) -> Union[PositiveInteger, None]:
         return self.portNumber
 
-    def setPortNumber(self, value):
+    def setPortNumber(self, value: Union[PositiveInteger, None]) -> "TpPort":
         self.portNumber = value
         return self
 

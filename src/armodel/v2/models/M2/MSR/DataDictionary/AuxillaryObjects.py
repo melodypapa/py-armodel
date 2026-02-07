@@ -16,7 +16,7 @@ class SwAddrMethod(AtpBlueprintable):
         super().__init__(parent, short_name)
 
         self.memoryAllocationKeywordPolicy: Union[ARLiteral, None] = None
-        self.options = []                            # type: List[ARLiteral]
+        self.options: List[ARLiteral] = []
         self.sectionInitializationPolicy: Union[ARLiteral, None] = None
         self.sectionType: Union[ARLiteral, None] = None
 

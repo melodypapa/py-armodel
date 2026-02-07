@@ -4,6 +4,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
     ARNumerical,
     RefType,
 )
@@ -18,7 +19,7 @@ class SwGenericAxisParam(ARObject):
         super().__init__()
 
         self.swGenericAxisParamTypeRef: Union[RefType, None] = None
-        self.vfs = []                                   # type: List[ARFloat]
+        self.vfs: List[ARFloat] = []
 
     def getSwGenericAxisParamTypeRef(self):
         return self.swGenericAxisParamTypeRef
@@ -40,7 +41,7 @@ class SwAxisGeneric(ARObject):
         super().__init__()
 
         self.swAxisTypeRef: Union[RefType, None] = None
-        self.swGenericAxisParams = []               # type: List[SwGenericAxisParam]
+        self.swGenericAxisParams: List[SwGenericAxisParam] = []
 
     def getSwAxisTypeRef(self):
         return self.swAxisTypeRef
