@@ -72,10 +72,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         self.annotations.append(value)
         return self
 
-    def getDefinitionRef(self) -> RefType:
+    def getDefinitionRef(self) -> Union[RefType, None]:
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType):
+    def setDefinitionRef(self, value: RefType) -> "EcucParameterValue":
         self.definitionRef = value
         return self
 
@@ -144,10 +144,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
         self.annotations.append(value)
         return self
 
-    def getDefinitionRef(self) -> RefType:
+    def getDefinitionRef(self) -> Union[RefType, None]:
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType):
+    def setDefinitionRef(self, value: RefType) -> "EcucAbstractReferenceValue":
         self.definitionRef = value
         return self
 
@@ -179,10 +179,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
         self.valueRef: Union[RefType, None] = None
 
-    def getValueRef(self) -> RefType:
+    def getValueRef(self) -> Union[RefType, None]:
         return self.valueRef
 
-    def setValueRef(self, value: RefType):
+    def setValueRef(self, value: RefType) -> "EcucReferenceValue":
         self.valueRef = value
         return self
 

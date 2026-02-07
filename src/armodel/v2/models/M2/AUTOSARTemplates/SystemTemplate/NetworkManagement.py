@@ -122,10 +122,10 @@ class NmNode(Identifiable, ABC):
         self.rxNmPduRefs: List[RefType] = []
         self.TxNmPduRefs: List[RefType] = []
 
-    def getControllerRef(self) -> RefType:
+    def getControllerRef(self) -> Union[RefType, None]:
         return self.controllerRef
 
-    def setControllerRef(self, value):
+    def setControllerRef(self, value) -> "ChannelRef":
         self.controllerRef = value
         return self
 
@@ -143,10 +143,10 @@ class NmNode(Identifiable, ABC):
         self.nmCoordinatorRole = value
         return self
 
-    def getNmIfEcuRef(self) -> RefType:
+    def getNmIfEcuRef(self) -> Union[RefType, None]:
         return self.nmIfEcuRef
 
-    def setNmIfEcuRef(self, value):
+    def setNmIfEcuRef(self, value) -> "ChannelRef":
         self.nmIfEcuRef = value
         return self
 
