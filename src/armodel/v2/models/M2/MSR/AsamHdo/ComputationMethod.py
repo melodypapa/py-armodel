@@ -63,17 +63,17 @@ class Compu(ARObject):
         self.compuContent: Union[Union[CompuContent, None] , None] = None
         self.compuDefaultValue: Union[Union[CompuConst, None] , None] = None
 
-    def getCompuContent(self) -> CompuContent:
+    def getCompuContent(self) -> Union[CompuContent, None]:
         return self.compuContent
 
-    def setCompuContent(self, value: CompuContent):
+    def setCompuContent(self, value: CompuContent) -> "Compu":
         self.compuContent = value
         return self
 
-    def getCompuDefaultValue(self) -> CompuConst:
+    def getCompuDefaultValue(self) -> Union[CompuConst, None]:
         return self.compuDefaultValue
 
-    def setCompuDefaultValue(self, value: CompuConst):
+    def setCompuDefaultValue(self, value: CompuConst) -> "Compu":
         self.compuDefaultValue = value
         return self
 
@@ -103,10 +103,10 @@ class CompuConstTextContent(CompuConstContent):
 
         self.vt: Union[str, None] = None
 
-    def getVt(self) -> str:
+    def getVt(self) -> Union[str, None]:
         return self.vt
 
-    def setVt(self, value: str):
+    def setVt(self, value: str) -> "CompuConstTextContent":
         self.vt = value
         return self
 
@@ -120,10 +120,10 @@ class CompuConstNumericContent(CompuConstContent):
 
         self.v: Union[float, None] = None
 
-    def getV(self) -> float:
+    def getV(self) -> Union[float, None]:
         return self.v
 
-    def setV(self, value: float):
+    def setV(self, value: float) -> "CompuConstNumericContent":
         self.v = value
         return self
 
@@ -137,10 +137,10 @@ class CompuConstFormulaContent(CompuConstContent):
 
         self.vf: Union[str, None] = None
 
-    def getVf(self) -> str:
+    def getVf(self) -> Union[str, None]:
         return self.vf
 
-    def setVf(self, value: str):
+    def setVf(self, value: str) -> "CompuConstFormulaContent":
         self.vf = value
         return self
 
@@ -169,10 +169,10 @@ class CompuScaleConstantContents(CompuScaleContents):
 
         self.compuConst: Union[Union[CompuConst, None] , None] = None
 
-    def getCompuConst(self) -> CompuConst:
+    def getCompuConst(self) -> Union[CompuConst, None]:
         return self.compuConst
 
-    def setCompuConst(self, value: CompuConst):
+    def setCompuConst(self, value: CompuConst) -> "CompuScaleConstantContents":
         self.compuConst = value
         return self
 
