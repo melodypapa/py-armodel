@@ -1,6 +1,7 @@
 """
 ARXML Writer for V2 models.
 """
+import sys
 import xml.etree.ElementTree as ET
 
 from armodel.v2.models.models import AUTOSAR, ARPackage
@@ -30,7 +31,11 @@ class ARXMLWriter:
 
         # Write to file
         tree = ET.ElementTree(root)
-        ET.indent(tree, space="  ")
+
+        # Format XML with indentation (Python 3.9+ has ET.indent)
+        if sys.version_info >= (3, 9):
+            ET.indent(tree, space="  ")
+
         tree.write(file_path, encoding="utf-8", xml_declaration=True)
 
     def _serialize_package(self, pkg: ARPackage, parent: ET.Element) -> None:
