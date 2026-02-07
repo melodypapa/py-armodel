@@ -20,7 +20,7 @@ class TimingExtensionResource(ARObject):
         self.resourceName: Union[str, None] = None
         self.resourceType: Union[str, None] = None
 
-    def getResourceName(self) -> str:
+    def getResourceName(self) -> Union[str, None]:
         """
         Gets the resource name.
 
@@ -42,7 +42,7 @@ class TimingExtensionResource(ARObject):
         self.resourceName = value
         return self
 
-    def getResourceType(self) -> str:
+    def getResourceType(self) -> Union[str, None]:
         """
         Gets the resource type.
 

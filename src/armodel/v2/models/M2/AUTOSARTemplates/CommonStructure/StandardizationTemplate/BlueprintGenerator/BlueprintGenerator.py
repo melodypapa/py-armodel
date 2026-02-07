@@ -19,7 +19,7 @@ class BlueprintGenerator(ARObject):
         super().__init__()
         self.generatorName: Union[str, None] = None
 
-    def getGeneratorName(self) -> str:
+    def getGeneratorName(self) -> Union[str, None]:
         """
         Gets the generator name.
 
@@ -28,7 +28,7 @@ class BlueprintGenerator(ARObject):
         """
         return self.generatorName
 
-    def setGeneratorName(self, value: str):
+    def setGeneratorName(self, value: str) -> "BlueprintGenerator":
         """
         Sets the generator name.
 

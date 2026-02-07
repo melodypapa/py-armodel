@@ -20,7 +20,7 @@ class TimingCondition(ARObject):
         self.conditionFormula: Union[str, None] = None
         self.modeInstances: List[str] = []
 
-    def getConditionFormula(self) -> str:
+    def getConditionFormula(self) -> Union[str, None]:
         """
         Gets the condition formula.
 
@@ -29,7 +29,7 @@ class TimingCondition(ARObject):
         """
         return self.conditionFormula
 
-    def setConditionFormula(self, value: str):
+    def setConditionFormula(self, value: str) -> "TimingCondition":
         """
         Sets the condition formula.
 
@@ -42,7 +42,7 @@ class TimingCondition(ARObject):
         self.conditionFormula = value
         return self
 
-    def addModeInstance(self, instance: str):
+    def addModeInstance(self, instance: str) -> "TimingCondition":
         """
         Adds a mode instance to this timing condition.
 

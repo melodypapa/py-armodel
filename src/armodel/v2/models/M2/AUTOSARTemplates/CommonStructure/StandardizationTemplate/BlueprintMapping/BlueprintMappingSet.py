@@ -19,7 +19,7 @@ class BlueprintMappingSet(ARObject):
         super().__init__()
         self.mappings: List[str] = []
 
-    def addMapping(self, mapping: str):
+    def addMapping(self, mapping: str) -> "BlueprintMappingSet":
         """
         Adds a mapping to this set.
 
