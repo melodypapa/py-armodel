@@ -31,10 +31,10 @@ class Item(Paginateable):
 
         self.itemContents = None
 
-    def getItemContents(self):
+    def getItemContents(self) -> Union["LOverviewParagraph", None]:
         return self.itemContents
 
-    def setItemContents(self, value) -> "Item":
+    def setItemContents(self, value: "LOverviewParagraph") -> "Item":
         self.itemContents = value
         return self
 
@@ -50,17 +50,17 @@ class ARList(Paginateable):
         self.items = []                         # type: List[Item]
         self.type: Union[ListEnum, None] = None
 
-    def getItems(self):
+    def getItems(self) -> List[Item]:
         return self.items
 
     def addItem(self, value: Item) -> "ARList":
         self.items.append(value)
         return self
 
-    def getType(self):
+    def getType(self) -> Union[ListEnum, None]:
         return self.type
 
-    def setType(self, value) -> "ARList":
+    def setType(self, value: ListEnum) -> "ARList":
         self.type = value
         return self
 
