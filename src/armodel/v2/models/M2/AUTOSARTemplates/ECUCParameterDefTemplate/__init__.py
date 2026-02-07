@@ -979,7 +979,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def getLiterals(self) -> List[EcucEnumerationLiteralDef]:
         return self.literals
 
-    def createLiteral(self, short_name: str) -> EcucEnumerationLiteralDef:
+    def createLiteral(self, short_name: str) -> Union[EcucEnumerationLiteralDef, None]:
         if not self.IsElementExists(short_name):
             literal = EcucEnumerationLiteralDef(self, short_name)
             self.addElement(literal)
@@ -1039,7 +1039,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
     def getChoices(self) -> List["EcucParamConfContainerDef"]:
         return self.choices
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+    def createEcucParamConfContainerDef(self, short_name: str) -> Union["EcucParamConfContainerDef", None]:
         if not self.IsElementExists(short_name):
             choice = EcucParamConfContainerDef(self, short_name)
             self.addElement(choice)
@@ -1080,7 +1080,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.parameters
 
-    def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
+    def createEcucBooleanParamDef(self, short_name: str) -> Union[EcucBooleanParamDef, None]:
         """
         Creates a new ECUC boolean parameter definition and adds it to the container.
 
@@ -1096,7 +1096,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
+    def createEcucStringParamDef(self, short_name: str) -> Union[EcucStringParamDef, None]:
         """
         Creates an ECUC string parameter definition with the given short name.
 
@@ -1113,7 +1113,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
+    def createEcucIntegerParamDef(self, short_name: str) -> Union[EcucIntegerParamDef, None]:
         """
         Creates an ECUC integer parameter definition with the given short name.
 
@@ -1130,7 +1130,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
+    def createEcucFloatParamDef(self, short_name: str) -> Union[EcucFloatParamDef, None]:
         """
         Creates an ECUC float parameter definition with the given short name.
 
@@ -1147,7 +1147,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
+    def createEcucEnumerationParamDef(self, short_name: str) -> Union[EcucEnumerationParamDef, None]:
         """
         Creates an ECUC enumeration parameter definition with the given short name.
 
@@ -1164,7 +1164,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.parameters.append(param)
         return self.getElement(short_name)
 
-    def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
+    def createEcucFunctionNameDef(self, short_name: str) -> Union[EcucFunctionNameDef, None]:
         """
         Creates a new ECUC function name definition and adds it to the container.
 
@@ -1189,7 +1189,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.references
 
-    def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
+    def createEcucSymbolicNameReferenceDef(self, short_name: str) -> Union[EcucSymbolicNameReferenceDef, None]:
         """
         Creates a new ECUC symbolic name reference definition and adds it to the container.
 
@@ -1205,7 +1205,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.references.append(ref)
         return self.getElement(short_name)
 
-    def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
+    def createEcucReferenceDef(self, short_name: str) -> Union[EcucReferenceDef, None]:
         """
         Creates a new ECUC reference definition and adds it to the container.
 
@@ -1230,7 +1230,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
         """
         return self.subContainers
 
-    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+    def createEcucChoiceContainerDef(self, short_name: str) -> Union[EcucChoiceContainerDef, None]:
         """
         Creates a new ECUC choice container definition and adds it to the container.
 
@@ -1246,7 +1246,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.subContainers.append(container)
         return self.getElement(short_name)
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
+    def createEcucParamConfContainerDef(self, short_name: str) -> Union['EcucParamConfContainerDef', None]:
         """
         Creates a new ECUC parameter configuration container definition and adds it to the container.
 
@@ -1543,14 +1543,14 @@ class EcucModuleDef(EcucDefinitionElement):
     def getContainers(self) -> List[EcucContainerDef]:
         return self.containers
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
+    def createEcucParamConfContainerDef(self, short_name: str) -> Union['EcucParamConfContainerDef', None]:
         if (not self.IsElementExists(short_name)):
             container_def = EcucParamConfContainerDef(self, short_name)
             self.addElement(container_def)
             self.containers.append(container_def)
         return self.getElement(short_name)
 
-    def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+    def createEcucChoiceContainerDef(self, short_name: str) -> Union[EcucChoiceContainerDef, None]:
         if (not self.IsElementExists(short_name)):
             container_def = EcucChoiceContainerDef(self, short_name)
             self.addElement(container_def)
