@@ -13,7 +13,6 @@ Compatible with V1 API.
 import re
 from abc import ABC, abstractmethod
 from typing import (
-    TYPE_CHECKING,
     Any,
     List,
     Optional,
@@ -23,11 +22,6 @@ from typing import (
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
-        AtpBlueprintMapping,
-    )
 
 
 class ARType(ABC):

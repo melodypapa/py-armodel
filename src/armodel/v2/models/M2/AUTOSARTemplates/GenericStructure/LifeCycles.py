@@ -228,7 +228,7 @@ class LifeCycleInfo(ARObject):
         Gets the remark documentation for this life cycle information.
 
         Returns:
-            "DocumentationBlock" instance, or None if not set
+            DocumentationBlock instance, or None if not set
         """
         return self.remark
 

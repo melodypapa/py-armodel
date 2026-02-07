@@ -110,7 +110,7 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         return self.longName
 
-    def setLongName(self, value: MultilanguageLongName) -> "MultilingualReferrable":
+    def setLongName(self, value: "MultilanguageLongName"):
         """
         Sets the long name of this multilingual referrable element.
 

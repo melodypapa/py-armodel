@@ -210,9 +210,11 @@ pytest -m "not slow"
 pytest -m datatypes
 ```
 
-Or using npm scripts:
+Or using npm scripts (from package.json):
 - `npm run pytest` - Run all tests
-- `npm run pytest-cov` - Run tests with coverage
+- `npm run pytest-cov` - Run tests with coverage report
+- `npm run flake8` - Run flake8 for critical errors only
+- `npm run bswm-test` - Test BSW module with sample ARXML file
 
 ### Linting
 
@@ -236,6 +238,25 @@ flake8 --select=E9,F63,F7,F82 .
 
 **Note**: CI runs ruff with comprehensive rules. Line length is 79 characters (PEP 8 standard), with CI warnings at 127.
 
+### Type Checking: MyPy
+
+For V2 models, run mypy to validate type annotations:
+```bash
+# Run mypy on V2 modules
+mypy src/armodel/v2/
+
+# Run mypy with specific configuration
+mypy --config-file pyproject.toml src/armodel/v2/
+
+# Run mypy on specific V2 submodules
+mypy src/armodel/v2/models/
+mypy src/armodel/v2/reader/
+mypy src/armodel/v2/writer/
+```
+
+**Current Status**: V2 models show 6348 mypy errors (mostly missing type annotations).
+This is acceptable for gradual type annotation adoption. Focus on new code and critical paths first.
+
 ### Building
 - `python -m build` - Create source and wheel distributions
 - `python -m build --sdist` - Create source distribution only
@@ -257,7 +278,10 @@ flake8 --select=E9,F63,F7,F82 .
 - `python scripts/deviation-class-hierarchy.py` - Generate class hierarchy reports
 - `python scripts/scan_existing_classes.py` - Scan and catalog existing classes
 - `python scripts/compare-package-implementation.py` - Compare package structure
-- `python scripts/fix-package-implementation.py` - Fix package structure issues
+
+**ABC Automation (V2 Models):**
+- `python scripts/add_validate_abstract.py` - Add `_validate_abstract()` method to concrete classes
+- `python scripts/remove_validate_abstract.py` - Remove `_validate_abstract()` method from classes
 
 **Test Runner:**
 - `python scripts/run_tests.py` - Run all tests with colored output and summary
@@ -351,6 +375,69 @@ When moving classes to comply with CODING_RULE_STYLE_00008 or CODING_RULE_STYLE_
 - `armodel-file-list` - List files
 - `armodel-uuid-checker` - UUID validation
 - `format-xml` - XML formatting
+
+## Claude Code Slash Commands
+
+The project includes custom slash commands in `.claude/commands/` for development automation. These commands provide shortcuts for common workflows and are invoked with `/` prefix.
+
+### `/test` - Test Runner with Coverage
+Run tests with colored output and comprehensive summaries.
+```bash
+/test                    # Run all tests
+/test --unit            # Run only unit tests
+/test --integration     # Run only integration tests
+/test --coverage        # Run with coverage reports
+```
+
+### `/quality` - Quality Check Automation
+Run all quality checks (ruff, mypy, pytest) to ensure code meets standards.
+```bash
+/quality                # Run all quality checks
+/quality --fix          # Auto-fix linting issues
+```
+
+**Quality Gates:**
+- Ruff linting: No errors
+- Mypy type checking: No issues (for V2 models)
+- Pytest: All tests pass
+- Coverage: Maintained or improved
+
+### `/gh-workflow` - GitHub Workflow Automation
+Automate the complete GitHub workflow for creating issues, feature branches, commits, and pull requests.
+```bash
+/gh-workflow
+/gh-workflow Implement new parser for AUTOSAR models
+/gh-workflow feature: Add support for base class extraction
+```
+
+**Workflow Steps:**
+1. Run quality checks (flake8, ruff, mypy, pytest)
+2. Analyze current changes with git status and diff
+3. Create GitHub issue with detailed description
+4. Create or verify feature branch
+5. Stage and commit changes
+6. Push to GitHub only (not gitee)
+7. Create pull request with comprehensive description
+
+**Important:** Never commits directly to main branch. If commits exist on main, the workflow moves them to a feature branch and resets main to origin/main.
+
+### `/merge-pr` - Merge Pull Requests
+Safely merge PRs via GitHub CLI with validation.
+```bash
+/merge-pr
+```
+
+### `/req` - Requirement Management
+Manage AUTOSAR project requirements with traceability.
+```bash
+/req add SWR_WRITER_00007 "Add support for custom templates"
+/req update SWR_WRITER_00006 maturity accept
+/req check traceability
+/req list draft
+/req search parser
+```
+
+**See `.claude/commands/README.md` for complete command documentation.**
 
 ## Important Implementation Details
 
@@ -666,6 +753,77 @@ AUTOSAR.setARRelease('R23-11')
 # Write to ARXML file
 writer = ARXMLWriter()
 writer.save('output.arxml', AUTOSAR.getInstance())
+```
+
+## Error Handling and Debugging
+
+### Parser Error Modes
+
+The ARXMLParser supports two error handling modes:
+
+**Strict Mode (default):**
+```python
+parser = ARXMLParser()
+# Raises exceptions on errors
+parser.load("file.arxml", document)
+```
+
+**Warning Mode (for development):**
+```python
+parser = ARXMLParser(options={"warning": True})
+# Logs warnings instead of raising exceptions
+parser.load("file.arxml", document)
+```
+
+### Common Parser Issues
+
+**Issue**: "Element not supported"
+- **Cause**: ARXML element not in supported elements list
+- **Solution**: Check XML namespace mappings in `release_xsd_mappings`
+- **Debug**: Use warning mode to see all unsupported elements
+
+**Issue**: "Parent-child relationship error"
+- **Cause**: Parent references not maintained when adding elements
+- **Solution**: Use `addElement()` methods instead of directly appending to lists
+- **Example**: `pkg.addElement(element)` instead of `pkg.elements.append(element)`
+
+**Issue**: "Circular import error"
+- **Cause**: Type annotations with forward references not using string literals
+- **Solution**: Use string annotations: `List["MyClass"]` instead of `List[MyClass]`
+- **V2 Note**: Use string annotations per CODING_RULE_V2_00005 (no TYPE_CHECKING blocks)
+
+**Issue**: "Package not found" error
+- **Cause**: Class not properly exported from `__init__.py`
+- **Solution**: Ensure class is in wildcard import or `__all__` list
+- **V1 Models**: Use `from .my_class import *` in `__init__.py`
+- **V2 Models**: Add to `__all__` list with explicit imports
+
+**Issue**: Tests failing on Python 3.8/3.9
+- **Cause**: Using Python 3.10+ union syntax without `from __future__ import annotations`
+- **Solution**: Add `from __future__ import annotations` at top of file, or use `Union[...]` syntax
+- **Note**: V1 models should use `Union`, V2 models use string annotations
+
+### Debugging Tips
+
+**Enable verbose logging:**
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+**Check AUTOSAR version:**
+```python
+from armodel.models import AUTOSAR
+AUTOSAR.setARRelease('R23-11')  # MUST be set before parsing/writing
+```
+
+**Validate object graph:**
+```python
+# Check parent references
+assert element.parent is expected_parent
+
+# Check children exist
+assert len(pkg.getARPackages()) > 0
 ```
 
 ## Common Patterns
