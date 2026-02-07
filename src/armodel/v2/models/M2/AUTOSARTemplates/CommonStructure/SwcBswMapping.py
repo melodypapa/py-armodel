@@ -1,300 +1,211 @@
-"""
-This module contains classes for representing AUTOSAR SWC-BSW mapping structures
-in the CommonStructure module. SWC-BSW mapping defines relationships between
-software component entities and basic software module entities for integration purposes.
-"""
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
 
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
-    AtpStructureElement,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
-
-
-class SwcBswRunnableMapping(ARObject):
+class SwcBswMapping(ARElement):
     """
-    Represents a mapping between BSW module entities and SWC runnable entities in AUTOSAR models.
-    Maps a BswModuleEntity to a RunnableEntity if it is implemented as part of a BSW
-    module (in the case of an AUTOSAR Service, a Complex Driver or an ECU
-    Abstraction). The mapping can be used by a tool to find relevant information on the
-    behavior, e.g. whether the bswEntity shall be running in interrupt context.
+    Maps an SwcInternalBehavior to an BswInternalBehavior. This is required to
+    coordinate the API generation and the scheduling for AUTOSAR Service
+    Components, ECU Abstraction Components and Complex Driver Components by the
+    RTE and the BSW scheduling mechanisms.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::SwcBswMapping::SwcBswMapping
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 110, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 656, Classic Platform
+      R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 217, Foundation R23-11)
     """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the SwcBswRunnableMapping with default values.
-        """
+    def __init__(self):
         super().__init__()
 
-        # Reference to the BSW module entity in this mapping
-        self.bswEntityRef: Union[Union[RefType, None] , None] = None
-        # Reference to the SWC runnable entity in this mapping
-        self.swcRunnableRef: Union[Union[RefType, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # The mapped BswInternalBehavior.
+        self._bswBehavior: Optional["BswInternalBehavior"] = None
 
-    def getBswEntityRef(self):
+    @property
+    def bsw_behavior(self) -> Optional["BswInternalBehavior"]:
+        """Get bswBehavior (Pythonic accessor)."""
+        return self._bswBehavior
+
+    @bsw_behavior.setter
+    def bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> None:
         """
-        Gets the reference to the BSW module entity in this mapping.
-
-        Returns:
-            RefType: The BSW entity reference
-        """
-        return self.bswEntityRef
-
-    def setBswEntityRef(self, value):
-        """
-        Sets the reference to the BSW module entity in this mapping.
-        Only sets the value if it is not None.
-
+        Set bswBehavior with validation.
+        
         Args:
-            value: The BSW entity reference to set
+            value: The bswBehavior to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._bswBehavior = None
+            return
 
+        if not isinstance(value, BswInternalBehavior):
+            raise TypeError(
+                f"bswBehavior must be BswInternalBehavior or None, got {type(value).__name__}"
+            )
+        self._bswBehavior = value
+        # A mapping between a pair of SWC and BSW runnables.
+        # Stereotypes: atpSplitable; atpVariation.
+        self._runnable: List["SwcBswRunnable"] = []
+
+    @property
+    def runnable(self) -> List["SwcBswRunnable"]:
+        """Get runnable (Pythonic accessor)."""
+        return self._runnable
+        # The mapped SwcInternalBehavior.
+        self._swcBehavior: Optional["SwcInternalBehavior"] = None
+
+    @property
+    def swc_behavior(self) -> Optional["SwcInternalBehavior"]:
+        """Get swcBehavior (Pythonic accessor)."""
+        return self._swcBehavior
+
+    @swc_behavior.setter
+    def swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
+        """
+        Set swcBehavior with validation.
+        
+        Args:
+            value: The swcBehavior to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._swcBehavior = None
+            return
+
+        if not isinstance(value, SwcInternalBehavior):
+            raise TypeError(
+                f"swcBehavior must be SwcInternalBehavior or None, got {type(value).__name__}"
+            )
+        self._swcBehavior = value
+        # A pair of SWC and BSW Triggers to be synchronized by the scheduler.
+        # atpVariation.
+        self._synchronized: List["SwcBswSynchronized"] = []
+
+    @property
+    def synchronized(self) -> List["SwcBswSynchronized"]:
+        """Get synchronized (Pythonic accessor)."""
+        return self._synchronized
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getBswBehavior(self) -> "BswInternalBehavior":
+        """
+        AUTOSAR-compliant getter for bswBehavior.
+        
+        Returns:
+            The bswBehavior value
+        
+        Note:
+            Delegates to bsw_behavior property (CODING_RULE_V2_00017)
+        """
+        return self.bsw_behavior  # Delegates to property
+
+    def setBswBehavior(self, value: "BswInternalBehavior") -> "SwcBswMapping":
+        """
+        AUTOSAR-compliant setter for bswBehavior with method chaining.
+        
+        Args:
+            value: The bswBehavior to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to bsw_behavior property setter (gets validation automatically)
         """
-        self.bswEntityRef = value
+        self.bsw_behavior = value  # Delegates to property setter
         return self
 
-    def getSwcRunnableRef(self):
+    def getRunnable(self) -> List["SwcBswRunnable"]:
         """
-        Gets the reference to the SWC runnable entity in this mapping.
-
+        AUTOSAR-compliant getter for runnable.
+        
         Returns:
-            RefType: The SWC runnable reference
+            The runnable value
+        
+        Note:
+            Delegates to runnable property (CODING_RULE_V2_00017)
         """
-        return self.swcRunnableRef
+        return self.runnable  # Delegates to property
 
-    def setSwcRunnableRef(self, value):
+    def getSwcBehavior(self) -> "SwcInternalBehavior":
         """
-        Sets the reference to the SWC runnable entity in this mapping.
-        Only sets the value if it is not None.
+        AUTOSAR-compliant getter for swcBehavior.
+        
+        Returns:
+            The swcBehavior value
+        
+        Note:
+            Delegates to swc_behavior property (CODING_RULE_V2_00017)
+        """
+        return self.swc_behavior  # Delegates to property
 
+    def setSwcBehavior(self, value: "SwcInternalBehavior") -> "SwcBswMapping":
+        """
+        AUTOSAR-compliant setter for swcBehavior with method chaining.
+        
         Args:
-            value: The SWC runnable reference to set
-
+            value: The swcBehavior to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to swc_behavior property setter (gets validation automatically)
         """
-        self.swcRunnableRef = value
+        self.swc_behavior = value  # Delegates to property setter
         return self
 
-class SwcBswMapping(AtpStructureElement):
-    """
-    Represents SWC-BSW mapping in AUTOSAR models.
-    This class defines mappings between software component (SWC) behavior and basic software (BSW) behavior.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
+    def getSynchronized(self) -> List["SwcBswSynchronized"]:
         """
-        Initializes the SwcBswMapping with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this SWC-BSW mapping
-            short_name: The unique short name of this SWC-BSW mapping
-        """
-        super().__init__(parent, short_name)
-
-        # Reference to the BSW behavior in this mapping
-        self.bswBehaviorRef: Union[Union[RefType, None] , None] = None
-        # List of runnable mappings in this SWC-BSW mapping
-        self.runnableMappings: List[SwcBswRunnableMapping] = []
-        # Reference to the SWC behavior in this mapping
-        self.swcBehaviorRef: Union[Union[RefType, None] , None] = None
-        # List of synchronized mode groups in this mapping
-        self.synchronizedModeGroups = []
-        # List of synchronized triggers in this mapping
-        self.synchronizedTriggers = []
-
-    def getBswBehaviorRef(self):
-        """
-        Gets the reference to the BSW behavior in this mapping.
-
+        AUTOSAR-compliant getter for synchronized.
+        
         Returns:
-            RefType: The BSW behavior reference
+            The synchronized value
+        
+        Note:
+            Delegates to synchronized property (CODING_RULE_V2_00017)
         """
-        return self.bswBehaviorRef
+        return self.synchronized  # Delegates to property
 
-    def setBswBehaviorRef(self, value):
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> "SwcBswMapping":
         """
-        Sets the reference to the BSW behavior in this mapping.
-        Only sets the value if it is not None.
-
+        Set bswBehavior and return self for chaining.
+        
         Args:
-            value: The BSW behavior reference to set
-
+            value: The bswBehavior to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_bsw_behavior("value")
         """
-        self.bswBehaviorRef = value
+        self.bsw_behavior = value  # Use property setter (gets validation)
         return self
 
-    def getRunnableMappings(self):
+    def with_swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> "SwcBswMapping":
         """
-        Gets the list of runnable mappings in this SWC-BSW mapping.
-
-        Returns:
-            List of SwcBswRunnableMapping instances
-        """
-        return self.runnableMappings
-
-    def addRunnableMapping(self, value):
-        """
-        Adds a runnable mapping to this SWC-BSW mapping.
-
+        Set swcBehavior and return self for chaining.
+        
         Args:
-            value: The runnable mapping to add
-
+            value: The swcBehavior to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_swc_behavior("value")
         """
-        self.runnableMappings.append(value)
-        return self
-
-    def getSwcBehaviorRef(self):
-        """
-        Gets the reference to the SWC behavior in this mapping.
-
-        Returns:
-            RefType: The SWC behavior reference
-        """
-        return self.swcBehaviorRef
-
-    def setSwcBehaviorRef(self, value):
-        """
-        Sets the reference to the SWC behavior in this mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The SWC behavior reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.swcBehaviorRef = value
-        return self
-
-    def getSynchronizedModeGroups(self):
-        """
-        Gets the list of synchronized mode groups in this mapping.
-
-        Returns:
-            List of synchronized mode group objects
-        """
-        return self.synchronizedModeGroups
-
-    def setSynchronizedModeGroups(self, value):
-        """
-        Sets the list of synchronized mode groups in this mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The synchronized mode groups list to set
-
-        Returns:
-            self for method chaining
-        """
-        self.synchronizedModeGroups = value
-        return self
-
-    def getSynchronizedTriggers(self):
-        """
-        Gets the list of synchronized triggers in this mapping.
-
-        Returns:
-            List of synchronized trigger objects
-        """
-        return self.synchronizedTriggers
-
-    def setSynchronizedTriggers(self, value):
-        """
-        Sets the list of synchronized triggers in this mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The synchronized triggers list to set
-
-        Returns:
-            self for method chaining
-        """
-        self.synchronizedTriggers = value
-        return self
-
-
-class SwcBswSynchronizedModeGroupPrototype(ARObject):
-    """
-    Represents a SWC-BSW synchronized mode group prototype in AUTOSAR.
-    Defines a synchronized mode group prototype for SWC-BSW mapping.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the SwcBswSynchronizedModeGroupPrototype with default values.
-        """
-        super().__init__()
-        self.modeGroupRef: Union[Union[RefType, None] , None] = None
-
-    def getModeGroupRef(self) -> Union[RefType, None]:
-        """
-        Gets the mode group reference.
-
-        Returns:
-            Reference to the mode group
-        """
-        return self.modeGroupRef
-
-    def setModeGroupRef(self, value: RefType) -> "SwcBswSynchronizedModeGroupPrototype":
-        """
-        Sets the mode group reference.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.modeGroupRef = value
-        return self
-
-
-class SwcBswSynchronizedTrigger(ARObject):
-    """
-    Represents a SWC-BSW synchronized trigger in AUTOSAR.
-    Defines a synchronized trigger for SWC-BSW mapping.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the SwcBswSynchronizedTrigger with default values.
-        """
-        super().__init__()
-        self.triggerRef: Union[Union[RefType, None] , None] = None
-
-    def getTriggerRef(self) -> Union[RefType, None]:
-        """
-        Gets the trigger reference.
-
-        Returns:
-            Reference to the trigger
-        """
-        return self.triggerRef
-
-    def setTriggerRef(self, value: RefType) -> "SwcBswSynchronizedTrigger":
-        """
-        Sets the trigger reference.
-
-        Args:
-            value: The trigger reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.triggerRef = value
+        self.swc_behavior = value  # Use property setter (gets validation)
         return self

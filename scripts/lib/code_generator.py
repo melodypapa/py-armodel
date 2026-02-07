@@ -621,7 +621,8 @@ def generate_class_code(
     class_info: Dict[str, Any],
     package_path: str,
     project_root: Path,
-    requirements_dir: Path
+    requirements_dir: Path,
+    use_property_api: bool = False
 ) -> str:
     """Generate Python class code from requirements JSON.
 
@@ -630,6 +631,7 @@ def generate_class_code(
         package_path: Full package path (e.g., 'M2::AUTOSARTemplates::...')
         project_root: Root directory of the project
         requirements_dir: Path to requirements directory
+        use_property_api: If True, generate with property-based dual API (V2 redesign)
 
     Returns:
         Generated Python class code
@@ -662,13 +664,321 @@ def generate_class_code(
         class_name, docstring, is_abstract, has_short_name_init, is_arobject_child
     )
 
-    # Generate attribute initialization
-    attr_code = _generate_attribute_initialization(class_name, attributes)
+    # Generate attribute initialization and properties
+    if use_property_api:
+        attr_code = _generate_property_based_attributes(class_name, parent, attributes)
+    else:
+        attr_code = _generate_attribute_initialization(class_name, attributes)
 
     # Generate methods
-    methods_code = _generate_methods(class_name, parent, attributes)
+    if use_property_api:
+        methods_code = _generate_property_based_methods(class_name, parent, attributes)
+    else:
+        methods_code = _generate_methods(class_name, parent, attributes)
 
     # Combine all parts
     code_parts = imports + [''] + [class_decl, init_code, ''] + attr_code + [''] + methods_code
 
     return '\n'.join(code_parts)
+
+
+# =============================================================================
+# V2 Property-Based Dual API Generation (NEW)
+# =============================================================================
+
+def _generate_property_based_attributes(
+    class_name: str,
+    parent: str,
+    attributes: Dict[str, Any],
+    use_string_annotations: bool = False,
+    types_needing_string_annotations: set = frozenset()
+) -> List[str]:
+    """Generate property-based attributes with private storage and @property decorators.
+
+    This implements the V2 redesign pattern:
+    - Private storage: self._shortName
+    - Pythonic property: @property short_name
+    - AUTOSAR methods delegate to property
+
+    Args:
+        class_name: Name of the class
+        parent: Parent class name
+        attributes: Dictionary of attributes
+        use_string_annotations: If True, use string annotations for types (e.g., "String" instead of String)
+        types_needing_string_annotations: Set of type names that need string annotations (unused, kept for compatibility)
+
+    Returns:
+        List of code lines for properties
+    """
+    attr_code = []
+    attr_code.append("    # ===== Pythonic properties (CODING_RULE_V2_00016) =====")
+
+    for attr_name, attr_info in attributes.items():
+        attr_type = attr_info.get('type', 'Any')
+        multiplicity = attr_info.get('multiplicity', '1')
+        is_ref = attr_info.get('is_ref', False)
+        attr_note = attr_info.get('note', '')
+
+        # Private attribute name (original AUTOSAR naming)
+        private_attr = f"_{attr_name}"
+
+        # Pythonic property name (snake_case)
+        py_prop_name = _camel_to_snake(attr_name)
+
+        # Determine type annotation
+        # Use string annotations for all non-ref types to avoid import issues
+        if use_string_annotations and attr_type != 'Any' and not is_ref:
+            # Wrap entire type in quotes for non-ref types: e.g., "String" or Optional["String"]
+            if multiplicity == '*':
+                py_type = f'List["{attr_type}"]'
+            elif multiplicity == '0..1':
+                py_type = f'Optional["{attr_type}"]'
+            else:
+                py_type = f'"{attr_type}"'
+        else:
+            # Normal type annotations
+            if multiplicity == '*':
+                if is_ref:
+                    py_type = 'List[RefType]'
+                else:
+                    py_type = f'List[{attr_type}]'
+            elif multiplicity == '0..1':
+                if is_ref:
+                    py_type = 'RefType'
+                else:
+                    py_type = f'Optional[{attr_type}]'
+            else:
+                if is_ref:
+                    py_type = 'RefType'
+                else:
+                    py_type = attr_type
+
+        # Add comment if present
+        if attr_note:
+            attr_code.append(f'        {_format_attr_comment(attr_note)}')
+
+        # Initialize private attribute
+        if multiplicity == '*':
+            attr_code.append(f'        self.{private_attr}: {py_type} = []')
+        elif multiplicity == '0..1':
+            attr_code.append(f'        self.{private_attr}: {py_type} = None')
+        else:
+            attr_code.append(f'        self.{private_attr}: {py_type} = None')
+
+        # Generate @property getter
+        attr_code.append('')
+        attr_code.append(f'    @property')
+        attr_code.append(f'    def {py_prop_name}(self) -> {py_type}:')
+        attr_code.append(f'        """Get {attr_name} (Pythonic accessor)."""')
+        attr_code.append(f'        return self.{private_attr}')
+
+        # Generate @property setter (not for lists)
+        if multiplicity != '*':
+            attr_code.append('')
+            attr_code.append(f'    @{py_prop_name}.setter')
+            attr_code.append(f'    def {py_prop_name}(self, value: {py_type}) -> None:')
+            attr_code.append(f'        """')
+            attr_code.append(f'        Set {attr_name} with validation.')
+            attr_code.append(f'        ')
+            attr_code.append(f'        Args:')
+            attr_code.append(f'            value: The {attr_name} to set')
+            attr_code.append(f'        ')
+            attr_code.append(f'        Raises:')
+            attr_code.append(f'            TypeError: If value type is incorrect')
+            attr_code.append(f'        """')
+
+            # Add type validation
+            if multiplicity == '0..1':
+                # Optional attribute
+                attr_code.append(f'        if value is None:')
+                attr_code.append(f'            self.{private_attr} = None')
+                attr_code.append(f'            return')
+                attr_code.append(f'')
+                if is_ref or attr_type == 'Any':
+                    # RefType or Any - minimal validation
+                    attr_code.append(f'        self.{private_attr} = value')
+                else:
+                    attr_code.append(f'        if not isinstance(value, {attr_type}):')
+                    attr_code.append(f'            raise TypeError(')
+                    attr_code.append(f'                f"{attr_name} must be {attr_type} or None, got {{type(value).__name__}}"')
+                    attr_code.append(f'            )')
+                    attr_code.append(f'        self.{private_attr} = value')
+            else:
+                # Required attribute
+                if is_ref or attr_type == 'Any':
+                    attr_code.append(f'        self.{private_attr} = value')
+                else:
+                    attr_code.append(f'        if not isinstance(value, {attr_type}):')
+                    attr_code.append(f'            raise TypeError(')
+                    attr_code.append(f'                f"{attr_name} must be {attr_type}, got {{type(value).__name__}}"')
+                    attr_code.append(f'            )')
+                    attr_code.append(f'        self.{private_attr} = value')
+
+    return attr_code
+
+
+def _generate_property_based_methods(
+    class_name: str,
+    parent: str,
+    attributes: Dict[str, Any],
+    use_string_annotations: bool = False,
+    types_needing_string_annotations: set = frozenset()
+) -> List[str]:
+    """Generate AUTOSAR-compatible methods and fluent with_ methods.
+
+    This implements the V2 redesign pattern:
+    - AUTOSAR methods delegate to properties (CODING_RULE_V2_00017)
+    - Fluent with_ methods for chaining (CODING_RULE_V2_00019)
+
+    Args:
+        class_name: Name of the class
+        parent: Parent class name
+        attributes: Dictionary of attributes
+        use_string_annotations: If True, use string annotations for types (e.g., "String" instead of String)
+        types_needing_string_annotations: Set of type names that need string annotations (unused, kept for compatibility)
+
+    Returns:
+        List of method code strings
+    """
+    methods_code = []
+
+    methods_code.append("    # ===== AUTOSAR-compatible methods (delegate to properties) =====")
+
+    for attr_name, attr_info in attributes.items():
+        attr_type = attr_info.get('type', 'Any')
+        multiplicity = attr_info.get('multiplicity', '1')
+        is_ref = attr_info.get('is_ref', False)
+
+        # Pythonic property name (snake_case)
+        py_prop_name = _camel_to_snake(attr_name)
+
+        # Determine return type
+        # Use string annotations for all non-ref types to avoid import issues
+        if use_string_annotations and attr_type != 'Any' and not is_ref:
+            # Wrap entire type in quotes for non-ref types: e.g., "String" or List["String"]
+            if multiplicity == '*':
+                return_type = f'List["{attr_type}"]'
+            else:
+                return_type = f'"{attr_type}"'
+        else:
+            # Normal type annotations
+            if multiplicity == '*':
+                if is_ref:
+                    return_type = 'List[RefType]'
+                else:
+                    return_type = f'List[{attr_type}]'
+            else:
+                if is_ref:
+                    return_type = 'RefType'
+                else:
+                    return_type = attr_type
+
+        # Generate AUTOSAR getter (delegates to property)
+        methods_code.append('')
+        # AUTOSAR method name should be camelCase (getCategory), not snake_case
+        autosar_getter = f'get{attr_name[0].upper()}{attr_name[1:]}'
+        methods_code.append(f'    def {autosar_getter}(self) -> {return_type}:')
+        methods_code.append(f'        """')
+        methods_code.append(f'        AUTOSAR-compliant getter for {attr_name}.')
+        methods_code.append(f'        ')
+        methods_code.append(f'        Returns:')
+        methods_code.append(f'            The {attr_name} value')
+        methods_code.append(f'        ')
+        methods_code.append(f'        Note:')
+        methods_code.append(f'            Delegates to {py_prop_name} property (CODING_RULE_V2_00017)')
+        methods_code.append(f'        """')
+        methods_code.append(f'        return self.{py_prop_name}  # Delegates to property')
+
+        # Generate AUTOSAR setter (delegates to property) - not for lists
+        if multiplicity != '*':
+            methods_code.append('')
+            # AUTOSAR method name should be camelCase (setCategory), not snake_case
+            autosar_setter = f'set{attr_name[0].upper()}{attr_name[1:]}'
+            methods_code.append(f'    def {autosar_setter}(self, value: {return_type}) -> "{class_name}":')
+            methods_code.append(f'        """')
+            methods_code.append(f'        AUTOSAR-compliant setter for {attr_name} with method chaining.')
+            methods_code.append(f'        ')
+            methods_code.append(f'        Args:')
+            methods_code.append(f'            value: The {attr_name} to set')
+            methods_code.append(f'        ')
+            methods_code.append(f'        Returns:')
+            methods_code.append(f'            self for method chaining')
+            methods_code.append(f'        ')
+            methods_code.append(f'        Note:')
+            methods_code.append(f'            Delegates to {py_prop_name} property setter (gets validation automatically)')
+            methods_code.append(f'        """')
+            methods_code.append(f'        self.{py_prop_name} = value  # Delegates to property setter')
+            methods_code.append(f'        return self')
+
+    # Generate fluent with_ methods
+    methods_code.append('')
+    methods_code.append("    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====")
+
+    for attr_name, attr_info in attributes.items():
+        attr_type = attr_info.get('type', 'Any')
+        multiplicity = attr_info.get('multiplicity', '1')
+        is_ref = attr_info.get('is_ref', False)
+
+        # Skip list attributes for with_ methods
+        if multiplicity == '*':
+            continue
+
+        # Pythonic property name (snake_case)
+        py_prop_name = _camel_to_snake(attr_name)
+
+        # Determine parameter type
+        # Use string annotations for all non-ref types to avoid import issues
+        if use_string_annotations and attr_type != 'Any' and not is_ref:
+            # Wrap entire type in quotes for non-ref types: e.g., "String" or Optional["String"]
+            if multiplicity == '0..1':
+                param_type = f'Optional["{attr_type}"]'
+            else:
+                param_type = f'"{attr_type}"'
+        else:
+            # Normal type annotations
+            if multiplicity == '0..1':
+                if is_ref:
+                    param_type = 'Optional[RefType]'
+                else:
+                    param_type = f'Optional[{attr_type}]'
+            else:
+                if is_ref:
+                    param_type = 'RefType'
+                else:
+                    param_type = attr_type
+
+        # Generate fluent with_ method
+        methods_code.append('')
+        methods_code.append(f'    def with_{py_prop_name}(self, value: {param_type}) -> "{class_name}":')
+        methods_code.append(f'        """')
+        methods_code.append(f'        Set {attr_name} and return self for chaining.')
+        methods_code.append(f'        ')
+        methods_code.append(f'        Args:')
+        methods_code.append(f'            value: The {attr_name} to set')
+        methods_code.append(f'        ')
+        methods_code.append(f'        Returns:')
+        methods_code.append(f'            self for method chaining')
+        methods_code.append(f'        ')
+        methods_code.append(f'        Example:')
+        methods_code.append(f'            >>> obj.with_{py_prop_name}("value")')
+        methods_code.append(f'        """')
+        methods_code.append(f'        self.{py_prop_name} = value  # Use property setter (gets validation)')
+        methods_code.append(f'        return self')
+
+    return methods_code
+
+
+def _camel_to_snake(name: str) -> str:
+    """Convert camelCase to snake_case.
+
+    Args:
+        name: camelCase string
+
+    Returns:
+        snake_case string
+    """
+    import re
+    # Handle cases like "shortName" -> "short_name"
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    # Handle cases like "ShortName" -> "short_name"
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()

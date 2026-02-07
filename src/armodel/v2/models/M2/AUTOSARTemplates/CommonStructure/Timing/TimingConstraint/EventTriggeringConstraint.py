@@ -1,210 +1,98 @@
-"""
-This module defines event triggering constraints in AUTOSAR timing specifications.
-
-Event triggering constraints specify timing requirements for event triggering
-patterns such as periodic, sporadic, or burst patterns.
-
-Classes:
-    EventTriggeringConstraint: Abstract base for event triggering constraints
-    PeriodicEventTriggering: Specifies periodic event triggering
-    SporadicEventTriggering: Specifies sporadic event triggering
-    ArbitraryEventTriggering: Specifies arbitrary event triggering
-    BurstPatternEventTriggering: Specifies burst pattern event triggering
-    ConcretePatternEventTriggering: Specifies concrete pattern event triggering
-    ConfidenceInterval: Specifies confidence interval for timing measurements
-"""
-
-from abc import ABC
-from typing import Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
-    TimingConstraint,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Float,
-    TimeValue,
-)
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
 
 class EventTriggeringConstraint(TimingConstraint, ABC):
     """
-    Abstract base class for event triggering constraints.
-    This class cannot be instantiated directly and serves as the base for
-    concrete event triggering constraint implementations.
+    Describes the occurrence behavior of the referenced timing event. The
+    occurrence behavior can only be determined when a mapping from the timing
+    events to the implementation can be obtained. However, such an occurrence
+    behavior can also be described by the modeler as an assumption or as a
+    requirement about the occurrence of the event.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint::EventTriggeringConstraint
+    
+    Sources:
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 100, Classic Platform R23-11)
     """
-
-    def __init__(self, parent, short_name: str) -> None:
+    def __init__(self):
         if type(self) is EventTriggeringConstraint:
             raise TypeError("EventTriggeringConstraint is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-
-class PeriodicEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies periodic event triggering requirements.
-    This constraint defines the period for periodic event triggering.
-    """
-
-    def __init__(self, parent, short_name: str) -> None:
-        """
-        Initializes the PeriodicEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-        # Period for event triggering
-        self.period: Union[Union[TimeValue, None] , None] = None
-
-    def getPeriod(self):
-        return self.period
-
-    def setPeriod(self, value):
-        self.period = value
-        return self
-
-
-class SporadicEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies sporadic event triggering requirements.
-    This constraint defines the minimum inter-arrival time for sporadic events.
-    """
-
-    def __init__(self, parent, short_name: str) -> None:
-        """
-        Initializes the SporadicEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-        # Minimum inter-arrival time
-        self.min_inter_arrival_time: Union[Union[TimeValue, None] , None] = None
-
-    def getMinInterArrivalTime(self):
-        return self.min_inter_arrival_time
-
-    def setMinInterArrivalTime(self, value):
-        self.min_inter_arrival_time = value
-        return self
-
-
-class ArbitraryEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies arbitrary event triggering requirements.
-    This constraint allows for arbitrary event triggering patterns.
-    """
-
-    def __init__(self, parent, short_name: str) -> None:
-        """
-        Initializes the ArbitraryEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-
-class BurstPatternEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies burst pattern event triggering requirements.
-    This constraint defines burst pattern parameters for event triggering.
-    """
-
-    def __init__(self, parent, short_name: str) -> None:
-        """
-        Initializes the BurstPatternEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-        # Number of events in burst
-        self.burst_size: Union[int, None] = None
-        # Burst interval
-        self.burst_interval: Union[Union[TimeValue, None] , None] = None
-
-    def getBurstSize(self):
-        return self.burst_size
-
-    def setBurstSize(self, value):
-        self.burst_size = value
-        return self
-
-    def getBurstInterval(self):
-        return self.burst_interval
-
-    def setBurstInterval(self, value):
-        self.burst_interval = value
-        return self
-
-
-class ConcretePatternEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies concrete pattern event triggering requirements.
-    This constraint defines a concrete pattern for event triggering.
-    """
-
-    def __init__(self, parent, short_name: str) -> None:
-        """
-        Initializes the ConcretePatternEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-
-class ConfidenceInterval(ARObject):
-    """
-    Specifies a confidence interval for timing measurements.
-    This class defines the confidence interval with a confidence level
-    and interval bounds.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the ConfidenceInterval with default values.
-        """
         super().__init__()
 
-        # Confidence level (e.g., 0.95 for 95% confidence)
-        self.confidence_level: Union[Union[Float, None] , None] = None
-        # Lower bound of the interval
-        self.lower_bound: Union[Union[TimeValue, None] , None] = None
-        # Upper bound of the interval
-        self.upper_bound: Union[Union[TimeValue, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # The referenced timing event.
+        self._event: Optional["TimingDescriptionEvent"] = None
 
-    def getConfidenceLevel(self):
-        return self.confidence_level
+    @property
+    def event(self) -> Optional["TimingDescriptionEvent"]:
+        """Get event (Pythonic accessor)."""
+        return self._event
 
-    def setConfidenceLevel(self, value):
-        self.confidence_level = value
+    @event.setter
+    def event(self, value: Optional["TimingDescriptionEvent"]) -> None:
+        """
+        Set event with validation.
+        
+        Args:
+            value: The event to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._event = None
+            return
+
+        if not isinstance(value, TimingDescriptionEvent):
+            raise TypeError(
+                f"event must be TimingDescriptionEvent or None, got {type(value).__name__}"
+            )
+        self._event = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getEvent(self) -> "TimingDescriptionEvent":
+        """
+        AUTOSAR-compliant getter for event.
+        
+        Returns:
+            The event value
+        
+        Note:
+            Delegates to event property (CODING_RULE_V2_00017)
+        """
+        return self.event  # Delegates to property
+
+    def setEvent(self, value: "TimingDescriptionEvent") -> "EventTriggeringConstraint":
+        """
+        AUTOSAR-compliant setter for event with method chaining.
+        
+        Args:
+            value: The event to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to event property setter (gets validation automatically)
+        """
+        self.event = value  # Delegates to property setter
         return self
 
-    def getLowerBound(self):
-        return self.lower_bound
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def setLowerBound(self, value):
-        self.lower_bound = value
-        return self
-
-    def getUpperBound(self):
-        return self.upper_bound
-
-    def setUpperBound(self, value):
-        self.upper_bound = value
+    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> "EventTriggeringConstraint":
+        """
+        Set event and return self for chaining.
+        
+        Args:
+            value: The event to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_event("value")
+        """
+        self.event = value  # Use property setter (gets validation)
         return self

@@ -1,398 +1,333 @@
-# This module contains AUTOSAR System Template classes for network endpoints
-# It defines IP configuration, network addresses, and communication protocols for networked ECUs
-
-from abc import ABC
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-    Referrable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Ip4AddressString,
-    Ip6AddressString,
-    PositiveInteger,
-    String,
-    TimeValue,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
-    DoIpEntityRoleEnum,
-    TimeSyncTechnologyEnum,
-)
-
-
-class NetworkEndpointAddress(ARObject, ABC):
-    """
-    Abstract base class for network endpoint addresses, defining the
-    common properties and behavior for different types of network
-    addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
-    """
-    def __init__(self) -> None:
-        if type(self) is NetworkEndpointAddress:
-            raise TypeError("NetworkEndpointAddress is an abstract class.")
-
-        super().__init__()
-
-class Ipv4Configuration(NetworkEndpointAddress):
-    """
-    Defines IPv4 network configuration properties for a network endpoint,
-    including IP addresses, network masks, DNS server addresses, and
-    TTL settings for IPv4 communication.
-    """
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.assignmentPriority: Union[Union[PositiveInteger, None] , None] = None
-        self.defaultGateway: Union[Union[Ip4AddressString, None] , None] = None
-        self.dnsServerAddresses: List[Ip4AddressString] = []
-        self.ipAddressKeepBehavior = None
-        self.ipv4Address: Union[Union[Ip4AddressString, None] , None] = None
-        self.ipv4AddressSource = None
-        self.networkMask: Union[Union[Ip4AddressString, None] , None] = None
-        self.ttl: Union[Union[PositiveInteger, None] , None] = None
-
-    def getAssignmentPriority(self):
-        return self.assignmentPriority
-
-    def setAssignmentPriority(self, value):
-        self.assignmentPriority = value
-        return self
-
-    def getDefaultGateway(self):
-        return self.defaultGateway
-
-    def setDefaultGateway(self, value):
-        self.defaultGateway = value
-        return self
-
-    def getDnsServerAddresses(self):
-        return self.dnsServerAddresses
-
-    def addDnsServerAddress(self, value):
-        self.dnsServerAddresses.append(value)
-        return self
-
-    def getIpAddressKeepBehavior(self):
-        return self.ipAddressKeepBehavior
-
-    def setIpAddressKeepBehavior(self, value):
-        self.ipAddressKeepBehavior = value
-        return self
-
-    def getIpv4Address(self):
-        return self.ipv4Address
-
-    def setIpv4Address(self, value):
-        self.ipv4Address = value
-        return self
-
-    def getIpv4AddressSource(self):
-        return self.ipv4AddressSource
-
-    def setIpv4AddressSource(self, value):
-        self.ipv4AddressSource = value
-        return self
-
-    def getNetworkMask(self):
-        return self.networkMask
-
-    def setNetworkMask(self, value):
-        self.networkMask = value
-        return self
-
-    def getTtl(self):
-        return self.ttl
-
-    def setTtl(self, value):
-        self.ttl = value
-        return self
-
-class Ipv6Configuration(NetworkEndpointAddress):
-    """
-    Defines IPv6 network configuration properties for a network endpoint,
-    including IPv6 addresses, default router, DNS server addresses,
-    and IPv6-specific communication parameters.
-    """
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.assignmentPriority: Union[Union[PositiveInteger, None] , None] = None
-        self.defaultRouter: Union[Union[Ip6AddressString, None] , None] = None
-        self.dnsServerAddresses: List[Ip6AddressString] = []
-        self.enableAnycast: Union[Union[Boolean, None] , None] = None
-        self.hopCount: Union[Union[PositiveInteger, None] , None] = None
-        self.ipAddressKeepBehavior = None
-        self.ipAddressPrefixLength: Union[Union[PositiveInteger, None] , None] = None
-        self.ipv6Address: Union[Union[Ip6AddressString, None] , None] = None
-        self.ipv6AddressSource = None
-
-    def getAssignmentPriority(self):
-        return self.assignmentPriority
-
-    def setAssignmentPriority(self, value):
-        self.assignmentPriority = value
-        return self
-
-    def getDefaultRouter(self):
-        return self.defaultRouter
-
-    def setDefaultRouter(self, value):
-        self.defaultRouter = value
-        return self
-
-    def getDnsServerAddresses(self):
-        return self.dnsServerAddresses
-
-    def setDnsServerAddresses(self, value):
-        self.dnsServerAddresses = value
-        return self
-
-    def getEnableAnycast(self):
-        return self.enableAnycast
-
-    def setEnableAnycast(self, value):
-        self.enableAnycast = value
-        return self
-
-    def getHopCount(self):
-        return self.hopCount
-
-    def setHopCount(self, value):
-        self.hopCount = value
-        return self
-
-    def getIpAddressKeepBehavior(self):
-        return self.ipAddressKeepBehavior
-
-    def setIpAddressKeepBehavior(self, value):
-        self.ipAddressKeepBehavior = value
-        return self
-
-    def getIpAddressPrefixLength(self):
-        return self.ipAddressPrefixLength
-
-    def setIpAddressPrefixLength(self, value):
-        self.ipAddressPrefixLength = value
-        return self
-
-    def getIpv6Address(self):
-        return self.ipv6Address
-
-    def setIpv6Address(self, value):
-        self.ipv6Address = value
-        return self
-
-    def getIpv6AddressSource(self):
-        return self.ipv6AddressSource
-
-    def setIpv6AddressSource(self, value):
-        self.ipv6AddressSource = value
-        return self
-
-class DoIpEntity(ARObject):
-    """
-    Defines properties for a DoIP (Diagnostics over IP) entity,
-    specifying the role and behavior of DoIP-enabled devices in
-    the network for diagnostic communication purposes.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.doIpEntityRole: Union[DoIpEntityRoleEnum, None] = None
-
-    def getDoIpEntityRole(self):
-        return self.doIpEntityRole
-
-    def setDoIpEntityRole(self, value):
-        if value is not None:
-            self.doIpEntityRole = value
-        return self
-
-class TimeSyncClientConfiguration(ARObject):
-    """
-    Configures time synchronization client properties, defining
-    ordered master relationships and time synchronization
-    technology settings for network time coordination.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.orderedMasters = []
-        self.timeSyncTechnology: Union[TimeSyncTechnologyEnum, None] = None
-
-    def getOrderedMasters(self):
-        return self.orderedMasters
-
-    def addOrderedMaster(self, value):
-        if value is not None:
-            self.orderedMasters.append(value)
-        return self
-
-    def getTimeSyncTechnology(self):
-        return self.timeSyncTechnology
-
-    def setTimeSyncTechnology(self, value):
-        if value is not None:
-            self.timeSyncTechnology = value
-        return self
-
-
-class TimeSyncServerConfiguration(Referrable):
-    """
-    Configures time synchronization server properties, specifying
-    priority, synchronization intervals, and time synchronization
-    identifiers for network time coordination services.
-    """
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        super().__init__(parent, short_name)
-
-        self.priority: Union[Union[PositiveInteger, None] , None] = None
-        self.syncInterval: Union[Union[TimeValue, None] , None] = None
-        self.timeSyncServerIdentifier: Union[Union[String, None] , None] = None
-        self.timeSyncTechnology: Union[TimeSyncTechnologyEnum, None] = None
-
-    def getPriority(self):
-        return self.priority
-
-    def setPriority(self, value):
-        if value is not None:
-            self.priority = value
-        return self
-
-    def getSyncInterval(self):
-        return self.syncInterval
-
-    def setSyncInterval(self, value):
-        if value is not None:
-            self.syncInterval = value
-        return self
-
-    def getTimeSyncServerIdentifier(self):
-        return self.timeSyncServerIdentifier
-
-    def setTimeSyncServerIdentifier(self, value):
-        if value is not None:
-            self.timeSyncServerIdentifier = value
-        return self
-
-    def getTimeSyncTechnology(self):
-        return self.timeSyncTechnology
-
-    def setTimeSyncTechnology(self, value):
-        if value is not None:
-            self.timeSyncTechnology = value
-        return self
-
-
-class TimeSynchronization(ARObject):
-    """
-    Defines time synchronization configuration for network entities,
-    including both client and server configurations for coordinated
-    timing across the AUTOSAR system network.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.timeSyncClient: Union[Union[TimeSyncClientConfiguration, None] , None] = None
-        self.timeSyncServer: Union[Union[TimeSyncServerConfiguration, None] , None] = None
-
-    def getTimeSyncClient(self):
-        return self.timeSyncClient
-
-    def setTimeSyncClient(self, value):
-        if value is not None:
-            self.timeSyncClient = value
-        return self
-
-    def getTimeSyncServer(self):
-        return self.timeSyncServer
-
-    def setTimeSyncServer(self, value):
-        if value is not None:
-            self.timeSyncServer = value
-        return self
-
-
-class InfrastructureServices(ARObject):
-    """
-    Defines infrastructure services available at a network endpoint,
-    including DoIP capabilities and time synchronization services
-    for network management and coordination.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
-
-        self.doIpEntity: Union[Union[DoIpEntity, None] , None] = None
-        self.timeSynchronization: Union[Union[TimeSynchronization, None] , None] = None
-
-    def getDoIpEntity(self):
-        return self.doIpEntity
-
-    def setDoIpEntity(self, value):
-        self.doIpEntity = value
-        return self
-
-    def getTimeSynchronization(self):
-        return self.timeSynchronization
-
-    def setTimeSynchronization(self, value):
-        self.timeSynchronization = value
-        return self
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class NetworkEndpoint(Identifiable):
     """
-    Represents a network endpoint in the AUTOSAR system, defining
-    IP configuration, infrastructure services, and network address
-    properties for communication nodes in the network.
+    The network endpoint defines the network addressing (e.g. IP-Address or MAC
+    multicast address).
+    
+    Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology::NetworkEndpoint
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 463, Classic Platform R23-11)
     """
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        super().__init__(parent, short_name)
+    def __init__(self):
+        super().__init__()
 
-        self.fullyQualifiedDomainName: Union[Union[String, None] , None] = None
-        self.infrastructureServices: Union[Union[InfrastructureServices, None] , None] = None
-        self.ipSecConfig = None
-        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
-        self.priority: Union[Union[PositiveInteger, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Defines the fully qualified domain name (FQDN) e.
+        # g.
+        self._fullyQualified: Optional["String"] = None
 
-    def getFullyQualifiedDomainName(self):
-        return self.fullyQualifiedDomainName
+    @property
+    def fully_qualified(self) -> Optional["String"]:
+        """Get fullyQualified (Pythonic accessor)."""
+        return self._fullyQualified
 
-    def setFullyQualifiedDomainName(self, value):
-        self.fullyQualifiedDomainName = value
+    @fully_qualified.setter
+    def fully_qualified(self, value: Optional["String"]) -> None:
+        """
+        Set fullyQualified with validation.
+        
+        Args:
+            value: The fullyQualified to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._fullyQualified = None
+            return
+
+        if not isinstance(value, String):
+            raise TypeError(
+                f"fullyQualified must be String or None, got {type(value).__name__}"
+            )
+        self._fullyQualified = value
+        # Defines the network infrastructure services provided or.
+        self._infrastructure: Optional["InfrastructureServices"] = None
+
+    @property
+    def infrastructure(self) -> Optional["InfrastructureServices"]:
+        """Get infrastructure (Pythonic accessor)."""
+        return self._infrastructure
+
+    @infrastructure.setter
+    def infrastructure(self, value: Optional["InfrastructureServices"]) -> None:
+        """
+        Set infrastructure with validation.
+        
+        Args:
+            value: The infrastructure to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._infrastructure = None
+            return
+
+        if not isinstance(value, InfrastructureServices):
+            raise TypeError(
+                f"infrastructure must be InfrastructureServices or None, got {type(value).__name__}"
+            )
+        self._infrastructure = value
+        # Optional IPSec configuration that provides security IP packets.
+        self._ipSecConfig: Optional["IPSecConfig"] = None
+
+    @property
+    def ip_sec_config(self) -> Optional["IPSecConfig"]:
+        """Get ipSecConfig (Pythonic accessor)."""
+        return self._ipSecConfig
+
+    @ip_sec_config.setter
+    def ip_sec_config(self, value: Optional["IPSecConfig"]) -> None:
+        """
+        Set ipSecConfig with validation.
+        
+        Args:
+            value: The ipSecConfig to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._ipSecConfig = None
+            return
+
+        if not isinstance(value, IPSecConfig):
+            raise TypeError(
+                f"ipSecConfig must be IPSecConfig or None, got {type(value).__name__}"
+            )
+        self._ipSecConfig = value
+        # Definition of a Network Address.
+        # Tags: xml.
+        # name Address Plural=NETWORK-ENDPOINT-ADDRESSES.
+        self._network: List["NetworkEndpoint"] = []
+
+    @property
+    def network(self) -> List["NetworkEndpoint"]:
+        """Get network (Pythonic accessor)."""
+        return self._network
+        # Defines the frame priority where values from 0 (best 7 (highest) are allowed.
+        self._priority: Optional["PositiveInteger"] = None
+
+    @property
+    def priority(self) -> Optional["PositiveInteger"]:
+        """Get priority (Pythonic accessor)."""
+        return self._priority
+
+    @priority.setter
+    def priority(self, value: Optional["PositiveInteger"]) -> None:
+        """
+        Set priority with validation.
+        
+        Args:
+            value: The priority to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._priority = None
+            return
+
+        if not isinstance(value, PositiveInteger):
+            raise TypeError(
+                f"priority must be PositiveInteger or None, got {type(value).__name__}"
+            )
+        self._priority = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getFullyQualified(self) -> "String":
+        """
+        AUTOSAR-compliant getter for fullyQualified.
+        
+        Returns:
+            The fullyQualified value
+        
+        Note:
+            Delegates to fully_qualified property (CODING_RULE_V2_00017)
+        """
+        return self.fully_qualified  # Delegates to property
+
+    def setFullyQualified(self, value: "String") -> "NetworkEndpoint":
+        """
+        AUTOSAR-compliant setter for fullyQualified with method chaining.
+        
+        Args:
+            value: The fullyQualified to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to fully_qualified property setter (gets validation automatically)
+        """
+        self.fully_qualified = value  # Delegates to property setter
         return self
 
-    def getInfrastructureServices(self):
-        return self.infrastructureServices
+    def getInfrastructure(self) -> "InfrastructureServices":
+        """
+        AUTOSAR-compliant getter for infrastructure.
+        
+        Returns:
+            The infrastructure value
+        
+        Note:
+            Delegates to infrastructure property (CODING_RULE_V2_00017)
+        """
+        return self.infrastructure  # Delegates to property
 
-    def setInfrastructureServices(self, value):
-        self.infrastructureServices = value
+    def setInfrastructure(self, value: "InfrastructureServices") -> "NetworkEndpoint":
+        """
+        AUTOSAR-compliant setter for infrastructure with method chaining.
+        
+        Args:
+            value: The infrastructure to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to infrastructure property setter (gets validation automatically)
+        """
+        self.infrastructure = value  # Delegates to property setter
         return self
 
-    def getIpSecConfig(self):
-        return self.ipSecConfig
+    def getIpSecConfig(self) -> "IPSecConfig":
+        """
+        AUTOSAR-compliant getter for ipSecConfig.
+        
+        Returns:
+            The ipSecConfig value
+        
+        Note:
+            Delegates to ip_sec_config property (CODING_RULE_V2_00017)
+        """
+        return self.ip_sec_config  # Delegates to property
 
-    def setIpSecConfig(self, value):
-        self.ipSecConfig = value
+    def setIpSecConfig(self, value: "IPSecConfig") -> "NetworkEndpoint":
+        """
+        AUTOSAR-compliant setter for ipSecConfig with method chaining.
+        
+        Args:
+            value: The ipSecConfig to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to ip_sec_config property setter (gets validation automatically)
+        """
+        self.ip_sec_config = value  # Delegates to property setter
         return self
 
-    def getNetworkEndpointAddresses(self):
-        return self.networkEndpointAddresses
+    def getNetwork(self) -> List["NetworkEndpoint"]:
+        """
+        AUTOSAR-compliant getter for network.
+        
+        Returns:
+            The network value
+        
+        Note:
+            Delegates to network property (CODING_RULE_V2_00017)
+        """
+        return self.network  # Delegates to property
 
-    def addNetworkEndpointAddress(self, value):
-        self.networkEndpointAddresses.append(value)
+    def getPriority(self) -> "PositiveInteger":
+        """
+        AUTOSAR-compliant getter for priority.
+        
+        Returns:
+            The priority value
+        
+        Note:
+            Delegates to priority property (CODING_RULE_V2_00017)
+        """
+        return self.priority  # Delegates to property
+
+    def setPriority(self, value: "PositiveInteger") -> "NetworkEndpoint":
+        """
+        AUTOSAR-compliant setter for priority with method chaining.
+        
+        Args:
+            value: The priority to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to priority property setter (gets validation automatically)
+        """
+        self.priority = value  # Delegates to property setter
         return self
 
-    def getPriority(self):
-        return self.priority
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def setPriority(self, value):
-        self.priority = value
+    def with_fully_qualified(self, value: Optional["String"]) -> "NetworkEndpoint":
+        """
+        Set fullyQualified and return self for chaining.
+        
+        Args:
+            value: The fullyQualified to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_fully_qualified("value")
+        """
+        self.fully_qualified = value  # Use property setter (gets validation)
+        return self
+
+    def with_infrastructure(self, value: Optional["InfrastructureServices"]) -> "NetworkEndpoint":
+        """
+        Set infrastructure and return self for chaining.
+        
+        Args:
+            value: The infrastructure to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_infrastructure("value")
+        """
+        self.infrastructure = value  # Use property setter (gets validation)
+        return self
+
+    def with_ip_sec_config(self, value: Optional["IPSecConfig"]) -> "NetworkEndpoint":
+        """
+        Set ipSecConfig and return self for chaining.
+        
+        Args:
+            value: The ipSecConfig to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_ip_sec_config("value")
+        """
+        self.ip_sec_config = value  # Use property setter (gets validation)
+        return self
+
+    def with_priority(self, value: Optional["PositiveInteger"]) -> "NetworkEndpoint":
+        """
+        Set priority and return self for chaining.
+        
+        Args:
+            value: The priority to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_priority("value")
+        """
+        self.priority = value  # Use property setter (gets validation)
         return self

@@ -1,204 +1,423 @@
-"""
-This module defines classes for execution order constraint entities in AUTOSAR timing specifications.
-
-The execution order constraint mechanism allows defining the execution sequence of runnables
-within AUTOSAR software components. It defines abstract and concrete classes for representing
-executable entity references and their ordering constraints.
-
-Classes:
-    EOCExecutableEntityRefAbstract: Abstract base class for executable entity references
-    EOCExecutableEntityRef: Concrete implementation of executable entity reference
-    ExecutionOrderConstraint: Constraint defining the execution order of entities
-"""
-
-from abc import ABC
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
-    TimingConstraint,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
-
-
-class EOCExecutableEntityRefAbstract(Identifiable, ABC):
-    """
-    Abstract base class for execution order constraint executable entity references.
-    This class cannot be instantiated directly and serves as the base for concrete implementations.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        if type(self) is EOCExecutableEntityRefAbstract:
-            raise TypeError("EOCExecutableEntityRefAbstract is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-
-class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
-    """
-    Concrete implementation of executable entity reference for execution order constraints.
-    Represents a specific runnable or executable entity in an execution order constraint.
-    """
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        super().__init__(parent, short_name)
-
-        self.successor_refs: List[RefType] = []
-
-    def addSuccessorRef(self, ref: RefType) -> None:
-        """
-        Adds a reference to a successor executable entity.
-
-        Args:
-            ref: Reference to the successor entity
-        """
-        self.successor_refs.append(ref)
-
-    def getSuccessorRefs(self) -> List[RefType]:
-        """
-        Returns the list of successor references for this entity.
-
-        Returns:
-            List of successor entity references
-        """
-        return self.successor_refs
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
 
 class ExecutionOrderConstraint(TimingConstraint):
     """
-    Execution order constraint defining the execution sequence of executable entities.
-    This constraint specifies the order in which runnables or other executable entities
-    should be executed within a software component.
+    This constraint is used to restrict the order of execution for a set of
+    ExecutableEntitys. The ExecutionOrderConstraint can be used in any timing
+    view. The various scopes for ExecutionOrderConstraint are described below.
+    Generally, each ExecutionOrder Constraint has a scope of software components
+    and can reference all ExecutableEntitys available in the corresponding
+    internal behavior (RunnableEntity and BswModuleEntity) either directly or by
+    the events activating respectively starting them (RteEvent and BswEvent). On
+    VFB level an ExecutionOrderConstraint can be specified for RunnableEntities
+    part of the composition hierarchy referenced by the VfbTiming. On SW-C level
+    an ExecutionOrderConstraint can be specified for RunnableEntities part of
+    the Internal Behavior referenced by the SwcTiming. On System level an
+    ExecutionOrderConstraint can be specified for RunnableEntities part of the
+    composition hierarchy of the system referenced by the SystemTiming. On BSW
+    Module level, an ExectionOrderConstraint can be specified for
+    BswModuleEntities part of an BswInternalBehavior referenced by the
+    BswModuleTiming. On ECU level an ExecutionOrderConstraint can be specified
+    for all ExecutableEntitys and Events available via the EcucValueCollection,
+    covering ECU Extract and BSW Module Configuration, referenced by the
+    EcuTiming.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint::ExecutionOrderConstraint
+    
+    Sources:
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 118, Classic Platform R23-11)
     """
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        super().__init__(parent, short_name)
-
-        self.ordered_elements: List[EOCExecutableEntityRefAbstract] = []
-
-    def createEOCExecutableEntityRef(self, short_name: str)-> EOCExecutableEntityRef:
-        """
-        Creates a new executable entity reference with the specified short name.
-
-        Args:
-            short_name: Short name for the new entity reference
-
-        Returns:
-            The created EOCExecutableEntityRef instance
-        """
-        if not self.IsElementExists(short_name):
-            entity_ref = EOCExecutableEntityRef(self, short_name)
-            self.addElement(entity_ref)
-            self.ordered_elements.append(entity_ref)
-        return self.getElement(short_name, EOCExecutableEntityRef)
-
-    def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
-        """
-        Returns the list of ordered executable entity references.
-
-        Returns:
-            List of ordered executable entity references
-        """
-        return self.ordered_elements
-
-
-class EOCEventRef(ARObject):
-    """
-    Represents an event reference in execution order constraints.
-    Defines a reference to an event used in execution order specifications.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the EOCEventRef with default values.
-        """
+    def __init__(self):
         super().__init__()
-        self.eventRef: Union[Union[RefType, None] , None] = None
 
-    def getEventRef(self) -> Union[RefType, None]:
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Specifies the composition SW-C type playing the role of a SW-C containing
+        # further SW-Cs and represents the the Execution Order Constraint.
+        self._base: Optional["CompositionSw"] = None
+
+    @property
+    def base(self) -> Optional["CompositionSw"]:
+        """Get base (Pythonic accessor)."""
+        return self._base
+
+    @base.setter
+    def base(self, value: Optional["CompositionSw"]) -> None:
         """
-        Gets the event reference.
-
-        Returns:
-            Reference to the event
-        """
-        return self.eventRef
-
-    def setEventRef(self, value: RefType) -> "EOCEventRef":
-        """
-        Sets the event reference.
-
+        Set base with validation.
+        
         Args:
-            value: The event reference to set
+            value: The base to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._base = None
+            return
 
+        if not isinstance(value, CompositionSw):
+            raise TypeError(
+                f"base must be CompositionSw or None, got {type(value).__name__}"
+            )
+        self._base = value
+        # Specifies the specific type of ExecutionOrderConstraint.
+        self._executionOrder: Optional["ExecutionOrder"] = None
+
+    @property
+    def execution_order(self) -> Optional["ExecutionOrder"]:
+        """Get executionOrder (Pythonic accessor)."""
+        return self._executionOrder
+
+    @execution_order.setter
+    def execution_order(self, value: Optional["ExecutionOrder"]) -> None:
+        """
+        Set executionOrder with validation.
+        
+        Args:
+            value: The executionOrder to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._executionOrder = None
+            return
+
+        if not isinstance(value, ExecutionOrder):
+            raise TypeError(
+                f"executionOrder must be ExecutionOrder or None, got {type(value).__name__}"
+            )
+        self._executionOrder = value
+        # Controls whether the order of execution specified by this can be
+        # intentionally ignored (TRUE), or shall be.
+        self._ignoreOrder: Optional["Boolean"] = None
+
+    @property
+    def ignore_order(self) -> Optional["Boolean"]:
+        """Get ignoreOrder (Pythonic accessor)."""
+        return self._ignoreOrder
+
+    @ignore_order.setter
+    def ignore_order(self, value: Optional["Boolean"]) -> None:
+        """
+        Set ignoreOrder with validation.
+        
+        Args:
+            value: The ignoreOrder to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._ignoreOrder = None
+            return
+
+        if not isinstance(value, Boolean):
+            raise TypeError(
+                f"ignoreOrder must be Boolean or None, got {type(value).__name__}"
+            )
+        self._ignoreOrder = value
+        # Indicates whether the ExecutionOrderConstraint is only Executable Entities
+        # (FALSE) or only to RTE Events (TRUE).
+        self._isEvent: Optional["Boolean"] = None
+
+    @property
+    def is_event(self) -> Optional["Boolean"]:
+        """Get isEvent (Pythonic accessor)."""
+        return self._isEvent
+
+    @is_event.setter
+    def is_event(self, value: Optional["Boolean"]) -> None:
+        """
+        Set isEvent with validation.
+        
+        Args:
+            value: The isEvent to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._isEvent = None
+            return
+
+        if not isinstance(value, Boolean):
+            raise TypeError(
+                f"isEvent must be Boolean or None, got {type(value).__name__}"
+            )
+        self._isEvent = value
+        # This aggregation represents an unordered collection of to RunnableEntities
+                # which shall be considered ExecutionOrderConstraint.
+        # The role does not imply collection of references itself shall be ordered.
+        self._orderedElement: List["EOCExecutableEntity"] = []
+
+    @property
+    def ordered_element(self) -> List["EOCExecutableEntity"]:
+        """Get orderedElement (Pythonic accessor)."""
+        return self._orderedElement
+        # Indicates that the ExecutionOrderConstraints permits that Executable Entity
+        # is referenced multiple times (TRUE) only once (FALSE) in the constraint.
+        self._permitMultiple: Optional["Boolean"] = None
+
+    @property
+    def permit_multiple(self) -> Optional["Boolean"]:
+        """Get permitMultiple (Pythonic accessor)."""
+        return self._permitMultiple
+
+    @permit_multiple.setter
+    def permit_multiple(self, value: Optional["Boolean"]) -> None:
+        """
+        Set permitMultiple with validation.
+        
+        Args:
+            value: The permitMultiple to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._permitMultiple = None
+            return
+
+        if not isinstance(value, Boolean):
+            raise TypeError(
+                f"permitMultiple must be Boolean or None, got {type(value).__name__}"
+            )
+        self._permitMultiple = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getBase(self) -> "CompositionSw":
+        """
+        AUTOSAR-compliant getter for base.
+        
+        Returns:
+            The base value
+        
+        Note:
+            Delegates to base property (CODING_RULE_V2_00017)
+        """
+        return self.base  # Delegates to property
+
+    def setBase(self, value: "CompositionSw") -> "ExecutionOrderConstraint":
+        """
+        AUTOSAR-compliant setter for base with method chaining.
+        
+        Args:
+            value: The base to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to base property setter (gets validation automatically)
         """
-        self.eventRef = value
+        self.base = value  # Delegates to property setter
         return self
 
-
-class EOCExecutableEntityRefGroup(ARObject):
-    """
-    Represents a group of executable entity references in execution order constraints.
-    Defines a collection of executable entity references that can be ordered as a group.
-    """
-
-
-    def __init__(self) -> None:
+    def getExecutionOrder(self) -> "ExecutionOrder":
         """
-        Initializes the EOCExecutableEntityRefGroup with default values.
+        AUTOSAR-compliant getter for executionOrder.
+        
+        Returns:
+            The executionOrder value
+        
+        Note:
+            Delegates to execution_order property (CODING_RULE_V2_00017)
         """
-        super().__init__()
-        self.entityRefs: List[RefType] = []
+        return self.execution_order  # Delegates to property
 
-    def addEntityRef(self, ref: RefType):
+    def setExecutionOrder(self, value: "ExecutionOrder") -> "ExecutionOrderConstraint":
         """
-        Adds an executable entity reference to this group.
-
+        AUTOSAR-compliant setter for executionOrder with method chaining.
+        
         Args:
-            ref: The executable entity reference to add
-
+            value: The executionOrder to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to execution_order property setter (gets validation automatically)
         """
-        self.entityRefs.append(ref)
+        self.execution_order = value  # Delegates to property setter
         return self
 
-    def getEntityRefs(self) -> List[RefType]:
+    def getIgnoreOrder(self) -> "Boolean":
         """
-        Gets the list of executable entity references.
-
+        AUTOSAR-compliant getter for ignoreOrder.
+        
         Returns:
-            List of executable entity references
+            The ignoreOrder value
+        
+        Note:
+            Delegates to ignore_order property (CODING_RULE_V2_00017)
         """
-        return self.entityRefs
+        return self.ignore_order  # Delegates to property
 
+    def setIgnoreOrder(self, value: "Boolean") -> "ExecutionOrderConstraint":
+        """
+        AUTOSAR-compliant setter for ignoreOrder with method chaining.
+        
+        Args:
+            value: The ignoreOrder to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to ignore_order property setter (gets validation automatically)
+        """
+        self.ignore_order = value  # Delegates to property setter
+        return self
 
-class ExecutionOrderConstraintTypeEnum:
-    """
-    Enumeration for execution order constraint types in AUTOSAR.
-    Defines different types of execution order constraints.
-    """
+    def getIsEvent(self) -> "Boolean":
+        """
+        AUTOSAR-compliant getter for isEvent.
+        
+        Returns:
+            The isEvent value
+        
+        Note:
+            Delegates to is_event property (CODING_RULE_V2_00017)
+        """
+        return self.is_event  # Delegates to property
 
-    ENUM_BEFORE = "before"
-    ENUM_AFTER = "after"
-    ENUM_IMMEDIATE = "immediate"
-    ENUM_CONCURRENT = "concurrent"
+    def setIsEvent(self, value: "Boolean") -> "ExecutionOrderConstraint":
+        """
+        AUTOSAR-compliant setter for isEvent with method chaining.
+        
+        Args:
+            value: The isEvent to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to is_event property setter (gets validation automatically)
+        """
+        self.is_event = value  # Delegates to property setter
+        return self
 
+    def getOrderedElement(self) -> List["EOCExecutableEntity"]:
+        """
+        AUTOSAR-compliant getter for orderedElement.
+        
+        Returns:
+            The orderedElement value
+        
+        Note:
+            Delegates to ordered_element property (CODING_RULE_V2_00017)
+        """
+        return self.ordered_element  # Delegates to property
 
-class LetDataExchangeParadigmEnum:
-    """
-    Enumeration for LET (Logical Execution Time) data exchange paradigms in AUTOSAR.
-    Defines different paradigms for data exchange in LET timing.
-    """
+    def getPermitMultiple(self) -> "Boolean":
+        """
+        AUTOSAR-compliant getter for permitMultiple.
+        
+        Returns:
+            The permitMultiple value
+        
+        Note:
+            Delegates to permit_multiple property (CODING_RULE_V2_00017)
+        """
+        return self.permit_multiple  # Delegates to property
 
-    ENUM_BUFFERED = "buffered"
-    ENUM_UNBUFFERED = "unbuffered"
-    ENUM_EVENT_TRIGGERED = "event-triggered"
+    def setPermitMultiple(self, value: "Boolean") -> "ExecutionOrderConstraint":
+        """
+        AUTOSAR-compliant setter for permitMultiple with method chaining.
+        
+        Args:
+            value: The permitMultiple to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to permit_multiple property setter (gets validation automatically)
+        """
+        self.permit_multiple = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_base(self, value: Optional["CompositionSw"]) -> "ExecutionOrderConstraint":
+        """
+        Set base and return self for chaining.
+        
+        Args:
+            value: The base to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_base("value")
+        """
+        self.base = value  # Use property setter (gets validation)
+        return self
+
+    def with_execution_order(self, value: Optional["ExecutionOrder"]) -> "ExecutionOrderConstraint":
+        """
+        Set executionOrder and return self for chaining.
+        
+        Args:
+            value: The executionOrder to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_execution_order("value")
+        """
+        self.execution_order = value  # Use property setter (gets validation)
+        return self
+
+    def with_ignore_order(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
+        """
+        Set ignoreOrder and return self for chaining.
+        
+        Args:
+            value: The ignoreOrder to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_ignore_order("value")
+        """
+        self.ignore_order = value  # Use property setter (gets validation)
+        return self
+
+    def with_is_event(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
+        """
+        Set isEvent and return self for chaining.
+        
+        Args:
+            value: The isEvent to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_is_event("value")
+        """
+        self.is_event = value  # Use property setter (gets validation)
+        return self
+
+    def with_permit_multiple(self, value: Optional["Boolean"]) -> "ExecutionOrderConstraint":
+        """
+        Set permitMultiple and return self for chaining.
+        
+        Args:
+            value: The permitMultiple to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_permit_multiple("value")
+        """
+        self.permit_multiple = value  # Use property setter (gets validation)
+        return self

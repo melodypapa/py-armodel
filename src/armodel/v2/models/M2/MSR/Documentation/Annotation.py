@@ -1,54 +1,23 @@
-from abc import ABC
-from typing import TYPE_CHECKING, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultilanguageLongName,
-)
-
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
-        DocumentationBlock,
-    )
-
-
-class GeneralAnnotation(ARObject, ABC):
-    def __init__(self) -> None:
-        if type(self) is GeneralAnnotation:
-            raise TypeError("GeneralAnnotation is an abstract class.")
-
-        super().__init__()
-        self.annotationOrigin: Union[ARLiteral, None] = None
-        self.annotationText: Union["DocumentationBlock", None] = None
-        self.label: Union[MultilanguageLongName, None] = None
-
-    def getAnnotationOrigin(self) -> Union[ARLiteral, None]:
-        return self.annotationOrigin
-
-    def setAnnotationOrigin(self, value: ARLiteral) -> "GeneralAnnotation":
-        self.annotationOrigin = value
-        return self
-
-    def getAnnotationText(self) -> Union["DocumentationBlock", None]:
-        return self.annotationText
-
-    def setAnnotationText(self, value: "DocumentationBlock") -> "GeneralAnnotation":
-        self.annotationText = value
-        return self
-
-    def getLabel(self) -> Union[MultilanguageLongName, None]:
-        return self.label
-
-    def setLabel(self, value: MultilanguageLongName) -> "GeneralAnnotation":
-        self.label = value
-        return  self
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
 
 class Annotation(GeneralAnnotation):
-    def __init__(self) -> None:
+    """
+    This is a plain annotation which does not have further formal data.
+    
+    Package: M2::MSR::Documentation::Annotation::Annotation
+    
+    Sources:
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 334, Classic Platform
+      R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 163, Foundation
+      R23-11)
+    """
+    def __init__(self):
         super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====

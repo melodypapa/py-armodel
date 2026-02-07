@@ -1,512 +1,103 @@
-"""
-This module contains classes for representing AUTOSAR mode declaration structures
-in the CommonStructure module. Mode declarations define different operational states
-that software components or BSW modules can be in, along with transitions between states.
-"""
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
-    AtpPrototype,
-    AtpStructureElement,
-    AtpType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
-    ARNumerical,
-    PositiveInteger,
-    RefType,
-    TRefType,
-)
-
-
-class ModeActivationKind(AREnum):
+class ModeDeclaration(Identifiable):
     """
-    Enumeration for mode activation kind values.
-    Defines the kind of mode switch condition used for activation of an event.
+    Declaration of one Mode. The name and semantics of a specific mode is not
+    defined in the meta-model.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::ModeDeclaration::ModeDeclaration
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 43, Classic
+      Platform R23-11)
+      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 322, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 628, Classic Platform
+      R23-11)
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2038, Classic Platform R23-11)
+      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 233, Classic Platform R23-11)
     """
-    # On entering the referred mode
-    ON_ENTRY = "onEntry"
-    # On exiting the referred mode
-    ON_EXIT = "onExit"
-    # On transition of the 1st referred mode to the 2nd referred mode
-    ON_TRANSITION = "onTransition"
-
-    def __init__(self) -> None:
-        super().__init__([
-            ModeActivationKind.ON_ENTRY,
-            ModeActivationKind.ON_EXIT,
-            ModeActivationKind.ON_TRANSITION,
-        ])
-
-
-class ModeDeclarationGroupPrototypeMapping(ARObject):
-    """
-    Represents a mapping between mode declaration group prototypes in AUTOSAR models.
-    This class defines relationships between different mode declaration group prototypes across system boundaries.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the ModeDeclarationGroupPrototypeMapping with default values.
-        """
+    def __init__(self):
         super().__init__()
 
-        # Reference to the first mode group in the mapping
-        self.firstModeGroupRef: Union[Union[RefType, None] , None] = None
-        # Reference to the mode declaration mapping set
-        self.modeDeclarationMappingSetRef: Union[Union[RefType, None] , None] = None
-        # Reference to the second mode group in the mapping
-        self.secondModeGroupRef: Union[Union[RefType, None] , None] = None
-
-    def getFirstModeGroupRef(self):
-        """
-        Gets the reference to the first mode group in the mapping.
-
-        Returns:
-            RefType: The first mode group reference
-        """
-        return self.firstModeGroupRef
-
-    def setFirstModeGroupRef(self, value):
-        """
-        Sets the reference to the first mode group in the mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The first mode group reference to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.firstModeGroupRef = value
-        return self
-
-    def getModeDeclarationMappingSetRef(self):
-        """
-        Gets the reference to the mode declaration mapping set.
-
-        Returns:
-            RefType: The mode declaration mapping set reference
-        """
-        return self.modeDeclarationMappingSetRef
-
-    def setModeDeclarationMappingSetRef(self, value):
-        """
-        Sets the reference to the mode declaration mapping set.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The mode declaration mapping set reference to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.modeDeclarationMappingSetRef = value
-        return self
-
-    def getSecondModeGroupRef(self):
-        """
-        Gets the reference to the second mode group in the mapping.
-
-        Returns:
-            RefType: The second mode group reference
-        """
-        return self.secondModeGroupRef
-
-    def setSecondModeGroupRef(self, value):
-        """
-        Sets the reference to the second mode group in the mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The second mode group reference to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.secondModeGroupRef = value
-        return self
-
-
-class ModeDeclaration(AtpStructureElement):
-    """
-    Represents a mode declaration in AUTOSAR models.
-    Mode declarations define specific operational states that components can be in, with associated values.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ModeDeclaration with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode declaration
-            short_name: The unique short name of this mode declaration
-        """
-        super().__init__(parent, short_name)
-
-        # Value associated with this mode declaration
-        self.value: Union[Union[ARNumerical, None] , None] = None
-
-    def setValue(self, value):
-        """
-        Sets the value associated with this mode declaration.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.value = value
-        return self
-
-    def getValue(self) -> ARNumerical:
-        """
-        Gets the value associated with this mode declaration.
-
-        Returns:
-            ARNumerical: The mode value
-        """
-        return self.value
-
-
-class ModeRequestTypeMap(ARObject):
-    """
-    Represents a mapping between mode requests and implementation data types in AUTOSAR models.
-    This class defines how mode requests are mapped to specific implementation data types.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the ModeRequestTypeMap with default values.
-        """
-        super().__init__()
-
-        # Reference to the implementation data type for mode requests
-        self.implementationDataTypeRef: Union[Union[RefType, None] , None] = None
-        # Reference to the mode group for this mapping
-        self.modeGroupRef: Union[Union[RefType, None] , None] = None
-
-    def getImplementationDataTypeRef(self):
-        """
-        Gets the reference to the implementation data type for mode requests.
-
-        Returns:
-            RefType: The implementation data type reference
-        """
-        return self.implementationDataTypeRef
-
-    def setImplementationDataTypeRef(self, value):
-        """
-        Sets the reference to the implementation data type for mode requests.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The implementation data type reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.implementationDataTypeRef = value
-        return self
-
-    def getModeGroupRef(self):
-        """
-        Gets the reference to the mode group for this mapping.
-
-        Returns:
-            RefType: The mode group reference
-        """
-        return self.modeGroupRef
-
-    def setModeGroupRef(self, value):
-        """
-        Sets the reference to the mode group for this mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The mode group reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.modeGroupRef = value
-        return self
-
-
-class ModeDeclarationGroup(AtpType):
-    """
-    Represents a mode declaration group in AUTOSAR models.
-    Mode declaration groups define collections of related mode declarations and their initial state.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ModeDeclarationGroup with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode declaration group
-            short_name: The unique short name of this mode declaration group
-        """
-        super().__init__(parent, short_name)
-
-        # Reference to the initial mode of this group
-        self.initialModeRef: Union[Union[RefType, None] , None] = None
-        # List of mode declarations in this group
-        self.modeDeclarations: List['ModeDeclaration'] = []
-        # Error behavior for the mode manager
-        self.modeManagerErrorBehavior = None
-        # Mode transition behavior for this group
-        self.modeTransition = None
-        # Error behavior for the mode user
-        self.modeUserErrorBehavior = None
-        # Value used on mode transitions
-        self.onTransitionValue: Union[Union[PositiveInteger, None] , None] = None
-
-    def createModeDeclaration(self, short_name: str) -> 'ModeDeclaration':
-        """
-        Creates and adds a ModeDeclaration to this mode declaration group.
-
-        Args:
-            short_name: The short name for the new mode declaration
-
-        Returns:
-            The created ModeDeclaration instance
-        """
-        if not self.IsElementExists(short_name):
-            spec = ModeDeclaration(self, short_name)
-            self.addElement(spec)
-        return self.getElement(short_name, ModeDeclaration)
-
-    def getModeDeclarations(self) -> List['ModeDeclaration']:
-        """
-        Gets all mode declarations from the elements list, sorted by short name.
-
-        Returns:
-            List of ModeDeclaration instances sorted by short name
-        """
-        return sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name)
-
-    def setInitialModeRef(self, ref: RefType):
-        """
-        Sets the reference to the initial mode of this group.
-        Only sets the value if it is not None.
-
-        Args:
-            ref: The initial mode reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.initialModeRef = ref
-        return self
-
-    def getInitialModeRef(self) -> Union[RefType, None]:
-        """
-        Gets the reference to the initial mode of this group.
-
-        Returns:
-            RefType: The initial mode reference
-        """
-        return self.initialModeRef
-
-    def setOnTransitionValue(self, value):
-        """
-        Sets the value used on mode transitions.
-        If value is an integer, creates an ARNumerical instance with that value.
-
-        Args:
-            value: The value to set for transitions
-
-        Returns:
-            self for method chaining
-        """
-        if isinstance(value, int):
-            original_value = value
-            value = ARNumerical()
-            value.setValue(original_value)
-        self.onTransitionValue = value
-        return self
-
-    def getOnTransitionValue(self) -> ARNumerical:
-        """
-        Gets the value used on mode transitions.
-
-        Returns:
-            ARNumerical: The transition value
-        """
-        return self.onTransitionValue
-
-
-class ModeDeclarationGroupPrototype(AtpPrototype):
-    """
-    Represents a mode declaration group prototype in AUTOSAR models.
-    The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
-    """
-
-    def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the ModeDeclarationGroupPrototype with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode declaration group prototype
-            short_name: The unique short name of this mode declaration group prototype
-        """
-        super().__init__(parent, short_name)
-
-        # Private storage for software calibration access setting
-        self._swCalibrationAccess: Union[str, None] = None
-        # Type reference to the mode declaration group
-        self.typeTRef: Union[Union[TRefType, None] , None] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # The RTE shall take the value of this attribute for source code representation
+        # of this Mode.
+        self._value: Optional["PositiveInteger"] = None
 
     @property
-    def sw_calibration_access(self):
-        """
-        Gets the software calibration access setting for this mode declaration group prototype.
-        This property controls access permissions for calibration parameters.
+    def value(self) -> Optional["PositiveInteger"]:
+        """Get value (Pythonic accessor)."""
+        return self._value
 
-        Returns:
-            str: The software calibration access setting
+    @value.setter
+    def value(self, value: Optional["PositiveInteger"]) -> None:
         """
-        return self._swCalibrationAccess
-
-    @sw_calibration_access.setter
-    def sw_calibration_access(self, value) -> None:
-        """
-        Sets the software calibration access setting for this mode declaration group prototype.
-        Valid values are "notAccessible", "readOnly", or "readWrite".
-        Raises ValueError if an invalid value is provided.
-
+        Set value with validation.
+        
         Args:
-            value: The software calibration access setting to set
+            value: The value to set
+        
+        Raises:
+            TypeError: If value type is incorrect
         """
-        if (value not in ("notAccessible", "readOnly", "readWrite")):
-            raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
-        self._swCalibrationAccess = value
+        if value is None:
+            self._value = None
+            return
 
-    def getSwCalibrationAccess(self):
+        if not isinstance(value, PositiveInteger):
+            raise TypeError(
+                f"value must be PositiveInteger or None, got {type(value).__name__}"
+            )
+        self._value = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getValue(self) -> "PositiveInteger":
         """
-        Gets the software calibration access setting for this mode declaration group prototype.
-        This is a convenience method that returns the same value as the property.
-
+        AUTOSAR-compliant getter for value.
+        
         Returns:
-            str: The software calibration access setting
+            The value value
+        
+        Note:
+            Delegates to value property (CODING_RULE_V2_00017)
         """
-        return self.sw_calibration_access
+        return self.value  # Delegates to property
 
-    def setSwCalibrationAccess(self, value):
+    def setValue(self, value: "PositiveInteger") -> "ModeDeclaration":
         """
-        Sets the software calibration access setting for this mode declaration group prototype.
-        This is a convenience method that sets the same value as the property.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for value with method chaining.
+        
         Args:
-            value: The software calibration access setting to set
-
+            value: The value to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to value property setter (gets validation automatically)
         """
-        self.sw_calibration_access = value
+        self.value = value  # Delegates to property setter
         return self
 
-    def getTypeTRef(self):
-        """
-        Gets the type reference to the mode declaration group for this prototype.
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-        Returns:
-            TRefType: The type reference
+    def with_value(self, value: Optional["PositiveInteger"]) -> "ModeDeclaration":
         """
-        return self.typeTRef
-
-    def setTypeTRef(self, value):
-        """
-        Sets the type reference to the mode declaration group for this prototype.
-        Only sets the value if it is not None.
-
+        Set value and return self for chaining.
+        
         Args:
-            value: The type reference to set
-
+            value: The value to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_value("value")
         """
-        self.typeTRef = value
+        self.value = value  # Use property setter (gets validation)
         return self
-
-
-class ModeErrorBehavior(ARObject):
-    """
-    Represents mode error behavior in AUTOSAR.
-    This class defines the behavior when a mode error occurs.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the ModeErrorBehavior with default values.
-        """
-        super().__init__()
-        self.errorPolicy: Union[str, None] = None
-
-    def getErrorPolicy(self):
-        return self.errorPolicy
-
-    def setErrorPolicy(self, value):
-        self.errorPolicy = value
-        return self
-
-
-class ModeTransition(ARObject):
-    """
-    Represents a mode transition in AUTOSAR.
-    This class defines transitions between different mode declarations.
-    """
-
-
-    def __init__(self) -> None:
-        """
-        Initializes the ModeTransition with default values.
-        """
-        super().__init__()
-        self.sourceModeRef: Union[Union[RefType, None] , None] = None
-        self.targetModeRef: Union[Union[RefType, None] , None] = None
-
-    def getSourceModeRef(self):
-        return self.sourceModeRef
-
-    def setSourceModeRef(self, value):
-        self.sourceModeRef = value
-        return self
-
-    def getTargetModeRef(self):
-        return self.targetModeRef
-
-    def setTargetModeRef(self, value):
-        self.targetModeRef = value
-        return self
-
-
-class ModeErrorReactionPolicyEnum(AREnum):
-    """
-    Enumeration for mode error reaction policy.
-    """
-
-    KEEP_MODE = "keep-mode"
-    TRANSITION_TO_DEFAULT_MODE = "transition-to-default-mode"
-    TRANSITION_TO_SAFE_MODE = "transition-to-safe-mode"
-
-    def __init__(self) -> None:
-        super().__init__([
-            ModeErrorReactionPolicyEnum.KEEP_MODE,
-            ModeErrorReactionPolicyEnum.TRANSITION_TO_DEFAULT_MODE,
-            ModeErrorReactionPolicyEnum.TRANSITION_TO_SAFE_MODE,
-        ])

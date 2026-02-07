@@ -1,8 +1,0 @@
-from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem.IdsmModuleInstantiation import (
-    IdsmModuleInstantiation,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.IntrusionDetectionSystem.IdsPlatformInstantiation import (
-    IdsPlatformInstantiation,
-)
-
-__all__ = ['IdsPlatformInstantiation', 'IdsmModuleInstantiation']

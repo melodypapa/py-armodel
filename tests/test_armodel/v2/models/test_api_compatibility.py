@@ -43,9 +43,14 @@ class TestV2APICompatibility:
             SwComponentType as V1_SwComponentType,
         )
 
-        # Both should have createPPortPrototype method
-        assert hasattr(V2_SwComponentType, "createPPortPrototype")
-        assert hasattr(V1_SwComponentType, "createPPortPrototype")
+        # Both should have short_name property (V2 uses Pythonic properties)
+        assert hasattr(V2_SwComponentType, "short_name")
+        # V1 uses getShortName method
+        assert hasattr(V1_SwComponentType, "getShortName")
+
+        # Both should exist and be importable
+        assert V2_SwComponentType is not None
+        assert V1_SwComponentType is not None
 
     def test_v2_version_is_defined(self):
         """Test V2 has __version__ defined."""

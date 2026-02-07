@@ -1,0 +1,406 @@
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+class LifeCycleInfo(ARObject):
+    """
+    LifeCycleInfo describes the life cycle state of an element together with
+    additional information like what to use instead
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::LifeCycles::LifeCycleInfo
+    
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 392, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 195, Foundation R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # Element(s) have the life cycle as described in lcState.
+        self._lcObject: RefType = None
+
+    @property
+    def lc_object(self) -> RefType:
+        """Get lcObject (Pythonic accessor)."""
+        return self._lcObject
+
+    @lc_object.setter
+    def lc_object(self, value: RefType) -> None:
+        """
+        Set lcObject with validation.
+        
+        Args:
+            value: The lcObject to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        self._lcObject = value
+        # This denotes the particular state assigned to the object.
+        # If is given then the default life cycle state of Life assumed.
+        self._lcState: Optional["LifeCycleState"] = None
+
+    @property
+    def lc_state(self) -> Optional["LifeCycleState"]:
+        """Get lcState (Pythonic accessor)."""
+        return self._lcState
+
+    @lc_state.setter
+    def lc_state(self, value: Optional["LifeCycleState"]) -> None:
+        """
+        Set lcState with validation.
+        
+        Args:
+            value: The lcState to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._lcState = None
+            return
+
+        if not isinstance(value, LifeCycleState):
+            raise TypeError(
+                f"lcState must be LifeCycleState or None, got {type(value).__name__}"
+            )
+        self._lcState = value
+        # Starting point of period in which the element has the cycle state lcState.
+        # If no periodBegin is given default period begin of LifeCycleInfoSet is 535
+                # Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
+        self._periodBegin: Optional["LifeCyclePeriod"] = None
+
+    @property
+    def period_begin(self) -> Optional["LifeCyclePeriod"]:
+        """Get periodBegin (Pythonic accessor)."""
+        return self._periodBegin
+
+    @period_begin.setter
+    def period_begin(self, value: Optional["LifeCyclePeriod"]) -> None:
+        """
+        Set periodBegin with validation.
+        
+        Args:
+            value: The periodBegin to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._periodBegin = None
+            return
+
+        if not isinstance(value, LifeCyclePeriod):
+            raise TypeError(
+                f"periodBegin must be LifeCyclePeriod or None, got {type(value).__name__}"
+            )
+        self._periodBegin = value
+        # Expiry date, i.
+        # e.
+        # end point of period the element does not denoted life cycle state lcState any
+                # more.
+        # If no given then the default period begin of Life assumed.
+        self._periodEnd: Optional["LifeCyclePeriod"] = None
+
+    @property
+    def period_end(self) -> Optional["LifeCyclePeriod"]:
+        """Get periodEnd (Pythonic accessor)."""
+        return self._periodEnd
+
+    @period_end.setter
+    def period_end(self, value: Optional["LifeCyclePeriod"]) -> None:
+        """
+        Set periodEnd with validation.
+        
+        Args:
+            value: The periodEnd to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._periodEnd = None
+            return
+
+        if not isinstance(value, LifeCyclePeriod):
+            raise TypeError(
+                f"periodEnd must be LifeCyclePeriod or None, got {type(value).__name__}"
+            )
+        self._periodEnd = value
+        # Remark describing for example the element was given the specified life cycle
+        # semantics of useInstead.
+        self._remark: Optional["DocumentationBlock"] = None
+
+    @property
+    def remark(self) -> Optional["DocumentationBlock"]:
+        """Get remark (Pythonic accessor)."""
+        return self._remark
+
+    @remark.setter
+    def remark(self, value: Optional["DocumentationBlock"]) -> None:
+        """
+        Set remark with validation.
+        
+        Args:
+            value: The remark to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._remark = None
+            return
+
+        if not isinstance(value, DocumentationBlock):
+            raise TypeError(
+                f"remark must be DocumentationBlock or None, got {type(value).__name__}"
+            )
+        self._remark = value
+        # Element(s) that should be used instead of the one referrable.
+        # in case of life cycle states lcState unlike case there are multiple
+                # references the exact be individually described in the remark.
+        self._useInstead: List[RefType] = []
+
+    @property
+    def use_instead(self) -> List[RefType]:
+        """Get useInstead (Pythonic accessor)."""
+        return self._useInstead
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getLcObject(self) -> RefType:
+        """
+        AUTOSAR-compliant getter for lcObject.
+        
+        Returns:
+            The lcObject value
+        
+        Note:
+            Delegates to lc_object property (CODING_RULE_V2_00017)
+        """
+        return self.lc_object  # Delegates to property
+
+    def setLcObject(self, value: RefType) -> "LifeCycleInfo":
+        """
+        AUTOSAR-compliant setter for lcObject with method chaining.
+        
+        Args:
+            value: The lcObject to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to lc_object property setter (gets validation automatically)
+        """
+        self.lc_object = value  # Delegates to property setter
+        return self
+
+    def getLcState(self) -> "LifeCycleState":
+        """
+        AUTOSAR-compliant getter for lcState.
+        
+        Returns:
+            The lcState value
+        
+        Note:
+            Delegates to lc_state property (CODING_RULE_V2_00017)
+        """
+        return self.lc_state  # Delegates to property
+
+    def setLcState(self, value: "LifeCycleState") -> "LifeCycleInfo":
+        """
+        AUTOSAR-compliant setter for lcState with method chaining.
+        
+        Args:
+            value: The lcState to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to lc_state property setter (gets validation automatically)
+        """
+        self.lc_state = value  # Delegates to property setter
+        return self
+
+    def getPeriodBegin(self) -> "LifeCyclePeriod":
+        """
+        AUTOSAR-compliant getter for periodBegin.
+        
+        Returns:
+            The periodBegin value
+        
+        Note:
+            Delegates to period_begin property (CODING_RULE_V2_00017)
+        """
+        return self.period_begin  # Delegates to property
+
+    def setPeriodBegin(self, value: "LifeCyclePeriod") -> "LifeCycleInfo":
+        """
+        AUTOSAR-compliant setter for periodBegin with method chaining.
+        
+        Args:
+            value: The periodBegin to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to period_begin property setter (gets validation automatically)
+        """
+        self.period_begin = value  # Delegates to property setter
+        return self
+
+    def getPeriodEnd(self) -> "LifeCyclePeriod":
+        """
+        AUTOSAR-compliant getter for periodEnd.
+        
+        Returns:
+            The periodEnd value
+        
+        Note:
+            Delegates to period_end property (CODING_RULE_V2_00017)
+        """
+        return self.period_end  # Delegates to property
+
+    def setPeriodEnd(self, value: "LifeCyclePeriod") -> "LifeCycleInfo":
+        """
+        AUTOSAR-compliant setter for periodEnd with method chaining.
+        
+        Args:
+            value: The periodEnd to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to period_end property setter (gets validation automatically)
+        """
+        self.period_end = value  # Delegates to property setter
+        return self
+
+    def getRemark(self) -> "DocumentationBlock":
+        """
+        AUTOSAR-compliant getter for remark.
+        
+        Returns:
+            The remark value
+        
+        Note:
+            Delegates to remark property (CODING_RULE_V2_00017)
+        """
+        return self.remark  # Delegates to property
+
+    def setRemark(self, value: "DocumentationBlock") -> "LifeCycleInfo":
+        """
+        AUTOSAR-compliant setter for remark with method chaining.
+        
+        Args:
+            value: The remark to set
+        
+        Returns:
+            self for method chaining
+        
+        Note:
+            Delegates to remark property setter (gets validation automatically)
+        """
+        self.remark = value  # Delegates to property setter
+        return self
+
+    def getUseInstead(self) -> List[RefType]:
+        """
+        AUTOSAR-compliant getter for useInstead.
+        
+        Returns:
+            The useInstead value
+        
+        Note:
+            Delegates to use_instead property (CODING_RULE_V2_00017)
+        """
+        return self.use_instead  # Delegates to property
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_lc_object(self, value: RefType) -> "LifeCycleInfo":
+        """
+        Set lcObject and return self for chaining.
+        
+        Args:
+            value: The lcObject to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_lc_object("value")
+        """
+        self.lc_object = value  # Use property setter (gets validation)
+        return self
+
+    def with_lc_state(self, value: Optional["LifeCycleState"]) -> "LifeCycleInfo":
+        """
+        Set lcState and return self for chaining.
+        
+        Args:
+            value: The lcState to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_lc_state("value")
+        """
+        self.lc_state = value  # Use property setter (gets validation)
+        return self
+
+    def with_period_begin(self, value: Optional["LifeCyclePeriod"]) -> "LifeCycleInfo":
+        """
+        Set periodBegin and return self for chaining.
+        
+        Args:
+            value: The periodBegin to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_period_begin("value")
+        """
+        self.period_begin = value  # Use property setter (gets validation)
+        return self
+
+    def with_period_end(self, value: Optional["LifeCyclePeriod"]) -> "LifeCycleInfo":
+        """
+        Set periodEnd and return self for chaining.
+        
+        Args:
+            value: The periodEnd to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_period_end("value")
+        """
+        self.period_end = value  # Use property setter (gets validation)
+        return self
+
+    def with_remark(self, value: Optional["DocumentationBlock"]) -> "LifeCycleInfo":
+        """
+        Set remark and return self for chaining.
+        
+        Args:
+            value: The remark to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_remark("value")
+        """
+        self.remark = value  # Use property setter (gets validation)
+        return self

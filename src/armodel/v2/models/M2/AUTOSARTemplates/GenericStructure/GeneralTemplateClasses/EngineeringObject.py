@@ -1,136 +1,267 @@
-"""
-This module contains classes for representing AUTOSAR engineering objects
-in the GenericStructure module.
-"""
-
-from abc import ABC
-from typing import Any, Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
-)
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class EngineeringObject(ARObject, ABC):
     """
-    Abstract class for AUTOSAR engineering objects.
-    This class defines the basic structure for engineering objects in AUTOSAR models.
+    This class specifies an engineering object. Usually such an object is
+    represented by a file artifact. The properties of engineering object are
+    such that the artifact can be found by querying an ASAM catalog file. The
+    engineering object is uniquely identified by
+    domain+category+shortLabel+revisionLabel.
+    
+    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject::EngineeringObject
+    
+    Sources:
+      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 132, Classic
+      Platform R23-11)
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 160, Foundation
+      R23-11)
     """
-
-    def __init__(self) -> None:
+    def __init__(self):
         if type(self) is EngineeringObject:
             raise TypeError("EngineeringObject is an abstract class.")
-
         super().__init__()
 
-        self.category: Optional[ARLiteral] = None
-        self.domain: Optional[ARLiteral] = None
-        self.revision_label: Optional[ARLiteral] = None
-        self.short_label: Optional[ARLiteral] = None
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This denotes the role of the engineering object in the Categories are such as
+                # for source code for object code for a C-header file need to be defined via
+                # Methodology.
+        # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
+                # Description Template R23-11.
+        self._category: "NameToken" = None
 
-    def setCategory(self, category: Any) -> "EngineeringObject":
+    @property
+    def category(self) -> "NameToken":
+        """Get category (Pythonic accessor)."""
+        return self._category
+
+    @category.setter
+    def category(self, value: "NameToken") -> None:
         """
-        Sets the category for this engineering object.
-        If the category is not an ARLiteral, it will be converted to one.
-
+        Set category with validation.
+        
         Args:
-            category: The category to set
+            value: The category to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, NameToken):
+            raise TypeError(
+                f"category must be NameToken, got {type(value).__name__}"
+            )
+        self._category = value
+        # This denotes the domain in which the engineering object This allows to
+                # indicate various segments in the the engineering objects.
+        # The domain companies, as well as automotive need to be defined by the
+                # Methodology.
+        # optional to support a default domain.
+        self._domain: Optional["NameToken"] = None
 
+    @property
+    def domain(self) -> Optional["NameToken"]:
+        """Get domain (Pythonic accessor)."""
+        return self._domain
+
+    @domain.setter
+    def domain(self, value: Optional["NameToken"]) -> None:
+        """
+        Set domain with validation.
+        
+        Args:
+            value: The domain to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._domain = None
+            return
+
+        if not isinstance(value, NameToken):
+            raise TypeError(
+                f"domain must be NameToken or None, got {type(value).__name__}"
+            )
+        self._domain = value
+        # This is a revision label denoting a particular version of the.
+        self._revisionLabel: List["RevisionLabelString"] = []
+
+    @property
+    def revision_label(self) -> List["RevisionLabelString"]:
+        """Get revisionLabel (Pythonic accessor)."""
+        return self._revisionLabel
+        # This is the short name of the engineering object.
+        # Note is modeled as NameToken and not as Identifier ASAM-CC it is also a
+                # NameToken.
+        self._shortLabel: "NameToken" = None
+
+    @property
+    def short_label(self) -> "NameToken":
+        """Get shortLabel (Pythonic accessor)."""
+        return self._shortLabel
+
+    @short_label.setter
+    def short_label(self, value: "NameToken") -> None:
+        """
+        Set shortLabel with validation.
+        
+        Args:
+            value: The shortLabel to set
+        
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, NameToken):
+            raise TypeError(
+                f"shortLabel must be NameToken, got {type(value).__name__}"
+            )
+        self._shortLabel = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getCategory(self) -> "NameToken":
+        """
+        AUTOSAR-compliant getter for category.
+        
+        Returns:
+            The category value
+        
+        Note:
+            Delegates to category property (CODING_RULE_V2_00017)
+        """
+        return self.category  # Delegates to property
+
+    def setCategory(self, value: "NameToken") -> "EngineeringObject":
+        """
+        AUTOSAR-compliant setter for category with method chaining.
+        
+        Args:
+            value: The category to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to category property setter (gets validation automatically)
         """
-        if isinstance(category, ARLiteral):
-            self.category = category
-        else:
-            self.category = ARLiteral()
-            self.category.setValue(str(category))
+        self.category = value  # Delegates to property setter
         return self
 
-    def getCategory(self) -> Optional[ARLiteral]:
+    def getDomain(self) -> "NameToken":
         """
-        Gets the category for this engineering object.
-
+        AUTOSAR-compliant getter for domain.
+        
         Returns:
-            ARLiteral representing the category, or None if not set
+            The domain value
+        
+        Note:
+            Delegates to domain property (CODING_RULE_V2_00017)
         """
-        return self.category
+        return self.domain  # Delegates to property
 
-    def setDomain(self, domain: ARLiteral) -> "EngineeringObject":
+    def setDomain(self, value: "NameToken") -> "EngineeringObject":
         """
-        Sets the domain for this engineering object.
-
+        AUTOSAR-compliant setter for domain with method chaining.
+        
         Args:
-            domain: The domain to set
-
+            value: The domain to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to domain property setter (gets validation automatically)
         """
-        self.domain = domain
+        self.domain = value  # Delegates to property setter
         return self
 
-    def getDomain(self) -> Optional[ARLiteral]:
+    def getRevisionLabel(self) -> List["RevisionLabelString"]:
         """
-        Gets the domain for this engineering object.
-
+        AUTOSAR-compliant getter for revisionLabel.
+        
         Returns:
-            ARLiteral representing the domain, or None if not set
+            The revisionLabel value
+        
+        Note:
+            Delegates to revision_label property (CODING_RULE_V2_00017)
         """
-        return self.domain
+        return self.revision_label  # Delegates to property
 
-    def setRevisionLabel(self, revision_label: ARLiteral) -> "EngineeringObject":
+    def getShortLabel(self) -> "NameToken":
         """
-        Sets the revision label for this engineering object.
+        AUTOSAR-compliant getter for shortLabel.
+        
+        Returns:
+            The shortLabel value
+        
+        Note:
+            Delegates to short_label property (CODING_RULE_V2_00017)
+        """
+        return self.short_label  # Delegates to property
 
+    def setShortLabel(self, value: "NameToken") -> "EngineeringObject":
+        """
+        AUTOSAR-compliant setter for shortLabel with method chaining.
+        
         Args:
-            revision_label: The revision label to set
-
+            value: The shortLabel to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to short_label property setter (gets validation automatically)
         """
-        self.revision_label = revision_label
+        self.short_label = value  # Delegates to property setter
         return self
-        return self
 
-    def getRevisionLabel(self) -> Optional[ARLiteral]:
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_category(self, value: "NameToken") -> "EngineeringObject":
         """
-        Gets the revision label for this engineering object.
-
-        Returns:
-            ARLiteral representing the revision label, or None if not set
-        """
-        return self.revision_label
-
-    def setShortLabel(self, label: ARLiteral) -> "EngineeringObject":
-        """
-        Sets the short label for this engineering object.
-
+        Set category and return self for chaining.
+        
         Args:
-            label: The short label to set
-
+            value: The category to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_category("value")
         """
-        self.short_label = label
+        self.category = value  # Use property setter (gets validation)
         return self
 
-    def getShortLabel(self) -> Optional[ARLiteral]:
+    def with_domain(self, value: Optional["NameToken"]) -> "EngineeringObject":
         """
-        Gets the short label for this engineering object.
-
+        Set domain and return self for chaining.
+        
+        Args:
+            value: The domain to set
+        
         Returns:
-            ARLiteral representing the short label, or None if not set
+            self for method chaining
+        
+        Example:
+            >>> obj.with_domain("value")
         """
-        return self.short_label
+        self.domain = value  # Use property setter (gets validation)
+        return self
 
-
-class AutosarEngineeringObject(EngineeringObject):
-    """
-    Represents an AUTOSAR engineering object.
-    This class extends EngineeringObject with AUTOSAR-specific functionality.
-    """
-
-    def __init__(self) -> None:
-        super().__init__()
+    def with_short_label(self, value: "NameToken") -> "EngineeringObject":
+        """
+        Set shortLabel and return self for chaining.
+        
+        Args:
+            value: The shortLabel to set
+        
+        Returns:
+            self for method chaining
+        
+        Example:
+            >>> obj.with_short_label("value")
+        """
+        self.short_label = value  # Use property setter (gets validation)
+        return self

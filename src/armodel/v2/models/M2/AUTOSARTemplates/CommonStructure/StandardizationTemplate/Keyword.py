@@ -1,132 +1,120 @@
-"""
-This module contains classes for representing AUTOSAR keyword structures
-in the StandardizationTemplate module. Keywords are used for standardization
-and classification purposes in AUTOSAR models.
-"""
-
-from typing import List, Union
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
-    AtpBlueprintable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    NameToken,
-)
-
+from abc import ABC, abstractmethod
+from typing import List, Optional, Dict, Any
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class Keyword(Identifiable):
     """
-    Represents a keyword in AUTOSAR models for standardization and classification purposes.
-    Keywords can have abbreviated names and classifications for organizing and categorizing elements.
+    that such names is not only shortName. It could be symbol, or even longName.
+    Application of keywords is not limited to particular names.
+    
+    Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::Keyword::Keyword
+    
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 454, Foundation
+      R23-11)
+      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 194, Foundation R23-11)
     """
+    def __init__(self):
+        super().__init__()
 
-    def __init__(self, parent, short_name) -> None:
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This attribute specifies an abbreviated name of a abbreviation may e.
+        # g.
+        # be used for shortNames according to the conventions.
+        # it may contain any name token.
+        # E.
+        # g.
+        # it of digits only.
+        # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
+        self._abbrName: "NameToken" = None
+
+    @property
+    def abbr_name(self) -> "NameToken":
+        """Get abbrName (Pythonic accessor)."""
+        return self._abbrName
+
+    @abbr_name.setter
+    def abbr_name(self, value: "NameToken") -> None:
         """
-        Initializes the Keyword with a parent and short name.
-
+        Set abbrName with validation.
+        
         Args:
-            parent: The parent ARObject that contains this keyword
-            short_name: The unique short name of this keyword
+            value: The abbrName to set
+        
+        Raises:
+            TypeError: If value type is incorrect
         """
-        super().__init__(parent, short_name)
+        if not isinstance(value, NameToken):
+            raise TypeError(
+                f"abbrName must be NameToken, got {type(value).__name__}"
+            )
+        self._abbrName = value
+        # This attribute allows to attach classification to the as MEAN, ACTION,
+        # CONDITION, INDEX,.
+        self._classification: List["NameToken"] = []
 
-        # Abbreviated name for this keyword
-        self.abbrName: Union[Union[NameToken, None] , None] = None
-        # List of classifications for this keyword
-        self.classifications: List[NameToken] = []
+    @property
+    def classification(self) -> List["NameToken"]:
+        """Get classification (Pythonic accessor)."""
+        return self._classification
 
-    def getAbbrName(self):
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getAbbrName(self) -> "NameToken":
         """
-        Gets the abbreviated name for this keyword.
-
+        AUTOSAR-compliant getter for abbrName.
+        
         Returns:
-            NameToken: The abbreviated name
+            The abbrName value
+        
+        Note:
+            Delegates to abbr_name property (CODING_RULE_V2_00017)
         """
-        return self.abbrName
+        return self.abbr_name  # Delegates to property
 
-    def setAbbrName(self, value):
+    def setAbbrName(self, value: "NameToken") -> "Keyword":
         """
-        Sets the abbreviated name for this keyword.
-        Only sets the value if it is not None.
-
+        AUTOSAR-compliant setter for abbrName with method chaining.
+        
         Args:
-            value: The abbreviated name to set
-
+            value: The abbrName to set
+        
         Returns:
             self for method chaining
+        
+        Note:
+            Delegates to abbr_name property setter (gets validation automatically)
         """
-        if value is not None:
-            self.abbrName = value
+        self.abbr_name = value  # Delegates to property setter
         return self
 
-    def getClassifications(self):
+    def getClassification(self) -> List["NameToken"]:
         """
-        Gets the list of classifications for this keyword.
-
+        AUTOSAR-compliant getter for classification.
+        
         Returns:
-            List of NameToken instances
+            The classification value
+        
+        Note:
+            Delegates to classification property (CODING_RULE_V2_00017)
         """
-        return self.classifications
+        return self.classification  # Delegates to property
 
-    def addClassification(self, value):
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_abbr_name(self, value: "NameToken") -> "Keyword":
         """
-        Adds a classification to this keyword.
-        Only adds the value if it is not None.
-
+        Set abbrName and return self for chaining.
+        
         Args:
-            value: The classification to add
-
+            value: The abbrName to set
+        
         Returns:
             self for method chaining
+        
+        Example:
+            >>> obj.with_abbr_name("value")
         """
-        if value is not None:
-            self.classifications.append(value)
+        self.abbr_name = value  # Use property setter (gets validation)
         return self
-
-
-class KeywordSet(AtpBlueprintable):
-    """
-    Represents a set of keywords in AUTOSAR models for standardization and classification purposes.
-    This class contains multiple keywords that are grouped together for organizational purposes.
-    """
-
-    def __init__(self, parent, short_name) -> None:
-        """
-        Initializes the KeywordSet with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this keyword set
-            short_name: The unique short name of this keyword set
-        """
-        super().__init__(parent, short_name)
-
-        # List of keywords in this keyword set
-        self.keywords: List[Keyword] = []
-
-    def getKeywords(self):
-        """
-        Gets the list of keywords in this keyword set.
-
-        Returns:
-            List of Keyword instances
-        """
-        return self.keywords
-
-    def createKeyword(self, short_name: str) -> Keyword:
-        """
-        Creates and adds a Keyword to this keyword set.
-
-        Args:
-            short_name: The short name for the new keyword
-
-        Returns:
-            The created Keyword instance
-        """
-        if (not self.IsElementExists(short_name)):
-            keyword = Keyword(self, short_name)
-            self.addElement(keyword)
-            self.keywords.append(keyword)
-        return self.getElement(short_name)
