@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR hardware element categorie
 in the EcuResourceTemplate module.
 """
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -266,7 +266,7 @@ class HwCategory(AtpDefinition):
         """
         return self.hwAttributeDefs
 
-    def createHwAttributeDef(self, short_name: str) -> "HwAttributeDef":
+    def createHwAttributeDef(self, short_name: str) -> Union["HwAttributeDef", None]:
         """
         Creates and adds a new hardware attribute definition to this category.
 

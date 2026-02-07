@@ -6,7 +6,7 @@ Hardware elements define the physical components of ECUs including pins, pin gro
 and connections between hardware elements.
 """
 
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
     HwAttributeValue,
@@ -238,7 +238,7 @@ class HwPinGroupContent(ARObject):
         """
         return self.hwPin
 
-    def createHwPin(self, short_name: str) -> 'HwPin':
+    def createHwPin(self, short_name: str) -> Union['HwPin', None]:
         """
         Creates a new hardware pin in this pin group content.
 
@@ -373,7 +373,7 @@ class HwElement(HwDescriptionEntity):
         """
         return self.hwPinGroups
 
-    def createHwPinGroup(self, short_name: str) -> HwPinGroup:
+    def createHwPinGroup(self, short_name: str) -> Union[HwPinGroup, None]:
         """
         Creates and adds a new hardware pin group to this element.
 
