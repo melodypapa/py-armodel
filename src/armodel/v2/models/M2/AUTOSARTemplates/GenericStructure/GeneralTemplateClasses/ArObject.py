@@ -20,7 +20,6 @@ class ARObject(ABC):
     def __init__(self) -> None:
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
-        self._validate_abstract()
 
         self.parent: Optional['ARObject'] = None
         self.checksum: Optional[str] = None

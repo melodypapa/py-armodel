@@ -50,7 +50,7 @@ class McGroupDataRefSet(ARObject):
         Initializes the McGroupDataRefSet with default values.
         """
         super().__init__()
-        self.dataRefs = []
+        self.dataRefs: list[str] = []
 
     def addDataRef(self, ref: str) -> None:
         self.dataRefs.append(ref)

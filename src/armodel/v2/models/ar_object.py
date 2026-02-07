@@ -7,7 +7,7 @@ V2 Implementation:
 - Extended attributes for custom V2 module properties
 - Modern Python patterns with type hints
 """
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 
 
@@ -24,6 +24,7 @@ class ARObject(ABC):
     - Template methods for pre/post processing hooks
     """
 
+    @abstractmethod
     def __init__(self) -> None:
         """
         Initialize ARObject with extensible attributes.

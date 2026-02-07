@@ -38,7 +38,6 @@ class ARType(ABC):
 
     @abstractmethod
     def __init__(self) -> None:
-        self._validate_abstract()
         self.timestamp: Optional[str] = None
         self.uuid: Optional[str] = None
         self._value: Optional[Any] = None
@@ -258,7 +257,7 @@ class ARLiteral(ARType):
         """str: The literal value."""
         if self._value is None:
             return ""
-        return self._value
+        return str(self._value)
 
     @value.setter
     def value(self, val: Any) -> None:
@@ -393,7 +392,7 @@ class ARPositiveInteger(ARNumerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, str]]) -> None:
+    def value(self, val: Optional[Union[int, float, str]]) -> None:
         if isinstance(val, int):
             if val < 0:
                 raise ValueError("Invalid Positive Integer <%s>" % val)
@@ -604,7 +603,7 @@ class CIdentifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: str) -> "AtpBlueprintMapping":
+    def setBlueprintValue(self, value: str) -> "CIdentifier":
         """
         Sets the blueprint value of this C identifier.
 
@@ -626,7 +625,7 @@ class CIdentifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str) -> "AtpBlueprintMapping":
+    def setNamePattern(self, value: str) -> "CIdentifier":
         """
         Sets the name pattern of this C identifier.
 
@@ -841,11 +840,11 @@ class ArgumentDirectionEnum(AREnum):
     OUT = "out"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ArgumentDirectionEnum.IN,
             ArgumentDirectionEnum.INOUT,
             ArgumentDirectionEnum.OUT
-        ))
+        ])
 
 
 class Ip4AddressString(ARLiteral):
