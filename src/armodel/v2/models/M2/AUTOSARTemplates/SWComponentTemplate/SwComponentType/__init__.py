@@ -3,7 +3,7 @@ This module contains the SwComponentType base class for AUTOSAR software compone
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Any
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpType,
@@ -22,7 +22,7 @@ class SwComponentType(AtpType, ABC):
         self.ports = []
         self.portGroups = []
 
-    def getPorts(self):
+    def getPorts(self) -> List[Any]:
         return self.ports
 
     def createPPortPrototype(self, short_name: str):
@@ -55,31 +55,31 @@ class SwComponentType(AtpType, ABC):
         self.ports.append(prototype)
         return prototype
 
-    def getPPortPrototypes(self) -> List['PPortPrototype']:
+    def getPPortPrototypes(self) -> List[Any]:
         from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
             PPortPrototype,
         )
         return sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key=lambda o: o.short_name)
 
-    def getRPortPrototypes(self) -> List['RPortPrototype']:
+    def getRPortPrototypes(self) -> List[Any]:
         from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
             RPortPrototype,
         )
         return sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key=lambda o: o.short_name)
 
-    def getPRPortPrototypes(self) -> List['PRPortPrototype']:
+    def getPRPortPrototypes(self) -> List[Any]:
         from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
             PRPortPrototype,
         )
         return sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.ports), key=lambda o: o.short_name)
 
-    def getPortPrototypes(self) -> List['PortPrototype']:
+    def getPortPrototypes(self) -> List[Any]:
         from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
             PortPrototype,
         )
         return sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name)
 
-    def getPortGroups(self) -> List['PortGroup']:
+    def getPortGroups(self) -> List[Any]:
         return self.portGroups
 
     def createPortGroup(self, short_name):

@@ -6,6 +6,15 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     ARElement,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    ARNumerical,
+    RefType,
+    Integer,
+)
+from armodel.v2.models.M2.MSR.Documentation import (
+    MultiLanguageOverviewParagraph,
+)
 
 
 class SwRecordLayoutV(ARObject):

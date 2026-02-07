@@ -7,6 +7,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     ARLiteral,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    ARFloat,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
+    ValueSpecification,
+)
 from armodel.v2.models.M2.MSR.Documentation.Annotation import Annotation
 
 
@@ -450,5 +457,21 @@ class NvBlockDescriptor(ARObject):
     def setNvBlockSize(self, value):
         if value is not None:
             self.nvBlockSize = value
+        return self
+
+
+
+class SwCalprmAxisSet(ARObject):
+    """Set of calibration parameter axes."""
+    def __init__(self) -> None:
+        super().__init__()
+        self.swAxisConts: List[ARLiteral] = []
+
+    def getSwAxisConts(self):
+        return self.swAxisConts
+
+    def addSwAxisCont(self, value):
+        if value is not None:
+            self.swAxisConts.append(value)
         return self
 

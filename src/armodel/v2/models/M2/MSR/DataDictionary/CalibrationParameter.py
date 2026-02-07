@@ -5,6 +5,17 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    MonotonyEnum,
+    DisplayFormatString,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwCalibrationAccessEnum,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.RecordLayout import (
+    AxisIndexType,
+)
 
 class SwCalprmAxisTypeProps(ARObject, ABC):
     def __init__(self) -> None:
