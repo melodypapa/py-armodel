@@ -31,52 +31,52 @@ class PhysicalDimension(ARElement):
         self.temperatureExp: Union[Union[ARNumerical, None] , None] = None
         self.timeExp: Union[Union[ARNumerical, None] , None] = None
 
-    def getCurrentExp(self) -> ARNumerical:
+    def getCurrentExp(self) -> Union[ARNumerical, None]:
         return self.currentExp
 
-    def setCurrentExp(self, value: ARNumerical):
+    def setCurrentExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.currentExp = value
         return self
 
-    def getLengthExp(self) -> ARNumerical:
+    def getLengthExp(self) -> Union[ARNumerical, None]:
         return self.lengthExp
 
-    def setLengthExp(self, value: ARNumerical):
+    def setLengthExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.lengthExp = value
         return self
 
-    def getLuminousIntensityExp(self) -> ARNumerical:
+    def getLuminousIntensityExp(self) -> Union[ARNumerical, None]:
         return self.luminousIntensityExp
 
-    def setLuminousIntensityExp(self, value: ARNumerical):
+    def setLuminousIntensityExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.luminousIntensityExp = value
         return self
 
-    def getMassExp(self) -> ARNumerical:
+    def getMassExp(self) -> Union[ARNumerical, None]:
         return self.massExp
 
-    def setMassExp(self, value: ARNumerical):
+    def setMassExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.massExp = value
         return self
 
-    def getMolarAmountExp(self) -> ARNumerical:
+    def getMolarAmountExp(self) -> Union[ARNumerical, None]:
         return self.molarAmountExp
 
-    def setMolarAmountExp(self, value: ARNumerical):
+    def setMolarAmountExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.molarAmountExp = value
         return self
 
-    def getTemperatureExp(self) -> ARNumerical:
+    def getTemperatureExp(self) -> Union[ARNumerical, None]:
         return self.temperatureExp
 
-    def setTemperatureExp(self, value: ARNumerical):
+    def setTemperatureExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.temperatureExp = value
         return self
 
-    def getTimeExp(self) -> ARNumerical:
+    def getTimeExp(self) -> Union[ARNumerical, None]:
         return self.timeExp
 
-    def setTimeExp(self, value: ARNumerical):
+    def setTimeExp(self, value: ARNumerical) -> "PhysicalDimension":
         self.timeExp = value
         return self
 
@@ -126,10 +126,10 @@ class Unit(ARElement):
         self.offsetSiToUnit = value
         return self
 
-    def getPhysicalDimensionRef(self) -> RefType:
+    def getPhysicalDimensionRef(self) -> Union[RefType, None]:
         return self.physicalDimensionRef
 
-    def setPhysicalDimensionRef(self, value: RefType):
+    def setPhysicalDimensionRef(self, value: RefType) -> "Unit":
         self.physicalDimensionRef = value
         return self
 

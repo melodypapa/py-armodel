@@ -375,9 +375,9 @@ class CompuMethod(AtpBlueprintable):
         self.displayFormat = value
         return self
 
-    def getUnitRef(self) -> RefType:
+    def getUnitRef(self) -> Union[RefType, None]:
         return self.unitRef
 
-    def setUnitRef(self, value: RefType):
+    def setUnitRef(self, value: RefType) -> "CompuMethod":
         self.unitRef = value
         return self
