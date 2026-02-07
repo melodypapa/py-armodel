@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR software component documen
 elements in software component templates.
 """
 
-from typing import Union
+from typing import List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -20,7 +20,7 @@ class SwComponentDocumentation(ARObject):
     def __init__(self) -> None:
         super().__init__()
 
-        self.chapters: list[Chapter] = []
+        self.chapters: List[Chapter] = []
         self.swCalibrationNotes: Union[Chapter, None] = None
         self.swCarbDoc: Union[Chapter, None] = None
         self.swDiagnosticsNotes: Union[Chapter, None] = None
@@ -29,7 +29,7 @@ class SwComponentDocumentation(ARObject):
         self.swMaintenanceNotes: Union[Chapter, None] = None
         self.swTestDesc: Union[Chapter, None] = None
 
-    def getChapters(self) -> list[Chapter]:
+    def getChapters(self) -> List[Chapter]:
         return self.chapters
 
     def addChapter(self, value: Chapter):
