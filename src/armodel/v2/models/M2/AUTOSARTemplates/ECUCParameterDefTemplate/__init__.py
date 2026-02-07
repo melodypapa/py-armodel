@@ -175,7 +175,7 @@ class EcucDefinitionElement(Identifiable, ABC):
             self.upperMultiplicity = value
         return self
 
-    def getUpperMultiplicityInfinite(self) -> Boolean:
+    def getUpperMultiplicityInfinite(self) -> Union[Boolean, None]:
         return self.upperMultiplicityInfinite
 
     def setUpperMultiplicityInfinite(self, value: Boolean):
@@ -349,7 +349,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.origin = value
         return self
 
-    def getPostBuildVariantMultiplicity(self) -> Boolean:
+    def getPostBuildVariantMultiplicity(self) -> Union[Boolean, None]:
         return self.postBuildVariantMultiplicity
 
     def setPostBuildVariantMultiplicity(self, value: Boolean):
@@ -357,7 +357,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.postBuildVariantMultiplicity = value
         return self
 
-    def getRequiresIndex(self) -> Boolean:
+    def getRequiresIndex(self) -> Union[Boolean, None]:
         return self.requiresIndex
 
     def setRequiresIndex(self, value: Boolean):
@@ -365,7 +365,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.requiresIndex = value
         return self
 
-    def getMultipleConfigurationContainer(self) -> Boolean:
+    def getMultipleConfigurationContainer(self) -> Union[Boolean, None]:
         return self.multipleConfigurationContainer
 
     def setMultipleConfigurationContainer(self, value: Boolean):
