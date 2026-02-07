@@ -32,7 +32,7 @@ class RoleBasedMcDataAssignment(ARObject):
         """
         return self.dataRef
 
-    def setDataRef(self, value: RefType):
+    def setDataRef(self, value: RefType) -> "DataRefClass":
         """
         Sets the data reference.
 

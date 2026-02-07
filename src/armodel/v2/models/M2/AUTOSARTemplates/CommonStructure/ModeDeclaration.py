@@ -311,7 +311,7 @@ class ModeDeclarationGroup(AtpType):
         self.initialModeRef = ref
         return self
 
-    def getInitialModeRef(self) -> RefType:
+    def getInitialModeRef(self) -> Union[RefType, None]:
         """
         Gets the reference to the initial mode of this group.
 

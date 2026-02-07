@@ -23,7 +23,7 @@ class TimingModeInstance(ARObject):
         self.modeRef: Union[Union[RefType, None] , None] = None
         self.modeValue: Union[str, None] = None
 
-    def getModeRef(self) -> RefType:
+    def getModeRef(self) -> Union[RefType, None]:
         """
         Gets the mode reference.
 
@@ -32,7 +32,7 @@ class TimingModeInstance(ARObject):
         """
         return self.modeRef
 
-    def setModeRef(self, value: RefType):
+    def setModeRef(self, value: RefType) -> "TimingModeInstance":
         """
         Sets the mode reference.
 
@@ -45,7 +45,7 @@ class TimingModeInstance(ARObject):
         self.modeRef = value
         return self
 
-    def getModeValue(self) -> str:
+    def getModeValue(self) -> Union[str, None]:
         """
         Gets the mode value.
 
@@ -54,7 +54,7 @@ class TimingModeInstance(ARObject):
         """
         return self.modeValue
 
-    def setModeValue(self, value: str):
+    def setModeValue(self, value: str) -> "TimingModeInstance":
         """
         Sets the mode value.
 
