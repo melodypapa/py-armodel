@@ -730,18 +730,18 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
         self.destinationContext: Union[Union[String, None] , None] = None
         self.destinationType: Union[Union[String, None] , None] = None
 
-    def getDestinationContext(self) -> String:
+    def getDestinationContext(self) -> Union[String, None]:
         return self.destinationContext
 
-    def setDestinationContext(self, value: String):
+    def setDestinationContext(self, value: String) -> "EcucForeignReferenceDef":
         if value is not None:
             self.destinationContext = value
         return self
 
-    def getDestinationType(self) -> String:
+    def getDestinationType(self) -> Union[String, None]:
         return self.destinationType
 
-    def setDestinationType(self, value: String):
+    def setDestinationType(self, value: String) -> "EcucForeignReferenceDef":
         if value is not None:
             self.destinationType = value
         return self
@@ -753,10 +753,10 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
         self.destinationType: Union[Union[String, None] , None] = None
 
-    def getDestinationType(self) -> String:
+    def getDestinationType(self) -> Union[String, None]:
         return self.destinationType
 
-    def setDestinationType(self, value: String):
+    def setDestinationType(self, value: String) -> "EcucInstanceReferenceDef":
         if value is not None:
             self.destinationType = value
         return self
@@ -803,34 +803,34 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
         self.minLength: Union[Union[PositiveInteger, None] , None] = None
         self.regularExpression: Union[Union[RegularExpression, None] , None] = None
 
-    def getDefaultValue(self) -> VerbatimString:
+    def getDefaultValue(self) -> Union[VerbatimString, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: VerbatimString):
+    def setDefaultValue(self, value: VerbatimString) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMaxLength(self) -> PositiveInteger:
+    def getMaxLength(self) -> Union[PositiveInteger, None]:
         return self.maxLength
 
-    def setMaxLength(self, value: PositiveInteger):
+    def setMaxLength(self, value: PositiveInteger) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.maxLength = value
         return self
 
-    def getMinLength(self) -> PositiveInteger:
+    def getMinLength(self) -> Union[PositiveInteger, None]:
         return self.minLength
 
-    def setMinLength(self, value: PositiveInteger):
+    def setMinLength(self, value: PositiveInteger) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.minLength = value
         return self
 
-    def getRegularExpression(self) -> RegularExpression:
+    def getRegularExpression(self) -> Union[RegularExpression, None]:
         return self.regularExpression
 
-    def setRegularExpression(self, value: RegularExpression):
+    def setRegularExpression(self, value: RegularExpression) -> "EcucAbstractStringParamDef":
         if value is not None:
             self.regularExpression = value
         return self
@@ -874,26 +874,26 @@ class EcucIntegerParamDef(EcucParameterDef):
         self.max: Union[Union[UnlimitedInteger, None] , None] = None
         self.min: Union[Union[UnlimitedInteger, None] , None] = None
 
-    def getDefaultValue(self) -> UnlimitedInteger:
+    def getDefaultValue(self) -> Union[UnlimitedInteger, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: UnlimitedInteger):
+    def setDefaultValue(self, value: UnlimitedInteger) -> "EcucIntegerParamDef":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMax(self) -> UnlimitedInteger:
+    def getMax(self) -> Union[UnlimitedInteger, None]:
         return self.max
 
-    def setMax(self, value: UnlimitedInteger):
+    def setMax(self, value: UnlimitedInteger) -> "EcucIntegerParamDef":
         if value is not None:
             self.max = value
         return self
 
-    def getMin(self) -> UnlimitedInteger:
+    def getMin(self) -> Union[UnlimitedInteger, None]:
         return self.min
 
-    def setMin(self, value: UnlimitedInteger):
+    def setMin(self, value: UnlimitedInteger) -> "EcucIntegerParamDef":
         if value is not None:
             self.min = value
         return self
@@ -925,18 +925,18 @@ class EcucEnumerationLiteralDef(Identifiable):
         self.ecucCond: Union[Union[EcucConditionSpecification, None] , None] = None
         self.origin: Union[Union[String, None] , None] = None
 
-    def getEcucCond(self) -> EcucConditionSpecification:
+    def getEcucCond(self) -> Union[EcucConditionSpecification, None]:
         return self.ecucCond
 
-    def setEcucCond(self, value: EcucConditionSpecification):
+    def setEcucCond(self, value: EcucConditionSpecification) -> "EcucEnumerationLiteralDef":
         if value is not None:
             self.ecucCond = value
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Union[String, None]:
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: String) -> "EcucEnumerationLiteralDef":
         if value is not None:
             self.origin = value
         return self
@@ -968,10 +968,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
         self.defaultValue: Union[Union[Identifier, None] , None] = None
         self.literals: List[EcucEnumerationLiteralDef] = []
 
-    def getDefaultValue(self) -> UnlimitedInteger:
+    def getDefaultValue(self) -> Union[Identifier, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: UnlimitedInteger):
+    def setDefaultValue(self, value: Identifier) -> "EcucEnumerationParamDef":
         if value is not None:
             self.defaultValue = value
         return self
@@ -995,26 +995,26 @@ class EcucFloatParamDef(EcucParameterDef):
         self.max: Union[Union[Limit, None] , None] = None
         self.min: Union[Union[Limit, None] , None] = None
 
-    def getDefaultValue(self) -> Float:
+    def getDefaultValue(self) -> Union[Float, None]:
         return self.defaultValue
 
-    def setDefaultValue(self, value: Float):
+    def setDefaultValue(self, value: Float) -> "EcucFloatParamDef":
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMax(self) -> Limit:
+    def getMax(self) -> Union[Limit, None]:
         return self.max
 
-    def setMax(self, value: Limit):
+    def setMax(self, value: Limit) -> "EcucFloatParamDef":
         if value is not None:
             self.max = value
         return self
 
-    def getMin(self) -> Limit:
+    def getMin(self) -> Union[Limit, None]:
         return self.min
 
-    def setMin(self, value: Limit):
+    def setMin(self, value: Limit) -> "EcucFloatParamDef":
         if value is not None:
             self.min = value
         return self
