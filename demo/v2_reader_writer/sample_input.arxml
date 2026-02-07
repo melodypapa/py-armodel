@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/3.2.3">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>MyComponents</SHORT-NAME>
+      <ELEMENTS>
+        <APPLICATION-SOFTWARE-COMPONENT-TYPE UUID="12345-67890">
+          <SHORT-NAME>MyComponent</SHORT-NAME>
+          <CATEGORY>APPLICATION</CATEGORY>
+        </APPLICATION-SOFTWARE-COMPONENT-TYPE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
