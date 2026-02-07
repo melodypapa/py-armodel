@@ -3,7 +3,7 @@ This module contains the AtpBlueprint abstract class for AUTOSAR models
 in the CommonStructure module.
 """
 
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -18,7 +18,7 @@ def _get_identifiable_base():
     return Identifiable
 
 
-class AtpBlueprintable:
+class AtpBlueprintable(ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
 
@@ -35,6 +35,7 @@ class AtpBlueprintable:
         and other blueprintable AUTOSAR elements.
     """
 
+    @abstractmethod
     def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpBlueprintable:
             raise TypeError("AtpBlueprintable is an abstract class.")
@@ -43,7 +44,7 @@ class AtpBlueprintable:
         identifiable_base.__init__(self, parent, short_name)
 
 
-class AtpBlueprint:
+class AtpBlueprint(ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprint elements.
 
@@ -62,6 +63,7 @@ class AtpBlueprint:
         Inherits all attributes from Identifiable including shortName and adminData.
     """
 
+    @abstractmethod
     def __init__(self, parent, short_name: str) -> None:
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")

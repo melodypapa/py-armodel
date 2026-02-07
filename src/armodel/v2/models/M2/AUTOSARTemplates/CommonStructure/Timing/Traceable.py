@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 def _get_identifiable_base():
@@ -9,7 +9,8 @@ def _get_identifiable_base():
     return Identifiable
 
 
-class Traceable:
+class Traceable(ABC):
+    @abstractmethod
     def __init__(self, parent, short_name: str) -> None:
         if type(self) is Traceable:
             raise TypeError("Traceable is an abstract class.")

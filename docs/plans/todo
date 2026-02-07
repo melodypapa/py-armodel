@@ -7,3 +7,5 @@ At the same time of fixing, please also follows:
 - use the TDD methodology, add the unit test for the new classes and then implmentation
 - all the tests shall be passed.
 - do not use the scripts to fix the problem.
+- update the class/attibutes according `docs/development/coding_rules_v2.md`
+- do not remove ABC and make __init__ to abstract method
