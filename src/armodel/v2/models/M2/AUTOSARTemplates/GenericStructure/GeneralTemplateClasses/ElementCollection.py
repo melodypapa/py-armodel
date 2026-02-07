@@ -147,11 +147,11 @@ class Collection(ARElement):
     def __init__(self, parent, short_name: str) -> None:
         super().__init__(parent, short_name)
 
-        self.autoCollect: Union[Optional[AutoCollectEnum] , None] = None
+        self.autoCollect: Optional[AutoCollectEnum] = None
         self.collectedInstances: List[AnyInstanceRef] = []
-        self.collectionSemantics: Union[Optional[NameToken] , None] = None
+        self.collectionSemantics: Optional[NameToken] = None
         self.elementRefs: List[RefType] = []
-        self.elementRole: Union[Optional[Identifier] , None] = None
+        self.elementRole: Optional[Identifier] = None
         self.sourceElementRefs: List[RefType] = []
         self.sourceInstances: List[AnyInstanceRef] = []
 

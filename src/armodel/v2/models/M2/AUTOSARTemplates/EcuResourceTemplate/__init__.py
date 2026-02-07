@@ -50,7 +50,7 @@ class HwDescriptionEntity(ARElement):
 
         self.hwAttributeValues: List[HwAttributeValue] = []
         self.hwCategoryRefs: List[RefType] = []
-        self.hwTypeRef: Union[Optional[RefType] , None] = None
+        self.hwTypeRef: Optional[RefType] = None
 
     def getHwAttributeValues(self) -> List[HwAttributeValue]:
         """
@@ -141,9 +141,9 @@ class HwPin(HwDescriptionEntity):
         """
         super().__init__(parent, short_name)
 
-        self.functionName: Union[Optional[String] , None] = None
-        self.packagingPinName: Union[Optional[String] , None] = None
-        self.pinNumber: Union[Optional[Integer] , None] = None
+        self.functionName: Optional[String] = None
+        self.packagingPinName: Optional[String] = None
+        self.pinNumber: Optional[Integer] = None
 
     def getFunctionName(self) -> Optional[String]:
         """
@@ -302,7 +302,7 @@ class HwPinGroup(HwDescriptionEntity):
         """
         super().__init__(parent, short_name)
 
-        self.hwPinGroupContent: Union[Optional[HwPinGroupContent] , None] = None
+        self.hwPinGroupContent: Optional[HwPinGroupContent] = None
 
     def getHwPinGroupContent(self) -> Optional[HwPinGroupContent]:
         """

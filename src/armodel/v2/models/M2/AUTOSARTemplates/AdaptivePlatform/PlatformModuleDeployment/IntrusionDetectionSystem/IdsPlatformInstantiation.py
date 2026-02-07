@@ -36,7 +36,7 @@ class IdsPlatformInstantiation(Identifiable, ABC):
         self.networks: List[Any] = []
         # Type: TimeBaseResource.
         # This reference identifies the applicable time base atpVariation.
-        self.timeBases: Union[Optional[Any] , None] = None
+        self.timeBases: Optional[Any] = None
 
     def getNetworks(self) -> List[Any]:
         return self.networks

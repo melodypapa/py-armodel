@@ -25,8 +25,8 @@ class HwElementConnector(Describable):
         """
         super().__init__()
 
-        self.hwElementRef: Union[Optional[RefType] , None] = None
-        self.hwPinRef: Union[Optional[RefType] , None] = None
+        self.hwElementRef: Optional[RefType] = None
+        self.hwPinRef: Optional[RefType] = None
 
     def getHwElementRef(self) -> Optional[RefType]:
         """

@@ -38,9 +38,9 @@ class AtpInstanceRef(ARObject, ABC):
 
         super().__init__()
 
-        self.atpBaseRef: Union[Optional[RefType] , None] = None
+        self.atpBaseRef: Optional[RefType] = None
         self.atpContextElementRefs: List[RefType] = []
-        self.atpTargetRef: Union[Optional[RefType] , None] = None
+        self.atpTargetRef: Optional[RefType] = None
 
     def getAtpBaseRef(self) -> Optional[RefType]:
         """
