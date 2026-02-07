@@ -69,10 +69,6 @@ class SwImplPolicyEnum(AREnum):
 
 class SwDataDefPropsConditional(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     '''
     Patch for the time-stamp
     '''
@@ -81,10 +77,6 @@ class SwDataDefPropsConditional(ARObject):
 
 
 class SwDataDefProps(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -335,10 +327,6 @@ class SwDataDefProps(ARObject):
 
 class SwPointerTargetProps(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -369,10 +357,6 @@ class SwPointerTargetProps(ARObject):
 
 
 class ValueList(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -405,10 +389,6 @@ class SwTextProps(ARObject):
         encoding (ARLiteral): The encoding of the text.
         format (ARLiteral): The format of the text.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

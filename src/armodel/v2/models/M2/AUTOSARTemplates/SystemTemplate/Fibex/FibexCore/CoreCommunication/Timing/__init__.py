@@ -18,10 +18,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 
 class ModeDrivenTransmissionModeCondition(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -36,10 +32,6 @@ class ModeDrivenTransmissionModeCondition(ARObject):
 
 
 class TransmissionModeCondition(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -63,10 +55,6 @@ class TransmissionModeCondition(ARObject):
 
 
 class TimeRangeType(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -135,10 +123,6 @@ class EventControlledTiming(Describable):
 
 class TransmissionModeTiming(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -161,10 +145,6 @@ class TransmissionModeTiming(ARObject):
 
 
 class TransmissionModeDeclaration(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

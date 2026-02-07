@@ -1,6 +1,6 @@
 from abc import ABC
 from enum import Enum
-from typing import List, Union
+from typing import Any, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -48,13 +48,19 @@ class CommunicationDirectionType(AREnum):
         ])
 
 
-class IPduSignalProcessingEnum(Enum):
+class IPduSignalProcessingEnum(AREnum):
     """
     Enumeration defining types of IPDU signal processing,
     specifying whether signal processing is deferred or immediate.
     """
     ENUM_DEFERRED = "deferred"
     ENUM_IMMEDIATE = "immediate"
+
+    def __init__(self) -> None:
+        super().__init__([
+            IPduSignalProcessingEnum.ENUM_DEFERRED,
+            IPduSignalProcessingEnum.ENUM_IMMEDIATE
+        ])
 
 
 class FibexElement(PackageableElement, ABC):
@@ -85,31 +91,31 @@ class PduToFrameMapping(Identifiable):
         self.startPosition: Union[Union[ARNumerical, None] , None] = None
         self.updateIndicationBitPosition: Union[Union[ARNumerical, None] , None] = None
 
-    def getPackingByteOrder(self):
+    def getPackingByteOrder(self) -> Union[Union[ARLiteral, None], None]:
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value):
+    def setPackingByteOrder(self, value: Union[Union[ARLiteral, None], None]) -> "PduToFrameMapping":
         self.packingByteOrder = value
         return self
 
-    def getPduRef(self):
+    def getPduRef(self) -> Union[Union[RefType, None], None]:
         return self.pduRef
 
-    def setPduRef(self, value):
+    def setPduRef(self, value: Union[Union[RefType, None], None]) -> "PduToFrameMapping":
         self.pduRef = value
         return self
 
-    def getStartPosition(self):
+    def getStartPosition(self) -> Union[Union[ARNumerical, None], None]:
         return self.startPosition
 
-    def setStartPosition(self, value):
+    def setStartPosition(self, value: Union[Union[ARNumerical, None], None]) -> "PduToFrameMapping":
         self.startPosition = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Union[Union[ARNumerical, None], None]:
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
+    def setUpdateIndicationBitPosition(self, value: Union[Union[ARNumerical, None], None]) -> "PduToFrameMapping":
         self.updateIndicationBitPosition = value
         return self
 
@@ -129,10 +135,10 @@ class Frame(FibexElement, ABC):
         self.frameLength = None
         self.pduToFrameMappings: List[PduToFrameMapping] = []
 
-    def getFrameLength(self):
+    def getFrameLength(self) -> Union[int, None]:
         return self.frameLength
 
-    def setFrameLength(self, value):
+    def setFrameLength(self, value: Union[int, None]) -> "Frame":
         self.frameLength = value
         return self
 
@@ -154,10 +160,6 @@ class ContainedIPduProps(ARObject):
     trigger, and update indication bit position properties.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -169,52 +171,52 @@ class ContainedIPduProps(ARObject):
         self.trigger: Union[Union[ARLiteral, None] , None] = None
         self.updateIndicationBitPosition: Union[Union[ARNumerical, None] , None] = None
 
-    def getCollectionSemantics(self):
+    def getCollectionSemantics(self) -> Union[Union[ARLiteral, None], None]:
         return self.collectionSemantics
 
-    def setCollectionSemantics(self, value):
+    def setCollectionSemantics(self, value: Union[Union[ARLiteral, None], None]) -> "ContainedIPduProps":
         self.collectionSemantics = value
         return self
 
-    def getHeaderIdLongHeader(self):
+    def getHeaderIdLongHeader(self) -> Union[Union[ARPositiveInteger, None], None]:
         return self.headerIdLongHeader
 
-    def setHeaderIdLongHeader(self, value):
+    def setHeaderIdLongHeader(self, value: Union[Union[ARPositiveInteger, None], None]) -> "ContainedIPduProps":
         self.headerIdLongHeader = value
         return self
 
-    def getHeaderIdShortHeader(self):
+    def getHeaderIdShortHeader(self) -> Union[Union[ARPositiveInteger, None], None]:
         return self.headerIdShortHeader
 
-    def setHeaderIdShortHeader(self, value):
+    def setHeaderIdShortHeader(self, value: Union[Union[ARPositiveInteger, None], None]) -> "ContainedIPduProps":
         self.headerIdShortHeader = value
         return self
 
-    def getOffset(self):
+    def getOffset(self) -> Union[Union[ARNumerical, None], None]:
         return self.offset
 
-    def setOffset(self, value):
+    def setOffset(self, value: Union[Union[ARNumerical, None], None]) -> "ContainedIPduProps":
         self.offset = value
         return self
 
-    def getTimeout(self):
+    def getTimeout(self) -> Union[Union[ARNumerical, None], None]:
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Union[Union[ARNumerical, None], None]) -> "ContainedIPduProps":
         self.timeout = value
         return self
 
-    def getTrigger(self):
+    def getTrigger(self) -> Union[Union[ARLiteral, None], None]:
         return self.trigger
 
-    def setTrigger(self, value):
+    def setTrigger(self, value: Union[Union[ARLiteral, None], None]) -> "ContainedIPduProps":
         self.trigger = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Union[Union[ARNumerical, None], None]:
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
+    def setUpdateIndicationBitPosition(self, value: Union[Union[ARNumerical, None], None]) -> "ContainedIPduProps":
         self.updateIndicationBitPosition = value
         return self
 
@@ -225,7 +227,7 @@ class ISignalGroup(FibexElement):
     specifying relationships between individual signals and system-level
     signal groups with transformation properties.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.comBasedSignalGroupTransformationRefs: List[RefType] = []
@@ -233,32 +235,32 @@ class ISignalGroup(FibexElement):
         self.systemSignalGroupRef = None
         self.transformationISignalProps = None
 
-    def getComBasedSignalGroupTransformationRefs(self):
+    def getComBasedSignalGroupTransformationRefs(self) -> List[RefType]:
         return self.comBasedSignalGroupTransformationRefs
 
-    def addComBasedSignalGroupTransformationRef(self, value):
+    def addComBasedSignalGroupTransformationRef(self, value: RefType) -> "ISignalGroup":
         if value is not None:
             self.comBasedSignalGroupTransformationRefs.append(value)
         return self
 
-    def getISignalRefs(self):
+    def getISignalRefs(self) -> List[RefType]:
         return self.iSignalRefs
 
-    def addISignalRef(self, value):
+    def addISignalRef(self, value: RefType) -> "ISignalGroup":
         self.iSignalRefs.append(value)
         return self
 
-    def getSystemSignalGroupRef(self):
+    def getSystemSignalGroupRef(self) -> Union[RefType, None]:
         return self.systemSignalGroupRef
 
-    def setSystemSignalGroupRef(self, value):
+    def setSystemSignalGroupRef(self, value: Union[RefType, None]) -> "ISignalGroup":
         self.systemSignalGroupRef = value
         return self
 
-    def getTransformationISignalProps(self):
+    def getTransformationISignalProps(self) -> Union[Any, None]:
         return self.transformationISignalProps
 
-    def setTransformationISignalProps(self, value):
+    def setTransformationISignalProps(self, value: Union[Any, None]) -> "ISignalGroup":
         self.transformationISignalProps = value
         return self
 
@@ -269,47 +271,47 @@ class ISignalIPduGroup(FibexElement):
     specifying communication direction, mode, and references to contained
     IPDU groups and individual IPDUs.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.communicationDirection = None
         self.communicationMode = None
-        self.containedISignalIPduGroupRefs = []
-        self.iSignalIPduRefs = []
-        self.nmPduRefs = []
+        self.containedISignalIPduGroupRefs: List[RefType] = []
+        self.iSignalIPduRefs: List[RefType] = []
+        self.nmPduRefs: List[RefType] = []
 
-    def getCommunicationDirection(self):
+    def getCommunicationDirection(self) -> Union[Any, None]:
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value):
+    def setCommunicationDirection(self, value: Union[Any, None]) -> "ISignalIPduGroup":
         self.communicationDirection = value
         return self
 
-    def getCommunicationMode(self):
+    def getCommunicationMode(self) -> Union[Any, None]:
         return self.communicationMode
 
-    def setCommunicationMode(self, value):
+    def setCommunicationMode(self, value: Union[Any, None]) -> "ISignalIPduGroup":
         self.communicationMode = value
         return self
 
-    def getContainedISignalIPduGroupRefs(self):
+    def getContainedISignalIPduGroupRefs(self) -> List[RefType]:
         return self.containedISignalIPduGroupRefs
 
-    def addContainedISignalIPduGroupRef(self, value):
+    def addContainedISignalIPduGroupRef(self, value: RefType) -> "ISignalIPduGroup":
         self.containedISignalIPduGroupRefs.append(value)
         return self
 
-    def getISignalIPduRefs(self):
+    def getISignalIPduRefs(self) -> List[RefType]:
         return self.iSignalIPduRefs
 
-    def addISignalIPduRef(self, value):
+    def addISignalIPduRef(self, value: RefType) -> "ISignalIPduGroup":
         self.iSignalIPduRefs.append(value)
         return self
 
-    def getNmPduRefs(self):
+    def getNmPduRefs(self) -> List[RefType]:
         return self.nmPduRefs
 
-    def addNmPduRef(self, value):
+    def addNmPduRef(self, value: RefType) -> "ISignalIPduGroup":
         self.nmPduRefs.append(value)
         return self
 
@@ -328,18 +330,18 @@ class Pdu(FibexElement, ABC):
         self.hasDynamicLength: Union[Union[Boolean, None] , None] = None
         self.length: Union[Union[UnlimitedInteger, None] , None] = None
 
-    def getHasDynamicLength(self):
+    def getHasDynamicLength(self) -> Union[ARBoolean, None]:
         return self.hasDynamicLength
 
-    def setHasDynamicLength(self, value):
+    def setHasDynamicLength(self, value: Union[ARBoolean, None]) -> "Pdu":
         if value is not None:
             self.hasDynamicLength = value
         return self
 
-    def getLength(self):
+    def getLength(self) -> Union[Union[UnlimitedInteger, None], None]:
         return self.length
 
-    def setLength(self, value):
+    def setLength(self, value: Union[Union[UnlimitedInteger, None], None]) -> "Pdu":
         self.length = value
         return self
 
@@ -358,10 +360,10 @@ class IPdu(Pdu, ABC):
 
         self.containedIPduProps: Union[Union[ContainedIPduProps, None] , None] = None
 
-    def getContainedIPduProps(self):
+    def getContainedIPduProps(self) -> Union[Union[ContainedIPduProps, None], None]:
         return self.containedIPduProps
 
-    def setContainedIPduProps(self, value):
+    def setContainedIPduProps(self, value: Union[Union[ContainedIPduProps, None], None]) -> "IPdu":
         if value is not None:
             self.containedIPduProps = value
         return self
@@ -373,10 +375,6 @@ class SecureCommunicationProps(ARObject):
     data freshness, integrity protection, and secured area specifications
     for protected communication channels.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -396,114 +394,114 @@ class SecureCommunicationProps(ARObject):
         self.securedAreaLength: Union[Union[PositiveInteger, None] , None] = None
         self.securedAreaOffset: Union[Union[PositiveInteger, None] , None] = None
 
-    def getAuthDataFreshnessLength(self):
+    def getAuthDataFreshnessLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authDataFreshnessLength
 
-    def setAuthDataFreshnessLength(self, value):
+    def setAuthDataFreshnessLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.authDataFreshnessLength = value
         return self
 
-    def getAuthDataFreshnessStartPosition(self):
+    def getAuthDataFreshnessStartPosition(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authDataFreshnessStartPosition
 
-    def setAuthDataFreshnessStartPosition(self, value):
+    def setAuthDataFreshnessStartPosition(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.authDataFreshnessStartPosition = value
         return self
 
-    def getAuthInfoTxLength(self):
+    def getAuthInfoTxLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authInfoTxLength
 
-    def setAuthInfoTxLength(self, value):
+    def setAuthInfoTxLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.authInfoTxLength = value
         return self
 
-    def getAuthenticationBuildAttempts(self):
+    def getAuthenticationBuildAttempts(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authenticationBuildAttempts
 
-    def setAuthenticationBuildAttempts(self, value):
+    def setAuthenticationBuildAttempts(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.authenticationBuildAttempts = value
         return self
 
-    def getAuthenticationRetries(self):
+    def getAuthenticationRetries(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authenticationRetries
 
-    def setAuthenticationRetries(self, value):
+    def setAuthenticationRetries(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.authenticationRetries = value
         return self
 
-    def getDataId(self):
+    def getDataId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.dataId
 
-    def setDataId(self, value):
+    def setDataId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.dataId = value
         return self
 
-    def getFreshnessValueId(self):
+    def getFreshnessValueId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.freshnessValueId
 
-    def setFreshnessValueId(self, value):
+    def setFreshnessValueId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.freshnessValueId = value
         return self
 
-    def getFreshnessValueLength(self):
+    def getFreshnessValueLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.freshnessValueLength
 
-    def setFreshnessValueLength(self, value):
+    def setFreshnessValueLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.freshnessValueLength = value
         return self
 
-    def getFreshnessValueTxLength(self):
+    def getFreshnessValueTxLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.freshnessValueTxLength
 
-    def setFreshnessValueTxLength(self, value):
+    def setFreshnessValueTxLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.freshnessValueTxLength = value
         return self
 
-    def getMessageLinkLength(self):
+    def getMessageLinkLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.messageLinkLength
 
-    def setMessageLinkLength(self, value):
+    def setMessageLinkLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.messageLinkLength = value
         return self
 
-    def getMessageLinkPosition(self):
+    def getMessageLinkPosition(self) -> Union[Union[PositiveInteger, None], None]:
         return self.messageLinkPosition
 
-    def setMessageLinkPosition(self, value):
+    def setMessageLinkPosition(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.messageLinkPosition = value
         return self
 
-    def getSecondaryFreshnessValueId(self):
+    def getSecondaryFreshnessValueId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.secondaryFreshnessValueId
 
-    def setSecondaryFreshnessValueId(self, value):
+    def setSecondaryFreshnessValueId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.secondaryFreshnessValueId = value
         return self
 
-    def getSecuredAreaLength(self):
+    def getSecuredAreaLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.securedAreaLength
 
-    def setSecuredAreaLength(self, value):
+    def setSecuredAreaLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.securedAreaLength = value
         return self
 
-    def getSecuredAreaOffset(self):
+    def getSecuredAreaOffset(self) -> Union[Union[PositiveInteger, None], None]:
         return self.securedAreaOffset
 
-    def setSecuredAreaOffset(self, value):
+    def setSecuredAreaOffset(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationProps":
         if value is not None:
             self.securedAreaOffset = value
         return self
@@ -526,58 +524,58 @@ class SecuredIPdu(IPdu):
         self.useAsCryptographicIPdu: Union[Union[Boolean, None] , None] = None
         self.useSecuredPduHeader = None
 
-    def getAuthenticationPropsRef(self):
+    def getAuthenticationPropsRef(self) -> Union[Union[RefType, None], None]:
         return self.authenticationPropsRef
 
-    def setAuthenticationPropsRef(self, value):
+    def setAuthenticationPropsRef(self, value: Union[Union[RefType, None], None]) -> "SecuredIPdu":
         if value is not None:
             self.authenticationPropsRef = value
         return self
 
-    def getDynamicRuntimeLengthHandling(self):
+    def getDynamicRuntimeLengthHandling(self) -> Union[Union[Boolean, None], None]:
         return self.dynamicRuntimeLengthHandling
 
-    def setDynamicRuntimeLengthHandling(self, value):
+    def setDynamicRuntimeLengthHandling(self, value: Union[Union[Boolean, None], None]) -> "SecuredIPdu":
         if value is not None:
             self.dynamicRuntimeLengthHandling = value
         return self
 
-    def getFreshnessPropsRef(self):
+    def getFreshnessPropsRef(self) -> Union[Union[RefType, None], None]:
         return self.freshnessPropsRef
 
-    def setFreshnessPropsRef(self, value):
+    def setFreshnessPropsRef(self, value: Union[Union[RefType, None], None]) -> "SecuredIPdu":
         if value is not None:
             self.freshnessPropsRef = value
         return self
 
-    def getPayloadRef(self):
+    def getPayloadRef(self) -> Union[Union[RefType, None], None]:
         return self.payloadRef
 
-    def setPayloadRef(self, value):
+    def setPayloadRef(self, value: Union[Union[RefType, None], None]) -> "SecuredIPdu":
         if value is not None:
             self.payloadRef = value
         return self
 
-    def getSecureCommunicationProps(self):
+    def getSecureCommunicationProps(self) -> Union[Union[SecureCommunicationProps, None], None]:
         return self.secureCommunicationProps
 
-    def setSecureCommunicationProps(self, value):
+    def setSecureCommunicationProps(self, value: Union[Union[SecureCommunicationProps, None], None]) -> "SecuredIPdu":
         if value is not None:
             self.secureCommunicationProps = value
         return self
 
-    def getUseAsCryptographicIPdu(self):
+    def getUseAsCryptographicIPdu(self) -> Union[Union[Boolean, None], None]:
         return self.useAsCryptographicIPdu
 
-    def setUseAsCryptographicIPdu(self, value):
+    def setUseAsCryptographicIPdu(self, value: Union[Union[Boolean, None], None]) -> "SecuredIPdu":
         if value is not None:
             self.useAsCryptographicIPdu = value
         return self
 
-    def getUseSecuredPduHeader(self):
+    def getUseSecuredPduHeader(self) -> Union[ARBoolean, None]:
         return self.useSecuredPduHeader
 
-    def setUseSecuredPduHeader(self, value):
+    def setUseSecuredPduHeader(self, value: Union[ARBoolean, None]) -> "SecuredIPdu":
         if value is not None:
             self.useSecuredPduHeader = value
         return self
@@ -589,7 +587,7 @@ class ISignalToIPduMapping(Identifiable):
     specifying signal references, byte order, start position, transfer
     properties, and update indication bit position.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.iSignalRef: Union[Union[RefType, None] , None] = None
@@ -599,45 +597,45 @@ class ISignalToIPduMapping(Identifiable):
         self.transferProperty = None
         self.updateIndicationBitPosition: Union[Union[UnlimitedInteger, None] , None] = None
 
-    def getISignalRef(self):
+    def getISignalRef(self) -> Union[Union[RefType, None], None]:
         return self.iSignalRef
 
-    def setISignalRef(self, value):
+    def setISignalRef(self, value: Union[Union[RefType, None], None]) -> "ISignalToIPduMapping":
         self.iSignalRef = value
         return self
 
-    def getISignalGroupRef(self):
+    def getISignalGroupRef(self) -> Union[Union[RefType, None], None]:
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value):
+    def setISignalGroupRef(self, value: Union[Union[RefType, None], None]) -> "ISignalToIPduMapping":
         self.iSignalGroupRef = value
         return self
 
-    def getPackingByteOrder(self):
+    def getPackingByteOrder(self) -> Union[Union[ByteOrderEnum, None], None]:
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value):
+    def setPackingByteOrder(self, value: Union[Union[ByteOrderEnum, None], None]) -> "ISignalToIPduMapping":
         self.packingByteOrder = value
         return self
 
-    def getStartPosition(self):
+    def getStartPosition(self) -> Union[Union[UnlimitedInteger, None], None]:
         return self.startPosition
 
-    def setStartPosition(self, value):
+    def setStartPosition(self, value: Union[Union[UnlimitedInteger, None], None]) -> "ISignalToIPduMapping":
         self.startPosition = value
         return self
 
-    def getTransferProperty(self):
+    def getTransferProperty(self) -> Union[Any, None]:
         return self.transferProperty
 
-    def setTransferProperty(self, value):
+    def setTransferProperty(self, value: Union[Any, None]) -> "ISignalToIPduMapping":
         self.transferProperty = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Union[Union[UnlimitedInteger, None], None]:
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
+    def setUpdateIndicationBitPosition(self, value: Union[Union[UnlimitedInteger, None], None]) -> "ISignalToIPduMapping":
         self.updateIndicationBitPosition = value
         return self
 
@@ -656,7 +654,7 @@ class NmPdu(Pdu):
         self.nmVoteInformation: Union[Union[Boolean, None] , None] = None
         self.unusedBitPattern: Union[Union[Integer, None] , None] = None
 
-    def getISignalToIPduMappings(self):
+    def getISignalToIPduMappings(self) -> List[ISignalToIPduMapping]:
         return self.iSignalToIPduMappings
 
     def createISignalToIPduMapping(self, short_name: str) -> ISignalToIPduMapping:
@@ -666,26 +664,26 @@ class NmPdu(Pdu):
             self.iSignalToIPduMappings.append(mapping)
         return self.getElement(short_name, ISignalToIPduMapping)
 
-    def getNmDataInformation(self):
+    def getNmDataInformation(self) -> Union[Union[Boolean, None], None]:
         return self.nmDataInformation
 
-    def setNmDataInformation(self, value):
+    def setNmDataInformation(self, value: Union[Union[Boolean, None], None]) -> "NmPdu":
         if value is not None:
             self.nmDataInformation = value
         return self
 
-    def getNmVoteInformation(self):
+    def getNmVoteInformation(self) -> Union[Union[Boolean, None], None]:
         return self.nmVoteInformation
 
-    def setNmVoteInformation(self, value):
+    def setNmVoteInformation(self, value: Union[Union[Boolean, None], None]) -> "NmPdu":
         if value is not None:
             self.nmVoteInformation = value
         return self
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Union[Union[Integer, None], None]:
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
+    def setUnusedBitPattern(self, value: Union[Union[Integer, None], None]) -> "NmPdu":
         if value is not None:
             self.unusedBitPattern = value
         return self
@@ -710,10 +708,10 @@ class DcmIPdu(IPdu):
 
         self.diagPduType: Union[Union[ARLiteral, None] , None] = None
 
-    def getDiagPduType(self):
+    def getDiagPduType(self) -> Union[Union[ARLiteral, None], None]:
         return self.diagPduType
 
-    def setDiagPduType(self, value):
+    def setDiagPduType(self, value: Union[Union[ARLiteral, None], None]) -> "DcmIPdu":
         self.diagPduType = value
         return self
 
@@ -730,17 +728,17 @@ class IPduTiming(Describable):
         self.minimumDelay: Union[Union[TimeValue, None] , None] = None
         self.transmissionModeDeclaration: Union[Union[TransmissionModeDeclaration, None] , None] = None
 
-    def getMinimumDelay(self):
+    def getMinimumDelay(self) -> Union[Union[TimeValue, None], None]:
         return self.minimumDelay
 
-    def setMinimumDelay(self, value):
+    def setMinimumDelay(self, value: Union[Union[TimeValue, None], None]) -> "ISignalIPduTiming":
         self.minimumDelay = value
         return self
 
-    def getTransmissionModeDeclaration(self):
+    def getTransmissionModeDeclaration(self) -> Union[Union[TransmissionModeDeclaration, None], None]:
         return self.transmissionModeDeclaration
 
-    def setTransmissionModeDeclaration(self, value):
+    def setTransmissionModeDeclaration(self, value: Union[Union[TransmissionModeDeclaration, None], None]) -> "ISignalIPduTiming":
         self.transmissionModeDeclaration = value
         return self
 
@@ -751,21 +749,21 @@ class ISignalIPdu(IPdu):
     defining timing specifications, signal-to-PDU mappings, and unused
     bit patterns for signal-based communication.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.iPduTimingSpecification: Union[Union[IPduTiming, None] , None] = None
         self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
         self.unusedBitPattern: Union[Union[Integer, None] , None] = None
 
-    def getIPduTimingSpecification(self):
+    def getIPduTimingSpecification(self) -> Union[Union[IPduTiming, None], None]:
         return self.iPduTimingSpecification
 
-    def setIPduTimingSpecification(self, value):
+    def setIPduTimingSpecification(self, value: Union[Union[IPduTiming, None], None]) -> "ISignalIPdu":
         self.iPduTimingSpecification = value
         return self
 
-    def getISignalToPduMappings(self):
+    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
         return self.iSignalToPduMappings
 
     def createISignalToPduMappings(self, short_name: str) -> ISignalToIPduMapping:
@@ -775,10 +773,10 @@ class ISignalIPdu(IPdu):
             self.iSignalToPduMappings.append(mapping)
         return self.getElement(short_name, ISignalToIPduMapping)
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Union[Union[Integer, None], None]:
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
+    def setUnusedBitPattern(self, value: Union[Union[Integer, None], None]) -> "ISignalIPdu":
         self.unusedBitPattern = value
         return self
 
@@ -801,75 +799,75 @@ class ISignal(FibexElement):
         self.networkRepresentationProps = None
         self.systemSignalRef: Union[Union[RefType, None] , None] = None
         self.timeoutSubstitutionValue = None
-        self.transformationISignalProps = []
+        self.transformationISignalProps: List[Any] = []
 
-    def getDataTransformationRef(self):
+    def getDataTransformationRef(self) -> Union[Any, None]:
         return self.dataTransformationRef
 
-    def setDataTransformationRef(self, value):
+    def setDataTransformationRef(self, value: Union[Any, None]) -> "ISignal":
         self.dataTransformationRef = value
         return self
 
-    def getDataTypePolicy(self):
+    def getDataTypePolicy(self) -> Union[Any, None]:
         return self.dataTypePolicy
 
-    def setDataTypePolicy(self, value):
+    def setDataTypePolicy(self, value: Union[Any, None]) -> "ISignal":
         self.dataTypePolicy = value
         return self
 
-    def getISignalProps(self):
+    def getISignalProps(self) -> Union[Any, None]:
         return self.iSignalProps
 
-    def setISignalProps(self, value):
+    def setISignalProps(self, value: Union[Any, None]) -> "ISignal":
         self.iSignalProps = value
         return self
 
-    def getISignalType(self):
+    def getISignalType(self) -> Union[Any, None]:
         return self.iSignalType
 
-    def setISignalType(self, value):
+    def setISignalType(self, value: Union[Any, None]) -> "ISignal":
         self.iSignalType = value
         return self
 
-    def getInitValue(self):
+    def getInitValue(self) -> Union[Any, None]:
         return self.initValue
 
-    def setInitValue(self, value):
+    def setInitValue(self, value: Union[Any, None]) -> "ISignal":
         self.initValue = value
         return self
 
-    def getLength(self):
+    def getLength(self) -> Union[Any, None]:
         return self.length
 
-    def setLength(self, value):
+    def setLength(self, value: Union[Any, None]) -> "ISignal":
         self.length = value
         return self
 
-    def getNetworkRepresentationProps(self):
+    def getNetworkRepresentationProps(self) -> Union[Any, None]:
         return self.networkRepresentationProps
 
-    def setNetworkRepresentationProps(self, value):
+    def setNetworkRepresentationProps(self, value: Union[Any, None]) -> "ISignal":
         self.networkRepresentationProps = value
         return self
 
-    def getSystemSignalRef(self):
+    def getSystemSignalRef(self) -> Union[Union[RefType, None], None]:
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value):
+    def setSystemSignalRef(self, value: Union[Union[RefType, None], None]) -> "ISignal":
         self.systemSignalRef = value
         return self
 
-    def getTimeoutSubstitutionValue(self):
+    def getTimeoutSubstitutionValue(self) -> Union[Any, None]:
         return self.timeoutSubstitutionValue
 
-    def setTimeoutSubstitutionValue(self, value):
+    def setTimeoutSubstitutionValue(self, value: Union[Any, None]) -> "ISignal":
         self.timeoutSubstitutionValue = value
         return self
 
-    def getTransformationISignalProps(self):
+    def getTransformationISignalProps(self) -> List[Any]:
         return self.transformationISignalProps
 
-    def addTransformationISignalProps(self, value):
+    def addTransformationISignalProps(self, value: Any) -> "ISignal":
         self.transformationISignalProps.append(value)
         return self
 
@@ -880,48 +878,48 @@ class PduTriggering(Identifiable):
     specifying PDU references, port references, and trigger conditions
     for PDU transmission and reception.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.iPduRef: Union[Union[RefType, None] , None] = None
         self.iPduPortRefs: List[RefType] = []
         self.iSignalTriggeringRefs: List[RefType] = []
         self.secOcCryptoMappingRef: Union[Union[RefType, None] , None] = None
-        self.triggerIPduSendConditions = []         # type: List
+        self.triggerIPduSendConditions: List[Any] = []
 
-    def getIPduRef(self):
+    def getIPduRef(self) -> Union[Union[RefType, None], None]:
         return self.iPduRef
 
-    def setIPduRef(self, value):
+    def setIPduRef(self, value: Union[Union[RefType, None], None]) -> "PduTriggering":
         self.iPduRef = value
         return self
 
-    def getIPduPortRefs(self):
+    def getIPduPortRefs(self) -> List[RefType]:
         return self.iPduPortRefs
 
-    def addIPduPortRef(self, value):
+    def addIPduPortRef(self, value: RefType) -> "PduTriggering":
         self.iPduPortRefs.append(value)
         return self
 
-    def getISignalTriggeringRefs(self):
+    def getISignalTriggeringRefs(self) -> List[RefType]:
         # return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
         return self.iSignalTriggeringRefs
 
-    def addISignalTriggeringRef(self, value):
+    def addISignalTriggeringRef(self, value: RefType) -> "PduTriggering":
         self.iSignalTriggeringRefs.append(value)
         return self
 
-    def getSecOcCryptoMappingRef(self):
+    def getSecOcCryptoMappingRef(self) -> Union[Union[RefType, None], None]:
         return self.secOcCryptoMappingRef
 
-    def setSecOcCryptoMappingRef(self, value):
+    def setSecOcCryptoMappingRef(self, value: Union[Union[RefType, None], None]) -> "PduTriggering":
         self.secOcCryptoMappingRef = value
         return self
 
-    def getTriggerIPduSendConditions(self):
+    def getTriggerIPduSendConditions(self) -> List[Any]:
         return self.triggerIPduSendConditions
 
-    def addTriggerIPduSendCondition(self, value):
+    def addTriggerIPduSendCondition(self, value: Any) -> "PduTriggering":
         self.triggerIPduSendConditions.append(value)
         return self
 
@@ -932,7 +930,7 @@ class FrameTriggering(Identifiable, ABC):
     common properties for triggering frame transmission and reception
     including frame references and port references.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is FrameTriggering:
             raise TypeError("FrameTriggering is an abstract class.")
 
@@ -942,24 +940,24 @@ class FrameTriggering(Identifiable, ABC):
         self.framePortRefs: List[RefType] = []
         self.pduTriggeringRefs: List[RefType] = []
 
-    def getFrameRef(self) -> RefType:
+    def getFrameRef(self) -> Union[Union[RefType, None], None]:
         return self.frameRef
 
-    def setFrameRef(self, value: RefType):
+    def setFrameRef(self, value: Union[Union[RefType, None], None]) -> "FrameTriggering":
         self.frameRef = value
         return self
 
     def getFramePortRefs(self) -> List[RefType]:
         return self.framePortRefs
 
-    def addFramePortRef(self, value: RefType):
+    def addFramePortRef(self, value: RefType) -> "FrameTriggering":
         self.framePortRefs.append(value)
         return self
 
-    def getPduTriggeringRefs(self) -> RefType:
+    def getPduTriggeringRefs(self) -> List[RefType]:
         return self.pduTriggeringRefs
 
-    def addPduTriggeringRef(self, value: RefType):
+    def addPduTriggeringRef(self, value: RefType) -> "FrameTriggering":
         self.pduTriggeringRefs.append(value)
         return self
 
@@ -970,23 +968,23 @@ class SystemSignal(ARElement):
     dynamic length properties and physical properties for
     system-level signal communication.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dynamicLength: Union[Union[ARBoolean, None] , None] = None
         self.physicalProps: Union[Union[SwDataDefProps, None] , None] = None
 
-    def getDynamicLength(self):
+    def getDynamicLength(self) -> Union[Union[ARBoolean, None], None]:
         return self.dynamicLength
 
-    def setDynamicLength(self, value):
+    def setDynamicLength(self, value: Union[Union[ARBoolean, None], None]) -> "SystemSignal":
         self.dynamicLength = value
         return self
 
-    def getPhysicalProps(self):
+    def getPhysicalProps(self) -> Union[Union[SwDataDefProps, None], None]:
         return self.physicalProps
 
-    def setPhysicalProps(self, value):
+    def setPhysicalProps(self, value: Union[Union[SwDataDefProps, None], None]) -> "SystemSignal":
         self.physicalProps = value
         return self
 
@@ -997,23 +995,23 @@ class SystemSignalGroup(ARElement):
     between individual system signals and transforming signal references
     for grouped signal communication.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.systemSignalRefs: List[RefType] = []
         self.transformingSystemSignalRef: Union[Union[RefType, None] , None] = None
 
-    def getSystemSignalRefs(self):
+    def getSystemSignalRefs(self) -> List[RefType]:
         return self.systemSignalRefs
 
-    def addSystemSignalRefs(self, value: RefType):
+    def addSystemSignalRefs(self, value: RefType) -> "SystemSignalGroup":
         self.systemSignalRefs.append(value)
         return self
 
-    def getTransformingSystemSignalRef(self):
+    def getTransformingSystemSignalRef(self) -> Union[Union[RefType, None], None]:
         return self.transformingSystemSignalRef
 
-    def setTransformingSystemSignalRef(self, value):
+    def setTransformingSystemSignalRef(self, value: Union[Union[RefType, None], None]) -> "SystemSignalGroup":
         self.transformingSystemSignalRef = value
         return self
 
@@ -1024,31 +1022,31 @@ class ISignalTriggering(Identifiable):
     signal references, group references, and port references for
     signal-based communication triggering.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.iSignalRef: Union[Union[RefType, None] , None] = None
         self.iSignalGroupRef: Union[Union[RefType, None] , None] = None
         self.iSignalPortRefs: List[RefType] = []
 
-    def getISignalRef(self):
+    def getISignalRef(self) -> Union[Union[RefType, None], None]:
         return self.iSignalRef
 
-    def setISignalRef(self, value):
+    def setISignalRef(self, value: Union[Union[RefType, None], None]) -> "ISignalTriggering":
         self.iSignalRef = value
         return self
 
-    def getISignalGroupRef(self):
+    def getISignalGroupRef(self) -> Union[Union[RefType, None], None]:
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value):
+    def setISignalGroupRef(self, value: Union[Union[RefType, None], None]) -> "ISignalTriggering":
         self.iSignalGroupRef = value
         return self
 
-    def getISignalPortRefs(self):
+    def getISignalPortRefs(self) -> List[RefType]:
         return self.iSignalPortRefs
 
-    def addISignalPortRef(self, value):
+    def addISignalPortRef(self, value: RefType) -> "ISignalTriggering":
         self.iSignalPortRefs.append(value)
         return self
 
@@ -1060,10 +1058,6 @@ class SegmentPosition(ARObject):
     segmented communication.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -1071,26 +1065,26 @@ class SegmentPosition(ARObject):
         self.segmentLength: Union[Union[Integer, None] , None] = None
         self.segmentPosition: Union[Union[Integer, None] , None] = None
 
-    def getSegmentByteOrder(self):
+    def getSegmentByteOrder(self) -> Union[Union[ByteOrderEnum, None], None]:
         return self.segmentByteOrder
 
-    def setSegmentByteOrder(self, value):
+    def setSegmentByteOrder(self, value: Union[Union[ByteOrderEnum, None], None]) -> "SegmentPosition":
         if value is not None:
             self.segmentByteOrder = value
         return self
 
-    def getSegmentLength(self):
+    def getSegmentLength(self) -> Union[Union[Integer, None], None]:
         return self.segmentLength
 
-    def setSegmentLength(self, value):
+    def setSegmentLength(self, value: Union[Union[Integer, None], None]) -> "SegmentPosition":
         if value is not None:
             self.segmentLength = value
         return self
 
-    def getSegmentPosition(self):
+    def getSegmentPosition(self) -> Union[Union[Integer, None], None]:
         return self.segmentPosition
 
-    def setSegmentPosition(self, value):
+    def setSegmentPosition(self, value: Union[Union[Integer, None], None]) -> "SegmentPosition":
         if value is not None:
             self.segmentPosition = value
         return self
@@ -1108,12 +1102,12 @@ class MultiplexedPart(ARObject, ABC):
 
         super().__init__()
 
-        self.segmentPositions = []                                 # type: List[SegmentPosition]
+        self.segmentPositions: List[SegmentPosition] = []
 
-    def getSegmentPositions(self):
+    def getSegmentPositions(self) -> List[SegmentPosition]:
         return self.segmentPositions
 
-    def addSegmentPosition(self, value):
+    def addSegmentPosition(self, value: SegmentPosition) -> "MultiplexedPart":
         if value is not None:
             self.segmentPositions.append(value)
         return self
@@ -1130,10 +1124,10 @@ class StaticPart(MultiplexedPart):
 
         self.iPduRef: Union[RefType, None] = None
 
-    def getIPduRef(self):
+    def getIPduRef(self) -> Union[RefType, None]:
         return self.iPduRef
 
-    def setIPduRef(self, value):
+    def setIPduRef(self, value: Union[RefType, None]) -> "StaticPart":
         if value is not None:
             self.iPduRef = value
         return self
@@ -1146,10 +1140,6 @@ class DynamicPartAlternative(ARObject):
     and Interaction Protocol Data Unit (IPDU) references.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -1157,26 +1147,26 @@ class DynamicPartAlternative(ARObject):
         self.iPduRef: Union[RefType, None] = None
         self.selectorFieldCode: Union[Integer, None] = None
 
-    def getInitialDynamicPart(self):
+    def getInitialDynamicPart(self) -> Union[Boolean, None]:
         return self.initialDynamicPart
 
-    def setInitialDynamicPart(self, value):
+    def setInitialDynamicPart(self, value: Union[Boolean, None]) -> "DynamicPartAlternative":
         if value is not None:
             self.initialDynamicPart = value
         return self
 
-    def getIPduRef(self):
+    def getIPduRef(self) -> Union[RefType, None]:
         return self.iPduRef
 
-    def setIPduRef(self, value):
+    def setIPduRef(self, value: Union[RefType, None]) -> "DynamicPartAlternative":
         if value is not None:
             self.iPduRef = value
         return self
 
-    def getSelectorFieldCode(self):
+    def getSelectorFieldCode(self) -> Union[Integer, None]:
         return self.selectorFieldCode
 
-    def setSelectorFieldCode(self, value):
+    def setSelectorFieldCode(self, value: Union[Integer, None]) -> "DynamicPartAlternative":
         if value is not None:
             self.selectorFieldCode = value
         return self
@@ -1191,12 +1181,12 @@ class DynamicPart(MultiplexedPart):
     def __init__(self) -> None:
         super().__init__()
 
-        self.dynamicPartAlternatives = []                          # type: List[DynamicPartAlternative]
+        self.dynamicPartAlternatives: List[DynamicPartAlternative] = []
 
-    def getDynamicPartAlternatives(self):
+    def getDynamicPartAlternatives(self) -> List[DynamicPartAlternative]:
         return self.dynamicPartAlternatives
 
-    def addDynamicPartAlternative(self, value):
+    def addDynamicPartAlternative(self, value: DynamicPartAlternative) -> "DynamicPart":
         if value is not None:
             self.dynamicPartAlternatives.append(value)
         return self
@@ -1208,7 +1198,7 @@ class MultiplexedIPdu(IPdu):
     with dynamic and static parts, defining selector field properties
     and trigger modes for multiplexed communication.
     """
-    def __init__(self, parent, short_name) -> None:
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)
 
         self.dynamicPart: Union[DynamicPart, None] = None
@@ -1219,58 +1209,58 @@ class MultiplexedIPdu(IPdu):
         self.triggerMode: Union[TriggerMode, None] = None
         self.unusedBitPattern: Union[Integer, None] = None
 
-    def getDynamicPart(self):
+    def getDynamicPart(self) -> Union[DynamicPart, None]:
         return self.dynamicPart
 
-    def setDynamicPart(self, value):
+    def setDynamicPart(self, value: Union[DynamicPart, None]) -> "MultiplexedIPdu":
         if value is not None:
             self.dynamicPart = value
         return self
 
-    def getSelectorFieldByteOrder(self):
+    def getSelectorFieldByteOrder(self) -> Union[ByteOrderEnum, None]:
         return self.selectorFieldByteOrder
 
-    def setSelectorFieldByteOrder(self, value):
+    def setSelectorFieldByteOrder(self, value: Union[ByteOrderEnum, None]) -> "MultiplexedIPdu":
         if value is not None:
             self.selectorFieldByteOrder = value
         return self
 
-    def getSelectorFieldLength(self):
+    def getSelectorFieldLength(self) -> Union[Integer, None]:
         return self.selectorFieldLength
 
-    def setSelectorFieldLength(self, value):
+    def setSelectorFieldLength(self, value: Union[Integer, None]) -> "MultiplexedIPdu":
         if value is not None:
             self.selectorFieldLength = value
         return self
 
-    def getSelectorFieldStartPosition(self):
+    def getSelectorFieldStartPosition(self) -> Union[Integer, None]:
         return self.selectorFieldStartPosition
 
-    def setSelectorFieldStartPosition(self, value):
+    def setSelectorFieldStartPosition(self, value: Union[Integer, None]) -> "MultiplexedIPdu":
         if value is not None:
             self.selectorFieldStartPosition = value
         return self
 
-    def getStaticPart(self):
+    def getStaticPart(self) -> Union[StaticPart, None]:
         return self.staticPart
 
-    def setStaticPart(self, value):
+    def setStaticPart(self, value: Union[StaticPart, None]) -> "MultiplexedIPdu":
         if value is not None:
             self.staticPart = value
         return self
 
-    def getTriggerMode(self):
+    def getTriggerMode(self) -> Union["TriggerMode", None]:
         return self.triggerMode
 
-    def setTriggerMode(self, value):
+    def setTriggerMode(self, value: Union["TriggerMode", None]) -> "MultiplexedIPdu":
         if value is not None:
             self.triggerMode = value
         return self
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Union[Integer, None]:
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
+    def setUnusedBitPattern(self, value: Union[Integer, None]) -> "MultiplexedIPdu":
         if value is not None:
             self.unusedBitPattern = value
         return self
@@ -1337,34 +1327,34 @@ class SecureCommunicationAuthenticationProps(Identifiable):
         self.dataId: Union[Union[PositiveInteger, None] , None] = None
         self.securedComAuthenticationType: Union[Union[ARLiteral, None] , None] = None
 
-    def getAuthenticationBuildAttempts(self):
+    def getAuthenticationBuildAttempts(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authenticationBuildAttempts
 
-    def setAuthenticationBuildAttempts(self, value):
+    def setAuthenticationBuildAttempts(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthProps":
         if value is not None:
             self.authenticationBuildAttempts = value
         return self
 
-    def getAuthenticationRetries(self):
+    def getAuthenticationRetries(self) -> Union[Union[PositiveInteger, None], None]:
         return self.authenticationRetries
 
-    def setAuthenticationRetries(self, value):
+    def setAuthenticationRetries(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthProps":
         if value is not None:
             self.authenticationRetries = value
         return self
 
-    def getDataId(self):
+    def getDataId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.dataId
 
-    def setDataId(self, value):
+    def setDataId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationAuthProps":
         if value is not None:
             self.dataId = value
         return self
 
-    def getSecuredComAuthenticationType(self):
+    def getSecuredComAuthenticationType(self) -> Union[Union[ARLiteral, None], None]:
         return self.securedComAuthenticationType
 
-    def setSecuredComAuthenticationType(self, value):
+    def setSecuredComAuthenticationType(self, value: Union[Union[ARLiteral, None], None]) -> "SecureCommunicationAuthProps":
         if value is not None:
             self.securedComAuthenticationType = value
         return self
@@ -1387,58 +1377,58 @@ class SecureCommunicationFreshnessProps(Identifiable):
         self.secondaryFreshnessValueId: Union[Union[PositiveInteger, None] , None] = None
         self.securedComFreshnessType: Union[Union[ARLiteral, None] , None] = None
 
-    def getFreshnessValueId(self):
+    def getFreshnessValueId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.freshnessValueId
 
-    def setFreshnessValueId(self, value):
+    def setFreshnessValueId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.freshnessValueId = value
         return self
 
-    def getFreshnessValueLength(self):
+    def getFreshnessValueLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.freshnessValueLength
 
-    def setFreshnessValueLength(self, value):
+    def setFreshnessValueLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.freshnessValueLength = value
         return self
 
-    def getFreshnessValueTxLength(self):
+    def getFreshnessValueTxLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.freshnessValueTxLength
 
-    def setFreshnessValueTxLength(self, value):
+    def setFreshnessValueTxLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.freshnessValueTxLength = value
         return self
 
-    def getMessageLinkLength(self):
+    def getMessageLinkLength(self) -> Union[Union[PositiveInteger, None], None]:
         return self.messageLinkLength
 
-    def setMessageLinkLength(self, value):
+    def setMessageLinkLength(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.messageLinkLength = value
         return self
 
-    def getMessageLinkPosition(self):
+    def getMessageLinkPosition(self) -> Union[Union[PositiveInteger, None], None]:
         return self.messageLinkPosition
 
-    def setMessageLinkPosition(self, value):
+    def setMessageLinkPosition(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.messageLinkPosition = value
         return self
 
-    def getSecondaryFreshnessValueId(self):
+    def getSecondaryFreshnessValueId(self) -> Union[Union[PositiveInteger, None], None]:
         return self.secondaryFreshnessValueId
 
-    def setSecondaryFreshnessValueId(self, value):
+    def setSecondaryFreshnessValueId(self, value: Union[Union[PositiveInteger, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.secondaryFreshnessValueId = value
         return self
 
-    def getSecuredComFreshnessType(self):
+    def getSecuredComFreshnessType(self) -> Union[Union[ARLiteral, None], None]:
         return self.securedComFreshnessType
 
-    def setSecuredComFreshnessType(self, value):
+    def setSecuredComFreshnessType(self, value: Union[Union[ARLiteral, None], None]) -> "SecureCommunicationFreshnessProps":
         if value is not None:
             self.securedComFreshnessType = value
         return self

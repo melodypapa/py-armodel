@@ -19,10 +19,6 @@ class InternalConstrs(ARObject):
     Base: ARObject
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -35,10 +31,6 @@ class PhysConstrs(ARObject):
     Represents physical constraints for data values with unit reference.
     Base: ARObject
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -53,10 +45,6 @@ class DataConstrRule(ARObject):
     Represents a single data constraint rule with internal and physical constraints.
     Base: ARObject
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

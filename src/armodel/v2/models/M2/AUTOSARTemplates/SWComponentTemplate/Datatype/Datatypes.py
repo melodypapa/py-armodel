@@ -113,10 +113,6 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
 
 class DataTypeMap(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
 
         self.applicationDataTypeRef: Union[Union[RefType, None] , None] = None

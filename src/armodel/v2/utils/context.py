@@ -10,7 +10,7 @@ class DeserializationContext:
     """Context for deserialization with V1-compatible error handling."""
 
     def __init__(self, version: str, warning: bool = False,
-                 schema_mappings: Dict = None, file_path: Path = None) -> None:
+                 schema_mappings: Optional[Dict] = None, file_path: Optional[Path] = None) -> None:
         self.version = version
         self.warning = warning
         self.mappings = schema_mappings or {}

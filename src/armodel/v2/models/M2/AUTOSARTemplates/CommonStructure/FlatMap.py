@@ -216,10 +216,6 @@ class AliasNameAssignment(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the AliasNameAssignment with default values.
@@ -249,10 +245,6 @@ class AliasNameSet(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the AliasNameSet with default values.
@@ -273,10 +265,6 @@ class RtePluginProps(ARObject):
     This class defines properties for RTE plugins.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

@@ -111,10 +111,6 @@ class ParameterInterface(DataInterface):
 
 class InvalidationPolicy(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -138,10 +134,6 @@ class InvalidationPolicy(ARObject):
 
 class MetaDataItem(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -164,10 +156,6 @@ class MetaDataItem(ARObject):
 
 
 class MetaDataItemSet(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -379,10 +367,6 @@ class PortInterfaceMapping(AtpBlueprintable, ABC):
 
 class ClientServerApplicationErrorMapping(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -405,10 +389,6 @@ class ClientServerApplicationErrorMapping(ARObject):
 
 
 class ClientServerOperationMapping(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -448,10 +428,6 @@ class ClientServerOperationMapping(ARObject):
 
 
 class DataPrototypeMapping(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -654,10 +630,6 @@ class PortInterfaceMappingSet(AtpBlueprintable):
 
 
 class TextTableMapping(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

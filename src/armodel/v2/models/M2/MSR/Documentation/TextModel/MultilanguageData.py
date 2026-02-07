@@ -31,14 +31,14 @@ class Caption(Paginateable):
     def __init__(self) -> None:
         super().__init__()
 
-        self.l = []  # type: List[LLongName]
+        self.llong_names: List[LLongName] = []
 
-    def addL(self, l: LLongName):
-        self.l.append(l)
+    def addL(self, long_name: LLongName):
+        self.llong_names.append(long_name)
         return self
 
     def getLs(self) -> List[LLongName]:
-        return self.l
+        return self.llong_names
 
 
 class MultiLanguageParagraph(Paginateable):
@@ -57,10 +57,6 @@ class MultiLanguageParagraph(Paginateable):
 
 class MultiLanguageOverviewParagraph(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -76,10 +72,6 @@ class MultiLanguageOverviewParagraph(ARObject):
 
 class MultilanguageLongName(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -93,10 +85,6 @@ class MultilanguageLongName(ARObject):
         return self.l4
 
 class MultiLanguagePlainText(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

@@ -20,10 +20,6 @@ class Sd(ARObject):
     Base: ARObject
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -68,10 +64,6 @@ class Sdg(ARObject):
     Represents a special data group containing special data items and references.
     Base: ARObject
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

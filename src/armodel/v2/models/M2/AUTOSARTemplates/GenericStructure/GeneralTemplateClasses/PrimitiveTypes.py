@@ -4,8 +4,8 @@ in the GenericStructure module.
 
 V2 Implementation:
 - Absolute imports only
-- No TYPE_CHECKING
 - String annotations for forward references
+- TYPE_CHECKING used for circular imports (deviates from CODING_RULE_V2_00002 due to circular dependencies)
 
 Compatible with V1 API.
 """
@@ -13,6 +13,7 @@ Compatible with V1 API.
 import re
 from abc import ABC, abstractmethod
 from typing import (
+    TYPE_CHECKING,
     Any,
     List,
     Optional,
@@ -23,6 +24,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import (
+        AtpBlueprintMapping,
+    )
+
 
 class ARType(ABC):
     """
@@ -31,12 +37,7 @@ class ARType(ABC):
     """
 
     @abstractmethod
-    def _validate_abstract(self) -> None:
-        """Abstract method to enforce abstract base class pattern."""
-        pass
-
     def __init__(self) -> None:
-        self._validate_abstract()
         self.timestamp: Optional[str] = None
         self.uuid: Optional[str] = None
         self._value: Optional[Any] = None
@@ -256,7 +257,7 @@ class ARLiteral(ARType):
         """str: The literal value."""
         if self._value is None:
             return ""
-        return self._value
+        return str(self._value)
 
     @value.setter
     def value(self, val: Any) -> None:
@@ -367,23 +368,6 @@ class MonotonyEnum(AREnum):
     NOT_MONOTONOUS = 'NOT_MONOTONOUS'
 
 
-class ArgumentDirectionEnum(AREnum):
-    """
-    Represents an argument direction enum in AUTOSAR models.
-    """
-
-    def __init__(self) -> None:
-        super().__init__([
-            ArgumentDirectionEnum.IN,
-            ArgumentDirectionEnum.INOUT,
-            ArgumentDirectionEnum.OUT,
-        ])
-
-    IN = 'IN'
-    INOUT = 'INOUT'
-    OUT = 'OUT'
-
-
 class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.
@@ -408,7 +392,7 @@ class ARPositiveInteger(ARNumerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, str]]) -> None:
+    def value(self, val: Optional[Union[int, float, str]]) -> None:
         if isinstance(val, int):
             if val < 0:
                 raise ValueError("Invalid Positive Integer <%s>" % val)
@@ -619,7 +603,7 @@ class CIdentifier(ARLiteral):
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: str) -> "AtpBlueprintMapping":
+    def setBlueprintValue(self, value: str) -> "CIdentifier":
         """
         Sets the blueprint value of this C identifier.
 
@@ -641,7 +625,7 @@ class CIdentifier(ARLiteral):
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str) -> "AtpBlueprintMapping":
+    def setNamePattern(self, value: str) -> "CIdentifier":
         """
         Sets the name pattern of this C identifier.
 
@@ -856,11 +840,11 @@ class ArgumentDirectionEnum(AREnum):
     OUT = "out"
 
     def __init__(self) -> None:
-        super().__init__((
+        super().__init__([
             ArgumentDirectionEnum.IN,
             ArgumentDirectionEnum.INOUT,
             ArgumentDirectionEnum.OUT
-        ))
+        ])
 
 
 class Ip4AddressString(ARLiteral):

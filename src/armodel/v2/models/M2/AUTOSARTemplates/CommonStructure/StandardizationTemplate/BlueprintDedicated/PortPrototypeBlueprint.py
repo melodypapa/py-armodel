@@ -37,10 +37,6 @@ class PortPrototypeBlueprintInitValue(ARObject):
     for a specific port prototype blueprint element.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 

@@ -4,7 +4,7 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-from typing import Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -19,6 +19,11 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguageOverviewParagraph,
 )
 
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+        DocumentationBlock,
+    )
+
 
 class Referrable(ARObject, ABC):
     """
@@ -32,7 +37,7 @@ class Referrable(ARObject, ABC):
 
         ARObject.__init__(self)
 
-        self.parent = parent
+        self.parent: ARObject = parent
         self.short_name = short_name
 
     @property
@@ -67,7 +72,9 @@ class Referrable(ARObject, ABC):
         """
         str: The full name of this element, including the parent's full name.
         """
-        return self.parent.full_name + "/" + self.short_name
+        if hasattr(self.parent, 'full_name'):
+            return self.parent.full_name + "/" + self.short_name
+        return self.short_name
 
     def getFullName(self) -> str:
         """
@@ -103,7 +110,7 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         return self.longName
 
-    def setLongName(self, value: MultilanguageLongName):
+    def setLongName(self, value: MultilanguageLongName) -> "MultilingualReferrable":
         """
         Sets the long name of this multilingual referrable element.
 
@@ -148,7 +155,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return len(self.elements)
 
-    def removeElement(self, short_name: str, type=None) -> None:
+    def removeElement(self, short_name: str, type: Optional[Any] = None) -> None:
         """
         Removes an element from this collection.
 
@@ -192,7 +199,7 @@ class Identifiable(MultilanguageReferrable, ABC):
                 self.element_mappings[short_name] = []
             self.element_mappings[short_name].append(element)
 
-    def getElement(self, short_name: str, type=None) -> Optional[Referrable]:
+    def getElement(self, short_name: str, type: Optional[Any] = None) -> Optional[Referrable]:
         """
         Gets an element from this collection by short name and type.
 
@@ -212,7 +219,7 @@ class Identifiable(MultilanguageReferrable, ABC):
             return result[0]
         return self.element_mappings[short_name][0]
 
-    def IsElementExists(self, short_name: str, type=None) -> bool:
+    def IsElementExists(self, short_name: str, type: Optional[Any] = None) -> bool:
         """
         Checks if an element with the specified short name and type exists in this collection.
 

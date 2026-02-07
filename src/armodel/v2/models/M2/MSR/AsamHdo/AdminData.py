@@ -25,10 +25,6 @@ class Modification(ARObject):
     Aggregated by: DocRevision.modifications
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -58,10 +54,6 @@ class DocRevision(ARObject):
     Base: ARObject
     Aggregated by: AdminData.DocRevisions
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -136,10 +128,6 @@ class AdminData(ARObject):
     Container for administrative data including document revisions and language settings.
     Base: ARObject
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

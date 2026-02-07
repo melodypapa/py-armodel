@@ -12,10 +12,6 @@ class BlueprintMappingSet(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the BlueprintMappingSet with default values.
@@ -23,7 +19,7 @@ class BlueprintMappingSet(ARObject):
         super().__init__()
         self.mappings: List[str] = []
 
-    def addMapping(self, mapping: str):
+    def addMapping(self, mapping: str) -> "BlueprintMappingSet":
         """
         Adds a mapping to this set.
 

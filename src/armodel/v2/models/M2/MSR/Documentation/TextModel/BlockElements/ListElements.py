@@ -14,7 +14,6 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 
 
 class ListEnum(AREnum):
-
     NUMBER = 'number'
     UNNUMBER = 'unnumber'
 
@@ -26,6 +25,7 @@ class ListEnum(AREnum):
 
 
 class Item(Paginateable):
+
     def __init__(self) -> None:
         super().__init__()
 

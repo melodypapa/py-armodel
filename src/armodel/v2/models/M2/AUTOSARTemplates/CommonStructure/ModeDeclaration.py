@@ -50,10 +50,6 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the ModeDeclarationGroupPrototypeMapping with default values.
@@ -189,10 +185,6 @@ class ModeRequestTypeMap(ARObject):
     This class defines how mode requests are mapped to specific implementation data types.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """
@@ -458,10 +450,6 @@ class ModeErrorBehavior(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the ModeErrorBehavior with default values.
@@ -483,10 +471,6 @@ class ModeTransition(ARObject):
     This class defines transitions between different mode declarations.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

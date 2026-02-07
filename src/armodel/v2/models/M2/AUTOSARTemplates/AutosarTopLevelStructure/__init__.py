@@ -26,7 +26,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     CollectableElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    ARElement,
     Referrable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -68,14 +67,10 @@ from armodel.v2.models.utils.uuid_mgr import UUIDMgr
 
 class FileInfoComment(ARObject):
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
-        self.sdgs = []                                      # type: List[Sdg]
+        self.sdgs: List[Sdg] = []
 
     def getSdgs(self):
         return self.sdgs
@@ -247,16 +242,18 @@ class AbstractAUTOSAR(CollectableElement):
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
         if (isinstance(data_type, (ImplementationDataType, SwBaseType))):
-            if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
-                if data_type.swDataDefProps is not None and data_type.swDataDefProps.implementationDataTypeRef is not None:
-                    referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
-                    return self.getDataType(referred_type)
+            if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE and
+                data_type.swDataDefProps is not None and
+                data_type.swDataDefProps.implementationDataTypeRef is not None):
+                referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
+                return self.getDataType(referred_type)
             if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE and
-                data_type.swDataDefProps is not None and data_type.swDataDefProps.swPointerTargetProps is not None and
-                data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE"):
-                if data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps() is not None:
-                    referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
-                    return self.getDataType(referred_type)
+                data_type.swDataDefProps is not None and
+                data_type.swDataDefProps.swPointerTargetProps is not None and
+                data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE" and
+                data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps() is not None):
+                referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
+                return self.getDataType(referred_type)
             return data_type
         else:
             raise ValueError("%s is not ImplementationDataType." % data_type)
@@ -351,10 +348,6 @@ class AbstractAUTOSAR(CollectableElement):
 class AUTOSAR (AbstractAUTOSAR):
     __instance = None
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     @staticmethod
     def getInstance() -> "AUTOSAR":
         if (AUTOSAR.__instance is None):
@@ -375,10 +368,6 @@ class AUTOSAR (AbstractAUTOSAR):
 
 
 class AUTOSARDoc(AbstractAUTOSAR):
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 

@@ -17,6 +17,11 @@ from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAn
 from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    Caption,
+    MultiLanguageVerbatim,
+    PgwideEnum,
+)
 
 
 class GraphicFitEnum(AREnum):
@@ -87,10 +92,6 @@ class Graphic(EngineeringObject):
 
 
 class Map(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

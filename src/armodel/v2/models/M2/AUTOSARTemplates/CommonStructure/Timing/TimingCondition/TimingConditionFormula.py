@@ -12,10 +12,6 @@ class TimingConditionFormula(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the TimingConditionFormula with default values.
@@ -23,7 +19,7 @@ class TimingConditionFormula(ARObject):
         super().__init__()
         self.expression: Union[str, None] = None
 
-    def getExpression(self) -> str:
+    def getExpression(self) -> Union[str, None]:
         """
         Gets the formula expression.
 
@@ -32,7 +28,7 @@ class TimingConditionFormula(ARObject):
         """
         return self.expression
 
-    def setExpression(self, value: str):
+    def setExpression(self, value: str) -> "TimingConditionFormula":
         """
         Sets the formula expression.
 

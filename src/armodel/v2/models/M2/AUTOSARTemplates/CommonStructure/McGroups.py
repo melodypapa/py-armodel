@@ -16,10 +16,6 @@ class McGroup(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the McGroup with default values.
@@ -49,16 +45,12 @@ class McGroupDataRefSet(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the McGroupDataRefSet with default values.
         """
         super().__init__()
-        self.dataRefs = []
+        self.dataRefs: list[str] = []
 
     def addDataRef(self, ref: str) -> None:
         self.dataRefs.append(ref)

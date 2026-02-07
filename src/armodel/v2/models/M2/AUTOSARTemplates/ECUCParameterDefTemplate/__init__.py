@@ -38,10 +38,6 @@ class EcucConditionSpecification(ARObject):
             that defines the condition.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -506,10 +502,6 @@ class EcucDerivationSpecification(ARObject):
     This class is a specialization of the ARObject base class and is used to define
     derivation specifications for ECUC parameters in the AUTOSAR standard.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -1308,10 +1300,6 @@ class EcucConditionFormula(ARObject):
         formula (String): The formula expression.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -1409,10 +1397,6 @@ class EcucDestinationUriPolicy(ARObject):
         policy (String): The policy definition.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -1477,10 +1461,6 @@ class EcucParameterDerivationFormula(ARObject):
         formula (String): The derivation formula.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -1527,10 +1507,6 @@ class EcucQueryExpression(ARObject):
     Attributes:
         expression (String): The query expression.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

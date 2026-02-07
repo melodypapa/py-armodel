@@ -5,7 +5,7 @@ services such as NV block management, diagnostic services, cryptographic service
 """
 
 from abc import ABC
-from typing import List, Union
+from typing import Any, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -38,10 +38,6 @@ class RoleBasedDataAssignment(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the RoleBasedDataAssignment with default values.
@@ -57,7 +53,7 @@ class RoleBasedDataAssignment(ARObject):
         # Reference to the PIM (Port Interface Mapping) for this assignment
         self.usedPimRef: Union[Union[RefType, None] , None] = None
 
-    def getRole(self):
+    def getRole(self) -> Union[Union[ARLiteral, None], None]:
         """
         Gets the role identifier for this data assignment.
 
@@ -66,10 +62,9 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Union[Union[ARLiteral, None], None]) -> "RoleBasedDataAssignment":
         """
         Sets the role identifier for this data assignment.
-        Only sets the value if it is not None.
 
         Args:
             value: The role identifier to set
@@ -80,7 +75,7 @@ class RoleBasedDataAssignment(ARObject):
         self.role = value
         return self
 
-    def getUsedDataElement(self):
+    def getUsedDataElement(self) -> Union[Union[AutosarVariableRef, None], None]:
         """
         Gets the used data element reference for this assignment.
 
@@ -89,10 +84,9 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.usedDataElement
 
-    def setUsedDataElement(self, value):
+    def setUsedDataElement(self, value: Union[Union[AutosarVariableRef, None], None]) -> "RoleBasedDataAssignment":
         """
         Sets the used data element reference for this assignment.
-        Only sets the value if it is not None.
 
         Args:
             value: The used data element reference to set
@@ -103,7 +97,7 @@ class RoleBasedDataAssignment(ARObject):
         self.usedDataElement = value
         return self
 
-    def getUsedParameterElement(self):
+    def getUsedParameterElement(self) -> Union[Union[AutosarParameterRef, None], None]:
         """
         Gets the used parameter element reference for this assignment.
 
@@ -112,7 +106,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.usedParameterElement
 
-    def setUsedParameterElement(self, value):
+    def setUsedParameterElement(self, value: Union[Union[AutosarParameterRef, None], None]) -> "RoleBasedDataAssignment":
         """
         Sets the used parameter element reference for this assignment.
         Only sets the value if it is not None.
@@ -126,7 +120,7 @@ class RoleBasedDataAssignment(ARObject):
         self.usedParameterElement = value
         return self
 
-    def getUsedPimRef(self):
+    def getUsedPimRef(self) -> Union[Union[RefType, None], None]:
         """
         Gets the reference to the PIM (Port Interface Mapping) for this assignment.
 
@@ -135,7 +129,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.usedPimRef
 
-    def setUsedPimRef(self, value):
+    def setUsedPimRef(self, value: Union[Union[RefType, None], None]) -> "RoleBasedDataAssignment":
         """
         Sets the reference to the PIM (Port Interface Mapping) for this assignment.
         Only sets the value if it is not None.
@@ -185,10 +179,10 @@ class RamBlockStatusControlEnum(AREnum):
         """
         Initializes the RamBlockStatusControlEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             RamBlockStatusControlEnum.API,
             RamBlockStatusControlEnum.NV_RAM_MANAGER,
-        ))
+        ])
 
 
 class NvBlockNeedsReliabilityEnum(AREnum):
@@ -207,11 +201,11 @@ class NvBlockNeedsReliabilityEnum(AREnum):
         """
         Initializes the NvBlockNeedsReliabilityEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             NvBlockNeedsReliabilityEnum.ERROR_CORRECTION,
             NvBlockNeedsReliabilityEnum.ERROR_DETECTION,
             NvBlockNeedsReliabilityEnum.NO_PROTECTION,
-        ))
+        ])
 
 
 class NvBlockNeedsWritingPriorityEnum(AREnum):
@@ -230,11 +224,11 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
         """
         Initializes the NvBlockNeedsWritingPriorityEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             NvBlockNeedsWritingPriorityEnum.HIGH,
             NvBlockNeedsWritingPriorityEnum.LOW,
             NvBlockNeedsWritingPriorityEnum.MEDIUM,
-        ))
+        ])
 
 
 class NvBlockNeeds(ServiceNeeds):
@@ -299,157 +293,157 @@ class NvBlockNeeds(ServiceNeeds):
         # Priority for writing operations
         self.writingPriority: Union[Union[NvBlockNeedsWritingPriorityEnum, None] , None] = None
 
-    def getCalcRamBlockCrc(self):
+    def getCalcRamBlockCrc(self) -> Union[Boolean, None]:
         return self.calcRamBlockCrc
 
-    def setCalcRamBlockCrc(self, value):
+    def setCalcRamBlockCrc(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.calcRamBlockCrc = value
         return self
 
-    def getCheckStaticBlockId(self):
+    def getCheckStaticBlockId(self) -> Union[Boolean, None]:
         return self.checkStaticBlockId
 
-    def setCheckStaticBlockId(self, value):
+    def setCheckStaticBlockId(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.checkStaticBlockId = value
         return self
 
-    def getCyclicWritingPeriod(self):
+    def getCyclicWritingPeriod(self) -> Union[Union[TimeValue, None], None]:
         return self.cyclicWritingPeriod
 
-    def setCyclicWritingPeriod(self, value):
+    def setCyclicWritingPeriod(self, value: Union[Union[TimeValue, None], None]) -> "NvBlockNeeds":
         self.cyclicWritingPeriod = value
         return self
 
-    def getNDataSets(self):
+    def getNDataSets(self) -> Union[Union[PositiveInteger, None], None]:
         return self.nDataSets
 
-    def setNDataSets(self, value):
+    def setNDataSets(self, value: Union[Union[PositiveInteger, None], None]) -> "NvBlockNeeds":
         self.nDataSets = value
         return self
 
-    def getNRomBlocks(self):
+    def getNRomBlocks(self) -> Union[Union[PositiveInteger, None], None]:
         return self.nRomBlocks
 
-    def setNRomBlocks(self, value):
+    def setNRomBlocks(self, value: Union[Union[PositiveInteger, None], None]) -> "NvBlockNeeds":
         self.nRomBlocks = value
         return self
 
-    def getRamBlockStatusControl(self):
+    def getRamBlockStatusControl(self) -> Union[Union[RamBlockStatusControlEnum, None], None]:
         return self.ramBlockStatusControl
 
-    def setRamBlockStatusControl(self, value):
+    def setRamBlockStatusControl(self, value: Union[Union[RamBlockStatusControlEnum, None], None]) -> "NvBlockNeeds":
         self.ramBlockStatusControl = value
         return self
 
-    def getReadonly(self):
+    def getReadonly(self) -> Union[Boolean, None]:
         return self.readonly
 
-    def setReadonly(self, value):
+    def setReadonly(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.readonly = value
         return self
 
-    def getReliability(self):
+    def getReliability(self) -> Union[Union[NvBlockNeedsReliabilityEnum, None], None]:
         return self.reliability
 
-    def setReliability(self, value):
+    def setReliability(self, value: Union[Union[NvBlockNeedsReliabilityEnum, None], None]) -> "NvBlockNeeds":
         self.reliability = value
         return self
 
-    def getResistantToChangedSw(self):
+    def getResistantToChangedSw(self) -> Union[Boolean, None]:
         return self.resistantToChangedSw
 
-    def setResistantToChangedSw(self, value):
+    def setResistantToChangedSw(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.resistantToChangedSw = value
         return self
 
-    def getRestoreAtStart(self):
+    def getRestoreAtStart(self) -> Union[Boolean, None]:
         return self.restoreAtStart
 
-    def setRestoreAtStart(self, value):
+    def setRestoreAtStart(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.restoreAtStart = value
         return self
 
-    def getSelectBlockForFirstInitAll(self):
+    def getSelectBlockForFirstInitAll(self) -> Union[Boolean, None]:
         return self.selectBlockForFirstInitAll
 
-    def setSelectBlockForFirstInitAll(self, value):
+    def setSelectBlockForFirstInitAll(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.selectBlockForFirstInitAll = value
         return self
 
-    def getStoreAtShutdown(self):
+    def getStoreAtShutdown(self) -> Union[Boolean, None]:
         return self.storeAtShutdown
 
-    def setStoreAtShutdown(self, value):
+    def setStoreAtShutdown(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.storeAtShutdown = value
         return self
 
-    def getStoreCyclic(self):
+    def getStoreCyclic(self) -> Union[Boolean, None]:
         return self.storeCyclic
 
-    def setStoreCyclic(self, value):
+    def setStoreCyclic(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.storeCyclic = value
         return self
 
-    def getStoreEmergency(self):
+    def getStoreEmergency(self) -> Union[Boolean, None]:
         return self.storeEmergency
 
-    def setStoreEmergency(self, value):
+    def setStoreEmergency(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.storeEmergency = value
         return self
 
-    def getStoreImmediate(self):
+    def getStoreImmediate(self) -> Union[Boolean, None]:
         return self.storeImmediate
 
-    def setStoreImmediate(self, value):
+    def setStoreImmediate(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.storeImmediate = value
         return self
 
-    def getStoreOnChange(self):
+    def getStoreOnChange(self) -> Union[Boolean, None]:
         return self.storeOnChange
 
-    def setStoreOnChange(self, value):
+    def setStoreOnChange(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.storeOnChange = value
         return self
 
-    def getUseAutoValidationAtShutDown(self):
+    def getUseAutoValidationAtShutDown(self) -> Union[Boolean, None]:
         return self.useAutoValidationAtShutDown
 
-    def setUseAutoValidationAtShutDown(self, value):
+    def setUseAutoValidationAtShutDown(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.useAutoValidationAtShutDown = value
         return self
 
-    def getUseCRCCompMechanism(self):
+    def getUseCRCCompMechanism(self) -> Union[Boolean, None]:
         return self.useCRCCompMechanism
 
-    def setUseCRCCompMechanism(self, value):
+    def setUseCRCCompMechanism(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.useCRCCompMechanism = value
         return self
 
-    def getWriteOnlyOnce(self):
+    def getWriteOnlyOnce(self) -> Union[Boolean, None]:
         return self.writeOnlyOnce
 
-    def setWriteOnlyOnce(self, value):
+    def setWriteOnlyOnce(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.writeOnlyOnce = value
         return self
 
-    def getWriteVerification(self):
+    def getWriteVerification(self) -> Union[Boolean, None]:
         return self.writeVerification
 
-    def setWriteVerification(self, value):
+    def setWriteVerification(self, value: Union[Boolean, None]) -> "NvBlockNeeds":
         self.writeVerification = value
         return self
 
-    def getWritingFrequency(self):
+    def getWritingFrequency(self) -> Union[Union[PositiveInteger, None], None]:
         return self.writingFrequency
 
-    def setWritingFrequency(self, value):
+    def setWritingFrequency(self, value: Union[Union[PositiveInteger, None], None]) -> "NvBlockNeeds":
         self.writingFrequency = value
         return self
 
-    def getWritingPriority(self):
+    def getWritingPriority(self) -> Union[Union[NvBlockNeedsWritingPriorityEnum, None], None]:
         return self.writingPriority
 
-    def setWritingPriority(self, value):
+    def setWritingPriority(self, value: Union[Union[NvBlockNeedsWritingPriorityEnum, None], None]) -> "NvBlockNeeds":
         self.writingPriority = value
         return self
 
@@ -461,10 +455,6 @@ class RoleBasedDataTypeAssignment(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the RoleBasedDataTypeAssignment with default values.
@@ -472,11 +462,11 @@ class RoleBasedDataTypeAssignment(ARObject):
         super().__init__()
 
         # Role identifier for this data type assignment
-        self.role: Union[Union[Identifier, None] , None] = None
+        self.role: Union[Union[Identifier, None], None] = None
         # Reference to the used implementation data type
-        self.usedImplementationDataTypeRef: Union[Union[RefType, None] , None] = None
+        self.usedImplementationDataTypeRef: Union[Union[RefType, None], None] = None
 
-    def getRole(self):
+    def getRole(self) -> Union[Union[Identifier, None], None]:
         """
         Gets the role identifier for this data type assignment.
 
@@ -485,7 +475,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Union[Union[Identifier, None], None]) -> "RoleBasedDataTypeAssignment":
         """
         Sets the role identifier for this data type assignment.
         Only sets the value if it is not None.
@@ -499,7 +489,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         self.role = value
         return self
 
-    def getUsedImplementationDataTypeRef(self):
+    def getUsedImplementationDataTypeRef(self) -> Union[Union[RefType, None], None]:
         """
         Gets the reference to the used implementation data type.
 
@@ -508,7 +498,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         return self.usedImplementationDataTypeRef
 
-    def setUsedImplementationDataTypeRef(self, value):
+    def setUsedImplementationDataTypeRef(self, value: Union[Union[RefType, None], None]) -> "RoleBasedDataTypeAssignment":
         """
         Sets the reference to the used implementation data type.
         Only sets the value if it is not None.
@@ -562,7 +552,7 @@ class ServiceDependency(Identifiable, ABC):
         # Symbolic name properties for this service dependency
         self.symbolicNameProps = None
 
-    def getAssignedDataTypes(self):
+    def getAssignedDataTypes(self) -> List["RoleBasedDataTypeAssignment"]:
         """
         Gets the list of role-based data type assignments for this service dependency.
 
@@ -571,7 +561,7 @@ class ServiceDependency(Identifiable, ABC):
         """
         return self.assignedDataTypes
 
-    def addAssignedDataType(self, value):
+    def addAssignedDataType(self, value: "RoleBasedDataTypeAssignment") -> "ServiceDependency":
         """
         Adds a role-based data type assignment to this service dependency.
 
@@ -584,7 +574,7 @@ class ServiceDependency(Identifiable, ABC):
         self.assignedDataTypes.append(value)
         return self
 
-    def getDiagnosticRelevance(self):
+    def getDiagnosticRelevance(self) -> Union[Union[ServiceDiagnosticRelevanceEnum, None], None]:
         """
         Gets the diagnostic relevance of this service dependency.
 
@@ -593,7 +583,7 @@ class ServiceDependency(Identifiable, ABC):
         """
         return self.diagnosticRelevance
 
-    def setDiagnosticRelevance(self, value):
+    def setDiagnosticRelevance(self, value: Union[Union[ServiceDiagnosticRelevanceEnum, None], None]) -> "ServiceDependency":
         """
         Sets the diagnostic relevance of this service dependency.
         Only sets the value if it is not None.
@@ -607,7 +597,7 @@ class ServiceDependency(Identifiable, ABC):
         self.diagnosticRelevance = value
         return self
 
-    def getSymbolicNameProps(self):
+    def getSymbolicNameProps(self) -> Union[Any, None]:
         """
         Gets the symbolic name properties for this service dependency.
 
@@ -651,13 +641,13 @@ class DiagnosticAudienceEnum(AREnum):
         """
         Initializes the DiagnosticAudienceEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             DiagnosticAudienceEnum.AFTER_MARKET,
             DiagnosticAudienceEnum.AFTER_SALES,
             DiagnosticAudienceEnum.DEVELOPMENT,
             DiagnosticAudienceEnum.MANUFACTURING,
             DiagnosticAudienceEnum.SUPPLIER,
-        ))
+        ])
 
 
 class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
@@ -674,10 +664,10 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
         """
         Initializes the DiagnosticServiceRequestCallbackTypeEnum with all possible values.
         """
-        super().__init__((
+        super().__init__([
             DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER,
             DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_SUPPLIER,
-        ))
+        ])
 
 
 class DiagnosticCapabilityElement(ServiceNeeds, ABC):
@@ -1962,10 +1952,6 @@ class DevelopmentError(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the DevelopmentError with default values.
@@ -2685,10 +2671,6 @@ class RuntimeError(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the RuntimeError with default values.
@@ -2802,10 +2784,6 @@ class SymbolicNameProps(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the SymbolicNameProps with default values.
@@ -2845,10 +2823,6 @@ class TracedFailure(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the TracedFailure with default values.
@@ -2878,10 +2852,6 @@ class TransientFault(ARObject):
     This class defines information about transient faults for error handling.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

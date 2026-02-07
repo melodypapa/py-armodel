@@ -2,7 +2,6 @@
 SWComponentTemplate module for AUTOSAR software component templates.
 """
 
-"""V2 module."""
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     DataLimitKindEnum,
     FilterDebouncingEnum,

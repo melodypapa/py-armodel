@@ -4,7 +4,7 @@ in the GenericStructure module.
 """
 
 from datetime import datetime
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -17,12 +17,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     RevisionLabelString,
 )
 
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.BlockElements import (
+        DocumentationBlock,
+    )
+
 
 class LifeCyclePeriod(ARObject):
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     '''
         This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
@@ -115,10 +116,6 @@ class LifeCycleInfo(ARObject):
     This class defines information about the life cycle of AUTOSAR elements.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

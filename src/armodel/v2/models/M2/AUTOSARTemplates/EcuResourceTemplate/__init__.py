@@ -6,7 +6,7 @@ Hardware elements define the physical components of ECUs including pins, pin gro
 and connections between hardware elements.
 """
 
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
     HwAttributeValue,
@@ -219,10 +219,6 @@ class HwPinGroupContent(ARObject):
     This class links individual pins and pin groups together to form complex pin structures.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         """

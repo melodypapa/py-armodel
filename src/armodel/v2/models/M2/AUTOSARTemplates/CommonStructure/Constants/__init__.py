@@ -9,7 +9,7 @@ numerical, text, array, record, and application-specific value specifications.
 
 
 from abc import ABC
-from typing import List, Union
+from typing import Any, List, Union
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -72,7 +72,7 @@ class ValueSpecification(ARObject, ABC):
         # Short label for this value specification
         self.shortLabel = None
 
-    def getShortLabel(self):
+    def getShortLabel(self) -> Union[Any, None]:
         """
         Gets the short label for this value specification.
 
@@ -81,7 +81,7 @@ class ValueSpecification(ARObject, ABC):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value):
+    def setShortLabel(self, value: Any) -> "ValueSpecification":
         """
         Sets the short label for this value specification.
         Only sets the value if it is not None.
@@ -150,11 +150,11 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         # Category of this application value specification
         self.category = None
         # Software axis content for this value specification
-        self.swAxisCont = []
+        self.swAxisCont: List[ValueSpecification] = []
         # Software value content for this value specification
         self.swValueCont = None
 
-    def getCategory(self):
+    def getCategory(self) -> Union[str, None]:
         """
         Gets the category of this application value specification.
 
@@ -163,7 +163,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         """
         return self.category
 
-    def setCategory(self, value):
+    def setCategory(self, value: Union[str, None]) -> "ApplicationValueSpecification":
         """
         Sets the category of this application value specification.
         Only sets the value if it is not None.
@@ -177,7 +177,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         self.category = value
         return self
 
-    def getSwAxisCont(self):
+    def getSwAxisCont(self) -> List[ValueSpecification]:
         """
         Gets the software axis content for this value specification.
 
@@ -186,7 +186,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         """
         return self.swAxisCont
 
-    def setSwAxisCont(self, value):
+    def setSwAxisCont(self, value: List[ValueSpecification]) -> "ApplicationValueSpecification":
         """
         Sets the software axis content for this value specification.
         Only sets the value if it is not None.
@@ -200,7 +200,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         self.swAxisCont = value
         return self
 
-    def getSwValueCont(self):
+    def getSwValueCont(self) -> Union["ValueSpecification", None]:
         """
         Gets the software value content for this value specification.
 
@@ -209,7 +209,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
         """
         return self.swValueCont
 
-    def setSwValueCont(self, value):
+    def setSwValueCont(self, value: Union["ValueSpecification", None]) -> "ApplicationValueSpecification":
         """
         Sets the software value content for this value specification.
         Only sets the value if it is not None.
@@ -238,7 +238,7 @@ class RecordValueSpecification(CompositeValueSpecification):
         super().__init__()
 
         # List of field value specifications in this record
-        self.fields = []
+        self.fields: List[ValueSpecification] = []
 
     def addField(self, field: ValueSpecification) -> None:
         """
@@ -272,18 +272,18 @@ class TextValueSpecification(ValueSpecification):
         super().__init__()
 
         # Text value for this specification
-        self.value: Union[Union[ARLiteral, None] , None] = None
+        self.value: Union[Union[ARLiteral, None], None] = None
 
-    def getValue(self):
+    def getValue(self) -> Union[Union[ARLiteral, None], None]:
         """
         Gets the text value for this specification.
 
         Returns:
-            ARLiteral: The text value
+            The text value
         """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: Union[Union[ARLiteral, None], None]) -> "TextValueSpecification":
         """
         Sets the text value for this specification.
         Only sets the value if it is not None.
@@ -311,9 +311,9 @@ class NumericalValueSpecification(ValueSpecification):
         super().__init__()
 
         # Numerical value for this specification
-        self.value: Union[Union[ARNumerical, None] , None] = None
+        self.value: Union[Union[ARNumerical, None], None] = None
 
-    def getValue(self) -> ARNumerical:
+    def getValue(self) -> Union[ARNumerical, None]:
         """
         Gets the numerical value for this specification.
 
@@ -322,7 +322,7 @@ class NumericalValueSpecification(ValueSpecification):
         """
         return self.value
 
-    def setValue(self, value: ARNumerical):
+    def setValue(self, value: Union[ARNumerical, None]) -> "NumericalValueSpecification":
         """
         Sets the numerical value for this specification.
         Only sets the value if it is not None.
@@ -355,7 +355,7 @@ class ArrayValueSpecification(ValueSpecification):
         # Intended partial initialization count for this array
         self.intendedPartialInitializationCount = None
 
-    def getIntendedPartialInitializationCount(self):
+    def getIntendedPartialInitializationCount(self) -> Union[int, None]:
         """
         Gets the intended partial initialization count for this array.
 
@@ -364,7 +364,7 @@ class ArrayValueSpecification(ValueSpecification):
         """
         return self.intendedPartialInitializationCount
 
-    def setIntendedPartialInitializationCount(self, value):
+    def setIntendedPartialInitializationCount(self, value: Union[int, None]) -> "ArrayValueSpecification":
         """
         Sets the intended partial initialization count for this array.
         Only sets the value if it is not None.
@@ -392,9 +392,22 @@ class ArrayValueSpecification(ValueSpecification):
         Gets the list of element value specifications in this array.
 
         Returns:
-            List of ValueSpecification instances
+            List of element value specifications
         """
         return self.element
+
+    def setElement(self, value: List[ValueSpecification]) -> "ArrayValueSpecification":
+        """
+        Sets the list of element value specifications in this array.
+
+        Args:
+            value: The list of element value specifications to set
+
+        Returns:
+            self for method chaining
+        """
+        self.element = value
+        return self
 
 
 class ConstantSpecification(ARElement):
@@ -414,9 +427,9 @@ class ConstantSpecification(ARElement):
         super().__init__(parent, short_name)
 
         # Value specification for this constant
-        self.valueSpec: Union[Union[ValueSpecification, None] , None] = None
+        self.valueSpec: Union[Union[ValueSpecification, None], None] = None
 
-    def getValueSpec(self):
+    def getValueSpec(self) -> Union[Union[ValueSpecification, None], None]:
         """
         Gets the value specification for this constant.
 
@@ -425,7 +438,7 @@ class ConstantSpecification(ARElement):
         """
         return self.valueSpec
 
-    def setValueSpec(self, value):
+    def setValueSpec(self, value: Union[Union[ValueSpecification, None], None]) -> "ConstantSpecification":
         """
         Sets the value specification for this constant.
         Only sets the value if it is not None.
@@ -455,7 +468,7 @@ class ConstantReference(ValueSpecification):
         # Reference to the constant for this specification
         self.constantRef: Union[Union[RefType, None] , None] = None
 
-    def getConstantRef(self):
+    def getConstantRef(self) -> Union["ConstantSpecification", None]:
         """
         Gets the reference to the constant for this specification.
 
@@ -464,7 +477,7 @@ class ConstantReference(ValueSpecification):
         """
         return self.constantRef
 
-    def setConstantRef(self, value):
+    def setConstantRef(self, value: Union["ConstantSpecification", None]) -> "ConstantReference":
         """
         Sets the reference to the constant for this specification.
         Only sets the value if it is not None.
@@ -529,10 +542,6 @@ class ConstantSpecificationMapping(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.sourceRef: Union[Union[RefType, None] , None] = None
@@ -558,10 +567,6 @@ class ConstantSpecificationMappingSet(ARObject):
     Represents a set of constant specification mappings.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -596,10 +601,6 @@ class NumericalOrText(ARObject):
     Represents a value that can be either numerical or text.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -661,10 +662,6 @@ class RuleArguments(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.arguments = []
@@ -681,10 +678,6 @@ class RuleBasedAxisCont(ARObject):
     Represents rule-based axis content.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -703,10 +696,6 @@ class RuleBasedValueCont(ARObject):
     Represents rule-based value content.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

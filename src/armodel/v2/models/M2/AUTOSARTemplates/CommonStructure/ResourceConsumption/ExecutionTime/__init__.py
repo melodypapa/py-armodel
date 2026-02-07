@@ -27,10 +27,6 @@ class AnalyzedExecutionTime(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.executionTime: Union[Union[TimeValue, None] , None] = None
@@ -49,10 +45,6 @@ class ExecutionTime(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.executionTime: Union[Union[TimeValue, None] , None] = None
@@ -70,10 +62,6 @@ class MeasuredExecutionTime(ARObject):
     Represents measured execution time in AUTOSAR.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -101,10 +89,6 @@ class MemorySectionLocation(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
         self.sectionName: Union[str, None] = None
@@ -122,10 +106,6 @@ class RoughEstimateOfExecutionTime(ARObject):
     Represents rough estimate of execution time in AUTOSAR.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -152,10 +132,6 @@ class SimulatedExecutionTime(ARObject):
     Represents simulated execution time in AUTOSAR.
     """
 
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

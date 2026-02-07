@@ -12,10 +12,6 @@ class TimingClock(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the TimingClock with default values.
@@ -24,7 +20,7 @@ class TimingClock(ARObject):
         self.clockName: Union[str, None] = None
         self.clockType: Union[str, None] = None
 
-    def getClockName(self) -> str:
+    def getClockName(self) -> Union[str, None]:
         """
         Gets the clock name.
 
@@ -33,7 +29,7 @@ class TimingClock(ARObject):
         """
         return self.clockName
 
-    def setClockName(self, value: str):
+    def setClockName(self, value: str) -> "TimingClock":
         """
         Sets the clock name.
 
@@ -46,7 +42,7 @@ class TimingClock(ARObject):
         self.clockName = value
         return self
 
-    def getClockType(self) -> str:
+    def getClockType(self) -> Union[str, None]:
         """
         Gets the clock type.
 
@@ -55,7 +51,7 @@ class TimingClock(ARObject):
         """
         return self.clockType
 
-    def setClockType(self, value: str):
+    def setClockType(self, value: str) -> "TimingClock":
         """
         Sets the clock type.
 

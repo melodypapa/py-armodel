@@ -218,10 +218,6 @@ class CouplingPortDetails(ARObject):
     preemption support, and VLAN translation tables.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -324,10 +320,6 @@ class VlanMembership(ARObject):
     specifying default priorities, DHCP configurations, and VLAN
     tagging behaviors for Ethernet communication.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -652,10 +644,6 @@ class RequestResponseDelay(ARObject):
     and maximum acceptable response times.
     """
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -685,10 +673,6 @@ class InitialSdDelayConfig(ARObject):
     communication, defining minimum and maximum delay values and
     repetition timing for service announcements and requests.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -737,10 +721,6 @@ class SdClientConfig(ARObject):
     service version requirements, delay configurations, and TTL settings
     for service discovery communication in the network.
     """
-
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
 
     def __init__(self) -> None:
         super().__init__()

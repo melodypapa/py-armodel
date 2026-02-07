@@ -12,10 +12,6 @@ class TimingClockSyncAccuracy(ARObject):
     """
 
 
-    def _validate_abstract(self) -> None:
-        """Validate this is a concrete class."""
-        pass
-
     def __init__(self) -> None:
         """
         Initializes the TimingClockSyncAccuracy with default values.
@@ -24,7 +20,7 @@ class TimingClockSyncAccuracy(ARObject):
         self.accuracy: Union[str, None] = None
         self.unit: Union[str, None] = None
 
-    def getAccuracy(self) -> str:
+    def getAccuracy(self) -> Union[str, None]:
         """
         Gets the accuracy value.
 
@@ -33,7 +29,7 @@ class TimingClockSyncAccuracy(ARObject):
         """
         return self.accuracy
 
-    def setAccuracy(self, value: str):
+    def setAccuracy(self, value: str) -> "TimingClockSyncAccuracy":
         """
         Sets the accuracy value.
 
@@ -46,7 +42,7 @@ class TimingClockSyncAccuracy(ARObject):
         self.accuracy = value
         return self
 
-    def getUnit(self) -> str:
+    def getUnit(self) -> Union[str, None]:
         """
         Gets the unit.
 
@@ -55,7 +51,7 @@ class TimingClockSyncAccuracy(ARObject):
         """
         return self.unit
 
-    def setUnit(self, value: str):
+    def setUnit(self, value: str) -> "TimingClockSyncAccuracy":
         """
         Sets the unit.
 

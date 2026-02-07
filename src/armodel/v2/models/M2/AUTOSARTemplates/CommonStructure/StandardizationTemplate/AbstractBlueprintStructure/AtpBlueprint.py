@@ -4,16 +4,31 @@ in the CommonStructure module.
 """
 
 from abc import ABC
+from typing import TYPE_CHECKING, cast
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
-)
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+        Identifiable,
+    )
 
 
-class AtpBlueprintable(Identifiable, ABC):
+def _get_identifiable_base():
+    """Lazy import of Identifiable to avoid circular import."""
+    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+        Identifiable,
+    )
+    return Identifiable
+
+
+# Create a base class dynamically to avoid circular import at definition time
+_Identifiable = cast(type, None)
+
+
+class AtpBlueprintable(ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
 
@@ -33,10 +48,12 @@ class AtpBlueprintable(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str) -> None:
         if type(self) is AtpBlueprintable:
             raise TypeError("AtpBlueprintable is an abstract class.")
-        super().__init__(parent, short_name)
+        # Lazy import to avoid circular dependency
+        Identifiable = _get_identifiable_base()
+        Identifiable.__init__(self, parent, short_name)
 
 
-class AtpBlueprint(Identifiable, ABC):
+class AtpBlueprint(ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprint elements.
 
@@ -58,7 +75,9 @@ class AtpBlueprint(Identifiable, ABC):
     def __init__(self, parent, short_name: str) -> None:
         if type(self) is AtpBlueprint:
             raise TypeError("AtpBlueprint is an abstract class.")
-        super().__init__(parent, short_name)
+        # Lazy import to avoid circular dependency
+        Identifiable = _get_identifiable_base()
+        Identifiable.__init__(self, parent, short_name)
 
 
 class AtpBlueprintMapping(ARObject, ABC):
